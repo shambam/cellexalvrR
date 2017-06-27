@@ -7,5 +7,6 @@ setClass("cellexalvr",slots=c(
     mds="list",
     index="matrix"
     )   
-
 )
+
+
