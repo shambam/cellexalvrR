@@ -33,7 +33,9 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,tf.loc,outfile){
         net[,2] <- rownames(sub.d)[net[,2]]
         net[,3] <- rownames(sub.d)[net[,3]]
 
-        grp.tabs <- rbind(grp.tabs,cbind(net,grps[i]))
+        key <- paste(net[,2],net[,3],sep="")
+
+        grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key))
     }
     grp.tabs   
 
