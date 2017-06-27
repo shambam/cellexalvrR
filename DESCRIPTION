@@ -9,7 +9,8 @@ Depends: rgl,
         igraph,
         graph,
         pheatmap,
-        DESeq2
+        DESeq2,
+        gplots
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
