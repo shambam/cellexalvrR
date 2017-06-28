@@ -5,7 +5,8 @@ setClass("cellexalvr",slots=c(
     meta.cell="matrix",
     meta.gene="matrix",
     mds="list",
-    index="matrix"
+    index="matrix",
+    tfs="vector"
     )   
 )
 

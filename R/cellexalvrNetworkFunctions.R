@@ -6,7 +6,7 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObj,cellidfile,tf.loc,outfile){
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outfile){
 
     dat <- cellexalObj@data
 
@@ -17,9 +17,9 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,tf.loc,outfile){
     
     req.graph <- unique(cellid[,3])
     
-    tfs <- as.vector(read.delim(tf.loc)[,4])
+    #tfs <- as.vector(read.delim(tf.loc)[,4])
 
-    tfs.in.d <- intersect(tfs[!tfs==""],rownames(dat))
+    tfs.in.d <- intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(dat))
 
     grp.tabs <- NULL
     avg.mds.coods <- NULL

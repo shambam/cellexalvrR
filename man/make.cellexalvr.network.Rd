@@ -4,7 +4,7 @@
 \alias{make.cellexalvr.network}
 \title{Creates a network from selected groups for selected genes}
 \usage{
-make.cellexalvr.network(cellexalObj, cellidfile, tf.loc, outfile)
+make.cellexalvr.network(cellexalObj, cellidfile, outfile)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
