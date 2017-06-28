@@ -11,6 +11,8 @@ Depends:
     graph,
     pheatmap,
     gplots
+Remotes:
+    satijalab/seurat
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
