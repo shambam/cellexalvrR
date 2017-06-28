@@ -22,22 +22,34 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,tf.loc,outfile){
     tfs.in.d <- intersect(tfs[!tfs==""],rownames(dat))
 
     grp.tabs <- NULL
+    avg.mds.coods <- NULL
 
     for(i in 1:length(grps)){
 
-        sub.d <- dat[match(tfs.in.d,rownames(dat)),as.vector(cellid[which(cellid[,2]==grps[i]),1])]
+        rq.cells <- as.vector(cellid[which(cellid[,2]==grps[i]),1])
+
+        sub.d <- dat[match(tfs.in.d,rownames(dat)),rq.cells ]
 
         inferred.pcor <- ggm.estimate.pcor(t(sub.d),method="static")
         test.results <- network.test.edges(inferred.pcor,plot=F)
-        net <- extract.network(test.results, cutoff.ggm=0.9)
+        net <- extract.network(test.results, cutoff.ggm=0.8)
         net[,2] <- rownames(sub.d)[net[,2]]
         net[,3] <- rownames(sub.d)[net[,3]]
 
-        key <- paste(net[,2],net[,3],sep="")
+        key1 <- paste(net[,2],net[,3],sep="")
+        key2 <- paste(net[,3],net[,2],sep="")
 
-        grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key))
+        grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key1,key2))
+
+        #make avg coods
+        
+        avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
+
+
     }
-    grp.tabs   
+    print(avg.mds.coods)
+    rgl.points(cellexalObj@mds[[req.graph]])
+    rgl.spheres(avg.mds.coods[,1:3],col=avg.mds.coods[,4])
+    grp.tabs
 
 }
-
