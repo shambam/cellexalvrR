@@ -9,7 +9,7 @@ logErr <- function() {
 	sc <- sys.calls()
 	sclen <- length(sc)  # last call is this function call
 	if(sclen > 1L) {
-		cat("myError:\n", do.call(paste, c(lapply(sc[-sclen], deparse), sep="\n")), "\n", file="logile.R", append=T)
+		cat("myError:\n", do.call(paste, c(lapply(sc[-sclen], deparse), sep="\n")), "\n", file="logfile.R", append=T)
 	} else {
 		# syntax error, so no call stack
 		# show the last line entered
@@ -18,7 +18,7 @@ logErr <- function() {
 		savehistory(file1)
 		rawhist <- readLines(file1)
 		unlink(file1)
-		cat("myError:\n", rawhist[length(rawhist)], "\n", file="logile.R", append=T)
+		cat("myError:\n", rawhist[length(rawhist)], "\n", file="logfile.R", append=T)
 	}
 }
 options(error=logErr)
