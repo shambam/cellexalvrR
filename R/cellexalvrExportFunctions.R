@@ -16,3 +16,44 @@ export2cellexalvr <- function(cellexalObj,path){
     }
 
 }
+
+#'Makes the base files needed to run the VR environment from a Seurat object
+#'@param cellexalObj A cellexalvr object
+#'@export seurat2cellexalvr
+
+
+seurat2cellexalvr <- function(seuratObj,path){
+
+    cell.att <- as.vector(seuratObj)
+    cell.t <- unique(cell.att)
+
+    cell.met <- matrix(0,ncol=length(cell.t),nrow=length(cell.att))
+
+    for(i in 1:length(cell.t)){
+        ind <- which(cell.att==cell.t[i])
+        cell.met[ind,i] <- 1
+    }
+
+    colnames(cell.met) <- paste(cell.t,".type",sep="\t")
+    proj <- seuratObj$tsne.rot
+    colnames(proj) <- c("x","y","z")
+
+    g <- new("cellexalvr",data=as.matrix(seuratObj$data),mds=list(graph1=proj),tfs=tf,meta.cell=as.matrix(cell.met))
+    #export2cellexalvr(g,path)
+}
+
+#'Adds mds coordinates to a cellexalvrObj
+#'@param cellexalObj A cellexalvr object
+#'@param mdsmatrix
+#'@export addMDS2cellexalvr
+
+addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
+
+    rq.ind <- paste("graph",(length(cellexalObj@mds)+1),sep="")
+    mp <- mdsmatrix
+    colnames(mp) <- c("x","y","z")
+
+    cellexalObj@mds$rq.ind <- mp
+    cellexalObj
+
+}
