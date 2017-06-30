@@ -8,6 +8,8 @@ export2cellexalvr(cellexalObj, path)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
+
+\item{path}{the path for the files}
 }
 \description{
 Creates the base files needed to run the VR environment

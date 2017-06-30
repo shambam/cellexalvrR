@@ -2,19 +2,19 @@
 #'Creates a heatmap from a selection of groups
 #'@param cellexalObj A cellexalvr object
 #'@param cellidfile file containing cell IDs
-#'@param numsig The number of differentials to be returned
+#'@param num.sig The number of differentials to be returned
 #'@param outfile The name of the output file
 #'@keywords heatmap
 #'@export make.cellexalvr.heatmap
 
-make.cellexalvr.heatmap <- function(cellexalObj,cellidfile,num.sig,outfile){
+make.cellexalvr.heatmap <- function(cellexalObj,cellidfile,num.sig=200 ,outfile){
 
     anovap <- function(v,labs){
         anova(lm(v~-1+labs))$Pr[1]
     }
 
   #load(cellexalObj)
-  dat <- cellexalObj@data
+  dat <- cellexalObj$data
 
   cellid <- read.delim(cellidfile,header=F)
   grp.vec <- as.vector(cellid[,2])

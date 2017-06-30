@@ -4,16 +4,16 @@
 \alias{make.cellexalvr.heatmap}
 \title{Creates a heatmap from a selection of groups}
 \usage{
-make.cellexalvr.heatmap(cellexalObj, cellidfile, num.sig, outfile)
+make.cellexalvr.heatmap(cellexalObj, cellidfile, num.sig = 200, outfile)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{outfile}{The name of the output file}
+\item{num.sig}{The number of differentials to be returned}
 
-\item{numsig}{The number of differentials to be returned}
+\item{outfile}{The name of the output file}
 }
 \description{
 Creates a heatmap from a selection of groups
