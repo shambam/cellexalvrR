@@ -24,7 +24,7 @@ export2cellexalvr <- function(cellexalObj,path){
 
 seurat2cellexalvr <- function(seuratObj){
 
-    cell.att <- as.vector(seuratObj)
+    cell.att <- as.vector(seuratObj@ident)
     cell.t <- unique(cell.att)
 
     cell.met <- matrix(0,ncol=length(cell.t),nrow=length(cell.att))
