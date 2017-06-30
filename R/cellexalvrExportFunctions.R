@@ -57,6 +57,6 @@ addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
     rownames(mp) <- colnames(cellexalObj@data)
 
     cellexalObj@mds[[rq.ind]] <- mp
-    names(cellexalObj@mds) <- rq.nm
+    names(cellexalObj@mds)[rq.ind] <- rq.nm
     cellexalObj
 }
