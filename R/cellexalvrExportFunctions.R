@@ -35,6 +35,7 @@ seurat2cellexalvr <- function(seuratObj){
     }
 
     colnames(cell.met) <- paste(cell.t,".type",sep="")
+    rownames(cell.met) <- seuratObj@cell.names
     proj <- seuratObj@tsne.rot
     colnames(proj) <- c("x","y","z")
 
