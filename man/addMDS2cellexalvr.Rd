@@ -8,6 +8,8 @@ addMDS2cellexalvr(cellexalObj, mdsmatrix)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
+
+\item{mdsmatrix}{A matrix of coordinates}
 }
 \description{
 Adds mds coordinates to a cellexalvrObj

@@ -44,7 +44,7 @@ seurat2cellexalvr <- function(seuratObj,path){
 
 #'Adds mds coordinates to a cellexalvrObj
 #'@param cellexalObj A cellexalvr object
-#'@param mdsmatrix
+#'@param mdsmatrix A matrix of coordinates
 #'@export addMDS2cellexalvr
 
 addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
@@ -52,6 +52,7 @@ addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
     rq.ind <- paste("graph",(length(cellexalObj@mds)+1),sep="")
     mp <- mdsmatrix
     colnames(mp) <- c("x","y","z")
+    rownames(mp) <- colnames(cellexalObj@data)
 
     cellexalObj@mds$rq.ind <- mp
     cellexalObj
