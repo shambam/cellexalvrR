@@ -55,5 +55,4 @@ addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
 
     cellexalObj@mds$rq.ind <- mp
     cellexalObj
-
 }
