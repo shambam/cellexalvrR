@@ -22,7 +22,7 @@ export2cellexalvr <- function(cellexalObj,path){
 #'@export seurat2cellexalvr
 
 
-seurat2cellexalvr <- function(seuratObj,path){
+seurat2cellexalvr <- function(seuratObj){
 
     cell.att <- as.vector(seuratObj)
     cell.t <- unique(cell.att)

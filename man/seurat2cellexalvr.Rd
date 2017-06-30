@@ -4,7 +4,7 @@
 \alias{seurat2cellexalvr}
 \title{Makes the base files needed to run the VR environment from a Seurat object}
 \usage{
-seurat2cellexalvr(seuratObj, path)
+seurat2cellexalvr(seuratObj)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
