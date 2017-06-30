@@ -22,7 +22,7 @@ cellexalvr <- R6Class(
 				name="cellexalvr",
 				meta.cell=NULL,
 				meta.gene=NULL,
-				mds=list(),
+				mds=list( 'cell' = list(), 'gene'=list()),
 				index=NULL,
 				tfs=NULL,
 				usedObj = list(),
@@ -31,8 +31,8 @@ cellexalvr <- R6Class(
 					cat (paste("An object of class", paste(collapse="::",rev(class(self))),"\n" ) )
 					cat("named ",self$name,"\n")
 					cat (paste( 'with',nrow(self$data),'genes and', ncol(self$data),' samples.'),"\n")
-					cat (paste("meta.gene datasets (",paste(dim(self$meta.gene),collapse=','),"): '",paste( colnames(self$meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-					cat (paste("Sample meta.gene (",paste(dim(self$meta.cell),collapse=','),"): '",paste( colnames(self$meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
+					cat (paste("Meta.gene (",paste(dim(self$meta.gene),collapse=','),"): '",paste( colnames(self$meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
+					cat (paste("Meta.cell (",paste(dim(self$meta.cell),collapse=','),"): '",paste( colnames(self$meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
 					if ( length(names(self$stats)) > 0 ){
 						cat ( "P values were calculated for ", length(names(self$stats)), " condition(s)\n")
 					}
@@ -81,6 +81,13 @@ cellexalvr <- R6Class(
 
 
 
+#' @name obj
+#' @title the test cellexarvr package based on the Göttgens HSC single cell data
+#' @description This is the published data reduced to known genes.
+#' @docType data
+#' @usage obj
+#' @format cellexarvr
+'obj'
 
 
 
