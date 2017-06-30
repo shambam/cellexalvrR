@@ -50,7 +50,7 @@ seurat2cellexalvr <- function(seuratObj){
 
 addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
 
-    rq.ind <- length(cellexalObj@mds)+1
+    rq.ind <- (length(cellexalObj@mds)+1)
     rq.nm <- paste("graph",(length(cellexalObj@mds)+1),sep="")
     mp <- mdsmatrix
     colnames(mp) <- c("x","y","z")
