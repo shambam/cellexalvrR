@@ -6,13 +6,13 @@ export2cellexalvr <- function(cellexalObj,path){
 
     save(cellexalObj,file=paste(path,"cellexalObj.RData",sep=""))
 
-    write.table(cellexalObj@data,paste(path,"expression.data",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
-    write.table(cellexalObj@meta.cell,paste(path,"cell.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t") 
-    write.table(cellexalObj@index,paste(path,"index.facs",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
-    write.table(cellexalObj@meta.gene,paste(path,"gene.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.csv(cellexalObj@data,paste(path,"expression.data",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.csv(cellexalObj@meta.cell,paste(path,"cell.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t") 
+    write.csv(cellexalObj@index,paste(path,"index.facs",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.csv(cellexalObj@meta.gene,paste(path,"gene.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
 
     for(i in 1:length(cellexalObj@mds)){
-        write.table(cellexalObj@mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+        write.csv(cellexalObj@mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
     }
 
 }
