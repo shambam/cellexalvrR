@@ -35,7 +35,7 @@ seurat2cellexalvr <- function(seuratObj){
     }
 
     colnames(cell.met) <- paste(cell.t,".type",sep="\t")
-    proj <- seuratObj$tsne.rot
+    proj <- seuratObj@tsne.rot
     colnames(proj) <- c("x","y","z")
 
     g <- new("cellexalvr",data=as.matrix(seuratObj$data),mds=list(graph1=proj),tfs=tf,meta.cell=as.matrix(cell.met))
