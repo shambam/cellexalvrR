@@ -16,9 +16,9 @@ export2cellexalvr <- function(cellexalObj,path){
     }
 
 
-    genes <- rownames(cellvr@data)
+    genes <- rownames(cellexalObj@data)
 
-    cdat <- data.frame(genes=genes,cellvr@data)
+    cdat <- data.frame(genes=genes,cellexalObj@data)
     md <- melt(cdat)
 
     mdc <- md[-which(md[,3]==0),]
