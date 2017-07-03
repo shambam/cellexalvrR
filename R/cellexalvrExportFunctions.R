@@ -20,9 +20,12 @@ export2cellexalvr <- function(cellexalObj,path){
 
     cdat <- data.frame(genes=genes,cellvr@data)
     md <- melt(cdat)
-    browser()
-    con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = "database.sqlite")
-    RSQLite::dbWriteTable(con, "data",md)
+
+    mdc <- md[-which(md[,3]==0),]
+
+    #browser()
+    con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
+    RSQLite::dbWriteTable(con, "data",mdc)
     RSQLite::dbDisconnect(con)
 }
 
