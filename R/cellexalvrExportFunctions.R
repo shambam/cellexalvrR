@@ -7,10 +7,10 @@ export2cellexalvr <- function(cellexalObj,path){
 
     save(cellexalObj,file=paste(path,"cellexalObj.RData",sep=""))
 
-    write.table(cellexalObj$data,paste(path,"expression.data",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
-    write.table(cellexalObj$meta.cell,paste(path,"cell.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t") 
-    write.table(cellexalObj$index,paste(path,"index.facs",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
-    write.table(cellexalObj$meta.gene,paste(path,"gene.meta",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.table(cellexalObj$data,paste(path,paste( cellexalObj$name,"expression.data",sep="."),sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.table(cellexalObj$meta.cell,paste(path,,paste( cellexalObj$name,"meta.cell",sep="."),sep=""),row.names=T,col.names=T,quote=F,sep="\t") 
+    write.table(cellexalObj$index,paste(path,,paste( cellexalObj$name,"index",sep="."),sep=""),row.names=T,col.names=T,quote=F,sep="\t")
+    write.table(cellexalObj$meta.gene,paste(path,,paste( cellexalObj$name,"meta.gene",sep="."),sep=""),row.names=T,col.names=T,quote=F,sep="\t")
 
     for(i in 1:length(cellexalObj$mds)){
         write.table(cellexalObj$mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=T,quote=F,sep="\t")
