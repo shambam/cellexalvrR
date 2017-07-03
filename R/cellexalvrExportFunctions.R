@@ -21,7 +21,7 @@ export2cellexalvr <- function(cellexalObj,path){
     cdat <- data.frame(genes=genes,cellvr@data)
     md <- melt(cdat)
 
-    con <- dbConnect(SQLite(),dbname = "database.sqlite",overwrite=T)
+    con <- dbConnect(SQLite(),dbname = "database.sqlite")
     dbWriteTable(con, "data",md)
     dbDisconnect(con)
 }
