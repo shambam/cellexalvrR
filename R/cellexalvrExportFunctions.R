@@ -15,7 +15,17 @@ export2cellexalvr <- function(cellexalObj,path){
         write.table(cellexalObj@mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
     }
 
+
+    genes <- rownames(cellvr@data)
+
+    cdat <- data.frame(genes=genes,cellvr@data)
+    md <- melt(cdat)
+
+    con <- dbConnect(SQLite(),dbname = "database.sqlite",overwrite=T)
+    dbWriteTable(con, "data",md)
+    dbDisconnect(con)
 }
+
 
 #'Makes the base files needed to run the VR environment from a Seurat object
 #'@param cellexalObj A cellexalvr object

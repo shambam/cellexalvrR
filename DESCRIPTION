@@ -10,7 +10,8 @@ Depends:
     igraph,
     graph,
     pheatmap,
-    gplots
+    gplots,
+    RSQLite
 Remotes:
     satijalab/seurat
 biocViews:
