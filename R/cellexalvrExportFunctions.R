@@ -25,11 +25,11 @@ export2cellexalvr <- function(cellexalObj,path){
     #RSQLite::dbWriteTable(con, "data",mdc)
     #RSQLite::dbDisconnect(con)
 
-    h5createFile(paste(path,"expression.h5",sep=""))
-    h5write(cellexalObj@data,paste(path,"expression.h5",sep=""),"expression")
-    h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep="")),"cells")
-    h5write(rownames(cellexalObj@data),paste(path,"expression.h5",sep="")),"genes")
-    H5close()
+    #h5createFile(paste(path,"expression.h5",sep=""))
+    #h5write(cellexalObj@data,paste(path,"expression.h5",sep=""),"expression")
+    #h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep="")),"cells")
+    #h5write(rownames(cellexalObj@data),paste(path,"expression.h5",sep="")),"genes")
+    #H5close()
 }
 
 
