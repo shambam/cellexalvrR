@@ -34,7 +34,7 @@ export2cellexalvr <- function(cellexalObj,path){
     h5createFile(paste(path,"expression.h5",sep=""))
     h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
 
-    for(nrow(cellexalObj@data)){
+    for(i in 1:nrow(cellexalObj@data)){
         h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",rownames(cellexalObj@data)[i],sep=""))
     }
     H5close()
