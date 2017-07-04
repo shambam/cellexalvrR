@@ -32,10 +32,11 @@ export2cellexalvr <- function(cellexalObj,path){
     #H5close()
 
     h5createFile(paste(path,"expression.h5",sep=""))
+    h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
     h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
 
     for(i in 1:nrow(cellexalObj@data)){
-        h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",rownames(cellexalObj@data)[i],sep=""))
+        h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
     }
     H5close()
 
