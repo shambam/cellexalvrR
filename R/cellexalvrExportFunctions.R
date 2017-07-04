@@ -16,17 +16,14 @@ export2cellexalvr <- function(cellexalObj,path){
     }
 
 
-    genes <- rownames(cellexalObj@data)
+    #genes <- rownames(cellexalObj@data)
+    #cdat <- data.frame(genes=genes,cellexalObj@data)
+    #md <- melt(cdat)
 
-    cdat <- data.frame(genes=genes,cellexalObj@data)
-    md <- melt(cdat)
-
-    mdc <- md[-which(md[,3]==0),]
-
-    #browser()
-    con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
-    RSQLite::dbWriteTable(con, "data",mdc)
-    RSQLite::dbDisconnect(con)
+    #mdc <- md[-which(md[,3]==0),]
+    #con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
+    #RSQLite::dbWriteTable(con, "data",mdc)
+    #RSQLite::dbDisconnect(con)
 }
 
 
