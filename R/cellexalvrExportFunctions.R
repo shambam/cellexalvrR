@@ -6,7 +6,7 @@ export2cellexalvr <- function(cellexalObj,path){
 
     save(cellexalObj,file=paste(path,"cellexalObj.RData",sep=""))
 
-    write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
     write.table(cellexalObj@meta.cell,paste(path,"a.meta.cell",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n") 
     write.table(cellexalObj@index,paste(path,"index.facs",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
     write.table(cellexalObj@meta.gene,paste(path,"c.meta.gene",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
