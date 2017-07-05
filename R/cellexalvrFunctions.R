@@ -13,7 +13,7 @@ make.cellexalvr.heatmap <- function(cellexalObj,cellidfile,num.sig,outfile){
         anova(lm(v~-1+labs))$Pr[1]
     }
 
-  #load(cellexalObj)
+  load(cellexalObj)
   dat <- cellexalObj@data
 
   cellid <- read.delim(cellidfile,header=F)
