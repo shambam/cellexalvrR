@@ -16,14 +16,14 @@ export2cellexalvr <- function(cellexalObj,path){
     }
 
 
-    #genes <- rownames(cellexalObj@data)
-    #cdat <- data.frame(genes=genes,cellexalObj@data)
-    #md <- melt(cdat)
+    genes <- rownames(cellexalObj@data)
+    cdat <- data.frame(genes=genes,cellexalObj@data)
+    md <- melt(cdat)
 
-    #mdc <- md[-which(md[,3]==0),]
-    #con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
-    #RSQLite::dbWriteTable(con, "data",mdc)
-    #RSQLite::dbDisconnect(con)
+    mdc <- md[-which(md[,3]==0),]
+    con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
+    RSQLite::dbWriteTable(con, "data",mdc)
+    RSQLite::dbDisconnect(con)
 
     #h5createFile(paste(path,"expression.h5",sep=""))
     #h5write(cellexalObj@data,paste(path,"expression.h5",sep=""),"expression")
@@ -31,14 +31,14 @@ export2cellexalvr <- function(cellexalObj,path){
     #h5write(rownames(cellexalObj@data),paste(path,"expression.h5",sep=""),"genes")
     #H5close()
 
-    h5createFile(paste(path,"expression.h5",sep=""))
-    h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
-    h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
+    #h5createFile(paste(path,"expression.h5",sep=""))
+    #h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
+    #h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
 
-    for(i in 1:nrow(cellexalObj@data)){
-        h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
-    }
-    H5close()
+    #for(i in 1:nrow(cellexalObj@data)){
+    #    h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
+    #}
+    #H5close()
 
 }
 
