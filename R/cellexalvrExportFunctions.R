@@ -31,7 +31,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
     mdc <- md[-which(md[,3]==0),]
 
 	colnames(mdc) <- c('gene_id', 'cell_id','value')
-	mdc$sample_id <- as.numeric(as.character(mdc$sample_id))
+	mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
 	colnames(genes) <- c('id', 'gname')
 	colnames(cells) <- c('id','cname')
 	
