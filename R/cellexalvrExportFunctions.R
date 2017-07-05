@@ -1,8 +1,9 @@
 #'Creates the base files needed to run the VR environment
 #'@param cellexalObj A cellexalvr object
+#' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr
 
-export2cellexalvr <- function(cellexalObj,path){
+export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
     save(cellexalObj,file=paste(path,"cellexalObj.RData",sep=""))
 
@@ -14,7 +15,6 @@ export2cellexalvr <- function(cellexalObj,path){
     for(i in 1:length(cellexalObj@mds)){
         write.table(cellexalObj@mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
     }
-
 
     #genes <- rownames(cellexalObj@data)
     #cdat <- data.frame(genes=genes,cellexalObj@data)
@@ -30,15 +30,57 @@ export2cellexalvr <- function(cellexalObj,path){
     #h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
     #h5write(rownames(cellexalObj@data),paste(path,"expression.h5",sep=""),"genes")
     #H5close()
+	
+	if ( FALSE ) { ## not run now
+		h5createFile(paste(path,"expression.h5",sep=""))
+		h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
+		h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
+		
+		for(i in 1:nrow(cellexalObj@data)){
+			h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
+		}
+		H5close()
+	}
+	
+    genes <- rownames(cellexalObj@data)
+	genes <- data.frame( 'id' = 1:length(genes), gene= genes )
+	
+	cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+	
+    cdat <- data.frame(genes=genes$id,cellexalObj@data)
+	
+	colnames(cdat) <- c( 'genes', cells$id )
+	
+    md <- melt(cdat, id=('genes') )
+	
+	#browser()
+    mdc <- md[-which(md[,3]==0),]
 
-    h5createFile(paste(path,"expression.h5",sep=""))
-    h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
-    h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
+	colnames(mdc) <- c('gene_id', 'cell_id','value')
+	mdc$sample_id <- as.numeric(as.character(mdc$sample_id))
+	colnames(genes) <- c('id', 'gname')
+	colnames(cells) <- c('id','cname')
+	
+    #browser()
+	
 
-    for(i in 1:nrow(cellexalObj@data)){
-        h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
-    }
-    H5close()
+	if ( file.exists( file.path(path,"database.sqlite")) ) {
+		if ( forceDB ){
+			unlink( file.path(path,"database.sqlite") ) ## always create the database?!
+		}
+	}
+	if ( ! file.exists( file.path(path,"database.sqlite")) ) {
+    	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = file.path(path,"database.sqlite"))
+		
+    	RSQLite::dbWriteTable(con, "datavalues",mdc)
+		RSQLite::dbWriteTable(con, "genes", genes)
+		RSQLite::dbWriteTable(con, "cells", cells )
+		
+		dbGetQuery(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+		
+    	RSQLite::dbDisconnect(con)
+	}
+	
 
 }
 
