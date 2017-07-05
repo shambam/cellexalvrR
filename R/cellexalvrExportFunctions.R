@@ -16,7 +16,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
         write.table(cellexalObj@mds[[i]],file.path(path,paste("graph",i,".mds",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
     }
 
-    genes <- rownames(cellexalObj@data)
+    genes <- tolower(rownames(cellexalObj@data))
 	genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
 	cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
