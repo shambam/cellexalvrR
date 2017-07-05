@@ -16,32 +16,6 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
         write.table(cellexalObj@mds[[i]],paste(path,"graph",i,".mds",sep=""),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
     }
 
-    #genes <- rownames(cellexalObj@data)
-    #cdat <- data.frame(genes=genes,cellexalObj@data)
-    #md <- melt(cdat)
-
-    #mdc <- md[-which(md[,3]==0),]
-    #con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = paste(path,"database.sqlite",sep=""))
-    #RSQLite::dbWriteTable(con, "data",mdc)
-    #RSQLite::dbDisconnect(con)
-
-    #h5createFile(paste(path,"expression.h5",sep=""))
-    #h5write(cellexalObj@data,paste(path,"expression.h5",sep=""),"expression")
-    #h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
-    #h5write(rownames(cellexalObj@data),paste(path,"expression.h5",sep=""),"genes")
-    #H5close()
-	
-	if ( FALSE ) { ## not run now
-		h5createFile(paste(path,"expression.h5",sep=""))
-		h5createGroup(paste(path,"expression.h5",sep=""),"expressions")
-		h5write(colnames(cellexalObj@data),paste(path,"expression.h5",sep=""),"cells")
-		
-		for(i in 1:nrow(cellexalObj@data)){
-			h5write(cellexalObj@data[i,],paste(path,"expression.h5",sep=""),paste("expressions/",tolower(rownames(cellexalObj@data)[i]),sep=""))
-		}
-		H5close()
-	}
-	
     genes <- rownames(cellexalObj@data)
 	genes <- data.frame( 'id' = 1:length(genes), gene= genes )
 	
@@ -63,7 +37,6 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 	
     #browser()
 	
-
 	if ( file.exists( file.path(path,"database.sqlite")) ) {
 		if ( forceDB ){
 			unlink( file.path(path,"database.sqlite") ) ## always create the database?!
