@@ -13,7 +13,8 @@ Depends:
     gplots,
     RSQLite,
     reshape2,
-    rhdf5
+    rhdf5,
+    alphashape3d
 Remotes:
     satijalab/seurat
 biocViews:

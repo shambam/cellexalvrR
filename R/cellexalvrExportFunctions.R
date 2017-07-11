@@ -13,7 +13,12 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
     write.table(cellexalObj@meta.gene,file.path(path,"c.meta.gene"),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
 
     for(i in 1:length(cellexalObj@mds)){
+        
+        ashape <- ashape3d(cellexalObj@mds[[i]], alpha = 1)
+        rq.triang <- ashape$triang[which(ashape$triang[,4]==1),1:3]
+        
         write.table(cellexalObj@mds[[i]],file.path(path,paste("graph",i,".mds",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+        write.table(rq.triang,file.path(path,paste("graph",i,".hull",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
     }
 
     genes <- tolower(rownames(cellexalObj@data))
@@ -77,7 +82,7 @@ seurat2cellexalvr <- function(seuratObj){
 
     colnames(cell.met) <- paste(cell.t,".type",sep="")
     rownames(cell.met) <- seuratObj@cell.names
-    proj <- seuratObj@tsne.rot
+    proj <- as.matrix(seuratObj@tsne.rot)
     colnames(proj) <- c("x","y","z")
 
     g <- new("cellexalvr",data=as.matrix(seuratObj@data),mds=list(graph1=proj),meta.cell=as.matrix(cell.met))
