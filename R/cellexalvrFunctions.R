@@ -63,5 +63,10 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
         cellexalObj@tfs <- mouse.tfs
     }
 
+    if(specie=="human"){
+        data(human.tfs)
+        cellexalObj@tfs <- human.tfs
+    }
+
     cellexalObj
 }
