@@ -55,6 +55,7 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 #'@param specie The specie required
 #'@keywords TFs
 #'@export set.specie
+
 set.specie <- function(cellexalObj,specie=c("mouse","human")){
 
     if(specie=="mouse"){
