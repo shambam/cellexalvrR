@@ -50,6 +50,7 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
   pheatmap(dat.f[sigp,],cluster_rows=TRUE, show_rownames=T,show_colnames=FALSE,cluster_cols=FALSE,scale="row",clustering_method = "ward.D2",col=bluered(16),breaks=seq(-4,4,by=0.5),annotation_col = annotation_col,annotation_colors=rcolrs)
   dev.off()
 }
+
 #'Loads TF annotation into cellexalvr object
 #'@param cellexalObj A cellexalvr object
 #'@param specie The specie required
