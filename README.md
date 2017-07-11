@@ -1,7 +1,7 @@
 # cellexalvr
-cellexalvr is the R backend to complement the environment.
+cellexalvr is a R package to prep data for use in the cellexalVR environment, and also provides functions to run in-session calculations
 
-Install using:
+#Install using:
 
 install.packages("devtools")\
 library(devtools)
