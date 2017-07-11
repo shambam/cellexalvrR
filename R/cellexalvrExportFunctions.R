@@ -14,7 +14,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
     for(i in 1:length(cellexalObj@mds)){
         
-        ashape <- ashape3d(cellexalObj@mds[[i]], alpha = 1)
+        ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 1)
         rq.triang <- ashape$triang[which(ashape$triang[,4]==1),1:3]
         
         write.table(cellexalObj@mds[[i]],file.path(path,paste("graph",i,".mds",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
