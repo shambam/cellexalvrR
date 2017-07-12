@@ -14,7 +14,8 @@ Depends:
     RSQLite,
     reshape2,
     rhdf5,
-    alphashape3d
+    alphashape3d,
+    entropy
 Remotes:
     satijalab/seurat
 biocViews:
