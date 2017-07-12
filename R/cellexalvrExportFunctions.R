@@ -76,7 +76,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 	
 
 }
-export2cellexalvr(cellexalObj,"/mnt/VR_Project/Bertie2/")
+
 
 #'Makes the base files needed to run the VR environment from a Seurat object
 #'@param cellexalObj A cellexalvr object
