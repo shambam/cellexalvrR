@@ -14,17 +14,21 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
     for(i in 1:length(cellexalObj@mds)){
         
-        ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 1)
+        #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
 
         rq.tring <- NULL
 
         if(entropy(as.matrix(cellexalObj@mds[[i]]))<0){
-            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 1)
+            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+            rgl.open()
+            plot(ashape)
             rq.triang <- ashape$triang[which(ashape$triang[,4]==1),1:3]
         }
 
         if(entropy(as.matrix(cellexalObj@mds[[i]]))>0){
-            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
+            rgl.open()
+            plot(ashape)
             rq.triang <- ashape$triang[which(ashape$triang[,4]==1),1:3]
         }
         
@@ -72,7 +76,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 	
 
 }
-
+export2cellexalvr(cellexalObj,"/mnt/VR_Project/Bertie2/")
 
 #'Makes the base files needed to run the VR environment from a Seurat object
 #'@param cellexalObj A cellexalvr object
