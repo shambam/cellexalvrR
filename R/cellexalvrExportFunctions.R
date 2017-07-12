@@ -29,7 +29,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
             ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
             rgl.open()
             plot(ashape)
-            rq.triang <- ashape$triang[which(ashape$triang[,4]>1),1:3]
+            rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         }
         
         write.table(cellexalObj@mds[[i]],file.path(path,paste("graph",i,".mds",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
