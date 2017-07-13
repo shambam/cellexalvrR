@@ -51,6 +51,9 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
   dev.off()
 }
 
+
+
+
 #'Loads TF annotation into cellexalvr object
 #'@param cellexalObj A cellexalvr object
 #'@param specie The specie required
@@ -70,4 +73,31 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
     }
 
     cellexalObj
+}
+
+#'Gets positively and negatively correlated genes to a chosen gene
+#'@param cellexalObj A cellexalvr object
+#'@param gname The required gene
+#'@keywords correlation
+#'@export get.genes.cor.to
+get.genes.cor.to <- function(cellexalObj,gname,output){
+
+    load(cellexalObj)
+    dat <- cellexalObj@data
+
+    goi <- dat[gname,]
+
+    calc.cor <- function(v,comp){
+        cor(v,comp)
+    }
+
+    cor.values <- apply(dat,1,calc.cor,comp=goi)
+
+    ord <- names(sort(cor.values))
+    
+    pos <- ord[ (length(ord)-1): (length(ord)-10) ]
+    neg <- ord[1:10]
+    tab <- cbind(pos,neg)
+
+    write.table(tab,output,row.names=F,col.names=F,sep="\t",quote=F)
 }

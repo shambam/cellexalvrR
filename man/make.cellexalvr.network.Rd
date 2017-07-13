@@ -11,8 +11,6 @@ make.cellexalvr.network(cellexalObjpath, cellidfile, outpath)
 
 \item{cellexalObj}{A cellexalvr object}
 
-\item{location}{of TF file}
-
 \item{outfile}{The name of the output file}
 }
 \description{

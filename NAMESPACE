@@ -3,6 +3,7 @@
 export(addMDS2cellexalvr)
 export(changeIdent)
 export(export2cellexalvr)
+export(get.genes.cor.to)
 export(make.cellexalvr.heatmap)
 export(make.cellexalvr.network)
 export(run.ddrtree)

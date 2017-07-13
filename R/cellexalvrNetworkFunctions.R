@@ -1,7 +1,6 @@
 #'Creates a network from selected groups for selected genes
 #'@param cellexalObj A cellexalvr object
 #'@param cellidfile file containing cell IDs
-#'@param location of TF file
 #'@param outfile The name of the output file
 #'@keywords network construction
 #'@export make.cellexalvr.network
