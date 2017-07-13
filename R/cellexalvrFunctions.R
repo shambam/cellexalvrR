@@ -99,5 +99,5 @@ get.genes.cor.to <- function(cellexalObj,gname,output){
     neg <- ord[1:10]
     tab <- cbind(pos,neg)
 
-    write.table(tab,output,row.names=F,col.names=F,sep="\t",quote=F)
+    write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 }
