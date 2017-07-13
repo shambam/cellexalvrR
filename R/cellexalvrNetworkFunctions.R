@@ -6,9 +6,11 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObj,cellidfile,outfile){
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath){
 
-    dat <- cellexalObj@data
+    #dat <- cellexalObj@data
+
+    load(cellexalObj)
 
     cellid <- read.delim(cellidfile,header=F)
     
@@ -47,10 +49,8 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outfile){
 
 
     }
-    #print(avg.mds.coods)
-    #rgl.points(cellexalObj@mds[[req.graph]])
-    #rgl.spheres(avg.mds.coods[,1:3],col=avg.mds.coods[,4])
-    grp.tabs
-    #write.table(grp.tabs,outfile,row.names=T)
+    
+    write.table(grp.tabs,paste(outpath,"Networks.nwk",sep=""),row.names=F,col.names=T,quote=F,sep="\t")
+    write.table(avg.mds.coods,paste(outpath,"NwkCentroids.cnt",sep=""),row.names=F,col.names=F,quote=F,sep="\t")
 
 }
