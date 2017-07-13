@@ -18,7 +18,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
     grp.vec <- as.vector(cellid[,2])
     grps <- as.vector(unique(cellid[,2]))
     
-    req.graph <- unique(cellid[,3])
+    req.graph <- unique(as.vector(cellid[,3]))
     
     #tfs <- as.vector(read.delim(tf.loc)[,4])
 
