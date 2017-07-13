@@ -12,6 +12,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
     load(cellexalObjpath)
 
+    dat <- cellexalObj@data
     cellid <- read.delim(cellidfile,header=F)
     
     grp.vec <- as.vector(cellid[,2])
