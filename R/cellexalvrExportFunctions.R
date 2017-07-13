@@ -20,15 +20,15 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
         if(entropy(as.matrix(cellexalObj@mds[[i]]))<0){
             ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
-            rgl.open()
-            plot(ashape)
+            #rgl.open()
+            #plot(ashape)
             rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         }
 
         if(entropy(as.matrix(cellexalObj@mds[[i]]))>0){
             ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
-            rgl.open()
-            plot(ashape)
+            #rgl.open()
+            #plot(ashape)
             rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         }
         

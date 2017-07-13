@@ -47,9 +47,10 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outfile){
 
 
     }
-    print(avg.mds.coods)
-    rgl.points(cellexalObj@mds[[req.graph]])
-    rgl.spheres(avg.mds.coods[,1:3],col=avg.mds.coods[,4])
+    #print(avg.mds.coods)
+    #rgl.points(cellexalObj@mds[[req.graph]])
+    #rgl.spheres(avg.mds.coods[,1:3],col=avg.mds.coods[,4])
     grp.tabs
+    #write.table(grp.tabs,outfile,row.names=T)
 
 }
