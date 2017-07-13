@@ -6,11 +6,11 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath){
+make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
     #dat <- cellexalObj@data
 
-    load(cellexalObj)
+    load(cellexalObjpath)
 
     cellid <- read.delim(cellidfile,header=F)
     
