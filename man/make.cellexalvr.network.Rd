@@ -4,16 +4,16 @@
 \alias{make.cellexalvr.network}
 \title{Creates a network from selected groups for selected genes}
 \usage{
-make.cellexalvr.network(cellexalObj, cellidfile, outfile)
+make.cellexalvr.network(cellexalObjpath, cellidfile, outpath)
 }
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
-
 \item{cellidfile}{file containing cell IDs}
 
-\item{outfile}{The name of the output file}
+\item{cellexalObj}{A cellexalvr object}
 
 \item{location}{of TF file}
+
+\item{outfile}{The name of the output file}
 }
 \description{
 Creates a network from selected groups for selected genes
