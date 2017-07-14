@@ -46,9 +46,9 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
         #make avg coods
         
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
+        #test
 
-
-    }
+    }   
     
     write.table(grp.tabs,paste(outpath,"Networks.nwk",sep=""),row.names=F,col.names=T,quote=F,sep="\t")
     write.table(cbind(avg.mds.coods,req.graph),paste(outpath,"NwkCentroids.cnt",sep=""),row.names=F,col.names=F,quote=F,sep="\t")
