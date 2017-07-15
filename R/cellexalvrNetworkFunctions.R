@@ -46,7 +46,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
         #make avg coods
         
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
-        #test
+        
 
     }   
     
