@@ -25,6 +25,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
     grp.tabs <- NULL
     avg.mds.coods <- NULL
+    layout.tabs <- NULL
 
     for(i in 1:length(grps)){
 
@@ -43,14 +44,24 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
         grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key1,key2))
 
+        igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
+        #print(V(igrp))
+        lay <- round(layout_nicely(igrp),4)
+        rownames(lay) <- names(V(igrp))
+        lay <- cbind(lay,grps[i])
+
+        #rgl.points(lay)
+        #plot(igrp,lay)
         #make avg coods
         
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
-        
+        layout.tabs <- rbind(layout.tabs,lay)
+        print(layout.tabs)
 
     }   
     
-    write.table(grp.tabs,paste(outpath,"Networks.nwk",sep=""),row.names=F,col.names=T,quote=F,sep="\t")
-    write.table(cbind(avg.mds.coods,req.graph),paste(outpath,"NwkCentroids.cnt",sep=""),row.names=F,col.names=F,quote=F,sep="\t")
-
+    write.table(grp.tabs,paste(outpath,"Networks.nwk",sep=""),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
+    write.table(cbind(avg.mds.coods,req.graph),paste(outpath,"NwkCentroids.cnt",sep=""),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
+    write.table(layout.tabs,paste(outpath,"NwkLayouts.lay",sep=""),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 }
+make.cellexalvr.network("Dropbox/VR_project/Bertie/cellexalObj.RData","Dropbox/VR_project/Bertie/selection1.txt","Dropbox/VR_project/Bertie/")
