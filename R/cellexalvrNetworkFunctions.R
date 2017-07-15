@@ -45,18 +45,13 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
         grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key1,key2))
 
         igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
-        #print(V(igrp))
+  
         lay <- round(layout_nicely(igrp),4)
         rownames(lay) <- names(V(igrp))
         lay <- cbind(lay,grps[i])
-
-        #rgl.points(lay)
-        #plot(igrp,lay)
-        #make avg coods
         
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
         layout.tabs <- rbind(layout.tabs,lay)
-        print(layout.tabs)
 
     }   
     
