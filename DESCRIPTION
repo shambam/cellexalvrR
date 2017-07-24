@@ -15,7 +15,8 @@ Depends:
     reshape2,
     rhdf5,
     alphashape3d,
-    entropy
+    entropy,
+    scales
 Remotes:
     satijalab/seurat
 biocViews:
