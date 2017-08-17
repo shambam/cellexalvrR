@@ -2,13 +2,13 @@
 % Please edit documentation in R/cellexalvrExportFunctions.R
 \name{seurat2cellexalvr}
 \alias{seurat2cellexalvr}
-\title{Makes the base files needed to run the VR environment from a Seurat object}
+\title{Converts a seurat class to one of cellexalvr}
 \usage{
 seurat2cellexalvr(seuratObj)
 }
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{seuratObj}{the suerat object to be converted}
 }
 \description{
-Makes the base files needed to run the VR environment from a Seurat object
+Converts a seurat class to one of cellexalvr
 }

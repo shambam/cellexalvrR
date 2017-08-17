@@ -107,6 +107,10 @@ checkVRfiles <- function( cellexalvr, path ) {
 	export2cellexalvr( cellexalvr, path, forceDB=F )
 }
 
+#' Converts a seurat class to one of cellexalvr
+#' @param seuratObj the suerat object to be converted
+#' @export seurat2cellexalvr
+
 seurat2cellexalvr <- function(seuratObj){
 
     cell.att <- as.vector(seuratObj@ident)

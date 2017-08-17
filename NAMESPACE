@@ -2,6 +2,7 @@
 
 export(addMDS2cellexalvr)
 export(changeIdent)
+export(checkVRfiles)
 export(export2cellexalvr)
 export(get.genes.cor.to)
 export(make.cellexalvr.heatmap)
@@ -9,4 +10,5 @@ export(make.cellexalvr.network)
 export(run.ddrtree)
 export(set.specie)
 export(seurat2cellexalvr)
+export(show)
 exportClasses(cellexalvr)
