@@ -11,7 +11,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
     load(cellexalObjpath)
 
-	checkVRfiles( cellexalObj, cellexalObjpath)
+	checkVRfiles( cellexalObj, dirname(cellexalObjpath))
 	
     dat <- cellexalObj@data
     cellid <- read.delim(cellidfile,header=F)
