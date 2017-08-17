@@ -54,13 +54,13 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		}
     }
 	
-	
-	if ( file.exists( file.path(path,"database.sqlite")) ) {
+	ofile = file.path(path,"database.sqlite")
+	if ( file.exists( ofile ) ) {
 		if ( forceDB ){
-			unlink( file.path(path,"database.sqlite") ) ## always create the database?!
+			unlink( ofile ) ## always create the database?!
 		}
 	}
-	if ( ! file.exists( file.path(path,"database.sqlite")) ) {
+	if ( ! file.exists( ofile ) ) {
 	    genes <- tolower(rownames(cellexalObj@data))
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
@@ -72,7 +72,6 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 	
 	    md <- melt(cdat, id=('genes') )
 	
-		#browser()
     	mdc <- md[-which(md[,3]==0),]
 
 		colnames(mdc) <- c('gene_id', 'cell_id','value')
@@ -80,10 +79,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
 	
-    	#browser()
-	
-	
-    	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = file.path(path,"database.sqlite"))
+    	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 		RSQLite::dbWriteTable(con, "genes", genes)
