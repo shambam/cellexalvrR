@@ -1,61 +1,59 @@
-#'Creates the base files needed to run the VR environment
+#'Creates th	e base files needed to run the VR environment
 #'@param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr
 
 export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
-    save(cellexalObj,file=file.path(path,"cellexalObj.RData"))
+	
+	ofile = file.path( path, "cellexalObj.RData")
+	if ( ! file.exists( ofile) ){
+		save(cellexalObj,file=ofile )
+	}
+    
 
     #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
-    write.table(cellexalObj@meta.cell,file.path(path,"a.meta.cell"),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n") 
-    write.table(cellexalObj@index,file.path(path,"index.facs"),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
-    write.table(cellexalObj@meta.gene,file.path(path,"c.meta.gene"),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+	ofile = file.path(path,"a.meta.cell")
+	if ( ! file.exists( ofile) ){
+		write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+	}
+	ofile = file.path(path,"index.facs")
+	if ( ! file.exists( ofile) ){
+		write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+	}
+	ofile = file.path(path,"c.meta.gene")
+	if ( ! file.exists( ofile) ){
+		write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+	}
 
     for(i in 1:length(cellexalObj@mds)){
         
         #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+		ofile = file.path(path,paste("graph",i,".hull",sep=""))
+		if ( ! file.exists( ofile )) {
+        	rq.tring <- NULL
 
-        rq.tring <- NULL
+        	if(entropy(as.matrix(cellexalObj@mds[[i]]))<0){
+	            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+            	#rgl.open()
+            	#plot(ashape)
+            	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
+        	}
 
-        if(entropy(as.matrix(cellexalObj@mds[[i]]))<0){
-            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
-            #rgl.open()
-            #plot(ashape)
-            rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-        }
-
-        if(entropy(as.matrix(cellexalObj@mds[[i]]))>0){
-            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
-            #rgl.open()
-            #plot(ashape)
-            rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-        }
-        
-        write.table(cellexalObj@mds[[i]],file.path(path,paste("graph",i,".mds",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
-        write.table(rq.triang,file.path(path,paste("graph",i,".hull",sep="")),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+        	if(entropy(as.matrix(cellexalObj@mds[[i]]))>0){
+	            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
+            	#rgl.open()
+            	#plot(ashape)
+            	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
+        	}
+			 write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+		}
+		ofile = file.path(path,paste("graph",i,".mds",sep=""))
+		if ( ! file.exists( ofile )) {
+			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+		}
     }
-
-    genes <- tolower(rownames(cellexalObj@data))
-	genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
-	cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
-	
-    cdat <- data.frame(genes=genes$id,cellexalObj@data)
-	
-	colnames(cdat) <- c( 'genes', cells$id )
-	
-    md <- melt(cdat, id=('genes') )
-	
-	#browser()
-    mdc <- md[-which(md[,3]==0),]
-
-	colnames(mdc) <- c('gene_id', 'cell_id','value')
-	mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
-	colnames(genes) <- c('id', 'gname')
-	colnames(cells) <- c('id','cname')
-	
-    #browser()
 	
 	if ( file.exists( file.path(path,"database.sqlite")) ) {
 		if ( forceDB ){
@@ -63,6 +61,28 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		}
 	}
 	if ( ! file.exists( file.path(path,"database.sqlite")) ) {
+	    genes <- tolower(rownames(cellexalObj@data))
+		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
+	
+		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+	
+	    cdat <- data.frame(genes=genes$id,cellexalObj@data)
+	
+		colnames(cdat) <- c( 'genes', cells$id )
+	
+	    md <- melt(cdat, id=('genes') )
+	
+		#browser()
+    	mdc <- md[-which(md[,3]==0),]
+
+		colnames(mdc) <- c('gene_id', 'cell_id','value')
+		mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
+		colnames(genes) <- c('id', 'gname')
+		colnames(cells) <- c('id','cname')
+	
+    	#browser()
+	
+	
     	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = file.path(path,"database.sqlite"))
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
@@ -81,6 +101,15 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 #'@param cellexalObj A cellexalvr object
 #'@export seurat2cellexalvr
 
+
+#' checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.
+#' @param cellexalObj the cellexal object
+#' @param path the outpath to check
+#' @export checkVRfiles
+
+checkVRfiles <- function( cellexalvr, path ) {
+	export2cellexalvr( cellexalvr, path, forceDB=F )
+}
 
 seurat2cellexalvr <- function(seuratObj){
 
