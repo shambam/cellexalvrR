@@ -18,7 +18,7 @@ setClass("cellexalvr",slots=c(
 #' @param x the cellexalvr object
 #' @return nothing
 #' @title description of function show
-#' @export 
+#' @export show
 setMethod('show', signature(object='cellexalvr') ,
 		definition = function (object) {
 			cat (paste("An object of class", class(object)),"\n" )
