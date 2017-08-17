@@ -59,8 +59,8 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
     }   
     
-    write.table(grp.tabs,paste(outpath,"Networks.nwk",sep=""),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
-    write.table(cbind(avg.mds.coods,req.graph),paste(outpath,"NwkCentroids.cnt",sep=""),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
-    write.table(layout.tabs,paste(outpath,"NwkLayouts.lay",sep=""),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+    write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
+    write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
+    write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 }
 #make.cellexalvr.network("Dropbox/VR_project/Bertie/cellexalObj.RData","Dropbox/VR_project/Bertie/selection1.txt","Dropbox/VR_project/Bertie/")
