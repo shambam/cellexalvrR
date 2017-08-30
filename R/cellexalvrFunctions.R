@@ -84,6 +84,7 @@ get.genes.cor.to <- function(cellexalObj,gname,output){
 
     load(cellexalObj)
     dat <- cellexalObj@data
+    rownames(dat) <- tolower(rownames(dat))
 
     goi <- dat[gname,]
 
