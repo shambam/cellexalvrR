@@ -8,47 +8,58 @@
 #'@export make.cellexalvr.heatmap
 
 make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
+	
+	anovap <- function(v,labs){
+		anova(lm(v~-1+labs))$Pr[1]
+	}
+	
+	load(cvrObj)
+	
+	## now I want to store the grouping in the cellexalvr object
+	cellexalObj <- userGrouping(cellexalObj, cellidfile)
+	
+	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
+							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+		] )
+	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+	info <- groupingInfo( loc )
 
-    anovap <- function(v,labs){
-        anova(lm(v~-1+labs))$Pr[1]
-    }
+	dat <- loc@data
+	#cellid <- read.delim(cellidfile,header=F)
+	
+	grp.vec <- info$grouping
+	
+	col.tab <- info$col
+	
+	for(i in 1:length(col.tab)){
+		ind <- which(grp.vec==col.tab[i])
+		grp.vec[ind] <- paste("Grp",i,sep="")
+	}
+	rcolrs <- list(Group=col.tab)
+	names(rcolrs$Group) <- unique(grp.vec)
+	
+	rem.ind <- which(apply(dat,1,sum)==0)
+	dat.f <- dat
+	
+	if(length(rem.ind)>0){
+		dat.f <- dat.s[-rem.ind,]
+	}
+	
+	ps <- apply(dat.f,1,anovap,labs=grp.vec)
+	
+	sigp <- order(ps)[1:num.sig]
+	
+	annotation_col = data.frame(Group = (grp.vec))
+	rownames(annotation_col) <- colnames(dat.f)
+	
+	png(outfile,height=2000,width=2000)
 
-  load(cvrObj)
-  dat <- cellexalObj@data
-
-  cellid <- read.delim(cellidfile,header=F)
-  grp.vec <- as.vector(cellid[,2])
-  
-  col.tab <- unique(as.vector(cellid[,2]))
-
-  for(i in 1:length(col.tab)){
-    ind <- which(grp.vec==col.tab[i])
-    grp.vec[ind] <- paste("Grp",i,sep="")
-  }
-  rcolrs <- list(Group=col.tab)
-  names(rcolrs$Group) <- unique(grp.vec)
-  
-
-  dat.s <- dat[,as.vector(cellid[,1])]
-
-  rem.ind <- which(apply(dat.s,1,sum)==0)
-  dat.f <- dat.s
-
-  if(length(rem.ind)>0){
-
-    dat.f <- dat.s[-rem.ind,]
-  }
-
-  ps <- apply(dat.f,1,anovap,labs=grp.vec)
-
-  sigp <- order(ps)[1:num.sig]
-
-  annotation_col = data.frame(Group = (grp.vec))
-  rownames(annotation_col) <- cellid[,1]
-  
-  png(outfile,height=2000,width=2000)
-  pheatmap(dat.f[sigp,],cluster_rows=TRUE, show_rownames=T,show_colnames=FALSE,cluster_cols=FALSE,scale="row",clustering_method = "ward.D2",col=bluered(16),breaks=seq(-4,4,by=0.5),annotation_col = annotation_col,annotation_colors=rcolrs)
-  dev.off()
+	pheatmap(dat.f[sigp,],cluster_rows=TRUE, show_rownames=T,show_colnames=FALSE,cluster_cols=FALSE,
+			scale="row",clustering_method = "ward.D2",col=bluered(16),breaks=seq(-4,4,by=0.5),
+			annotation_col = annotation_col,annotation_colors=rcolrs
+	)
+	dev.off()
+	invisible(cellexalObj)
 }
 
 
@@ -61,18 +72,18 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 #'@export set.specie
 
 set.specie <- function(cellexalObj,specie=c("mouse","human")){
-
-    if(specie=="mouse"){
-        data(mouse.tfs)
-        cellexalObj@tfs <- mouse.tfs
-    }
-
-    if(specie=="human"){
-        data(human.tfs)
-        cellexalObj@tfs <- human.tfs
-    }
-
-    cellexalObj
+	
+	if(specie=="mouse"){
+		data(mouse.tfs)
+		cellexalObj@tfs <- mouse.tfs
+	}
+	
+	if(specie=="human"){
+		data(human.tfs)
+		cellexalObj@tfs <- human.tfs
+	}
+	
+	cellexalObj
 }
 
 #'Gets positively and negatively correlated genes to a chosen gene
@@ -81,24 +92,24 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
 #'@keywords correlation
 #'@export get.genes.cor.to
 get.genes.cor.to <- function(cellexalObj,gname,output){
-
-    load(cellexalObj)
-    dat <- cellexalObj@data
-    rownames(dat) <- tolower(rownames(dat))
-
-    goi <- dat[gname,]
-
-    calc.cor <- function(v,comp){
-        cor(v,comp)
-    }
-
-    cor.values <- apply(dat,1,calc.cor,comp=goi)
-
-    ord <- names(sort(cor.values))
-    
-    pos <- ord[ (length(ord)-1): (length(ord)-10) ]
-    neg <- ord[1:10]
-    tab <- cbind(pos,neg)
-
-    write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
+	
+	load(cellexalObj)
+	dat <- cellexalObj@data
+	rownames(dat) <- tolower(rownames(dat))
+	
+	goi <- dat[gname,]
+	
+	calc.cor <- function(v,comp){
+		cor(v,comp)
+	}
+	
+	cor.values <- apply(dat,1,calc.cor,comp=goi)
+	
+	ord <- names(sort(cor.values))
+	
+	pos <- ord[ (length(ord)-1): (length(ord)-10) ]
+	neg <- ord[1:10]
+	tab <- cbind(pos,neg)
+	
+	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 }

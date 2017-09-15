@@ -26,6 +26,16 @@ for ( f in ofiles ) {
 } ) ## end of test_that
 
 
+test_that( "store user groupings" ,{
+	cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
+	expect_equal( length(cellexalObj@userGroups) , 2 )
+	
+	cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
+	expect_equal( length(cellexalObj@userGroups) , 2 ) # same grouing no adding of the data
+	
+} ) ## end store user groupings
+			
+
 test_that( "heatmap is produced", {
 ofile = file.path(opath, 'selection0.png') 
 if(  file.exists(ofile ) ){

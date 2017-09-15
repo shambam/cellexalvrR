@@ -4,12 +4,14 @@
 \alias{addMDS2cellexalvr}
 \title{Adds mds coordinates to a cellexalvrObj}
 \usage{
-addMDS2cellexalvr(cellexalObj, mdsmatrix)
+addMDS2cellexalvr(cellexalObj, mdsmatrix, name = NULL)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 
 \item{mdsmatrix}{A matrix of coordinates}
+
+\item{name}{A name for the object (default = graph<n>)}
 }
 \description{
 Adds mds coordinates to a cellexalvrObj

@@ -2,14 +2,16 @@
 #'@param cellexalObj A cellexalvr object
 #'@param cellidfile file containing cell IDs
 #'@param outfile The name of the output file
+#' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
+make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.ggm=0.8){
 
     #dat <- cellexalObj@data
 
     load(cellexalObjpath)
+	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
 	checkVRfiles( cellexalObj, dirname(cellexalObjpath))
 	
@@ -37,7 +39,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
 
         inferred.pcor <- ggm.estimate.pcor(t(sub.d),method="static")
         test.results <- network.test.edges(inferred.pcor,plot=F)
-        net <- extract.network(test.results, cutoff.ggm=0.8)
+        net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
         net[,2] <- rownames(sub.d)[net[,2]]
         net[,3] <- rownames(sub.d)[net[,3]]
 
@@ -62,5 +64,6 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath){
     write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
     write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
     write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+	invisible(cellexalObj)
 }
 #make.cellexalvr.network("Dropbox/VR_project/Bertie/cellexalObj.RData","Dropbox/VR_project/Bertie/selection1.txt","Dropbox/VR_project/Bertie/")

@@ -2,17 +2,15 @@
 % Please edit documentation in R/cellexalvrExportFunctions.R
 \name{checkVRfiles}
 \alias{checkVRfiles}
-\title{Makes the base files needed to run the VR environment from a Seurat object}
+\title{checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.}
 \usage{
 checkVRfiles(cellexalvr, path)
 }
 \arguments{
 \item{path}{the outpath to check}
 
-\item{cellexalObj}{A cellexalvr object}
-
 \item{cellexalObj}{the cellexal object}
 }
 \description{
-Makes the base files needed to run the VR environment from a Seurat object
+checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.
 }

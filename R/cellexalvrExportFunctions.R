@@ -2,7 +2,6 @@
 #'@param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr
-
 export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
 	
@@ -93,16 +92,11 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 
 }
 
-#'Makes the base files needed to run the VR environment from a Seurat object
-#'@param cellexalObj A cellexalvr object
-#'@export seurat2cellexalvr
-
 
 #' checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.
 #' @param cellexalObj the cellexal object
 #' @param path the outpath to check
 #' @export checkVRfiles
-
 checkVRfiles <- function( cellexalvr, path ) {
 	export2cellexalvr( cellexalvr, path, forceDB=F )
 }
@@ -110,7 +104,6 @@ checkVRfiles <- function( cellexalvr, path ) {
 #' Converts a seurat class to one of cellexalvr
 #' @param seuratObj the suerat object to be converted
 #' @export seurat2cellexalvr
-
 seurat2cellexalvr <- function(seuratObj){
 
     cell.att <- as.vector(seuratObj@ident)
@@ -135,12 +128,16 @@ seurat2cellexalvr <- function(seuratObj){
 #'Adds mds coordinates to a cellexalvrObj
 #'@param cellexalObj A cellexalvr object
 #'@param mdsmatrix A matrix of coordinates
+#' @param name A name for the object (default = graph<n>)
 #'@export addMDS2cellexalvr
-
-addMDS2cellexalvr <- function(cellexalObj,mdsmatrix){
+addMDS2cellexalvr <- function(cellexalObj,mdsmatrix, name=NULL){
 
     rq.ind <- (length(cellexalObj@mds)+1)
-    rq.nm <- paste("graph",(length(cellexalObj@mds)+1),sep="")
+	if ( ! is.null(name) ){
+		rq.nm <- name
+	}else {
+    	rq.nm <- paste("graph",(length(cellexalObj@mds)+1),sep="")
+	}
     mp <- mdsmatrix
     colnames(mp) <- c("x","y","z")
     rownames(mp) <- colnames(cellexalObj@data)

@@ -4,10 +4,13 @@
 \alias{make.cellexalvr.network}
 \title{Creates a network from selected groups for selected genes}
 \usage{
-make.cellexalvr.network(cellexalObjpath, cellidfile, outpath)
+make.cellexalvr.network(cellexalObjpath, cellidfile, outpath,
+  cutoff.ggm = 0.8)
 }
 \arguments{
 \item{cellidfile}{file containing cell IDs}
+
+\item{cutoff.ggm}{The cutoff for the correlation (default = 0.8)}
 
 \item{cellexalObj}{A cellexalvr object}
 
