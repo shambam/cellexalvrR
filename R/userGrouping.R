@@ -15,7 +15,7 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 	
 	req.graph <- unique(as.vector(cellid[,3]))
 	
-	id= ncol(cellexalObj@userGroups) + 1
+	id= (ncol(cellexalObj@userGroups) /2) + 1
 	gname = paste( "User.group", id, sep="." )
 	
 	n = vector( 'numeric', ncol(cellexalObj@data))
@@ -42,8 +42,8 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 		
 	}
 	
-	colnames(cellexalObj@userGroups)[id] = gname
-	colnames(cellexalObj@userGroups)[id+1] = paste( gname, 'order' )
+	colnames(cellexalObj@userGroups)[2*id-1] = gname
+	colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 	
 	cellexalObj@usedObj$lastGroup = gname
 	
