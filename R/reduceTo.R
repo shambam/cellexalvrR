@@ -33,7 +33,7 @@ reduceTo <- function ( x, what='row', to=NULL ) {
 						x@meta.gene <- x@meta.gene[useOnly,]
 						
 					}else {
-						print (paste( "None of the probesets matched the probesets in",x@name, "-> keep everything!"))
+						print (paste( "None of the probesets matched the probesets in the cellexalvr object -> keep everything!"))
 					}
 					
 					
@@ -60,7 +60,7 @@ reduceTo <- function ( x, what='row', to=NULL ) {
 						x@userGroups <- x@userGroups[useOnly,]
 												
 					}else {
-						print (paste( "None of the names (to) matched the sample names in",x@name, "-> keep everything!"))
+						print (paste( "None of the names (to) matched the sample names in the cellexalvr object -> keep everything!"))
 					}
 				}else {
 					stop(paste( "the option what='",what,"' is not supported!", sep="") )
