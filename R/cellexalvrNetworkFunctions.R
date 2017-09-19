@@ -54,7 +54,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
         key1 <- paste(net[,2],net[,3],sep="")
         key2 <- paste(net[,3],net[,2],sep="")
 
-        grp.tabs <- rbind(grp.tabs,cbind(net,grps[i],key1,key2))
+        grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
 
         igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
   
