@@ -64,7 +64,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
         lay[,2] <- rescale(lay[,2],to=c(-1,1))
         lay <- cbind(lay,info$col[i])
         
-        avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),grps[i]))
+        avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
         layout.tabs <- rbind(layout.tabs,lay)
 
     }   
