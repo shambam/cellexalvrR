@@ -42,7 +42,7 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 	dat.f <- dat
 	
 	if(length(rem.ind)>0){
-		dat.f <- dat.s[-rem.ind,]
+		dat.f <- dat.f[-rem.ind,]
 	}
 	
 	ps <- apply(dat.f,1,anovap,labs=grp.vec)
