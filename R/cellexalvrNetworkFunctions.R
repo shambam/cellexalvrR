@@ -15,13 +15,21 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
 
 	checkVRfiles( cellexalObj, dirname(cellexalObjpath))
 	
-    dat <- cellexalObj@data
-    cellid <- read.delim(cellidfile,header=F)
+	## kick the not groupoed samples out of the loc object
+	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
+							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+			] )
+	## cut loc to only include TFs
+	loc <- reduceTo (loc, what='row',to=rownames(loc@data)[intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(loc@data))])
+	
+	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+	
+	info <- groupingInfo( loc )
+	grps <- as.vector(unique(info$grouping))
+	
+    dat <- loc@data
     
-    grp.vec <- as.vector(cellid[,2])
-    grps <- as.vector(unique(cellid[,2]))
-    
-    req.graph <- unique(as.vector(cellid[,3]))
+    req.graph <- info$mds
     
     #tfs <- as.vector(read.delim(tf.loc)[,4])
 
@@ -33,9 +41,9 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
 
     for(i in 1:length(grps)){
 
-        rq.cells <- as.vector(cellid[which(cellid[,2]==grps[i]),1])
+        rq.cells <- as.vector(colnames(dat)[which(info$groups==grps[i])])
 
-        sub.d <- dat[match(tfs.in.d,rownames(dat)),rq.cells ]
+        sub.d <- dat[, rq.cells ]
 
         inferred.pcor <- ggm.estimate.pcor(t(sub.d),method="static")
         test.results <- network.test.edges(inferred.pcor,plot=F)

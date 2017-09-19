@@ -45,7 +45,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
-			 write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+			write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 		}
 		ofile = file.path(path,paste("graph",i,".mds",sep=""))
 		if ( ! file.exists( ofile )) {
