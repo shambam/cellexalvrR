@@ -20,7 +20,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
 	## cut loc to only include TFs
-	loc <- reduceTo (loc, what='row',to=rownames(loc@data)[intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(loc@data))])
+	loc <- reduceTo (loc, what='row',to=intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(loc@data)))
 	
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	
@@ -41,7 +41,7 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
 
     for(i in 1:length(grps)){
 
-        rq.cells <- as.vector(colnames(dat)[which(info$groups==grps[i])])
+        rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
 
         sub.d <- dat[, rq.cells ]
 

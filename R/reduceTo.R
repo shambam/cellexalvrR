@@ -11,6 +11,11 @@
 
 reduceTo <- function ( x, what='row', to=NULL ) {
 
+			if (nrow(x@meta.gene)==0) {
+				x@meta.gene <- matrix(ncol=2, c(rownames(x@data), rep( 0, nrow(x@data)) ) )
+				colnames(x@meta.gene) = c('Gene Symbol', 'useless')
+				rownames(x@meta.gene) = rownames(x@data)
+			}
 			if ( ! is.null(to)) {
 				if ( what =="row") {
 					if ( length(which(is.na(match(to,rownames(x@data)))==F)) > 0 ) {
@@ -68,3 +73,4 @@ reduceTo <- function ( x, what='row', to=NULL ) {
 			}
 			invisible(x)
 		} 
+		
