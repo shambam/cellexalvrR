@@ -35,7 +35,7 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 		ok <- which( t == T )
 		if ( length(ok) == 1 & length( which(d == T)) == 1) {
 			gname = names(ok)
-			id = as.vector(ok)
+			id = as.vector(ok) / 2
 		}else {
 			cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
 		}

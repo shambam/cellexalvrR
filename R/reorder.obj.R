@@ -7,7 +7,7 @@
 #' @param dataObj the cellexalvr object
 #' @param column the annotation column to reorder on
 #' @title description of function remove.genes
-#' @export 
+#' @export reorder.samples
 reorder.samples <- function ( dataObj, column ) {
 	if (! is.na( match ( column, colnames(dataObj@meta.cell)) ) ) {
 		ids = order( dataObj@meta.cell[,column])
@@ -29,7 +29,7 @@ reorder.samples <- function ( dataObj, column ) {
 #' @param dataObj the cellexalvr object
 #' @param column the samples column to reorder on
 #' @title description of function remove.genes
-#' @export 
+#' @export reorder.genes
 reorder.genes = function ( dataObj, column ) {
 	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]
 	dataObj@meta.gene <- dataObj@meta.gene[order( dataObj@meta.gene[,column]),]
