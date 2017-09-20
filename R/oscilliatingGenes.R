@@ -65,7 +65,7 @@ oscilliatingGenes <- function( cellexalObj, cellidfile ) {
 		data$raw[i,] <- smooth.spline(data$data[i,])$y
 	}
 	cellexalObj@usedObj$trends = data
-	print ("return@usedObj$trends$raw conatins trends in the selected data")
+	print ("return@usedObj$trends$raw contains trends in the selected data")
 	
 	## this whole analysis is totally pointless :-((
 	
