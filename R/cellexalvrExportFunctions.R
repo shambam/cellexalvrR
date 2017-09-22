@@ -1,4 +1,4 @@
-#'Creates th	e base files needed to run the VR environment
+#'Creates the base files needed to run the VR environment
 #'@param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr

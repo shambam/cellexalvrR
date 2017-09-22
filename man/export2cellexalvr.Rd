@@ -2,7 +2,7 @@
 % Please edit documentation in R/cellexalvrExportFunctions.R
 \name{export2cellexalvr}
 \alias{export2cellexalvr}
-\title{Creates th	e base files needed to run the VR environment}
+\title{Creates the base files needed to run the VR environment}
 \usage{
 export2cellexalvr(cellexalObj, path, forceDB = F)
 }
@@ -12,5 +12,5 @@ export2cellexalvr(cellexalObj, path, forceDB = F)
 \item{forceDB}{re-write the db even if it exisis (default =F)}
 }
 \description{
-Creates th	e base files needed to run the VR environment
+Creates the base files needed to run the VR environment
 }
