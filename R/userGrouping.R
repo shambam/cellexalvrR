@@ -35,13 +35,12 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 		ok <- which( t == T )
 		if ( length(ok) == 1 & length( which(d == T)) == 1) {
 			gname = names(ok)
-			id = as.vector(ok) / 2
+			id = ceiling(as.vector(ok) / 2)
 		}else {
 			cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
 		}
 		
 	}
-	
 	colnames(cellexalObj@userGroups)[2*id-1] = gname
 	colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 	

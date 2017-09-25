@@ -13,9 +13,10 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 		anova(lm(v~-1+labs))$Pr[1]
 	}
 	
-	load(cvrObj)
-	
+	cellexalObj <- loadObject(cvrObj)
 	## now I want to store the grouping in the cellexalvr object
+#	browser()
+	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	
 	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
@@ -62,7 +63,20 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 	invisible(cellexalObj)
 }
 
-
+#'Loads the cellexalvr object, if the fname is a file
+#'@param fname the file to load or a cellexalvr object
+#'@keywords load
+#'@export loadObject
+loadObject <- function( fname ) {
+	if ( class(fname)[1] == 'cellexalvr' ) {
+		cellexalObj = fname
+	}else {
+		if ( file.exists( fname) ) {
+			load(fname)
+		}
+	}
+	cellexalObj
+}
 
 
 #'Loads TF annotation into cellexalvr object

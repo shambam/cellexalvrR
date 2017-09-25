@@ -10,31 +10,29 @@ make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.g
 
     #dat <- cellexalObj@data
 
-    load(cellexalObjpath)
+	cellexalObj = loadObject(cellexalObjpath)
+	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
 	checkVRfiles( cellexalObj, dirname(cellexalObjpath))
+	## cut loc to only include TFs
+	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
+		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
+	}
+	loc <- onlyGOIs( cellexalObj, 'TFs' )
 	
 	## kick the not groupoed samples out of the loc object
-	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
+	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[-
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
-	## cut loc to only include TFs
-	loc <- reduceTo (loc, what='row',to=intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(loc@data)))
-	
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	
 	info <- groupingInfo( loc )
 	grps <- as.vector(unique(info$grouping))
 	
     dat <- loc@data
-    
     req.graph <- info$mds
     
-    #tfs <- as.vector(read.delim(tf.loc)[,4])
-
-    tfs.in.d <- intersect(cellexalObj@tfs[!cellexalObj@tfs==""],rownames(dat))
-
     grp.tabs <- NULL
     avg.mds.coods <- NULL
     layout.tabs <- NULL

@@ -12,10 +12,12 @@ for ( f in ofiles ) {
 }
 
 test_that( "Network outfiles are produced" ,{
+			
 make.cellexalvr.network ( file.path('data', 'output', 'cellexalObj.RData') , file.path('data', 'selection0.txt'), opath )
 
 for ( f in ofiles ) {
-	ofile = file.path(opath, f ) 
+	ofile = file.path(opath, f )
+	print( ofile )
 	expect_equal( file.exists( ofile ), TRUE )
 }
 

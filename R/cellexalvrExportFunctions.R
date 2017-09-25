@@ -1,4 +1,4 @@
-#'Creates th	e base files needed to run the VR environment
+#'Creates the base files needed to run the VR environment
 #'@param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr
@@ -28,7 +28,8 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
     for(i in 1:length(cellexalObj@mds)){
         
         #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
-		ofile = file.path(path,paste("graph",i,".hull",sep=""))
+		#ofile = file.path(path,paste("graph",i,".hull",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".hull",sep=""))
 		if ( ! file.exists( ofile )) {
         	rq.tring <- NULL
 
@@ -47,7 +48,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
         	}
 			write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 		}
-		ofile = file.path(path,paste("graph",i,".mds",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".mds",sep=""))
 		if ( ! file.exists( ofile )) {
 			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 		}
