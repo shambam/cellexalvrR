@@ -4,7 +4,7 @@
 #' @description create a BioData object from a cellexalvr object
 #' @param dat the cellexalvr object
 #' @title description of function as
-#' @export 
+#' @export as_BioData
 as_BioData = function ( dat ) {
 			#cbind(annotation,dat), Samples=samples, name="testObject",namecol='sname', outpath = ""
 			ok = which(lapply(colnames(dat@meta.cell) , function(x) { all.equal( as.character(as.vector(dat@meta.cell[,x])), colnames(dat@data)) == T } )==T)
@@ -42,4 +42,4 @@ as_BioData = function ( dat ) {
 			ret <- BioData$new( d, Samples=data.frame(cbind(dat@meta.cell, dat@userGroups)), name= 'from.cellexalvr', namecol= namecol, namerow=namerow, outpath='./' )
 			ret$usedObj <- dat@usedObj
 			ret
-		} 
+		}
