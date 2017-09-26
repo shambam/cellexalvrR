@@ -17,7 +17,7 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 		req.graph <- unique(as.vector(cellid[,3]))
 	
 		id= (ncol(cellexalObj@userGroups) /2) + 1
-		gname = paste( "User.group", id, sep="." )
+		gname = paste( "User.group", id, sep="." ) # do not change that - the VR program depends on it!
 	
 		n = vector( 'numeric', ncol(cellexalObj@data))
 		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]

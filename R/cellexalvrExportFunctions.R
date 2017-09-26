@@ -89,7 +89,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		
     	RSQLite::dbDisconnect(con)
 	}
-	
+	invisible(cellexalObj)
 
 }
 
