@@ -11,18 +11,18 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 	}
     
 
-    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+		write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+		write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"c.meta.gene")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\r\n")
+		write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 
     for(i in 1:length(cellexalObj@mds)){
@@ -46,11 +46,11 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
-			write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+			write.table(rq.triang,ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
 		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".mds",sep=""))
 		if ( ! file.exists( ofile )) {
-			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
     }
 	
