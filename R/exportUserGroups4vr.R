@@ -3,7 +3,7 @@
 #' @param path the outpath
 #' @description Creates a file groupings_info.txt in the outfolder that contains the group name (in the R object)
 #' the numer of groups in the selection and the number of cells in the whole group.
-#' @export defineGOIs
+#' @export exportUserGroups4vr
 exportUserGroups4vr <- function( cellexalObj, path ) {
 	names <- colnames(cellexalObj@userGroups) [-grep('order', colnames(cellexalObj@userGroups) )]
 
