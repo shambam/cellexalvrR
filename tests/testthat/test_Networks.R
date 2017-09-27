@@ -18,7 +18,7 @@ make.cellexalvr.network ( file.path('data', 'output', 'cellexalObj.RData') , fil
 for ( f in ofiles ) {
 	ofile = file.path(opath, f )
 	print( ofile )
-	expect_equal( file.exists( ofile ), TRUE )
+	expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
 }
 
 })
