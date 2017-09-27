@@ -72,6 +72,9 @@ loadObject <- function( fname ) {
 		cellexalObj = fname
 	}else {
 		if ( file.exists( fname) ) {
+			while ( file.exists( paste(fname, 'lock',sep='.'))){
+				Sys.sleep(1)
+			}
 			load(fname)
 		}
 	}
