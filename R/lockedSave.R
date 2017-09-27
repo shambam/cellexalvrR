@@ -13,5 +13,6 @@ lockedSave <- function(cellexalObj, path ) {
 	file.create(lockFile)
 	save(cellexalObj, file=ofile)
 	file.remove(lockFile)
+	print (paste("saved the object to",path))
 }
 

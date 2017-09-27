@@ -67,15 +67,22 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 #'@param fname the file to load or a cellexalvr object
 #'@keywords load
 #'@export loadObject
-loadObject <- function( fname ) {
+loadObject <- function( fname, maxwait=50 ) {
 	if ( class(fname)[1] == 'cellexalvr' ) {
 		cellexalObj = fname
 	}else {
 		if ( file.exists( fname) ) {
+			waited = 0
 			while ( file.exists( paste(fname, 'lock',sep='.'))){
 				Sys.sleep(1)
+				waited = waited +1
+				if ( waited == maxwait) { break }
 			}
-			load(fname)
+			if (waited != maxwait ){
+				load(fname)
+			}else {
+				stop( paste("Could not obtain access to locked file", fname ))
+			}
 		}
 	}
 	cellexalObj
