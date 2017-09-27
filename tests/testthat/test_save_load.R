@@ -1,5 +1,8 @@
 library(cellexalvr)
 
+opath = file.path('data','output')
+
+
 start_time <- Sys.time()
 
 cellexalObj = loadObject(file.path('data', 'cellexalObj.RData') )
@@ -38,4 +41,12 @@ cellexalObj = loadObject(file.path('data', 'cellexalObj.RData'), 5 )
 
 expect_true(exists('cellexalObj'), 'controlled load no lock file')
 
+if ( file.exists(file.path(opath, 'cellexalObj.RData'))){
+	file.remove(file.path(opath, 'cellexalObj.RData'))
+}
 
+lockedSave( cellexalObj, path=opath)
+
+expect_true( file.exists(file.path(opath, 'cellexalObj.RData')), "lockSave has worked")
+
+expect_true( ! file.exists(file.path(opath, 'cellexalObj.RData.lock')), "lock file removed as expected")

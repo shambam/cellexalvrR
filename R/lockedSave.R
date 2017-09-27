@@ -6,7 +6,7 @@
 
 lockedSave <- function(cellexalObj, path ) {
 	ofile = file.path( path, 'cellexalObj.RData' )
-	lockFile = file.exists( paste(ofile, 'lock', sep= '.'))
+	lockFile = file.path( paste(ofile, 'lock', sep= '.'))
 	while ( file.exists(lockFile) ){
 		Sys.sleep(1)
 	}

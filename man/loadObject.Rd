@@ -4,7 +4,7 @@
 \alias{loadObject}
 \title{Loads the cellexalvr object, if the fname is a file}
 \usage{
-loadObject(fname)
+loadObject(fname, maxwait = 50)
 }
 \arguments{
 \item{fname}{the file to load or a cellexalvr object}
