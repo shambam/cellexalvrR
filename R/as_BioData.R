@@ -21,8 +21,8 @@ as_BioData = function ( dat ) {
 			namerow = NULL
 			if (nrow(dat@meta.gene)==0) {
 				dat@meta.gene <- matrix(ncol=2, c(rownames(dat@data), rep( 0, nrow(dat@data)) ) )
-				colnames(x@meta.gene) = c('Gene.Symbol', 'useless')
-				rownames(x@meta.gene) = rownames(x@data)
+				colnames(dat@meta.gene) = c('Gene.Symbol', 'useless')
+				rownames(dat@meta.gene) = rownames(dat@data)
 				namerow = 'Gene.Symbol'
 			}else {
 				ok = which(lapply(colnames(dat@meta.gene) , function(x) { all.equal( as.character(as.vector(dat@meta.gene[,x])), rownames(dat@data)) == T } )==T)
