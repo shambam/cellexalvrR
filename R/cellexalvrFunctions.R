@@ -13,6 +13,10 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 		anova(lm(v~-1+labs))$Pr[1]
 	}
 	
+	lin <- function( v, order ) {
+		cor.test( v, order, method='spearman')$p.value
+	}
+	
 	cellexalObj <- loadObject(cvrObj)
 	## now I want to store the grouping in the cellexalvr object
 #	browser()
@@ -21,6 +25,8 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 	if ( length(not) > 0) {
 		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
+	}else {
+		loc <- cellexalObj
 	}
 
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
@@ -47,7 +53,11 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 		dat.f <- dat.f[-rem.ind,]
 	}
 	
-	ps <- apply(dat.f,1,anovap,labs=grp.vec)
+	if ( length(col.tab) > 1 ){
+		ps <- apply(dat.f,1,anovap,labs=grp.vec)
+	}else if (length(col.tab) == 1 ){
+		ps <- apply(dat.f,1,lin,order=1:ncol(dat.f))
+	}
 	
 	sigp <- order(ps)[1:num.sig]
 	
