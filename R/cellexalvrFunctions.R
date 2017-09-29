@@ -18,10 +18,11 @@ make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 #	browser()
 	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
-	
-	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
-							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
-		] )
+	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+	if ( length(not) > 0) {
+		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
+	}
+
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	info <- groupingInfo( loc )
 

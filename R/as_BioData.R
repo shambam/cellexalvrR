@@ -39,7 +39,12 @@ as_BioData = function ( dat ) {
 			}
 			storage.mode(dat@data) <- 'numeric'
 			d <- data.frame(cbind( dat@meta.gene, dat@data))
-			ret <- BioData$new( d, Samples=data.frame(cbind(dat@meta.cell, dat@userGroups)), name= 'from.cellexalvr', namecol= namecol, namerow=namerow, outpath='./' )
+			if ( nrow(dat@userGroups) == nrow(dat@meta.cell) ) {
+				samples <- data.frame(cbind(dat@meta.cell, dat@userGroups))
+			}else {
+				samples <- data.frame(dat@meta.cell)
+			}
+			ret <- BioData$new( d, Samples=samples, name= 'from.cellexalvr', namecol= namecol, namerow=namerow, outpath='./' )
 			ret$usedObj <- dat@usedObj
 			ret
 		}
