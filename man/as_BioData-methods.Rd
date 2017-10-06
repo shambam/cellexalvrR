@@ -3,6 +3,7 @@
 \docType{methods}
 \name{as_BioData}
 \alias{as_BioData}
+\alias{as_BioData,cellexalvr-method}
 \title{description of function as}
 \usage{
 as_BioData(dat)

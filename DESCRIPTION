@@ -6,6 +6,7 @@ Description: What the package does (one paragraph).
 Suggests:
 	testthat
 Depends:
+	R6,
     rgl,
     ppcor,
     GeneNet,

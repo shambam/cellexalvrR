@@ -1,11 +1,19 @@
 #' @name as_BioData
+#' @aliases as_BioData,cellexalvr-method
 #' @rdname as_BioData-methods
 #' @docType methods
-#' @description create a BioData object from a cellexalvr object
+#' @description  create a BioData object from a cellexalvr object
 #' @param dat the cellexalvr object
 #' @title description of function as
 #' @export as_BioData
-as_BioData = function ( dat ) {
+setGeneric('as_BioData', ## Name
+	function ( dat ) { ## Argumente der generischen Funktion
+		standardGeneric('as_BioData') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
+setMethod('as_BioData', signature = c ('cellexalvr'),
+	definition = function ( dat ) {
 			#cbind(annotation,dat), Samples=samples, name="testObject",namecol='sname', outpath = ""
 			ok = which(lapply(colnames(dat@meta.cell) , function(x) { all.equal( as.character(as.vector(dat@meta.cell[,x])), colnames(dat@data)) == T } )==T)
 			if ( length(ok) == 0) {
@@ -47,4 +55,4 @@ as_BioData = function ( dat ) {
 			ret <- BioData$new( d, Samples=samples, name= 'from.cellexalvr', namecol= namecol, namerow=namerow, outpath='./' )
 			ret$usedObj <- dat@usedObj
 			ret
-		}
+		} )

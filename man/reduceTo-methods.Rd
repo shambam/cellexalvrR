@@ -9,12 +9,14 @@
 reduceTo(x, what = "row", to = NULL)
 }
 \arguments{
-\item{x}{the NGScollation object}
+\item{x}{the cellexalvr object}
 
 \item{what}{reduce to samples or row ids default='row'}
 
 \item{to}{select these names default=NULL}
 }
 \description{
-The main reduction function can drop both samples and genes using the colnames / rownames of the data tables
+The main reduction function can drop both samples and genes using the colnames /
+
+rownames of the data tables
 }

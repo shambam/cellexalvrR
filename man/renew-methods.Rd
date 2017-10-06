@@ -10,6 +10,8 @@ renew(x)
 }
 \arguments{
 \item{x}{the object you want to update}
+
+\item{x}{TEXT MISSING}
 }
 \description{
 update the class definition by re-creating the instance

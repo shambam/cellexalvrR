@@ -1,11 +1,22 @@
-#' Identifies oscilliating genes and tries to group them in oscilliating clusters using the EMD package.
-#'@param cellexalObj A cellexalvr object
-#'@param cellidfile file containing cell IDs
-#'@keywords heatmap
-#' @return Undefined at the moment
-#'@export make.cellexalvr.heatmap
+#' @name oscilliatingGenes
+#' @aliases oscilliatingGenes,cellexalvr-method
+#' @rdname oscilliatingGenes-methods
+#' @docType methods
+#' @description  Identifies oscilliating genes and tries to group them in oscilliating clusters using
+#'  the EMD package. This function should not be used!
+#' @param cellexalObj the cellexal object
+#' @param cellidfile the grouping or a file to read a grouping from
+#' @return the cellexal object
+#' @title description of function oscilliatingGenes
+#' @export 
+setGeneric('oscilliatingGenes', ## Name
+	function ( cellexalObj, cellidfile ) { ## Argumente der generischen Funktion
+		standardGeneric('oscilliatingGenes') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
 
-oscilliatingGenes <- function( cellexalObj, cellidfile ) {
+setMethod('oscilliatingGenes', signature = c ('cellexalvr'),
+	definition = function ( cellexalObj, cellidfile ) {
 	
 	stop( "This is pointless - try the code by hand as it is quite time consuming." )
 	
@@ -18,10 +29,10 @@ oscilliatingGenes <- function( cellexalObj, cellidfile ) {
 		cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	}
 	
-	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[-
-							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+	loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj$data)[-
+							which(is.na(cellexalObj$userGroups[,cellexalObj$usedObj$lastGroup]))
 			] )
-	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+	loc <- reorder.samples ( loc, paste(cellexalObj$usedObj$lastGroup, 'order'))
 	
 	info <- groupingInfo( loc )
 #	
@@ -64,10 +75,10 @@ oscilliatingGenes <- function( cellexalObj, cellidfile ) {
 	for ( i in 1:nrow(data$data)) {
 		data$raw[i,] <- smooth.spline(data$data[i,])$y
 	}
-	cellexalObj@usedObj$trends = data
+	cellexalObj$usedObj$trends = data
 	print ("return@usedObj$trends$raw contains trends in the selected data")
 	
 	## this whole analysis is totally pointless :-((
 	
 	cellexalObj
-}
+} )
