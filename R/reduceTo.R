@@ -7,17 +7,20 @@
 #' @param x the cellexalvr object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL
+#' @param copy create a copy before dropping (default=TRUE)
 #' @title description of function reduceTo
 #' @export reduceTo
 setGeneric('reduceTo', ## Name
-		function ( x, what='row', to=NULL ) { ## Argumente der generischen Funktion
+		function ( x, what='row', to=NULL , copy=TRUE) { ## Argumente der generischen Funktion
 			standardGeneric('reduceTo') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
 
 setMethod('reduceTo', signature = c ('cellexalvr'),
-		definition = function ( x, what='row', to=NULL ) {
-			
+		definition = function ( x, what='row', to=NULL, copy=TRUE ) {
+			if ( copy) {
+				x <- x$clone()
+			}
 			if (nrow(x$meta.gene)==0) {
 				x$meta.gene <- matrix(ncol=2, c(rownames(x$data), rep( 0, nrow(x$data)) ) )
 				colnames(x$meta.gene) = c('Gene Symbol', 'useless')
@@ -50,7 +53,7 @@ setMethod('reduceTo', signature = c ('cellexalvr'),
 					
 					
 				}else if ( what =="col" ) {
-					to <- tolower(make.names(to))
+					to <- tolower(to)
 					if ( length(which(is.na(match(to,tolower(colnames(x$data))))==F)) > 0 ) {
 						useOnly <- match(to, tolower(colnames(x$data)))
 						not.matched <- to[is.na(useOnly)]

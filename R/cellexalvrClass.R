@@ -32,6 +32,7 @@ cellexalvr <- #withFormalClass(
 						meta.cell=NULL,
 						meta.gene=NULL,
 						userGroups=NULL,
+						usedObj=NULL,
 						colors=NULL,
 						groupSelectedFrom=NULL,
 						mds=NULL,
@@ -41,8 +42,8 @@ cellexalvr <- #withFormalClass(
 							cat (paste("An object of class", paste(collapse="::",rev(class(self))),"\n" ) )
 							#cat("named ",self$name,"\n")
 							cat (paste( 'with',nrow(self$data),'genes and', ncol(self$data),' samples.'),"\n")
-							cat (paste("Annotation datasets (",paste(dim(self$meta.gene),collapse=','),"): '",paste( colnames(self$annotation ), collapse="', '"),"'  ",sep='' ),"\n")
-							cat (paste("Sample annotation (",paste(dim(self$meta.cell),collapse=','),"): '",paste( colnames(self$samples ), collapse="', '"),"'  ",sep='' ),"\n")
+							cat (paste("Annotation datasets (",paste(dim(self$meta.gene),collapse=','),"): '",paste( colnames(self$meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
+							cat (paste("Sample annotation (",paste(dim(self$meta.cell),collapse=','),"): '",paste( colnames(self$meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
 							cat ( paste("Up to now I have",(ncol(self$userGroups)/2), "user groups stored" ),"\n")
 							if ( length(names(self$mds)) > 0 ){
 								cat ( "and ", length(names(self$mds)), " mds object(s)\n")
@@ -54,7 +55,7 @@ cellexalvr <- #withFormalClass(
 							self$data <- dat
 							self$meta.gene <- meta.gene
 							
-							if (is.null(meta.gene) ) {
+							if (is.null(meta.gene) | ncol(meta.gene) == 0 ) {
 								self$meta.gene <- matrix(ncol=1, c(rownames(dat) ) )
 								colnames(self$meta.gene) = c('Gene Symbol')
 								rownames(self$meta.gene) = rownames(dat)
@@ -65,10 +66,13 @@ cellexalvr <- #withFormalClass(
 							self$colors <- list()
 							self$groupSelectedFrom <- NULL
 							self$mds <- mds
-							self$index= index
+							self$index = index
+							self$force.numeric()
 							
-							
-							self$force.numeric
+							self
+						},
+						force.numeric = function(...) {
+							storage.mode(self$data) <- 'numeric'
 						},
 						pwd = function () {
 							system( 'pwd > __pwd' )

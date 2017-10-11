@@ -17,7 +17,8 @@ setMethod('renew', signature = c ('cellexalvr'),
 		definition = function ( x ) {
 			if( isS4(x)) {
 				## shit an old object!
-				ret <- cellexalvr$new(data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index )
+				ret <- cellexalvr$new(dat=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index )
+				#browser()
 				if( .hasSlot(x,'userGroups') ){
 					ret$userGroups = x@userGroups 
 				}
@@ -27,18 +28,20 @@ setMethod('renew', signature = c ('cellexalvr'),
 				if( .hasSlot(x,'usedObj') ){
 					ret$usedObj = x@usedObj
 				}
+				x <- ret
+			}else {
+				ret <- cellexalvr$new(dat=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, tfs= x$tfs)
+				if( .hasSlot(x,'userGroups') ){
+					ret$userGroups = x$userGroups 
+				}
+				if( .hasSlot(x,'colors') ){
+					ret$colors = x$colors
+				}
+				if( .hasSlot(x,'usedObj') ){
+					ret$usedObj = x$usedObj
+				}
+				x <- ret
 			}
-			ret <- cellexalvr$new(data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, tfs= x$tfs)
-			if( .hasSlot(x,'userGroups') ){
-				ret$userGroups = x$userGroups 
-			}
-			if( .hasSlot(x,'colors') ){
-				ret$colors = x$colors
-			}
-			if( .hasSlot(x,'usedObj') ){
-				ret$usedObj = x$usedObj
-			}
-			x <- ret
 			invisible(x)
 		}  
 )
