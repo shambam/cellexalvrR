@@ -6,7 +6,7 @@
 \alias{defineGOIs,cellexalvr-method}
 \title{description of function defineGOIs}
 \usage{
-defineGOIs(cellexalObj, name, genes)
+defineGOIs(cellexalObj, name, genes, lables = NULL)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
@@ -15,7 +15,7 @@ defineGOIs(cellexalObj, name, genes)
 
 \item{genes}{a list of gene symbols that match to the @data rownames}
 
-\item{cellexalObj}{TEXT MISSING}
+\item{lables}{a list of lables for the GIO column (default NULL)}
 }
 \description{
 Allows the user to define (G)enes (O)f (I)nterest lists in the object

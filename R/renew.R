@@ -30,7 +30,7 @@ setMethod('renew', signature = c ('cellexalvr'),
 				}
 				x <- ret
 			}else {
-				ret <- cellexalvr$new(dat=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, tfs= x$tfs)
+				ret <- cellexalvr$new(dat=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index)
 				if( .hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups 
 				}
@@ -42,6 +42,13 @@ setMethod('renew', signature = c ('cellexalvr'),
 				}
 				x <- ret
 			}
+			## now lets add the inbuilt groupings...
+			for ( name in c('TFs', 'epigenetic', 'CellCycle') ) {
+				if ( is.na( match(name, colnames(x$meta.gene))) ) {
+					useInbuiltGOIlists ( x, name )
+				}
+			}
+			
 			invisible(x)
 		}  
 )

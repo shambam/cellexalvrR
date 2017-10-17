@@ -6,7 +6,7 @@
 \alias{reduceTo,cellexalvr-method}
 \title{description of function reduceTo}
 \usage{
-reduceTo(x, what = "row", to = NULL)
+reduceTo(x, what = "row", to = NULL, copy = TRUE)
 }
 \arguments{
 \item{x}{the cellexalvr object}
@@ -14,6 +14,8 @@ reduceTo(x, what = "row", to = NULL)
 \item{what}{reduce to samples or row ids default='row'}
 
 \item{to}{select these names default=NULL}
+
+\item{copy}{create a copy before dropping (default=TRUE)}
 }
 \description{
 The main reduction function can drop both samples and genes using the colnames /

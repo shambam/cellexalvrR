@@ -46,9 +46,20 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				hum_e <- length(which(is.na(match(rownames(cellexalObj$data),Epigenetic$HGNC_symbol))==F))
 				mouse_e <- length(which(is.na(match( rownames(cellexalObj$data),Epigenetic$MGI_symbol ))==F))
 				if ( hum_e > mouse_e){
-					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$HGNC_symbol )
+					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$HGNC_symbol, Epigenetic$Target )
 				}else if ( mouse_e > hum_e ){
-					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$MGI_symbol )
+					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$MGI_symbol, Epigenetic$Target)
+				}else {
+					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+				}
+			}
+			else if ( name =="CellCycle" ) {
+				hum_e <- length(which(is.na(match(rownames(cellexalObj$data),CellCycle$Gene.Symbol))==F))
+				mouse_e <- length(which(is.na(match( rownames(cellexalObj$data),CellCycle$MouseGene ))==F))
+				if ( hum_e > mouse_e){
+					cellexalObj = defineGOIs( cellexalObj, name, CellCycle$Gene.Symbol, CellCycle$X )
+				}else if ( mouse_e > hum_e ){
+					cellexalObj = defineGOIs( cellexalObj, name, CellCycle$MouseGene, CellCycle$X )
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
 				}
