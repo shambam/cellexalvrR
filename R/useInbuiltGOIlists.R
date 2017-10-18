@@ -64,6 +64,17 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
 				}
 			}
+			else if ( name =="CellSurface" ) {
+				hum_e <- length(which(is.na(match(rownames(cellexalObj$data),human.CellSurface))==F))
+				mouse_e <- length(which(is.na(match( rownames(cellexalObj$data),mouse.CellSurface ))==F))
+				if ( hum_e > mouse_e){
+					cellexalObj = defineGOIs( cellexalObj, name, human.CellSurface, CellCycle$X )
+				}else if ( mouse_e > hum_e ){
+					cellexalObj = defineGOIs( cellexalObj, name, mouse.CellSurface, CellCycle$X )
+				}else {
+					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+				}
+			}
 			else {
 				stop ( paste("Sorry, but the gene list", name, "is not defined" ) )
 			}

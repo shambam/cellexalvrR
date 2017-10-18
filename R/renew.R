@@ -43,7 +43,7 @@ setMethod('renew', signature = c ('cellexalvr'),
 				x <- ret
 			}
 			## now lets add the inbuilt groupings...
-			for ( name in c('TFs', 'epigenetic', 'CellCycle') ) {
+			for ( name in c('TFs', 'epigenetic', 'CellCycle', 'CellSurface') ) {
 				if ( is.na( match(name, colnames(x$meta.gene))) ) {
 					useInbuiltGOIlists ( x, name )
 				}

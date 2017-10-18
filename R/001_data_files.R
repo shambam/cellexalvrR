@@ -41,3 +41,19 @@
 #' @usage Epigenetic
 #' @format data.frame
 'Epigenetic'
+
+#' @name human.CellSurface
+#' @title A simple list containing the human ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
+#' @description This list is used to crete a CellSurface object
+#' @docType data
+#' @usage human.CellSurface
+#' @format vector
+"human.CellSurface"
+
+#' @name mouse.CellSurface
+#' @title A simple list containing the mouse ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
+#' @description This list is used to crete a CellSurface object
+#' @docType data
+#' @usage mouse.CellSurface
+#' @format vector
+"mouse.CellSurface"
