@@ -8,11 +8,14 @@
 #' @param column the samples column to reorder on
 #' @title description of function remove.genes
 #' @export reorder.genes
-setGeneric('reorder.genes', ## Name
+if ( ! isGeneric('reorder.genes') ){ setGeneric('reorder.genes', ## Name
 		function ( dataObj, column ) { ## Argumente der generischen Funktion
 			standardGeneric('reorder.genes') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'reorder.genes' already defined - no overloading here!")
+}
 
 setMethod('reorder.genes', signature = c ('cellexalvr'),
 		definition = function ( dataObj, column ) {

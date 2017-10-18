@@ -9,11 +9,14 @@
 #' @param maxwait  TEXT MISSING default=50
 #' @title description of function loadObject
 #' @export 
-setGeneric('loadObject', ## Name
+if ( ! isGeneric('loadObject') ){ setGeneric('loadObject', ## Name
 	function ( fname, maxwait=50 ) { ## Argumente der generischen Funktion
 		standardGeneric('loadObject') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'loadObject' already defined - no overloading here!")
+}
 
 setMethod('loadObject', signature = c ('cellexalvr'),
 		definition = function ( fname, maxwait=50 ) {

@@ -7,11 +7,14 @@
 #' @param seuratObj  TEXT MISSING
 #' @title description of function seurat2cellexalvr
 #' @export seurat2cellexalvr
-setGeneric('seurat2cellexalvr', ## Name
+if ( ! isGeneric('seurat2cellexalvr') ){ setGeneric('seurat2cellexalvr', ## Name
 	function (seuratObj) { ## Argumente der generischen Funktion
 		standardGeneric('seurat2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'seurat2cellexalvr' already defined - no overloading here!")
+}
 
 setMethod('seurat2cellexalvr', signature = c ('seurat'),
 	definition = function (seuratObj) {

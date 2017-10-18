@@ -8,11 +8,14 @@
 #' @param output the VR outpath
 #' @title description of function get.genes.cor.to
 #' @export 
-setGeneric('get.genes.cor.to', ## Name
+if ( ! isGeneric('get.genes.cor.to') ){ setGeneric('get.genes.cor.to', ## Name
 	function (cellexalObj,gname,output) { ## Argumente der generischen Funktion
 		standardGeneric('get.genes.cor.to') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'get.genes.cor.to' already defined - no overloading here!")
+}
 
 setMethod('get.genes.cor.to', signature = c ('cellexalvr'),
 	definition = function (cellexalObj,gname,output) {

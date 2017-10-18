@@ -5,9 +5,6 @@
 \alias{lockedSave}
 \alias{lockedSave,cellexalvr-method}
 \title{description of function lockedSave}
-\usage{
-lockedSave(cellexalObj, path)
-}
 \arguments{
 \item{cellexalObj}{TEXT MISSING}
 

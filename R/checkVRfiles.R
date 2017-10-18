@@ -8,11 +8,14 @@
 #' @param path the outpath to check
 #' @title description of function checkVRfiles
 #' @export checkVRfiles
-setGeneric('checkVRfiles', ## Name
+if ( ! isGeneric('checkVRfiles') ){ setGeneric('checkVRfiles', ## Name
 	function ( cellexalvr, path ) { ## Argumente der generischen Funktion
 		standardGeneric('checkVRfiles') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'checkVRfiles' already defined - no overloading here!")
+}
 
 setMethod('checkVRfiles', signature = c ('cellexalvr'),
 	definition = function ( cellexalvr, path ) {

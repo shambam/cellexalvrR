@@ -9,11 +9,14 @@
 #' @return the cellexal object
 #' @title description of function oscilliatingGenes
 #' @export 
-setGeneric('oscilliatingGenes', ## Name
+if ( ! isGeneric('oscilliatingGenes') ){ setGeneric('oscilliatingGenes', ## Name
 	function ( cellexalObj, cellidfile ) { ## Argumente der generischen Funktion
 		standardGeneric('oscilliatingGenes') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'oscilliatingGenes' already defined - no overloading here!")
+}
 
 setMethod('oscilliatingGenes', signature = c ('cellexalvr'),
 	definition = function ( cellexalObj, cellidfile ) {

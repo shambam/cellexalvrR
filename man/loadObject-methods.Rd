@@ -5,9 +5,6 @@
 \alias{loadObject}
 \alias{loadObject,cellexalvr-method}
 \title{description of function loadObject}
-\usage{
-loadObject(fname, maxwait = 50)
-}
 \arguments{
 \item{fname}{the file to load}
 

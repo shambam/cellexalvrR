@@ -9,11 +9,14 @@
 #' @param name the name of this MDS e.g. 'PCA' default=NULL
 #' @title description of function addMDS2cellexalvr
 #' @export 
-setGeneric('addMDS2cellexalvr', ## Name
+if ( ! isGeneric('addMDS2cellexalvr') ){ setGeneric('addMDS2cellexalvr', ## Name
 	function (cellexalObj,mdsmatrix, name=NULL) { ## Argumente der generischen Funktion
 		standardGeneric('addMDS2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'addMDS2cellexalvr' already defined - no overloading here!")
+}
 
 setMethod('addMDS2cellexalvr', signature = c ('cellexalvr'),
 	definition = function (cellexalObj,mdsmatrix, name=NULL) {

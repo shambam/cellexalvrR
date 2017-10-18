@@ -9,11 +9,14 @@
 #' @param path the outpath
 #' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
-setGeneric('exportUserGroups4vr', ## Name
+if ( ! isGeneric('exportUserGroups4vr') ){ setGeneric('exportUserGroups4vr', ## Name
 	function ( cellexalObj, path ) { ## Argumente der generischen Funktion
 		standardGeneric('exportUserGroups4vr') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'exportUserGroups4vr' already defined - no overloading here!")
+}
 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvr'),
 	definition = function ( cellexalObj, path ) {

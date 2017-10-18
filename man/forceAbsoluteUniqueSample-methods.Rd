@@ -5,9 +5,6 @@
 \alias{forceAbsoluteUniqueSample}
 \alias{forceAbsoluteUniqueSample,cellexalvr-method}
 \title{description of function forceAbsoluteUniqueSample}
-\usage{
-forceAbsoluteUniqueSample(x, separator = "_")
-}
 \arguments{
 \item{x}{the vector of sample names}
 

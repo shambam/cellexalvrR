@@ -5,9 +5,6 @@
 \alias{reduceTo}
 \alias{reduceTo,cellexalvr-method}
 \title{description of function reduceTo}
-\usage{
-reduceTo(x, what = "row", to = NULL, copy = TRUE)
-}
 \arguments{
 \item{x}{the cellexalvr object}
 

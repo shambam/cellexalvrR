@@ -5,9 +5,6 @@
 \alias{useInbuiltGOIlists}
 \alias{useInbuiltGOIlists,cellexalvr-method}
 \title{description of function useInbuiltGOIlists}
-\usage{
-useInbuiltGOIlists(cellexalObj, name)
-}
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 

@@ -6,11 +6,14 @@
 #' @param seuratObj a seurat object
 #' @title description of function run.ddrtree
 #' @export 
-setGeneric('run.ddrtree', ## Name
+if ( ! isGeneric('run.ddrtree') ){ setGeneric('run.ddrtree', ## Name
 	function (seuratObj) { ## Argumente der generischen Funktion
 		standardGeneric('run.ddrtree') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'run.ddrtree' already defined - no overloading here!")
+}
 
 setMethod('run.ddrtree', signature = c ('seurat'),
 	definition = function (seuratObj) {

@@ -5,9 +5,6 @@
 \alias{reorder.genes}
 \alias{reorder.genes,cellexalvr-method}
 \title{description of function remove.genes}
-\usage{
-reorder.genes(dataObj, column)
-}
 \arguments{
 \item{dataObj}{the cellexalvr object}
 

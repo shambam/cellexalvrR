@@ -9,11 +9,14 @@
 #' @param forceDB re-create the expression data sglite database (default=FALSE)
 #' @title description of function export2cellexalvr
 #' @export 
-setGeneric('export2cellexalvr', ## Name
+if ( ! isGeneric('export2cellexalvr') ){ setGeneric('export2cellexalvr', ## Name
 	function (cellexalObj,path, forceDB=F) { ## Argumente der generischen Funktion
 		standardGeneric('export2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'export2cellexalvr' already defined - no overloading here!")
+}
 
 setMethod('export2cellexalvr', signature = c ('cellexalvr'),
 	definition = function (cellexalObj,path, forceDB=F) {

@@ -9,11 +9,14 @@
 #' @param lables a list of lables for the GIO column (default NULL)
 #' @title description of function defineGOIs
 #' @export defineGOIs
-setGeneric('defineGOIs', ## Name
+if ( ! isGeneric('defineGOIs') ){ setGeneric('defineGOIs', ## Name
 	function ( cellexalObj, name, genes, lables=NULL ) { ## Argumente der generischen Funktion
 		standardGeneric('defineGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'defineGOIs' already defined - no overloading here!")
+}
 
 setMethod('defineGOIs', signature = c ('cellexalvr'),
 	definition = function ( cellexalObj, name, genes, lables=NULL ) {

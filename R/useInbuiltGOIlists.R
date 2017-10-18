@@ -10,11 +10,14 @@
 #' @param name  TEXT MISSING
 #' @title description of function useInbuiltGOIlists
 #' @export useInbuiltGOIlists
-setGeneric('useInbuiltGOIlists', ## Name
+if ( ! isGeneric('useInbuiltGOIlists') ){ setGeneric('useInbuiltGOIlists', ## Name
 		function (cellexalObj, name ) { ## Argumente der generischen Funktion
 			standardGeneric('useInbuiltGOIlists') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'useInbuiltGOIlists' already defined - no overloading here!")
+}
 
 setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 		definition = function (cellexalObj, name ) {
@@ -68,9 +71,9 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				hum_e <- length(which(is.na(match(rownames(cellexalObj$data),human.CellSurface))==F))
 				mouse_e <- length(which(is.na(match( rownames(cellexalObj$data),mouse.CellSurface ))==F))
 				if ( hum_e > mouse_e){
-					cellexalObj = defineGOIs( cellexalObj, name, human.CellSurface, CellCycle$X )
+					cellexalObj = defineGOIs( cellexalObj, name, human.CellSurface)
 				}else if ( mouse_e > hum_e ){
-					cellexalObj = defineGOIs( cellexalObj, name, mouse.CellSurface, CellCycle$X )
+					cellexalObj = defineGOIs( cellexalObj, name, mouse.CellSurface )
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
 				}

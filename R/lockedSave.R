@@ -8,11 +8,14 @@
 #' @param path  TEXT MISSING
 #' @title description of function lockedSave
 #' @export 
-setGeneric('lockedSave', ## Name
+if ( ! isGeneric('lockedSave') ){ setGeneric('lockedSave', ## Name
 	function (cellexalObj, path ) { ## Argumente der generischen Funktion
 		standardGeneric('lockedSave') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'lockedSave' already defined - no overloading here!")
+}
 
 setMethod('lockedSave', signature = c ('cellexalvr'),
 		definition = function (cellexalObj, path ) {

@@ -9,11 +9,14 @@
 #' @param outfile the file to plot to (png)
 #' @title description of function make.cellexalvr.heatmap
 #' @export 
-setGeneric('make.cellexalvr.heatmap', ## Name
+if ( ! isGeneric('make.cellexalvr.heatmap') ){ setGeneric('make.cellexalvr.heatmap', ## Name
 		function (cvrObj,cellidfile,num.sig,outfile) { ## Argumente der generischen Funktion
 			standardGeneric('make.cellexalvr.heatmap') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'make.cellexalvr.heatmap' already defined - no overloading here!")
+}
 setMethod('make.cellexalvr.heatmap', signature = c ('character'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile) {
 			make.cellexalvr.heatmap( loadObject(cvrObj),cellidfile,num.sig,outfile) 

@@ -5,9 +5,6 @@
 \alias{userGrouping}
 \alias{userGrouping,cellexalvr-method}
 \title{description of function userGrouping}
-\usage{
-userGrouping(cellexalObj, cellidfile)
-}
 \arguments{
 \item{cellexalObj}{TEXT MISSING}
 

@@ -5,9 +5,6 @@
 \alias{changeIdent}
 \alias{changeIdent,cellexalvr-method}
 \title{description of function changeIdent}
-\usage{
-changeIdent(seuratObj, new.idents)
-}
 \arguments{
 \item{seuratObj}{The seurat object to be changed}
 
