@@ -10,7 +10,7 @@
 make.cellexalvr.heatmap <- function(cvrObj,cellidfile,num.sig,outfile){
 	
 	anovap <- function(v,labs){
-		anova(lm(v~-1+labs))$Pr[1] #do shitty test
+		anova(lm(v~-1+labs))$Pr[1]
 	}
 	
 	lin <- function( v, order ) {
