@@ -6,5 +6,5 @@ cellexalvr is an R package to prep data for use in the cellexalVR environment, a
 install.packages("devtools")\
 library(devtools)
 
-install_github("shambam/cellexalvr")\
+install_github("shambam/cellexalvrR")\
 library(cellexalvr)
