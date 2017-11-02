@@ -2,7 +2,7 @@
 #' @exportClass cellexalvr
 setClass("cellexalvr",slots=c(
     data="matrix",
-    meta.cell="matrix",
+    meta.cell="matrix", #test commit
     meta.gene="matrix",
 	userGroups="data.frame", # whenever a user defined grouping is read from file we add one column
 	colors="list", # the color information linked to all user groups
