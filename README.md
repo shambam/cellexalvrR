@@ -1,5 +1,5 @@
 # cellexalvrR
-cellexalvr is an R package to prep data for use in the cellexalVR environment, and also provides functions to run in-session calculations
+cellexalvrR is an R package to prep data for use in the cellexalVR environment, and also provides functions to run in-session calculations
 
 # Install using:
 
