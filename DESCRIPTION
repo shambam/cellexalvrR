@@ -1,7 +1,7 @@
 Package: cellexalvrR
-Title: What the Package Does (one line, title case)
+Title: Provides the backend calculations for CellexalVR
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("Stefan", "Lang", email = "stefan.lang@med.lu.se", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Suggests:
 	testthat
