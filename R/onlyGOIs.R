@@ -9,7 +9,7 @@ onlyGOIs <- function( cellexalObj, name ) {
 	cellexalObj = reduceTo(
 			cellexalObj, 
 			'row', 
-			to=rownames(cellexalObj@data)[which(as.vector(cellexalObj@meta.gene[,name])==T)] 
+			to=rownames(cellexalObj@data)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 
 	)
 
 	cellexalObj

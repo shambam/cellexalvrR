@@ -13,4 +13,5 @@ renew(x)
 }
 \description{
 update the class definition by re-creating the instance
+This version also makes sure, that the returned object is an S4 object.
 }

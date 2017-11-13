@@ -2,7 +2,7 @@ library(cellexalvr)
 
 opath = file.path('data','output')
 dir.create(opath,  showWarnings = FALSE)
-load(file.path('data', 'cellexalObj.RData'))
+cellexalObj <- loadObject(file.path('data', 'cellexalObj.RData'))
 
 test_that( "export2cellexalvr function" ,{
 			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sql', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )

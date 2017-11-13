@@ -14,23 +14,46 @@ setClass("cellexalvr",slots=c(
     )   
 )
 
-#' @name show
-#' @aliases show,cellexalvr-method
-#' @rdname show-methods
+#' @name print
+#' @aliases print,cellexalvr-method
+#' @rdname print-methods
 #' @docType methods
 #' @description  print the cellexalvr
 #' @param x the cellexalvr object
 #' @return nothing
+#' @title description of function print
+#' @export print
+setMethod('print', signature = c ('cellexalvr'),
+		definition = function (x) {
+			cat (paste("An object of class", class(x)),"\n" )
+			#cat("named ",x@name,"\n")
+			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' samples.'),"\n")
+			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
+			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
+			cat ( paste("Up to now I have",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
+			if ( length(names(x@mds)) > 0 ){
+				cat ( "and ", length(names(x@mds)), " mds object(s)\n")
+			}
+		}
+)
+
+#' @name show
+#' @aliases show,cellexalvr-method
+#' @rdname show-methods
+#' @docType methods
+#' @description  shows the cellexalvr
+#' @param x the cellexalvr object
+#' @return nothing
 #' @title description of function show
 #' @export show
-setMethod('show', signature(object='cellexalvr') ,
+setMethod('show', signature = c ('cellexalvr'),
 		definition = function (object) {
 			cat (paste("An object of class", class(object)),"\n" )
-			#cat("named ",object@name,"\n")
+			#cat("named ",x@name,"\n")
 			cat (paste( 'with',nrow(object@data),'genes and', ncol(object@data),' samples.'),"\n")
 			cat (paste("Annotation datasets (",paste(dim(object@meta.gene),collapse=','),"): '",paste( colnames(object@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
 			cat (paste("Sample annotation (",paste(dim(object@meta.cell),collapse=','),"): '",paste( colnames(object@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("Up to now I have",(ncol(object@userGroups)/2), "user groups stored" ),"\n")
+			cat ( paste("Up to now I have",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
 			if ( length(names(object@mds)) > 0 ){
 				cat ( "and ", length(names(object@mds)), " mds object(s)\n")
 			}

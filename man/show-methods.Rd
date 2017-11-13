@@ -15,5 +15,5 @@
 nothing
 }
 \description{
-print the cellexalvr
+shows the cellexalvr
 }
