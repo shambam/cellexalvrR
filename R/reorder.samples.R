@@ -22,6 +22,12 @@ setMethod('reorder.samples', signature = c ('cellexalvr'),
 		ids = order( dataObj$userGroups[,column])
 	}
 	dataObj$data <- dataObj$data[ , ids]
+	if ( ! is.null(data$raw)){
+		dataObj$raw <- dataObj$raw[ , ids]
+	}
+	if ( ! is.null(data$zscored)){
+		dataObj$zscored <- dataObj$zscored[ , ids]
+	}
 	dataObj$meta.cell <- dataObj$meta.cell[ids,]
 	dataObj$userGroups <- dataObj$userGroups[ids,]
 	dataObj

@@ -46,6 +46,12 @@ setMethod('reduceTo', signature = c ('cellexalvr'),
 #						}
 						x$data <- x$data[useOnly,]
 						x$meta.gene <- x$meta.gene[useOnly,]
+						if ( !is.null(x$raw) ) {
+							x$raw<- x$raw[useOnly,]
+						}
+						if ( !is.null(x$zscored) ) {
+							x$zscored<- x$zscored[useOnly,]
+						}
 						
 					}else {
 						print (paste( "None of the probesets matched the probesets in the cellexalvr object -> keep everything!"))
@@ -71,6 +77,12 @@ setMethod('reduceTo', signature = c ('cellexalvr'),
 #							}
 #						}
 						x$data <- x$data[,useOnly]
+						if ( !is.null(x$raw) ) {
+							x$raw<- x$raw[,useOnly]
+						}
+						if ( !is.null(x$zscored) ) {
+							x$zscored<- x$zscored[,useOnly]
+						}
 						x$meta.cell <- x$meta.cell[useOnly,]
 						x$userGroups <- x$userGroups[useOnly,]
 						

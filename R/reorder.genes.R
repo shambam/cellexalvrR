@@ -16,8 +16,15 @@ setGeneric('reorder.genes', ## Name
 
 setMethod('reorder.genes', signature = c ('cellexalvr'),
 		definition = function ( dataObj, column ) {
-			dataObj$data <- dataObj$data[ order( dataObj$meta.gene[,column]),]
-			dataObj$meta.gene <- dataObj$meta.gene[order( dataObj$meta.gene[,column]),]
+			o <- order( dataObj$meta.gene[,column])
+			dataObj$data <- dataObj$data[ o,]
+			if ( ! is.null(data$raw)){
+				dataObj$raw <- dataObj$raw[ o,]
+			}
+			if ( ! is.null(data$zscored)){
+				dataObj$zscored <- dataObj$zscored[ o,]
+			}
+			dataObj$meta.gene <- dataObj$meta.gene[ o, ]
 			dataObj
 		} 
 )
