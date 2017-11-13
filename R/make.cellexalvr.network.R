@@ -33,8 +33,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvr'),
 			cellexalObj = loadObject(cellexalObjpath)
 			
 			cellexalObj <- userGrouping(cellexalObj, cellidfile)
-			
-			checkVRfiles( cellexalObj, dirname(cellexalObjpath))
+			checkVRfiles( cellexalObj, outpath)
 			## cut loc to only include TFs
 			if ( is.na( match('TFs', colnames(cellexalObj$meta.gene)))) {
 				cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
@@ -50,7 +49,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvr'),
 			info <- groupingInfo( loc )
 			grps <- as.vector(unique(info$grouping))
 			
-			dat <- loc@data
+			dat <- loc$data
 			req.graph <- info$mds
 			
 			grp.tabs <- NULL

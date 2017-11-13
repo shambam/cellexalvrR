@@ -44,6 +44,6 @@ setMethod('loadObject', signature = c ('character'),
 				}
 			}
 			
-			cellexalObj
+			renew(cellexalObj)
 		} 
 )

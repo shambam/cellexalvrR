@@ -46,11 +46,11 @@ setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvr'),
 			}else {
 				loc <- cellexalObj
 			}
-			
 			loc <- reorder.samples ( loc, paste(cellexalObj$usedObj$lastGroup, 'order'))
+			
 			info <- groupingInfo( loc )
 			
-			dat <- loc@data
+			dat <- loc$data
 			#cellid <- read.delim(cellidfile,header=F)
 			
 			grp.vec <- info$grouping

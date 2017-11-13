@@ -21,7 +21,6 @@ if ( ! isGeneric('export2cellexalvr') ){ setGeneric('export2cellexalvr', ## Name
 setMethod('export2cellexalvr', signature = c ('cellexalvr'),
 	definition = function (cellexalObj,path, forceDB=F) {
 
-	
 	ofile = file.path( path, "cellexalObj.RData")
 	if ( ! file.exists( ofile) ){
 		save(cellexalObj,file=ofile )

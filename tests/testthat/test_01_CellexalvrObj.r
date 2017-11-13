@@ -3,6 +3,7 @@ library(cellexalvr)
 opath = file.path('data','output')
 dir.create(opath,  showWarnings = FALSE)
 load(file.path('data', 'cellexalObj.RData'))
+cellexalObj <- renew(cellexalObj)
 
 test_that( "export2cellexalvr function" ,{
 			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sql', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
@@ -28,14 +29,14 @@ test_that( "export2cellexalvr function" ,{
 
 test_that( "store user groupings" ,{
 			old_length = 0
-			if ( length(cellexalObj@userGroups) > 0 ){
-				old_length = length(cellexalObj@userGroups) -2 ## and therefore a pointless test...
+			if ( length(cellexalObj$userGroups) > 0 ){
+				old_length = length(cellexalObj$userGroups) -2 ## and therefore a pointless test...
 			}
 			cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
-			expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
+			expect_equal( length(cellexalObj$userGroups) , old_length + 2 )
 			
 			cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
-			expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
+			expect_equal( length(cellexalObj$userGroups) ,old_length +  2 ) # same grouing no adding of the data
 			
 		} ) ## end store user groupings
 

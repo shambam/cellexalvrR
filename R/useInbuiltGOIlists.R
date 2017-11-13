@@ -40,7 +40,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 					}else if ( mouse_t > hum_t ){
 						cellexalObj = defineGOIs( cellexalObj, name, mouse.tfs )
 					}else {
-						stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+						stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 					}
 				}
 			}
@@ -53,7 +53,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				}else if ( mouse_e > hum_e ){
 					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$MGI_symbol, Epigenetic$Target)
 				}else {
-					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}
 			}
 			else if ( name =="CellCycle" ) {
@@ -64,7 +64,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				}else if ( mouse_e > hum_e ){
 					cellexalObj = defineGOIs( cellexalObj, name, CellCycle$MouseGene, CellCycle$X )
 				}else {
-					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}
 			}
 			else if ( name =="CellSurface" ) {
@@ -75,7 +75,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				}else if ( mouse_e > hum_e ){
 					cellexalObj = defineGOIs( cellexalObj, name, mouse.CellSurface )
 				}else {
-					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(@data) - please double ckech that.")
+					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}
 			}
 			else {

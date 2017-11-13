@@ -9,29 +9,29 @@
 #' @title description of function remove.genes
 #' @export reorder.samples
 if ( ! isGeneric('reorder.samples') ){ setGeneric('reorder.samples', ## Name
-	function ( dataObj, column ) { ## Argumente der generischen Funktion
-		standardGeneric('reorder.samples') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
+			function ( dataObj, column ) { ## Argumente der generischen Funktion
+				standardGeneric('reorder.samples') ## der Aufruf von standardGeneric sorgt für das Dispatching
+			}
+	)
 }else {
 	print ("Onload warn generic function 'reorder.samples' already defined - no overloading here!")
 }
 
 setMethod('reorder.samples', signature = c ('cellexalvr'),
-	definition = function ( dataObj, column ) {
-	if (! is.na( match ( column, colnames(dataObj$meta.cell)) ) ) {
-		ids = order( dataObj$meta.cell[,column])
-	}else {
-		ids = order( dataObj$userGroups[,column])
-	}
-	dataObj$data <- dataObj$data[ , ids]
-	if ( ! is.null(data$raw)){
-		dataObj$raw <- dataObj$raw[ , ids]
-	}
-	if ( ! is.null(data$zscored)){
-		dataObj$zscored <- dataObj$zscored[ , ids]
-	}
-	dataObj$meta.cell <- dataObj$meta.cell[ids,]
-	dataObj$userGroups <- dataObj$userGroups[ids,]
-	dataObj
-} )
+		definition = function ( dataObj, column ) {
+			if (! is.na( match ( column, colnames(dataObj$meta.cell)) ) ) {
+				ids = order( dataObj$meta.cell[,column])
+			}else {
+				ids = order( dataObj$userGroups[,column])
+			}
+			dataObj$data <- dataObj$data[ , ids]
+			if ( ! is.null(dataObj$raw)){
+				dataObj$raw <- dataObj$raw[ , ids]
+			}
+			if ( ! is.null(dataObj$zscored)){
+				dataObj$zscored <- dataObj$zscored[ , ids]
+			}
+			dataObj$meta.cell <- dataObj$meta.cell[ids,]
+			dataObj$userGroups <- dataObj$userGroups[ids,]
+			dataObj
+		} )
