@@ -10,13 +10,8 @@
 #' @param name  TEXT MISSING
 #' @title description of function useInbuiltGOIlists
 #' @export useInbuiltGOIlists
-<<<<<<< HEAD
-setGeneric('useInbuiltGOIlists', ## Name
-		function (cellexalObj,..., name ) { ## Argumente der generischen Funktion
-=======
 if ( ! isGeneric('useInbuiltGOIlists') ){ setGeneric('useInbuiltGOIlists', ## Name
 		function (cellexalObj, name ) { ## Argumente der generischen Funktion
->>>>>>> 54324a3c05502747abd6d4f689ee6b7e285594d2
 			standardGeneric('useInbuiltGOIlists') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
