@@ -5,9 +5,6 @@
 \alias{run.ddrtree}
 \alias{run.ddrtree,cellexalvr-method}
 \title{description of function run.ddrtree}
-\usage{
-run.ddrtree(seuratObj)
-}
 \arguments{
 \item{seuratObj}{a seurat object}
 }

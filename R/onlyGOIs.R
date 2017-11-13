@@ -7,11 +7,14 @@
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @title description of function onlyGOIs
 #' @export onlyGOIs
-setGeneric('onlyGOIs', ## Name
+if ( ! isGeneric('onlyGOIs') ){ setGeneric('onlyGOIs', ## Name
 	function ( cellexalObj, name ) { ## Argumente der generischen Funktion
 		standardGeneric('onlyGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'onlyGOIs' already defined - no overloading here!")
+}
 
 setMethod('onlyGOIs', signature = c ('cellexalvr'),
 		definition = function ( cellexalObj, name ) {

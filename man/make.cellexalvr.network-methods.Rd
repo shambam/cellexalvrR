@@ -5,18 +5,14 @@
 \alias{make.cellexalvr.network}
 \alias{make.cellexalvr.network,cellexalvr-method}
 \title{description of function make.cellexalvr.network}
-\usage{
-make.cellexalvr.network(cellexalObjpath, cellidfile, outpath,
-  cutoff.ggm = 0.8)
-}
 \arguments{
 \item{cellexalObjpath}{either a cellexal object of the file to read one from}
 
 \item{cellidfile}{the grouping or a file to read a grouping from}
 
-\item{outpath}{the VR outpath}
-
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.8)}
+
+\item{outpath}{the VR outpath}
 
 \item{cutoff.ggm}{the cutoff for the correlation stringency default=0.8}
 }

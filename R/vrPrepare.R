@@ -10,11 +10,14 @@
 #' @return the updated cellexalvr object
 #' @title description of function vrPrepare
 #' @export 
-setGeneric('vrPrepare', ## Name
+if ( ! isGeneric('vrPrepare') ){ setGeneric('vrPrepare', ## Name
 		function ( x, max=10 ) { ## Argumente der generischen Funktion
 			standardGeneric('vrPrepare') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'vrPrepare' already defined - no overloading here!")
+}
 
 setMethod('vrPrepare', signature = c ('cellexalvr'),
 		definition = function ( x, max=10 ) {

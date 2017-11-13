@@ -8,11 +8,14 @@
 #' @param gname the group name you get the data for ( default last added group)
 #' @title description of function groupingInfo
 #' @export 
-setGeneric('groupingInfo', ## Name
+if ( ! isGeneric('groupingInfo') ){ setGeneric('groupingInfo', ## Name
 	function ( cellexalObj, gname=NULL ) { ## Argumente der generischen Funktion
 		standardGeneric('groupingInfo') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'groupingInfo' already defined - no overloading here!")
+}
 
 setMethod('groupingInfo', signature = c ('cellexalvr'),
 	definition = function ( cellexalObj, gname=NULL ) {

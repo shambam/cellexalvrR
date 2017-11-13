@@ -10,11 +10,14 @@
 #' @param copy create a copy before dropping (default=TRUE)
 #' @title description of function reduceTo
 #' @export reduceTo
-setGeneric('reduceTo', ## Name
+if ( ! isGeneric('reduceTo') ){ setGeneric('reduceTo', ## Name
 		function ( x, what='row', to=NULL , copy=TRUE) { ## Argumente der generischen Funktion
 			standardGeneric('reduceTo') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'reduceTo' already defined - no overloading here!")
+}
 
 setMethod('reduceTo', signature = c ('cellexalvr'),
 		definition = function ( x, what='row', to=NULL, copy=TRUE ) {

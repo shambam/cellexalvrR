@@ -5,15 +5,12 @@
 \alias{export2cellexalvr}
 \alias{export2cellexalvr,cellexalvr-method}
 \title{description of function export2cellexalvr}
-\usage{
-export2cellexalvr(cellexalObj, path, forceDB = F)
-}
 \arguments{
+\item{forceDB}{re-write the db even if it exisis (default =F)}
+
 \item{cellexalObj}{the cellexalvr object to be exported}
 
 \item{path}{the path to create the files in}
-
-\item{forceDB}{re-write the db even if it exisis (default =F)}
 
 \item{forceDB}{re-create the expression data sglite database (default=FALSE)}
 }

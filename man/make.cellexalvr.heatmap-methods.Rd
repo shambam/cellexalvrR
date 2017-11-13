@@ -5,9 +5,6 @@
 \alias{make.cellexalvr.heatmap}
 \alias{make.cellexalvr.heatmap,cellexalvr-method}
 \title{description of function make.cellexalvr.heatmap}
-\usage{
-make.cellexalvr.heatmap(cvrObj, cellidfile, num.sig, outfile)
-}
 \arguments{
 \item{cvrObj}{the cellexavr object or the file to load the object from}
 

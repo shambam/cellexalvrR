@@ -5,9 +5,6 @@
 \alias{defineGOIs}
 \alias{defineGOIs,cellexalvr-method}
 \title{description of function defineGOIs}
-\usage{
-defineGOIs(cellexalObj, name, genes, lables = NULL)
-}
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 

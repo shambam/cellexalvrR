@@ -5,13 +5,10 @@
 \alias{checkVRfiles}
 \alias{checkVRfiles,cellexalvr-method}
 \title{description of function checkVRfiles}
-\usage{
-checkVRfiles(cellexalvr, path)
-}
 \arguments{
-\item{path}{the outpath to check}
-
 \item{cellexalObj}{the cellexal object}
+
+\item{path}{the outpath to check}
 }
 \description{
 checkVRfiles: Checks the existance of all VR specific files and re-runs the export

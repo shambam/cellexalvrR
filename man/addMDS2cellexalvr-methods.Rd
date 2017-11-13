@@ -5,15 +5,12 @@
 \alias{addMDS2cellexalvr}
 \alias{addMDS2cellexalvr,cellexalvr-method}
 \title{description of function addMDS2cellexalvr}
-\usage{
-addMDS2cellexalvr(cellexalObj, mdsmatrix, name = NULL)
-}
 \arguments{
+\item{name}{A name for the object (default = graph<n>)}
+
 \item{cellexalObj}{the cellexalvr object}
 
 \item{mdsmatrix}{the mds 3D matrix}
-
-\item{name}{A name for the object (default = graph<n>)}
 
 \item{name}{the name of this MDS e.g. 'PCA' default=NULL}
 }

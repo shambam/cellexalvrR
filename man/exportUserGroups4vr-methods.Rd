@@ -5,9 +5,6 @@
 \alias{exportUserGroups4vr}
 \alias{exportUserGroups4vr,cellexalvr-method}
 \title{description of function exportUserGroups4vr}
-\usage{
-exportUserGroups4vr(cellexalObj, path)
-}
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 

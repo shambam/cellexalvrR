@@ -10,11 +10,14 @@
 #' @param cutoff.ggm the cutoff for the correlation stringency default=0.8
 #' @title description of function make.cellexalvr.network
 #' @export 
-setGeneric('make.cellexalvr.network', ## Name
+if ( ! isGeneric('make.cellexalvr.network') ){ setGeneric('make.cellexalvr.network', ## Name
 		function (cellexalObjpath,cellidfile,outpath, cutoff.ggm=0.8) { ## Argumente der generischen Funktion
 			standardGeneric('make.cellexalvr.network') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'make.cellexalvr.network' already defined - no overloading here!")
+}
 
 setMethod('make.cellexalvr.network', signature = c ('character'),
 		definition = function (cellexalObjpath,cellidfile,outpath, cutoff.ggm=0.8) {

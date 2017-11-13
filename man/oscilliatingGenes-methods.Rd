@@ -5,9 +5,6 @@
 \alias{oscilliatingGenes}
 \alias{oscilliatingGenes,cellexalvr-method}
 \title{description of function oscilliatingGenes}
-\usage{
-oscilliatingGenes(cellexalObj, cellidfile)
-}
 \arguments{
 \item{cellexalObj}{the cellexal object}
 

@@ -7,11 +7,14 @@
 #' @param new.idents The new cell names
 #' @title description of function changeIdent
 #' @export 
-setGeneric('changeIdent', ## Name
+if ( ! isGeneric('changeIdent') ){ setGeneric('changeIdent', ## Name
 	function (seuratObj,new.idents) { ## Argumente der generischen Funktion
 		standardGeneric('changeIdent') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'changeIdent' already defined - no overloading here!")
+}
 
 setMethod('changeIdent', signature = c ('seurat'),
 	definition = function (seuratObj,new.idents) {

@@ -5,13 +5,10 @@
 \alias{vrPrepare}
 \alias{vrPrepare,cellexalvr-method}
 \title{description of function vrPrepare}
-\usage{
-vrPrepare(x, max = 10)
-}
 \arguments{
-\item{x}{TEXT MISSING}
-
 \item{max}{the maximum complexity of one column to split it into max 0/1 columns (default =10)}
+
+\item{x}{TEXT MISSING}
 
 \item{max}{TEXT MISSING default=10}
 }

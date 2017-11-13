@@ -8,11 +8,14 @@
 #' @param cellidfile  TEXT MISSING
 #' @title description of function userGrouping
 #' @export 
-setGeneric('userGrouping', ## Name
+if ( ! isGeneric('userGrouping') ){ setGeneric('userGrouping', ## Name
 		function (cellexalObj, cellidfile) { ## Argumente der generischen Funktion
 			standardGeneric('userGrouping') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'userGrouping' already defined - no overloading here!")
+}
 
 setMethod('userGrouping', signature = c ('cellexalvr'),
 		definition = function (cellexalObj, cellidfile) {

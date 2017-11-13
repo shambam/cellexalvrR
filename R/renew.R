@@ -7,11 +7,14 @@
 #' @param x  TEXT MISSING
 #' @title description of function renew
 #' @export renew
-setGeneric('renew', ## Name
+if ( ! isGeneric('renew') ){ setGeneric('renew', ## Name
 		function ( x ) { ## Argumente der generischen Funktion
 			standardGeneric('renew') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+}else {
+	print ("Onload warn generic function 'renew' already defined - no overloading here!")
+}
 
 setMethod('renew', signature = c ('cellexalvr'),
 		definition = function ( x ) {

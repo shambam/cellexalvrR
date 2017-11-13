@@ -7,11 +7,14 @@
 #' @param separator  TEXT MISSING default='_'
 #' @title description of function forceAbsoluteUniqueSample
 #' @export 
-setGeneric('forceAbsoluteUniqueSample', ## Name
+if ( ! isGeneric('forceAbsoluteUniqueSample') ){ setGeneric('forceAbsoluteUniqueSample', ## Name
 	function ( x ,separator='_') { ## Argumente der generischen Funktion
 		standardGeneric('forceAbsoluteUniqueSample') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
+}else {
+	print ("Onload warn generic function 'forceAbsoluteUniqueSample' already defined - no overloading here!")
+}
 
 setMethod('forceAbsoluteUniqueSample',
 		, signature = c ( 'character') ,

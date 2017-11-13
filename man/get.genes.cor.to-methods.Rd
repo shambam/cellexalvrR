@@ -5,9 +5,6 @@
 \alias{get.genes.cor.to}
 \alias{get.genes.cor.to,cellexalvr-method}
 \title{description of function get.genes.cor.to}
-\usage{
-get.genes.cor.to(cellexalObj, gname, output)
-}
 \arguments{
 \item{cellexalObj}{the cellexal object}
 
