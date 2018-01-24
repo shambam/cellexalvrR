@@ -31,10 +31,11 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
 
     colnames(cell.met) <- paste(cell.t,".type",sep="")
     rownames(cell.met) <- seuratObj@cell.names
-    proj <- as.matrix(seuratObj@tsne.rot)
-    colnames(proj) <- c("x","y","z")
+	
+    #proj <- as.matrix(seuratObj@tsne.rot)
+    #colnames(proj) <- c("x","y","z")
 
     cellexalvr$new(data=as.matrix(seuratObj@data),
-			mds=list('seuratTSNE'=proj),meta.cell=as.matrix(cell.met))
+			mds=list(),meta.cell=as.matrix(cell.met))
     #export2cellexalvr(g,path)
 } )
