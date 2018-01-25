@@ -36,9 +36,6 @@ setMethod('loadObject', signature = c ('character'),
 				}
 				if (waited != maxwait ){
 					load(fname)
-					if (  isS4(cellexalObj) ){
-						cellexalObj <- renew(cellexalObj)
-					}
 				}else {
 					stop( paste("Could not obtain access to locked file", fname ))
 				}

@@ -81,7 +81,7 @@ setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvr'),
 			
 			annotation_col = data.frame(Group = (grp.vec))
 			rownames(annotation_col) <- colnames(dat.f)
-			
+			browser()
 			png(outfile,height=2000,width=2000)
 			
 			pheatmap(dat.f[sigp,],cluster_rows=TRUE, show_rownames=T,show_colnames=FALSE,cluster_cols=FALSE,
