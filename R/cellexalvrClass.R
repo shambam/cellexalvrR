@@ -38,6 +38,7 @@ cellexalvr <- #withFormalClass(
 						mds=NULL,
 						index=NULL,
 						tfs=NULL,
+						version=NULL,
 						print = function (...) {
 							cat (paste("An object of class", paste(collapse="::",rev(class(self))),"\n" ) )
 							#cat("named ",self$name,"\n")
@@ -68,7 +69,7 @@ cellexalvr <- #withFormalClass(
 							self$mds <- mds
 							self$index = index
 							self$force.numeric()
-							
+							self$version = sessionInfo('cellexalvr')$otherPkgs[[1]]$Version
 							self
 						},
 						force.numeric = function(...) {

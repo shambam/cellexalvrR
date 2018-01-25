@@ -32,7 +32,7 @@ setMethod('renew', signature = c ('cellexalvr'),
 					ret$usedObj = x@usedObj
 				}
 				x <- ret
-			}else {
+			}else if ( x$version != sessionInfo('cellexalvr')$otherPkgs$BioData$Version ){
 				ret <- cellexalvr$new(dat=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index)
 				if( .hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups 
