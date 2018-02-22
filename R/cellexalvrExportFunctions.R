@@ -84,7 +84,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 
-		dbGetQuery(con,"create table genes (id integer,gname varchar(20) collate nocase)")
+		dbGetQuery(con,"create table genes ('id' integer,'gname' varchar(20) collate nocase)")
 
 		RSQLite::dbWriteTable(con, "genes", genes,append = TRUE)
 		RSQLite::dbWriteTable(con, "cells", cells )
