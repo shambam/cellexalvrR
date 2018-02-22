@@ -61,7 +61,8 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		}
 	}
 	if ( ! file.exists( ofile ) ) {
-	    genes <- tolower(rownames(cellexalObj@data))
+	    #genes <- tolower(rownames(cellexalObj@data))
+		genes <- rownames(cellexalObj@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
 		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
