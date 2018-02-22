@@ -140,7 +140,7 @@ make.cellexalvr.heatmap.list <- function(cvrObj,cellidfile,num.sig,outfile){
 
 	gene.cluster.order <- rownames(reduced.matrix)[hclust(as.dist(1-cor(t(reduced.matrix))))$order]
 	
-	write(c(num.sig,gene.cluster.order),file=outfile,ncolumns=1)
+	write(c(num.sig,tolower(gene.cluster.order)),file=outfile,ncolumns=1)
 
 	#annotation_col = data.frame(Group = (grp.vec))
 	#rownames(annotation_col) <- colnames(dat.f)
