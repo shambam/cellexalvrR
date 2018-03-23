@@ -127,7 +127,7 @@ seurat2cellexalvr <- function(seuratObj){
     colnames(proj) <- c("x","y","z")
 
     g <- new("cellexalvr",data=as.matrix(seuratObj@data),
-			mds=list(graph1=proj),meta.cell=as.matrix(cell.met))
+			mds=list(tsne=proj),meta.cell=as.matrix(cell.met))
     #export2cellexalvr(g,path)
 }
 
