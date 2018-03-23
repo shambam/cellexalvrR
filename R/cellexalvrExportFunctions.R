@@ -123,7 +123,7 @@ seurat2cellexalvr <- function(seuratObj){
 
     colnames(cell.met) <- paste(cell.t,".type",sep="")
     rownames(cell.met) <- seuratObj@cell.names
-    proj <- as.matrix(seuratObj@tsne.rot)
+    proj <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
     colnames(proj) <- c("x","y","z")
 
     g <- new("cellexalvr",data=as.matrix(seuratObj@data),
