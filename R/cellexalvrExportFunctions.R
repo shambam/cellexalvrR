@@ -121,6 +121,26 @@ seurat2cellexalvr <- function(seuratObj){
         cell.met[ind,i] <- 1
     }
 
+	colnames(cell.met) <- paste(cell.t,".type",sep="")
+
+	if(exists("Phase",where=seuratObj@meta.data)==T){
+
+		phase.att <- as.vector(seuratObj@ident)
+    	phase.t <- unique(cell.att)
+
+    	phase.met <- matrix(0,ncol=length(cell.t),nrow=length(cell.att))
+
+    	for(i in 1:length(phase.t)){
+        	ind <- which(phase.att==phase.t[i])
+        	phase.met[ind,i] <- 1
+    	}
+
+		colnames(phase.met) <- paste(phase.t,".type",sep="")
+
+
+
+	}
+
     colnames(cell.met) <- paste(cell.t,".type",sep="")
     rownames(cell.met) <- seuratObj@cell.names
     proj <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
