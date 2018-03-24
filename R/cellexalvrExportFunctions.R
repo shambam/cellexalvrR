@@ -140,7 +140,6 @@ seurat2cellexalvr <- function(seuratObj){
 
 	}
 
-    
     rownames(cell.met) <- seuratObj@cell.names
     proj <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
     colnames(proj) <- c("x","y","z")
