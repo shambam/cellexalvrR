@@ -125,7 +125,7 @@ seurat2cellexalvr <- function(seuratObj){
 
 	if(exists("Phase",where=seuratObj@meta.data)==T){
 
-		phase.att <- as.vector(seuratObj@ident)
+		phase.att <- as.vector(seuratObj@meta.data$Phase)
     	phase.t <- unique(cell.att)
 
     	phase.met <- matrix(0,ncol=length(cell.t),nrow=length(cell.att))
