@@ -136,7 +136,6 @@ seurat2cellexalvr <- function(seuratObj){
     	}
 
 		colnames(phase.met) <- paste(phase.t,".type",sep="")
-
 		cell.met <- cbind(cell.met,phase.met)
 
 	}
