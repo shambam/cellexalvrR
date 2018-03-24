@@ -137,11 +137,11 @@ seurat2cellexalvr <- function(seuratObj){
 
 		colnames(phase.met) <- paste(phase.t,".type",sep="")
 
-
+		cell.met <- cbind(cell.met,phase.met)
 
 	}
 
-    colnames(cell.met) <- paste(cell.t,".type",sep="")
+    
     rownames(cell.met) <- seuratObj@cell.names
     proj <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
     colnames(proj) <- c("x","y","z")
