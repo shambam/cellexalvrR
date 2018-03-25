@@ -106,7 +106,7 @@ checkVRfiles <- function( cellexalvr, path ) {
 	export2cellexalvr( cellexalvr, path, forceDB=F )
 }
 
-#' Converts a seurat class to one of cellexalvr
+#' Converts a seurat class to one of cellexalvr. If the cell-cycle score have been calculated they will be added to the cell.mata table
 #' @param seuratObj the suerat object to be converted
 #' @export seurat2cellexalvr
 seurat2cellexalvr <- function(seuratObj){
