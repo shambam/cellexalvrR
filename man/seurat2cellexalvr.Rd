@@ -2,7 +2,7 @@
 % Please edit documentation in R/cellexalvrExportFunctions.R
 \name{seurat2cellexalvr}
 \alias{seurat2cellexalvr}
-\title{Converts a seurat class to one of cellexalvr}
+\title{Converts a seurat class to one of cellexalvr. If the cell-cycle score have been calculated they will be added to the cell.mata table}
 \usage{
 seurat2cellexalvr(seuratObj)
 }
@@ -10,5 +10,5 @@ seurat2cellexalvr(seuratObj)
 \item{seuratObj}{the suerat object to be converted}
 }
 \description{
-Converts a seurat class to one of cellexalvr
+Converts a seurat class to one of cellexalvr. If the cell-cycle score have been calculated they will be added to the cell.mata table
 }
