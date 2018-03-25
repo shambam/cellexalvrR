@@ -19,7 +19,8 @@ Depends:
     rhdf5,
     alphashape3d,
     entropy,
-    scales
+    scales,
+    phytools
 Remotes:
     satijalab/seurat
 biocViews:
