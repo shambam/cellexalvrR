@@ -32,6 +32,7 @@ renew <-  function ( x ) {
 					ret$colors = x$colors
 				}
 				if( .hasSlot(x,'usedObj') ){
+					
 					ret$usedObj = x$usedObj
 				}
 			}
