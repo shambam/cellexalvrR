@@ -25,7 +25,8 @@ logErr <- function() {
 options(error=logErr)
 # top-level callback handler
 log <- function(expr, value, ok, visible) {
-	cat(deparse(expr), "\n", file="logfile.R", append=T)
+	cattest <- file("logfile.R", open = "a")
+	cat(deparse(expr), "\n", file=cattest, append=T)
 	TRUE
 }
 tcbm <- taskCallbackManager()
