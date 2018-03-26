@@ -1,5 +1,5 @@
 ##https://stackoverflow.com/questions/33556266/logging-console-history-with-errors-in-r-or-rstudio
-
+##https://stackoverflow.com/questions/17710469/why-wont-cat-append-to-a-file-connection
 # error handler
 logErr <- function() {
 	# turn logging callback off while we process errors separately
@@ -9,7 +9,8 @@ logErr <- function() {
 	sc <- sys.calls()
 	sclen <- length(sc)  # last call is this function call
 	if(sclen > 1L) {
-		cat("myError:\n", do.call(paste, c(lapply(sc[-sclen], deparse), sep="\n")), "\n", file="logfile.R", append=T)
+		cattest <- file("logfile.R", open = "a")
+		cat("myError:\n", do.call(paste, c(lapply(sc[-sclen], deparse), sep="\n")), "\n", file=cattest, append=T)
 	} else {
 		# syntax error, so no call stack
 		# show the last line entered
