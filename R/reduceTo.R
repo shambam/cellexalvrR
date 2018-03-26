@@ -43,7 +43,7 @@ reduceTo <- function ( x, what='row', to=NULL ) {
 					
 					
 				}else if ( what =="col" ) {
-					to <- tolower(make.names(to))
+					to <- tolower(to)
 					if ( length(which(is.na(match(to,tolower(colnames(x@data))))==F)) > 0 ) {
 						useOnly <- match(to, tolower(colnames(x@data)))
 						not.matched <- to[is.na(useOnly)]
