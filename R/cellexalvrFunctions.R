@@ -209,16 +209,16 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
 #'@param gname The required gene
 #'@keywords correlation
 #'@export get.genes.cor.to
-get.genes.cor.to <- function(cellexalObj,gname,output){
+get.genes.cor.to <- function(cellexalObj, gname, output){
 	
-	load(cellexalObj)
+	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
 	rownames(dat) <- tolower(rownames(dat))
 	
 	goi <- dat[gname,]
 	
-	calc.cor <- function(v,comp){
-		cor(v,comp)
+	calc.cor <- function(v, comp){
+		cor(v, comp)
 	}
 	
 	cor.values <- apply(dat,1,calc.cor,comp=goi)
