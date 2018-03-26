@@ -19,7 +19,8 @@ logErr <- function() {
 		savehistory(file1)
 		rawhist <- readLines(file1)
 		unlink(file1)
-		cat("myError:\n", rawhist[length(rawhist)], "\n", file="logfile.R", append=T)
+		cattest <- file("logfile.R", open = "a")
+		cat("myError:\n", rawhist[length(rawhist)], "\n", file=cattest, append=T)
 	}
 }
 options(error=logErr)
