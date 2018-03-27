@@ -4,12 +4,14 @@
 \alias{get.genes.cor.to}
 \title{Gets positively and negatively correlated genes to a chosen gene}
 \usage{
-get.genes.cor.to(cellexalObj, gname, output)
+get.genes.cor.to(cellexalObj, gname, output, is.smarker = F)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 
 \item{gname}{The required gene}
+
+\item{is.smarker}{Whether the supplied gene is a surface marker}
 }
 \description{
 Gets positively and negatively correlated genes to a chosen gene

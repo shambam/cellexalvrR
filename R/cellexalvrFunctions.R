@@ -207,15 +207,24 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
 #'Gets positively and negatively correlated genes to a chosen gene
 #'@param cellexalObj A cellexalvr object
 #'@param gname The required gene
+#'@param is.smarker Whether the supplied gene is a surface marker
 #'@keywords correlation
 #'@export get.genes.cor.to
-get.genes.cor.to <- function(cellexalObj, gname, output){
+get.genes.cor.to <- function(cellexalObj, gname, output,is.smarker=F){
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
 	rownames(dat) <- tolower(rownames(dat))
 	
-	goi <- dat[gname,]
+	goi <- NULL
+
+	if(is.smarker==F){
+		goi <- dat[gname,]
+		}
+	
+	if(is.smarker==T){
+		goi <- cellexalObj@index[,gname]
+	}
 	
 	calc.cor <- function(v, comp){
 		cor(v, comp)
