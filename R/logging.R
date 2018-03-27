@@ -26,7 +26,11 @@ logErr <- function() {
 options(error=logErr)
 # top-level callback handler
 log <- function(expr, value, ok, visible) {
-	cattest <- file("logfile.R", open = "a")
+	if ( file.exists( "logfile.R") ) {
+		cattest <- file("logfile.R", open = "a")
+	}else {
+		cattest <- file("logfile.R" )
+	}
 	cat(deparse(expr), "\n", file=cattest, append=T)
 	TRUE
 }
