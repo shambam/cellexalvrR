@@ -224,13 +224,12 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	}
 	
 	if(is.smarker==T){
-		browser()
-		m <- match( to.lower(gname), to.lower(colnames(cellexalObj@index)))
+		m <- match( tolower(gname), tolower(colnames(cellexalObj@index)))
 		goi <- cellexalObj@index[,m]
 	}
 	
 	if ( is.null(goi)) {
-		stop( paste( gname, "neither a gene nor a fascs maker name", paste( colnames(cellexalObj@index), collapse=", ")) )
+		stop( paste("the gname", gname, "is neither a gene nor a fascs maker name", paste( colnames(cellexalObj@index), collapse=", ")) )
 	}
 	
 	calc.cor <- function(v, comp){
