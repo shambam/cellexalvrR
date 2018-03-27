@@ -4,17 +4,6 @@
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)
 #' @export defineGOIs
-#if ( ! isGeneric('defineGOIs') ){ setGeneric('defineGOIs', ## Name
-#			function ( cellexalObj, name, genes, lables=NULL, ... ) { ## Argumente der generischen Funktion
-#				standardGeneric('defineGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
-#			}
-#	)
-#}else {
-#	print ("Onload warn generic function 'defineGOIs' already defined - no overloading here!")
-#}
-
-#setMethod('defineGOIs', signature = c ('cellexalvr'),
-#		definition = 
 defineGOIs	=	function ( cellexalObj, name, genes, lables=NULL,... ) {
 			if ( is.null(lables) ) {
 				lables = rep(name, length(genes))
@@ -39,5 +28,17 @@ defineGOIs	=	function ( cellexalObj, name, genes, lables=NULL,... ) {
 			cellexalObj@usedObj$GOIs = c( cellexalObj@usedObj$GOIs, name)
 			
 			invisible(cellexalObj)
-		} 
+		}
+		
+#if ( ! isGeneric('defineGOIs') ){ setGeneric('defineGOIs', ## Name
+#			function ( cellexalObj, name, genes, lables=NULL, ... ) { ## Argumente der generischen Funktion
+#				standardGeneric('defineGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
+#			}
+#	)
+#}else {
+#	print ("Onload warn generic function 'defineGOIs' already defined - no overloading here!")
+#}
+
+#setMethod('defineGOIs', signature = c ('cellexalvr'),
+#		definition =  <here goes the function definition>
 #		)
