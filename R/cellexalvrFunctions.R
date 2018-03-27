@@ -208,10 +208,10 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
 #'@param cellexalObj A cellexalvr object
 #'@param gname The required gene
 #'@param output the outfile
-#'@param isSmarker Whether the supplied gene is a surface marker (default =F)
+#'@param is.smarker Whether the supplied gene is a surface marker (default =F)
 #'@keywords correlation
 #'@export get.genes.cor.to
-get.genes.cor.to <- function(cellexalObj, gname, output, isSmarker=F){
+get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
