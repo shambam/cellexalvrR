@@ -224,6 +224,7 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	}
 	
 	if(is.smarker==T){
+		browser()
 		m <- match( to.lower(gname), to.lower(colnames(cellexalObj@index)))
 		goi <- cellexalObj@index[,m]
 	}
