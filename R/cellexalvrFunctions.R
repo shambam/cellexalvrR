@@ -215,7 +215,7 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
-	rownames(dat) <- tolower(rownames(dat))
+	#rownames(dat) <- tolower(rownames(dat))
 	
 	goi <- NULL
 
