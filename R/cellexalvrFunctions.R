@@ -210,7 +210,7 @@ set.specie <- function(cellexalObj,specie=c("mouse","human")){
 #'@param is.smarker Whether the supplied gene is a surface marker
 #'@keywords correlation
 #'@export get.genes.cor.to
-get.genes.cor.to <- function(cellexalObj, gname, output,is.smarker=F){
+get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
@@ -220,10 +220,15 @@ get.genes.cor.to <- function(cellexalObj, gname, output,is.smarker=F){
 
 	if(is.smarker==F){
 		goi <- dat[gname,]
-		}
+	}
 	
 	if(is.smarker==T){
-		goi <- cellexalObj@index[,gname]
+		m <- match( to.lower(gname), to.lower(colnames(cellexalObj@index)))
+		goi <- cellexalObj@index[,m]
+	}
+	
+	if ( is.null(goi)) {
+		stop( paste( gname, "neither a gene nor a fascs maker name") )
 	}
 	
 	calc.cor <- function(v, comp){
