@@ -251,4 +251,4 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 }
-get.genes.cor.to("cellexalObj.RData","gata1","test.txt",T)
+
