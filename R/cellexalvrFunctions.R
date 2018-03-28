@@ -220,7 +220,7 @@ get.genes.cor.to <- function(cellexalObj, gname, output,is.smarker=F){
 
 	if(is.smarker==F){
 		goi <- dat[gname,]
-		}
+	}
 	
 	if(is.smarker==T){
 		goi <- cellexalObj@index[,gname]
