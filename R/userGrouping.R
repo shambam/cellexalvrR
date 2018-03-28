@@ -1,5 +1,5 @@
-#' Reads a VR grouping file and creates a user.grouping column with the information
-#' storing the user defined grouing for later use
+#' Reads a VR cell selection file and creates a user.grouping column with the information
+#' storing the user defined grouping for later use
 #'@param cellexalObj A cellexalvr object
 #'@param cellidfile file containing cell IDs
 #'@keywords userGrouping
@@ -51,7 +51,7 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 	else if ( is.na(match(cellidfile, colnames(cellexalObj@userGroups))) ==F ) {
 		gname = cellidfile
 	}else {
-		stop( paste("Sorry I can not process the request for grouping",cellidfile,"\nIt is neither a file nor a known user grouping name\n" ) )
+		stop( paste("Cannot process the request for grouping",cellidfile,"\nIt is neither a file nor a known user grouping name\n" ) )
 	}
 	
 	cellexalObj@usedObj$lastGroup = gname
