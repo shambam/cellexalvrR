@@ -225,6 +225,11 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	if(is.smarker==T){
 		m <- match( tolower(gname), tolower(colnames(cellexalObj@index)))
+		
+
+		if(is.na(m)==T)
+			stop("Gene name is not an available surface marker")
+
 		goi <- cellexalObj@index[,m]
 	}
 	
@@ -246,3 +251,4 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	
 	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 }
+get.genes.cor.to("cellexalObj.RData","gata1","test.txt",T)
