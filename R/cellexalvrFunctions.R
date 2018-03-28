@@ -220,7 +220,7 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	goi <- NULL
 
 	if(is.smarker==F){
-		goi <- dat[to.lower(gname),]
+		goi <- dat[tolower(gname),]
 	}
 	
 	if(is.smarker==T){
