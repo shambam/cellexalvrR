@@ -44,7 +44,7 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
 	
 	    sigp <- order(ps)[1:num.sig]
 	
-	    deg.genes <- rownames(dat.f[sigp,])
+	    #deg.genes <- rownames(dat.f[sigp,])
     }
     
     deg.genes
