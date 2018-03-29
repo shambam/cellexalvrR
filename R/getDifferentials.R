@@ -38,6 +38,10 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
 
     if(deg.method=="anova"){
 
+        anovap <- function(v,labs){
+		    anova(lm(v~-1+labs))$Pr[1]
+	    }
+        
         if ( length(col.tab) > 1 ){
 		    ps <- apply(dat.f,1,anovap,labs=grp.vec)
 	    }else if (length(col.tab) == 1 ){
