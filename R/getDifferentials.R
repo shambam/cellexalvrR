@@ -28,6 +28,8 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
 
 	grp.vec <- info$grouping
 
+    col.tab <- info$col
+
     if(length(rem.ind)>0){
 		dat.f <- dat.f[-rem.ind,]
 	}
