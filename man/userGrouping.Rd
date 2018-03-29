@@ -2,8 +2,8 @@
 % Please edit documentation in R/userGrouping.R
 \name{userGrouping}
 \alias{userGrouping}
-\title{Reads a VR grouping file and creates a user.grouping column with the information
-storing the user defined grouing for later use}
+\title{Reads a VR cell selection file and creates a user.grouping column with the information
+storing the user defined grouping for later use}
 \usage{
 userGrouping(cellexalObj, cellidfile)
 }
@@ -13,7 +13,7 @@ userGrouping(cellexalObj, cellidfile)
 \item{cellidfile}{file containing cell IDs}
 }
 \description{
-Reads a VR grouping file and creates a user.grouping column with the information
-storing the user defined grouing for later use
+Reads a VR cell selection file and creates a user.grouping column with the information
+storing the user defined grouping for later use
 }
 \keyword{userGrouping}
