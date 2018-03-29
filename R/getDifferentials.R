@@ -8,7 +8,7 @@
 
 getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"),numsig){
 
-    cellexalObj <- loadObject(cvrObj)
+    cellexalObj <- loadObject(cellexalObj)
 
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
