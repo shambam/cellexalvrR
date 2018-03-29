@@ -6,7 +6,7 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObjpath,cellidfile,outpath, cutoff.ggm=0.8){
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8){
 
     #dat <- cellexalObj@data
 	cellexalObj = loadObject(cellexalObjpath)
