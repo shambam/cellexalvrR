@@ -3,7 +3,11 @@
 #'@param cellidfile file containing cell IDs
 #'@param deg.method The method to use to find DEGs
 #'@param numsig The number of differentials to be returned
-#'@param outfile The name of the output file
-#'@keywords heatmap
-#'@export make.cellexalvr.heatmap
+#'@keywords DEGs
+#'@export getDifferentials
 
+getDifferentials <- function{cellexalObj,cellidfile,deg.method=c("anova","DESeq"),numsig){
+
+    
+
+}
