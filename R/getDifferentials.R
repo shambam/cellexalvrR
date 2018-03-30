@@ -6,7 +6,7 @@
 #'@keywords DEGs
 #'@export getDifferentials
 
-getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"),num.sig){
+getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","wilcox"),num.sig){
 
     cellexalObj <- loadObject(cellexalObj)
 
@@ -39,7 +39,7 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
     if(deg.method=="anova"){
 
         anovap <- function(v,labs){
-		    anova(lm(v~-1+labs))$Pr[1]
+		    anova(lm(v~-1+labs,test="LRT"))$Pr[1]
 	    }
 
         if ( length(col.tab) > 1 ){
@@ -52,17 +52,6 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
 	
 	    deg.genes <- rownames(dat.f[sigp,])
     }
-    
-	if(deg.method=="DESeq"){
-
-		user.sel <- data.frame(selection=labs)
-
-		dso <- DESeqDataSetFromMatrix(countData = data.f,colData = user.sel,design = ~ condition)
-		dso <- DESeq(dso, test="LRT", reduced=~1)
-		res <- results(dso)
-		deg.genes<- res
-	}
-
 
     deg.genes
 }
