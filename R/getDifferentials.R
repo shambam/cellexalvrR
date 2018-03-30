@@ -53,5 +53,16 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","DESeq"
 	    deg.genes <- rownames(dat.f[sigp,])
     }
     
+	if(deg.method=="DESeq"){
+
+		user.sel <- data.frame(selection=labs)
+
+		dso <- DESeqDataSetFromMatrix(countData = data.f,colData = user.sel,design = ~ condition)
+		dso <- DESeq(dso, test="LRT", reduced=~1)
+		res <- results(dso)
+		deg.genes<- res
+	}
+
+
     deg.genes
 }
