@@ -24,8 +24,7 @@ Depends:
 Remotes:
     satijalab/seurat
 biocViews:
-	graph,
-    DESeq2
+	graph
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
