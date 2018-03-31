@@ -6,7 +6,7 @@
 #'@keywords DEGs
 #'@export getDifferentials
 
-getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","wilcox"),num.sig){
+getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"),num.sig){
 
     cellexalObj <- loadObject(cellexalObj)
 
@@ -52,6 +52,26 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","wilcox
 	
 	    deg.genes <- rownames(dat.f[sigp,])
     }
+
+	if(deg.method=="edgeR"){
+
+		dge <- DGEList(
+    			counts = dat.f, 
+    			norm.factors = rep(1, length(dat.f[1,])), 
+    			group = grp.vec
+			)
+
+		group_edgeR <- factor(grp.vec)
+		design <- model.matrix(~ group_edgeR)
+		dge <- estimateDisp(dge, design = design, trend.method = "none")
+		fit <- glmFit(dge, design)
+		res <- glmLRT(fit)
+		pVals <- res$table[,4]
+		names(pVals) <- rownames(res$table)
+
+		pVals <- p.adjust(pVals, method = "fdr")
+		deg.genes <- pVals
+	}
 
     deg.genes
 }
