@@ -70,7 +70,7 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"
 		names(pVals) <- rownames(res$table)
 
 		pVals <- p.adjust(pVals, method = "fdr")
-		deg.genes <- pVals
+		deg.genes <- names(sort(pVals)[1:num.sig])
 	}
 
     deg.genes
