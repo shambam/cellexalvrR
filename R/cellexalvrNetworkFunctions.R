@@ -38,6 +38,8 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
 
     for(i in 1:length(grps)){
 
+        print(i)
+
         rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
 
         sub.d <- dat[, rq.cells ]
