@@ -9,7 +9,7 @@
 make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8){
 
     #dat <- cellexalObj@data
-	cellexalObj <- loadObject(cellexalObjpath)
+	cellexalObj <- loadObject(cellexalObj)
 	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
