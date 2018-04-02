@@ -17,7 +17,7 @@ make.cellexalvr.heatmap <- function(cellexalObj,cellidfile,num.sig,outfile){
 		cor.test( v, order, method='spearman')$p.value
 	}
 	
-	cellexalObj <- loadObject(cvrObj)
+	cellexalObj <- loadObject(cellexalObj)
 	## now I want to store the grouping in the cellexalvr object
 #	browser()
 	
