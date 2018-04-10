@@ -8,7 +8,8 @@
 userGrouping  <- function (cellexalObj, cellidfile) {
 	
 	cellexalObj <- renew(cellexalObj)
-	if ( file.exists(cellidfile)){
+	if ( file.exists(cellidfile)){ ## file from the VR env
+		## add this group into the object
 		cellid <- read.delim(cellidfile,header=F)
 	
 		grp.vec <- as.vector(cellid[,2])
@@ -16,8 +17,9 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 	
 		req.graph <- unique(as.vector(cellid[,3]))
 	
+		#add two lines into the object # one for the group and the other for the order in the group
 		id= (ncol(cellexalObj@userGroups) /2) + 1
-		gname = paste( "User.group", id, sep="." ) # do not change that - the VR program depends on it!
+		gname = paste( "User.group", id, sep="." ) #the VR program depended on it
 	
 		n = vector( 'numeric', ncol(cellexalObj@data))
 		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
@@ -25,8 +27,9 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 		order = n
 		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
 	
-	#I need to record the order in the grouping, too!
-		if ( id == 1 ) {
+		#I need to record the order in the grouping
+		if ( id == 1 ) { 
+			## new grouping data
 			cellexalObj@userGroups = data.frame( a = n, b = order )
 		
 		}else {
@@ -35,25 +38,27 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(x,order); if ( ok == T ) {TRUE } else { FALSE } } )
 			ok <- which( t == T )
 			if ( length(ok) == 1 & length( which(d == T)) == 1) {
+				## OK use the old one
 				gname = names(ok)
 				id = ceiling(as.vector(ok) / 2)
 			}else {
+				## add this new one
 				cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
+				colnames(cellexalObj@userGroups)[2*id-1] = gname
+				colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 			}
-		
 		}
-		colnames(cellexalObj@userGroups)[2*id-1] = gname
-		colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 		
 		cellexalObj@groupSelectedFrom[[gname]] = req.graph
 		cellexalObj@colors[[gname]] = unique(grps)	
 	}
 	else if ( is.na(match(cellidfile, colnames(cellexalObj@userGroups))) ==F ) {
+		## the grouping is known
 		gname = cellidfile
 	}else {
 		stop( paste("Cannot process the request for grouping",cellidfile,"\nIt is neither a file nor a known user grouping name\n" ) )
 	}
-	
+	## store the grouing name
 	cellexalObj@usedObj$lastGroup = gname
 	
 	cellexalObj
