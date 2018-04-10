@@ -44,13 +44,14 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 			}else {
 				## add this new one
 				cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
-				colnames(cellexalObj@userGroups)[2*id-1] = gname
-				colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 			}
 		}
+		colnames(cellexalObj@userGroups)[2*id-1] = gname
+		colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 		
 		cellexalObj@groupSelectedFrom[[gname]] = req.graph
-		cellexalObj@colors[[gname]] = unique(grps)	
+		cellexalObj@colors[[gname]] = unique(grps)
+		
 	}
 	else if ( is.na(match(cellidfile, colnames(cellexalObj@userGroups))) ==F ) {
 		## the grouping is known

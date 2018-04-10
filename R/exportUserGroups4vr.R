@@ -16,7 +16,9 @@ exportUserGroups4vr <- function( cellexalObj, path ) {
 			# no header
 			# HSPC_639    #FF0000    DDRTree    0
 			ids =  which( is.na(cellexalObj@userGroups[,gname]) == F)
-			browser()
+			if ( is.null(cellexalObj@colors[[gname]])){
+				cellexalObj@colors[[gname]] <- rainbow( length(unique( as.integer( cellexalObj@userGroups[ids,gname] ) )))
+			}
 			t <- data.frame( 
 				cellname = colnames(cellexalObj@data)[ids],
 				color = cellexalObj@colors[[gname]][  cellexalObj@userGroups[ids,gname]  ],
