@@ -2,7 +2,6 @@
 
 export(addMDS2cellexalvr)
 export(as_BioData)
-export(as_cellexalvr)
 export(changeIdent)
 export(checkVRfiles)
 export(defineGOIs)
@@ -29,4 +28,3 @@ export(show)
 export(useInbuiltGOIlists)
 export(userGrouping)
 exportClasses(cellexalvr)
-exportMethods(as_cellexalvr)
