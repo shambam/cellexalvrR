@@ -2,7 +2,7 @@
 #'@param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
 #'@export export2cellexalvr
-export2cellexalvr <- function(cellexalObj,path, forceDB=F){
+export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 
 	
 	ofile = file.path( path, "cellexalObj.RData")
@@ -92,6 +92,9 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F){
 		dbGetQuery(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
 		
     	RSQLite::dbDisconnect(con)
+	}
+	if ( ! is.null( VRpath ) ) {
+		exportUserGroups4vr(cellexalObj, VRpath)
 	}
 	invisible(cellexalObj)
 

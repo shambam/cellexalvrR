@@ -4,8 +4,8 @@
 \alias{getDifferentials}
 \title{Creates a heatmap from a selection of groups}
 \usage{
-getDifferentials(cellexalObj, cellidfile, deg.method = c("anova", "DESeq"),
-  numsig)
+getDifferentials(cellexalObj, cellidfile, deg.method = c("anova", "edgeR"),
+  num.sig)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}

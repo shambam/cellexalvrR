@@ -5,7 +5,7 @@
 #' the numer of groups in the selection and the number of cells in the whole group.
 #' @export exportUserGroups4vr
 exportUserGroups4vr <- function( cellexalObj, path ) {
-	names <- colnames(cellexalObj@userGroups) [-grep('order', colnames(cellexalObj@userGroups) )]
+	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(object@userGroups), invert=T)]
 	
 	## create the grouping files for the VR process?
 	for ( gname in names ) {

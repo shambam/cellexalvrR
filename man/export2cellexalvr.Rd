@@ -4,7 +4,7 @@
 \alias{export2cellexalvr}
 \title{Creates the base files needed to run the VR environment}
 \usage{
-export2cellexalvr(cellexalObj, path, forceDB = F)
+export2cellexalvr(cellexalObj, path, forceDB = F, VRpath = NULL)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
