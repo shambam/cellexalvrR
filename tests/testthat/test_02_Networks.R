@@ -21,4 +21,5 @@ test_that( "Network outfiles are produced" ,{
 				expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
 			}
 			
-		})
+		}
+)
