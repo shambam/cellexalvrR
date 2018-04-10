@@ -5,7 +5,7 @@
 #' the numer of groups in the selection and the number of cells in the whole group.
 #' @export exportUserGroups4vr
 exportUserGroups4vr <- function( cellexalObj, path ) {
-	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(object@userGroups), invert=T)]
+	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(cellexalObj@userGroups), invert=T)]
 	
 	## create the grouping files for the VR process?
 	for ( gname in names ) {
@@ -16,9 +16,10 @@ exportUserGroups4vr <- function( cellexalObj, path ) {
 			# no header
 			# HSPC_639    #FF0000    DDRTree    0
 			ids =  which( is.na(cellexalObj@userGroups[,gname]) == F)
+			browser()
 			t <- data.frame( 
-				'cellname' = colnames(cellexalObj@data)[ids],
-				'color' = cellexalObj@colors[[gname]][ as.integer( cellexalObj@userGroups[ids,gname] ) ],
+				cellname = colnames(cellexalObj@data)[ids],
+				color = cellexalObj@colors[[gname]][  cellexalObj@userGroups[ids,gname]  ],
 				'parent.graph' = rep( 'unknown', length(ids) ),
 				'gid' = as.integer( cellexalObj@userGroups[ids,gname] ) 
 			)
