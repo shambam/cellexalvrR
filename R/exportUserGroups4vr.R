@@ -11,7 +11,7 @@ exportUserGroups4vr <- function( cellexalObj, path ) {
 	
 	## create the grouping files for the VR process?
 	for ( gname in names ) {
-		fname = paste(paste( unlist(stringr::str_split( gname, '\\s+')), collapse='_'),'grp', sep='.' )
+		fname = paste(paste( unlist(stringr::str_split( gname, '\\s+')), collapse='_'),'cgr', sep='.' )
 		fname = file.path( path,fname )
 		if ( ! file.exists( fname ) ) {
 			## create the grouping info for the VR process
