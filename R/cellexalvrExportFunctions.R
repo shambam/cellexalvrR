@@ -55,12 +55,12 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
     }
 	
 	ofile = file.path(path,"database.sqlite")
-	if ( file.exists( ofile ) ) {
-		if ( forceDB ){
-			unlink( ofile ) ## always create the database?!
-		}
-	}
-	if ( ! file.exists( ofile ) ) {
+	#if ( file.exists( ofile ) ) {
+	#	if ( forceDB ){
+#			unlink( ofile ) ## always create the database?!
+#		}
+#	}
+	if ( ! file.exists(ofile) || forceDB==T ) {
 	    #genes <- tolower(rownames(cellexalObj@data))
 		genes <- rownames(cellexalObj@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
