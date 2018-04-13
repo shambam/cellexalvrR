@@ -17,7 +17,6 @@ Depends:
     gplots,
     RSQLite,
     reshape2,
-    rhdf5,
     alphashape3d,
     entropy,
     scales,
