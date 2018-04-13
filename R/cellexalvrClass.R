@@ -30,7 +30,7 @@ setMethod('print', signature = c ('cellexalvr'),
 			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' samples.'),"\n")
 			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
 			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("Up to now I have",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
+			cat ( paste("There are",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
 			if ( length(names(x@mds)) > 0 ){
 				cat ( "and ", length(names(x@mds)), " mds object(s)\n")
 			}
