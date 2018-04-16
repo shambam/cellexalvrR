@@ -9,7 +9,7 @@ setClass("cellexalvr",slots=c(
 	groupSelectedFrom = 'list', # which mds rep has been used to create the grouping
 	usedObj="list", # push all other objects you temporarily need here
     mds="list",
-    index="matrix",
+    index=c("matrix"),
     tfs="vector"
     )   
 )

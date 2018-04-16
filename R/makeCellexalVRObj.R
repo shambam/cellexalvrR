@@ -7,7 +7,7 @@
 #'@keywords heatmap
 #'@export MakeCellexaVRObj
 
-MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL){
+MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=matrix()){
 
     ### add the rownames to the given matricies
 
@@ -15,16 +15,19 @@ MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.meta
         rownames(mds.list[[i]]) <- colnames(exdata)
     }
 
-    if(cell.metdata){
-        rownames(cell.metdata) <- colnames(exdata)
+    if(is.null(cell.metadata)==F){
+        rownames(cell.metadata) <- colnames(exdata)
     }
 
-    if(facs.data){
-        rownames(facs) <- colnames(exdata)
+    
+    #cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata),index=facs.data)
+    cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata))
+
+    if(exists("facs.data")){
+        cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)
     }
 
-    cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata),facs=facs.data)
+    cellexalobj <- set.specie(cellexalobj,specie)
     cellexalobj
 }
-
 
