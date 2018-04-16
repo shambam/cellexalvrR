@@ -20,9 +20,22 @@ addMDS2cellexalvr <- function(cellexalObj,mdsmatrix, name=NULL){
     cellexalObj
 }
 
-#'Adds mds coordinates to a cellexalvrObj
+#'Adds per cell metadata  to a cellexalvrObj
 #'@param cellexalObj A cellexalvr object
-#'@param facs.data A matrix of coordinates)
+#'@param cell.meta A matrix of cell metadata
+#'@export addCellMeta2cellexalvr
+
+addCellMeta2cellexalvr <- function(cellexalObj,cell.meta){
+
+    rownames(cell.meta) <- colnames(cellexalObj@data)
+    cellexalObj@meta.cell <- as.matrix(cell.meta)
+    cellexalObj
+}
+
+
+#'Adds FACS index to a cellexalvrObj
+#'@param cellexalObj A cellexalvr object
+#'@param facs.data A matrix of surface marker intensities
 #'@export addFACS2cellexalvr
 
 addFACS2cellexalvr <- function(cellexalObj,facs.data){
