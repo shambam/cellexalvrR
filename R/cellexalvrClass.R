@@ -10,7 +10,7 @@ setClass("cellexalvr",slots=c(
 	usedObj="list", # push all other objects you temporarily need here
     mds="list",
     index=c("matrix"),
-    tfs="vector"
+    tfs="vector",
 	specie="character"
     )   
 )
