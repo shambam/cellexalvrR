@@ -10,25 +10,22 @@
 MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL){
 
     ### add the rownames to the given matricies
-    print("A")
     for(i in 1:length(mds.list)){
         rownames(mds.list[[i]]) <- colnames(exdata)
     }
-    print("B")
+    
     if(!is.null(cell.metadata)){
         rownames(cell.metadata) <- colnames(exdata)
     }
 
-    print("C")
     #cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata),index=facs.data)
     cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata))
 
-    print("D")
     if(!is.null(facs.data)){
         cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)
     }
-    print("E")
+
     cellexalobj <- set.specie(cellexalobj,specie)
-    print("F")
+
     cellexalobj
 }
