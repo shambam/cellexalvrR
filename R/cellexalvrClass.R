@@ -11,6 +11,7 @@ setClass("cellexalvr",slots=c(
     mds="list",
     index=c("matrix"),
     tfs="vector"
+	specie="character"
     )   
 )
 
