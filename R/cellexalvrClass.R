@@ -15,29 +15,29 @@ setClass("cellexalvr",slots=c(
     )   
 )
 
-#' @name print
-#' @aliases print,cellexalvr-method
-#' @rdname print-methods
-#' @docType methods
-#' @description  print the cellexalvr
-#' @param x the cellexalvr object
-#' @return nothing
-#' @title description of function print
-#' @export print
-setMethod('print', signature = c ('cellexalvr'),
-		definition = function (x) {
-			cat (paste("An object of class", class(x)),"\n" )
-			#cat("named ",x@name,"\n")
-			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' cells.'),"\n")
-			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("There are",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
-			if ( length(names(x@mds)) > 0 ){
-				cat ( "and", length(names(x@mds)), "mds object(s)\n")
-			}
-			cat (paste("Specie is set to", x@specie),"\n")
-		}
-)
+##' @name print
+##' @aliases print,cellexalvr-method
+##' @rdname print-methods
+##' @docType methods
+##' @description  print the cellexalvr
+##' @param x the cellexalvr object
+##' @return nothing
+##' @title description of function print
+##' @export print
+#setMethod('print', signature = c ('cellexalvr'),
+#		definition = function (x) {
+#			cat (paste("An object of class", class(x)),"\n" )
+#			#cat("named ",x@name,"\n")
+#			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' cells.'),"\n")
+#			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
+#			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
+#			cat ( paste("There are",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
+#			if ( length(names(x@mds)) > 0 ){
+#				cat ( "and", length(names(x@mds)), "mds object(s)\n")
+#			}
+#			cat (paste("Specie is set to", x@specie),"\n")
+#		}
+#)
 
 #' @name show
 #' @aliases show,cellexalvr-method
@@ -59,7 +59,7 @@ setMethod('show', signature = c ('cellexalvr'),
 			if ( length(names(object@mds)) > 0 ){
 				cat ( "and", length(names(object@mds)), "mds object(s)\n")
 			}
-			cat (paste("Specie is set to", x@specie),"\n")
+			cat (paste("Specie is set to", object@specie),"\n")
 			
 		}
 )
