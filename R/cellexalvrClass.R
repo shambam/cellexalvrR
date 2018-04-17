@@ -35,7 +35,7 @@ setMethod('print', signature = c ('cellexalvr'),
 			if ( length(names(x@mds)) > 0 ){
 				cat ( "and", length(names(x@mds)), "mds object(s)\n")
 			}
-			cat (paste("Specie is set to", x@specie,"\n"))
+			cat (paste("Specie is set to", x@specie),"\n")
 		}
 )
 
@@ -59,7 +59,7 @@ setMethod('show', signature = c ('cellexalvr'),
 			if ( length(names(object@mds)) > 0 ){
 				cat ( "and", length(names(object@mds)), "mds object(s)\n")
 			}
-			cat (paste("Specie is set to", x@specie,"\n" ))
+			cat (paste("Specie is set to", x@specie),"\n")
 			
 		}
 )
