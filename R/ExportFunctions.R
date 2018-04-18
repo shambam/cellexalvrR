@@ -73,7 +73,13 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	
 	    md <- melt(cdat, id=('genes') )
 	
-    	mdc <- md[-which(md[,3]==0),]
+		to.remove <- which(md[,3]==0)
+
+		mdc <- NULL
+
+		if(length(to.remove>0)){
+    		mdc <- md[-to.remove,]
+		}else{mdc <- md}
 
 		colnames(mdc) <- c('gene_id', 'cell_id','value')
 		mdc$cell_id <- as.numeric(as.character(mdc$cell_id))

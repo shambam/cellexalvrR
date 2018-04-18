@@ -44,3 +44,4 @@ addFACS2cellexalvr <- function(cellexalObj,facs.data){
     cellexalObj@index <- as.matrix(facs.data)
     cellexalObj
 }
+
