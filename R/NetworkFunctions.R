@@ -50,8 +50,7 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
         net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
 
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
-        #layout.tabs <- rbind(layout.tabs,lay)
-
+        
         if(nrow(net)>0){
 
             net[,2] <- rownames(sub.d)[net[,2]]
@@ -70,7 +69,6 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
             lay[,2] <- rescale(lay[,2],to=c(-1,1))
             lay <- cbind(lay,info$col[i])
         
-            #avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
             layout.tabs <- rbind(layout.tabs,lay)
         }else{next}
 
