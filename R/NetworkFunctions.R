@@ -81,4 +81,3 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
     write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
 }
-make.cellexalvr.network("cellexalObj.RData","selection0.txt","/mnt/VR_Project/Mead_Fig6_ext3/")
