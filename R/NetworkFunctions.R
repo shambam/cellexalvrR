@@ -38,31 +38,41 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
 
     for(i in 1:length(grps)){
 
+        print(paste("Making network",i))
+
         rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
 
         sub.d <- dat[, rq.cells ]
+        print(dim(sub.d))
 
         inferred.pcor <- ggm.estimate.pcor(t(sub.d),method="static")
         test.results <- network.test.edges(inferred.pcor,plot=F)
         net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
-        net[,2] <- rownames(sub.d)[net[,2]]
-        net[,3] <- rownames(sub.d)[net[,3]]
 
-        key1 <- paste(net[,2],net[,3],sep="")
-        key2 <- paste(net[,3],net[,2],sep="")
-
-        grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
-
-        igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
-  
-        lay <- round(layout_nicely(igrp),6)
-        rownames(lay) <- names(V(igrp))
-        lay[,1] <- rescale(lay[,1],to=c(-1,1))
-        lay[,2] <- rescale(lay[,2],to=c(-1,1))
-        lay <- cbind(lay,info$col[i])
-        
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
         layout.tabs <- rbind(layout.tabs,lay)
+
+        if(nrow(net)>0){
+
+            net[,2] <- rownames(sub.d)[net[,2]]
+            net[,3] <- rownames(sub.d)[net[,3]]
+
+            key1 <- paste(net[,2],net[,3],sep="")
+            key2 <- paste(net[,3],net[,2],sep="")
+
+            grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
+
+            igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
+  
+            lay <- round(layout_nicely(igrp),6)
+            rownames(lay) <- names(V(igrp))
+            lay[,1] <- rescale(lay[,1],to=c(-1,1))
+            lay[,2] <- rescale(lay[,2],to=c(-1,1))
+            lay <- cbind(lay,info$col[i])
+        
+            #avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
+            #layout.tabs <- rbind(layout.tabs,lay)
+        }else{next}
 
     }   
     
@@ -71,3 +81,4 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
     write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
 }
+make.cellexalvr.network("cellexalObj.RData","selection0.txt","/mnt/VR_Project/Mead_Fig6_ext3/")
