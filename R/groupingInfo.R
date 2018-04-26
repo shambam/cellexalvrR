@@ -8,5 +8,15 @@ groupingInfo <- function( cellexalObj, gname=NULL ) {
 	if ( is.null(gname)){
 		gname = cellexalObj@usedObj$lastGroup
 	}
-	list( grouping = cellexalObj@userGroups[,gname] ,order = cellexalObj@userGroups[,paste(gname, 'order')], 'mds' = cellexalObj@groupSelectedFrom[[gname]], col = cellexalObj@colors[[gname]] )
+	ret <- list( 
+			grouping = cellexalObj@userGroups[,gname] ,
+			order = 1:ncol(cellexalObj@data),
+			'mds' = cellexalObj@groupSelectedFrom[[gname]],
+			col = cellexalObj@colors[[gname]] 
+	)
+	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+		ret[['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
+	}
+	
+	ret
 }

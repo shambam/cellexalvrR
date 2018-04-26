@@ -6,7 +6,7 @@
 #'@keywords DEGs
 #'@export getDifferentials
 
-getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"),num.sig){
+getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig){
 
     cellexalObj <- loadObject(cellexalObj)
 
@@ -17,8 +17,10 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"
 	}else {
 		loc <- cellexalObj
 	}
-
-	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+    if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+		loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+	}
+	
 	info <- groupingInfo( loc )
 
 	dat <- loc@data
@@ -55,7 +57,7 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"
 
 	if(deg.method=="edgeR"){
 
-		dge <- DGEList(
+		dge <- edgeR::DGEList(
     			counts = dat.f, 
     			norm.factors = rep(1, length(dat.f[1,])), 
     			group = grp.vec
@@ -63,14 +65,34 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"
 
 		group_edgeR <- factor(grp.vec)
 		design <- model.matrix(~ group_edgeR)
-		dge <- estimateDisp(dge, design = design, trend.method = "none")
-		fit <- glmFit(dge, design)
-		res <- glmLRT(fit)
+		dge <- edgeR::estimateDisp(dge, design = design, trend.method = "none")
+		fit <- edgeR::glmFit(dge, design)
+		res <- edgeR::glmLRT(fit)
 		pVals <- res$table[,4]
 		names(pVals) <- rownames(res$table)
 
 		pVals <- p.adjust(pVals, method = "fdr")
 		deg.genes <- names(sort(pVals)[1:num.sig])
+	}
+	
+	if(deg.method=='MAST') {
+		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
+		if (!requireNamespace("MAST", quietly = TRUE)) {
+			stop("MAST needed for this function to work. Please install it.",
+					call. = FALSE)
+		}
+		sca <- MAST::FromMatrix(class='SingleCellAssay', 
+				exprsArray= dat.f, 
+				cData=data.frame(wellKey=colnames(dat.f), GroupName = grp.vec), 
+				fData=data.frame(primerid=rownames(dat.f))
+		)
+		form = '~ GroupName'
+		zlm.output <- MAST::zlm( as.formula(form), sca, method='glm', ebayes=T)
+		zlm.lr <- MAST::lrTest(zlm.output, form)
+		Rtab = zlm.lr[,,'Pr(>Chisq)']
+		o <- order(Rtab[,'hurdle'])
+		deg.genes <- rownames(Rtab)[o[1:num.sig]]
+		deg.genes <- str_replace_all( deg.genes, '_\\d+$', '')
 	}
 
     deg.genes
