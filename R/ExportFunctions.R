@@ -90,12 +90,12 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 
-		dbGetQuery(con,"create table genes ('id' integer,'gname' varchar(20) collate nocase)")
+		dbSendStatement(con,"create table genes ('id' integer,'gname' varchar(20) collate nocase)")
 
 		RSQLite::dbWriteTable(con, "genes", genes,append = TRUE)
 		RSQLite::dbWriteTable(con, "cells", cells )
 		
-		dbGetQuery(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+		dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
 		
     	RSQLite::dbDisconnect(con)
 	}
