@@ -11,7 +11,6 @@ Depends:
     rgl,
     ppcor,
     GeneNet,
-    igraph,
     graph,
     pheatmap,
     gplots,

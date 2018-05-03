@@ -34,7 +34,7 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
     
     grp.tabs <- NULL
     avg.mds.coods <- NULL
-    layout.tabs <- NULL
+    #layout.tabs <- NULL
 
     for(i in 1:length(grps)){
 
@@ -61,21 +61,21 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
 
             grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
 
-            igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
+            #igrp <- graph_from_data_frame(as.data.frame(net[,2:3]), directed = TRUE)
   
-            lay <- round(layout_nicely(igrp),6)
-            rownames(lay) <- names(V(igrp))
-            lay[,1] <- rescale(lay[,1],to=c(-1,1))
-            lay[,2] <- rescale(lay[,2],to=c(-1,1))
-            lay <- cbind(lay,info$col[i])
+            #lay <- round(layout_nicely(igrp),6)
+            #rownames(lay) <- names(V(igrp))
+            #lay[,1] <- rescale(lay[,1],to=c(-1,1))
+            #lay[,2] <- rescale(lay[,2],to=c(-1,1))
+            #lay <- cbind(lay,info$col[i])
         
-            layout.tabs <- rbind(layout.tabs,lay)
+            #layout.tabs <- rbind(layout.tabs,lay)
         }else{next}
 
     }   
     
     write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
     write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
-    write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
+    #write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
 }
