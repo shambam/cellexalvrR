@@ -1,6 +1,6 @@
 #'Adds mds coordinates to a cellexalvrObj
 #'@param cellexalObj A cellexalvr object
-#'@param mdsmatrix A matrix of coordinates test
+#'@param mdsmatrix A matrix of coordinates
 #' @param name A name for the object (default = graph<n>)
 #'@export addMDS2cellexalvr
 addMDS2cellexalvr <- function(cellexalObj,mdsmatrix, name=NULL){
