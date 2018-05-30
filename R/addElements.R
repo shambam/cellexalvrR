@@ -1,4 +1,4 @@
-#'Adds mds coordinates to a cellexalvrObj
+#'Adds mds coordinates to a cellexalvrObj test
 #'@param cellexalObj A cellexalvr object
 #'@param mdsmatrix A matrix of coordinates
 #' @param name A name for the object (default = graph<n>)
