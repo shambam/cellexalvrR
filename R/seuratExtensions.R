@@ -24,7 +24,7 @@ seurat2cellexalvr <- function(seuratObj)
     if (exists("tsne", where = seuratObj@dr) == T) {
         tsne <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
         if(ncol(tsne)<3){
-            stop("Number of compoments is less than 3. Rerun \"RunTSNE\" using \"dim.embed=3\" ")
+            stop("Number of compoments is less than 3. Rerun \"RunTSNE\" using \"dim.embed=3\" to make use of all that VR goodness")
         }
         cellObj <- addMDS2cellexalvr(cellObj,tsne[,1:3],"tSNE")
 

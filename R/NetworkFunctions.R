@@ -6,7 +6,7 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,numsig=75){
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,numsig=125){
 
     #dat <- cellexalObj@data
 	cellexalObj <- loadObject(cellexalObj)
@@ -77,6 +77,10 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
         }else{next}
 
     }   
+    
+    if(nrow(grp.tabs==0)){
+        stop("There are no networks to see here.")
+    }
     
     write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
     write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
