@@ -1,34 +1,37 @@
 #' Converts a seurat class to one of cellexalvr. If the cell-cycle score have been calculated they will be added to the cell.mata table
 #' @param seuratObj the suerat object to be converted
 #' @export seurat2cellexalvr
-seurat2cellexalvr <- function(seuratObj){
 
-    cell.att <- as.vector(seuratObj@ident)
-    cell.t <- unique(cell.att)
+seurat2cellexalvr <- function(seuratObj) 
+{
 
-    cell.met <- to.matrix(cell.att,cell.t)
+    cell.meta <- data.frame(Indentity=as.vector(seuratObj@ident))
 
-	colnames(cell.met) <- paste(cell.t,".type",sep="")
+    if (exists("Phase", where = seuratObj@meta.data) == T) {
+        cell.meta$Phase <- as.vector(seuratObj@meta.data$Phase)
+    }
 
-	if(exists("Phase",where=seuratObj@meta.data)==T){
+    cell.meta.10 <- make.cell.meta.from.df(cell.meta,colnames(cell.meta))
+    rownames(cell.meta.10) <- seuratObj@cell.names
+    
+    cellObj <- new("cellexalvr", data = as.matrix(seuratObj@data), meta.cell = as.matrix(cell.meta.10))
 
-		phase.att <- as.vector(seuratObj@meta.data$Phase)
-    	phase.t <- unique(phase.att)
+    if (exists("pca", where = seuratObj@dr) == T) {
+        pca <- as.matrix(seuratObj@dr$pca@cell.embeddings[,1:3])
+        cellObj <- addMDS2cellexalvr(cellObj,pca,"PCA")
+    }
 
-    	phase.met <- to.matrix(phase.att,phase.t)
-		colnames(phase.met) <- paste(phase.t,".type",sep="")
-		cell.met <- cbind(cell.met,phase.met)
+    if (exists("tsne", where = seuratObj@dr) == T) {
+        tsne <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
+        if(ncol(tsne)<3){
+            stop("Number of compoments is less than 3. Rerun \"RunTSNE\" using \"dim.embed=3\" ")
+        }
+        cellObj <- addMDS2cellexalvr(cellObj,tsne[,1:3],"tSNE")
 
-	}
-    rownames(cell.met) <- seuratObj@cell.names
-    proj <- as.matrix(seuratObj@dr$tsne@cell.embeddings)
-    colnames(proj) <- c("x","y","z")
+    }
 
-    g <- new("cellexalvr",data=as.matrix(seuratObj@data),
-			mds=list(tsne=proj),meta.cell=as.matrix(cell.met))
-    #export2cellexalvr(g,path)
+    cellObj
 }
-
 
 #'Runs DDRtree for a Seurat class
 #'@param seuratObj A cellexalvr object
