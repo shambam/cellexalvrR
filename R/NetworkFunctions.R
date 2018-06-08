@@ -6,7 +6,7 @@
 #'@keywords network construction
 #'@export make.cellexalvr.network
 
-make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,numsig=125){
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125){
 
     #dat <- cellexalObj@data
 	cellexalObj <- loadObject(cellexalObj)
@@ -49,8 +49,8 @@ make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0
         test.results <- network.test.edges(inferred.pcor,plot=F)
         net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
 
-        if(nrow(net)>numsig){
-            net <- net[1:numsig,]
+        if(nrow(net)>top.n.inter){
+            net <- net[1:top.n.inter,]
         }
 
         avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
