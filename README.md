@@ -1,4 +1,4 @@
-![alt text](https://cellexalvr.med.lu.se/images/logo.png | width=48)
+![alt text](logo_small.png)
 
 # cellexalvrR
 cellexalvrR is an R package to prep data for use in the cellexalVR environment, and also provides functions to run in-session calculations
