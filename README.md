@@ -6,10 +6,10 @@ cellexalvrR is an R package to prep data single-cell expression data for explora
 
 # Install using:
 ```
-install.packages("devtools")\
+install.packages("devtools")
 library(devtools)
 
-install_github("shambam/cellexalvrR")\
+install_github("shambam/cellexalvrR")
 library(cellexalvrR)
 ```
 
