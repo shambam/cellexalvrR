@@ -15,6 +15,6 @@ make.cell.meta.from.df <- function(metad,rq.fields){
     }
 
     colnames(meta4cellexalvr) <- gsub("\n","",colnames(meta4cellexalvr))
-    colnames(meta4cellexalvr) <- gsub(" ","",colnames(meta4cellexalvr))
+    colnames(meta4cellexalvr) <- gsub(" ",".",colnames(meta4cellexalvr))
     meta4cellexalvr
 }
