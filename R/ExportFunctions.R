@@ -67,22 +67,36 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	
 		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
 	
-	    cdat <- data.frame(genes=genes$id,cellexalObj@data)
+	    #cdat <- data.frame(genes=genes$id,cellexalObj@data)
 	
 		colnames(cdat) <- c( 'genes', cells$id )
-	
-	    md <- melt(cdat, id=('genes') )
-	
-		to.remove <- which(md[,3]==0)
+		
+		## this is too memory heavy:
+	    #md <- melt(cdat, id=('genes') )
+		#to.remove <- which(md[,3]==0)
+		#mdc <- NULL
 
-		mdc <- NULL
-
-		if(length(to.remove>0)){
-    		mdc <- md[-to.remove,]
-		}else{mdc <- md}
-
+		#if(length(to.remove>0)){
+    	#	mdc <- md[-to.remove,]
+		#}else{mdc <- md}
+		
+		pI = length(which(cellexalObj@data > 0))
+		r = rep( NA, pI ) #rows
+		j = rep( NA, pI) #cols
+		v = rep( NA, pI) #vals
+		pos = 0
+		for ( colID in 1:ncol(cellexalObj@data) ) {
+			ok <- which( cellexalObj@data[,colID] > 0 )
+			if ( length(ok) > 0 ) {
+				add = (pos+1):(pos+length(ok)+1)
+				r[add] = ok # genes
+				j[add] = rep(colID, length(ok) ) # cell
+				v[add] = cellexalObj@data[ok,colID] # values
+				pos = pos+length(ok)
+		}
+		mdc = rbind( r,j,v)
 		colnames(mdc) <- c('gene_id', 'cell_id','value')
-		mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
+		#mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
 	
