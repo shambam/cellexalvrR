@@ -24,7 +24,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	if ( ! file.exists( ofile) ){
 		write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
-
+	print ( "Cheching and exporting mds and hull tables")
     for(i in 1:length(cellexalObj@mds)){
         
         #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
@@ -52,6 +52,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 		if ( ! file.exists( ofile )) {
 			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
+		print (paste('finished with', names(cellexalObj@mds)[i] ) )
     }
 	
 	ofile = file.path(path,"database.sqlite")
@@ -61,6 +62,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 #		}
 #	}
 	if ( ! file.exists(ofile) || forceDB==T ) {
+		print("Exporting expression values as database")
 	    #genes <- tolower(rownames(cellexalObj@data))
 		genes <- rownames(cellexalObj@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
@@ -85,6 +87,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 		j = rep( NA, pI) #cols
 		v = rep( NA, pI) #vals
 		pos = 0
+		print ( "creating data table" )
 		for ( colID in 1:ncol(cellexalObj@data) ) {
 			ok <- which( cellexalObj@data[,colID] > 0 )
 			if ( length(ok) > 0 ) {
@@ -110,7 +113,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 		RSQLite::dbWriteTable(con, "cells", cells )
 		
 		dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
-		
+		print ("finished")
     	RSQLite::dbDisconnect(con)
 	}
 	if ( ! is.null( VRpath ) ) {
