@@ -98,7 +98,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 				pos = pos+length(ok)
 			}
 		}
-		mdc = rbind( r,j,v)
+		mdc = cbind( r,j,v)
 		colnames(mdc) <- c('gene_id', 'cell_id','value')
 		#mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
 		colnames(genes) <- c('id', 'gname')
