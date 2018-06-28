@@ -71,7 +71,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	
 	    #cdat <- data.frame(genes=genes$id,cellexalObj@data)
 	
-		colnames(cdat) <- c( 'genes', cells$id )
+		#colnames(cdat) <- c( 'genes', cells$id )
 		
 		## this is too memory heavy:
 	    #md <- melt(cdat, id=('genes') )
