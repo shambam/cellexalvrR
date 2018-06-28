@@ -96,6 +96,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 				j[add] = rep(colID, length(ok) ) # cell
 				v[add] = cellexalObj@data[ok,colID] # values
 				pos = pos+length(ok)
+			}
 		}
 		mdc = rbind( r,j,v)
 		colnames(mdc) <- c('gene_id', 'cell_id','value')
