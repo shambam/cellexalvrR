@@ -15,7 +15,5 @@ make.cell.meta.from.df <- function(metad,rq.fields){
     }
 	# match any repeat of whitespace and replace it with one '.' each
 	colnames(meta4cellexalvr) <- gsub( '\\s+', '.', perl=T, colnames(meta4cellexalvr))
-    colnames(meta4cellexalvr) <- gsub("\n","",colnames(meta4cellexalvr))
-    #colnames(meta4cellexalvr) <- gsub(" ",".",colnames(meta4cellexalvr))
     meta4cellexalvr
 }
