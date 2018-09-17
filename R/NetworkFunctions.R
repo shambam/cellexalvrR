@@ -27,7 +27,6 @@ setMethod('make.cellexalvr.network', signature = c ('character'),
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
 
-		browser()
     #dat <- cellexalObj@data	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 

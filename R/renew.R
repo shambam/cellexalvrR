@@ -5,7 +5,6 @@
 #' @description  update the class definition by re-creating the instance This version also makes sure,
 #' @description  that the returned object is an S4 object.
 #' @param x the object you want to update
-#' @param x  TEXT MISSING
 #' @title description of function renew
 #' @export renew
 if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
