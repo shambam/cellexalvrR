@@ -13,14 +13,19 @@ if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
 		standardGeneric('renew') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 ) }
+setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
+    definition = function (x) {
+		class(cellexalObj) = 'cellexalvrR'
+		renew(x)
+	} )
 
 setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
-			ret <- new("cellexalvr",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
+			#ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
 			
 			if( isS4(x)) {
 				## OK no R6 then ;-)
-				ret <- new("cellexalvr",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index )
+				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, specie = x@specie)
 				#browser()
 				if( .hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups 
@@ -32,7 +37,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 					ret@usedObj = x@usedObj
 				}
 			}else {
-				ret <- new("cellexalvr",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index)
+				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
 				if( .hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups 
 				}

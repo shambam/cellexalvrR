@@ -14,7 +14,7 @@ if ( ! isGeneric('make.cell.meta.from.df') ){setGeneric('make.cell.meta.from.df'
 	}
 ) }
 
-setMethod('make.cell.meta.from.df', signature = c ('cellexalvrR'),
+setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 	definition = function (metad,rq.fields) {
 
     meta4cellexalvr <- NULL

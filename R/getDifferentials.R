@@ -20,6 +20,13 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 	}
 ) }
 
+setMethod('getDifferentials', signature = c ('character'),
+		definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) {
+			cellexalObj <- loadObject(cellexalObj)
+			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig)
+		}
+)
+
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) {
 

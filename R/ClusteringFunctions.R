@@ -17,6 +17,13 @@ if ( ! isGeneric('make.cellexalvr.heatmap') ){setGeneric('make.cellexalvr.heatma
 	}
 ) }
 
+setMethod('make.cellexalvr.heatmap', signature = c ('character'),
+		definition = function (cellexalObj,cellidfile,num.sig,outfile) {
+			cellexalObj <- loadObject(cellexalObj)
+			make.cellexalvr.heatmap( cellexalObj,cellidfile,num.sig,outfile )
+		}
+)
+
 setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,cellidfile,num.sig,outfile) {
 	
@@ -89,12 +96,10 @@ setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvrR'),
 #' @rdname make.cellexalvr.heatmap.list-methods
 #' @docType methods
 #' @description  Creates a list of genes from which a heatmap is made in Unity
-#' @param cellexalObj A cellexalvr object
+#' @param cvrObj A cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param numsig The number of differentials to be returned
+#' @param num.sig The number of differentials to be returned
 #' @param outfile The name of the output file
-#' @param cvrObj  TEXT MISSING
-#' @param num.sig  TEXT MISSING
 #' @title description of function make.cellexalvr.heatmap.list
 #' @keywords heatmap
 #' @export make.cellexalvr.heatmap.list

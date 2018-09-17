@@ -7,11 +7,7 @@
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)
-#' @param cellexalObj  TEXT MISSING
-#' @param name  TEXT MISSING
-#' @param genes  TEXT MISSING
-#' @param lables  TEXT MISSING default=NULL
-#' @param ...  TEXT MISSING
+#' @param ...  unused
 #' @title description of function defineGOIs
 #' @export defineGOIs
 if ( ! isGeneric('defineGOIs') ){setGeneric('defineGOIs', ## Name

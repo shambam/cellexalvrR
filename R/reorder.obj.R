@@ -6,9 +6,7 @@
 #' @description  table (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the annotation column to reorder on
-#' @param dataObj  TEXT MISSING
-#' @param column  TEXT MISSING
-#' @title description of function remove.genes
+#' @title simple reordering of the samples
 #' @export reorder.samples
 if ( ! isGeneric('reorder.samples') ){setGeneric('reorder.samples', ## Name
 	function ( dataObj, column ) { ## Argumente der generischen Funktion
@@ -36,9 +34,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 #' @description  (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the samples column to reorder on
-#' @param dataObj  TEXT MISSING
-#' @param column  TEXT MISSING
-#' @title description of function remove.genes
+#' @title simple reordering of the genes
 #' @export reorder.genes
 if ( ! isGeneric('reorder.genes') ){setGeneric('reorder.genes', ## Name
 	function ( dataObj, column ) { ## Argumente der generischen Funktion

@@ -4,12 +4,9 @@
 #' @docType methods
 #' @description  The main reduction function can drop both samples and genes using the colnames /
 #' @description  rownames of the data tables
-#' @param x the NGScollation object
+#' @param x the cellexalvrR object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL
-#' @param x  TEXT MISSING
-#' @param what  TEXT MISSING default='row'
-#' @param to  TEXT MISSING default=NULL
 #' @title description of function reduceTo
 #' @export reduceTo
 if ( ! isGeneric('reduceTo') ){setGeneric('reduceTo', ## Name

@@ -1,11 +1,11 @@
-library(cellexalvr)
 
 opath = file.path('data','output')
 dir.create(opath,  showWarnings = FALSE)
 cellexalObj <- loadObject(file.path('data', 'cellexalObj.RData'))
 
 test_that( "export2cellexalvr function" ,{
-			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sql', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
+
+			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
 			
 			for ( f in ofiles ) {
 				ofile = file.path(opath, f ) 
@@ -13,11 +13,12 @@ test_that( "export2cellexalvr function" ,{
 					unlink( ofile)
 				}
 			}
-			
+			if (! file.exists( opath)) {
+				dir.create(opath )
+			}
 			export2cellexalvr( cellexalObj , opath )
 			
-			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
-#
+
 			for ( f in ofiles ) {
 				ofile = file.path(opath, f ) 
 				expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
@@ -31,10 +32,10 @@ test_that( "store user groupings" ,{
 			if ( length(cellexalObj@userGroups) > 0 ){
 				old_length = length(cellexalObj@userGroups) -2 ## and therefore a pointless test...
 			}
-			cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
+			cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
 			expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
 			
-			cellexalObj = userGrouping(cellexalObj, file.path('data', 'selection0.txt') )
+			cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
 			expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
 			
 		} ) ## end store user groupings
@@ -47,7 +48,7 @@ test_that( "heatmap is produced", {
 			}
 			
 			
-			make.cellexalvr.heatmap ( file.path('data', 'cellexalObj.RData') , file.path('data', 'selection0.txt'), 300, ofile )
+			make.cellexalvr.heatmap ( file.path('data', 'cellexalObj.RData') , file.path(opath,'..','selection0.txt'), 300, ofile )
 			
 			expect_true( file.exists( ofile ),  paste("outfile exists", ofile) )
 			

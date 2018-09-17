@@ -7,8 +7,6 @@
 #' @description  selection and the number of cells in the whole group.
 #' @param cellexalObj A cellexalvr object
 #' @param path the outpath
-#' @param cellexalObj  TEXT MISSING
-#' @param path  TEXT MISSING
 #' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
 if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
@@ -16,6 +14,14 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 		standardGeneric('exportUserGroups4vr') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 ) }
+
+setMethod('branch.point.analysis', signature = c ('character'),
+		definition = function (cellexalObj,cellidfile,maxsig,outfile) {
+			cellexalObj <- loadObject(cellexalObj)
+			branch.point.analysis( cellexalObj,cellidfile,maxsig,outfile )
+		}
+)
+
 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {

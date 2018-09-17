@@ -5,13 +5,9 @@
 #' @description  Creates a cellexalvr objext with the data given
 #' @param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
 #' @param mds.list A list of 3-column MDS coords (at least one required)
-#' @param specie Specify whether data is from mouse of human (required)
+#' @param specie Specify whether data is from mouse or human (required)
 #' @param cell.metadata Required meta data for cells
-#' @param facs Surface marker intensities from index sorted cells
-#' @param specie  TEXT MISSING default=c("mouse"
-#' @param "human")  TEXT MISSING default=c("mouse"
-#' @param cell.metadata  TEXT MISSING default=NULL
-#' @param facs.data  TEXT MISSING default=NULL
+#' @param facs.data Surface marker intensities from index sorted cells
 #' @keywords heatmap
 #' @title description of function MakeCellexaVRObj
 #' @export MakeCellexaVRObj

@@ -1,4 +1,3 @@
-library(cellexalvr)
 
 opath = file.path('data','output')
 
@@ -13,7 +12,7 @@ for ( f in ofiles ) {
 
 test_that( "Network outfiles are produced" ,{
 			
-			make.cellexalvr.network ( file.path('data', 'output', 'cellexalObj.RData') , file.path('data', 'selection0.txt'), opath )
+			make.cellexalvr.network ( file.path(opath,'..', 'output', 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
 			
 			for ( f in ofiles ) {
 				ofile = file.path(opath, f )

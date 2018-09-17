@@ -31,6 +31,10 @@ setMethod('loadObject', signature = c ('character'),
 					stop( paste("Could not obtain access to locked file", fname ))
 				}
 			}
+			if (attributes(cellexalObj@class)$package == 'cellexalvr'){
+				class(cellexalObj) = 'cellexalvrR'
+				cellexalObj = renew(cellexalObj)
+			}
 			cellexalObj
 		} )
 
@@ -93,6 +97,13 @@ if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
 		standardGeneric('get.genes.cor.to') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 ) }
+
+setMethod('get.genes.cor.to', signature = c ('character'),
+		definition = function (cellexalObj, gname, output, is.smarker=F) {
+			cellexalObj <- loadObject(cellexalObj)
+			get.genes.cor.to( cellexalObj, gname, output, is.smarker )
+		}
+)
 
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output, is.smarker=F) {

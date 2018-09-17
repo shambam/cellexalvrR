@@ -40,6 +40,8 @@ setClass(Class="cellexalvrR",
 		)
 )
 
+#' @name cellexalvr
+#' @title cellexalvr class definition (old)
 #' @exportClass cellexalvr
 setClass( 
 		Class='cellexalvr', 

@@ -16,7 +16,13 @@ if ( ! isGeneric('branch.point.analysis') ){setGeneric('branch.point.analysis', 
 		standardGeneric('branch.point.analysis') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 ) }
-
+setMethod('branch.point.analysis', signature = c ('character'),
+		definition = function (cellexalObj,cellidfile,maxsig,outfile) {
+			cellexalObj <- loadObject(cellexalObj)
+			branch.point.analysis( cellexalObj,cellidfile,maxsig,outfile )
+		}
+)
+			
 setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,cellidfile,maxsig,outfile) {
 
