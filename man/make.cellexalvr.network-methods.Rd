@@ -10,15 +10,11 @@
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{outfile}{The name of the output file}
+\item{outpath}{the outpath}
 
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.8)}
 
-\item{outpath}{TEXT MISSING}
-
-\item{cutoff.ggm}{TEXT MISSING default=0.8}
-
-\item{top.n.inter}{TEXT MISSING default=125}
+\item{top.n.inter}{get only the n top interations default=125}
 }
 \description{
 Creates a network from selected groups for selected genes

@@ -6,17 +6,13 @@
 \alias{make.cellexalvr.heatmap.list,cellexalvrR-method}
 \title{description of function make.cellexalvr.heatmap.list}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cvrObj}{A cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{numsig}{The number of differentials to be returned}
+\item{num.sig}{The number of differentials to be returned}
 
 \item{outfile}{The name of the output file}
-
-\item{cvrObj}{TEXT MISSING}
-
-\item{num.sig}{TEXT MISSING}
 }
 \description{
 Creates a list of genes from which a heatmap is made in Unity

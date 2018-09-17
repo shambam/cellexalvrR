@@ -10,19 +10,11 @@
 
 \item{mds.list}{A list of 3-column MDS coords (at least one required)}
 
-\item{specie}{Specify whether data is from mouse of human (required)}
+\item{specie}{Specify whether data is from mouse or human (required)}
 
 \item{cell.metadata}{Required meta data for cells}
 
-\item{facs}{Surface marker intensities from index sorted cells}
-
-\item{specie}{TEXT MISSING default=c("mouse"}
-
-\item{"human")}{TEXT MISSING default=c("mouse"}
-
-\item{cell.metadata}{TEXT MISSING default=NULL}
-
-\item{facs.data}{TEXT MISSING default=NULL}
+\item{facs.data}{Surface marker intensities from index sorted cells}
 }
 \description{
 Creates a cellexalvr objext with the data given

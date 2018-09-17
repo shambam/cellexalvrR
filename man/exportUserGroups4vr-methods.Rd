@@ -9,10 +9,6 @@
 \item{cellexalObj}{A cellexalvr object}
 
 \item{path}{the outpath}
-
-\item{cellexalObj}{TEXT MISSING}
-
-\item{path}{TEXT MISSING}
 }
 \description{
 Creates a summary file for the vr process Creates a file groupings_info.txt in the

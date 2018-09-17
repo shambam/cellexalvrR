@@ -14,15 +14,7 @@
 
 \item{lables}{a list of lables for the GIO column (default NULL)}
 
-\item{cellexalObj}{TEXT MISSING}
-
-\item{name}{TEXT MISSING}
-
-\item{genes}{TEXT MISSING}
-
-\item{lables}{TEXT MISSING default=NULL}
-
-\item{...}{TEXT MISSING}
+\item{...}{unused}
 }
 \description{
 Allows the user to define (G)enes (O)f (I)nterest lists in the object
