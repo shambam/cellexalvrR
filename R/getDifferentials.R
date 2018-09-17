@@ -1,12 +1,27 @@
-#'Creates a heatmap from a selection of groups
-#'@param cellexalObj A cellexalvr object
-#'@param cellidfile file containing cell IDs
-#'@param deg.method The method to use to find DEGs
-#'@param numsig The number of differentials to be returned
-#'@keywords DEGs
-#'@export getDifferentials
+#' @name getDifferentials
+#' @aliases getDifferentials,cellexalvrR-method
+#' @rdname getDifferentials-methods
+#' @docType methods
+#' @description  Creates a heatmap from a selection of groups
+#' @param cellexalObj A cellexalvr object
+#' @param cellidfile file containing cell IDs
+#' @param deg.method The method to use to find DEGs
+#' @param numsig The number of differentials to be returned
+#' @param deg.method  TEXT MISSING default=c("anova"
+#' @param "edgeR"  TEXT MISSING default=c("anova"
+#' @param "MAST")  TEXT MISSING default=c("anova"
+#' @param num.sig  TEXT MISSING
+#' @keywords DEGs
+#' @title description of function getDifferentials
+#' @export getDifferentials
+if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
+	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) { ## Argumente der generischen Funktion
+		standardGeneric('getDifferentials') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
 
-getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig){
+setMethod('getDifferentials', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) {
 
     cellexalObj <- loadObject(cellexalObj)
 
@@ -96,4 +111,4 @@ getDifferentials <- function(cellexalObj,cellidfile,deg.method=c("anova","edgeR"
 	}
 
     deg.genes
-}
+} )

@@ -1,11 +1,23 @@
-#' Reads a VR cell selection file and creates a user.grouping column with the information
-#' storing the user defined grouping for later use
-#'@param cellexalObj A cellexalvr object
-#'@param cellidfile file containing cell IDs
-#'@keywords userGrouping
-#'@export userGrouping
+#' @name userGrouping
+#' @aliases userGrouping,cellexalvrR-method
+#' @rdname userGrouping-methods
+#' @docType methods
+#' @description  Reads a VR cell selection file and creates a user.grouping column with the information
+#' @description  storing the user defined grouping for later use
+#' @param cellexalObj A cellexalvr object
+#' @param cellidfile file containing cell IDs
+#' @param cellidfile  TEXT MISSING
+#' @keywords userGrouping
+#' @title description of function userGrouping
+#' @export userGrouping
+if ( ! isGeneric('userGrouping') ){setGeneric('userGrouping', ## Name
+	function (cellexalObj, cellidfile) { ## Argumente der generischen Funktion
+		standardGeneric('userGrouping') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
 
-userGrouping  <- function (cellexalObj, cellidfile) {
+setMethod('userGrouping', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, cellidfile) {
 	
 	cellexalObj <- renew(cellexalObj)
 	if ( file.exists(cellidfile)){ ## file from the VR env
@@ -63,5 +75,4 @@ userGrouping  <- function (cellexalObj, cellidfile) {
 	cellexalObj@usedObj$lastGroup = gname
 	
 	cellexalObj
-}
-
+} )

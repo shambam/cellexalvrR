@@ -2,14 +2,24 @@
 #' @aliases reduceTo,cellexalvr-method
 #' @rdname reduceTo-methods
 #' @docType methods
-#' @description The main reduction function can drop both samples and genes using the colnames / rownames of the data tables
+#' @description  The main reduction function can drop both samples and genes using the colnames /
+#' @description  rownames of the data tables
 #' @param x the NGScollation object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL
+#' @param x  TEXT MISSING
+#' @param what  TEXT MISSING default='row'
+#' @param to  TEXT MISSING default=NULL
 #' @title description of function reduceTo
 #' @export reduceTo
+if ( ! isGeneric('reduceTo') ){setGeneric('reduceTo', ## Name
+	function ( x, what='row', to=NULL ) { ## Argumente der generischen Funktion
+		standardGeneric('reduceTo') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
 
-reduceTo <- function ( x, what='row', to=NULL ) {
+setMethod('reduceTo', signature = c ('cellexalvrR'),
+	definition = function ( x, what='row', to=NULL ) {
 
 			if (nrow(x@meta.gene)==0) {
 				x@meta.gene <- matrix(ncol=2, c(rownames(x@data), rep( 0, nrow(x@data)) ) )
@@ -72,5 +82,4 @@ reduceTo <- function ( x, what='row', to=NULL ) {
 				}
 			}
 			invisible(x)
-		} 
-		
+		}  )

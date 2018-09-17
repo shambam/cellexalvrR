@@ -1,18 +1,52 @@
-#'Class defintion of cellexalvr
+#' @name cellexalvrR
+#' @title cellexalvrR class definition
+#' @description  The R backend for the CellexalVR 3D application
+#' @slot data the expression matrix
+#' @slot meta.cell the cell level meta information (matrix)
+#' @slot meta.gene the gene level meta information (matrix)
+#' @slot userGroups internally used to store the user defined groupings from the 3D process (data.frame)
+#' @slot colors a list for each userGroups entry defining the color sheme for this grouping
+#' @slot mds a list of all mds objects to be visible in the 3D application
+#' @slot index a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application
+#' @slot tfs depricated not used any more
+#' @slot specie the species this data is from (mouse or human)
+#' @exportClass cellexalvrR
+setClass(Class="cellexalvrR",
+		representation=representation(
+				data="matrix",
+				meta.cell="matrix", #test commit
+				meta.gene="matrix",
+				userGroups="data.frame", # whenever a user defined grouping is read from file we add one column
+				colors="list", # the color information linked to all user groups
+				groupSelectedFrom = 'list', # which mds rep has been used to create the grouping
+				usedObj="list", # push all other objects you temporarily need here
+				mds="list",
+				index=c("matrix"),
+				tfs="vector",
+				specie="character"
+		),
+		prototype(
+				data=matrix(),
+				meta.cell=matrix(),
+				meta.gene=matrix(),
+				userGroups= data.frame(),
+				colors=list(),
+				groupSelectedFrom=list(),
+				usedObj=list(),
+				mds=list(),
+				index=matrix(),
+				tfs=NA_character_,
+				specie=NA_character_
+		)
+)
+
 #' @exportClass cellexalvr
-setClass("cellexalvr",slots=c(
-    data="matrix",
-    meta.cell="matrix", #test commit
-    meta.gene="matrix",
-	userGroups="data.frame", # whenever a user defined grouping is read from file we add one column
-	colors="list", # the color information linked to all user groups
-	groupSelectedFrom = 'list', # which mds rep has been used to create the grouping
-	usedObj="list", # push all other objects you temporarily need here
-    mds="list",
-    index=c("matrix"),
-    tfs="vector",
-	specie="character"
-    )   
+setClass( 
+		Class='cellexalvr', 
+		representation = representation ( 
+		##	NGS = 'binary'
+		),
+		contains='cellexalvrR'
 )
 
 ##' @name print
@@ -40,15 +74,15 @@ setClass("cellexalvr",slots=c(
 #)
 
 #' @name show
-#' @aliases show,cellexalvr-method
+#' @aliases show,cellexalvrR-method
 #' @rdname show-methods
 #' @docType methods
-#' @description  shows the cellexalvr
+#' @description  shows the cellexalvr contents
 #' @param x the cellexalvr object
 #' @return nothing
 #' @title description of function show
 #' @export show
-setMethod('show', signature = c ('cellexalvr'),
+setMethod('show', signature = c ('cellexalvrR'),
 		definition = function (object) {
 			cat (paste("An object of class", class(object)),"\n" )
 			#cat("named ",x@name,"\n")

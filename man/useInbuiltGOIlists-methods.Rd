@@ -12,10 +12,11 @@
 
 \item{cellexalObj}{TEXT MISSING}
 
-\item{name}{TEXT MISSING}
+\item{name}{one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")}
 }
 \description{
-An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs' and
+An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs', epigenetic factors
+CellCycle genes or CellSurface proteins
 
 'epigenetic' are supported at the moment
 }

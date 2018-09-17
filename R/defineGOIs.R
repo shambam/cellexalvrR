@@ -1,10 +1,27 @@
-#' Allows the user to define (G)enes (O)f (I)nterest lists in the object
+#' @name defineGOIs
+#' @aliases defineGOIs,cellexalvrR-method
+#' @rdname defineGOIs-methods
+#' @docType methods
+#' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object
 #' @param cellexalObj A cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)
+#' @param cellexalObj  TEXT MISSING
+#' @param name  TEXT MISSING
+#' @param genes  TEXT MISSING
+#' @param lables  TEXT MISSING default=NULL
+#' @param ...  TEXT MISSING
+#' @title description of function defineGOIs
 #' @export defineGOIs
-defineGOIs	=	function ( cellexalObj, name, genes, lables=NULL,... ) {
+if ( ! isGeneric('defineGOIs') ){setGeneric('defineGOIs', ## Name
+	function ( cellexalObj, name, genes, lables=NULL,... ) { ## Argumente der generischen Funktion
+		standardGeneric('defineGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
+
+setMethod('defineGOIs', signature = c ('cellexalvrR'),
+	definition = function ( cellexalObj, name, genes, lables=NULL,... ) {
 			if ( is.null(lables) ) {
 				lables = rep(name, length(genes))
 			}
@@ -28,17 +45,4 @@ defineGOIs	=	function ( cellexalObj, name, genes, lables=NULL,... ) {
 			cellexalObj@usedObj$GOIs = c( cellexalObj@usedObj$GOIs, name)
 			
 			invisible(cellexalObj)
-		}
-		
-#if ( ! isGeneric('defineGOIs') ){ setGeneric('defineGOIs', ## Name
-#			function ( cellexalObj, name, genes, lables=NULL, ... ) { ## Argumente der generischen Funktion
-#				standardGeneric('defineGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
-#			}
-#	)
-#}else {
-#	print ("Onload warn generic function 'defineGOIs' already defined - no overloading here!")
-#}
-
-#setMethod('defineGOIs', signature = c ('cellexalvr'),
-#		definition =  <here goes the function definition>
-#		)
+		} )

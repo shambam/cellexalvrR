@@ -5,13 +5,13 @@
 \alias{renew}
 \alias{renew,cellexalvr-method}
 \title{description of function renew}
-\usage{
-renew(x)
-}
 \arguments{
 \item{x}{the object you want to update}
+
+\item{x}{TEXT MISSING}
 }
 \description{
-update the class definition by re-creating the instance
-This version also makes sure, that the returned object is an S4 object.
+update the class definition by re-creating the instance This version also makes sure,
+
+that the returned object is an S4 object.
 }

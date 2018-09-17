@@ -1,10 +1,21 @@
-#'Creates a meta cell matrix from a supplied dataframe from required fields
-#'@param metad A dataframe of per cell metadata
-#'@param rq.fields A vector of name specifiying which columns should me made into metadata
-#'@keywords metadata cell
-#'@export make.cell.meta.from.df
+#' @name make.cell.meta.from.df
+#' @aliases make.cell.meta.from.df,cellexalvrR-method
+#' @rdname make.cell.meta.from.df-methods
+#' @docType methods
+#' @description  Creates a meta cell matrix from a supplied dataframe from required fields
+#' @param metad A dataframe of per cell metadata
+#' @param rq.fields A vector of name specifiying which columns should me made into metadata
+#' @keywords metadata cell
+#' @title description of function make.cell.meta.from.df
+#' @export make.cell.meta.from.df
+if ( ! isGeneric('make.cell.meta.from.df') ){setGeneric('make.cell.meta.from.df', ## Name
+	function (metad,rq.fields) { ## Argumente der generischen Funktion
+		standardGeneric('make.cell.meta.from.df') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
 
-make.cell.meta.from.df <- function(metad,rq.fields){
+setMethod('make.cell.meta.from.df', signature = c ('cellexalvrR'),
+	definition = function (metad,rq.fields) {
 
     meta4cellexalvr <- NULL
 
@@ -16,4 +27,4 @@ make.cell.meta.from.df <- function(metad,rq.fields){
 	# match any repeat of whitespace and replace it with one '.' each
 	colnames(meta4cellexalvr) <- gsub( '\\s+', '.', perl=T, colnames(meta4cellexalvr))
     meta4cellexalvr
-}
+} )

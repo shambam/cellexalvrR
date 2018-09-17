@@ -1,8 +1,23 @@
-#'Creates the base files needed to run the VR environment
-#'@param cellexalObj A cellexalvr object
+#' @name export2cellexalvr
+#' @aliases export2cellexalvr,cellexalvrR-method
+#' @rdname export2cellexalvr-methods
+#' @docType methods
+#' @description  Creates the base files needed to run the VR environment
+#' @param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
-#'@export export2cellexalvr
-export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
+#' @param path  TEXT MISSING
+#' @param forceDB  TEXT MISSING default=F
+#' @param VRpath  TEXT MISSING default=NULL
+#' @title description of function export2cellexalvr
+#' @export export2cellexalvr
+if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
+	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { ## Argumente der generischen Funktion
+		standardGeneric('export2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
+
+setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
 
 	
 	ofile = file.path( path, "cellexalObj.RData")
@@ -104,13 +119,26 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	}
 	invisible(cellexalObj)
 
-}
-
-
-#' checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.
+} )
+#' @name checkVRfiles
+#' @aliases checkVRfiles,cellexalvrR-method
+#' @rdname checkVRfiles-methods
+#' @docType methods
+#' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
+#' @description  function if any is missing.
 #' @param cellexalObj the cellexal object
 #' @param path the outpath to check
+#' @param cellexalvr  TEXT MISSING
+#' @param path  TEXT MISSING
+#' @title description of function checkVRfiles
 #' @export checkVRfiles
-checkVRfiles <- function( cellexalvr, path ) {
+if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
+	function ( cellexalvr, path ) { ## Argumente der generischen Funktion
+		standardGeneric('checkVRfiles') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
+
+setMethod('checkVRfiles', signature = c ('cellexalvrR'),
+	definition = function ( cellexalvr, path ) {
 	export2cellexalvr( cellexalvr, path, forceDB=F )
-}
+} )

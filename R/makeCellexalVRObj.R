@@ -1,13 +1,28 @@
-#'Creates a cellexalvr objext with the data given
-#'@param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
-#'@param mds.list A list of 3-column MDS coords (at least one required)
-#'@param specie Specify whether data is from mouse of human (required)
-#'@param cell.metadata Required meta data for cells
-#'@param facs Surface marker intensities from index sorted cells
-#'@keywords heatmap
-#'@export MakeCellexaVRObj
+#' @name MakeCellexaVRObj
+#' @aliases MakeCellexaVRObj,cellexalvrR-method
+#' @rdname MakeCellexaVRObj-methods
+#' @docType methods
+#' @description  Creates a cellexalvr objext with the data given
+#' @param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
+#' @param mds.list A list of 3-column MDS coords (at least one required)
+#' @param specie Specify whether data is from mouse of human (required)
+#' @param cell.metadata Required meta data for cells
+#' @param facs Surface marker intensities from index sorted cells
+#' @param specie  TEXT MISSING default=c("mouse"
+#' @param "human")  TEXT MISSING default=c("mouse"
+#' @param cell.metadata  TEXT MISSING default=NULL
+#' @param facs.data  TEXT MISSING default=NULL
+#' @keywords heatmap
+#' @title description of function MakeCellexaVRObj
+#' @export MakeCellexaVRObj
+if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
+	function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { ## Argumente der generischen Funktion
+		standardGeneric('MakeCellexaVRObj') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+) }
 
-MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL){
+setMethod('MakeCellexaVRObj', signature = c ('cellexalvrR'),
+	definition = function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 
     ### add the rownames to the given matricies
     for(i in 1:length(mds.list)){
@@ -28,4 +43,4 @@ MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.meta
     cellexalobj <- set.specie(cellexalobj,specie)
 
     cellexalobj
-}
+} )

@@ -5,14 +5,17 @@
 \alias{reorder.samples}
 \alias{reorder.samples,cellexalvr-method}
 \title{description of function remove.genes}
-\usage{
-\method{reorder}{samples}(dataObj, column)
-}
 \arguments{
 \item{dataObj}{the cellexalvr object}
 
 \item{column}{the annotation column to reorder on}
+
+\item{dataObj}{TEXT MISSING}
+
+\item{column}{TEXT MISSING}
 }
 \description{
-this function reorderes the cellexalvr object based on a column in the annotation table (e.g. for plotting)
+this function reorderes the cellexalvr object based on a column in the annotation
+
+table (e.g. for plotting)
 }

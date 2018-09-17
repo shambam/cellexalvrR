@@ -1,0 +1,1 @@
+perl  -I /storage/www/Genexpress/lib/ -I /home/stefan/LibsNewStructure/lib/  /usr/local/bin/convert_R_S3_R_S4.pl -R_source ../R_old/seuratExtensions.R -outfile seuratExtensions.R -className seurat
