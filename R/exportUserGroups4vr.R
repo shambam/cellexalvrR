@@ -1,30 +1,10 @@
-#' @name exportUserGroups4vr
-#' @aliases exportUserGroups4vr,cellexalvrR-method
-#' @rdname exportUserGroups4vr-methods
-#' @docType methods
-#' @description  Creates a summary file for the vr process Creates a file groupings_info.txt in the
-#' @description  outfolder that contains the group name (in the R object) the numer of groups in the
-#' @description  selection and the number of cells in the whole group.
+#' Creates a summary file for the vr process
 #' @param cellexalObj A cellexalvr object
 #' @param path the outpath
-#' @title description of function exportUserGroups4vr
+#' @description Creates a file groupings_info.txt in the outfolder that contains the group name (in the R object)
+#' the numer of groups in the selection and the number of cells in the whole group.
 #' @export exportUserGroups4vr
-if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
-	function ( cellexalObj, path ) { 
-		standardGeneric('exportUserGroups4vr') 
-	}
-) }
-
-setMethod('branch.point.analysis', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,maxsig,outfile) {
-			cellexalObj <- loadObject(cellexalObj)
-			branch.point.analysis( cellexalObj,cellidfile,maxsig,outfile )
-		}
-)
-
-
-setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, path ) {
+exportUserGroups4vr <- function( cellexalObj, path ) {
 	cellexalObj <- loadObject(cellexalObj)
 	
 	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(cellexalObj@userGroups), invert=T)]
@@ -57,4 +37,4 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	write.table(ret, file=file.path( path, 'groupings_info.txt'), row.names=F, col.names=T, sep="\t", quote=F )
 	
 	ret
-} )
+}

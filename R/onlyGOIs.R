@@ -1,22 +1,8 @@
-#' @name onlyGOIs
-#' @aliases onlyGOIs,cellexalvrR-method
-#' @rdname onlyGOIs-methods
-#' @docType methods
-#' @description  Allows the user to select only (G)enes (O)f (I)nterest lists from the object
+#' Allows the user to select only (G)enes (O)f (I)nterest lists from the object
 #' @param cellexalObj A cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
-#' @param cellexalObj  TEXT MISSING
-#' @param name  TEXT MISSING
-#' @title description of function onlyGOIs
 #' @export onlyGOIs
-if ( ! isGeneric('onlyGOIs') ){setGeneric('onlyGOIs', ## Name
-	function ( cellexalObj, name ) { 
-		standardGeneric('onlyGOIs') 
-	}
-) }
-
-setMethod('onlyGOIs', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, name ) {
+onlyGOIs <- function( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {
 		stop( "Sorry, but this GIO list not known" )
 	}
@@ -27,4 +13,4 @@ setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	)
 
 	cellexalObj
-} )
+}

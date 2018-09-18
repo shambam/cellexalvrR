@@ -1,24 +1,13 @@
-#' @name MakeCellexaVRObj
-#' @aliases MakeCellexaVRObj,cellexalvrR-method
-#' @rdname MakeCellexaVRObj-methods
-#' @docType methods
-#' @description  Creates a cellexalvr objext with the data given
-#' @param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
-#' @param mds.list A list of 3-column MDS coords (at least one required)
-#' @param specie Specify whether data is from mouse or human (required)
-#' @param cell.metadata Required meta data for cells
-#' @param facs.data Surface marker intensities from index sorted cells
-#' @keywords heatmap
-#' @title description of function MakeCellexaVRObj
-#' @export MakeCellexaVRObj
-if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
-	function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
-		standardGeneric('MakeCellexaVRObj') 
-	}
-) }
+#'Creates a cellexalvr objext with the data given
+#'@param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
+#'@param mds.list A list of 3-column MDS coords (at least one required)
+#'@param specie Specify whether data is from mouse of human (required)
+#'@param cell.metadata Required meta data for cells
+#'@param facs Surface marker intensities from index sorted cells
+#'@keywords heatmap
+#'@export MakeCellexaVRObj
 
-setMethod('MakeCellexaVRObj', signature = c ('cellexalvrR'),
-	definition = function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
+MakeCellexaVRObj <- function(exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL){
 
     ### add the rownames to the given matricies
     for(i in 1:length(mds.list)){
@@ -39,4 +28,4 @@ setMethod('MakeCellexaVRObj', signature = c ('cellexalvrR'),
     cellexalobj <- set.specie(cellexalobj,specie)
 
     cellexalobj
-} )
+}

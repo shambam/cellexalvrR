@@ -1,33 +1,16 @@
-#' @name make.cellexalvr.network
-#' @aliases make.cellexalvr.network,cellexalvrR-method
-#' @rdname make.cellexalvr.network-methods
-#' @docType methods
-#' @description  Creates a network from selected groups for selected genes
-#' @param cellexalObj A cellexalvr object
-#' @param cellidfile file containing cell IDs
-#' @param outpath the outpath
+#'Creates a network from selected groups for selected genes
+#'@param cellexalObj A cellexalvr object
+#'@param cellidfile file containing cell IDs
+#'@param outfile The name of the output file
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
-#' @param top.n.inter get only the n top interations default=125
-#' @title description of function make.cellexalvr.network
-#' @keywords network construction
-#' @export make.cellexalvr.network
-if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) { 
-		standardGeneric('make.cellexalvr.network') 
-	}
-) }
+#'@keywords network construction
+#'@export make.cellexalvr.network
 
-setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
-			cellexalObj <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj,cellidfile,outpath, cutoff.ggm,top.n.inter)
-		}
-)
+make.cellexalvr.network <- function(cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125){
 
-setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
-
-    #dat <- cellexalObj@data	
+    #dat <- cellexalObj@data
+	cellexalObj <- loadObject(cellexalObj)
+	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
 	checkVRfiles( cellexalObj, outpath)
@@ -104,4 +87,4 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     #write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
     }
-} )
+}
