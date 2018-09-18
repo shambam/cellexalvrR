@@ -1,14 +1,21 @@
-
 #' @name reorder.samples
 #' @aliases reorder.samples,cellexalvr-method
 #' @rdname reorder.samples-methods
 #' @docType methods
-#' @description this function reorderes the cellexalvr object based on a column in the annotation table (e.g. for plotting)
+#' @description  this function reorderes the cellexalvr object based on a column in the annotation
+#' @description  table (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the annotation column to reorder on
-#' @title description of function remove.genes
+#' @title simple reordering of the samples
 #' @export reorder.samples
-reorder.samples <- function ( dataObj, column ) {
+if ( ! isGeneric('reorder.samples') ){setGeneric('reorder.samples', ## Name
+	function ( dataObj, column ) { 
+		standardGeneric('reorder.samples') 
+	}
+) }
+
+setMethod('reorder.samples', signature = c ('cellexalvrR'),
+	definition = function ( dataObj, column ) {
 	if (! is.na( match ( column, colnames(dataObj@meta.cell)) ) ) {
 		ids = order( dataObj@meta.cell[,column])
 	}else {
@@ -18,21 +25,26 @@ reorder.samples <- function ( dataObj, column ) {
 	dataObj@meta.cell <- dataObj@meta.cell[ids,]
 	dataObj@userGroups <- dataObj@userGroups[ids,]
 	dataObj
-}
-
-
+} )
 #' @name reorder.genes
 #' @aliases reorder.genes,cellexalvr-method
 #' @rdname reorder.genes-methods
 #' @docType methods
-#' @description this function reorderes the cellexalvr object based on a column in the samples table (e.g. for plotting)
+#' @description  this function reorderes the cellexalvr object based on a column in the samples table
+#' @description  (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the samples column to reorder on
-#' @title description of function remove.genes
+#' @title simple reordering of the genes
 #' @export reorder.genes
-reorder.genes = function ( dataObj, column ) {
+if ( ! isGeneric('reorder.genes') ){setGeneric('reorder.genes', ## Name
+	function ( dataObj, column ) { 
+		standardGeneric('reorder.genes') 
+	}
+) }
+
+setMethod('reorder.genes', signature = c ('cellexalvrR'),
+	definition = function ( dataObj, column ) {
 	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]
 	dataObj@meta.gene <- dataObj@meta.gene[order( dataObj@meta.gene[,column]),]
 	dataObj
-}
-
+} )

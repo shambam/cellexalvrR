@@ -2,25 +2,23 @@
 #' @aliases useInbuiltGOIlists,cellexalvr-method
 #' @rdname useInbuiltGOIlists-methods
 #' @docType methods
-#' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs' and
+#' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs', epigenetic factors
+#' CellCycle genes or CellSurface proteins
 #' @description  'epigenetic' are supported at the moment
 #' @param cellexalObj A cellexalvr object
 #' @param name the name of the inbuilt list to use ( either 'TFs' or 'epigenetic' for now)
 #' @param cellexalObj  TEXT MISSING
-#' @param name  TEXT MISSING
+#' @param name one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")
 #' @title description of function useInbuiltGOIlists
 #' @export useInbuiltGOIlists
-if ( ! isGeneric('useInbuiltGOIlists') ){ setGeneric('useInbuiltGOIlists', ## Name
-		function (cellexalObj, name ) { ## Argumente der generischen Funktion
-			standardGeneric('useInbuiltGOIlists') ## der Aufruf von standardGeneric sorgt für das Dispatching
-		}
-)
-}else {
-	print ("Onload warn generic function 'useInbuiltGOIlists' already defined - no overloading here!")
-}
+if ( ! isGeneric('useInbuiltGOIlists') ){setGeneric('useInbuiltGOIlists', ## Name
+	function (cellexalObj, name ) { 
+		standardGeneric('useInbuiltGOIlists') 
+	}
+) }
 
-setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
-		definition = function (cellexalObj, name ) {
+setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, name ) {
 			
 			if ( ! is.na( match(name, colnames(cellexalObj@meta.gene)))) {
 				stop( "This GIO list has already been defined" )
@@ -82,5 +80,4 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvr'),
 				stop ( paste("Sorry, but the gene list", name, "is not defined" ) )
 			}
 			cellexalObj
-		} 
-)
+		}  )
