@@ -10,8 +10,8 @@
 #' @title description of function onlyGOIs
 #' @export onlyGOIs
 if ( ! isGeneric('onlyGOIs') ){setGeneric('onlyGOIs', ## Name
-	function ( cellexalObj, name ) { ## Argumente der generischen Funktion
-		standardGeneric('onlyGOIs') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( cellexalObj, name ) { 
+		standardGeneric('onlyGOIs') 
 	}
 ) }
 

@@ -10,8 +10,8 @@
 #' @title description of function addMDS2cellexalvr
 #' @export addMDS2cellexalvr
 if ( ! isGeneric('addMDS2cellexalvr') ){setGeneric('addMDS2cellexalvr', ## Name
-	function (cellexalObj,mdsmatrix, name=NULL) { ## Argumente der generischen Funktion
-		standardGeneric('addMDS2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,mdsmatrix, name=NULL) { 
+		standardGeneric('addMDS2cellexalvr') 
 	}
 ) }
 
@@ -42,8 +42,8 @@ setMethod('addMDS2cellexalvr', signature = c ('cellexalvrR'),
 #' @title description of function addCellMeta2cellexalvr
 #' @export addCellMeta2cellexalvr
 if ( ! isGeneric('addCellMeta2cellexalvr') ){setGeneric('addCellMeta2cellexalvr', ## Name
-	function (cellexalObj,cell.meta) { ## Argumente der generischen Funktion
-		standardGeneric('addCellMeta2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,cell.meta) { 
+		standardGeneric('addCellMeta2cellexalvr') 
 	}
 ) }
 
@@ -64,8 +64,8 @@ setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 #' @title description of function addFACS2cellexalvr
 #' @export addFACS2cellexalvr
 if ( ! isGeneric('addFACS2cellexalvr') ){setGeneric('addFACS2cellexalvr', ## Name
-	function (cellexalObj,facs.data) { ## Argumente der generischen Funktion
-		standardGeneric('addFACS2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,facs.data) { 
+		standardGeneric('addFACS2cellexalvr') 
 	}
 ) }
 

@@ -9,8 +9,8 @@
 #' @title description of function make.cell.meta.from.df
 #' @export make.cell.meta.from.df
 if ( ! isGeneric('make.cell.meta.from.df') ){setGeneric('make.cell.meta.from.df', ## Name
-	function (metad,rq.fields) { ## Argumente der generischen Funktion
-		standardGeneric('make.cell.meta.from.df') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (metad,rq.fields) { 
+		standardGeneric('make.cell.meta.from.df') 
 	}
 ) }
 

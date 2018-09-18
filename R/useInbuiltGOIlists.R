@@ -12,8 +12,8 @@
 #' @title description of function useInbuiltGOIlists
 #' @export useInbuiltGOIlists
 if ( ! isGeneric('useInbuiltGOIlists') ){setGeneric('useInbuiltGOIlists', ## Name
-	function (cellexalObj, name ) { ## Argumente der generischen Funktion
-		standardGeneric('useInbuiltGOIlists') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj, name ) { 
+		standardGeneric('useInbuiltGOIlists') 
 	}
 ) }
 

@@ -7,8 +7,8 @@
 #' @title description of function plotAllMDS
 #' @export plotAllMDS
 if ( ! isGeneric('plotAllMDS') ){setGeneric('plotAllMDS', ## Name
-	function (cellexalObj) { ## Argumente der generischen Funktion
-		standardGeneric('plotAllMDS') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj) { 
+		standardGeneric('plotAllMDS') 
 	}
 ) }
 

@@ -8,8 +8,8 @@
 #' @title description of function renew
 #' @export renew
 if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
-	function ( x ) { ## Argumente der generischen Funktion
-		standardGeneric('renew') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( x ) { 
+		standardGeneric('renew') 
 	}
 ) }
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object

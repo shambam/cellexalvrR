@@ -12,8 +12,8 @@
 #' @title description of function MakeCellexaVRObj
 #' @export MakeCellexaVRObj
 if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
-	function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { ## Argumente der generischen Funktion
-		standardGeneric('MakeCellexaVRObj') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
+		standardGeneric('MakeCellexaVRObj') 
 	}
 ) }
 

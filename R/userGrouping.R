@@ -11,8 +11,8 @@
 #' @title description of function userGrouping
 #' @export userGrouping
 if ( ! isGeneric('userGrouping') ){setGeneric('userGrouping', ## Name
-	function (cellexalObj, cellidfile) { ## Argumente der generischen Funktion
-		standardGeneric('userGrouping') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj, cellidfile) { 
+		standardGeneric('userGrouping') 
 	}
 ) }
 

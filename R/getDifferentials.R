@@ -15,8 +15,8 @@
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) { ## Argumente der generischen Funktion
-		standardGeneric('getDifferentials') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) { 
+		standardGeneric('getDifferentials') 
 	}
 ) }
 

@@ -9,8 +9,8 @@
 #' @title simple reordering of the samples
 #' @export reorder.samples
 if ( ! isGeneric('reorder.samples') ){setGeneric('reorder.samples', ## Name
-	function ( dataObj, column ) { ## Argumente der generischen Funktion
-		standardGeneric('reorder.samples') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( dataObj, column ) { 
+		standardGeneric('reorder.samples') 
 	}
 ) }
 
@@ -37,8 +37,8 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 #' @title simple reordering of the genes
 #' @export reorder.genes
 if ( ! isGeneric('reorder.genes') ){setGeneric('reorder.genes', ## Name
-	function ( dataObj, column ) { ## Argumente der generischen Funktion
-		standardGeneric('reorder.genes') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( dataObj, column ) { 
+		standardGeneric('reorder.genes') 
 	}
 ) }
 

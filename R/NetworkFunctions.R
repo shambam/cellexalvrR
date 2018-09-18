@@ -12,8 +12,8 @@
 #' @keywords network construction
 #' @export make.cellexalvr.network
 if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) { ## Argumente der generischen Funktion
-		standardGeneric('make.cellexalvr.network') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) { 
+		standardGeneric('make.cellexalvr.network') 
 	}
 ) }
 

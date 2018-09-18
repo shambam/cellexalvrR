@@ -10,8 +10,8 @@
 #' @title description of function reduceTo
 #' @export reduceTo
 if ( ! isGeneric('reduceTo') ){setGeneric('reduceTo', ## Name
-	function ( x, what='row', to=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('reduceTo') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( x, what='row', to=NULL ) { 
+		standardGeneric('reduceTo') 
 	}
 ) }
 

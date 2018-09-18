@@ -10,8 +10,8 @@
 #' @title description of function loadObject
 #' @export loadObject
 if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
-	function ( fname, maxwait=50 ) { ## Argumente der generischen Funktion
-		standardGeneric('loadObject') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( fname, maxwait=50 ) { 
+		standardGeneric('loadObject') 
 	}
 ) }
 
@@ -56,8 +56,8 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 #' @keywords TFs
 #' @export set.specie
 if ( ! isGeneric('set.specie') ){setGeneric('set.specie', ## Name
-	function (cellexalObj,specie=c("mouse","human")) { ## Argumente der generischen Funktion
-		standardGeneric('set.specie') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,specie=c("mouse","human")) { 
+		standardGeneric('set.specie') 
 	}
 ) }
 
@@ -93,8 +93,8 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 #' @keywords correlation
 #' @export get.genes.cor.to
 if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
-	function (cellexalObj, gname, output, is.smarker=F) { ## Argumente der generischen Funktion
-		standardGeneric('get.genes.cor.to') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj, gname, output, is.smarker=F) { 
+		standardGeneric('get.genes.cor.to') 
 	}
 ) }
 

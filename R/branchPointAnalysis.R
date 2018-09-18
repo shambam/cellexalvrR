@@ -12,8 +12,8 @@
 #' @title description of function branch.point.analysis
 #' @export branch.point.analysis
 if ( ! isGeneric('branch.point.analysis') ){setGeneric('branch.point.analysis', ## Name
-	function (cellexalObj,cellidfile,maxsig,outfile) { ## Argumente der generischen Funktion
-		standardGeneric('branch.point.analysis') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,cellidfile,maxsig,outfile) { 
+		standardGeneric('branch.point.analysis') 
 	}
 ) }
 setMethod('branch.point.analysis', signature = c ('character'),

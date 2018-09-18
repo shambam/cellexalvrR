@@ -10,8 +10,8 @@
 #' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
 if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
-	function ( cellexalObj, path ) { ## Argumente der generischen Funktion
-		standardGeneric('exportUserGroups4vr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( cellexalObj, path ) { 
+		standardGeneric('exportUserGroups4vr') 
 	}
 ) }
 

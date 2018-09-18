@@ -11,8 +11,8 @@
 #' @title description of function export2cellexalvr
 #' @export export2cellexalvr
 if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
-	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('export2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { 
+		standardGeneric('export2cellexalvr') 
 	}
 ) }
 
@@ -133,8 +133,8 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #' @title description of function checkVRfiles
 #' @export checkVRfiles
 if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
-	function ( cellexalvr, path ) { ## Argumente der generischen Funktion
-		standardGeneric('checkVRfiles') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( cellexalvr, path ) { 
+		standardGeneric('checkVRfiles') 
 	}
 ) }
 

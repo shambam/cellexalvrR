@@ -12,8 +12,8 @@
 #' @title description of function make.cellexalvr.heatmap
 #' @export make.cellexalvr.heatmap
 if ( ! isGeneric('make.cellexalvr.heatmap') ){setGeneric('make.cellexalvr.heatmap', ## Name
-	function (cellexalObj,cellidfile,num.sig,outfile) { ## Argumente der generischen Funktion
-		standardGeneric('make.cellexalvr.heatmap') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj,cellidfile,num.sig,outfile) { 
+		standardGeneric('make.cellexalvr.heatmap') 
 	}
 ) }
 
@@ -104,8 +104,8 @@ setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvrR'),
 #' @keywords heatmap
 #' @export make.cellexalvr.heatmap.list
 if ( ! isGeneric('make.cellexalvr.heatmap.list') ){setGeneric('make.cellexalvr.heatmap.list', ## Name
-	function (cvrObj,cellidfile,num.sig,outfile) { ## Argumente der generischen Funktion
-		standardGeneric('make.cellexalvr.heatmap.list') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cvrObj,cellidfile,num.sig,outfile) { 
+		standardGeneric('make.cellexalvr.heatmap.list') 
 	}
 ) }
 

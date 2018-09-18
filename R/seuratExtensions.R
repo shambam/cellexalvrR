@@ -8,8 +8,8 @@
 #' @title description of function seurat2cellexalvr
 #' @export seurat2cellexalvr
 if ( ! isGeneric('seurat2cellexalvr') ){setGeneric('seurat2cellexalvr', ## Name
-	function (seuratObj) { ## Argumente der generischen Funktion
-		standardGeneric('seurat2cellexalvr') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (seuratObj) { 
+		standardGeneric('seurat2cellexalvr') 
 	}
 ) }
 
@@ -53,8 +53,8 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
 #' @keywords ddrtree
 #' @export run.ddrtree
 if ( ! isGeneric('run.ddrtree') ){setGeneric('run.ddrtree', ## Name
-	function (seuratObj) { ## Argumente der generischen Funktion
-		standardGeneric('run.ddrtree') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (seuratObj) { 
+		standardGeneric('run.ddrtree') 
 	}
 ) }
 
@@ -78,8 +78,8 @@ setMethod('run.ddrtree', signature = c ('seurat'),
 #' @title description of function changeIdent
 #' @export changeIdent
 if ( ! isGeneric('changeIdent') ){setGeneric('changeIdent', ## Name
-	function (seuratObj,new.idents) { ## Argumente der generischen Funktion
-		standardGeneric('changeIdent') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (seuratObj,new.idents) { 
+		standardGeneric('changeIdent') 
 	}
 ) }
 

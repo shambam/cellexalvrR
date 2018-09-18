@@ -11,8 +11,8 @@
 #' @keywords groupingInfo
 #' @export groupingInfo
 if ( ! isGeneric('groupingInfo') ){setGeneric('groupingInfo', ## Name
-	function ( cellexalObj, gname=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('groupingInfo') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( cellexalObj, gname=NULL ) { 
+		standardGeneric('groupingInfo') 
 	}
 ) }
 

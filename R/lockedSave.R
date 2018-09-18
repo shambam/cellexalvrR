@@ -11,8 +11,8 @@
 #' @keywords lockedSave
 #' @export lockedSave
 if ( ! isGeneric('lockedSave') ){setGeneric('lockedSave', ## Name
-	function (cellexalObj, path ) { ## Argumente der generischen Funktion
-		standardGeneric('lockedSave') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj, path ) { 
+		standardGeneric('lockedSave') 
 	}
 ) }
 
