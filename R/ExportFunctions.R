@@ -5,9 +5,6 @@
 #' @description  Creates the base files needed to run the VR environment
 #' @param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
-#' @param path  TEXT MISSING
-#' @param forceDB  TEXT MISSING default=F
-#' @param VRpath  TEXT MISSING default=NULL
 #' @title description of function export2cellexalvr
 #' @export export2cellexalvr
 if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name

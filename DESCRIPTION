@@ -21,11 +21,16 @@ Depends:
     alphashape3d,
     entropy,
     scales,
-    phytools
+    phytools,
+    bookdown,
+    knitr
 Remotes:
     satijalab/seurat
 biocViews:
-	graph
+	graph,
+	org.Mm.eg.db,
+	org.Hs.eg.db,
+	topGO
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

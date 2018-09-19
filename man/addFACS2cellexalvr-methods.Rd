@@ -6,7 +6,7 @@
 \alias{addFACS2cellexalvr,cellexalvrR-method}
 \title{description of function addFACS2cellexalvr}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{facs.data}{A matrix of surface marker intensities}
 }

@@ -9,12 +9,6 @@
 \item{cellexalObj}{A cellexalvr object}
 
 \item{forceDB}{re-write the db even if it exisis (default =F)}
-
-\item{path}{TEXT MISSING}
-
-\item{forceDB}{TEXT MISSING default=F}
-
-\item{VRpath}{TEXT MISSING default=NULL}
 }
 \description{
 Creates the base files needed to run the VR environment

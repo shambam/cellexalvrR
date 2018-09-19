@@ -3,9 +3,9 @@
 #' @rdname groupingInfo-methods
 #' @docType methods
 #' @description  returns the information stored for the last grouping read
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param gname The optional group name to get info on a specific grouping (not the last)
-#' @param cellexalObj  TEXT MISSING
+#' @param cellexalObj, TEXT MISSING
 #' @param gname  TEXT MISSING default=NULL
 #' @title description of function groupingInfo
 #' @keywords groupingInfo

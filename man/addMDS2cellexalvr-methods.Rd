@@ -6,13 +6,11 @@
 \alias{addMDS2cellexalvr,cellexalvrR-method}
 \title{description of function addMDS2cellexalvr}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{mdsmatrix}{A matrix of coordinates}
 
 \item{name}{A name for the object (default = graph<n>)}
-
-\item{name}{TEXT MISSING default=NULL}
 }
 \description{
 Adds mds coordinates to a cellexalvrObj

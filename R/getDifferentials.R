@@ -3,7 +3,7 @@
 #' @rdname getDifferentials-methods
 #' @docType methods
 #' @description  Creates a heatmap from a selection of groups
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param deg.method The method to use to find DEGs
 #' @param numsig The number of differentials to be returned
@@ -59,7 +59,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	}
 	
     deg.genes <- NULL
-
+    if ( is.null(cellexalObj@usedObj$sigGeneLists)) 
+		cellexalObj@usedObj$sigGeneLists = list()
     if(deg.method=="anova"){
 
         anovap <- function(v,labs){
@@ -73,8 +74,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	    }
 	
 	    sigp <- order(ps)[1:num.sig]
-	
+		
 	    deg.genes <- rownames(dat.f[sigp,])
+		
+		## save the original p values for the heatmap report GO function
+		if ( is.null(cellexalObj@usedObj$sigGeneLists$anova)) 
+			cellexalObj@usedObj$sigGeneLists$anova = list()
+		names(ps) = rownames(loc@data)
+		cellexalObj@usedObj$sigGeneLists$anova[[cellexalObj@usedObj$lastGroup]] = ps
     }
 
 	if(deg.method=="edgeR"){
@@ -92,9 +99,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		res <- edgeR::glmLRT(fit)
 		pVals <- res$table[,4]
 		names(pVals) <- rownames(res$table)
-
+		
 		pVals <- p.adjust(pVals, method = "fdr")
 		deg.genes <- names(sort(pVals)[1:num.sig])
+		
+		## save the original p values for the heatmap report GO function
+		if ( is.null(cellexalObj@usedObj$sigGeneLists$edgeR)) 
+			cellexalObj@usedObj$sigGeneLists$edgeR = list()
+		cellexalObj@usedObj$sigGeneLists$edgeR[[cellexalObj@usedObj$lastGroup]] = pVals
 	}
 	
 	if(deg.method=='MAST') {
@@ -115,7 +127,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		o <- order(Rtab[,'hurdle'])
 		deg.genes <- rownames(Rtab)[o[1:num.sig]]
 		deg.genes <- str_replace_all( deg.genes, '_\\d+$', '')
+		
+		## save the original p values for the heatmap report GO function
+		if ( is.null(cellexalObj@usedObj$sigGeneLists$edgeR)) 
+			cellexalObj@usedObj$sigGeneLists$edgeR = list()
+		pr = Rtab[,'hurdle']
+		names(pr) = rownames(loc@data)
+		cellexalObj@usedObj$sigGeneLists$edgeR[[cellexalObj@usedObj$lastGroup]] = pr
 	}
-
+    lockedSave(cellexalObj)
     deg.genes
 } )

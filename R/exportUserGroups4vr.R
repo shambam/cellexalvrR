@@ -5,7 +5,7 @@
 #' @description  Creates a summary file for the vr process Creates a file groupings_info.txt in the
 #' @description  outfolder that contains the group name (in the R object) the numer of groups in the
 #' @description  selection and the number of cells in the whole group.
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param path the outpath
 #' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
@@ -16,9 +16,9 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 ) }
 
 setMethod('branch.point.analysis', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,maxsig,outfile) {
+		definition = function (cellexalObj, cellidfile,maxsig,outfile) {
 			cellexalObj <- loadObject(cellexalObj)
-			branch.point.analysis( cellexalObj,cellidfile,maxsig,outfile )
+			branch.point.analysis( cellexalObj, cellidfile,maxsig,outfile )
 		}
 )
 

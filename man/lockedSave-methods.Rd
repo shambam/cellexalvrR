@@ -6,11 +6,9 @@
 \alias{lockedSave,cellexalvrR-method}
 \title{description of function lockedSave}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{path}{the output path}
-
-\item{path}{TEXT MISSING}
 }
 \description{
 Saving the RData in the VR tool might create a problem. Hence this function will

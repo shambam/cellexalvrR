@@ -27,5 +27,7 @@ The R backend for the CellexalVR 3D application
 \item{\code{tfs}}{depricated not used any more}
 
 \item{\code{specie}}{the species this data is from (mouse or human)}
+
+\item{\code{outpath}}{the path this object will be saved to}
 }}
 

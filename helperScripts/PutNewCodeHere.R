@@ -1,26 +1,20 @@
-cleanUpGroup <- function( x, group, otherGroup ) {
-	## get the main otherGroup for each group 
-	r = lapply( levels(x$samples[, group]), 
-			function(n) { 
-				t = table(x$samples[, otherGroup][which(x$samples[, group] == n )])
-				mainOther = names(t[which( t == max(t))])[1]
-				groupIDs <- which(x$samples[, group] == n )
-				OK = groupIDs[ which(x$samples[ groupIDs ,otherGroup ] ==  mainOther )] 
-				if ( length(OK) > 10) {
-					OK = sample(OK, 10)
-				}
-				OK = paste(collapse=";", OK )
-				c( mainOther, n, OK)  
-			} 
-	)
-	r= t(data.frame(r))
-	rownames(r) = NULL
-	OK = unlist( str_split( r[,3], ';'))
-	OK = as.numeric(OK)
-	OK = OK[is.na(OK) == F]
-	OK = reduceTo(x, what='col', to=colnames(x$dat)[OK], name="OK" , copy=T)
-	RFobj = bestGrouping(OK, group)
-	x$samples[, group] = factor( predict( RFobj , t(as.matrix(x$data())) ), levels=levels(x$samples[, group]))
-	print( paste("Grouping", group,"cleaned by grouping", otherGroup )) 
-	invisible(x)
-} 
+mdsPlot2D <- function( cellexalObj, gInfo ) {
+	sessionPath = sessionPath(cellexalObj)
+	MDS1 = file.path( sessionPath , 'png', filename(c( gInfo$grouping,gInfo$mds, "1_2", 'png' ) ))
+	if ( ! file.exists( MDS1 ) ){
+		png( file= MDS1, width=1000, height=1000)
+		plot(
+				cellexalObj@mds[[gInfo$mds]][,1], cellexalObj@mds[[gInfo$mds]][,2], c('grey',gInfo$col)[ gInfo$grouping+1 ],
+				main = paste( gInfo$mds ), xlab="dimension 1", ylab= "dimension 2" )
+		dev.off()
+	}
+	MDS2 = file.path( sessionPath , 'png', filename(c( gInfo$grouping,gInfo$mds, "2_3", 'png' ) ))
+	if ( ! file.exists( MDS2 ) ){
+		png( file= MDS2, width=1000, height=1000)
+		plot(
+				cellexalObj@mds[[gInfo$mds]][,2], cellexalObj@mds[[gInfo$mds]][,3], c('grey',gInfo$col)[ gInfo$grouping+1 ],
+				main = paste( gInfo$mds ), xlab="dimension 2", ylab= "dimension 3" )
+		dev.off()
+	}
+	c( MDS1, MDS2)
+}

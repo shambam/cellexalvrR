@@ -6,7 +6,7 @@
 \alias{branch.point.analysis,cellexalvrR-method}
 \title{description of function branch.point.analysis}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 

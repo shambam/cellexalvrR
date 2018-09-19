@@ -6,20 +6,14 @@
 \alias{print,cellexalvr-method}
 \title{description of function print}
 \usage{
-\S4method{show}{cellexalvrR}(object)
+\S4method{print}{cellexalvrR}(x)
 }
 \arguments{
-\item{x}{the cellexalvr object}
-
 \item{x}{the cellexalvr object}
 }
 \value{
 nothing
-
-nothing
 }
 \description{
 print the cellexalvr
-
-shows the cellexalvr contents
 }

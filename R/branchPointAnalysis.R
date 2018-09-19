@@ -4,7 +4,7 @@
 #' @docType methods
 #' @description  Performs a branch-point analysis identifying genes that have opposite changes in
 #' @description  two branches stemming from one trunk in a pseudotime analysis
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param maxsig The number of differentials to be returned
 #' @param outfile The name of the output file
@@ -12,19 +12,19 @@
 #' @title description of function branch.point.analysis
 #' @export branch.point.analysis
 if ( ! isGeneric('branch.point.analysis') ){setGeneric('branch.point.analysis', ## Name
-	function (cellexalObj,cellidfile,maxsig,outfile) { 
+	function (cellexalObj, cellidfile,maxsig,outfile) { 
 		standardGeneric('branch.point.analysis') 
 	}
 ) }
 setMethod('branch.point.analysis', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,maxsig,outfile) {
+		definition = function (cellexalObj, cellidfile,maxsig,outfile) {
 			cellexalObj <- loadObject(cellexalObj)
-			branch.point.analysis( cellexalObj,cellidfile,maxsig,outfile )
+			branch.point.analysis( cellexalObj, cellidfile,maxsig,outfile )
 		}
 )
 			
 setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,maxsig,outfile) {
+	definition = function (cellexalObj, cellidfile,maxsig,outfile) {
 
     cellexalObj <- loadObject(cellexalObj)
 	## now I want to store the grouping in the cellexalvr object

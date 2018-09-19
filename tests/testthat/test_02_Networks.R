@@ -1,7 +1,7 @@
 
 opath = file.path('data','output')
 
-ofiles =c( 'Networks.nwk', 'NwkLayouts.lay', 'NwkCentroids.cnt' )
+ofiles =c( 'Networks.nwk', 'NwkCentroids.cnt' )
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 
@@ -9,6 +9,9 @@ for ( f in ofiles ) {
 		unlink( ofile)
 	}
 }
+cellexalObj = loadObject( file.path(opath,'..', 'output', 'cellexalObj.RData') )
+cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
+
 
 test_that( "Network outfiles are produced" ,{
 			

@@ -6,7 +6,7 @@
 \alias{getDifferentials,cellexalvrR-method}
 \title{description of function getDifferentials}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 

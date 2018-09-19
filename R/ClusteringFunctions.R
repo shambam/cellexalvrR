@@ -3,7 +3,7 @@
 #' @rdname make.cellexalvr.heatmap-methods
 #' @docType methods
 #' @description  Creates a heatmap from a selection of groups
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param numsig The number of differentials to be returned
 #' @param outfile The name of the output file
@@ -12,20 +12,20 @@
 #' @title description of function make.cellexalvr.heatmap
 #' @export make.cellexalvr.heatmap
 if ( ! isGeneric('make.cellexalvr.heatmap') ){setGeneric('make.cellexalvr.heatmap', ## Name
-	function (cellexalObj,cellidfile,num.sig,outfile) { 
+	function (cellexalObj, cellidfile,num.sig,outfile) { 
 		standardGeneric('make.cellexalvr.heatmap') 
 	}
 ) }
 
 setMethod('make.cellexalvr.heatmap', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,num.sig,outfile) {
+		definition = function (cellexalObj, cellidfile,num.sig,outfile) {
 			cellexalObj <- loadObject(cellexalObj)
-			make.cellexalvr.heatmap( cellexalObj,cellidfile,num.sig,outfile )
+			make.cellexalvr.heatmap( cellexalObj, cellidfile,num.sig,outfile )
 		}
 )
 
 setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,num.sig,outfile) {
+	definition = function (cellexalObj, cellidfile,num.sig,outfile) {
 	
 	anovap <- function(v,labs){
 		anova(lm(v~-1+labs))$Pr[1]

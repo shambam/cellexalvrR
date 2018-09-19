@@ -3,7 +3,7 @@
 #' @rdname plotAllMDS-methods
 #' @docType methods
 #' @description  Plots the MDS reduced data for a quick look
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @title description of function plotAllMDS
 #' @export plotAllMDS
 if ( ! isGeneric('plotAllMDS') ){setGeneric('plotAllMDS', ## Name

@@ -6,7 +6,7 @@
 \alias{make.cellexalvr.network,cellexalvrR-method}
 \title{description of function make.cellexalvr.network}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 

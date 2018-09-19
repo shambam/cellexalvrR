@@ -6,7 +6,7 @@
 \alias{userGrouping,cellexalvrR-method}
 \title{description of function userGrouping}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{cellidfile}{file containing cell IDs}
 

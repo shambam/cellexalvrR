@@ -3,9 +3,9 @@
 #' @rdname onlyGOIs-methods
 #' @docType methods
 #' @description  Allows the user to select only (G)enes (O)f (I)nterest lists from the object
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
-#' @param cellexalObj  TEXT MISSING
+#' @param cellexalObj, TEXT MISSING
 #' @param name  TEXT MISSING
 #' @title description of function onlyGOIs
 #' @export onlyGOIs

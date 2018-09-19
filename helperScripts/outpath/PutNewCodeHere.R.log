@@ -1,1 +1,1 @@
-perl  -I /storage/www/Genexpress/lib/ -I /home/stefan/LibsNewStructure/lib/  /usr/local/bin/convert_R_S3_R_S4.pl -R_source /home/stefan/git/BioData/scratchbord/PutNewCodeHere.R -outfile /home/stefan/git/BioData/scratchbord/outpath/PutNewCodeHere.R -className BioData
+perl  -I /storage/www/Genexpress/lib/ -I /home/stefan/LibsNewStructure/lib/  /home/med-sal/perl5/bin/convert_R_S3_R_S4.pl -R_source /home/med-sal/git_Projects/cellexalvrR/helperScripts/PutNewCodeHere.R -outfile /home/med-sal/git_Projects/cellexalvrR/helperScripts/outpath/PutNewCodeHere.R -className cellexalvrR

@@ -6,7 +6,7 @@
 \alias{defineGOIs,cellexalvrR-method}
 \title{description of function defineGOIs}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{name}{the name of the GIO list (eg TFs or epigenetic)}
 

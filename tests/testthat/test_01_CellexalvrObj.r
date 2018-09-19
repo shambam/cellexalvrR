@@ -1,7 +1,7 @@
 
 opath = file.path('data','output')
 dir.create(opath,  showWarnings = FALSE)
-cellexalObj <- loadObject(file.path('data', 'cellexalObj.RData'))
+cellexalObj <- loadObject(file.path(opath,'..', 'cellexalObj.RData'))
 
 test_that( "export2cellexalvr function" ,{
 
@@ -46,7 +46,6 @@ test_that( "heatmap is produced", {
 			if(  file.exists(ofile ) ){
 				unlink( ofile)
 			}
-			
 			
 			make.cellexalvr.heatmap ( file.path('data', 'cellexalObj.RData') , file.path(opath,'..','selection0.txt'), 300, ofile )
 			

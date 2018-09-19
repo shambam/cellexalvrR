@@ -6,7 +6,7 @@
 \alias{plotAllMDS,cellexalvrR-method}
 \title{description of function plotAllMDS}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 }
 \description{
 Plots the MDS reduced data for a quick look

@@ -6,7 +6,7 @@
 \alias{set.specie,cellexalvrR-method}
 \title{description of function set.specie}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{specie}{The specie required}
 

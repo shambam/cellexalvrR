@@ -6,7 +6,7 @@
 \alias{addCellMeta2cellexalvr,cellexalvrR-method}
 \title{description of function addCellMeta2cellexalvr}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{cell.meta}{A matrix of cell metadata}
 }

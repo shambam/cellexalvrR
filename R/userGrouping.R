@@ -4,7 +4,7 @@
 #' @docType methods
 #' @description  Reads a VR cell selection file and creates a user.grouping column with the information
 #' @description  storing the user defined grouping for later use
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param cellidfile  TEXT MISSING
 #' @keywords userGrouping

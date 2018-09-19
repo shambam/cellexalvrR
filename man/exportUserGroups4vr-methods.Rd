@@ -6,7 +6,7 @@
 \alias{exportUserGroups4vr,cellexalvrR-method}
 \title{description of function exportUserGroups4vr}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{path}{the outpath}
 }

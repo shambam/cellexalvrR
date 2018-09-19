@@ -21,9 +21,12 @@ setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
 setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
 			#ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
-			
+			ret = NULL
 			if( isS4(x)) {
 				## OK no R6 then ;-)
+				ret = x
+				tryCatch({  validObject(x) } ,  error = function(e) {
+				
 				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, specie = x@specie)
 				#browser()
 				if( .hasSlot(x,'userGroups') ){
@@ -35,6 +38,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				if( .hasSlot(x,'usedObj') ){
 					ret@usedObj = x@usedObj
 				}
+				} )
 			}else {
 				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
 				if( .hasSlot(x,'userGroups') ){

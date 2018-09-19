@@ -3,7 +3,7 @@
 #' @rdname make.cellexalvr.network-methods
 #' @docType methods
 #' @description  Creates a network from selected groups for selected genes
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
@@ -12,20 +12,20 @@
 #' @keywords network construction
 #' @export make.cellexalvr.network
 if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) { 
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) { 
 		standardGeneric('make.cellexalvr.network') 
 	}
 ) }
 
 setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
+		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
 			cellexalObj <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj,cellidfile,outpath, cutoff.ggm,top.n.inter)
+			make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm,top.n.inter)
 		}
 )
 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
 
     #dat <- cellexalObj@data	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
@@ -35,6 +35,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 	}
+
 	loc <- onlyGOIs( cellexalObj, 'TFs' )
 	
 	## kick the not groupoed samples out of the loc object

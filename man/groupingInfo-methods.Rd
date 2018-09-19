@@ -6,11 +6,11 @@
 \alias{groupingInfo,cellexalvrR-method}
 \title{description of function groupingInfo}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{gname}{The optional group name to get info on a specific grouping (not the last)}
 
-\item{cellexalObj}{TEXT MISSING}
+\item{cellexalObj, }{TEXT MISSING}
 
 \item{gname}{TEXT MISSING default=NULL}
 }

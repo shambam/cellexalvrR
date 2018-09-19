@@ -3,7 +3,7 @@
 #' @rdname defineGOIs-methods
 #' @docType methods
 #' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)

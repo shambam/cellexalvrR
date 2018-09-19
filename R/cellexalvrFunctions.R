@@ -35,20 +35,30 @@ setMethod('loadObject', signature = c ('character'),
 				class(cellexalObj) = 'cellexalvrR'
 				cellexalObj = renew(cellexalObj)
 			}
+			tmp = new('cellexalvrR')
+			reload = 0
+			
+			tryCatch({file.exists(cellexalObj@outpath ) }, error= { 
+						cellexalObj = renew(cellexalObj)
+						cellexalObj@outpath = dirname( fname )
+					} )
+			
+			if ( ! file.exists(cellexalObj@outpath )) {
+				cellexalObj@outpath = dirname( fname )
+			}
 			cellexalObj
 		} )
 
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
-			cellexalObj = fname
-			cellexalObj
+			fname
 } )
 #' @name set.specie
 #' @aliases set.specie,cellexalvrR-method
 #' @rdname set.specie-methods
 #' @docType methods
 #' @description  Loads TF annotation into cellexalvr object
-#' @param cellexalObj A cellexalvr object
+#' @param cellexalObj, cellexalvr object
 #' @param specie The specie required
 #' @param specie  TEXT MISSING default=c("mouse"
 #' @param "human")  TEXT MISSING default=c("mouse"
@@ -56,13 +66,13 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 #' @keywords TFs
 #' @export set.specie
 if ( ! isGeneric('set.specie') ){setGeneric('set.specie', ## Name
-	function (cellexalObj,specie=c("mouse","human")) { 
+	function (cellexalObj, specie=c("mouse","human")) { 
 		standardGeneric('set.specie') 
 	}
 ) }
 
 setMethod('set.specie', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,specie=c("mouse","human")) {
+	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
 	if(specie=="mouse"){
 		data(mouse.tfs)

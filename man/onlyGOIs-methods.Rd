@@ -6,11 +6,11 @@
 \alias{onlyGOIs,cellexalvrR-method}
 \title{description of function onlyGOIs}
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{cellexalObj, }{cellexalvr object}
 
 \item{name}{the name of the GIO list (eg TFs or epigenetic)}
 
-\item{cellexalObj}{TEXT MISSING}
+\item{cellexalObj, }{TEXT MISSING}
 
 \item{name}{TEXT MISSING}
 }
