@@ -5,20 +5,25 @@
 #' @description creates the GO analysis for a gene list and puts it into the report.
 #' @param cellexalObj the cellexalvrR object
 #' @param genes a list of gene symbols (IMPORTANT)
-#' @param n the nth heatmap to report on here
 #' @param ... unused
 #' @title description of function ontologyLogPage
 #' @export 
 setGeneric('ontologyLogPage', ## Name
-	function ( cellexalObj, genes, n, ... ) { 
+	function ( cellexalObj, genes, ... ) { 
 		standardGeneric('ontologyLogPage')
 	}
 )
 
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes, n, ... ) {
+	definition = function ( cellexalObj, genes, ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	error = ""
+	
+	## for this to work as expected you need an up to date pandoc:
+	## https://pandoc.org/installing.html
+	
+	n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
+	
 	if(cellexalObj@specie =='mouse'){
 		if(require(org.Mm.eg.db)){
 			x <- org.Mm.eg.db}else{
@@ -39,17 +44,16 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	all = is.na(match(rownames(cellexalObj@data), genes ))
 	names(all) = rownames(cellexalObj@data)
 	all = factor(all)
-	tryCatch({  library("topGO", quietly = TRUE) } ,  error = function(e) {
+	tryCatch({  library("topGO", quietly = TRUE) } ,  
+			error = function(e) {
 					stop(paste("topGO needed for this function to work. Please install it.\n", e),
 							call. = FALSE)
 		})
 		
-	if ( is.null( cellexalObj@usedObj$analysis )){	
-		cellexalObj@usedObj$analysis = new("topGOdata", ontology = "BP", allGenes=all 
+
+	cellexalObj@usedObj$analysis = new("topGOdata", ontology = "BP", allGenes=all 
 		,geneSel =  function(x) {x} ,  annot = topGO::annFUN.GO2genes, GO2genes= cellexalObj@usedObj$GO2genes)
-	}else {
-		
-	}
+
 	
 	resultFisher <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "fisher")
 	resultKS <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "ks")
@@ -57,7 +61,11 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
 					orderBy = "elimKS", ranksOf = "classicFisher", topNodes = 10)
-	
+			
+	for ( i in 1:nrow(allRes) ) {
+		allRes[i,1] = paste( sep="", '[',allRes[i,1],'] (http://amigo.geneontology.org/amigo/term/', allRes[i,1],')')
+	}
+	write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOanalysis.csv") ) ) )
 	## and now put this nice little table into the GEO section ;-)
 	## and probably save this damn analysis object....
 	
@@ -72,6 +80,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					paste( "##", "GO analysis for grouping", cellexalObj@usedObj$lastGroup  ),
 					paste( "### Genes"),
 					paste( collapse=" ", genes ),
+					"",
 					paste( "The R package topGO was used to create this output table:"),
 					" ",
 					" ",

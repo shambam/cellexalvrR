@@ -23,7 +23,10 @@ Depends:
     scales,
     phytools,
     bookdown,
-    knitr
+    knitr,
+    topGO,
+	org.Mm.eg.db,
+	org.Hs.eg.db 
 Remotes:
     satijalab/seurat
 biocViews:

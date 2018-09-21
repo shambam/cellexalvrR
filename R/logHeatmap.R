@@ -36,8 +36,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	
 	n = length( grep ( "Heatmap.Rmd", list.files(sessionPath) ) )
 	
-	file.copy(png, file.path( sessionPath , 'png') )
-	figureF = file.path( sessionPath , 'png', basename( png ) )
+	if ( ! file.exists( png) ) {
+		stop(paste( "logHeatmap the heatmap png file can not be found!", 'png') )
+	}
+	file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
+	figureF = file.path('./', 'png', basename( png ) )
 	
 	## now I need to create the 2D mds plots for the grouping 
 	cellexalObj = userGrouping(cellexalObj, grouping )
@@ -49,7 +52,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 	
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file 
-	mainOfile = file.path(sessionPath, filename( c( n, "Heatmap.Rmd") ) )
+	mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
 	fileConn<-file( mainOfile )
 	if ( length(cellexalObj@usedObj$sessionRmdFiles) == 0 ){
 		writeLines(c(paste("# session log for session", cellexalObj@usedObj$sessionName )), fileConn  )
@@ -57,13 +60,13 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	writeLines(c(
 		paste( "##", "Heatmap for grouping", cellexalObj@usedObj$lastGroup  ),
 		paste( "### Genes"),
-		paste( collapse=" ", genes ),
+		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { paste( sep="","[",n,"] ", "(https://www.genecards.org/cgi-bin/carddisp.pl?gene=", n,")") })) ),
 		paste( "### Heatmap (from the VR process)"),
-		paste("![](",normalizePath(figureF),")"),
+		paste("![](",figureF,")"),
 		paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
-		paste("![](",normalizePath(mdsFiles[1]),")"),
+		paste("![](",mdsFiles[1],")"),
 		paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
-		paste("![](",normalizePath(mdsFiles[2]),")")
+		paste("![](",mdsFiles[2],")")
 		), fileConn)
 	
 	close(fileConn)
@@ -72,7 +75,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	## an entry in the annotation gene lists and a GO ontology page for this gene list
 	if ( ! is.null(genes) ) {
-		cellexalObj = ontologyLogPage(cellexalObj, genes = genes, n )
+		cellexalObj = ontologyLogPage(cellexalObj, genes = genes )
 	}
 	
 	lockedSave(cellexalObj)

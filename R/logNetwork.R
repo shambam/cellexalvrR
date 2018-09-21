@@ -30,7 +30,10 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	
 	n = length( grep ( "Network.Rmd", list.files(sessionPath) ) )
 		
-	file.copy(png, file.path( sessionPath , 'png') )
+	if ( ! file.exists( png) ) {
+		stop(paste( "logNetwork the network png file can not be found!", 'png') )
+	}
+	file.copy(png, file.path( sessionPath , 'png', basename( png )) )
 	figureF = file.path( sessionPath , 'png', basename( png ) )
 	
 	## now I need to create the 2D mds plots for the grouping 
@@ -52,11 +55,11 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 					paste( "##", "Network for grouping", cellexalObj@usedObj$lastGroup  ),
 
 					paste( "### Network map (from the VR process)"),
-					paste("![](",normalizePath(figureF),")"),
+					paste("![](",figureF,")"),
 					paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
-					paste("![](",normalizePath(mdsFiles[1]),")"),
+					paste("![](",mdsFiles[1],")"),
 					paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
-					paste("![](",normalizePath(mdsFiles[2]),")")
+					paste("![](",mdsFiles[2],")")
 			), fileConn)
 	
 	close(fileConn)
@@ -65,7 +68,10 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	
 	## if you give me a gene list here you will get a GO analysis ;-)
 	if ( ! is.null(genes)){
-		cellexalObj = ontologyLogPage(cellexalObj, genes, n )
+		if ( file.exists(genes)) {
+			genes = as.vector(read.delim(genes)[,1])
+		}
+		cellexalObj = ontologyLogPage(cellexalObj, genes )
 	}
 	
 	lockedSave(cellexalObj)
