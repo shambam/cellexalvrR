@@ -6,14 +6,12 @@
 \alias{ontologyLogPage,cellexalvrR-method}
 \title{description of function ontologyLogPage}
 \usage{
-ontologyLogPage(cellexalObj, genes, n, ...)
+ontologyLogPage(cellexalObj, genes, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 
 \item{genes}{a list of gene symbols (IMPORTANT)}
-
-\item{n}{the nth heatmap to report on here}
 
 \item{...}{unused}
 }

@@ -10,6 +10,8 @@ renderReport(cellexalObj)
 }
 \arguments{
 \item{cellexalObj}{the cellexlvrR object}
+
+\item{ofile}{the html filename (default filename( cellexalObj@usedObj$sessionName) )}
 }
 \description{
 after one session this function renders the output gitbook
