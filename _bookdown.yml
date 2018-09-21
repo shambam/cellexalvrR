@@ -1,0 +1,3 @@
+book_filename: testSession
+output_dir: ../
+delete_merged_file: true

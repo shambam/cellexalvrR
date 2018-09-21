@@ -60,7 +60,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	writeLines(c(
 		paste( "##", "Heatmap for grouping", cellexalObj@usedObj$lastGroup  ),
 		paste( "### Genes"),
-		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { paste( sep="","[",n,"] ", "(https://www.genecards.org/cgi-bin/carddisp.pl?gene=", n,")") })) ),
+		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		paste( "### Heatmap (from the VR process)"),
 		paste("![](",figureF,")"),
 		paste( "### 2D MDS", gInfo$mds, " dim 1,2"),

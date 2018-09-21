@@ -5,17 +5,18 @@
 #' @description creates the GO analysis for a gene list and puts it into the report.
 #' @param cellexalObj the cellexalvrR object
 #' @param genes a list of gene symbols (IMPORTANT)
+#' @param ontology which GO ontology to choose from (default = "BP") 
 #' @param ... unused
 #' @title description of function ontologyLogPage
 #' @export 
 setGeneric('ontologyLogPage', ## Name
-	function ( cellexalObj, genes, ... ) { 
+	function ( cellexalObj, genes, ontology = 'BP', ... ) { 
 		standardGeneric('ontologyLogPage')
 	}
 )
 
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes, ... ) {
+	definition = function ( cellexalObj, genes, ontology = 'BP', ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	error = ""
 	
@@ -51,7 +52,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		})
 		
 
-	cellexalObj@usedObj$analysis = new("topGOdata", ontology = "BP", allGenes=all 
+	cellexalObj@usedObj$analysis = new("topGOdata", ontology = ontology, allGenes=all 
 		,geneSel =  function(x) {x} ,  annot = topGO::annFUN.GO2genes, GO2genes= cellexalObj@usedObj$GO2genes)
 
 	
@@ -60,11 +61,23 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	resultKS.elim <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "elim", statistic = "ks")
 	
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
-					orderBy = "elimKS", ranksOf = "classicFisher", topNodes = 10)
-			
-	for ( i in 1:nrow(allRes) ) {
-		allRes[i,1] = paste( sep="", '[',allRes[i,1],'] (http://amigo.geneontology.org/amigo/term/', allRes[i,1],')')
+			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = 10)
+	GOI_2_genes <- matrix( 1, nrow=10, ncol=2)
+	colnames(GOI_2_genes) = c("GO ID", "Mapping Gene List")
+	for( i in 1:nrow(allRes) ) {
+		GOI_2_genes[i,1] = allRes[i,1]
+		GOI_2_genes[i,2] = paste( 
+				unlist( lapply(	intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]),
+		            rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=", FALSE ))
+			, collapse=" "
+	    )
 	}
+	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOgenes.csv") ) ) )
+	
+	for ( i in 1:nrow(allRes) ) {
+		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/" )
+	}
+	allRes = allRes[,-c(4,5)] ## significant and expected columns do not contain info
 	write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOanalysis.csv") ) ) )
 	## and now put this nice little table into the GEO section ;-)
 	## and probably save this damn analysis object....
@@ -79,15 +92,18 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	writeLines(c(
 					paste( "##", "GO analysis for grouping", cellexalObj@usedObj$lastGroup  ),
 					paste( "### Genes"),
-					paste( collapse=" ", genes ),
+					paste( collapse="", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),
 					"",
 					paste( "The R package topGO was used to create this output table:"),
 					" ",
 					" ",
-					knitr::kable(allRes, caption=paste("GO analysis for grouping", cellexalObj@usedObj$lastGroup ))
+					knitr::kable(allRes, caption=paste("GO analysis for grouping", cellexalObj@usedObj$lastGroup )),
+					" ",
+					knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" ))
 			), fileConn)
 	
 	close(fileConn)
+	
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 	## object is saved in the heatmap function!
 	

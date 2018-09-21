@@ -20,7 +20,7 @@ test_that( "cellexalvrR Heatmap report" ,{
 					unlist(lapply(c('0.GOanalysis.Rmd', '0.Heatmap.Rmd'), function(x)  file.path( 'testSession', x) ) ),
 					unlist(lapply(c( 'a_simple_figure.png', 'User.group.1.graph1.1_2.png', 'User.group.1.graph1.2_3.png' ), 
 									function(x)  file.path( 'testSession', 'png',  x) ) ),
-					unlist(lapply(c( '0.GOanalysis.csv'), function(x)  file.path( 'testSession', 'tables',  x) ) )
+					unlist(lapply(c( '0.GOanalysis.csv', '0.GOgenes.csv'), function(x)  file.path( 'testSession', 'tables',  x) ) )
 			)
 			for ( f in ofiles ) {
 				ofile = file.path(opath, f ) 

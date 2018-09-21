@@ -20,7 +20,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		cellexalObj = sessionPath(cellexalObj)
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
-	
+	cellexalObj@usedObj$sessionRmdFiles = unique( cellexalObj@usedObj$sessionRmdFiles )
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}
