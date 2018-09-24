@@ -6,17 +6,18 @@
 #' @param cellexalObj the cellexalvrR object
 #' @param genes a list of gene symbols (IMPORTANT)
 #' @param ontology which GO ontology to choose from (default = "BP") 
+#' @param topNodes how many GO terms to report (default 10)
 #' @param ... unused
 #' @title description of function ontologyLogPage
 #' @export 
 setGeneric('ontologyLogPage', ## Name
-	function ( cellexalObj, genes, ontology = 'BP', ... ) { 
+	function ( cellexalObj, genes, ontology = 'BP', topNodes=10, ... ) { 
 		standardGeneric('ontologyLogPage')
 	}
 )
 
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes, ontology = 'BP', ... ) {
+	definition = function ( cellexalObj, genes, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	error = ""
 	
@@ -61,8 +62,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	resultKS.elim <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "elim", statistic = "ks")
 	
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
-			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = 10)
-	GOI_2_genes <- matrix( 1, nrow=10, ncol=2)
+			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = topNodes)
+	GOI_2_genes <- matrix( 1, nrow=topNodes, ncol=2)
 	colnames(GOI_2_genes) = c("GO ID", "Mapping Gene List")
 	for( i in 1:nrow(allRes) ) {
 		GOI_2_genes[i,1] = allRes[i,1]
