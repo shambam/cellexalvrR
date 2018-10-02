@@ -26,21 +26,23 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 			
 			if ( name == "TFs" ) {
 				## register TFs
-				if ( ! is.na(cellexalObj@tfs) ){
-					cellexalObj = defineGOIs( cellexalObj, 'TFs', cellexalObj@tfs[!cellexalObj@tfs==""] )
-				}
-				else {
+				#if ( ! is.na(cellexalObj@tfs) ){
+				#	cellexalObj = defineGOIs( cellexalObj, 'TFs', cellexalObj@tfs[!cellexalObj@tfs==""] )
+				#}
+				#else {
 					## use inbuilt lists
 					hum_t <- length(which(is.na(match(rownames(cellexalObj@data),human.tfs))==F))
 					mouse_t <- length(which(is.na(match( rownames(cellexalObj@data), mouse.tfs))==F))
 					if (hum_t > mouse_t ){
 						cellexalObj = defineGOIs( cellexalObj, name, human.tfs )
+						cellexalObj@specie = 'human'
 					}else if ( mouse_t > hum_t ){
 						cellexalObj = defineGOIs( cellexalObj, name, mouse.tfs )
+						cellexalObj@specie = 'mouse'
 					}else {
 						stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 					}
-				}
+				#}
 			}
 			else if ( name == 'epigenetic' ) {
 				# register 'epigeneic'
@@ -48,8 +50,10 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				mouse_e <- length(which(is.na(match( rownames(cellexalObj@data),Epigenetic$MGI_symbol ))==F))
 				if ( hum_e > mouse_e){
 					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$HGNC_symbol, Epigenetic$Target )
+					cellexalObj@specie = 'human'
 				}else if ( mouse_e > hum_e ){
 					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$MGI_symbol, Epigenetic$Target)
+					cellexalObj@specie = 'mouse'
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}

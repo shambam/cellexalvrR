@@ -14,7 +14,8 @@ if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
 ) }
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
     definition = function (x) {
-		class(cellexalObj) = 'cellexalvrR'
+		browser()
+		class(x) = 'cellexalvrR'
 		renew(x)
 	} )
 
@@ -27,7 +28,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				ret = x
 				tryCatch({  validObject(x) } ,  error = function(e) {
 				
-				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, specie = x@specie)
+				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
 				#browser()
 				if( .hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups 
@@ -37,6 +38,9 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				}
 				if( .hasSlot(x,'usedObj') ){
 					ret@usedObj = x@usedObj
+				}
+				if( .hasSlot(x,'specie') ){
+					ret@specie = x@specie
 				}
 				} )
 			}else {
