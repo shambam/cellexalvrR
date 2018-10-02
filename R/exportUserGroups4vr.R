@@ -15,10 +15,10 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 	}
 ) }
 
-setMethod('branch.point.analysis', signature = c ('character'),
-		definition = function (cellexalObj, cellidfile,maxsig,outfile) {
+setMethod('exportUserGroups4vr', signature = c ('character'),
+		definition = function (cellexalObj, path) {
 			cellexalObj <- loadObject(cellexalObj)
-			branch.point.analysis( cellexalObj, cellidfile,maxsig,outfile )
+			exportUserGroups4vr( cellexalObj, path )
 		}
 )
 
