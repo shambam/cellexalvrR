@@ -7,23 +7,24 @@
 #' @param genes the genes displayed on the network
 #' @param png the VR generated network (png)
 #' @param grouping the grouping file used to create this network
+#' @param ... options you want to send to the ontologyLogPage() function
 #' @title description of function logNetwork
 #' @export 
 setGeneric('logNetwork', ## Name
-	function ( cellexalObj, genes = NULL, png, grouping ) { 
+	function ( cellexalObj, genes = NULL, png, grouping, ...  ) { 
 		standardGeneric('logNetwork')
 	}
 )
 
 setMethod('logNetwork', signature = c ('character'),
-		definition = function (cellexalObj, genes = NULL, png, grouping) {
+		definition = function (cellexalObj, genes = NULL, png, grouping, ... ) {
 			cellexalObj <- loadObject(cellexalObj)
-			logNetwork(cellexalObj, genes, png, grouping)
+			logNetwork(cellexalObj, genes, png, grouping, ... )
 		}
 )
 
 setMethod('logNetwork', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes = NULL, png, grouping ) {
+	definition = function ( cellexalObj, genes = NULL, png, grouping, ... ) {
 	## almost the same page as in the logHeatmap function - including a GO analyis?
 	cellexalObj = sessionPath(cellexalObj)
 	sessionPath = cellexalObj@usedObj$sessionPath
@@ -34,7 +35,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 		stop(paste( "logNetwork the network png file can not be found!", 'png') )
 	}
 	file.copy(png, file.path( sessionPath , 'png', basename( png )) )
-	figureF = file.path( sessionPath , 'png', basename( png ) )
+	figureF = file.path( 'png', basename( png ) )
 	
 	## now I need to create the 2D mds plots for the grouping 
 	cellexalObj = userGrouping(cellexalObj, grouping )
@@ -71,7 +72,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 		if ( file.exists(genes)) {
 			genes = as.vector(read.delim(genes)[,1])
 		}
-		cellexalObj = ontologyLogPage(cellexalObj, genes )
+		cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
 	}
 	
 	lockedSave(cellexalObj)

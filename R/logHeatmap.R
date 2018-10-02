@@ -7,23 +7,24 @@
 #' @param genes the genes displayed on the heatmap
 #' @param png the VR generated heatmap (png)
 #' @param grouping the grouping file used to create this heatmap
+#' @param ... options you want to send to the ontologyLogPage() function
 #' @title description of function logHeatmap
 #' @export 
 setGeneric('logHeatmap', ## Name
-	function ( cellexalObj, genes, png, grouping ) { 
+	function ( cellexalObj, genes, png, grouping, ... ) { 
 		standardGeneric('logHeatmap')
 	}
 )
 
 setMethod('logHeatmap', signature = c ('character'),
-		definition = function (cellexalObj, genes, png, grouping) {
+		definition = function (cellexalObj, genes, png, grouping, ... ) {
 			cellexalObj <- loadObject(cellexalObj)
-			logHeatmap(cellexalObj, genes, png, grouping)
+			logHeatmap(cellexalObj, genes, png, grouping, ... )
 		}
 )
 
 setMethod('logHeatmap', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes = NULL, png, grouping ) {
+	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
 
 	if ( !is.null(genes)){
@@ -75,7 +76,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	## an entry in the annotation gene lists and a GO ontology page for this gene list
 	if ( ! is.null(genes) ) {
-		cellexalObj = ontologyLogPage(cellexalObj, genes = genes )
+		cellexalObj = ontologyLogPage(cellexalObj, genes = genes, ...)
 	}
 	
 	lockedSave(cellexalObj)

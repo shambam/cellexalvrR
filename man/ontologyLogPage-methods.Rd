@@ -6,7 +6,8 @@
 \alias{ontologyLogPage,cellexalvrR-method}
 \title{description of function ontologyLogPage}
 \usage{
-ontologyLogPage(cellexalObj, genes, ontology = "BP", ...)
+ontologyLogPage(cellexalObj, genes, ontology = "BP", topNodes = 10,
+  ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
@@ -14,6 +15,8 @@ ontologyLogPage(cellexalObj, genes, ontology = "BP", ...)
 \item{genes}{a list of gene symbols (IMPORTANT)}
 
 \item{ontology}{which GO ontology to choose from (default = "BP")}
+
+\item{topNodes}{how many GO terms to report (default 10)}
 
 \item{...}{unused}
 }

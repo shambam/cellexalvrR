@@ -97,6 +97,7 @@ test_that( "cellexalvrR report generation" ,{
 				ofile = file.path(opath, f ) 
 				expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
 			}
+			
 		}
 )
 

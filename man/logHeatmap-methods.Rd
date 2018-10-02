@@ -6,7 +6,7 @@
 \alias{logHeatmap,cellexalvrR-method}
 \title{description of function logHeatmap}
 \usage{
-logHeatmap(cellexalObj, genes, png, grouping)
+logHeatmap(cellexalObj, genes, png, grouping, ...)
 }
 \arguments{
 \item{cellexalObj}{teh cellexalvrR object}
@@ -16,6 +16,8 @@ logHeatmap(cellexalObj, genes, png, grouping)
 \item{png}{the VR generated heatmap (png)}
 
 \item{grouping}{the grouping file used to create this heatmap}
+
+\item{...}{options you want to send to the ontologyLogPage() function}
 }
 \description{
 create one Heatmap session report page

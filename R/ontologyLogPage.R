@@ -63,21 +63,27 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
 			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = topNodes)
-	GOI_2_genes <- matrix( 1, nrow=topNodes, ncol=2)
-	colnames(GOI_2_genes) = c("GO ID", "Mapping Gene List")
+	
+	GOI_2_genes <- matrix( 1, nrow=topNodes, ncol=3)
+	colnames(GOI_2_genes) = c("GO ID", "Rmd Gene list", "Mapping Gene List")
 	for( i in 1:nrow(allRes) ) {
 		GOI_2_genes[i,1] = allRes[i,1]
-		GOI_2_genes[i,2] = paste( 
+		GOI_2_genes[i,2] =  paste( intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]), collapse=" ")
+		GOI_2_genes[i,3] = paste( 
 				unlist( lapply(	intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]),
 		            rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=", FALSE ))
 			, collapse=" "
 	    )
 	}
-	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOgenes.csv") ) ) )
-	
 	for ( i in 1:nrow(allRes) ) {
 		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/" )
 	}
+	
+	GOI_2_genes = cbind(GOI_2_genes,  allRes )
+	
+	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOgenes.csv") ) ) )
+	GOI_2_genes = GOI_2_genes[,c(1,3)]
+	
 	allRes = allRes[,-c(4,5)] ## significant and expected columns do not contain info
 	write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOanalysis.csv") ) ) )
 	## and now put this nice little table into the GEO section ;-)

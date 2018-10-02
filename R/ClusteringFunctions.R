@@ -109,6 +109,14 @@ if ( ! isGeneric('make.cellexalvr.heatmap.list') ){setGeneric('make.cellexalvr.h
 	}
 ) }
 
+setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
+		definition = function (cvrObj,cellidfile,num.sig,outfile) {
+			cvrObj <- loadObject( cvrObj )
+			make.cellexalvr.heatmap.list(cvrObj,cellidfile,num.sig,outfile )
+		}
+)
+
+
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 	definition = function (cvrObj,cellidfile,num.sig,outfile) {
 	
