@@ -13,4 +13,4 @@ if ( is.na(sessionString ) ){
 cellexalObj <- loadObject(file.path(datadir, "cellexalObj.RData"))
 
 cellexalObj = sessionPath(cellexalObj, sessionString )
-lockedSave(cellexalObj)
+#lockedSave(cellexalObj)

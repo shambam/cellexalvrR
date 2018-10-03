@@ -60,7 +60,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	resultFisher <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "fisher")
 	resultKS <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "ks")
 	resultKS.elim <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "elim", statistic = "ks")
-	
+	topNodes <- as.numeric(topNodes)
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
 			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = topNodes)
 	

@@ -14,7 +14,6 @@ if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
 ) }
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
     definition = function (x) {
-		browser()
 		class(x) = 'cellexalvrR'
 		renew(x)
 	} )

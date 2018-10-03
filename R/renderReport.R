@@ -24,33 +24,43 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}
-	fileConn<-file( '_bookdown.yml' )
+	lockedSave( cellexalObj)
+	
+	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
 		paste('book_filename:', cellexalObj@usedObj$sessionName),
 		'output_dir: ../',			
 		'delete_merged_file: true' 
         ), fileConn )
     close(fileConn)
-	oldwd = getwd()
-	tryCatch({
-		setwd( sessionPath )
-		fileConn<-file( '_bookdown.yml' )
-		writeLines(c(
-						paste('book_filename:', cellexalObj@usedObj$sessionName),
-						'output_dir: ./',			
-						'delete_merged_file: true' 
-				), fileConn )
-		close(fileConn)
-		try({ bookdown::render_book( cellexalObj@usedObj$sessionRmdFiles, "bookdown::gitbook" ) }, FALSE)
-
-	},finally = {
-		setwd(oldwd)
-	}) 
-
-
-	cellexalObj@usedObj$sessionName = NULL
 	
-	lockedSave(cellexalObj)
+	#this part is so buggy I need to export it into a new thread
+	## first a short script
+	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
+	writeLines(c(
+					"library(cellexalvrR)",
+					paste( sep="" , "cellexalObj = loadObject( '", normalizePath(file.path( cellexalObj@outpath, 'cellexalObj.RData')),"')" ),
+					paste(sep="", "setwd('",sessionPath,"')" ),
+					"bookdown::render_book( unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)), 'bookdown::gitbook' )"
+			), fileConn )
+	close(fileConn)
+	
+	print ( paste(Sys.which('R') ," CMD BATCH", file.path(sessionPath, 'knit.R' ) ) )
+	system( paste( Sys.which('R') ," CMD BATCH", file.path(sessionPath, 'knit.R') ) )
+
+	for ( i in 1:6 ){
+		if (file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html') )) ){
+			last
+		}
+		Sys.sleep(10)
+	}
+	
+	if ( file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html')) )){
+		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
+		lockedSave(cellexalObj)
+	}else {
+		print ( "some error has occured - output html file was not created!" )
+	}	
 	
 	cellexalObj
 } )
