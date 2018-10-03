@@ -1,4 +1,3 @@
-library(cellexalvr)
 
 opath = file.path('data','output')
 
@@ -12,7 +11,7 @@ test_that( "cellexalvr save and load object" ,{
 			
 			min = end_time - start_time
 			
-			file.create( file.path('data', 'cellexalObj.RData.lock') )
+			file.create( file.path(opath,'..', 'cellexalObj.RData.lock') )
 			write( "Manually created",file.path(opath, '..', 'cellexalObj.RData.lock') )
 			
 			expect_true(exists('cellexalObj'), 'normal load')
@@ -25,14 +24,10 @@ test_that( "cellexalvr save and load object" ,{
 			tryCatch( {
 						cellexalObj =loadObject(file.path(opath, '..','cellexalObj.RData'), 1 )
 					},  error = function(err)  {
-						#browser()
+						browser()
 						file.remove(file.path(opath, '..', 'cellexalObj.RData.lock') )
-						expect_equal( as.character(paste(err)),
-								paste( 
-										"Error in loadObject(file.path(\"data\", \"cellexalObj.RData\"), 1):",
-										"Could not obtain access to locked file",
-										file.path('data', 'cellexalObj.RData\n') 
-								), 
+						expect_equal( str_extract( as.character(paste(err)), ' Could not obtain access to locked file'),
+								" Could not obtain access to locked file",
 								'Could not obtain access to locked file with lock')
 					} )
 			end_time <- Sys.time()

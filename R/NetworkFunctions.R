@@ -18,19 +18,24 @@ if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.networ
 ) }
 
 setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
+		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
 			cellexalObj <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm,top.n.inter)
+			make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm, top.n.inter)
 		}
 )
 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=125) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
 
+		if ( !file.exists(outpath)) {
+			dir.create( outpath ,  recursive = TRUE)
+		}
+		
+	datadir <- cellexalObj@outpath
     #dat <- cellexalObj@data	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
-	checkVRfiles( cellexalObj, outpath)
+	checkVRfiles( cellexalObj, datadir)
 	## cut loc to only include TFs
 	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
@@ -45,6 +50,11 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	
 	info <- groupingInfo( loc )
+	if ( info$mds == 'unknown' ) {
+		## just assume the user selected from graph 1
+		## better than breaking
+		info$mds = names(loc@mds)[1]
+	}
 	grps <- as.vector(unique(info$grouping))
 	
     dat <- loc@data

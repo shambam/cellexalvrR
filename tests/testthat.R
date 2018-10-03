@@ -1,4 +1,4 @@
 library(testthat)
-library(cellexalvr)
+library(cellexalvrR)
 
-test_check("cellexalvr")
+test_check("cellexalvrR")

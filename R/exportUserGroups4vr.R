@@ -17,7 +17,12 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 
 setMethod('exportUserGroups4vr', signature = c ('character'),
 		definition = function (cellexalObj, path) {
-			cellexalObj <- loadObject(cellexalObj)
+			## This is the first function the VR does actually run in the R environment.
+			if ( file.exists( file.path(path, 'cellexalObj.RData'))){
+				cellexalObj <- loadObject(file.path(path, 'cellexalObj.RData'))
+			}else {
+				cellexalObj <- loadObject(cellexalObj)
+			}
 			exportUserGroups4vr( cellexalObj, path )
 		}
 )
@@ -25,7 +30,7 @@ setMethod('exportUserGroups4vr', signature = c ('character'),
 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
-	cellexalObj <- loadObject(cellexalObj)
+	#cellexalObj <- loadObject(cellexalObj)
 	
 	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(cellexalObj@userGroups), invert=T)]
 	
@@ -55,6 +60,9 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	groupCount <- unlist(lapply( names, function(n) { length( which( is.na(cellexalObj@userGroups[,n]) == F)) } ) )
 	ret <- cbind(  'group name' = names, 'groups [n]' =  groupN, 'cells [n]' = groupCount )
 	write.table(ret, file=file.path( path, 'groupings_info.txt'), row.names=F, col.names=T, sep="\t", quote=F )
+	
+	cellexalObj@outpath = path
+	lockedSave( cellexalObj )
 	
 	ret
 } )

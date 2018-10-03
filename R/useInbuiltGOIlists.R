@@ -20,6 +20,10 @@ if ( ! isGeneric('useInbuiltGOIlists') ){setGeneric('useInbuiltGOIlists', ## Nam
 setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, name ) {
 			
+		if ( length(colnames(cellexalObj@meta.gene)) == 0){
+			cellexalObj@meta.gene = matrix( ncol=1, rownames(cellexalObj@data) )
+			colnames(cellexalObj@meta.gene) = "gene_id"
+		}
 			if ( ! is.na( match(name, colnames(cellexalObj@meta.gene)))) {
 				stop( "This GIO list has already been defined" )
 			}

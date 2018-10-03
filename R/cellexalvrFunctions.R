@@ -17,7 +17,6 @@ if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
 
 setMethod('loadObject', signature = c ('character'),
 		definition = function ( fname, maxwait=50 ) {
-			browser()
 			if ( file.exists( fname) ) {
 				waited = 0
 				while ( file.exists( paste(fname, 'lock',sep='.'))){

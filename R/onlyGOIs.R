@@ -18,7 +18,10 @@ if ( ! isGeneric('onlyGOIs') ){setGeneric('onlyGOIs', ## Name
 setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {
-		stop( "Sorry, but this GIO list not known" )
+		tryCatch({
+					cellexalObj = useInbuiltGOIlists( cellexalObj, 'TFs') }, error= { 
+					stop( "Sorry, but this GIO list not known" )
+				} )
 	}
 	cellexalObj = reduceTo(
 			cellexalObj, 
