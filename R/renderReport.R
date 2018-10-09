@@ -36,6 +36,12 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	
 	#this part is so buggy I need to export it into a new thread
 	## first a short script
+	cmd = paste(
+			Sys.which('Rscript') , 
+			file.path(sessionPath, 'knit.R' ), 
+			file.path( cellexalObj@outpath , 'cellexalObj.RData') 
+	)
+	
 	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
 		
 	writeLines(c(
@@ -47,12 +53,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 					"message ( getwd())",
 					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
 					"message( paste( files ) )",
-					"bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )"
+					"bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )",
+					paste( sep=" ", "#", cmd )
 			), fileConn )
 	close(fileConn)
 	
-	print ( paste(Sys.which('Rscript') , file.path(sessionPath, 'knit.R' ), file.path( cellexalObj@outpath , 'cellexalObj.RData') ) )
-	system( paste( Sys.which('Rscript') , file.path(sessionPath, 'knit.R') , file.path( cellexalObj@outpath , 'cellexalObj.RData') ) )
+	print ( cmd )
+	system( cmd )
 
 	for ( i in 1:6 ){
 		if (file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html') )) ){
