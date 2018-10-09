@@ -30,12 +30,14 @@ setMethod('loadObject', signature = c ('character'),
 					stop( paste("Could not obtain access to locked file", fname ))
 				}
 			}
-			if (attributes(cellexalObj@class)$package == 'cellexalvr'){
-				class(cellexalObj) = 'cellexalvrR'
-				cellexalObj = renew(cellexalObj)
+			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
+				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){
+					class(cellexalObj) = 'cellexalvrR'
+					cellexalObj = renew(cellexalObj)
+				}
 			}
-			tmp = new('cellexalvrR')
-			reload = 0
+			#tmp = new('cellexalvrR')
+			#reload = 0
 			
 			tryCatch({file.exists(cellexalObj@outpath ) }, error= { 
 						cellexalObj = renew(cellexalObj)
