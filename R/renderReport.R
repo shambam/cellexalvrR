@@ -43,6 +43,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	writeLines(c(
 					"library(cellexalvrR)",
 					"library(methods)",
+					"#this should now have this useless comment",
 					paste( sep="","sessionPath = '",pathSept ,"'"),
 					"cellexalObj = loadObject( file.path( sessionPath, 'cellexalObj.RData') )" ,
 					"setwd('sessionPath')",
