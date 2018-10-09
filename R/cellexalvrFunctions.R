@@ -39,11 +39,11 @@ setMethod('loadObject', signature = c ('character'),
 			
 			tryCatch({file.exists(cellexalObj@outpath ) }, error= { 
 						cellexalObj = renew(cellexalObj)
-						cellexalObj@outpath = dirname( fname )
+						cellexalObj@outpath = normalizePath(dirname( fname ))
 					} )
 			
 			if ( ! file.exists(cellexalObj@outpath )) {
-				cellexalObj@outpath = dirname( fname )
+				cellexalObj@outpath = normalizePath(dirname( fname ))
 			}
 			cellexalObj
 		} )
