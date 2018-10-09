@@ -37,16 +37,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#this part is so buggy I need to export it into a new thread
 	## first a short script
 	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
-	
-	pathSept <- str_replace_all( cellexalObj@outpath , .Platform$file.sep, '/' )
-	
+		
 	writeLines(c(
+					"args <- commandArgs(trailingOnly = TRUE)",
 					"library(cellexalvrR)",
-					"library(methods)",
 					"#this should now have this useless comment",
-					paste( sep="","sessionPath = '",pathSept ,"'"),
-					"cellexalObj = loadObject( file.path( sessionPath, 'cellexalObj.RData') )" ,
-					"setwd('sessionPath')",
+					"cellexalObj = loadObject( args[1] )" ,
+					"setwd(cellexalObj@usedObj$sessionPath)",
 					"message ( getwd())",
 					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
 					"message( paste( files ) )",
@@ -54,8 +51,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 			), fileConn )
 	close(fileConn)
 	
-	print ( paste(Sys.which('R') ," CMD BATCH", file.path(sessionPath, 'knit.R' ) ) )
-	system( paste( Sys.which('R') ," CMD BATCH", file.path(sessionPath, 'knit.R') ) )
+	print ( paste(Sys.which('Rscript') , file.path(sessionPath, 'knit.R' ), file.path( cellexalObj@outpath , 'cellexalObj.RData') ) )
+	system( paste( Sys.which('Rscript') , file.path(sessionPath, 'knit.R') , file.path( cellexalObj@outpath , 'cellexalObj.RData') ) )
 
 	for ( i in 1:6 ){
 		if (file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html') )) ){
