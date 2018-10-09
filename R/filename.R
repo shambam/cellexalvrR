@@ -15,5 +15,6 @@ setGeneric('filename', ## Name
 setMethod('filename', signature = c ('character'),
 	definition = function ( str ) {
 	of = paste( collapse=".", str )
-	stringr::str_replace_all(of, "\\s+",'')
+	of = stringr::str_replace_all(of, "\\s+",'')
+	stringr::str_replace_all(of, "[:-]",'_')
 } )
