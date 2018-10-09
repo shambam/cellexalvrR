@@ -50,7 +50,7 @@ setMethod('loadObject', signature = c ('character'),
 
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
-			fname
+			return (fname)
 } )
 #' @name set.specie
 #' @aliases set.specie,cellexalvrR-method
