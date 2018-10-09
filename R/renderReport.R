@@ -37,11 +37,15 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#this part is so buggy I need to export it into a new thread
 	## first a short script
 	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
+	
+	pathSept <- str_replace_all( cellexalObj@outpath , .Platform$file.sep, '/' )
+	
 	writeLines(c(
 					"library(cellexalvrR)",
 					"library(methods)",
-					paste( sep="" , "cellexalObj = loadObject( '", normalizePath(file.path( cellexalObj@outpath, 'cellexalObj.RData')),"')" ),
-					paste(sep="", "setwd('",sessionPath,"')" ),
+					paste( sep="","sessionPath = '",pathSept ,"'"),
+					"cellexalObj = loadObject( file.path( sessionPath, 'cellexalObj.RData') )" ,
+					"setwd('sessionPath')",
 					"message ( getwd())",
 					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
 					"message( paste( files ) )",
