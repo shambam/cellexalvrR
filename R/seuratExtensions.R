@@ -5,7 +5,7 @@
 seurat2cellexalvr <- function(seuratObj) 
 {
 
-    cell.meta <- data.frame(Indentity=as.vector(seuratObj@ident))
+    cell.meta <- data.frame(Identity=as.vector(seuratObj@ident))
 
     if (exists("Phase", where = seuratObj@meta.data) == T) {
         cell.meta$Phase <- as.vector(seuratObj@meta.data$Phase)
