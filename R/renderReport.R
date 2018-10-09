@@ -45,7 +45,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 					"message ( getwd())",
 					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
 					"message( paste( files ) )",
-					"bookdown::render_book( input=files, output_format='bookdown::gitbook' )"
+					"bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )"
 			), fileConn )
 	close(fileConn)
 	

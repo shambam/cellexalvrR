@@ -11,3 +11,4 @@ logfile.R
 /loadings.png
 /test.heatmap.png
 inst/doc
+/knit.Rout
