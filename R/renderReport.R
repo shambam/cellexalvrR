@@ -58,8 +58,14 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 			), fileConn )
 	close(fileConn)
 	
-	print ( cmd )
-	system( cmd )
+	#print ( cmd )
+	system( 
+			paste(
+					Sys.which('Rscript') , 
+					file.path(sessionPath, 'knit.R' ), 
+					file.path( cellexalObj@outpath , 'cellexalObj.RData') 
+			)
+			)
 
 	for ( i in 1:6 ){
 		if (file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html') )) ){
