@@ -20,13 +20,13 @@ ofiles = c( )
 
 for ( fname in ofiles ){
 	
-	if( file.exists( file.path( outputFolder, 'testSession', fname ) ) ) {
-		file.remove( file.path( outputFolder, 'testSession', fname ) )
+	if( file.exists( file.path( datadir, 'testSession', fname ) ) ) {
+		file.remove( file.path( datadir, 'testSession', fname ) )
 	}
 }
 
 system( paste( 'Rscript', script, datadir, heatmap_png, grouping  ) )
 
 for ( fname in ofiles){
-	expect_true( file.exists( file.path(outputFolder, 'testSession',  fname ) ) , paste( "file exists", fname) )
+	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }

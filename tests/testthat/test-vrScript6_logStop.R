@@ -20,5 +20,5 @@ expect_true( is.null(test@usedObj$sessionName) , "session has ended" )
 
 
 for ( fname in ofiles ){
-	expect_true( file.exists( file.path(datadir, 'testSession', fname ) ) , paste( "file exists", fname) )
+	expect_true( file.exists( file.path(datadir, 'testSession', fname ) ) , paste( "file has not been created", fname) )
 }

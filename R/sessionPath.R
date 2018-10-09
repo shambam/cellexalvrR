@@ -15,33 +15,47 @@ setGeneric('sessionPath', ## Name
 
 setMethod('sessionPath', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, sessionName=NULL ) {
+		#browser()
+		
 	if ( ! is.null(sessionName) ){
 		if ( is.null(cellexalObj@usedObj$sessionName)){
 			cellexalObj@usedObj$sessionName = sessionName
-			cellexalObj@usedObj$sessionRmdFiles = c()
-			lockedSave( cellexalObj)
+			cellexalObj@usedObj$sessionRmdFiles = NULL
+			cellexalObj@usedObj$sessionPath = NULL
 		}else if ( ! cellexalObj@usedObj$sessionName == sessionName)  {
 			cellexalObj@usedObj$sessionName = sessionName
-			cellexalObj@usedObj$sessionRmdFiles = c()
-			lockedSave( cellexalObj)
+			cellexalObj@usedObj$sessionRmdFiles = NULL
+			cellexalObj@usedObj$sessionPath = NULL
+			#lockedSave( cellexalObj)
 		}
 	}
 	if ( is.null(cellexalObj@usedObj$sessionName )) {
 		cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
+		cellexalObj@usedObj$sessionRmdFiles = NULL
+		cellexalObj@usedObj$sessionPath = NULL
 	}
-	opath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
+	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
+		## init the session objects
+		cellexalObj@usedObj$sessionRmdFiles = c()
+		cellexalObj@usedObj$sessionPath = normalizePath( file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName) )
+		lockedSave( cellexalObj)
+	}
+	
+	opath = cellexalObj@usedObj$sessionPath
+
 	if ( ! file.exists( opath ) ){
 		dir.create( opath )
 		dir.create( file.path( opath, 'png') )
 		dir.create( file.path( opath, 'tables' ))
 	}
-	cellexalObj@usedObj$sessionPath = opath
-	cellexalObj
+	
+	invisible(cellexalObj)
+	
 } )
 
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
 			cellexalObj <- loadObject(cellexalObj)
-			logNetwork(cellexalObj, sessionName )
+			sessionPath(cellexalObj, sessionName )
 		}
 )

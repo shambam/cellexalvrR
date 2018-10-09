@@ -29,13 +29,13 @@ ofiles = c( 'png/User.group.1.graph1.1_2.png', 'png/a_simple_figure.png','png/Us
 
 for ( fname in ofiles ){
 	
-	if( file.exists( file.path( outputFolder, 'testSession', fname ) ) ) {
-		file.remove( file.path( outputFolder, 'testSession', fname ) )
+	if( file.exists( file.path( datadir, 'testSession', fname ) ) ) {
+		file.remove( file.path( datadir, 'testSession', fname ) )
 	}
 }
 
 system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 
 for ( fname in ofiles){
-	expect_true( file.exists( file.path(outputFolder, 'testSession',  fname ) ) , paste( "file exists", fname) )
+	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }

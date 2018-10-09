@@ -1,5 +1,3 @@
-
-
 prefix <- ''
 
 script = file.path(prefix, 'data/vrscripts/make_heatmap.R')
@@ -24,5 +22,5 @@ system( paste( 'Rscript', script, homedir,  datadir, latest_version, output_file
 expect_true( file.exists(output_filepath), paste( "file exists", 'heatmap_0-3-5.txt') )
 
 #for ( fname in c( 'heatmap_0-3-5.txt' ) ){	
-#	expect_true( file.exists( file.path(outputFolder, fname ) ) , paste( "file exists", fname) )
+#	expect_true( file.exists( file.path(outputFolder, fname ) ) , paste( "file has not been created", fname) )
 #}

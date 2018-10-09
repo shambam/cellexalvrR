@@ -22,5 +22,5 @@ system( paste( 'Rscript', script, input_file, datadir, output_file ))
 
 
 for ( fname in ofiles ) {
-	expect_true( file.exists( file.path(output_file, fname ) ) )
+	expect_true( file.exists( file.path(output_file, fname ) ), paste("file has not been created", fname) )
 }

@@ -15,11 +15,11 @@ system( paste( 'Rscript', script, datadir, sessionString  ) )
 cellexalObj <- loadObject(file.path(datadir, "cellexalObj.RData"))
 
 expect_true(cellexalObj@usedObj$sessionName == 'testSession' )
-expect_true(cellexalObj@usedObj$sessionName == file.path(datadir,'testSession') )
+expect_true( cellexalObj@usedObj$sessionPath == normalizePath(file.path(datadir,'testSession')) )
 
 opaths <- c( 'testSession', 'testSession/png','testSession/tables' )
 
 for ( fname in opaths){
-	expect_true( file.exists( file.path(datadir,  fname ) ) , paste( "path exists", fname) )
+	expect_true( file.exists( file.path(datadir,  fname ) ) , paste( "file has not been created", fname) )
 }
 

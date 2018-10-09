@@ -39,9 +39,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
 	writeLines(c(
 					"library(cellexalvrR)",
+					"library(methods)",
 					paste( sep="" , "cellexalObj = loadObject( '", normalizePath(file.path( cellexalObj@outpath, 'cellexalObj.RData')),"')" ),
 					paste(sep="", "setwd('",sessionPath,"')" ),
-					"bookdown::render_book( unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)), 'bookdown::gitbook' )"
+					"message ( getwd())",
+					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
+					"message( paste( files ) )",
+					"bookdown::render_book( input=files, output_format='bookdown::gitbook' )"
 			), fileConn )
 	close(fileConn)
 	
