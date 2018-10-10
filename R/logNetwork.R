@@ -61,8 +61,9 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	}
 
 	cat(
-					paste( "##", "Network for grouping", cellexalObj@usedObj$lastGroup  ),
-
+					paste( "##", "Network from Selection", (n+1)  ),
+					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
+					"",
 					paste( "### Network map (from the VR process)"),
 					paste("![](",figureF,")"),
 					paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
@@ -70,7 +71,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 					paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
 					paste("![](",mdsFiles[2],")"),
 					""
-			, sep="n", file = mainOfile, append= TRUE)
+			, sep="\n", file = mainOfile, append= TRUE)
 
 	#close(fileConn)
 
