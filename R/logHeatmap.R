@@ -53,12 +53,19 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
-	fileConn<-file( mainOfile )
-	if ( length(cellexalObj@usedObj$sessionRmdFiles) == 0 ){
-		writeLines(c(paste("# session log for session", cellexalObj@usedObj$sessionName )), fileConn  )
+	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
+	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
+
+	max = 10
+	i = 0
+	while ( ! file.exists(cellexalObj@usedObj$sessionRmdFiles[1])){
+	  Sys.sleep( 10)
+	  i =  +1
+	  if ( max == i )
+	    last
 	}
-	writeLines(c(
+
+	cat(paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", (n+1)  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
@@ -70,9 +77,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste("![](",mdsFiles[1],")"),
 		paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
 		paste("![](",mdsFiles[2],")")
-		), fileConn)
-
-	close(fileConn)
+		), file = mainOfile, append = TRUE)
 
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 

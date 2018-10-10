@@ -47,10 +47,20 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
-	fileConn<-file( mainOfile )
+	#mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
+	#fileConn<-file( mainOfile )
+	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
-	writeLines(c(
+	max = 10
+	i = 0
+	while ( ! file.exists( mainOfile ) ){
+	  Sys.sleep( 10)
+	  i =  +1
+	  if ( max == i )
+	    last
+	}
+
+	cat( paste( sep="\n",
 					paste( "##", "Network for grouping", cellexalObj@usedObj$lastGroup  ),
 
 					paste( "### Network map (from the VR process)"),
@@ -59,9 +69,9 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 					paste("![](",mdsFiles[1],")"),
 					paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
 					paste("![](",mdsFiles[2],")")
-			), fileConn)
+			), file = mainOfile, append= TRUE)
 
-	close(fileConn)
+	#close(fileConn)
 
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 
