@@ -59,8 +59,9 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		writeLines(c(paste("# session log for session", cellexalObj@usedObj$sessionName )), fileConn  )
 	}
 	writeLines(c(
-		paste( "##", "Heatmap from Saved Selection ", n  ),
+		paste( "##", "Heatmap from Saved Selection ", (n+1)  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
+		"",
 		paste( "### Genes"),
 		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		paste( "### Heatmap (from the VR process)"),
