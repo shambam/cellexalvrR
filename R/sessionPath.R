@@ -22,10 +22,12 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 			cellexalObj@usedObj$sessionName = sessionName
 			cellexalObj@usedObj$sessionRmdFiles = NULL
 			cellexalObj@usedObj$sessionPath = NULL
+			cellexalObj@usedObj$sessionCounter = NULL
 		}else if ( ! cellexalObj@usedObj$sessionName == sessionName)  {
 			cellexalObj@usedObj$sessionName = sessionName
 			cellexalObj@usedObj$sessionRmdFiles = NULL
 			cellexalObj@usedObj$sessionPath = NULL
+			cellexalObj@usedObj$sessionCounter = NULL
 			#lockedSave( cellexalObj)
 		}
 	}
@@ -33,6 +35,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
 		cellexalObj@usedObj$sessionRmdFiles = NULL
 		cellexalObj@usedObj$sessionPath = NULL
+		cellexalObj@usedObj$sessionCounter = NULL
 	}
 	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
 		## init the session objects

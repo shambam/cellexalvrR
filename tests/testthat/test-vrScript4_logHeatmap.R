@@ -39,3 +39,5 @@ system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontolog
 for ( fname in ofiles){
 	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }
+
+

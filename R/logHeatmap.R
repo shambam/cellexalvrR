@@ -35,7 +35,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj = sessionPath(cellexalObj )
 	sessionPath = cellexalObj@usedObj$sessionPath
 
-	get the session counter to work!
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
 
 	if ( ! file.exists( png) ) {
 		stop(paste( "logHeatmap the heatmap png file can not be found!", png ) )
@@ -44,7 +45,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	figureF = file.path('./', 'png', basename( png ) )
 
 	## now I need to create the 2D mds plots for the grouping
-	cellexalObj = userGrouping(cellexalObj, grouping )
+	#cellexalObj = userGrouping(cellexalObj, grouping )
 	gInfo = groupingInfo( cellexalObj, cellexalObj@usedObj$lastGroup )
 
 	## gInfo is a list with names grouping, mds, col and order
@@ -67,7 +68,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	}
 
 	cat( sep="\n",
-		paste( "##", "Heatmap from Saved Selection ", (n+1)  ),
+		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
 		paste( "### Genes"),

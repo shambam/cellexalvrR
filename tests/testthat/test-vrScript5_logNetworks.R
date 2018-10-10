@@ -30,3 +30,5 @@ system( paste( 'Rscript', script, datadir, heatmap_png, grouping  ) )
 for ( fname in ofiles){
 	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }
+
+

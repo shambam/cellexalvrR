@@ -24,7 +24,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	## for this to work as expected you need an up to date pandoc:
 	## https://pandoc.org/installing.html
 
-	n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
+	#n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
 
 	if(cellexalObj@specie =='mouse'){
 		if(require(org.Mm.eg.db)){
@@ -95,13 +97,14 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	sessionPath = cellexalObj@usedObj$sessionPath
 
 
-	mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") ))
+	#mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") ))
 	#fileConn<-file( mainOfile )
-	file.create(mainOfile)
+	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
 	cat( sep="\n",
-					paste( "##", "GO analysis for grouping", cellexalObj@usedObj$lastGroup  ),
+					paste( "##", "GO analysis for Saved Selection", n  ),
+					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
 					paste( collapse="", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),

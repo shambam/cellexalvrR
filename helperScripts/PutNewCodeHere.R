@@ -1,3 +1,3 @@
-rmdLink <- function( name, link ){
-	paste( sep="", "[", name,"](",link,")[target='blank']")
+sessionCounter <- function( x, gName=NULL ){
+	x@usedObj$sessionCounter[[gName]]
 }

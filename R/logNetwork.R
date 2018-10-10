@@ -29,7 +29,8 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	cellexalObj = sessionPath(cellexalObj)
 	sessionPath = cellexalObj@usedObj$sessionPath
 
-	n = length( grep ( "Network.Rmd", list.files(sessionPath) ) )
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
 
 	if ( ! file.exists( png) ) {
 		stop(paste( "logNetwork the network png file can not be found!", 'png') )
@@ -47,8 +48,8 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
-	file.create(mainOfile)
+	#mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
+	#file.create(mainOfile)
 	#fileConn<-file( mainOfile )
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
@@ -62,7 +63,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	}
 
 	cat(
-					paste( "##", "Network from Selection", (n+1)  ),
+					paste( "##", "Network from Saved Selection", n  ),
 					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Network map (from the VR process)"),

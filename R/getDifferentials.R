@@ -135,6 +135,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		names(pr) = rownames(loc@data)
 		cellexalObj@usedObj$sigGeneLists$edgeR[[cellexalObj@usedObj$lastGroup]] = pr
 	}
+	if(deg.method=='FindAllMarkers') {
+		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
+		if (!requireNamespace("seurat", quietly = TRUE)) {
+			stop("seurat needed for this function to work. Please install it.",
+					call. = FALSE)
+		}
+		sca <- MAST::FromMatrix(class='SingleCellAssay', 
+				exprsArray= dat.f, 
+				cData=data.frame(wellKey=colnames(dat.f), GroupName = grp.vec), 
+				fData=data.frame(primerid=rownames(dat.f))
+		)
+	}
     lockedSave(cellexalObj)
     deg.genes
 } )
