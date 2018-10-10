@@ -102,6 +102,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 
 	cat( sep="\n",
 					paste( "##", "GO analysis for grouping", cellexalObj@usedObj$lastGroup  ),
+					"",
 					paste( "### Genes"),
 					paste( collapse="", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),
 					"",

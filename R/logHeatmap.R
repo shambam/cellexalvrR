@@ -71,10 +71,13 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		"",
 		paste( "### Genes"),
 		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
+		'',
 		paste( "### Heatmap (from the cellexalVR process)"),
 		paste("![](",figureF,")"),
+		'',
 		paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
 		paste("![](",mdsFiles[1],")"),
+		'',
 		paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
 		paste("![](",mdsFiles[2],")"),
 		""
@@ -84,6 +87,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	## an entry in the annotation gene lists and a GO ontology page for this gene list
 	if ( ! is.null(genes) ) {
+	  message ( 'I am trying to add ontlogy analysis here')
 		cellexalObj = ontologyLogPage(cellexalObj, genes = genes, ...)
 	}
 
