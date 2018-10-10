@@ -100,7 +100,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
-	cat(paste( sep="\n",
+	cat( sep="\n",
 					paste( "##", "GO analysis for grouping", cellexalObj@usedObj$lastGroup  ),
 					paste( "### Genes"),
 					paste( collapse="", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),
@@ -110,8 +110,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					" ",
 					knitr::kable(allRes, caption=paste("GO analysis for grouping", cellexalObj@usedObj$lastGroup )),
 					" ",
-					knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" ))
-			), file = mainOfile, append = TRUE)
+					knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" )),
+					""
+			, file = mainOfile, append = TRUE)
 
 	#close(fileConn)
 

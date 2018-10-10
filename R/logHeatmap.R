@@ -65,7 +65,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	    last
 	}
 
-	cat(paste( sep="\n",
+	cat( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", (n+1)  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
@@ -76,8 +76,9 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
 		paste("![](",mdsFiles[1],")"),
 		paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
-		paste("![](",mdsFiles[2],")")
-		), file = mainOfile, append = TRUE)
+		paste("![](",mdsFiles[2],")"),
+		""
+		, file = mainOfile, append = TRUE)
 
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 
