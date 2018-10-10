@@ -41,6 +41,8 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
     if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
         message( paste("I try to create the session path here", cellexalObj@usedObj$sessionPath ))
         dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
+        dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
+        dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
     }
 		mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "SessionStart.Rmd" ) )
 		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
@@ -55,15 +57,6 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 	  close(fileConn)
 
 	}
-
-	opath = cellexalObj@usedObj$sessionPath
-
-	if ( ! file.exists( opath ) ){
-		dir.create( opath )
-		dir.create( file.path( opath, 'png') )
-		dir.create( file.path( opath, 'tables' ))
-	}
-
 	invisible(cellexalObj)
 
 } )
