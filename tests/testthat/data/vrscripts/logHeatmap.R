@@ -1,5 +1,4 @@
 suppressMessages(library(cellexalvrR))
-message(paste( "log Heatmap with grouping file ", grouping) )
 
 args <- commandArgs(trailingOnly = TRUE)
 
@@ -10,6 +9,8 @@ genes <- args[2] ## the heatmap_<x>.txt file
 heatmap_png <- args[3] ## the heatmap figure file
 
 grouping <- args[4] ## the grouping info selection0.txt or so
+
+message(paste( "log Heatmap with grouping file ", grouping) )
 
 ontology <- args[5]
 
