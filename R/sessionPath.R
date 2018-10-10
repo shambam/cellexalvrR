@@ -62,6 +62,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 
 } )
 
+
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
 			cellexalObj <- loadObject(cellexalObj)

@@ -95,9 +95,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	sessionPath = cellexalObj@usedObj$sessionPath
 
 
-	#mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") ))
+	mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") ))
 	#fileConn<-file( mainOfile )
-
+	file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
 	cat( sep="\n",

@@ -47,7 +47,8 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	#mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
+	mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) )
+	file.create(mainOfile)
 	#fileConn<-file( mainOfile )
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 

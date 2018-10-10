@@ -35,10 +35,10 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj = sessionPath(cellexalObj )
 	sessionPath = cellexalObj@usedObj$sessionPath
 
-	n = length( grep ( "Heatmap.Rmd", list.files(sessionPath) ) )
+	get the session counter to work!
 
 	if ( ! file.exists( png) ) {
-		stop(paste( "logHeatmap the heatmap png file can not be found!", 'png') )
+		stop(paste( "logHeatmap the heatmap png file can not be found!", png ) )
 	}
 	file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
 	figureF = file.path('./', 'png', basename( png ) )
@@ -53,7 +53,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
+	mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
+	file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
 	max = 10
