@@ -32,6 +32,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 			genes = as.vector(read.delim(genes)[,1])
 		}
 	}
+
 	cellexalObj = userGrouping( cellexalObj, grouping )
 	
 	cellexalObj = sessionPath(cellexalObj )
@@ -44,7 +45,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		stop(paste( "logHeatmap the heatmap png file can not be found!", png ) )
 	}
 	file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
-	figureF = file.path('./', 'png', basename( png ) )
+	figureF = file.path( 'png', basename( png ) )
 
 	## now I need to create the 2D mds plots for the grouping
 	#cellexalObj = userGrouping(cellexalObj, grouping )

@@ -1,4 +1,5 @@
-library(cellexalvrR)
+suppressMessages(library(cellexalvrR))
+message(paste( "log Heatmap with grouping file ", grouping) )
 
 args <- commandArgs(trailingOnly = TRUE)
 

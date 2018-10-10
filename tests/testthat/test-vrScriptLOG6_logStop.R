@@ -1,4 +1,4 @@
-prefix = ''
+prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logStop.R')
 

@@ -30,7 +30,7 @@ setMethod('mdsPlots2D', signature = c ('cellexalvrR'),
 				main = paste( gInfo$mds, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
 		dev.off()
 	}
-	MDS1 = file.path( 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$mds , "1_2", 'png' ) ))
+	MDS1 = file.path('png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$mds , "1_2", 'png' ) ))
 	
 	MDS2 = file.path( sessionPath , 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$mds, "2_3", 'png' ) ))
 	if ( ! file.exists( MDS2 ) ){

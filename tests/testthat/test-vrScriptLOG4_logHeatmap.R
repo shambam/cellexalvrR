@@ -1,5 +1,5 @@
 
-prefix = ''
+prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logHeatmap.R')
 
@@ -36,7 +36,7 @@ for ( fname in ofiles ){
 
 system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 
-for ( fname in c( ofiles, '00.SessionStart.Rmd'){
+for ( fname in c( ofiles, '00.SessionStart.Rmd') ){
 	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }
 

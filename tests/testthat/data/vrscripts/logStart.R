@@ -1,5 +1,5 @@
-library(cellexalvrR)
-
+suppressMessages(library(cellexalvrR))
+message( "Start the logging")
 args <- commandArgs(trailingOnly = TRUE)
 
 datadir <- args[1] ## please give me the user spcific analysis path here!!!!

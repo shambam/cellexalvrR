@@ -1,4 +1,4 @@
-library(cellexalvrR)
+suppressMessages(library(cellexalvrR))
 
 args <- commandArgs(trailingOnly = TRUE)
 

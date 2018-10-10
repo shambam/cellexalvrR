@@ -12,7 +12,7 @@ output_filepath <- args[4] # <homedir>/<heatmapName>.txt
 
 top_genes_number <- args[5] # integer norm 250
 
-library(cellexalvrR)
+suppressMessages(library(cellexalvrR))
 
 expression_data_filepath <- file.path(datadir, "cellexalObj.RData")
 
