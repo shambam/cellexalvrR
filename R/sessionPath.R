@@ -37,7 +37,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
 		## init the session objects
 		## add a simple session log start file
-		mainOfile = file.path( sessionPath, filename( c( n, "SessionStart.Rmd") ) )
+		mainOfile = file.path( sessionPath, filename( "SessionStart.Rmd" ) )
 		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
 		fileConn<-file( mainOfile )
 	  writeLines(c(paste(
