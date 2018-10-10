@@ -54,7 +54,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		fileConn<-file( mainOfile )
 	  writeLines(c(paste(
 	    "# Session Log for Session", cellexalObj@usedObj$sessionName ),
-	    paste("Analysis of data: ", basename(cellexalObj@usedObj$sessionName) ),
+	    paste("Analysis of data: ", basename(cellexalObj@outpath) ),
 	    ""
 	    )
 	    , fileConn  )
