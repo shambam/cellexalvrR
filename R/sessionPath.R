@@ -44,7 +44,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
         dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
         dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
     }
-		mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "SessionStart.Rmd" ) )
+		mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) )
 		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
 		lockedSave( cellexalObj)
 
