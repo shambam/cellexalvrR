@@ -13,5 +13,5 @@
 \item{lineEnd}{add a line end at the end of every entry (default =T)}
 }
 \description{
-creates a linke in the structure [<name>](<link><name>){target='blank'}\n
+creates a linke in the structure [<name>](<link><name>){target='blank'}
 }
