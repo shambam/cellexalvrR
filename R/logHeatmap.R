@@ -54,8 +54,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
 
 	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
-	mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
-	file.create(mainOfile)
+	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
+	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
 	max = 10
