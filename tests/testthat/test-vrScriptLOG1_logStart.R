@@ -17,7 +17,7 @@ cellexalObj <- loadObject(file.path(datadir, "cellexalObj.RData"))
 expect_true(cellexalObj@usedObj$sessionName == 'testSession' )
 expect_true( cellexalObj@usedObj$sessionPath == normalizePath(file.path(datadir,'testSession')) )
 
-opaths <- c( 'testSession', 'testSession/png','testSession/tables' )
+opaths <- c( 'testSession', 'testSession/png','testSession/tables',  '00.SessionStart.Rmd')
 
 for ( fname in opaths){
 	expect_true( file.exists( file.path(datadir,  fname ) ) , paste( "file has not been created", fname) )

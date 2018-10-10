@@ -15,7 +15,7 @@ grouping <- file.path(prefix, 'data/selection0.txt')
 
 ## NO genes, ontology and no topNodes this time.
 
-ofiles = c( )
+ofiles = c( file.path('png', 'a_simple_figure2.png') )
 
 
 for ( fname in ofiles ){

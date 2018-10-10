@@ -26,6 +26,10 @@ setMethod('logNetwork', signature = c ('character'),
 setMethod('logNetwork', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ... ) {
 	## almost the same page as in the logHeatmap function - including a GO analyis?
+	
+	## now I need to create the 2D mds plots for the grouping
+	cellexalObj = userGrouping( cellexalObj, grouping )
+	
 	cellexalObj = sessionPath(cellexalObj)
 	sessionPath = cellexalObj@usedObj$sessionPath
 
@@ -39,7 +43,6 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	figureF = file.path( 'png', basename( png ) )
 
 	## now I need to create the 2D mds plots for the grouping
-	cellexalObj = userGrouping(cellexalObj, grouping )
 	gInfo = groupingInfo( cellexalObj, cellexalObj@usedObj$lastGroup )
 
 	## gInfo is a list with names grouping, mds, col and order

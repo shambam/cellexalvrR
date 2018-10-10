@@ -32,6 +32,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 			genes = as.vector(read.delim(genes)[,1])
 		}
 	}
+	cellexalObj = userGrouping( cellexalObj, grouping )
+	
 	cellexalObj = sessionPath(cellexalObj )
 	sessionPath = cellexalObj@usedObj$sessionPath
 

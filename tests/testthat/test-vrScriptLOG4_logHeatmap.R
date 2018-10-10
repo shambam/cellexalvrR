@@ -25,7 +25,7 @@ ontology <- 'BP'
 
 topNodes  <- 20
 
-ofiles = c( 'png/User.group.1.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.1.graph1.2_3.png' ,'tables/0.GOanalysis.csv', 'tables/0.GOgenes.csv', '0.Heatmap.Rmd')
+ofiles = c( 'png/User.group.1.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.1.graph1.2_3.png' ,'tables/0.GOanalysis.csv', 'tables/0.GOgenes.csv')
 
 for ( fname in ofiles ){
 	
@@ -36,7 +36,7 @@ for ( fname in ofiles ){
 
 system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 
-for ( fname in ofiles){
+for ( fname in c( ofiles, '00.SessionStart.Rmd'){
 	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
 }
 

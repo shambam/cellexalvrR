@@ -29,4 +29,4 @@ if ( ! file.exists(group_selection_filepath)) {
 cellexalvrObj <- make.cellexalvr.heatmap.list(expression_data_filepath,group_selection_filepath,top_genes_number,output_filepath)
 
 #this is not necesary any more - done wile the group is stored.
-#save ( cellexalvrObj , file = file.path(args[4], "cellexalvrObj.RData", sep="" )) 
+lockedSave(cellexalObj)
