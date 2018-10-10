@@ -6,7 +6,7 @@
 #' @param cellexalObj the cellexal object
 #' @param sessionName the session ID default=NULL
 #' @title description of function sessionPath
-#' @export 
+#' @export
 setGeneric('sessionPath', ## Name
 	function (cellexalObj, sessionName=NULL ) { ## Argumente der generischen Funktion
 		standardGeneric('sessionPath') ## der Aufruf von standardGeneric sorgt für das Dispatching
@@ -16,7 +16,7 @@ setGeneric('sessionPath', ## Name
 setMethod('sessionPath', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, sessionName=NULL ) {
 		#browser()
-		
+
 	if ( ! is.null(sessionName) ){
 		if ( is.null(cellexalObj@usedObj$sessionName)){
 			cellexalObj@usedObj$sessionName = sessionName
@@ -36,11 +36,21 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 	}
 	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
 		## init the session objects
-		cellexalObj@usedObj$sessionRmdFiles = c()
+		## add a simple session log start file
+		mainOfile = file.path( sessionPath, filename( c( n, "SessionStart.Rmd") ) )
+		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
+		fileConn<-file( mainOfile )
+	  writeLines(c(paste(
+	    "# Session Log for Session", cellexalObj@usedObj$sessionName ),
+	    paste("You have analysed the data", cellexalObj@name )
+	    )
+	    , fileConn  )
+	  close(fileConn)
+
 		cellexalObj@usedObj$sessionPath = normalizePath( file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName) )
 		lockedSave( cellexalObj)
 	}
-	
+
 	opath = cellexalObj@usedObj$sessionPath
 
 	if ( ! file.exists( opath ) ){
@@ -48,9 +58,9 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		dir.create( file.path( opath, 'png') )
 		dir.create( file.path( opath, 'tables' ))
 	}
-	
+
 	invisible(cellexalObj)
-	
+
 } )
 
 setMethod('sessionPath', signature = c ('character'),
