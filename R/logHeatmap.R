@@ -96,7 +96,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		cellexalObj = ontologyLogPage(cellexalObj, genes = genes, ...)
 	}
 
-	lockedSave(cellexalObj)
+	lockedSave(cellexalObj, file.path(sessionPath, '..') )
 
 	cellexalObj
 } )

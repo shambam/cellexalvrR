@@ -92,7 +92,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 		cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
 	}
 
-	lockedSave(cellexalObj)
+	lockedSave(cellexalObj, file.path(sessionPath, '..') )
 
 	cellexalObj
 } )
