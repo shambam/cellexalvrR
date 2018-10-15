@@ -24,9 +24,9 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 		}
 	ofile = file.path( path, 'cellexalObj.RData' )
 	lockFile = file.path( paste(ofile, 'lock', sep= '.'))
-	while ( file.exists(lockFile) ){
-		Sys.sleep(1)
-	}
+	#while ( file.exists(lockFile) ){
+	#	Sys.sleep(1)
+	#}
 	file.create(lockFile)
 	save(cellexalObj, file=ofile)
 	file.remove(lockFile)
