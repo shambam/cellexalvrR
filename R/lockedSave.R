@@ -10,8 +10,8 @@
 #' @keywords lockedSave
 #' @export lockedSave
 if ( ! isGeneric('lockedSave') ){setGeneric('lockedSave', ## Name
-	function (cellexalObj, path=NULL ) { 
-		standardGeneric('lockedSave') 
+	function (cellexalObj, path=NULL ) {
+		standardGeneric('lockedSave')
 	}
 ) }
 
@@ -45,14 +45,14 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 #' @keywords lockedSave
 #' @export lockedSave
 if ( ! isGeneric('lockedLoad') ){setGeneric('lockedLoad', ## Name
-			function (cellexalObj ) { 
-				standardGeneric('lockedLoad') 
+			function (cellexalObj ) {
+				standardGeneric('lockedLoad' )
 			}
 	) }
 
 setMethod('lockedLoad', signature = c ('character'),
 		definition = function (cellexalObj ) {
-			
+
 			lockFile = file.path( paste(cellexalObj, 'lock', sep= '.'))
 			while ( file.exists(lockFile) ){
 				Sys.sleep(1)
@@ -62,6 +62,6 @@ setMethod('lockedLoad', signature = c ('character'),
 			if ( is.null(cellexalObj@outpath) ){
 				cellexalObj@outpath = path
 			}
-			
+
 			cellexalObj
 		} )

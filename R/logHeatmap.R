@@ -34,7 +34,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	}
 
 	cellexalObj = userGrouping( cellexalObj, grouping )
-	
+
 	cellexalObj = sessionPath(cellexalObj )
 	sessionPath = cellexalObj@usedObj$sessionPath
 
@@ -91,9 +91,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 
 	## an entry in the annotation gene lists and a GO ontology page for this gene list
-	if ( ! is.null(genes) ) {
-	  message ( 'I am trying to add ontlogy analysis here')
-		cellexalObj = ontologyLogPage(cellexalObj, genes = genes, ...)
+	if ( ! is.null(genes)){
+	  if ( file.exists(genes)) {
+	    genes = as.vector(read.delim(genes)[,1])
+	  }
+	  cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
 	}
 
 	lockedSave(cellexalObj, file.path(sessionPath, '..') )
