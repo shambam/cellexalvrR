@@ -19,7 +19,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, path=NULL ) {
 		if ( is.null(path) ){
 			path= cellexalObj@outpath
-		}else if ( cellexalObj@outpath != path ) {
+		}else if ( !.hasSlot(cellexalObj, "outpath") ) {
 			cellexalObj@outpath = path
 		}
 	ofile = file.path( path, 'cellexalObj.RData' )

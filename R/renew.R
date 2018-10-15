@@ -8,8 +8,8 @@
 #' @title description of function renew
 #' @export renew
 if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
-	function ( x ) { 
-		standardGeneric('renew') 
+	function ( x ) {
+		standardGeneric('renew')
 	}
 ) }
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
@@ -26,11 +26,11 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				## OK no R6 then ;-)
 				ret = x
 				tryCatch({  validObject(x) } ,  error = function(e) {
-				
-				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+
+				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath = x@outpath)
 				#browser()
 				if( .hasSlot(x,'userGroups') ){
-					ret@userGroups = x@userGroups 
+					ret@userGroups = x@userGroups
 				}
 				if( .hasSlot(x,'colors') ){
 					ret@colors = x@colors
@@ -43,15 +43,15 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				}
 				} )
 			}else {
-				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
+				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie, outpath = x@outpath)
 				if( .hasSlot(x,'userGroups') ){
-					ret$userGroups = x$userGroups 
+					ret$userGroups = x$userGroups
 				}
 				if( .hasSlot(x,'colors') ){
 					ret$colors = x$colors
 				}
 				if( .hasSlot(x,'usedObj') ){
-					
+
 					ret$usedObj = x$usedObj
 				}
 			}
@@ -61,6 +61,6 @@ setMethod('renew', signature = c ('cellexalvrR'),
 					useInbuiltGOIlists ( ret, name )
 				}
 			}
-			
+
 			invisible(ret)
 }  )
