@@ -61,14 +61,14 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
-	max = 10
-	i = 0
-	while ( ! file.exists(cellexalObj@usedObj$sessionRmdFiles[1])){
-	  Sys.sleep( 10)
-	  i =  +1
-	  if ( max == i )
-	    last
-	}
+	# max = 10
+	#i = 0
+	# while ( ! file.exists(cellexalObj@usedObj$sessionRmdFiles[1])){
+	#  Sys.sleep( 10)
+	#  i =  +1
+	#  if ( max == i )
+	#    last
+	#}
 
 	cat( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
