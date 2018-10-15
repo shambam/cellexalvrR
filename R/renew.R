@@ -27,7 +27,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				ret = x
 				tryCatch({  validObject(x) } ,  error = function(e) {
 
-				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath = x@outpath)
+				ret <- new("cellexalvrR",data=as.matrix(x@data),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
 				#browser()
 				if( .hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups
@@ -43,7 +43,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				}
 				} )
 			}else {
-				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie, outpath = x@outpath)
+				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
 				if( .hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups
 				}
