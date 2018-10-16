@@ -8,6 +8,11 @@ Suggests:
 	testthat,
     knitr,
     rmarkdown
+biocViews:
+	graph,
+	org.Mm.eg.db,
+	org.Hs.eg.db,
+	topGO
 Depends:
 	stringr,
     rgl,
@@ -29,11 +34,6 @@ Depends:
 	org.Hs.eg.db 
 Remotes:
     satijalab/seurat
-biocViews:
-	graph,
-	org.Mm.eg.db,
-	org.Hs.eg.db,
-	topGO
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
