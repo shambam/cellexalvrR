@@ -19,15 +19,18 @@ setGeneric('ontologyLogPage', ## Name
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
+	if ( file.exists(genes)) {
+		genes = as.vector(read.delim(genes)[,1])
+	}
 	error = ""
-	message( paste( collapse=", ","ontologyLogPage genes:",  genes) )
+	message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
 	## for this to work as expected you need an up to date pandoc:
 	## https://pandoc.org/installing.html
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
 	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
 	#n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
-	if( is.null(cellexalObj@specie)){
+	if( length(cellexalObj@specie) == 0){
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
 	}
 	if(cellexalObj@specie =='mouse'){
