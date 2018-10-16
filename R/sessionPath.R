@@ -42,7 +42,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		## add a simple session log start file
 		cellexalObj@usedObj$sessionPath = normalizePath( file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName) )
     if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
-        message( paste("I try to create the session path here", cellexalObj@usedObj$sessionPath ))
+        message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
         dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
         dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
         dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
