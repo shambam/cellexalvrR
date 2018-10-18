@@ -68,7 +68,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	  i =  +1
 	  if ( max == i )
 	    last
-	}
+	 }
 
 	cat( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
@@ -91,12 +91,12 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 
 	## an entry in the annotation gene lists and a GO ontology page for this gene list
-	if ( ! is.null(genes)){
-	  if ( file.exists(genes)) {
-	    genes = as.vector(read.delim(genes)[,1])
-	  }
-	 # cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
-	}
+	#if ( ! is.null(genes)){
+	#  if ( file.exists(genes)) {
+	#    genes = as.vector(read.delim(genes)[,1])
+	#  }
+	#  cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
+	#}
 
 	lockedSave(cellexalObj, file.path(sessionPath, '..') )
 
