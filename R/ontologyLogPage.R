@@ -22,10 +22,11 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	if ( file.exists(genes)) {
 		genes = as.vector(read.delim(genes)[,1])
 	}
-	error = ""
-	message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
+	#error = ""
+	# message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
 	## for this to work as expected you need an up to date pandoc:
 	## https://pandoc.org/installing.html
+
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
 	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
