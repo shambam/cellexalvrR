@@ -15,6 +15,8 @@ setGeneric('sessionRegisterGrouping', ## Name
 
 setMethod('sessionRegisterGrouping', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
-		x@usedObj$sessionCounter[[gName]] = length( x@usedObj$sessionCounter) +1
+		if ( is.null(x@usedObj$sessionCounter[[gName]])){
+			x@usedObj$sessionCounter[[gName]] = length( x@usedObj$sessionCounter) +1
+		}
 		x
 } )
