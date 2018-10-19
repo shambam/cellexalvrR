@@ -5,30 +5,26 @@
 #' @description  Creates a heatmap from a selection of groups
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs
-#' @param numsig The number of differentials to be returned
-#' @param deg.method  TEXT MISSING default=c("anova"
-#' @param "edgeR"  TEXT MISSING default=c("anova"
-#' @param "MAST")  TEXT MISSING default=c("anova"
-#' @param num.sig  TEXT MISSING
+#' @param deg.method The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')
+#' @param num.sig number of differnetial genes to return (250)
 #' @keywords DEGs
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) { 
+	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250) { 
 		standardGeneric('getDifferentials') 
 	}
 ) }
 
 setMethod('getDifferentials', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) {
+		definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250) {
 			cellexalObj <- loadObject(cellexalObj)
 			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig)
 		}
 )
 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST"),num.sig) {
+	definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250) {
 
     cellexalObj <- loadObject(cellexalObj)
 
@@ -135,17 +131,23 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		names(pr) = rownames(loc@data)
 		cellexalObj@usedObj$sigGeneLists$edgeR[[cellexalObj@usedObj$lastGroup]] = pr
 	}
-	if(deg.method=='FindAllMarkers') {
+	if(deg.method=='seurat') {
 		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
-		if (!requireNamespace("seurat", quietly = TRUE)) {
+		if (!requireNamespace("Seurat", quietly = TRUE)) {
 			stop("seurat needed for this function to work. Please install it.",
 					call. = FALSE)
 		}
-		sca <- MAST::FromMatrix(class='SingleCellAssay', 
-				exprsArray= dat.f, 
-				cData=data.frame(wellKey=colnames(dat.f), GroupName = grp.vec), 
-				fData=data.frame(primerid=rownames(dat.f))
-		)
+		sca <- Seurat::CreateSeuratObject(dat.f, project = "SeuratProject", min.cells = 0,
+				min.genes = 0, is.expr = 0, normalization.method = NULL,
+				scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
+				names.field = 1, names.delim = "_", meta.data = data.frame(wellKey=colnames(dat.f), GroupName = grp.vec),
+				display.progress = TRUE)
+		
+		sca = Seurat::SetIdent( sca, colnames(loc@data), as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) )
+		
+		all_markers <- Seurat::FindAllMarkers(object = sca)
+		deg.genes = all_markers[order(all_markers[,'p_val_adj'])[1:(num.sig)],'gene']
+		
 	}
     lockedSave(cellexalObj)
     deg.genes

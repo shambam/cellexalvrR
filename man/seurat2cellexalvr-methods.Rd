@@ -13,3 +13,4 @@ Converts a seurat class to one of cellexalvr. If the cell-cycle score have been 
 
 they will be added to the cell.mata table
 }
+

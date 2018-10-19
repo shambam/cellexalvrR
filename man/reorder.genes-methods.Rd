@@ -15,3 +15,4 @@ this function reorderes the cellexalvr object based on a column in the samples t
 
 (e.g. for plotting)
 }
+

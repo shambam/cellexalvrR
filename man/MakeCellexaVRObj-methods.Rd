@@ -20,3 +20,4 @@
 Creates a cellexalvr objext with the data given
 }
 \keyword{heatmap}
+

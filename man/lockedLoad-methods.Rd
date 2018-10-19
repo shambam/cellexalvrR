@@ -13,3 +13,4 @@ Loading the RData in the VR tool might create a problem. Hence this function wil
   save the cellexalObj in a controlled way.
 }
 \keyword{lockedSave}
+

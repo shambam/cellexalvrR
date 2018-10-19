@@ -22,3 +22,4 @@ logHeatmap(cellexalObj, genes, png, grouping, ...)
 \description{
 create one Heatmap session report page
 }
+

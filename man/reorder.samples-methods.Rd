@@ -15,3 +15,4 @@ this function reorderes the cellexalvr object based on a column in the annotatio
 
 table (e.g. for plotting)
 }
+

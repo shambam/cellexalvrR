@@ -16,3 +16,4 @@ renderReport(cellexalObj)
 \description{
 after one session this function renders the output gitbook
 }
+

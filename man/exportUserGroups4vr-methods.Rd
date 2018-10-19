@@ -17,3 +17,4 @@ outfolder that contains the group name (in the R object) the numer of groups in 
 
 selection and the number of cells in the whole group.
 }
+

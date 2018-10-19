@@ -10,19 +10,12 @@
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{deg.method}{The method to use to find DEGs}
+\item{deg.method}{The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')}
 
-\item{numsig}{The number of differentials to be returned}
-
-\item{deg.method}{TEXT MISSING default=c("anova"}
-
-\item{"edgeR"}{TEXT MISSING default=c("anova"}
-
-\item{"MAST")}{TEXT MISSING default=c("anova"}
-
-\item{num.sig}{TEXT MISSING}
+\item{num.sig}{number of differnetial genes to return (250)}
 }
 \description{
 Creates a heatmap from a selection of groups
 }
 \keyword{DEGs}
+

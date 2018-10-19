@@ -16,3 +16,4 @@ sessionCounter(x, gName)
 \description{
 returns the counter for this session and this group name
 }
+

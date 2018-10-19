@@ -18,3 +18,4 @@ Reads a VR cell selection file and creates a user.grouping column with the infor
 storing the user defined grouping for later use
 }
 \keyword{userGrouping}
+
