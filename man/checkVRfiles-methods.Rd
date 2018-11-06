@@ -19,4 +19,3 @@ checkVRfiles: Checks the existance of all VR specific files and re-runs the expo
 
 function if any is missing.
 }
-

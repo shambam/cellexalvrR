@@ -18,4 +18,3 @@
 Creates a list of genes from which a heatmap is made in Unity
 }
 \keyword{heatmap}
-

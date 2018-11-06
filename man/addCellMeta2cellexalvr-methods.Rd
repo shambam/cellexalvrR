@@ -13,4 +13,3 @@
 \description{
 Adds per cell metadata to a cellexalvrObj
 }
-

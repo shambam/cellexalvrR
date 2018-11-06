@@ -24,4 +24,3 @@
 Gets positively and negatively correlated genes to a chosen gene
 }
 \keyword{correlation}
-

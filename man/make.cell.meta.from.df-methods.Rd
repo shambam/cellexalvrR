@@ -15,4 +15,3 @@ Creates a meta cell matrix from a supplied dataframe from required fields
 }
 \keyword{cell}
 \keyword{metadata}
-

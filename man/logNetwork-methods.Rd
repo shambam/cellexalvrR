@@ -22,4 +22,3 @@ logNetwork(cellexalObj, genes = NULL, png, grouping, ...)
 \description{
 create one Network page in the session report
 }
-

@@ -80,7 +80,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 #		Sys.sleep(10)
 #	}
 #	
-	if ( file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html')) )){
+	if ( file.exists( file.path(sessionPath, paste('session-log-for-session-',cellexalObj@usedObj$sessionName, sep='', '.html')) )){
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		lockedSave(cellexalObj)
 	}else {

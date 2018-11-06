@@ -16,4 +16,3 @@
 Loads the cellexalvr object, if the fname is a file
 }
 \keyword{load}
-

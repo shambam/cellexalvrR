@@ -22,4 +22,3 @@ two branches stemming from one trunk in a pseudotime analysis
 \keyword{analysis}
 \keyword{branch}
 \keyword{point}
-

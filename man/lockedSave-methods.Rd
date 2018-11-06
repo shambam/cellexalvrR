@@ -16,4 +16,3 @@ Saving the RData in the VR tool might create a problem. Hence this function will
 save the cellexalObj in a controlled way.
 }
 \keyword{lockedSave}
-

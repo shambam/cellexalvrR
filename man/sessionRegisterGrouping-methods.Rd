@@ -16,4 +16,3 @@ sessionRegisterGrouping(x, gName)
 \description{
 Registers a grouping for this session.
 }
-

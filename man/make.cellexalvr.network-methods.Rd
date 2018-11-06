@@ -21,4 +21,3 @@ Creates a network from selected groups for selected genes
 }
 \keyword{construction}
 \keyword{network}
-

@@ -18,4 +18,3 @@
 returns the information stored for the last grouping read
 }
 \keyword{groupingInfo}
-

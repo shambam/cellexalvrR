@@ -17,4 +17,3 @@ Sets new cell indentities from a given list
 }
 \keyword{cell}
 \keyword{type}
-

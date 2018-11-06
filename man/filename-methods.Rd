@@ -14,4 +14,3 @@ filename(str)
 \description{
 simple function to join by '.' and remove whitespace.
 }
-

@@ -13,4 +13,3 @@ update the class definition by re-creating the instance This version also makes 
 
 that the returned object is an S4 object.
 }
-

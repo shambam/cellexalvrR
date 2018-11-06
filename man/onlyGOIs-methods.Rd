@@ -17,4 +17,3 @@
 \description{
 Allows the user to select only (G)enes (O)f (I)nterest lists from the object
 }
-

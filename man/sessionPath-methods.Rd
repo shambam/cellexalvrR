@@ -16,4 +16,3 @@ sessionPath(cellexalObj, sessionName = NULL)
 \description{
 Use the session ID and object outpath to create a session path for the reports
 }
-

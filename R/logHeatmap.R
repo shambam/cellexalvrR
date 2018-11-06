@@ -35,11 +35,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	cellexalObj = userGrouping( cellexalObj, grouping )
 
-	cellexalObj = sessionPath(cellexalObj )
+	cellexalObj = sessionPath( cellexalObj )
 	sessionPath = cellexalObj@usedObj$sessionPath
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
-	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
+	n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup )
 
 	if ( ! file.exists( png) ) {
 		stop(paste( "logHeatmap the heatmap png file can not be found!", png ) )

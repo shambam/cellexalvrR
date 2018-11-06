@@ -20,4 +20,3 @@
 Creates a heatmap from a selection of groups
 }
 \keyword{heatmap}
-
