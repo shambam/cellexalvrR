@@ -4,7 +4,6 @@
 #' @docType methods
 #' @description after one session this function renders the output gitbook
 #' @param cellexalObj the cellexlvrR object
-#' @param ofile the html filename (default filename( cellexalObj@usedObj$sessionName) )
 #' @title description of function renderReport
 #' @export 
 setGeneric('renderReport', ## Name

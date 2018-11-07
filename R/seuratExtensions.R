@@ -62,7 +62,7 @@ setMethod('run.ddrtree', signature = c ('seurat'),
 	definition = function (seuratObj) {
 
     dat.samp <- as.matrix(seuratObj@data[seuratObj@var.genes,])
-    ddr.samp <- DDRTree((dat.samp), dimensions=3)
+    ddr.samp <- DDRTree::DDRTree((dat.samp), dimensions=3)
     ddr.cood <- t(ddr.samp$Z)
     ddr.cood    
 } )
@@ -93,6 +93,6 @@ setMethod('changeIdent', signature = c ('seurat'),
         new.ids[grep(as.character(-i),seuratObj@cell.names)] <- new.idents[i]
 
     }
-    seuratObj<- SetIdent(seuratObj,ident.use=new.ids)
+    seuratObj<- Seurat::SetIdent(seuratObj,ident.use=new.ids)
     seuratObj
 } )

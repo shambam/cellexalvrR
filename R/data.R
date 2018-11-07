@@ -29,3 +29,41 @@
 #' @usage Epigenetic
 #' @format data.frame
 'Epigenetic'
+
+
+#' @name CellCycle
+#' @title A simple table containing the Human and mouse orthologe CellCycle genes from PMID17994010
+#' "Genome-scale RNAi profiling of cell division in human tissue culture cells."
+#' @description The data can be used by stating
+#' useInbuiltGOIlists (cellexalObj, 'CellCycle' )
+#' And it is used to visualize the cell cycle genes in the VR environment.
+#' Only the genes also identifyable in mouse were used here.
+#' @docType data
+#' @usage CellCycle
+#' @format data.frame
+'CellCycle'
+
+
+#' @name cellexalObj
+#' @title The cellexlvrR object described in the vignette
+#' @description THE test dataset
+#' @docType data
+#' @usage cellexalObj
+#' @format cellexalvrR
+'cellexalObj' 
+
+#' @name human.CellSurface
+#' @title A simple list containing the human ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
+#' @description This list is used to crete a CellSurface object
+#' @docType data
+#' @usage human.CellSurface
+#' @format vector
+"human.CellSurface"
+
+#' @name mouse.CellSurface
+#' @title A simple list containing the mouse ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
+#' @description This list is used to crete a CellSurface object
+#' @docType data
+#' @usage mouse.CellSurface
+#' @format vector
+"mouse.CellSurface"

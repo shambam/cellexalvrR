@@ -1,5 +1,5 @@
 #' @name MakeCellexaVRObj
-#' @aliases MakeCellexaVRObj,cellexalvrR-method
+#' @aliases MakeCellexaVRObj,matrix-method
 #' @rdname MakeCellexaVRObj-methods
 #' @docType methods
 #' @description  Creates a cellexalvr objext with the data given
@@ -30,7 +30,7 @@ setMethod('MakeCellexaVRObj', signature = c ('matrix'),
     }
 
     #cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata),index=facs.data)
-    cellexalobj <- new("cellexalvr",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata))
+    cellexalobj <- new("cellexalvrR",data=as.matrix(exdata),mds=mds.list,meta.cell=as.matrix(cell.metadata))
 
     if(!is.null(facs.data)){
         cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)

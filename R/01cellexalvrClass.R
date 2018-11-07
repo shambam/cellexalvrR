@@ -42,47 +42,8 @@ setClass(Class="cellexalvrR",
 				outpath=NA_character_
 		)
 )
-#' @name print
-#' @aliases print,cellexalvr-method
-#' @rdname print-methods
-#' @docType methods
-#' @description  print the cellexalvr
-#' @param x the cellexalvr object
-#' @return nothing
-#' @title description of function print
-#' @export print
-setMethod('print', signature = c ('cellexalvrR'),
-		definition = function (x) {
-			show(x)
-		} )
 
-#' @name show
-#' @aliases show,cellexalvrR-method
-#' @rdname show-methods
-#' @docType methods
-#' @description  shows the cellexalvr contents
-#' @param x the cellexalvr object
-#' @return nothing
-#' @title description of function show
-#' @export show
-setMethod('show', signature = c ('cellexalvrR'),
-		definition = function (object) {
-			cat (paste("An object of class", class(object)),"\n" )
-			#cat("named ",x@name,"\n")
-			cat (paste( 'with',nrow(object@data),'genes and', ncol(object@data),' cells.'),"\n")
-			cat (paste("Annotation datasets (",paste(dim(object@meta.gene),collapse=','),"): '",paste( colnames(object@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat (paste("Sample annotation (",paste(dim(object@meta.cell),collapse=','),"): '",paste( colnames(object@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("There are",length(grep('order', colnames(object@userGroups), invert=T)), "user groups stored" ),":\n")
-			if ( ncol(object@userGroups) > 0 ) {
-				cat ( paste( collapse=", ", colnames(object@userGroups)), '\n' )
-			}
-			if ( length(names(object@mds)) > 0 ){
-				cat ( "and", length(names(object@mds)), "mds object(s)\n")
-			}
-			cat (paste("Specie is set to", object@specie),"\n")
-			
-		}
-)
+
 
 #' @name cellexalvr
 #' @title cellexalvr class definition (old)
@@ -94,27 +55,3 @@ setClass(
 		),
 		contains='cellexalvrR'
 )
-
-##' @name print
-##' @aliases print,cellexalvr-method
-##' @rdname print-methods
-##' @docType methods
-##' @description  print the cellexalvr
-##' @param x the cellexalvr object
-##' @return nothing
-##' @title description of function print
-##' @export print
-#setMethod('print', signature = c ('cellexalvr'),
-#		definition = function (x) {
-#			cat (paste("An object of class", class(x)),"\n" )
-#			#cat("named ",x@name,"\n")
-#			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' cells.'),"\n")
-#			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-#			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-#			cat ( paste("There are",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
-#			if ( length(names(x@mds)) > 0 ){
-#				cat ( "and", length(names(x@mds)), "mds object(s)\n")
-#			}
-#			cat (paste("Specie is set to", x@specie),"\n")
-#		}
-#)

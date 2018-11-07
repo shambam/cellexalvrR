@@ -9,7 +9,8 @@ cellexalObj <- loadObject(file.path(opath,'..', 'cellexalObj.RData'))
 
 
 
-			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
+			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph2.mds', 
+					'graph2.hull',  'index.facs',  'graph1.mds' )
 			
 			for ( f in ofiles ) {
 				ofile = file.path(opath, f ) 

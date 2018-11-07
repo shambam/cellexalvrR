@@ -1,17 +1,20 @@
 Package: cellexalvrR
 Title: Provides the backend calculations for CellexalVR
-Version: 0.0.0.9000
+Version: 0.1.0.9000
 Authors@R: c(person("Stefan", "Lang", email = "stefan.lang@med.lu.se", role = c("aut")),
             person("Shamit", "Soneji", email = "shamit.soneji@med.lu.se", role = c("cre")))
-Description: What the package does (one paragraph).
+Description: This is the data analysis backend for the CellexalVR application.
 Suggests:
     testthat,
-    knitr,
-    rmarkdown
+    rmarkdown,
+    Seurat,
+    MAST,
+    edgeR
 biocViews: graph,
     org.Mm.eg.db,
     org.Hs.eg.db,
-    topGO
+    topGO,
+    edgeR
 Depends:
     stringr,
     rgl,
@@ -29,10 +32,14 @@ Depends:
     bookdown,
     knitr,
     topGO,
+    DDRTree,
     org.Mm.eg.db,
     org.Hs.eg.db
+Imports:
+	methods,
+	utils
 Remotes: satijalab/seurat
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1.9000

@@ -78,12 +78,12 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
 	if(specie=="mouse"){
-		data(mouse.tfs)
+		#data(mouse.tfs)
 		cellexalObj@tfs <- mouse.tfs
 	}
 	
 	if(specie=="human"){
-		data(human.tfs)
+		#data(human.tfs)
 		cellexalObj@tfs <- human.tfs
 	}
 

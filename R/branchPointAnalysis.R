@@ -1,5 +1,5 @@
 #' @name branch.point.analysis
-#' @aliases branch.point.analysis,cellexalvrR-method
+#' @aliases branch.point.analysis,cellexalvrR-method,character-method
 #' @rdname branch.point.analysis-methods
 #' @docType methods
 #' @description  Performs a branch-point analysis identifying genes that have opposite changes in
@@ -51,7 +51,7 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
     grp.un <- unique(grp.vec)
 
     wilcox.test.vec <- function(v,ind1,ind2){
-        wilcox.test(v[ind2],v[ind2])$p.value
+        stats::wilcox.test(v[ind2],v[ind2])$p.value
     }
 
     branch.1 <- apply(dat,1,wilcox.test.vec,ind1=which(grp.vec==grp.un[1]),ind2=which(grp.vec==grp.un[3]))

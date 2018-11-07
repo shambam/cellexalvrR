@@ -26,7 +26,7 @@ ontology <- 'BP'
 
 topNodes  <- 20
 
-ofiles = c( 'png/User.group.1.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.1.graph1.2_3.png' ,'tables/0.GOanalysis.csv', 'tables/0.GOgenes.csv')
+ofiles = c( 'png/User.group.5.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.5.graph1.2_3.png' ,'tables/0.GOanalysis.csv', 'tables/0.GOgenes.csv')
 
 for ( fname in ofiles ){
 	

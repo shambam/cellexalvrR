@@ -8,6 +8,7 @@
 #' @param ontology which GO ontology to choose from (default = "BP")
 #' @param topNodes how many GO terms to report (default 10)
 #' @param ... unused
+#' @import org.Mm.eg.db org.Hs.eg.db topGO
 #' @title description of function ontologyLogPage
 #' @export
 setGeneric('ontologyLogPage', ## Name
@@ -32,15 +33,17 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
 	}
 	if(cellexalObj@specie =='mouse'){
-		if(require(org.Mm.eg.db)){
-			x <- org.Mm.eg.db}else{
-			stop("Install org.Mm.eg.db package for retrieving gene lists from GO")
-		}
+		x <- org.Mm.eg.db
+		#if(require(org.Mm.eg.db)){
+		#	x <- org.Mm.eg.db}else{
+		#	stop("Install org.Mm.eg.db package for retrieving gene lists from GO")
+		#}
 	}else if ( cellexalObj@specie=='human'){
-		if(require(org.Hs.eg.db)){
-			x <- org.Hs.eg.db}else{
-			stop("Install org.Hs.eg.db package for retrieving gene lists from GO")
-		}
+		x <- org.Hs.eg.db
+		#if(require(org.Hs.eg.db)){
+		#	x <- org.Hs.eg.db}else{
+		#	stop("Install org.Hs.eg.db package for retrieving gene lists from GO")
+		#}
 	}else {
 		stop( paste( "The specie",  cellexalObj@specie,  "is up to now not supported in the GO reports function" ))
 	}
@@ -55,11 +58,11 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		message( "No genes of the list are in this object - This should not have happened!")
 		return ( cellexalObj )
 	}
-	tryCatch({  library("topGO", quietly = TRUE) } ,
-			error = function(e) {
-					stop(paste("topGO needed for this function to work. Please install it.\n", e),
-							call. = FALSE)
-		})
+#	tryCatch({  library("topGO", quietly = TRUE) } ,
+#			error = function(e) {
+#					stop(paste("topGO needed for this function to work. Please install it.\n", e),
+#							call. = FALSE)
+#		})
 
 	cellexalObj@usedObj$analysis = new("topGOdata", ontology = ontology, allGenes=all
 		,geneSel =  function(x) {x} ,  annot = topGO::annFUN.GO2genes, GO2genes= cellexalObj@usedObj$GO2genes)
