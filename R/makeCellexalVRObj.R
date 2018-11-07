@@ -17,7 +17,7 @@ if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
 	}
 ) }
 
-setMethod('MakeCellexaVRObj', signature = c ('cellexalvrR'),
+setMethod('MakeCellexaVRObj', signature = c ('matrix'),
 	definition = function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 
     ### add the rownames to the given matricies

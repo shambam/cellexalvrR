@@ -1,9 +1,12 @@
+context('VR init session')
 
-script ='data/vrscripts/initial_check.R'
+prefix <- './'
+
+script =file.path( prefix, 'data', 'vrscripts', 'initial_check.R' )
 
 dataSourceFolder <- 'data'
 
-outputFolder <- 'data/output/default_user'
+outputFolder <- file.path( prefix, 'data', 'output', 'default_user' )
 
 ofiles = c( 'cellexalObj.RData', 'groupings_info.txt', 'User.group.1.cgr', 'User.group.2.cgr' )
 

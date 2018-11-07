@@ -1,3 +1,5 @@
+context('VR log network 1')
+
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logNetwork.R')

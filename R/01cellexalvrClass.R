@@ -74,7 +74,7 @@ setMethod('show', signature = c ('cellexalvrR'),
 			cat (paste("Sample annotation (",paste(dim(object@meta.cell),collapse=','),"): '",paste( colnames(object@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
 			cat ( paste("There are",length(grep('order', colnames(object@userGroups), invert=T)), "user groups stored" ),":\n")
 			if ( ncol(object@userGroups) > 0 ) {
-				cat ( paste( collapse=", ", colnames(object@userGroups)) )
+				cat ( paste( collapse=", ", colnames(object@userGroups)), '\n' )
 			}
 			if ( length(names(object@mds)) > 0 ){
 				cat ( "and", length(names(object@mds)), "mds object(s)\n")

@@ -1,3 +1,5 @@
+context('create session grouping')
+
 prefix = './'
 
 data = file.path(prefix, 'data/cellexalObj.RData')

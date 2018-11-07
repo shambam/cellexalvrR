@@ -1,13 +1,10 @@
-library(cellexalvrR)
-
+suppressMessages(library(cellexalvrR))
 args <- commandArgs(trailingOnly = TRUE)
 
 datadir <- args[1] ## please give me the user spcific analysis path here!!!!
 
 genes <- args[2] ## the heatmap_<x>.txt file
-
 ontology <- args[3]
-
 if ( is.na( ontology) ) {
 	ontology = 'BP'
 }
@@ -15,9 +12,9 @@ if ( is.na( ontology) ) {
 topNodes  <- args[4] 
 
 if ( is.na( topNodes) ) {
-	topNodes = 20
+	topNodes = 10
 }
-
 cellexalObj <- loadObject(file.path(datadir, "cellexalObj.RData"))
-
+message("Start ontology Log")
 ontologyLogPage(cellexalObj, genes, ontology = ontology, topNodes = topNodes )
+message("End ontology Log")

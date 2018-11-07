@@ -60,7 +60,10 @@ setMethod('lockedLoad', signature = c ('character'),
 			path = dirname(cellexalObj)
 			load( cellexalObj )
 			if ( is.null(cellexalObj@outpath) ){
-				cellexalObj@outpath = path
+				cellexalObj@outpath = normalizePath( path )
+			}
+			if ( ! file.exists( cellexalObj@outpath) ) {
+				cellexalObj@outpath = normalizePath( path )
 			}
 
 			cellexalObj

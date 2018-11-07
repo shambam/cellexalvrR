@@ -1,5 +1,6 @@
+context('VR create network')
 
-prefix = ''
+prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/make_networks.R')
 

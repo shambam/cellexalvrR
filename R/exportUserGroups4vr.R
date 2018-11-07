@@ -62,7 +62,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	write.table(ret, file=file.path( path, 'groupings_info.txt'), row.names=F, col.names=T, sep="\t", quote=F )
 	
 	cellexalObj@outpath = path
-	lockedSave( cellexalObj )
+	lockedSave( cellexalObj, path )
 	
 	ret
 } )

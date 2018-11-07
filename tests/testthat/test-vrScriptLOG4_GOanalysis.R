@@ -1,3 +1,5 @@
+context('VR ontology report')
+
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/GOanalysis.R')
@@ -6,6 +8,8 @@ script = file.path(prefix, 'data/vrscripts/GOanalysis.R')
 datadir <- file.path(prefix, 'data/output/default_user' ) ## please give me the user spcific analysis path here!!!!
 
 genes <- file.path(prefix, 'data/heatmap_0.txt') ## the heatmap_<x>.txt file
+
+expect_true( file.exists( genes  ) , paste( "missing input file", genes) )
 
 if ( ! file.exists( file.path(datadir, 'cellexalObj.RData' ))) {
 	stop("please run the logStart first!")

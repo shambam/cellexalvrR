@@ -27,9 +27,6 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	## for this to work as expected you need an up to date pandoc:
 	## https://pandoc.org/installing.html
 
-
-	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
-	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
 	#n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
 	if( length(cellexalObj@specie) == 0){
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
@@ -45,7 +42,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 			stop("Install org.Hs.eg.db package for retrieving gene lists from GO")
 		}
 	}else {
-		error= paste( "The specie",  cellexalObj@specie,  "is up to now not supported in the GO reports function" )
+		stop( paste( "The specie",  cellexalObj@specie,  "is up to now not supported in the GO reports function" ))
 	}
 	if ( is.null( cellexalObj@usedObj$GO2genes)){
 		cellexalObj@usedObj$GO2genes = mapIds(x, keys(x,'GO'), 'SYMBOL', 'GO', multiVals = 'list')
@@ -55,7 +52,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	names(all) = rownames(cellexalObj@data)
 	all = factor(all)
 	if ( length(table(all)) == 1) {
-		message( "No genes of the list are in this object - This should not have happned!")
+		message( "No genes of the list are in this object - This should not have happened!")
 		return ( cellexalObj )
 	}
 	tryCatch({  library("topGO", quietly = TRUE) } ,
@@ -63,7 +60,6 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					stop(paste("topGO needed for this function to work. Please install it.\n", e),
 							call. = FALSE)
 		})
-
 
 	cellexalObj@usedObj$analysis = new("topGOdata", ontology = ontology, allGenes=all
 		,geneSel =  function(x) {x} ,  annot = topGO::annFUN.GO2genes, GO2genes= cellexalObj@usedObj$GO2genes)
@@ -92,8 +88,33 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	}
 
 	GOI_2_genes = cbind(GOI_2_genes,  allRes )
-
-	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOgenes.csv") ) ) )
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	
+	message( file.path( 
+					cellexalObj@usedObj$sessionPath, 
+					'tables', 
+					filename(
+							c( 
+									sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ),
+									"GOgenes.csv"
+							) 
+					) 
+			) 
+	)
+	
+	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= 
+					file.path( 
+							cellexalObj@usedObj$sessionPath, 
+							'tables', 
+							filename(
+								c( 
+									sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ),
+									"GOgenes.csv"
+								) 
+							) 
+					) 
+	)
+	
 	GOI_2_genes = GOI_2_genes[,c(1,3)]
 
 	allRes = allRes[,-c(4,5)] ## significant and expected columns do not contain info
@@ -111,10 +132,12 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	#fileConn<-file( mainOfile )
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
-
+	message( )
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	
 	cat( sep="\n",
-					paste( "##", "GO analysis for Saved Selection", n  ),
-					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
+					paste( "##", "GO analysis for Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )  ),
+					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
 					paste( collapse="", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),

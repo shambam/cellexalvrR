@@ -46,6 +46,8 @@ setMethod('loadObject', signature = c ('character'),
 			
 			if ( ! file.exists(cellexalObj@outpath )) {
 				cellexalObj@outpath = normalizePath(dirname( fname ))
+			}else {
+				cellexalObj@outpath = normalizePath(cellexalObj@outpath)
 			}
 			cellexalObj
 		} )

@@ -1,4 +1,7 @@
-prefix <- ''
+
+context('VR create heatmap')
+
+prefix <- './'
 
 script = file.path(prefix, 'data/vrscripts/make_heatmap.R')
 

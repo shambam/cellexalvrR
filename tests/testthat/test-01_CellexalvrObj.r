@@ -1,9 +1,13 @@
+context('export2cellexalvr function')
 
 opath = file.path('data','output')
 dir.create(opath,  showWarnings = FALSE)
+if ( file.exists(file.path(opath,'..', 'cellexalObj.RData.lock')) ) {
+	unlink(file.path(opath,'..', 'cellexalObj.RData.lock') )
+}
 cellexalObj <- loadObject(file.path(opath,'..', 'cellexalObj.RData'))
 
-test_that( "export2cellexalvr function" ,{
+
 
 			ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph1.mds', 'graph2.hull', 'graph2.mds', 'index.facs' )
 			
@@ -24,10 +28,9 @@ test_that( "export2cellexalvr function" ,{
 				expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
 			}
 			
-		} ) ## end of test_that
 
 
-test_that( "store user groupings" ,{
+context( "store user groupings" )
 			old_length = 0
 			if ( length(cellexalObj@userGroups) > 0 ){
 				old_length = length(cellexalObj@userGroups) -2 ## and therefore a pointless test...
@@ -38,10 +41,9 @@ test_that( "store user groupings" ,{
 			cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
 			expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
 			
-		} ) ## end store user groupings
 
 
-test_that( "heatmap is produced", {
+context( "heatmap is produced" )
 			ofile = file.path(opath, 'selection0.png') 
 			if(  file.exists(ofile ) ){
 				unlink( ofile)
@@ -52,6 +54,5 @@ test_that( "heatmap is produced", {
 			expect_true( file.exists( ofile ),  paste("outfile exists", ofile) )
 			
 			
-		} )
 
 

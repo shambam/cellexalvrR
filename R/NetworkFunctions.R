@@ -35,7 +35,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     #dat <- cellexalObj@data
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
-	checkVRfiles( cellexalObj, datadir)
+	#checkVRfiles( cellexalObj, datadir)
 	## cut loc to only include TFs
 	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')

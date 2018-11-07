@@ -1,4 +1,4 @@
-
+context('Networks')
 opath = file.path('data','output')
 
 ofiles =c( 'Networks.nwk', 'NwkCentroids.cnt' )

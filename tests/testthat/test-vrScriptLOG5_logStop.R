@@ -1,3 +1,5 @@
+context('VR stop logging' )
+
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logStop.R')

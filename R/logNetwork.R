@@ -33,9 +33,6 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	cellexalObj = sessionPath(cellexalObj)
 	sessionPath = cellexalObj@usedObj$sessionPath
 
-	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
-	n = sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )
-
 	if ( ! file.exists( png) ) {
 		stop(paste( "logNetwork the network png file can not be found!", 'png') )
 	}
@@ -65,8 +62,10 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	    last
 	}
 
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	
 	cat(
-					paste( "##", "Network from Saved Selection", n  ),
+					paste( "##", "Network from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Network map (from the VR process)"),
