@@ -8,8 +8,8 @@
 #' @title description of function sessionCounter
 #' @export 
 setGeneric('sessionCounter', ## Name
-	function ( x, gName=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('sessionCounter') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( x, gName=NULL ) { 
+		standardGeneric('sessionCounter')
 	}
 )
 

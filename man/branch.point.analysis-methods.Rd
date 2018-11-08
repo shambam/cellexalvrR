@@ -3,8 +3,7 @@
 \docType{methods}
 \name{branch.point.analysis}
 \alias{branch.point.analysis}
-\alias{branch.point.analysis,cellexalvrR-method,}
-\alias{character-method}
+\alias{branch.point.analysis,cellexalvrR-method,character-method}
 \title{description of function branch.point.analysis}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
