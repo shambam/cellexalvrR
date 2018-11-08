@@ -29,6 +29,8 @@ setMethod('loadObject', signature = c ('character'),
 				}else {
 					stop( paste("Could not obtain access to locked file", fname ))
 				}
+			}else {
+				stop( paste( "file does not exixit", fname) )
 			}
 			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
 				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){

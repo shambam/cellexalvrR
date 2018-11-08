@@ -8,8 +8,8 @@
 #' @title description of function sessionPath
 #' @export
 setGeneric('sessionPath', ## Name
-	function (cellexalObj, sessionName=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('sessionPath') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function (cellexalObj, sessionName=NULL ) { 
+		standardGeneric('sessionPath')
 	}
 )
 
@@ -40,7 +40,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
 		## init the session objects
 		## add a simple session log start file
-		cellexalObj@usedObj$sessionPath = normalizePath( file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName) )
+		cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
     if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
         message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
         dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
@@ -60,7 +60,9 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 	    , fileConn  )
 	  close(fileConn)
 
+	  cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
 	}
+	
 	invisible(cellexalObj)
 
 } )

@@ -9,7 +9,7 @@ load( data )
 cellexalObj@outpath = file.path(prefix, 'data', 'output') ## to not mess up the package
 
 ## init a session
-
+lockedSave(cellexalObj)
 cellexalObj = sessionPath( cellexalObj, 'sessionGroupingTest' )
 
 expect_true( file.exists( file.path(prefix, 'data', 'output', 'sessionGroupingTest' ) ) , "session path has not been created" )

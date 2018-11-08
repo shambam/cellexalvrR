@@ -1,5 +1,10 @@
 context('VR log heatmap 2')
 
+if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
+	skip("cellexalvrR has to be installed before this test")
+}else if ( installed.packages()['cellexalvrR','Version'] != packageDescription("cellexalvrR")$Version) {
+	print ( "Please re-run this test with the updated cellexalvrR lib installed if any error occures" )
+}
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logHeatmap.R')
@@ -26,7 +31,7 @@ ontology <- 'BP'
 
 topNodes  <- 20
 
-ofiles = c( 'png/User.group.1.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.1.graph1.2_3.png' ,'tables/0.GOanalysis.csv', 'tables/0.GOgenes.csv')
+ofiles = c( 'png/User.group.2.graph1.1_2.png', 'png/a_simple_figure.png','png/User.group.2.graph1.2_3.png' )
 
 for ( fname in ofiles ){
 	

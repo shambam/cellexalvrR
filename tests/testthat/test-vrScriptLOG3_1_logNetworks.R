@@ -1,5 +1,10 @@
 context('VR log network 1')
 
+if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
+	skip("cellexalvrR has to be installed before this test")
+}else if ( installed.packages()['cellexalvrR','Version'] != packageDescription("cellexalvrR")$Version) {
+	print ( "Please re-run this test with the updated cellexalvrR lib installed if any error occures" )
+}
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logNetwork.R')
@@ -17,7 +22,7 @@ grouping <- file.path(prefix, 'data/selection0.txt')
 
 ## NO genes, ontology and no topNodes this time.
 
-ofiles = c( file.path('png', 'a_simple_figure2.png') )
+ofiles = c( file.path('png', 'a_simple_figure2.png'), 'png/User.group.1.graph1.2_3.png', 'png/User.group.1.graph1.1_2.png'  )
 
 
 for ( fname in ofiles ){

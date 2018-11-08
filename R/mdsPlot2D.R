@@ -8,8 +8,8 @@
 #' @title description of function mdsPlot2D
 #' @export 
 setGeneric('mdsPlots2D', ## Name
-	function ( cellexalObj, gInfo ) { ## Argumente der generischen Funktion
-		standardGeneric('mdsPlots2D') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( cellexalObj, gInfo ) { 
+		standardGeneric('mdsPlots2D')
 	}
 )
 
@@ -23,6 +23,9 @@ setMethod('mdsPlots2D', signature = c ('cellexalvrR'),
 	MDS1 = file.path( sessionPath , 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$mds , "1_2", 'png' ) ))
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
 	gInfo$grouping = gInfo$grouping +1
+	if ( ! gInfo$mds %in% names(cellexalObj@mds) ){
+		stop( paste("group info does not match to cellexalObj data content: mds named", gInfo$mds, "not in list", paste( collapse=", ", names(cellexalObj@mds))))
+	}
 	if ( ! file.exists( MDS1 ) ){
 		png( file= MDS1, width=1000, height=1000)
 		plot(

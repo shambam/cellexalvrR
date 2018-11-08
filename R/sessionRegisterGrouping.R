@@ -8,8 +8,8 @@
 #' @title description of function sessionRegisterGrouping
 #' @export 
 setGeneric('sessionRegisterGrouping', ## Name
-	function ( x, gName ) { ## Argumente der generischen Funktion
-		standardGeneric('sessionRegisterGrouping') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( x, gName ) { 
+		standardGeneric('sessionRegisterGrouping')
 	}
 )
 

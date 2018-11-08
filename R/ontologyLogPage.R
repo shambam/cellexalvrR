@@ -28,7 +28,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	## for this to work as expected you need an up to date pandoc:
 	## https://pandoc.org/installing.html
 
-	#n = length( grep ( "GOanalyis.Rmd", list.files(cellexalObj@usedObj$sessionPath) ) )
+	n = length( grep ( "GOanalyis.csv", list.files( file.path(cellexalObj@usedObj$sessionPath, 'tables') ) ) ) +1
+	
 	if( length(cellexalObj@specie) == 0){
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
 	}
@@ -50,7 +51,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	if ( is.null( cellexalObj@usedObj$GO2genes)){
 		cellexalObj@usedObj$GO2genes = mapIds(x, keys(x,'GO'), 'SYMBOL', 'GO', multiVals = 'list')
 	}
-
+	
+	
 	all = is.na(match(rownames(cellexalObj@data), genes ))
 	names(all) = rownames(cellexalObj@data)
 	all = factor(all)
@@ -82,28 +84,15 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		GOI_2_genes[i,2] =  paste( intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]), collapse=" ")
 		GOI_2_genes[i,3] = paste(
 				unlist( lapply(	intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]),
-		            rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=", FALSE ))
+		            rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=", lineEnd=FALSE ))
 			, collapse=" "
 	    )
 	}
 	for ( i in 1:nrow(allRes) ) {
-		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/" )
+		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/", lineEnd=FALSE )
 	}
 
-	GOI_2_genes = cbind(GOI_2_genes,  allRes )
-	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
-	
-	message( file.path( 
-					cellexalObj@usedObj$sessionPath, 
-					'tables', 
-					filename(
-							c( 
-									sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ),
-									"GOgenes.csv"
-							) 
-					) 
-			) 
-	)
+	GOI_2_genes = cbind(GOI_2_genes,  allRes )	
 	
 	write.table(GOI_2_genes, sep='\t', quote=F, row.names=F, file= 
 					file.path( 
@@ -111,7 +100,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 							'tables', 
 							filename(
 								c( 
-									sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ),
+									n,
 									"GOgenes.csv"
 								) 
 							) 
@@ -119,9 +108,10 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	)
 	
 	GOI_2_genes = GOI_2_genes[,c(1,3)]
-
+	
 	allRes = allRes[,-c(4,5)] ## significant and expected columns do not contain info
-	write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', filename(c( n, "GOanalysis.csv") ) ) )
+	write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', 
+					filename(c( n , "GOanalysis.csv") ) ) )
 	## and now put this nice little table into the GEO section ;-)
 	## and probably save this damn analysis object....
 
@@ -135,11 +125,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	#fileConn<-file( mainOfile )
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
-	message( )
-	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
 	
 	cat( sep="\n",
-					paste( "##", "GO analysis for Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup )  ),
+					paste( "##", "GO analysis for gene list nr.", n ),
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
@@ -159,6 +147,6 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
 	## object is saved in the heatmap function!
 
-	cellexalObj
+	invisible(cellexalObj)
 
 } )

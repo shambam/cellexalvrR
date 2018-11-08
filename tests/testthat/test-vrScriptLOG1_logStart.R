@@ -1,5 +1,10 @@
 context('VR log start')
 
+if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
+	skip("cellexalvrR has to be installed before this test")
+}else if ( installed.packages()['cellexalvrR','Version'] != packageDescription("cellexalvrR")$Version) {
+	print ( "Please re-run this test with the updated cellexalvrR lib installed if any error occures" )
+}
 prefix = './'
 
 

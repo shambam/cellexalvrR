@@ -19,8 +19,8 @@ if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.networ
 
 setMethod('make.cellexalvr.network', signature = c ('character'),
 		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
-			cellexalObj <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm, top.n.inter)
+			cellexalObj2 <- loadObject(cellexalObj)
+			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter)
 		}
 )
 
@@ -35,6 +35,8 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     #dat <- cellexalObj@data
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
+	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
+	
 	#checkVRfiles( cellexalObj, datadir)
 	## cut loc to only include TFs
 	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
@@ -106,10 +108,11 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
     }
 
-
+	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
+	
     if(nrow(grp.tabs)==0){
         message("There are no networks to see here.")
-        return(cellexalObj)
+        invisible(cellexalObj)
     }else{
     write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
     write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")

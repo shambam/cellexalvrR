@@ -7,8 +7,8 @@
 #' @title description of function filename
 #' @export 
 setGeneric('filename', ## Name
-	function ( str ) { ## Argumente der generischen Funktion
-		standardGeneric('filename') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	function ( str ) { 
+		standardGeneric('filename')
 	}
 )
 

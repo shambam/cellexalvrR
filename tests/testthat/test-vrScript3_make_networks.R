@@ -1,5 +1,10 @@
 context('VR create network')
 
+if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
+	skip("cellexalvrR has to be installed before this test")
+}else if ( installed.packages()['cellexalvrR','Version'] != packageDescription("cellexalvrR")$Version) {
+	print ( "Please re-run this test with the updated cellexalvrR lib installed if any error occures" )
+}
 prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/make_networks.R')
@@ -19,7 +24,20 @@ for ( fname in ofiles ) {
 	}	
 }
 
+CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
+
+expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: input object mds names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@mds)) ))
+
+
 system( paste( 'Rscript', script, input_file, datadir, output_file ))
+
+
+CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
+
+expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("after: input object mds names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@mds)), "]" ))
+
 
 
 for ( fname in ofiles ) {

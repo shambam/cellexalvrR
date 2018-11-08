@@ -13,15 +13,15 @@ cellexalObj = loadObject( file.path(opath,'..', 'output', 'cellexalObj.RData') )
 cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 
 
-test_that( "Network outfiles are produced" ,{
-			
-			make.cellexalvr.network ( file.path(opath,'..', 'output', 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
-			
-			for ( f in ofiles ) {
-				ofile = file.path(opath, f )
-				print( ofile )
-				expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
-			}
-			
-		}
-)
+
+
+make.cellexalvr.network ( file.path(opath,'..', 'output', 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
+
+for ( f in ofiles ) {
+	ofile = file.path(opath, f )
+	print( ofile )
+	expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
+}
+
+
+
