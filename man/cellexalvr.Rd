@@ -4,6 +4,3 @@
 \name{cellexalvr}
 \alias{cellexalvr}
 \title{cellexalvr class definition (old)}
-\description{
-cellexalvr class definition (old)
-}
