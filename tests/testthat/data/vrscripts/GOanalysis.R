@@ -4,17 +4,20 @@ args <- commandArgs(trailingOnly = TRUE)
 datadir <- args[1] ## please give me the user spcific analysis path here!!!!
 
 genes <- args[2] ## the heatmap_<x>.txt file
-ontology <- args[3]
+
+grouping <- args[3] ## the grouping info selection0.txt or so
+
+ontology <- args[4]
 if ( is.na( ontology) ) {
 	ontology = 'BP'
 }
 
-topNodes  <- args[4] 
+topNodes  <- args[5] 
 
 if ( is.na( topNodes) ) {
 	topNodes = 10
 }
 cellexalObj <- loadObject(file.path(datadir, "cellexalObj.RData"))
 message("Start ontology Log")
-ontologyLogPage(cellexalObj, genes, ontology = ontology, topNodes = topNodes )
+ontologyLogPage(cellexalObj, genes, grouping, ontology = ontology, topNodes = topNodes )
 message("End ontology Log")

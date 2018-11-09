@@ -263,3 +263,31 @@ for ( fname in c( ofiles, '00.SessionStart.Rmd') ){
 
 
 
+
+context('fast walk through - finalze log')
+
+prefix = './'
+
+script = file.path(prefix, 'data/vrscripts/logStop.R')
+
+ofiles <- c( 'testSession/_bookdown.yml', 'session-log-for-session-testsession.html', 'search_index.json' )
+
+for ( fname in ofiles ) {
+	if (  file.exists( file.path(datadir,  fname ) ) ){
+		file.remove( file.path(datadir,  fname ) )
+	}	
+}
+
+system( paste( 'Rscript', script, datadir  ) )
+
+test <- loadObject(file.path(datadir, "cellexalObj.RData"))
+
+expect_true( is.null(test@usedObj$sessionName) , "session has ended" )
+
+
+for ( fname in ofiles ){
+	expect_true( file.exists( file.path(datadir, fname ) ) , paste( "file has not been created",  file.path(datadir,fname) ))
+}
+
+
+

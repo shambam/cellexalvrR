@@ -18,11 +18,15 @@ setGeneric('ontologyLogPage', ## Name
 )
 
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes, ontology = 'BP', topNodes=10, ... ) {
+	definition = function ( cellexalObj, genes, grouping, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	if ( file.exists(genes)) {
 		genes = as.vector(read.delim(genes)[,1])
 	}
+	
+	cellexalObj = userGrouping( cellexalObj, grouping )
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	
 	#error = ""
 	# message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
 	## for this to work as expected you need an up to date pandoc:
@@ -126,8 +130,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 	
-	cat( sep="\n",
-					paste( "##", "GO analysis for gene list nr.", n ),
+	cat( sep="\n", 
+					paste( "##", "GO analysis from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
