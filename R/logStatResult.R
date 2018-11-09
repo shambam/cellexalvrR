@@ -3,10 +3,10 @@
 #' @rdname logStatResult-methods
 #' @docType methods
 #' @description 
-#' @param x  TEXT MISSING
-#' @param method  TEXT MISSING
-#' @param data  TEXT MISSING
-#' @title description of function logStatResult
+#' @param x the cellexalvrR object
+#' @param method the stats method used (no spaces please)
+#' @param data the results table
+#' @title add a table into the session log
 #' @export 
 setGeneric('logStatResult', ## Name
 	function ( x, method, data ) { ## Argumente der generischen Funktion
@@ -24,7 +24,6 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		
 		cat( sep="\n",
 				paste( "##", "Statistical result from Group ",  cellexalObj@usedObj$lastGroup ),
-				
 				"",
 				paste(sep="",  "<a href='",file.path( 'png',ofile),"' download>",ofile,"</a>" ),
 				""

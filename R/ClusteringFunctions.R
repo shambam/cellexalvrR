@@ -120,61 +120,8 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 	definition = function (cvrObj,cellidfile,num.sig,outfile) {
 	
-	anovap <- function(v,labs){
-		anova(lm(v~-1+labs))$Pr[1]
-	}
-	
-	lin <- function( v, order ) {
-		cor.test( v, order, method='spearman')$p.value
-	}
-	
-	cellexalObj <- loadObject(cvrObj)
-	## now I want to store the grouping in the cellexalvr object
-#	browser()
-	
-	cellexalObj <- userGrouping(cellexalObj, cellidfile)
-	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
-	if ( length(not) > 0) {
-		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
-	}else {
-		loc <- cellexalObj
-	}
-
-	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
-	info <- groupingInfo( loc )
-
-	dat <- loc@data
-	#cellid <- read.delim(cellidfile,header=F)
-	
-	grp.vec <- info$grouping
-	
-	col.tab <- info$col
-	
-	for(i in 1:length(col.tab)){
-		ind <- which(grp.vec==col.tab[i])
-		grp.vec[ind] <- paste("Grp",i,sep="")
-	}
-	rcolrs <- list(Group=col.tab)
-	names(rcolrs$Group) <- unique(grp.vec)
-	
-	rem.ind <- which(apply(dat,1,sum)==0)
-	dat.f <- dat
-	
-	if(length(rem.ind)>0){
-		dat.f <- dat.f[-rem.ind,]
-	}
-	
-	if ( length(col.tab) > 1 ){
-		ps <- apply(dat.f,1,anovap,labs=grp.vec)
-	}else if (length(col.tab) == 1 ){
-		ps <- apply(dat.f,1,lin,order=1:ncol(dat.f))
-	}
-	
-	sigp <- order(ps)[1:num.sig]
-	
-	reduced.matrix <- dat.f[sigp,]
-
-	gene.cluster.order <- rownames(reduced.matrix)[hclust(as.dist(1-cor(t(reduced.matrix))))$order]
+		# getDifferentials(cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250) 
+	gene.cluster.order = getDifferentials(cellexalObj,cellidfile, getStatsMethod(cellexalObj), num.sig= num.sig)
 	
 	write(c(num.sig,gene.cluster.order),file=outfile,ncolumns=1)
 

@@ -131,7 +131,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		names(pr) = rownames(loc@data)
 		cellexalObj@usedObj$sigGeneLists$edgeR[[cellexalObj@usedObj$lastGroup]] = pr
 	}
-	if(deg.method=='seurat') {
+	if(deg.method=='Seurat') {
 		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
 		if (!requireNamespace("Seurat", quietly = TRUE)) {
 			stop("seurat needed for this function to work. Please install it.",
@@ -146,9 +146,66 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		sca = Seurat::SetIdent( sca, colnames(loc@data), as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) )
 		
 		all_markers <- Seurat::FindAllMarkers(object = sca)
-		deg.genes = all_markers[order(all_markers[,'p_val_adj'])[1:(num.sig)],'gene']
-		
+		message("The Seurat select signififcant genes might need some work!")
+		deg.genes = vector('character', num.sig)
+		degid = 0
+		for ( i in order(all_markers[,'p_val_adj']) ){
+			if ( is.na( match ( all_markers[i,'gene'], deg.genes) ) ){
+				degid = degid + 1
+				deg.genes[degid] = all_markers[i,'gene']
+				if ( degid == num.sig){
+					break
+				}
+			}
+		}
 	}
     lockedSave(cellexalObj)
     deg.genes
 } )
+
+#' @name setStatsMethod
+#' @aliases setStatsMethod,cellexalvrR-method
+#' @rdname setStatsMethod-methods
+#' @docType methods
+#' @description 
+#' @param x the cellexalvrR object
+#' @param method the default stats method to use (default 'Seurat')
+#' @title set the default stats method
+#' @export 
+setGeneric('setStatsMethod', ## Name
+		function ( x, method='Seurat') { ## Argumente der generischen Funktion
+			standardGeneric('setStatsMethod') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+setMethod('setStatsMethod', signature = c ('cellexalvrR'),
+		definition = function ( x, method='Seurat') {
+			if ( ! is.na(match ( method, c("anova","edgeR", "MAST", 'Seurat')))) {
+				x@usedObj$statsMethod = method
+			}else {
+				stop(paste("Stats method", method,"is not implemented"))
+			}
+			x
+		} )
+
+#' @name getStatsMethod
+#' @aliases getStatsMethod,cellexalvrR-method
+#' @rdname getStatsMethod-methods
+#' @docType methods
+#' @description 
+#' @param x the cellexalvrR object
+#' @title get the method to calculate differential gene expression
+#' @export 
+setGeneric('getStatsMethod', ## Name
+		function ( x, method='Seurat') { ## Argumente der generischen Funktion
+			standardGeneric('getStatsMethod') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+setMethod('getStatsMethod', signature = c ('cellexalvrR'),
+		definition = function ( x, method='Seurat') {
+			if ( is.null( x@usedObj$statsMethod) ) {
+				return ( 'Seurat' )
+			}
+			return( x@usedObj$statsMethod )
+		} )

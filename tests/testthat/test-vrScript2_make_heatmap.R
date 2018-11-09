@@ -1,5 +1,5 @@
 
-context('VR create heatmap')
+context('VR create heatmap ')
 
 if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
 	skip("cellexalvrR has to be installed before this test")
@@ -12,7 +12,6 @@ prefix <- './'
 script = file.path(prefix, 'data','vrscripts','make_heatmap.R')
 
 homedir = file.path(prefix, 'data','output','default_user','output' ) # <user specific folder>/output
-
 
 datadir = file.path(prefix, 'data','output','default_user' )# <user specific folder>
 
@@ -36,11 +35,18 @@ CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: input object mds names == ('graph1', 'graph2') [", 
 				paste(collapse=", ", names(CO@mds)), "]" ))
 
+expect_true( CO@outpath == normalizePath(datadir), "outpath is absolute" )
 
 system( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number ))
 
+expect_true( file.exists(output_filepath), paste( "file missing", 'heatmap_0-3-5.txt') )
 
-expect_true( file.exists(output_filepath), paste( "file exists", 'heatmap_0-3-5.txt') )
+t = NULL
+if ( file.exists(output_filepath) ) {
+	t = scan( output_filepath , what=character())
+	t = t[-1] ## kill the header.
+}
+expect_true(length(unique(t)) == 250, paste("not the expected number of genes returned: returned",length(unique(t)), "!= 250 expected" ) )
 
 CO2 <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
