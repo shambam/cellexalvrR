@@ -15,5 +15,9 @@ setGeneric('sessionCounter', ## Name
 
 setMethod('sessionCounter', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
-	x@usedObj$sessionCounter[[gName]]
+		ret = NA
+		if (  is.na( match(gName, names(x@usedObj$sessionCounter)) ) == FALSE ){
+			ret = x@usedObj$sessionCounter[[gName]]
+		}
+		ret
 } )
