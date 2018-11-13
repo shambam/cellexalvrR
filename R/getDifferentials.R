@@ -159,8 +159,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 		}
 	}
+	
     lockedSave(cellexalObj)
-    deg.genes
+	
+	loc = reduceTo(loc, what='row', to=deg.genes)
+	tab <- as.matrix(loc@data)
+	hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
+    deg.genes[hc$order]
+	
 } )
 
 #' @name setStatsMethod
