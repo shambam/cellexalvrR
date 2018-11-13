@@ -1,8 +1,20 @@
-#'Creates the base files needed to run the VR environment
-#'@param cellexalObj A cellexalvr object
+#' @name export2cellexalvr
+#' @aliases export2cellexalvr,cellexalvrR-method
+#' @rdname export2cellexalvr-methods
+#' @docType methods
+#' @description  Creates the base files needed to run the VR environment
+#' @param cellexalObj A cellexalvr object
 #' @param forceDB re-write the db even if it exisis (default =F)
-#'@export export2cellexalvr
-export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
+#' @title description of function export2cellexalvr
+#' @export export2cellexalvr
+if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
+	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { 
+		standardGeneric('export2cellexalvr') 
+	}
+) }
+
+setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
 
 	
 	ofile = file.path( path, "cellexalObj.RData")
@@ -14,15 +26,15 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
     #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		utils::write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"c.meta.gene")
 	if ( ! file.exists( ofile) ){
-		write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		utils::write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 
     for(i in 1:length(cellexalObj@mds)){
@@ -46,11 +58,13 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
-			write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
+
+			utils::write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
+
 		}
 		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".mds",sep=""))
 		if ( ! file.exists( ofile )) {
-			write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+			utils::write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
     }
 	
@@ -89,7 +103,7 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
     	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
-
+		
 		dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) collate nocase not null unique)")
         
 		dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) collate nocase not null unique)")
@@ -110,13 +124,26 @@ export2cellexalvr <- function(cellexalObj,path, forceDB=F, VRpath=NULL ){
 	}
 	invisible(cellexalObj)
 
-}
-
-
-#' checkVRfiles: Checks the existance of all VR specific files and re-runs the export function if any is missing.
+} )
+#' @name checkVRfiles
+#' @aliases checkVRfiles,cellexalvrR-method
+#' @rdname checkVRfiles-methods
+#' @docType methods
+#' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
+#' @description  function if any is missing.
 #' @param cellexalObj the cellexal object
 #' @param path the outpath to check
+#' @param cellexalvr  TEXT MISSING
+#' @param path  TEXT MISSING
+#' @title description of function checkVRfiles
 #' @export checkVRfiles
-checkVRfiles <- function( cellexalvr, path ) {
+if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
+	function ( cellexalvr, path ) { 
+		standardGeneric('checkVRfiles') 
+	}
+) }
+
+setMethod('checkVRfiles', signature = c ('cellexalvrR'),
+	definition = function ( cellexalvr, path ) {
 	export2cellexalvr( cellexalvr, path, forceDB=F )
-}
+} )

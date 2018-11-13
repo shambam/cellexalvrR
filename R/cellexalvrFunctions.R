@@ -1,59 +1,127 @@
-#'Loads the cellexalvr object, if the fname is a file
-#'@param fname the file to load or a cellexalvr object
-#'@keywords load
-#'@export loadObject
-loadObject <- function( fname, maxwait=50 ) {
-	if ( class(fname)[1] == 'cellexalvr' ) {
-		cellexalObj = fname
-	}else {
-		if ( file.exists( fname) ) {
-			waited = 0
-			while ( file.exists( paste(fname, 'lock',sep='.'))){
-				Sys.sleep(1)
-				waited = waited +1
-				if ( waited == maxwait) { break }
-			}
-			if (waited != maxwait ){
-				load(fname)
-			}else {
-				stop( paste("Could not obtain access to locked file", fname ))
-			}
-		}
+#' @name loadObject
+#' @aliases loadObject,cellexalvrR-method
+#' @rdname loadObject-methods
+#' @docType methods
+#' @description  Loads the cellexalvr object, if the fname is a file
+#' @param fname the file to load or a cellexalvr object
+#' @param fname  TEXT MISSING
+#' @param maxwait  TEXT MISSING default=50
+#' @keywords load
+#' @title description of function loadObject
+#' @export loadObject
+if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
+	function ( fname, maxwait=50 ) { 
+		standardGeneric('loadObject') 
 	}
-	cellexalObj
-}
+) }
 
+setMethod('loadObject', signature = c ('character'),
+		definition = function ( fname, maxwait=50 ) {
+			if ( file.exists( fname) ) {
+				waited = 0
+				while ( file.exists( paste(fname, 'lock',sep='.'))){
+					Sys.sleep(1)
+					waited = waited +1
+					if ( waited == maxwait) { break }
+				}
+				if (waited != maxwait ){
+					load(fname)
+				}else {
+					stop( paste("Could not obtain access to locked file", fname ))
+				}
+			}else {
+				stop( paste( "file does not exixit", fname) )
+			}
+			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
+				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){
+					class(cellexalObj) = 'cellexalvrR'
+					cellexalObj = renew(cellexalObj)
+				}
+			}
+			#tmp = new('cellexalvrR')
+			#reload = 0
+			
+			tryCatch({file.exists(cellexalObj@outpath ) }, error= { 
+						cellexalObj = renew(cellexalObj)
+						cellexalObj@outpath = normalizePath(dirname( fname ))
+					} )
+			
+			if ( ! file.exists(cellexalObj@outpath )) {
+				cellexalObj@outpath = normalizePath(dirname( fname ))
+			}else {
+				cellexalObj@outpath = normalizePath(cellexalObj@outpath)
+			}
+			cellexalObj
+		} )
 
-#'Loads TF annotation into cellexalvr object
-#'@param cellexalObj A cellexalvr object
-#'@param specie The specie required
-#'@keywords TFs
-#'@export set.specie
+setMethod('loadObject', signature = c ('cellexalvrR'),
+		definition = function ( fname, maxwait=50 ) {
+			return (fname)
+} )
+#' @name set.specie
+#' @aliases set.specie,cellexalvrR-method
+#' @rdname set.specie-methods
+#' @docType methods
+#' @description  Loads TF annotation into cellexalvr object
+#' @param cellexalObj, cellexalvr object
+#' @param specie The specie required
+#' @param specie  TEXT MISSING default=c("mouse"
+#' @param "human")  TEXT MISSING default=c("mouse"
+#' @title description of function set.specie
+#' @keywords TFs
+#' @export set.specie
+if ( ! isGeneric('set.specie') ){setGeneric('set.specie', ## Name
+	function (cellexalObj, specie=c("mouse","human")) { 
+		standardGeneric('set.specie') 
+	}
+) }
 
-set.specie <- function(cellexalObj,specie=c("mouse","human")){
+setMethod('set.specie', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
 	if(specie=="mouse"){
-		data(mouse.tfs)
+		#data(mouse.tfs)
 		cellexalObj@tfs <- mouse.tfs
 	}
 	
 	if(specie=="human"){
-		data(human.tfs)
+		#data(human.tfs)
 		cellexalObj@tfs <- human.tfs
 	}
 
 	cellexalObj@specie <- specie
 	cellexalObj
-}
+} )
+#' @name get.genes.cor.to
+#' @aliases get.genes.cor.to,cellexalvrR-method
+#' @rdname get.genes.cor.to-methods
+#' @docType methods
+#' @description  Gets positively and negatively correlated genes to a chosen gene
+#' @param cellexalObj A cellexalvr object
+#' @param gname The required gene
+#' @param output the outfile
+#' @param is.smarker Whether the supplied gene is a surface marker (default =F)
+#' @param gname  TEXT MISSING
+#' @param output  TEXT MISSING
+#' @param is.smarker  TEXT MISSING default=F
+#' @title description of function get.genes.cor.to
+#' @keywords correlation
+#' @export get.genes.cor.to
+if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
+	function (cellexalObj, gname, output, is.smarker=F) { 
+		standardGeneric('get.genes.cor.to') 
+	}
+) }
 
-#'Gets positively and negatively correlated genes to a chosen gene
-#'@param cellexalObj A cellexalvr object
-#'@param gname The required gene
-#'@param output the outfile
-#'@param is.smarker Whether the supplied gene is a surface marker (default =F)
-#'@keywords correlation
-#'@export get.genes.cor.to
-get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
+setMethod('get.genes.cor.to', signature = c ('character'),
+		definition = function (cellexalObj, gname, output, is.smarker=F) {
+			cellexalObj <- loadObject(cellexalObj)
+			get.genes.cor.to( cellexalObj, gname, output, is.smarker )
+		}
+)
+
+setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, gname, output, is.smarker=F) {
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@data
@@ -92,5 +160,4 @@ get.genes.cor.to <- function(cellexalObj, gname, output, is.smarker=F){
 	tab <- cbind(pos,neg)
 	
 	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
-}
-
+} )

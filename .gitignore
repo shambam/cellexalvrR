@@ -12,3 +12,4 @@ logfile.R
 /test.heatmap.png
 inst/doc
 data/output/
+/knit.Rout

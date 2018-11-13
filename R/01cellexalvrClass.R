@@ -10,6 +10,7 @@
 #' @slot index a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application
 #' @slot tfs depricated not used any more
 #' @slot specie the species this data is from (mouse or human)
+#' @slot outpath the path this object will be saved to
 #' @exportClass cellexalvrR
 setClass(Class="cellexalvrR",
 		representation=representation(
@@ -23,7 +24,8 @@ setClass(Class="cellexalvrR",
 				mds="list",
 				index=c("matrix"),
 				tfs="vector",
-				specie="character"
+				specie="character",
+				outpath="character"
 		),
 		prototype(
 				data=matrix(),
@@ -36,7 +38,8 @@ setClass(Class="cellexalvrR",
 				mds=list(),
 				index=matrix(),
 				tfs=NA_character_,
-				specie=NA_character_
+				specie=NA_character_,
+				outpath=NA_character_
 		)
 )
 

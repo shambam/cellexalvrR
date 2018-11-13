@@ -4,15 +4,14 @@
 \name{reorder.genes}
 \alias{reorder.genes}
 \alias{reorder.genes,cellexalvr-method}
-\title{description of function remove.genes}
-\usage{
-\method{reorder}{genes}(dataObj, column)
-}
+\title{simple reordering of the genes}
 \arguments{
 \item{dataObj}{the cellexalvr object}
 
 \item{column}{the samples column to reorder on}
 }
 \description{
-this function reorderes the cellexalvr object based on a column in the samples table (e.g. for plotting)
+this function reorderes the cellexalvr object based on a column in the samples table
+
+(e.g. for plotting)
 }

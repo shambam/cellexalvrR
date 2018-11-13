@@ -1,11 +1,36 @@
-#' Creates a summary file for the vr process
-#' @param cellexalObj A cellexalvr object
+#' @name exportUserGroups4vr
+#' @aliases exportUserGroups4vr,cellexalvrR-method
+#' @rdname exportUserGroups4vr-methods
+#' @docType methods
+#' @description  Creates a summary file for the vr process Creates a file groupings_info.txt in the
+#' @description  outfolder that contains the group name (in the R object) the numer of groups in the
+#' @description  selection and the number of cells in the whole group.
+#' @param cellexalObj, cellexalvr object
 #' @param path the outpath
-#' @description Creates a file groupings_info.txt in the outfolder that contains the group name (in the R object)
-#' the numer of groups in the selection and the number of cells in the whole group.
+#' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
-exportUserGroups4vr <- function( cellexalObj, path ) {
-	cellexalObj <- loadObject(cellexalObj)
+if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
+	function ( cellexalObj, path ) { 
+		standardGeneric('exportUserGroups4vr') 
+	}
+) }
+
+setMethod('exportUserGroups4vr', signature = c ('character'),
+		definition = function (cellexalObj, path) {
+			## This is the first function the VR does actually run in the R environment.
+			if ( file.exists( file.path(path, 'cellexalObj.RData'))){
+				cellexalObj <- loadObject(file.path(path, 'cellexalObj.RData'))
+			}else {
+				cellexalObj <- loadObject(cellexalObj)
+			}
+			exportUserGroups4vr( cellexalObj, path )
+		}
+)
+
+
+setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
+	definition = function ( cellexalObj, path ) {
+	#cellexalObj <- loadObject(cellexalObj)
 	
 	names <- colnames(cellexalObj@userGroups) [grep('order', colnames(cellexalObj@userGroups), invert=T)]
 	
@@ -36,5 +61,8 @@ exportUserGroups4vr <- function( cellexalObj, path ) {
 	ret <- cbind(  'group name' = names, 'groups [n]' =  groupN, 'cells [n]' = groupCount )
 	write.table(ret, file=file.path( path, 'groupings_info.txt'), row.names=F, col.names=T, sep="\t", quote=F )
 	
+	cellexalObj@outpath = path
+	lockedSave( cellexalObj, path )
+	
 	ret
-}
+} )

@@ -1,10 +1,27 @@
-#' Saving the RData in the VR tool might create a problem. Hence this function will save the cellexalObj in a controlled way.
-#'@param cellexalObj A cellexalvr object
-#'@param path the output path
-#'@keywords lockedSave
-#'@export lockedSave
+#' @name lockedSave
+#' @aliases lockedSave,cellexalvrR-method
+#' @rdname lockedSave-methods
+#' @docType methods
+#' @description  Saving the RData in the VR tool might create a problem. Hence this function will
+#' @description  save the cellexalObj in a controlled way.
+#' @param cellexalObj, cellexalvr object
+#' @param path the output path
+#' @title description of function lockedSave
+#' @keywords lockedSave
+#' @export lockedSave
+if ( ! isGeneric('lockedSave') ){setGeneric('lockedSave', ## Name
+	function (cellexalObj, path=NULL ) {
+		standardGeneric('lockedSave')
+	}
+) }
 
-lockedSave <- function(cellexalObj, path ) {
+setMethod('lockedSave', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, path=NULL ) {
+		if ( is.null(path) ){
+			path= cellexalObj@outpath
+		}else if ( !.hasSlot(cellexalObj, "outpath") ) {
+			cellexalObj@outpath = path
+		}
 	ofile = file.path( path, 'cellexalObj.RData' )
 	lockFile = file.path( paste(ofile, 'lock', sep= '.'))
 	while ( file.exists(lockFile) ){
@@ -14,5 +31,40 @@ lockedSave <- function(cellexalObj, path ) {
 	save(cellexalObj, file=ofile)
 	file.remove(lockFile)
 	print (paste("saved the object to",path))
-}
+} )
 
+
+#' @name lockedLoad
+#' @aliases lockedLoad,cellexalvrR-method
+#' @rdname lockedLoad-methods
+#' @docType methods
+#' @description  Loading the RData in the VR tool might create a problem. Hence this function will
+#'   save the cellexalObj in a controlled way.
+#' @param cellexalObj the file containing the cellexalObj data
+#' @title description of function lockedSave
+#' @keywords lockedSave
+#' @export lockedSave
+if ( ! isGeneric('lockedLoad') ){setGeneric('lockedLoad', ## Name
+			function (cellexalObj ) {
+				standardGeneric('lockedLoad' )
+			}
+	) }
+
+setMethod('lockedLoad', signature = c ('character'),
+		definition = function (cellexalObj ) {
+
+			lockFile = file.path( paste(cellexalObj, 'lock', sep= '.'))
+			while ( file.exists(lockFile) ){
+				Sys.sleep(1)
+			}
+			path = dirname(cellexalObj)
+			load( cellexalObj )
+			if ( is.null(cellexalObj@outpath) ){
+				cellexalObj@outpath = normalizePath( path )
+			}
+			if ( ! file.exists( cellexalObj@outpath) ) {
+				cellexalObj@outpath = normalizePath( path )
+			}
+
+			cellexalObj
+		} )

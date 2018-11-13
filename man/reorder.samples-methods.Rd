@@ -4,15 +4,14 @@
 \name{reorder.samples}
 \alias{reorder.samples}
 \alias{reorder.samples,cellexalvr-method}
-\title{description of function remove.genes}
-\usage{
-\method{reorder}{samples}(dataObj, column)
-}
+\title{simple reordering of the samples}
 \arguments{
 \item{dataObj}{the cellexalvr object}
 
 \item{column}{the annotation column to reorder on}
 }
 \description{
-this function reorderes the cellexalvr object based on a column in the annotation table (e.g. for plotting)
+this function reorderes the cellexalvr object based on a column in the annotation
+
+table (e.g. for plotting)
 }
