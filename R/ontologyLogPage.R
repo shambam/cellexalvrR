@@ -84,7 +84,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis,
 			#classicFisher = resultFisher,
 			classicKS = resultKS, elimKS = resultKS.elim,
-			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = topNodes)
+			orderBy = "elimKS",  topNodes = topNodes)
 
 	GOI_2_genes <- matrix( 1, nrow=topNodes, ncol=3)
 	colnames(GOI_2_genes) = c("GO ID", "Rmd Gene list", "Mapping Gene List")

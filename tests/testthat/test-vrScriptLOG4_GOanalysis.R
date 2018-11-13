@@ -14,6 +14,8 @@ datadir <- file.path(prefix, 'data/output/default_user' ) ## please give me the 
 
 genes <- file.path(prefix, 'data/heatmap_0.txt') ## the heatmap_<x>.txt file
 
+grouping <- file.path(prefix, 'data/selection0.txt')
+
 expect_true( file.exists( genes  ) , paste( "missing input file", genes) )
 
 if ( ! file.exists( file.path(datadir, 'cellexalObj.RData' ))) {
@@ -32,7 +34,7 @@ for ( fname in ofiles ){
 	}
 }
 
-system( paste( 'Rscript', script, datadir, genes ) )
+system( paste( 'Rscript', script, datadir, genes, grouping ) )
 
 for ( fname in ofiles){
 	expect_true( file.exists( file.path(datadir, 'testSession',  fname ) ) , paste( "file has not been created", fname) )
