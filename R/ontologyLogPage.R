@@ -5,6 +5,7 @@
 #' @description creates the GO analysis for a gene list and puts it into the report.
 #' @param cellexalObj the cellexalvrR object
 #' @param genes a list of gene symbols (IMPORTANT)
+#' @param grouping the grouping this gene list originated on (default = NULL; use last grouping)
 #' @param ontology which GO ontology to choose from (default = "BP")
 #' @param topNodes how many GO terms to report (default 10)
 #' @param ... unused
@@ -12,18 +13,20 @@
 #' @title description of function ontologyLogPage
 #' @export
 setGeneric('ontologyLogPage', ## Name
-	function ( cellexalObj, genes, ontology = 'BP', topNodes=10, ... ) {
+	function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 		standardGeneric('ontologyLogPage')
 	}
 )
 
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, genes, grouping, ontology = 'BP', topNodes=10, ... ) {
+	definition = function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	if ( file.exists(genes)) {
 		genes = as.vector(read.delim(genes)[,1])
 	}
-	
+	if ( is.null( grouping )) {
+		grouping = cellexalObj@usedObj$lastGroup
+	}
 	cellexalObj = userGrouping( cellexalObj, grouping )
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
 	
