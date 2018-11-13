@@ -167,19 +167,19 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 #' @aliases setStatsMethod,cellexalvrR-method
 #' @rdname setStatsMethod-methods
 #' @docType methods
-#' @description 
+#' @description sets the used statistics method from this list ( "anova","edgeR", "MAST", 'Seurat' )
 #' @param x the cellexalvrR object
-#' @param method the default stats method to use (default 'Seurat')
+#' @param method the default stats method to use (default 'anova')
 #' @title set the default stats method
 #' @export 
 setGeneric('setStatsMethod', ## Name
-		function ( x, method='Seurat') { ## Argumente der generischen Funktion
+		function ( x, method='anova') { ## Argumente der generischen Funktion
 			standardGeneric('setStatsMethod') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
 
 setMethod('setStatsMethod', signature = c ('cellexalvrR'),
-		definition = function ( x, method='Seurat') {
+		definition = function ( x, method='anova') {
 			if ( ! is.na(match ( method, c("anova","edgeR", "MAST", 'Seurat')))) {
 				x@usedObj$statsMethod = method
 			}else {

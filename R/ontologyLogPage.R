@@ -74,11 +74,13 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		,geneSel =  function(x) {x} ,  annot = topGO::annFUN.GO2genes, GO2genes= cellexalObj@usedObj$GO2genes)
 
 
-	resultFisher <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "fisher")
+	#resultFisher <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "fisher")
 	resultKS <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "classic", statistic = "ks")
 	resultKS.elim <- topGO::runTest(cellexalObj@usedObj$analysis, algorithm = "elim", statistic = "ks")
 	topNodes <- as.numeric(topNodes)
-	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis, classicFisher = resultFisher,classicKS = resultKS, elimKS = resultKS.elim,
+	allRes <- topGO::GenTable(cellexalObj@usedObj$analysis,
+			#classicFisher = resultFisher,
+			classicKS = resultKS, elimKS = resultKS.elim,
 			orderBy = "elimKS", ranksOf = "classicFisher", topNodes = topNodes)
 
 	GOI_2_genes <- matrix( 1, nrow=topNodes, ncol=3)
