@@ -22,7 +22,7 @@ genes = unique( c( as.vector(geneT[,1]), rownames(cellexalObj@data)[which( is.na
 
 cellexalObj = reduceTo( cellexalObj, what='row', to=genes )
 
-cells = scan( file.path(prefix, 'data', 'cells.txt.sorted'), what=character() ) ## all cells tiouched by the selection0 and selection1
+cells = scan( file.path(prefix, 'data', 'cells.txt.sorted'), what=character() ) ## all cells touched by the selection0 and selection1
 
 cellexalObj = reduceTo( cellexalObj, what='col', to=cells )
 
@@ -209,7 +209,7 @@ latest_version <- file.path(prefix, 'data/selection0.txt') # filepath to the gro
 output_filepath <- file.path(prefix, 'data/output/smallObj' ,'heatmap_genes1.txt') # <homedir>/<heatmapName>.txt
 top_genes_number <- 250 # integer norm 250
 
-ofiles = c( 'heatmap_genes1.txt'  )
+ofiles = c( 'heatmap_genes1.txt', file.path('tables', 'User.group.1.anova.csv')  )
 for ( fname in ofiles ){
 	if( file.exists( file.path( datadir, fname ) ) ) {
 		file.remove( file.path( datadir,  fname ) )

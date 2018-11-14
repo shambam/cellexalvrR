@@ -24,14 +24,14 @@ for ( fname in ofiles ){
 	}
 }
 
-gene1 = getDifferentials(x, grouping, 'anova', num.sig=100 )
+gene1 = getDifferentials(x, grouping, 'anova', num.sig=100, Log=FALSE )
 
 expect_true( length( gene1) == 100, "wrong gene number anova" )
 
 test_that( 'edgeR' ,{
 	skip_if_not_installed( 'edgeR' )
 	options(warn=-1)
-	gene1 = getDifferentials(x, grouping, 'edgeR', num.sig=100 )
+	gene1 = getDifferentials(x, grouping, 'edgeR', num.sig=100, Log=FALSE )
 	options(warn=1)
 	expect_true( length( gene1) == 100, "wrong gene number anova" )
 })
@@ -40,14 +40,14 @@ test_that( 'edgeR' ,{
 test_that( 'MAST' ,{
 	skip_if_not_installed( 'MAST' )
 	options(warn=-1)
-	gene1 = getDifferentials(x, grouping, 'MAST', num.sig=100 )
+	gene1 = getDifferentials(x, grouping, 'MAST', num.sig=100, Log=FALSE )
 	options(warn=1)
 	expect_true( length( gene1) == 100, "wrong gene number anova" )
 })
 
 test_that( 'Seurat' ,{
 	skip_if_not_installed( 'Seurat' )
-	gene1 = getDifferentials(x, grouping, 'Seurat', num.sig=100 )
+	gene1 = getDifferentials(x, grouping, 'Seurat', num.sig=100 , Log=FALSE)
 	expect_true( length( gene1) == 100, "wrong gene number anova" )
 })
 

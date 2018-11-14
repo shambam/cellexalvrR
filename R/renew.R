@@ -56,11 +56,11 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				}
 			}
 			## now lets add the inbuilt groupings...
-			for ( name in c('TFs', 'epigenetic', 'CellCycle', 'CellSurface') ) {
-				if ( is.na( match(name, colnames(ret@meta.gene))) ) {
-					useInbuiltGOIlists ( ret, name )
-				}
-			}
+#			for ( name in c('TFs', 'epigenetic', 'CellCycle', 'CellSurface') ) {
+#				if ( is.na( match(name, colnames(ret@meta.gene))) ) {
+#					useInbuiltGOIlists ( ret, name )
+#				}
+#			}
 
 			invisible(ret)
 }  )
