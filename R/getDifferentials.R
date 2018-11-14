@@ -108,9 +108,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		if ( Log ) {
 			logStatResult( cellexalObj, 'anova', d, 'p.adj.fdr' )
 		}
-    }
-
-	if(deg.method=="edgeR"){
+    }else if(deg.method=="edgeR"){
 		message('edgeR::estimateDisp gene stats')
 		dge <- edgeR::DGEList(
     			counts = dat.f, 
@@ -138,9 +136,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			logStatResult( cellexalObj, 'edgeR', ps, 'p.adj.fdr' )
 		}
 		
-	}
-	
-	if(deg.method=='MAST') {
+	}else if(deg.method=='MAST') {
 		message('MAST::lrTest gene stats')
 		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
 		if (!requireNamespace("MAST", quietly = TRUE)) {
@@ -170,8 +166,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			logStatResult( cellexalObj, 'MAST', Rtab, 'p.adj.fdr' )
 		}
 		
-	}
-	if(deg.method=='Seurat') {
+	}else if(deg.method=='Seurat') {
 		message('Seurat::FindAllMarkers gene stats')
 		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
 		if (!requireNamespace("Seurat", quietly = TRUE)) {
