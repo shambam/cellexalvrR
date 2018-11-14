@@ -27,7 +27,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		cat( sep="\n",
 				paste( "##", "Statistical result from Group ",  x@usedObj$lastGroup ),
 				"",
-				paste(sep="",  "<a href='",file.path( 'tables',ofile),"' download>",ofile,"</a>" ),
+				paste(sep="",  "<a href='",file.path( x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
 				""
 				, file = mainOfile, append = TRUE)
 		
