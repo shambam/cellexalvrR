@@ -26,10 +26,10 @@ setMethod('logNetwork', signature = c ('character'),
 setMethod('logNetwork', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ... ) {
 	## almost the same page as in the logHeatmap function - including a GO analyis?
-	
+
 	## now I need to create the 2D mds plots for the grouping
 	cellexalObj = userGrouping( cellexalObj, grouping )
-	
+
 	cellexalObj = sessionPath(cellexalObj)
 	sessionPath = cellexalObj@usedObj$sessionPath
 
@@ -63,12 +63,12 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	}
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
-	
+
 	cat(
 					paste( "##", "Network from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 					"",
-					paste( "### Network map (from the VR process)"),
+					paste( "### Network map (from CellexalVR)"),
 					paste("![](",figureF,")"),
 					"",
 					paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
