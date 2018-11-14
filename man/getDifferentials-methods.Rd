@@ -13,6 +13,8 @@
 \item{deg.method}{The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')}
 
 \item{num.sig}{number of differnetial genes to return (250)}
+
+\item{Log}{log the results (default=TRUE)}
 }
 \description{
 Creates a heatmap from a selection of groups

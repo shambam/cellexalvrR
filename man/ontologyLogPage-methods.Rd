@@ -6,12 +6,15 @@
 \alias{ontologyLogPage,cellexalvrR-method}
 \title{description of function ontologyLogPage}
 \usage{
-ontologyLogPage(cellexalObj, genes, ontology = "BP", topNodes = 10, ...)
+ontologyLogPage(cellexalObj, genes, grouping = NULL, ontology = "BP",
+  topNodes = 10, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 
 \item{genes}{a list of gene symbols (IMPORTANT)}
+
+\item{grouping}{the grouping this gene list originated on (default = NULL; use last grouping)}
 
 \item{ontology}{which GO ontology to choose from (default = "BP")}
 

@@ -16,10 +16,11 @@ setGeneric('logStatResult', ## Name
 
 setMethod('logStatResult', signature = c ('cellexalvrR'),
 	definition = function ( x, method, data ) {
-	if (! is.null( x$usedObj$sessionName)) {
+	if (! is.null( x$usedObj$sessionName ) ) {
 		## export the data into a file and add a small download link tnto the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="\t"   )
-		write.table( data, file= file.path( x$usedObj$sessionPath,'tables',ofile) , quote=F )
+		
+		write.table( data, file= file.path( x$usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 		mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 		
 		cat( sep="\n",
