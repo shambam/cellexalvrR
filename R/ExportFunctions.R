@@ -104,12 +104,15 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 		
-		dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) collate nocase not null unique)")
+		dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
         
-		dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) collate nocase not null unique)")
+		dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
 
 		RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 		RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+
+		dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+		dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
 		
 		dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
 		dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
