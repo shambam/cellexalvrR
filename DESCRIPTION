@@ -6,10 +6,6 @@ Authors@R: c(person("Stefan", "Lang", email = "stefan.lang@med.lu.se", role = c(
 Description: This is the data analysis backend for the CellexalVR application.
 Suggests:
     testthat,
-    rmarkdown,
-    Seurat,
-    MAST,
-    edgeR
 biocViews: graph,
     org.Mm.eg.db,
     org.Hs.eg.db,
@@ -34,7 +30,11 @@ Depends:
     topGO,
     DDRTree,
     org.Mm.eg.db,
-    org.Hs.eg.db
+    org.Hs.eg.db,
+    rmarkdown,
+    Seurat,
+    MAST,
+    edgeR
 Imports:
 	methods,
 	utils
