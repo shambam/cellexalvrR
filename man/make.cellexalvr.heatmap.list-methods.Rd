@@ -13,6 +13,8 @@
 \item{num.sig}{The number of differentials to be returned}
 
 \item{outfile}{The name of the output file}
+
+\item{stats_method}{the stats method to use see setStatsMethod()}
 }
 \description{
 Creates a list of genes from which a heatmap is made in Unity

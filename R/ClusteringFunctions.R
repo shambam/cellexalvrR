@@ -100,40 +100,31 @@ setMethod('make.cellexalvr.heatmap', signature = c ('cellexalvrR'),
 #' @param cellidfile file containing cell IDs
 #' @param num.sig The number of differentials to be returned
 #' @param outfile The name of the output file
+#' @param stats_method the stats method to use see setStatsMethod()
 #' @title description of function make.cellexalvr.heatmap.list
 #' @keywords heatmap
 #' @export make.cellexalvr.heatmap.list
 if ( ! isGeneric('make.cellexalvr.heatmap.list') ){setGeneric('make.cellexalvr.heatmap.list', ## Name
-	function (cvrObj,cellidfile,num.sig,outfile) { 
+	function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) { 
 		standardGeneric('make.cellexalvr.heatmap.list') 
 	}
 ) }
 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
-		definition = function (cvrObj,cellidfile,num.sig,outfile) {
+		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
 			cvrObj <- loadObject( cvrObj )
-			make.cellexalvr.heatmap.list(cvrObj,cellidfile,num.sig,outfile )
+			make.cellexalvr.heatmap.list(cvrObj,cellidfile,num.sig,outfile, stats_method )
 		}
 )
 
 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
-	definition = function (cvrObj,cellidfile,num.sig,outfile) {
-	
-		# getDifferentials(cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250) 
-	gene.cluster.order = getDifferentials(cvrObj,cellidfile, getStatsMethod(cvrObj), num.sig= num.sig)
+	definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA) {
+
+    if ( is.na(stats_method) )
+        stats_method= 'anova'
+
+	gene.cluster.order = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig)
 	
 	write(c(num.sig,gene.cluster.order),file=outfile,ncolumns=1)
-
-	#annotation_col = data.frame(Group = (grp.vec))
-	#rownames(annotation_col) <- colnames(dat.f)
-	
-	#png(outfile,height=2000,width=2000)
-
-	#pheatmap(dat.f[sigp,],cluster_rows=TRUE, show_rownames=T,show_colnames=FALSE,cluster_cols=FALSE,
-	#		scale="row",clustering_method = "ward.D2",col=bluered(16),breaks=seq(-4,4,by=0.5),
-	#		annotation_col = annotation_col,annotation_colors=rcolrs
-	#)
-	#dev.off()
-	#invisible(cellexalObj)
 } )
