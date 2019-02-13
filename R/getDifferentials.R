@@ -28,7 +28,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE) {
 
     cellexalObj <- loadObject(cellexalObj)
-
+	num.sig <- as.numeric( num.sig )
+	
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 	if ( length(not) > 0) {

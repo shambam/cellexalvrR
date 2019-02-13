@@ -126,5 +126,5 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 
 	gene.cluster.order = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig)
 	
-	write(c(num.sig,gene.cluster.order),file=outfile,ncolumns=1)
+	write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
 } )
