@@ -13,3 +13,4 @@ logfile.R
 inst/doc
 data/output/
 /knit.Rout
+/try_SeuratClustering.R
