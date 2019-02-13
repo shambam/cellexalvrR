@@ -237,7 +237,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		message('deg.genes no entries - fix that')
 		browser()		
 	}
-	promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
+	#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
+	lockedSave(cellexalObj)
 	
 	deg.genes = rownames(cellexalObj@data)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@data) ) )]
 	loc = reduceTo(loc, what='row', to=deg.genes)
