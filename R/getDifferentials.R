@@ -185,15 +185,38 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		message("The Seurat select signififcant genes might need some work!")
 		deg.genes = vector('character', num.sig)
 		degid = 0
-		for ( i in order(all_markers[,'p_val_adj']) ){
-			if ( is.na( match ( all_markers[i,'gene'], deg.genes) ) ){
-				degid = degid + 1
-				deg.genes[degid] = all_markers[i,'gene']
-				if ( degid == num.sig){
-					break
-				}
+		## get a unique list of genes with each group being represented with an equal number of genes
+		all_markers <- all_markers[ order( all_markers[,'p_val']),]
+		genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
+		ret_genes =  ceil(num.sig / length( table(grp.vec) ))
+		if ( ret_genes < 1)
+		   ret_genes = 1
+	   
+		top_genes <- function( x ) {
+			if ( length(x) == 0) {
+				NA
+			}
+			else if ( length(x) < ret_genes ) {
+				x
+			}else {
+				x[1:ret_genes]
 			}
 		}
+		
+		deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
+		bad = which(is.na(deg.genes))
+		if ( length(bad) > 0) 
+			deg.genes = deg.genes[-bad]
+		
+#		for ( i in order(all_markers[,'p_val_adj']) ){
+#			if ( is.na( match ( all_markers[i,'gene'], deg.genes) ) ){
+#				degid = degid + 1
+#				deg.genes[degid] = all_markers[i,'gene']
+#				if ( degid == num.sig){
+#					break
+#				}
+#			}
+#		}
 		if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
 			cellexalObj@usedObj$sigGeneLists$Seurat = list()
 		cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
