@@ -181,7 +181,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		
 		sca = Seurat::SetIdent( sca, colnames(loc@data), as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) )
 		
-		all_markers <- Seurat::FindAllMarkers(object = sca)
+		all_markers <- Seurat::FindAllMarkers(object = sca, logfc.threshold = 1 )
 		message("The Seurat select signififcant genes might need some work!")
 		deg.genes = vector('character', num.sig)
 		degid = 0
