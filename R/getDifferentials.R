@@ -189,7 +189,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		## if possible
 		all_markers <- all_markers[ order( all_markers[,'p_val']),]
 		genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
-		ret_genes =  ceil(num.sig / length( table(grp.vec) ))
+		ret_genes =  ceiling(num.sig / length( table(grp.vec) ))
 		if ( ret_genes < 1)
 		   ret_genes = 1
 	   
