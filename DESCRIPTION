@@ -34,7 +34,9 @@ Depends:
     rmarkdown,
     Seurat,
     MAST,
-    edgeR
+    edgeR,
+    future,
+    promises
 Imports:
 	methods,
 	utils
