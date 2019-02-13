@@ -186,6 +186,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		deg.genes = vector('character', num.sig)
 		degid = 0
 		## get a unique list of genes with each group being represented with an equal number of genes
+		## if possible
 		all_markers <- all_markers[ order( all_markers[,'p_val']),]
 		genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
 		ret_genes =  ceil(num.sig / length( table(grp.vec) ))
