@@ -39,12 +39,14 @@ setMethod('loadObject', signature = c ('character'),
 				}
 			}
 			if ( ! .hasSlot( cellexalObj, 'dat') ){
-				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
+				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
 				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
+				new@userGroups = cellexalObj@userGroups
 				new@usedObj = cellexalObj@usedObj
 				new@tfs = cellexalObj@tfs
+				new@index = cellexalObj@index
 				rm(cellexalObj)
 				cellexalObj = new
 				rm(new)
