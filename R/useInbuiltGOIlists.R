@@ -21,7 +21,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, name ) {
 			
 		if ( length(colnames(cellexalObj@meta.gene)) == 0){
-			cellexalObj@meta.gene = matrix( ncol=1, rownames(cellexalObj@data) )
+			cellexalObj@meta.gene = matrix( ncol=1, rownames(cellexalObj@dat) )
 			colnames(cellexalObj@meta.gene) = "gene_id"
 		}
 			if ( ! is.na( match(name, colnames(cellexalObj@meta.gene)))) {
@@ -35,8 +35,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				#}
 				#else {
 					## use inbuilt lists
-					hum_t <- length(which(is.na(match(rownames(cellexalObj@data),human.tfs))==F))
-					mouse_t <- length(which(is.na(match( rownames(cellexalObj@data), mouse.tfs))==F))
+					hum_t <- length(which(is.na(match(rownames(cellexalObj@dat),human.tfs))==F))
+					mouse_t <- length(which(is.na(match( rownames(cellexalObj@dat), mouse.tfs))==F))
 					if (hum_t > mouse_t ){
 						cellexalObj = defineGOIs( cellexalObj, name, human.tfs )
 						cellexalObj@specie = 'human'
@@ -50,8 +50,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 			}
 			else if ( name == 'epigenetic' ) {
 				# register 'epigeneic'
-				hum_e <- length(which(is.na(match(rownames(cellexalObj@data),Epigenetic$HGNC_symbol))==F))
-				mouse_e <- length(which(is.na(match( rownames(cellexalObj@data),Epigenetic$MGI_symbol ))==F))
+				hum_e <- length(which(is.na(match(rownames(cellexalObj@dat),Epigenetic$HGNC_symbol))==F))
+				mouse_e <- length(which(is.na(match( rownames(cellexalObj@dat),Epigenetic$MGI_symbol ))==F))
 				if ( hum_e > mouse_e){
 					cellexalObj = defineGOIs( cellexalObj, name, Epigenetic$HGNC_symbol, Epigenetic$Target )
 					cellexalObj@specie = 'human'
@@ -63,8 +63,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				}
 			}
 			else if ( name =="CellCycle" ) {
-				hum_e <- length(which(is.na(match(rownames(cellexalObj@data),CellCycle$Gene.Symbol))==F))
-				mouse_e <- length(which(is.na(match( rownames(cellexalObj@data),CellCycle$MouseGene ))==F))
+				hum_e <- length(which(is.na(match(rownames(cellexalObj@dat),CellCycle$Gene.Symbol))==F))
+				mouse_e <- length(which(is.na(match( rownames(cellexalObj@dat),CellCycle$MouseGene ))==F))
 				if ( hum_e > mouse_e){
 					cellexalObj = defineGOIs( cellexalObj, name, CellCycle$Gene.Symbol, CellCycle$X )
 				}else if ( mouse_e > hum_e ){
@@ -74,8 +74,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				}
 			}
 			else if ( name =="CellSurface" ) {
-				hum_e <- length(which(is.na(match(rownames(cellexalObj@data),human.CellSurface))==F))
-				mouse_e <- length(which(is.na(match( rownames(cellexalObj@data),mouse.CellSurface ))==F))
+				hum_e <- length(which(is.na(match(rownames(cellexalObj@dat),human.CellSurface))==F))
+				mouse_e <- length(which(is.na(match( rownames(cellexalObj@dat),mouse.CellSurface ))==F))
 				if ( hum_e > mouse_e){
 					cellexalObj = defineGOIs( cellexalObj, name, human.CellSurface)
 				}else if ( mouse_e > hum_e ){

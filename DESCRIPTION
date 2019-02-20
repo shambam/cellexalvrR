@@ -13,11 +13,12 @@ biocViews: graph,
     edgeR
 Depends:
     stringr,
+    Matrix,
+    Matrix.utils,   
     rgl,
     ppcor,
     GeneNet,
     graph,
-    pheatmap,
     gplots,
     RSQLite,
     reshape2,
@@ -31,13 +32,12 @@ Depends:
     DDRTree,
     org.Mm.eg.db,
     org.Hs.eg.db,
-    rmarkdown,
-    Seurat,
-    MAST,
-    edgeR
+    rmarkdown
 Imports:
 	methods,
-	utils
+	utils,
+    Seurat,
+    pheatmap
 Remotes: satijalab/seurat
 License: GPL-3
 Encoding: UTF-8

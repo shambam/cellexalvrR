@@ -25,7 +25,7 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
     cell.meta.10 <- make.cell.meta.from.df(cell.meta,colnames(cell.meta))
     rownames(cell.meta.10) <- seuratObj@cell.names
     
-    cellObj <- new("cellexalvr", data = as.matrix(seuratObj@data), meta.cell = as.matrix(cell.meta.10))
+    cellObj <- new("cellexalvr", data = as.matrix(seuratObj@dat), meta.cell = as.matrix(cell.meta.10))
 
     if (exists("pca", where = seuratObj@dr) == T) {
         pca <- as.matrix(seuratObj@dr$pca@cell.embeddings[,1:3])
@@ -61,7 +61,7 @@ if ( ! isGeneric('run.ddrtree') ){setGeneric('run.ddrtree', ## Name
 setMethod('run.ddrtree', signature = c ('seurat'),
 	definition = function (seuratObj) {
 
-    dat.samp <- as.matrix(seuratObj@data[seuratObj@var.genes,])
+    dat.samp <- as.matrix(seuratObj@dat[seuratObj@var.genes,])
     ddr.samp <- DDRTree::DDRTree((dat.samp), dimensions=3)
     ddr.cood <- t(ddr.samp$Z)
     ddr.cood    

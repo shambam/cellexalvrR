@@ -33,7 +33,7 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 	if ( length(not) > 0) {
-		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
+		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
 	}else {
 		loc <- cellexalObj
 	}
@@ -41,7 +41,7 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	info <- groupingInfo( loc )
 
-	dat <- loc@data
+	dat <- loc@dat
 	#cellid <- read.delim(cellidfile,header=F)
 	
 	grp.vec <- info$grouping

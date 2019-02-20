@@ -60,8 +60,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	}
 	
 	
-	all = is.na(match(rownames(cellexalObj@data), genes ))
-	names(all) = rownames(cellexalObj@data)
+	all = is.na(match(rownames(cellexalObj@dat), genes ))
+	names(all) = rownames(cellexalObj@dat)
 	all = factor(all)
 	if ( length(table(all)) == 1) {
 		message( "No genes of the list are in this object - This should not have happened!")

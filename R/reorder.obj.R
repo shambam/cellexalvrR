@@ -21,7 +21,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	}else {
 		ids = order( dataObj@userGroups[,column])
 	}
-	dataObj@data <- dataObj@data[ , ids]
+	dataObj@dat <- dataObj@dat[ , ids]
 	dataObj@meta.cell <- dataObj@meta.cell[ids,]
 	dataObj@userGroups <- dataObj@userGroups[ids,]
 	dataObj
@@ -44,7 +44,7 @@ if ( ! isGeneric('reorder.genes') ){setGeneric('reorder.genes', ## Name
 
 setMethod('reorder.genes', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
-	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]
+	dataObj@dat <- dataObj@dat[ order( dataObj@meta.gene[,column]),]
 	dataObj@meta.gene <- dataObj@meta.gene[order( dataObj@meta.gene[,column]),]
 	dataObj
 } )

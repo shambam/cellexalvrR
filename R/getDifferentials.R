@@ -13,7 +13,7 @@
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE) { 
+	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
 		standardGeneric('getDifferentials') 
 	}
 ) }
@@ -37,17 +37,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 	if ( length(not) > 0) {
-		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
+		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
 	}else {
 		loc <- cellexalObj
 	}
-    if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+    if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
 		loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	}
 	
 	info <- groupingInfo( loc )
 
-	dat <- loc@data
+	dat <- loc@dat
 
     rem.ind <- which(apply(dat,1,sum)==0)
 	dat.f <- dat
@@ -102,7 +102,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				meta.data = data.frame(wellKey=colnames(dat.f), GroupName = grp.vec),
 				display.progress = TRUE)
 		
-		sca = Seurat::SetIdent( sca, colnames(loc@data), 
+		sca = Seurat::SetIdent( sca, colnames(loc@dat), 
 				as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) )
 		
 		all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = 1 )
@@ -154,10 +154,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
 	lockedSave(cellexalObj)
 	
-	deg.genes = rownames(cellexalObj@data)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@data) ) )]
+	deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
 	loc = reduceTo(loc, what='row', to=deg.genes)
-	tab <- as.matrix(t(loc@data))
+	tab <- as.matrix(t(loc@dat))
 	hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
-    rownames(loc@data)[hc$order]
+    rownames(loc@dat)[hc$order]
 
 } )

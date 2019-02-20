@@ -32,7 +32,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 		}
 
 	datadir <- cellexalObj@outpath
-    #dat <- cellexalObj@data
+    #dat <- cellexalObj@dat
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
 	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
@@ -46,7 +46,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- onlyGOIs( cellexalObj, 'TFs' )
 
 	## kick the not groupoed samples out of the loc object
-	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[-
+	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@dat)[-
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
@@ -59,7 +59,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	}
 	grps <- as.vector(unique(info$grouping))
 
-    dat <- loc@data
+    dat <- loc@dat
     req.graph <- info$mds
 
     grp.tabs <- NULL

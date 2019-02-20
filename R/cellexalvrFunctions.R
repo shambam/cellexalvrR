@@ -124,7 +124,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output, is.smarker=F) {
 	
 	cellexalObj <- loadObject(cellexalObj)
-	dat <- cellexalObj@data
+	dat <- cellexalObj@dat
 	rownames(dat) <- tolower(rownames(dat))
 	
 	goi <- NULL

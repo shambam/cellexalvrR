@@ -25,7 +25,7 @@ setMethod('addMDS2cellexalvr', signature = c ('cellexalvrR'),
 	}
     mp <- mdsmatrix
     colnames(mp) <- c("x","y","z")
-    rownames(mp) <- colnames(cellexalObj@data)
+    rownames(mp) <- colnames(cellexalObj@dat)
 
     cellexalObj@mds[[rq.ind]] <- mp
     names(cellexalObj@mds)[rq.ind] <- rq.nm
@@ -49,7 +49,7 @@ if ( ! isGeneric('addCellMeta2cellexalvr') ){setGeneric('addCellMeta2cellexalvr'
 setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cell.meta) {
 
-    rownames(cell.meta) <- colnames(cellexalObj@data)
+    rownames(cell.meta) <- colnames(cellexalObj@dat)
     cellexalObj@meta.cell <- as.matrix(cell.meta)
     cellexalObj
 } )
@@ -71,7 +71,7 @@ if ( ! isGeneric('addFACS2cellexalvr') ){setGeneric('addFACS2cellexalvr', ## Nam
 setMethod('addFACS2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, facs.data) {
 
-    rownames(facs.data) <- colnames(cellexalObj@data)
+    rownames(facs.data) <- colnames(cellexalObj@dat)
     cellexalObj@index <- as.matrix(facs.data)
     cellexalObj
 } )

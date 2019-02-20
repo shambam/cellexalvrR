@@ -26,7 +26,7 @@ setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	cellexalObj = reduceTo(
 			cellexalObj, 
 			'row', 
-			to=rownames(cellexalObj@data)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 
+			to=rownames(cellexalObj@dat)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 
 	)
 
 	cellexalObj

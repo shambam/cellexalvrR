@@ -23,7 +23,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	}
     
 
-    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+    #write.table(cellexalObj@dat,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
 		utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
@@ -75,13 +75,13 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #		}
 #	}
 	if ( ! file.exists(ofile) || forceDB==T ) {
-	    #genes <- tolower(rownames(cellexalObj@data))
-		genes <- rownames(cellexalObj@data)
+	    #genes <- tolower(rownames(cellexalObj@dat))
+		genes <- rownames(cellexalObj@dat)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
-		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+		cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
 	
-	    cdat <- data.frame(genes=genes$id,cellexalObj@data)
+	    cdat <- data.frame(genes=genes$id,cellexalObj@dat)
 	
 		colnames(cdat) <- c( 'genes', cells$id )
 	

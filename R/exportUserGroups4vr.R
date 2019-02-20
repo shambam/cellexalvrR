@@ -47,7 +47,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 				cellexalObj@colors[[gname]] <- rainbow( length(unique( as.integer( cellexalObj@userGroups[ids,gname] ) )))
 			}
 			t <- data.frame( 
-				cellname = colnames(cellexalObj@data)[ids],
+				cellname = colnames(cellexalObj@dat)[ids],
 				color = cellexalObj@colors[[gname]][  cellexalObj@userGroups[ids,gname]  ],
 				'parent.graph' = rep( 'unknown', length(ids) ),
 				'gid' = as.integer( cellexalObj@userGroups[ids,gname] ) 

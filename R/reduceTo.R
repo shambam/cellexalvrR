@@ -19,14 +19,14 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 	definition = function ( x, what='row', to=NULL ) {
 
 			if (nrow(x@meta.gene)==0) {
-				x@meta.gene <- matrix(ncol=2, c(rownames(x@data), rep( 0, nrow(x@data)) ) )
+				x@meta.gene <- matrix(ncol=2, c(rownames(x@dat), rep( 0, nrow(x@dat)) ) )
 				colnames(x@meta.gene) = c('Gene Symbol', 'useless')
-				rownames(x@meta.gene) = rownames(x@data)
+				rownames(x@meta.gene) = rownames(x@dat)
 			}
 			if ( ! is.null(to)) {
 				if ( what =="row") {
-					if ( length(which(is.na(match(to,rownames(x@data)))==F)) > 0 ) {
-						useOnly <- match(to, rownames(x@data))
+					if ( length(which(is.na(match(to,rownames(x@dat)))==F)) > 0 ) {
+						useOnly <- match(to, rownames(x@dat))
 						not.matched <- to[is.na(useOnly)]
 						if ( length(not.matched) > 0 ){
 							print (paste('Problematic genes:', paste(not.matched,sep=', ')))
@@ -41,7 +41,7 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 #								x@usedObj[[n]] <- NULL
 #							}
 #						}
-						x@data <- x@data[useOnly,]
+						x@dat <- x@dat[useOnly,]
 						x@meta.gene <- x@meta.gene[useOnly,]
 						
 					}else {
@@ -51,8 +51,8 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 					
 				}else if ( what =="col" ) {
 					to <- tolower(to)
-					if ( length(which(is.na(match(to,tolower(colnames(x@data))))==F)) > 0 ) {
-						useOnly <- match(to, tolower(colnames(x@data)))
+					if ( length(which(is.na(match(to,tolower(colnames(x@dat))))==F)) > 0 ) {
+						useOnly <- match(to, tolower(colnames(x@dat)))
 						not.matched <- to[is.na(useOnly)]
 						if ( length(not.matched) > 0 ){
 							print (paste('Problematic samples:', paste(not.matched,sep=', ')))
@@ -67,7 +67,7 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 #								x@usedObj[[n]] <- NULL
 #							}
 #						}
-						x@data <- x@data[,useOnly]
+						x@dat <- x@dat[,useOnly]
 						x@meta.cell <- x@meta.cell[useOnly,]
 						x@userGroups <- x@userGroups[useOnly,]
 												

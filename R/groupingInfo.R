@@ -23,11 +23,11 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	}
 	ret <- list( 
 			grouping = cellexalObj@userGroups[,gname] ,
-			order = 1:ncol(cellexalObj@data),
+			order = 1:ncol(cellexalObj@dat),
 			'mds' = cellexalObj@groupSelectedFrom[[gname]],
 			col = cellexalObj@colors[[gname]] 
 	)
-	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
 		ret[['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
 	}
 	

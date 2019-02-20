@@ -16,7 +16,7 @@
 #		definition = function (x) {
 #			cat (paste("An x of class", class(x)),"\n" )
 #			#cat("named ",x@name,"\n")
-#			cat (paste( 'with',nrow(x@data),'genes and', ncol(x@data),' cells.'),"\n")
+#			cat (paste( 'with',nrow(x@dat),'genes and', ncol(x@dat),' cells.'),"\n")
 #			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
 #			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
 #			cat ( paste("There are",length(grep('order', colnames(x@userGroups), invert=T)), "user groups stored" ),":\n")
