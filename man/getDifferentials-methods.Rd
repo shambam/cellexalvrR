@@ -15,6 +15,8 @@
 \item{num.sig}{number of differnetial genes to return (250)}
 
 \item{Log}{log the results (default=TRUE)}
+
+\item{logfc.threshold}{the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)}
 }
 \description{
 Creates a heatmap from a selection of groups

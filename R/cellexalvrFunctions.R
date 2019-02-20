@@ -38,6 +38,18 @@ setMethod('loadObject', signature = c ('character'),
 					cellexalObj = renew(cellexalObj)
 				}
 			}
+			if ( ! .hasSlot( cellexalObj, 'dat') ){
+				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
+				new@userGroups = cellexalObj@userGroups
+				new@colors = cellexalObj@colors
+				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
+				new@usedObj = cellexalObj@usedObj
+				new@tfs = cellexalObj@tfs
+				rm(cellexalObj)
+				cellexalObj = new
+				rm(new)
+				gc()
+			}
 			#tmp = new('cellexalvrR')
 			#reload = 0
 			

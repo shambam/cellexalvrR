@@ -11,14 +11,14 @@ if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
 prefix = './'
 opath = file.path(prefix,'data','output')
 
-load( file.path(opath,'..', 'cellexalObj.RData') )
+cellexalObj = loadObject( file.path(opath,'..', 'cellexalObj.RData') )
 cellexalObj@userGroups=data.frame()
 
 geneT = read.delim( file.path(opath,'..', 'heatmap_0.txt') )
 
 cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' )
 
-genes = unique( c( as.vector(geneT[,1]), rownames(cellexalObj@data)[which( is.na(cellexalObj@meta.gene[,'TFs']) == F)] ))
+genes = unique( c( as.vector(geneT[,1]), rownames(cellexalObj@dat)[which( is.na(cellexalObj@meta.gene[,'TFs']) == F)] ))
 
 cellexalObj = reduceTo( cellexalObj, what='row', to=genes )
 

@@ -9,9 +9,12 @@ prefix = './'
 
 script = file.path(prefix, 'data/vrscripts/logNetwork.R')
 
-
 datadir <- file.path(prefix, 'data/output/default_user' ) ## please give me the user spcific analysis path here!!!!
 
+if ( ! file.exists(datadir ) ) {
+	dir.create(datadir )
+	dir.create(file.path( datadir, 'tmp') )
+}
 png( file=file.path(datadir, 'tmp', 'a_simple_figure2.png'), width=800, height=800 )
 plot(1:100, sample(100:1, 100), main="Just for the test 1!" )
 dev.off()

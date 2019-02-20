@@ -75,7 +75,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
         sub.d <- dat[, rq.cells ]
         print(dim(sub.d))
 
-        inferred.pcor <- ggm.estimate.pcor(t(sub.d),method="static")
+        inferred.pcor <- ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")
         test.results <- network.test.edges(inferred.pcor,plot=F)
         net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
 

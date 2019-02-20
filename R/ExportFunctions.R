@@ -81,7 +81,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	
 		cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
 	
-	    cdat <- data.frame(genes=genes$id,cellexalObj@dat)
+	    cdat <- data.frame(genes=genes$id, as.matrix(cellexalObj@dat))
 	
 		colnames(cdat) <- c( 'genes', cells$id )
 	

@@ -59,10 +59,9 @@ setMethod('lockedLoad', signature = c ('character'),
 			}
 			path = dirname(cellexalObj)
 			load( cellexalObj )
-			if ( ncol(cellexalObj@data) > ncol(cellexalObj@dat) ) {
-				cellexalObj@dat =  Matrix(cellexalObj@data, sparse=T)
-				cellexalObj@data = matrix()
-				
+			if ( is.na('dat', slotNames(cellexalObj)) ){
+				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
+						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
 			}
 			if ( is.null(cellexalObj@outpath) ){
 				cellexalObj@outpath = normalizePath( path )

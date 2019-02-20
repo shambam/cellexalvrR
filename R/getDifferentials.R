@@ -95,7 +95,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			stop("seurat needed for this function to work. Please install it.",
 					call. = FALSE)
 		}
-		sca <- Seurat::CreateSeuratObject(dat.f, project = "SeuratProject", min.cells = 0,
+		sca <- Seurat::CreateSeuratObject(as.matrix(dat.f), project = "SeuratProject", min.cells = 0,
 				min.genes = 0, is.expr = 0, normalization.method = NULL,
 				scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
 				names.field = 1, names.delim = "_", 
@@ -114,10 +114,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		all_markers <- all_markers[ order( all_markers[,'p_val']),]
 		genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
 		
-		print(num.sig)
-		print(table(grp.vec))
-		print(num.sig / length(table(grp.vec)))
-		print(ceiling(num.sig / length(table(grp.vec))))
+		#print(num.sig)
+		#print(table(grp.vec))
+		#print(num.sig / length(table(grp.vec)))
+		#print(ceiling(num.sig / length(table(grp.vec))))
 
 		ret_genes =  ceiling(num.sig / length(table(grp.vec)))
 
@@ -155,9 +155,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	lockedSave(cellexalObj)
 	
 	deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
-	loc = reduceTo(loc, what='row', to=deg.genes)
-	tab <- as.matrix(t(loc@dat))
-	hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
-    rownames(loc@dat)[hc$order]
-
+	#loc = reduceTo(loc, what='row', to=deg.genes)
+	#tab <- as.matrix(Matrix::t(loc@dat))
+	#hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
+    #rownames(loc@dat)[hc$order]
+	deg.genes
 } )

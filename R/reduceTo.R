@@ -18,7 +18,7 @@ if ( ! isGeneric('reduceTo') ){setGeneric('reduceTo', ## Name
 setMethod('reduceTo', signature = c ('cellexalvrR'),
 	definition = function ( x, what='row', to=NULL ) {
 
-			if (nrow(x@meta.gene)==0) {
+			if (nrow(x@meta.gene) < nrow(x@dat)) {
 				x@meta.gene <- matrix(ncol=2, c(rownames(x@dat), rep( 0, nrow(x@dat)) ) )
 				colnames(x@meta.gene) = c('Gene Symbol', 'useless')
 				rownames(x@meta.gene) = rownames(x@dat)
