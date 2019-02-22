@@ -85,8 +85,8 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		
 		## melt the sparse matrix using the toColNums Rcpp function
 		mdc = data.frame(
-				gene_id= toColNums( cellexalObj@dat ), 
-				cell_id = cellexalObj@dat@i, 
+				gene_id= cellexalObj@dat@i +1, 
+				cell_id = toColNums( cellexalObj@dat ), 
 				value= cellexalObj@dat@x
 		)
 		
