@@ -3,6 +3,7 @@
 #' @rdname getDifferentials-methods
 #' @docType methods
 #' @description  Creates a heatmap from a selection of groups
+#' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param deg.method The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')
@@ -47,17 +48,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	
 	info <- groupingInfo( loc )
 
-	dat <- loc@dat
-
-    rem.ind <- which(apply(dat,1,sum)==0)
-	dat.f <- dat
+    rem.ind <- which(Matrix::rowSums(loc@dat)==0)
 
 	grp.vec <- info$grouping
 
     col.tab <- info$col
 
     if(length(rem.ind)>0){
-		dat.f <- dat.f[-rem.ind,]
+		loc = reduceTo(loc, what='row', to=rownames(loc@dat)[-rem.ind])
 	}
 	
     deg.genes <- NULL
@@ -74,7 +72,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		lin <- function( v, order ) {
 			cor.test( v, order, method="spearman" )
 		}
-		ps <- apply(dat.f,1,lin,order=1:ncol(dat.f))
+		ps <- apply(loc@dat,1,lin,order=1:ncol(dat.f))
 		
 		ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 		ps = data.frame(t(ps))
@@ -95,18 +93,19 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			stop("seurat needed for this function to work. Please install it.",
 					call. = FALSE)
 		}
-		sca <- Seurat::CreateSeuratObject(as.matrix(dat.f), project = "SeuratProject", min.cells = 0,
-				min.genes = 0, is.expr = 0, normalization.method = NULL,
+		sca <- Seurat::CreateSeuratObject(loc@dat, project = "SeuratProject", min.cells = 0,
+				min.genes = ceiling(ncol(loc@dat)/100), is.expr = 1, normalization.method = NULL,
 				scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
 				names.field = 1, names.delim = "_", 
-				meta.data = data.frame(wellKey=colnames(dat.f), GroupName = grp.vec),
+				meta.data = data.frame(wellKey=colnames(loc@dat), GroupName = grp.vec),
 				display.progress = TRUE)
 		
 		sca = Seurat::SetIdent( sca, colnames(loc@dat), 
-				as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) )
+				paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 		
 		all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = 1 )
 
+		browser()
 		deg.genes = vector('character', num.sig)
 		degid = 0
 		## get a unique list of genes with each group being represented with an equal number of genes

@@ -10,7 +10,7 @@
 
 \item{name}{the name of the GIO list (eg TFs or epigenetic)}
 
-\item{genes}{a list of gene symbols that match to the @data rownames}
+\item{genes}{a list of gene symbols that match to the @dat rownames}
 
 \item{lables}{a list of lables for the GIO column (default NULL)}
 

@@ -20,5 +20,6 @@
 }
 \description{
 Creates a heatmap from a selection of groups
+The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
 }
 \keyword{DEGs}

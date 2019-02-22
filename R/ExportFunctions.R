@@ -80,23 +80,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
 		cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
-	
-	    cdat <- data.frame(genes=genes$id, as.matrix(cellexalObj@dat))
-	
-		colnames(cdat) <- c( 'genes', cells$id )
-	
-	    md <- melt(cdat, id=('genes') )
-	
-		to.remove <- which(md[,3]==0)
-
-		mdc <- NULL
-
-		if(length(to.remove>0)){
-    		mdc <- md[-to.remove,]
-		}else{mdc <- md}
-
-		colnames(mdc) <- c('gene_id', 'cell_id','value')
-		mdc$cell_id <- as.numeric(as.character(mdc$cell_id))
+		
+		## melt the sparse matrix using the toColNums Rcpp function
+		mdc = data.frame(
+				gene_id= cellexalObj@dat@i, 
+				cell_id =  toColNums( cellexalObj@dat ), 
+				value= cellexalObj@dat@x
+		)
+		
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
 	

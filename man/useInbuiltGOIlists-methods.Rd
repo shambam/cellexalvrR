@@ -6,11 +6,11 @@
 \alias{useInbuiltGOIlists,cellexalvr-method}
 \title{description of function useInbuiltGOIlists}
 \arguments{
-\item{cellexalObj, }{cellexalvr object}
+\item{x, }{cellexalvr object}
 
 \item{name}{the name of the inbuilt list to use ( either 'TFs' or 'epigenetic' for now)}
 
-\item{cellexalObj, }{TEXT MISSING}
+\item{x, }{TEXT MISSING}
 
 \item{name}{one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")}
 }

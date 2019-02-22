@@ -45,6 +45,13 @@ setClass(Class="cellexalvrR",
 		)
 )
 
+
+#' @useDynLib cellexalvrR, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
+
+
+
 #' @name cellexalvr
 #' @title cellexalvr class definition (old)
 #' @exportClass cellexalvr

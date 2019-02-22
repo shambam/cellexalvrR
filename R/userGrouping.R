@@ -46,8 +46,8 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		
 		}else {
 			## did we already have this exact grouping?
-			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(x,n); if ( ok == T ) {TRUE } else { FALSE } } )
-			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(x,order); if ( ok == T ) {TRUE } else { FALSE } } )
+			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),n); if ( ok == T ) {TRUE } else { FALSE } } )
+			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),order); if ( ok == T ) {TRUE } else { FALSE } } )
 			ok <- which( t == T )
 			if ( length(ok) == 1 & length( which(d == T)) == 1) {
 				## OK use the old one
