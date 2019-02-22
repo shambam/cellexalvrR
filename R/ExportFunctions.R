@@ -30,7 +30,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
-		utils::write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		if ( nrow(cellexalObj@index) == ncol(cellexalObj@dat) ){
+			utils::write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		}
 	}
 	ofile = file.path(path,"c.meta.gene")
 	if ( ! file.exists( ofile) ){
@@ -83,8 +85,8 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		
 		## melt the sparse matrix using the toColNums Rcpp function
 		mdc = data.frame(
-				gene_id= cellexalObj@dat@i, 
-				cell_id =  toColNums( cellexalObj@dat ), 
+				gene_id= toColNums( cellexalObj@dat ), 
+				cell_id = cellexalObj@dat@i, 
 				value= cellexalObj@dat@x
 		)
 		
