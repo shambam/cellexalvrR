@@ -14,13 +14,13 @@
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-			function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
+			function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
 				standardGeneric('getDifferentials') 
 			}
 	) }
 
 setMethod('getDifferentials', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+		definition = function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
 				num.sig=250, Log=TRUE, logfc.threshold = 1) {
 			cellexalObj <- loadObject(cellexalObj)
 			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
@@ -29,7 +29,7 @@ setMethod('getDifferentials', signature = c ('character'),
 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
-				deg.method=c("wilcox",'Seurat wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
 				num.sig=250, Log=TRUE, logfc.threshold = 1) {
 			
 			cellexalObj <- loadObject(cellexalObj)
@@ -136,7 +136,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				
 			}else {
-				if ( deg.method == 'Seurat wilcox') {
+				if ( deg.method == 'Seurat_wilcox') {
 					deg.method = 'wilcox'
 				} 
 				message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
