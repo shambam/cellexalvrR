@@ -93,7 +93,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
 					r = StatTest( Matrix::t( loc@dat), OK, BAD )
-					r = rbind( r, cluster= rep(n,nrow(r) ), gene=rownames(data@dat)[r[,1]] )
+					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
 					r
 				}
 				
@@ -101,7 +101,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				for ( n in  unique( sort(grp.vec)) ) {
 					all_markers = rbind( all_markers, CppStats(n) )
 				}
-				all_markers <- all_markers[ order( all_markers[,'p.valuel']),]
+				
+				all_markers <- all_markers[ order( all_markers[,'p.value']),]
 				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
 				deg.genes = vector('character', num.sig)
 				degid = 0
