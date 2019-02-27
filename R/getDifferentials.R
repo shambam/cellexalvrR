@@ -6,7 +6,7 @@
 #' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')
+#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', or any other Seurat::FindAllMarkers method)
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
@@ -14,10 +14,10 @@
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-	function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
-		standardGeneric('getDifferentials') 
-	}
-) }
+			function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
+				standardGeneric('getDifferentials') 
+			}
+	) }
 
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),
@@ -28,135 +28,186 @@ setMethod('getDifferentials', signature = c ('character'),
 )
 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,cellidfile,
-			deg.method=c("wilcox", "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-			num.sig=250, Log=TRUE, logfc.threshold = 1) {
-
-    cellexalObj <- loadObject(cellexalObj)
-	num.sig <- as.numeric( num.sig )
-	
-	cellexalObj <- userGrouping(cellexalObj, cellidfile)
-	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
-	if ( length(not) > 0) {
-		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
-	}else {
-		loc <- cellexalObj
-	}
-    if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
-		loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
-	}
-	
-	info <- groupingInfo( loc )
-
-    rem.ind <- which(Matrix::rowSums(loc@dat)==0)
-
-	grp.vec <- info$grouping
-
-    col.tab <- info$col
-
-    if(length(rem.ind)>0){
-		loc = reduceTo(loc, what='row', to=rownames(loc@dat)[-rem.ind])
-	}
-	
-    deg.genes <- NULL
-    if ( is.null(cellexalObj@usedObj$sigGeneLists)) 
-		cellexalObj@usedObj$sigGeneLists = list()
-	
-	if(deg.method=="anova"){
-		message('anova gene stats is deprecated - using wilcox instead!')
-		deg.method= 'wilcox'
-	}
-	
-	if(length(col.tab) == 1){
-		message('cor.stat linear gene stats')
-		lin <- function( v, order ) {
-			cor.test( v, order, method="spearman" )
-		}
-		ps <- apply(loc@dat,1,lin,order=1:ncol(dat.f))
-		
-		ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
-		ps = data.frame(t(ps))
-		colnames(ps) = c('statsistics', 'p.value' )
-		sigp <- order(ps$p.value)[1:num.sig]
-		deg.genes <- rownames(ps)[sigp]		
-		
-		ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
-		cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
-		if ( Log ) {
-			logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' )
-		}
-		
-	}else {
-		message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
-		## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
-		if (!requireNamespace("Seurat", quietly = TRUE)) {
-			stop("seurat needed for this function to work. Please install it.",
-					call. = FALSE)
-		}
-		sca <- Seurat::CreateSeuratObject(loc@dat, project = "SeuratProject", min.cells = 0,
-				min.genes = ceiling(ncol(loc@dat)/100), is.expr = 1, normalization.method = NULL,
-				scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
-				names.field = 1, names.delim = "_", 
-				meta.data = data.frame(wellKey=colnames(loc@dat), GroupName = grp.vec),
-				display.progress = TRUE)
-		
-		sca = Seurat::SetIdent( sca, colnames(loc@dat), 
-				paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
-		
-		all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = 1 )
-
-		browser()
-		deg.genes = vector('character', num.sig)
-		degid = 0
-		## get a unique list of genes with each group being represented with an equal number of genes
-		## if possible
-		all_markers <- all_markers[ order( all_markers[,'p_val']),]
-		genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
-		
-		#print(num.sig)
-		#print(table(grp.vec))
-		#print(num.sig / length(table(grp.vec)))
-		#print(ceiling(num.sig / length(table(grp.vec))))
-
-		ret_genes =  ceiling(num.sig / length(table(grp.vec)))
-
-		if ( ret_genes < 1)
-		   ret_genes = 1
-	   
-		top_genes <- function( x ) {
-			if ( length(x) == 0) {
-				NA
-			}
-			else if ( length(x) < ret_genes ) {
-				x
+		definition = function (cellexalObj,cellidfile,
+				deg.method=c("wilcox", "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				num.sig=250, Log=TRUE, logfc.threshold = 1) {
+			
+			cellexalObj <- loadObject(cellexalObj)
+			num.sig <- as.numeric( num.sig )
+			
+			cellexalObj <- userGrouping(cellexalObj, cellidfile)
+			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+			if ( length(not) > 0) {
+				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
 			}else {
-				x[1:ret_genes]
+				loc <- cellexalObj
 			}
-		}
-		
-		deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
-		bad = which(is.na(deg.genes))
-		if ( length(bad) > 0) 
-			deg.genes = deg.genes[-bad]
-		
-		if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
-			cellexalObj@usedObj$sigGeneLists$Seurat = list()
-		cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
-		if ( Log ) {
-			logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
-		}
-	}
-	if ( length(deg.genes) == 0){
-		message('deg.genes no entries - fix that')
-		browser()		
-	}
-	#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
-	lockedSave(cellexalObj)
+			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
+				loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+			}
+			
+			info <- groupingInfo( loc )
+			
+			rem.ind <- which(Matrix::rowSums(loc@dat)==0)
+			
+			grp.vec <- info$grouping
+			
+			col.tab <- info$col
+			
+			if(length(rem.ind)>0){
+				loc = reduceTo(loc, what='row', to=rownames(loc@dat)[-rem.ind])
+			}
+			
+			deg.genes <- NULL
+			if ( is.null(cellexalObj@usedObj$sigGeneLists)) 
+				cellexalObj@usedObj$sigGeneLists = list()
+			
+			if(deg.method=="anova"){
+				message('anova gene stats is deprecated - using wilcox instead!')
+				deg.method= 'wilcox'
+			}
+			
+			if(length(col.tab) == 1){
+				message('cor.stat linear gene stats')
+				lin <- function( v, order ) {
+					cor.test( v, order, method="spearman" )
+				}
+				ps <- apply(loc@dat,1,lin,order=1:ncol(dat.f))
+				
+				ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
+				ps = data.frame(t(ps))
+				colnames(ps) = c('statsistics', 'p.value' )
+				sigp <- order(ps$p.value)[1:num.sig]
+				deg.genes <- rownames(ps)[sigp]		
+				
+				ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
+				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
+				if ( Log ) {
+					logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' )
+				}
+				
+			}else if ( deg.method == 'wilcox') {
+				## use the faster Rcpp implementation
+				
+				CppStats <- function( n ) {
+					OK = which(grp.vec == n )
+					BAD= which(grp.vec != n )
+					r = StatTest( Matrix::t( loc@dat), OK, BAD )
+					r = rbind( r, cluster= rep(n,nrow(r) ), gene=rownames(data@dat)[r[,1]] )
+					r
+				}
+				
+				all_markers = NULL;
+				for ( n in  unique( sort(grp.vec)) ) {
+					all_markers = rbind( all_markers, CppStats(n) )
+				}
+				all_markers <- all_markers[ order( all_markers[,'p.valuel']),]
+				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
+				deg.genes = vector('character', num.sig)
+				degid = 0
+				
+				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
+				
+				if ( ret_genes < 1)
+					ret_genes = 1
+				
+				top_genes <- function( x ) {
+					if ( length(x) == 0) {
+						NA
+					}
+					else if ( length(x) < ret_genes ) {
+						x
+					}else {
+						x[1:ret_genes]
+					}
+				}
+				
+				deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
+				bad = which(is.na(deg.genes))
+				if ( length(bad) > 0) 
+					deg.genes = deg.genes[-bad]
+				
+				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
+					cellexalObj@usedObj$sigGeneLists$Seurat = list()
+				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+				if ( Log ) {
+					logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' )
+				}
+				
+			}else {
+				if ( deg.method == 'Seurat wilcox') {
+					deg.method = 'wilcox'
+				} 
+				message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
+				## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
+				
+				if (!requireNamespace("Seurat", quietly = TRUE)) {
+					stop("seurat needed for this function to work. Please install it.",
+							call. = FALSE)
+				}
+				sca <- Seurat::CreateSeuratObject(loc@dat, project = "SeuratProject", min.cells = 0,
+						min.genes = ceiling(ncol(loc@dat)/100), is.expr = 1, normalization.method = NULL,
+						scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
+						names.field = 1, names.delim = "_", 
+						meta.data = data.frame(wellKey=colnames(loc@dat), GroupName = grp.vec),
+						display.progress = TRUE)
+				
+				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
+						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
+				
+				all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = 1 )
 	
-	deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
-	#loc = reduceTo(loc, what='row', to=deg.genes)
-	#tab <- as.matrix(Matrix::t(loc@dat))
-	#hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
-    #rownames(loc@dat)[hc$order]
-	deg.genes
-} )
+				deg.genes = vector('character', num.sig)
+				degid = 0
+				## get a unique list of genes with each group being represented with an equal number of genes
+				## if possible
+				all_markers <- all_markers[ order( all_markers[,'p_val']),]
+				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
+				
+				#print(num.sig)
+				#print(table(grp.vec))
+				#print(num.sig / length(table(grp.vec)))
+				#print(ceiling(num.sig / length(table(grp.vec))))
+				
+				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
+				
+				if ( ret_genes < 1)
+					ret_genes = 1
+				
+				top_genes <- function( x ) {
+					if ( length(x) == 0) {
+						NA
+					}
+					else if ( length(x) < ret_genes ) {
+						x
+					}else {
+						x[1:ret_genes]
+					}
+				}
+				
+				deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
+				bad = which(is.na(deg.genes))
+				if ( length(bad) > 0) 
+					deg.genes = deg.genes[-bad]
+				
+				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
+					cellexalObj@usedObj$sigGeneLists$Seurat = list()
+				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+				if ( Log ) {
+					logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
+				}
+			}
+			if ( length(deg.genes) == 0){
+				message('deg.genes no entries - fix that')
+				browser()		
+			}
+			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
+			lockedSave(cellexalObj)
+			
+			deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
+			#loc = reduceTo(loc, what='row', to=deg.genes)
+			#tab <- as.matrix(Matrix::t(loc@dat))
+			#hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
+			#rownames(loc@dat)[hc$order]
+			deg.genes
+		} )

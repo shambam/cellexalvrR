@@ -10,7 +10,7 @@
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{deg.method}{The method to use to find DEGs ( 'anova', 'edgeR', 'MAST' or 'Seurat')}
+\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', or any other Seurat::FindAllMarkers method)}
 
 \item{num.sig}{number of differnetial genes to return (250)}
 
