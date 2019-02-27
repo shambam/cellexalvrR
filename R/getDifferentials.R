@@ -6,7 +6,7 @@
 #' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', or any other Seurat::FindAllMarkers method)
+#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
@@ -14,13 +14,13 @@
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-			function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
+			function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
 				standardGeneric('getDifferentials') 
 			}
 	) }
 
 setMethod('getDifferentials', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,deg.method=c("anova","edgeR", "MAST", 'Seurat'),
+		definition = function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
 				num.sig=250, Log=TRUE, logfc.threshold = 1) {
 			cellexalObj <- loadObject(cellexalObj)
 			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
@@ -29,7 +29,7 @@ setMethod('getDifferentials', signature = c ('character'),
 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
-				deg.method=c("wilcox", "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				deg.method=c("wilcox",'Seurat wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
 				num.sig=250, Log=TRUE, logfc.threshold = 1) {
 			
 			cellexalObj <- loadObject(cellexalObj)
