@@ -8,6 +8,9 @@ typedef SpVec::InnerIterator InIterVec;
 // Enable C++11 via this plugin (Rcpp 0.10.3 or later)
 // [[Rcpp::plugins(cpp11)]]
 
+// [[Rcpp::interfaces(r, cpp)]]
+
+
 // [[Rcpp::export]]
 std::vector<double> toColNums(Eigen::SparseMatrix<double> data) {
   std::vector<double> tmp( data.nonZeros() );

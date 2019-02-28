@@ -92,7 +92,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
-					r = as.data.frame(StatTest( Matrix::t( loc@dat), OK, BAD ))
+					r = as.data.frame(FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD ))
 					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
 					r
 				}

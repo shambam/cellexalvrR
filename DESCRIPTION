@@ -39,7 +39,9 @@ Imports:
     Seurat,
     pheatmap,
     Rcpp
-Remotes: satijalab/seurat
+Remotes: 
+	satijalab/seurat,
+	StemSysBio/FastWilcoxTest
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

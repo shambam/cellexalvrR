@@ -30,6 +30,9 @@ gene1 = getDifferentials(x, grouping, 'anova', num.sig=100, Log=FALSE )
 
 expect_true( length( gene1) == 52, paste("wrong gene number anova", length( gene1) ) )
 
+gene2 = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE )
+
+gene3 = getDifferentials(x, grouping, 'wilcox_Seurat', num.sig=100, Log=FALSE )
 
 #test_that( 'MAST' ,{
 #	skip_if_not_installed( 'Seurat' )		

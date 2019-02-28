@@ -9,62 +9,58 @@
 
 using namespace Rcpp;
 
-// logFC
-double logFC(std::vector<double> A, std::vector<double> B);
-RcppExport SEXP _cellexalvrR_logFC(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double> >::type A(ASEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(logFC(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
-// StatTest
-extern SEXP StatTest(Eigen::MappedSparseMatrix<double> X, std::vector<int> interest, std::vector<int> backgound, double logFCcut, bool display_progress);
-RcppExport SEXP _cellexalvrR_StatTest(SEXP XSEXP, SEXP interestSEXP, SEXP backgoundSEXP, SEXP logFCcutSEXP, SEXP display_progressSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MappedSparseMatrix<double> >::type X(XSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type interest(interestSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type backgound(backgoundSEXP);
-    Rcpp::traits::input_parameter< double >::type logFCcut(logFCcutSEXP);
-    Rcpp::traits::input_parameter< bool >::type display_progress(display_progressSEXP);
-    rcpp_result_gen = Rcpp::wrap(StatTest(X, interest, backgound, logFCcut, display_progress));
-    return rcpp_result_gen;
-END_RCPP
-}
 // toColNums
 std::vector<double> toColNums(Eigen::SparseMatrix<double> data);
-RcppExport SEXP _cellexalvrR_toColNums(SEXP dataSEXP) {
+static SEXP _cellexalvrR_toColNums_try(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Eigen::SparseMatrix<double> >::type data(dataSEXP);
     rcpp_result_gen = Rcpp::wrap(toColNums(data));
     return rcpp_result_gen;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _cellexalvrR_toColNums(SEXP dataSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_cellexalvrR_toColNums_try(dataSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
 }
 
 // validate (ensure exported C++ functions exist before calling them)
 static int _cellexalvrR_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
+        signatures.insert("std::vector<double>(*toColNums)(Eigen::SparseMatrix<double>)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _cellexalvrR_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("cellexalvrR", "_cellexalvrR_toColNums", (DL_FUNC)_cellexalvrR_toColNums_try);
     R_RegisterCCallable("cellexalvrR", "_cellexalvrR_RcppExport_validate", (DL_FUNC)_cellexalvrR_RcppExport_validate);
     return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_cellexalvrR_logFC", (DL_FUNC) &_cellexalvrR_logFC, 2},
-    {"_cellexalvrR_StatTest", (DL_FUNC) &_cellexalvrR_StatTest, 5},
     {"_cellexalvrR_toColNums", (DL_FUNC) &_cellexalvrR_toColNums, 1},
     {"_cellexalvrR_RcppExport_registerCCallable", (DL_FUNC) &_cellexalvrR_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
