@@ -10,18 +10,22 @@
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
+#' @param minPct the minium percent expressing cells in a group (default 0.1)
 #' @keywords DEGs
 #' @title description of function getDifferentials
 #' @export getDifferentials
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-			function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),num.sig=250, Log=TRUE, logfc.threshold = 1) { 
+			function (cellexalObj,cellidfile,
+					deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) { 
 				standardGeneric('getDifferentials') 
 			}
 	) }
 
 setMethod('getDifferentials', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-				num.sig=250, Log=TRUE, logfc.threshold = 1) {
+		definition = function (cellexalObj,cellidfile,
+				deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
 			cellexalObj <- loadObject(cellexalObj)
 			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
 		}
@@ -30,7 +34,7 @@ setMethod('getDifferentials', signature = c ('character'),
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-				num.sig=250, Log=TRUE, logfc.threshold = 1) {
+				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
 			
 			cellexalObj <- loadObject(cellexalObj)
 			num.sig <- as.numeric( num.sig )
@@ -92,7 +96,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
-					r = as.data.frame(FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD ))
+					r = as.data.frame(FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, logfc.threshold, minPct ))
 					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
 					r
 				}
@@ -156,7 +160,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
 						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 				
-				all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = 1 )
+				all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct )
 	
 				deg.genes = vector('character', num.sig)
 				degid = 0
