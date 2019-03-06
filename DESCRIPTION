@@ -41,7 +41,7 @@ Imports:
     Rcpp
 Remotes: 
 	satijalab/seurat,
-	StemSysBio/FastWilcoxTest
+	stela2502/FastWilcoxTest
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
