@@ -97,6 +97,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
 					r = as.data.frame(FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, logfc.threshold, minPct ))
+					r= r[order( r[,'p.value']),]
 					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
 					r
 				}
