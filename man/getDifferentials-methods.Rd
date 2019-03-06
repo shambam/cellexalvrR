@@ -17,6 +17,8 @@
 \item{Log}{log the results (default=TRUE)}
 
 \item{logfc.threshold}{the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)}
+
+\item{minPct}{the minium percent expressing cells in a group (default 0.1)}
 }
 \description{
 Creates a heatmap from a selection of groups
