@@ -165,7 +165,9 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 		cor(v, comp)
 	}
 	
-	cor.values <- apply(dat,1,calc.cor,comp=goi)
+	cor.values <-  FastWilcoxTest::CorMatrix( dat, goi)
+	names(cor.values) = rownames(dat)
+	##cor.values <- apply(dat,1,calc.cor,comp=goi)
 	
 	ord <- names(sort(cor.values))
 	
