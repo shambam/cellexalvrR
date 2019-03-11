@@ -9,10 +9,12 @@
 \item{cellexalObj, }{cellexalvr object}
 
 \item{path}{the output path}
+
+\item{what}{which part needs saving? (default NULL == all)}
 }
 \description{
 Saving the RData in the VR tool might create a problem. Hence this function will
 
-save the cellexalObj in a controlled way.
+save the cellexalObj in a controlled way. Locked save removes all parts from the file system.
 }
 \keyword{lockedSave}
