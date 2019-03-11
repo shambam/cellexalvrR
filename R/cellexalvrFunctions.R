@@ -38,6 +38,7 @@ setMethod('loadObject', signature = c ('character'),
 					cellexalObj = renew(cellexalObj)
 				}
 			}
+			## old objects need an update
 			if ( ! .hasSlot( cellexalObj, 'dat') ){
 				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
 				new@userGroups = cellexalObj@userGroups
@@ -65,6 +66,9 @@ setMethod('loadObject', signature = c ('character'),
 			}else {
 				cellexalObj@outpath = normalizePath(cellexalObj@outpath)
 			}
+			## there might be different other objects in the same path
+			## integrat them now
+			cellexalObj = integratParts( cellexalObj , normalizePath(dirname( fname )) )
 			cellexalObj
 		} )
 
