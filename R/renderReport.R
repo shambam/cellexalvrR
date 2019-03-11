@@ -81,7 +81,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))
 	if ( file.exists( expected_outfile )){
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
-		lockedSave(cellexalObj)
+		savePart(cellexalObj,part = 'usedObj' )
 	}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	

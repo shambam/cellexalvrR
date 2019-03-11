@@ -20,6 +20,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile) {
 	
 	cellexalObj <- renew(cellexalObj)
+	save = FALSE
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
 		cellid <- read.delim(cellidfile,header=F)
@@ -63,6 +64,9 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		
 		cellexalObj@groupSelectedFrom[[gname]] = req.graph
 		cellexalObj@colors[[gname]] = unique(grps)
+		savePart ( cellexalObj, 'groupSelectedFrom')
+		savePart ( cellexalObj, 'colors')
+		savePart ( cellexalObj, 'userGroups')
 		
 	}
 	else if ( is.na(match(cellidfile, colnames(cellexalObj@userGroups))) ==F ) {
@@ -73,6 +77,6 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	}
 	## store the grouing name
 	cellexalObj@usedObj$lastGroup = gname
-	
+	savePart ( cellexalObj, 'usedObj')
 	cellexalObj
 } )

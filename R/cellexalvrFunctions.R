@@ -68,7 +68,7 @@ setMethod('loadObject', signature = c ('character'),
 			}
 			## there might be different other objects in the same path
 			## integrat them now
-			cellexalObj = integratParts( cellexalObj , normalizePath(dirname( fname )) )
+			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) )
 			cellexalObj
 		} )
 

@@ -1,47 +1,49 @@
-#' @name integratParts
-#' @aliases integratParts,cellexalvrR-method
-#' @rdname integratParts-methods
+#' @name integrateParts
+#' @aliases integrateParts,cellexalvrR-method
+#' @rdname integrateParts-methods
 #' @docType methods
 #' @description integrate the parts that have been split from the main object.
 #' @param x the cellexalObj to add to
 #' @param path the path where the parts are stored (normally the @outpath)
-#' @title description of function integratParts
+#' @title description of function integrateParts
 #' @export 
-if ( ! isGeneric('integratParts') ){setGeneric('integratParts', ## Name
-	function ( x , path=NULL ) { 
-		standardGeneric('integratParts')
-	}
-) }
+if ( ! isGeneric('integrateParts') ){setGeneric('integrateParts', ## Name
+			function ( x , path=NULL ) { 
+				standardGeneric('integrateParts')
+			}
+	) }
 
-setMethod('integratParts', signature = c ('cellexalvrR'),
-	definition = function ( x , path=NULL ) {
-	if ( is.null(path) )
-		path = x@outpath
-	## now we check a list of outpath slots that could be updated:
-	F = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' )
-	for ( i in 1:length(F)  ) {
-		
-		filename = partFname( F[i] , path )
-		
-		if ( file.exists( filename ) ){
-			load( filename )
-		}
-		if (i == 1) {#sample.RData 
-			if ( exists( 'samples' ) )
-				x@meta.cell = samples		
-		}else if ( i == 2) {
-			if ( exists( 'userGroups' ) )
-				x@userGroups = userGroups
-		}else if ( i == 3) {
-			if ( exists( 'annotation' ) )
-				x@meta.gene = userGroups
-		}else if ( i == 4) {
-			if ( exists( 'usedObj' ) )
-				x@usedObj@usedObj = usedObj
-		}
-	}
-	invisible( x )
-} )
+setMethod('integrateParts', signature = c ('cellexalvrR'),
+		definition = function ( x , path=NULL ) {
+			if ( is.null(path) )
+				path = x@outpath
+			## now we check a list of outpath slots that could be updated:
+			F = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors' )
+			for ( i in 1:length(F)  ) {
+				
+				filename = partFname( F[i] , path )
+				
+				if ( file.exists( filename ) ){
+					#print ( paste("I am trying to load file ", filename ))
+					
+					load( filename )
+					if (i == 1) {#sample.RData 
+						x@meta.cell = sample
+					}else if ( i == 2) {
+						x@meta.gene = annotation
+					}else if ( i == 3) {
+						x@userGroups = userGroups
+					}else if ( i == 4) {
+						x@usedObj = usedObj
+					}else if ( i==5) {
+						x@groupSelectedFrom = groupSelectedFrom
+					}else if ( i == 6 ) {
+						x@colors = colors
+					}
+				}
+			}
+			invisible( x )
+		} )
 
 #' @name savePart
 #' @aliases savePart,cellexalvrR-method
@@ -50,22 +52,23 @@ setMethod('integratParts', signature = c ('cellexalvrR'),
 #' @description save only a part of the cellexal object increasing the VR interaction speed
 #' @param x  TEXT MISSING
 #' @param part  TEXT MISSING default= c( 'meta.cell'
-#' @param 'meta.gene'  TEXT MISSING
-#' @param 'userGroups'  TEXT MISSING
-#' @param 'usedObj')  TEXT MISSING
+#' @param path the optional outpath (default x@outpath)
 #' @title description of function savePart
 #' @export 
 if ( ! isGeneric('savePart') ){setGeneric('savePart', ## Name
-			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' ) ) { 
+			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors' ), path=NULL ) { 
 				standardGeneric('savePart')
 			}
 	) }
 
 setMethod('savePart', signature = c ('cellexalvrR'),
-		definition = function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' ) ) {
+		definition = function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors' ), path =NULL ) {
 			#meta.cell meta.gene userGroups usedObj
-			filename = partFname( F[i] , path )
+			if ( is.null(path) )
+				path = x@outpath
 			
+			filename = partFname( part, path )
+			#print ( paste("I am saving parts file", filename ))
 			if (part == 'meta.cell') {#sample.RData
 				sample = x@meta.cell
 				save( sample, file=filename)
@@ -78,6 +81,12 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 			}else if ( part == 'usedObj') {
 				usedObj = x@usedObj
 				save( usedObj, file=filename)
+			}else if ( part == 'groupSelectedFrom') {
+				groupSelectedFrom = x@groupSelectedFrom
+				save( groupSelectedFrom, file=filename)
+			}else if ( part == 'colors') {
+				colors = x@colors
+				save( colors, file=filename)
 			}
 			
 			invisible( x )
@@ -94,31 +103,36 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 #' @title description of internally used function partFname
 #' @export 
 if ( ! isGeneric('partFname') ){setGeneric('partFname', ## Name
-			function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' ), path ) { 
+			function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'all' ), path ) { 
 				standardGeneric('partFname')
 			}
 	) }
 
 setMethod('partFname', signature = c ('character'),
-		definition = function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' ), path ) {
+		definition = function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'all' ), path ) {
 			F = c( 'sample.RData', 'usergroups.RData', 'annotation.RData', 'usedObj.RData' )
 			fname=NULL
 			if (part == 'meta.cell') {#sample.RData
 				fname = 'sample'
 			}else if ( part == 'meta.gene') {
-				fname = 'userGroups'	
+				fname = 'annotation'	
 			}else if ( part == 'userGroups') {
-				fname = 'annotation'
+				fname = 'userGroups'
 			}else if ( part == 'usedObj') {
 				fname = 'usedObj'
-			}else if ( part == 'usedObj') {
-				fname = unlist( lapply( c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj'), partFname, path ))
+			}else if ( part == 'groupSelectedFrom') {
+				fname = 'groupSelectedFrom'
+			}else if ( part == 'colors') {
+				fname = 'colors'
+			}else if ( part == 'all') {
+				fname = unlist( lapply( c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors'), partFname, path ))
+				return( fname )
 			}
 			else {
 				stop( paste( "This part can not be saved:",part ))
 			}
 			
-			unlist( lapply(fname, function( FN ) { file.path( path, paste(sep="",'.' , FN, 'RData' ) )  } ) )
+			unlist( lapply(fname, function( FN ) { file.path( path, paste(sep="",'.' , FN, '.RData' ) )  } ) )
 		} )
 
 #' @name cleanParts
@@ -137,6 +151,7 @@ if ( ! isGeneric('cleanParts') ){setGeneric('cleanParts', ## Name
 
 setMethod('cleanParts', signature = c ('character'),
 		definition = function ( path ) {
+			#print ( paste(path, "I am cleaning the files:", paste( collapse=", ", partFname( 'all', path ))))
 			for ( fname in partFname( 'all', path ) ) {
 				if ( file.exists(fname))
 					unlink( fname)

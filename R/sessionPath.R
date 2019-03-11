@@ -49,7 +49,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
     }
 		mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) )
 		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
-		lockedSave( cellexalObj)
+		savePart(cellexalObj,part = 'usedObj' )
 
 		fileConn<-file( mainOfile )
 	  writeLines(c(paste(

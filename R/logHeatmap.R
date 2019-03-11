@@ -97,8 +97,12 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	#  }
 	#  cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
 	#}
-
-	lockedSave(cellexalObj, file.path(sessionPath, '..') )
+	if ( ! file.exists(file.path(sessionPath, '..', "cellexalObj.RData") )){
+		lockedSave(cellexalObj, file.path(sessionPath, '..') )
+	}else {
+		savePart(cellexalObj, 'usedObj' )
+	}
+	
 
 	cellexalObj
 } )

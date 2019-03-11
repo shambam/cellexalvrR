@@ -199,7 +199,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				browser()		
 			}
 			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
-			lockedSave(cellexalObj)
+			## we only need to store the stats object here.
+			## and as that is part of the usedObj we will sore that ;-)
+			## lockedSave(cellexalObj) ## to much overhead!
+			if ( ! interactive() ) { ## likely the VR scripts
+				savePart( cellexalObj, cellexalObj@outpath );
+			}
 			
 			deg.genes
 		} )

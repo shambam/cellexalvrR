@@ -1,4 +1,4 @@
-integratParts <- function ( x , path=NULL ) {
+integrateParts <- function ( x , path=NULL ) {
 	if ( is.null(path) )
 		path = x@outpath
 	## now we check a list of outpath slots that could be updated:
