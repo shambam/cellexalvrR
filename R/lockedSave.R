@@ -6,11 +6,12 @@
 #' @description  save the cellexalObj in a controlled way.
 #' @param cellexalObj, cellexalvr object
 #' @param path the output path
+#' @param what which part needs saving? (default NULL == all)
 #' @title description of function lockedSave
 #' @keywords lockedSave
 #' @export lockedSave
 if ( ! isGeneric('lockedSave') ){setGeneric('lockedSave', ## Name
-	function (cellexalObj, path=NULL ) {
+	function (cellexalObj, path=NULL, what=NULL ) {
 		standardGeneric('lockedSave')
 	}
 ) }

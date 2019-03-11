@@ -72,6 +72,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			
 			if(length(col.tab) == 1){
+				deg.method == 'Linear'
 				message('cor.stat linear gene stats')
 				lin <- function( v, order ) {
 					cor.test( v, order, method="spearman" )
@@ -96,7 +97,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
-					r = as.data.frame(FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, logfc.threshold, minPct ))
+					r = as.data.frame(
+							FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, logfc.threshold, minPct )
+					)
 					r= r[order( r[,'p.value']),]
 					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
 					r
@@ -107,40 +110,15 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					all_markers = rbind( all_markers, CppStats(n) )
 				}
 				
-				all_markers <- all_markers[ order( all_markers[,'p.value']),]
-				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
-				deg.genes = vector('character', num.sig)
-				degid = 0
-				
-				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
-				
-				if ( ret_genes < 1)
-					ret_genes = 1
-				
-				top_genes <- function( x ) {
-					if ( length(x) == 0) {
-						NA
-					}
-					else if ( length(x) < ret_genes ) {
-						x
-					}else {
-						x[1:ret_genes]
-					}
-				}
-				
-				deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
-				bad = which(is.na(deg.genes))
-				if ( length(bad) > 0) 
-					deg.genes = deg.genes[-bad]
-				
-				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
-					cellexalObj@usedObj$sigGeneLists$Seurat = list()
-				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+				#all_markers <- all_markers[ order( all_markers[,'p.value']),]
 				if ( Log ) {
-						logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' )
+					logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' )
 				}
-				
-			}else {
+				if ( is.null(cellexalObj@usedObj$sigGeneLists$Cpp)) 
+					cellexalObj@usedObj$sigGeneLists$Cpp = list()
+				cellexalObj@usedObj$sigGeneLists$Cpp[[cellexalObj@usedObj$lastGroup]] = all_markers
+			}
+			else {
 				if ( deg.method == 'Seurat_wilcox') {
 					deg.method = 'wilcox'
 				} 
@@ -161,25 +139,32 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
 						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 				
-				all_markers <- Seurat::FindAllMarkers(object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct )
-	
+				all_markers <- Seurat::FindAllMarkers(
+						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct 
+				)
+				if ( Log ) {
+					logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
+				}
+				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
+					cellexalObj@usedObj$sigGeneLists$Seurat = list()
+				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+			}
+			
+			
+			### get the top genes
+			if ( deg.method != 'Linear' ) {
+				
+				
+				
+				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
 				deg.genes = vector('character', num.sig)
 				degid = 0
-				## get a unique list of genes with each group being represented with an equal number of genes
-				## if possible
-				all_markers <- all_markers[ order( all_markers[,'p_val']),]
-				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
-				
-				#print(num.sig)
-				#print(table(grp.vec))
-				#print(num.sig / length(table(grp.vec)))
-				#print(ceiling(num.sig / length(table(grp.vec))))
-				
+			
 				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
-				
+			
 				if ( ret_genes < 1)
 					ret_genes = 1
-				
+			
 				top_genes <- function( x ) {
 					if ( length(x) == 0) {
 						NA
@@ -190,19 +175,25 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 						x[1:ret_genes]
 					}
 				}
-				
+			
+			
 				deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
 				bad = which(is.na(deg.genes))
 				if ( length(bad) > 0) 
 					deg.genes = deg.genes[-bad]
-				
-				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
-					cellexalObj@usedObj$sigGeneLists$Seurat = list()
-				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
-				if ( Log ) {
-					logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
+				deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
+				loc = reduceTo(loc, what='row', to=deg.genes)
+				#tab <- as.matrix(Matrix::t(loc@dat))
+				if ( length(which(is.na( loc@userGroups[, loc@usedObj$lastGroup]) )) > 0 ) {
+					## shit that will not work!
+					loc = reduceTo(loc, what='col', to= which(is.na( loc@userGroups[, cellexalObj@usedObj$lastGroup]) ==F) )
 				}
+				
+				tab <- t(FastWilcoxTest::collapse( loc@dat, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 0 )) ## log add up
+				hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
+				deg.genes = rownames(loc@dat)[hc$order]
 			}
+	
 			if ( length(deg.genes) == 0){
 				message('deg.genes no entries - fix that')
 				browser()		
@@ -210,10 +201,5 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
 			lockedSave(cellexalObj)
 			
-			deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
-			#loc = reduceTo(loc, what='row', to=deg.genes)
-			#tab <- as.matrix(Matrix::t(loc@dat))
-			#hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
-			#rownames(loc@dat)[hc$order]
 			deg.genes
 		} )
