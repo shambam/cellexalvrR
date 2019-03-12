@@ -38,7 +38,8 @@ Imports:
     utils,
     Seurat,
     pheatmap,
-    Rcpp
+    Rcpp,
+    FastWilcoxTest (>= 0.1.0)
 Remotes: 
 	stela2502/FastWilcoxTest
 License: GPL-3

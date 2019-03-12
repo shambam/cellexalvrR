@@ -39,6 +39,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			cellexalObj <- loadObject(cellexalObj)
 			num.sig <- as.numeric( num.sig )
 			
+			accepted = deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova")
+			if ( sum(unlist(lapply( accepted, function(ok) { return ( ok == deg.method )} ))) != 1 ) {
+				stop( paste("The deg.method",deg.method, "is not supported" ) )
+			}
 			cellexalObj <- userGrouping(cellexalObj, cellidfile)
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			if ( length(not) > 0) {

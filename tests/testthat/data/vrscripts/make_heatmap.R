@@ -33,7 +33,7 @@ if ( ! file.exists(group_selection_filepath)) {
 message( paste("make_heatmap using grouping file", group_selection_filepath, " and stats method ", stats_method  ) )
 
 CO <- loadObject ( expression_data_filepath )
-stop( output_filepath )
+
 make.cellexalvr.heatmap.list(CO,group_selection_filepath,top_genes_number,output_filepath, stats_method )
 
 message( "Heatmap - no object save: grouping should already be stored" )
