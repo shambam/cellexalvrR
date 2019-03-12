@@ -30,7 +30,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA) {
 			
 			if ( is.na(stats_method) )
-				stats_method= 'anova'
+				stats_method= 'wilcox'
 			
 			gene.cluster.order = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig)
 			

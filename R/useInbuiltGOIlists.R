@@ -25,7 +25,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 			colnames(x@meta.gene) = "gene_id"
 		}
 			if ( ! is.na( match(name, colnames(x@meta.gene)))) {
-				stop( "This GIO list has already been defined" )
+				message( "This GIO list has already been defined" )
+				return ( invisible(x) )				
 			}
 			
 			if ( name == "TFs" ) {

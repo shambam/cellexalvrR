@@ -4,7 +4,7 @@ prefix = './'
 
 data = file.path(prefix, 'data/cellexalObj.RData')
 
-load( data )
+cellexalObj = loadObject( data )
 
 cellexalObj@outpath = file.path(prefix, 'data', 'output') ## to not mess up the package
 

@@ -77,6 +77,6 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	}
 	## store the grouing name
 	cellexalObj@usedObj$lastGroup = gname
-	savePart ( cellexalObj, 'usedObj')
+	savePart ( cellexalObj, 'lastGroup')
 	cellexalObj
 } )

@@ -15,7 +15,7 @@ homedir = file.path(prefix, 'data','output','default_user','output' ) # <user sp
 
 datadir = file.path(prefix, 'data','output','default_user' )# <user specific folder>
 
-latest_version = file.path(prefix, 'data','output','default_user', 'User.group.1.cgr'  )  # the grouping file - I will take the 'User.group.1.cgr' created in the initial_check.R run
+latest_version = 'User.group.1'   # the grouping file - I will take the 'User.group.1.cgr' created in the initial_check.R run
 
 
 output_filepath = file.path(prefix, 'data','output','default_user','heatmap_0-3-5.txt' )# <homedir>/<heatmapName>.txt
@@ -37,7 +37,8 @@ expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: in
 
 expect_true( CO@outpath == normalizePath(datadir), "outpath is absolute" )
 
-system( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number ))
+print ( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number, 'wilcox' ) )
+system( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number, 'wilcox' ))
 
 expect_true( file.exists(output_filepath), paste( "file missing", 'heatmap_0-3-5.txt') )
 

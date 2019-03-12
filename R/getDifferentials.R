@@ -138,7 +138,6 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
 						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
-				
 				all_markers <- Seurat::FindAllMarkers(
 						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct 
 				)
@@ -153,13 +152,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			
 			### get the top genes
 			if ( deg.method != 'Linear' ) {
-				
-				
-				
 				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
-				deg.genes = vector('character', num.sig)
-				degid = 0
-			
 				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
 			
 				if ( ret_genes < 1)
@@ -175,12 +168,22 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 						x[1:ret_genes]
 					}
 				}
-			
-			
-				deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
-				bad = which(is.na(deg.genes))
-				if ( length(bad) > 0) 
-					deg.genes = deg.genes[-bad]
+				
+				## likely not the best approach..
+				deg.genes = NULL
+				ret_genes = ret_genes -1
+				i = 0
+				while ( length( deg.genes ) < num.sig ) {
+					ret_genes = ret_genes +1
+					i = i+1
+					deg.genes = unique(unlist( lapply( genes_list,top_genes ) ))
+					bad = which(is.na(deg.genes))
+					if ( length(bad) > 0) 
+						deg.genes = deg.genes[-bad]
+					if ( i > 20)
+						break
+				}
+				
 				deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
 				loc = reduceTo(loc, what='row', to=deg.genes)
 				#tab <- as.matrix(Matrix::t(loc@dat))
@@ -196,7 +199,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	
 			if ( length(deg.genes) == 0){
 				message('deg.genes no entries - fix that')
-				browser()		
+				if ( interactive() ) {
+					browser()
+				}else {
+					message ( 'no signififcant genes detected!' )
+				}
+				
 			}
 			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
 			## we only need to store the stats object here.

@@ -50,7 +50,6 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
-
 	info <- groupingInfo( loc )
 	if ( info$mds == 'unknown' ) {
 		## just assume the user selected from graph 1

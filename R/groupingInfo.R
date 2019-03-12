@@ -24,10 +24,10 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	ret <- list( 
 			grouping = cellexalObj@userGroups[,gname] ,
 			order = 1:ncol(cellexalObj@dat),
-			'mds' = cellexalObj@usedObj[[gname]],
-			col = cellexalObj@usedObj[[gname]] 
+			'mds' = cellexalObj@groupSelectedFrom[[gname]],
+			col = cellexalObj@colors[[gname]] 
 	)
-	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
+	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
 		ret[['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
 	}
 	

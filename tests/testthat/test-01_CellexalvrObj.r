@@ -55,7 +55,7 @@ if(  file.exists(ofile ) ){
 	unlink( ofile)
 }
 
-make.cellexalvr.heatmap ( file.path('data', 'cellexalObj.RData') , file.path(opath,'..','selection0.txt'), 300, ofile )
+make.cellexalvr.heatmap ( file.path(opath, 'cellexalObj.RData') , file.path(opath,'..','selection0.txt'), 300, ofile )
 
 expect_true( file.exists( ofile ),  paste("outfile missing:", ofile) )
 
