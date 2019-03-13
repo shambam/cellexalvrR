@@ -204,6 +204,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			if ( length(deg.genes) == 0){
 				message('deg.genes no entries - fix that')
 				if ( interactive() ) {
+					message ( 'no signififcant genes detected! - help needed: (exit with Q)' )
 					browser()
 				}else {
 					message ( 'no signififcant genes detected!' )
@@ -215,9 +216,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			## and as that is part of the usedObj we will store that ;-)
 			## lockedSave(cellexalObj) ## to much overhead!
 			if ( ! interactive() ) { ## likely the VR scripts
-				print( paste("Do we reach this point?", 'usedObj', cellexalObj@outpath ) )
+				#print( paste("Do we reach this point?", 'usedObj', cellexalObj@outpath ) )
 				savePart( cellexalObj, 'usedObj');
-				print( "And this - Do we reach this point, too?")
+				#print( "And this - Do we reach this point, too?")
 			}
 			
 			deg.genes
