@@ -1,68 +1,22 @@
-integrateParts <- function ( x , path=NULL ) {
-	if ( is.null(path) )
-		path = x@outpath
-	## now we check a list of outpath slots that could be updated:
-	F = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' )
-	for ( i in 1:length(F)  ) {
-		
-		filename = partFname( F[i] , path )
-		
-		if ( file.exists( filename ) ){
-			load( filename )
-		}
-		if (i == 1) {#sample.RData 
-			if ( exists( 'samples' ) )
-				x@meta.cell = samples		
-		}else if ( i == 2) {
-			if ( exists( 'userGroups' ) )
-				x@userGroups = userGroups
-		}else if ( i == 3) {
-			if ( exists( 'annotation' ) )
-				x@meta.gene = userGroups
-		}else if ( i == 4) {
-			if ( exists( 'usedObj' ) )
-				x@usedObj@usedObj = usedObj
+as_cellexalvrR <- function( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL ) {
+	## x has to be a BioData object which is read as a simple list here!
+	ret = new('cellexalvrR')
+	ret@dat = x$dat
+	if ( ! is.null(meta.genes.groups) )
+		ret@mets.gene = x$annoatation[, meta.genes.groups]
+	ret@meta.cell = make.cell.meta.from.df( x$samples[,meta.cell.groups])
+	if ( ! is.null( userGroups )) {
+		ret@userGroups = x$samples[,userGroups]
+	}
+	MDS <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
+	OK = grep ( '_dim_' , MDS, invert= TRUE )
+	if ( length(OK) == 0 ) {
+		stop( "cellexalvrR does need at least one 3D MDS structure to work on - please create that first!")
+	}
+	for ( n in MDS[OK] ) {
+		for ( n2 in names(x$usedObj[[n]]) ) {
+			ret@mds[[n2]] = x$usedObj[[n]][[n2]]
 		}
 	}
-	invisible( x )
-}
-
-partFname <- function( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' ), path ) {
-	F = c( 'sample.RData', 'usergroups.RData', 'annotation.RData', 'usedObj.RData' )
-	fname=NULL
-	if (part == 'meta.cell') {#sample.RData
-		fname = 'sample'
-	}else if ( part == 'meta.gene') {
-		fname = 'userGroups'	
-	}else if ( part == 'userGroups') {
-		fname = 'annotation'
-	}else if ( part == 'usedObj') {
-		fname = 'usedObj'
-	}
-	else {
-		stop( paste( "This part can not be saved:",part ))
-	}
-		
-	file.path( path, paste(sep="",'.' , fname, 'RData' ) )
-}
-
-savePart <- function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj' ) ) {
-	#meta.cell meta.gene userGroups usedObj
-	filename = partFname( F[i] , path )
-	
-	if (part == 'meta.cell') {#sample.RData
-		sample = x@meta.cell
-		save( sample, file=filename)
-	}else if ( part == 'meta.gene') {
-		annotation = x@meta.gene
-		save( annotation, file=filename)
-	}else if ( part == 'userGroups') {
-		userGroups = x@userGroups
-		save( userGroups, file=filename)
-	}else if ( part == 'usedObj') {
-		usedObj = x@usedObj
-		save( usedObj, file=filename)
-	}
-	
-	invisible( x )
+	ret
 }

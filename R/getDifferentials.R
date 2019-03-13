@@ -197,6 +197,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				
 				tab <- t(FastWilcoxTest::collapse( loc@dat, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 0 )) ## log add up
+				tab[which(tab == -Inf)] = 0
 				hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
 				deg.genes = rownames(loc@dat)[hc$order]
 			}
