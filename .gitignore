@@ -14,3 +14,4 @@ inst/doc
 data/output/
 /knit.Rout
 /try_SeuratClustering.R
+/Procr_correlated_genes.txt

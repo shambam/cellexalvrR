@@ -19,6 +19,8 @@
 \item{output}{TEXT MISSING}
 
 \item{is.smarker}{TEXT MISSING default=F}
+
+\item{cpp}{use the c++ cor implementation (default = TRUE)}
 }
 \description{
 Gets positively and negatively correlated genes to a chosen gene
