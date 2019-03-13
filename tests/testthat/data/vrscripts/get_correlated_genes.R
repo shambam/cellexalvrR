@@ -1,3 +1,5 @@
+suppressMessages(library(cellexalvrR))
+
 library(cellexalvrR)
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -12,4 +14,5 @@ facsTypeArg <- as.logical(args[4])
 
 expression_data_filepath <- file.path(datadir, "cellexalObj.RData")
 
+#print (paste( "I got the facsTypeArg", facsTypeArg ) )
 get.genes.cor.to(expression_data_filepath, gene_name, outputfile, facsTypeArg)

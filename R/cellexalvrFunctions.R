@@ -122,24 +122,25 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 #' @param gname  TEXT MISSING
 #' @param output  TEXT MISSING
 #' @param is.smarker  TEXT MISSING default=F
+#' @param cpp use the c++ cor implementation (default = TRUE)
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
 #' @export get.genes.cor.to
 if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
-	function (cellexalObj, gname, output, is.smarker=F) { 
+	function (cellexalObj, gname, output, is.smarker=F, cpp=T) { 
 		standardGeneric('get.genes.cor.to') 
 	}
 ) }
 
 setMethod('get.genes.cor.to', signature = c ('character'),
-		definition = function (cellexalObj, gname, output, is.smarker=F) {
+		definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
 			cellexalObj <- loadObject(cellexalObj)
-			get.genes.cor.to( cellexalObj, gname, output, is.smarker )
+			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp)
 		}
 )
 
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, gname, output, is.smarker=F) {
+	definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
 	
 	cellexalObj <- loadObject(cellexalObj)
 	dat <- cellexalObj@dat
@@ -169,9 +170,12 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 		cor(v, comp)
 	}
 	
-	cor.values <-  FastWilcoxTest::CorMatrix( dat, goi)
-	names(cor.values) = rownames(dat)
-	##cor.values <- apply(dat,1,calc.cor,comp=goi)
+	if ( cpp ) {
+	  cor.values <-  FastWilcoxTest::CorMatrix( dat, goi)
+	  names(cor.values) = rownames(dat)
+  	}else {
+		cor.values <- apply(dat,1,calc.cor,comp=goi)
+	}
 	
 	ord <- names(sort(cor.values))
 	
@@ -180,4 +184,5 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	tab <- cbind(pos,neg)
 	
 	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
+	invisible(tab)
 } )
