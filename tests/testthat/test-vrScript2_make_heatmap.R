@@ -37,6 +37,8 @@ expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: in
 
 expect_true( CO@outpath == normalizePath(datadir), "outpath is absolute" )
 
+expect_true(! file.exists(output_filepath), paste( "file missing not created yet", 'heatmap_0-3-5.txt') )
+
 print ( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number, 'wilcox' ) )
 system( paste( 'Rscript', script, homedir,  datadir, latest_version, output_filepath, top_genes_number, 'wilcox' ))
 

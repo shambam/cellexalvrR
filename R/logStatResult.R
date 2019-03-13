@@ -18,7 +18,7 @@ setGeneric('logStatResult', ## Name
 setMethod('logStatResult', signature = c ('cellexalvrR'),
 	definition = function ( x, method, data, col=NULL  ) {
 	if (! is.null( x@usedObj$sessionName)) {
-		## export the data into a file and add a small download link tnto the report
+		## export the data into a file and add a small download link into the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="."   )
 		write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 

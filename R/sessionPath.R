@@ -8,64 +8,64 @@
 #' @title description of function sessionPath
 #' @export
 setGeneric('sessionPath', ## Name
-	function (cellexalObj, sessionName=NULL ) { 
-		standardGeneric('sessionPath')
-	}
+		function (cellexalObj, sessionName=NULL ) { 
+			standardGeneric('sessionPath')
+		}
 )
 
 setMethod('sessionPath', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, sessionName=NULL ) {
-		#browser()
-
-	if ( ! is.null(sessionName) ){
-		if ( is.null(cellexalObj@usedObj$sessionName)){
-			cellexalObj@usedObj$sessionName = sessionName
-			cellexalObj@usedObj$sessionRmdFiles = NULL
-			cellexalObj@usedObj$sessionPath = NULL
-			cellexalObj@usedObj$sessionCounter = NULL
-		}else if ( ! cellexalObj@usedObj$sessionName == sessionName)  {
-			cellexalObj@usedObj$sessionName = sessionName
-			cellexalObj@usedObj$sessionRmdFiles = NULL
-			cellexalObj@usedObj$sessionPath = NULL
-			cellexalObj@usedObj$sessionCounter = NULL
-			#lockedSave( cellexalObj)
-		}
-	}
-	if ( is.null(cellexalObj@usedObj$sessionName )) {
-		cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
-		cellexalObj@usedObj$sessionRmdFiles = NULL
-		cellexalObj@usedObj$sessionPath = NULL
-		cellexalObj@usedObj$sessionCounter = NULL
-	}
-	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
-		## init the session objects
-		## add a simple session log start file
-		cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
-    if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
-        message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
-        dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
-        dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
-        dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
-    }
-		mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) )
-		cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
-		savePart(cellexalObj,part = 'usedObj' )
-
-		fileConn<-file( mainOfile )
-	  writeLines(c(paste(
-	    "# Session Log for Session", cellexalObj@usedObj$sessionName ),
-	    paste("Analysis of data: ", basename(cellexalObj@outpath) ),
-	    ""
-	    )
-	    , fileConn  )
-	  close(fileConn)
-
-	  cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
-	}
-	
-	invisible(cellexalObj)
-
-} )
+		definition = function (cellexalObj, sessionName=NULL ) {
+			#browser()
+			
+			if ( ! is.null(sessionName) ){
+				if ( is.null(cellexalObj@usedObj$sessionName)){
+					cellexalObj@usedObj$sessionName = sessionName
+					cellexalObj@usedObj$sessionRmdFiles = NULL
+					cellexalObj@usedObj$sessionPath = NULL
+					cellexalObj@usedObj$sessionCounter = NULL
+				}else if ( ! cellexalObj@usedObj$sessionName == sessionName)  {
+					cellexalObj@usedObj$sessionName = sessionName
+					cellexalObj@usedObj$sessionRmdFiles = NULL
+					cellexalObj@usedObj$sessionPath = NULL
+					cellexalObj@usedObj$sessionCounter = NULL
+					#lockedSave( cellexalObj)
+				}
+			}
+			if ( is.null(cellexalObj@usedObj$sessionName )) {
+				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
+				cellexalObj@usedObj$sessionRmdFiles = NULL
+				cellexalObj@usedObj$sessionPath = NULL
+				cellexalObj@usedObj$sessionCounter = NULL
+			}
+			if ( is.null(cellexalObj@usedObj$sessionPath) ) {
+				## init the session objects
+				## add a simple session log start file
+				cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
+				if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
+					message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
+					dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
+					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
+					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
+				}
+				mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) )
+				cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
+				savePart(cellexalObj,part = 'usedObj' )
+				
+				fileConn<-file( mainOfile )
+				writeLines(c(paste(
+										"# Session Log for Session", cellexalObj@usedObj$sessionName ),
+								paste("Analysis of data: ", basename(cellexalObj@outpath) ),
+								""
+						)
+						, fileConn  )
+				close(fileConn)
+				
+				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
+			}
+			
+			invisible(cellexalObj)
+			
+		} )
 
 
 setMethod('sessionPath', signature = c ('character'),

@@ -39,7 +39,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			cellexalObj <- loadObject(cellexalObj)
 			num.sig <- as.numeric( num.sig )
 			
-			accepted = deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova")
+			accepted = c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova")
 			if ( sum(unlist(lapply( accepted, function(ok) { return ( ok == deg.method )} ))) != 1 ) {
 				stop( paste("The deg.method",deg.method, "is not supported" ) )
 			}
@@ -212,10 +212,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
 			## we only need to store the stats object here.
-			## and as that is part of the usedObj we will sore that ;-)
+			## and as that is part of the usedObj we will store that ;-)
 			## lockedSave(cellexalObj) ## to much overhead!
 			if ( ! interactive() ) { ## likely the VR scripts
-				savePart( cellexalObj, cellexalObj@outpath );
+				print( paste("Do we reach this point?", 'usedObj', cellexalObj@outpath ) )
+				savePart( cellexalObj, 'usedObj');
+				print( "And this - Do we reach this point, too?")
 			}
 			
 			deg.genes

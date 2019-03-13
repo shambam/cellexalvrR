@@ -66,8 +66,10 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	 while ( ! file.exists(cellexalObj@usedObj$sessionRmdFiles[1])){
 	  Sys.sleep( 10)
 	  i =  +1
-	  if ( max == i )
-	    last
+	  if ( max == i ){
+		  message( paste( "An important log file is missing", cellexalObj@usedObj$sessionRmdFiles[1] ))
+	      last
+	  }
 	 }
 
 	cat( sep="\n",

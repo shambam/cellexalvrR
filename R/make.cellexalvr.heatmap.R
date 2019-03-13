@@ -33,7 +33,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 				stats_method= 'wilcox'
 			
 			gene.cluster.order = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig)
-			
+			message (paste( "trying to write file", outfile ) )
 			write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
 		} )
 
