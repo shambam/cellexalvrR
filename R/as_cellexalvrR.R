@@ -22,7 +22,7 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	## x has to be a BioData object which is read as a simple list here!
 	ret = new('cellexalvrR')
 	ret@dat = x$dat
-	ret@dat@x = log( exp( ret@dat@x ) +1 )
+	#ret@dat@x = log( exp( ret@dat@x ) +1 ) ## fixed in BioData
 	
 	if ( ! is.null(meta.genes.groups) )
 		ret@mets.gene = x$annoatation[, meta.genes.groups]
