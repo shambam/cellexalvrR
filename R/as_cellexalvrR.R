@@ -7,16 +7,18 @@
 #' @param meta.cell.groups which x$samples column to convert to meta.cell classes
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
 #' @param userGroups which x§samples columns to add to the userGroups slot
+#' @param outpath set the outpath of the object (default getwd())
+#' @param specie set the specie to either mouse or human (default check gene names)
 #' @title convert a BioData object to cellexalvrR keeping all 3D mds objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL ) { ## Argumente der generischen Funktion
+	function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { ## Argumente der generischen Funktion
 		standardGeneric('as_cellexalvrR') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
 
 setMethod('as_cellexalvrR', signature = c ('environment'),
-	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL ) {
+	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
 	ret = new('cellexalvrR')
 	ret@dat = x$dat
@@ -51,6 +53,6 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 		ret@dat@x[ bad ] = 0
 		ret@dat = drop0(ret@dat)
 	}
-	ret@outpath = getwd()
+	ret@outpath = outpath
 	ret
 } )
