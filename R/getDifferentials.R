@@ -79,9 +79,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.method == 'Linear'
 				message('cor.stat linear gene stats')
 				lin <- function( v, order ) {
-					cor.test( v, order, method="spearman" )
+					stats::cor.test( v, order, method="spearman" )
 				}
-				ps <- apply(loc@dat,1,lin,order=1:ncol(dat.f))
+				ps <- apply(loc@dat,1,lin,order=1:ncol(loc@dat))
 				
 				ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				ps = data.frame(t(ps))
@@ -198,7 +198,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				tab <- t(FastWilcoxTest::collapse( loc@dat, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 1 )) ## simple sum up the data
 				tab[which(tab == -Inf)] = 0
-				hc <- hclust(as.dist( 1- cor(tab, method='pearson') ),method = 'ward.D2')
+				hc <- stats::hclust(stats::as.dist( 1- stats::cor(tab, method='pearson') ),method = 'ward.D2')
 				deg.genes = rownames(loc@dat)[hc$order]
 			}
 	

@@ -1,4 +1,11 @@
-#' @name cellexalvrR
+#' cellexalvrR is the R class that build the backend of CellexalVR
+#' 
+#' https://www.cellexalvr.med.lu.se/ is a VR application to analyze single cell expression data.
+#' This R class is the backend of the VR application and a dependency of that.
+#' CellexalvrR is not developed to be a general purpose single cell analysis class like Seurat.
+#' It e.g. does not implement normalization or mds methods, but expects all data to be preprocessed.
+#' 
+#' @name cellexalvrR-class
 #' @title cellexalvrR class definition
 #' @description  The R backend for the CellexalVR 3D application
 #' @slot data the expression matrix
@@ -45,10 +52,6 @@ setClass(Class="cellexalvrR",
 		)
 )
 
-
-#' @useDynLib cellexalvrR, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
-NULL
 
 
 

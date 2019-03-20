@@ -1,4 +1,14 @@
+^Meta$
+^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 tests/testthat/data/output
 README.md
+tests/testthat/data/.*.RData
+data/.*.RData
+build.r
+helperScripts
+install.R
+logo_small.png
+try_SeuratClustering.R
+

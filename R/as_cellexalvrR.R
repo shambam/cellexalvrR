@@ -1,5 +1,5 @@
 #' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,cellexalvrR-method
+#' @aliases as_cellexalvrR,environment-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
 #' @description convert a BioData list (BioData libraray not loaded) into a cellexalvrR obejct
@@ -20,7 +20,7 @@ setGeneric('as_cellexalvrR', ## Name
 setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
-	ret = new('cellexalvrR')
+	ret = methods::new('cellexalvrR')
 	ret@dat = x$dat
 	#ret@dat@x = log( exp( ret@dat@x ) +1 ) ## fixed in BioData
 	
@@ -43,15 +43,15 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	}
 	for ( n in MDS[OK] ) {
 		for ( n2 in names(x$usedObj[[n]]) ) {
-			new_name = str_replace_all( n2, "\\s", "_")
+			new_name = stringr::str_replace_all( n2, "\\s", "_")
 			ret@mds[[new_name]] = x$usedObj[[n]][[n2]]
 		}
 	}
-	ret@colors = data$usedObj$colorRange
+	ret@colors = x$usedObj$colorRange
 	bad = which( ret@dat@x < 0)
 	if ( length(bad) > 0 ) {
 		ret@dat@x[ bad ] = 0
-		ret@dat = drop0(ret@dat)
+		ret@dat = Matrix::drop0(ret@dat)
 	}
 	ret@outpath = outpath
 	ret

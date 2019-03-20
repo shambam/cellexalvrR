@@ -39,7 +39,7 @@ setMethod('loadObject', signature = c ('character'),
 				}
 			}
 			## old objects need an update
-			if ( ! .hasSlot( cellexalObj, 'dat') ){
+			if ( ! methods::.hasSlot( cellexalObj, 'dat') ){
 				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
@@ -167,7 +167,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	}
 	
 	calc.cor <- function(v, comp){
-		cor(v, comp)
+		stats::cor(v, comp)
 	}
 	
 	if ( cpp ) {
@@ -183,6 +183,6 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	neg <- ord[1:10]
 	tab <- cbind(pos,neg)
 	
-	write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
+	utils::write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 	invisible(tab)
 } )

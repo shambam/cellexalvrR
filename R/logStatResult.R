@@ -20,7 +20,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 	if (! is.null( x@usedObj$sessionName)) {
 		## export the data into a file and add a small download link into the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="."   )
-		write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
+		utils::write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 
 		mainOfile = x@usedObj$sessionRmdFiles[1]
 
@@ -33,9 +33,9 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 
 		if ( ! is.null(col) ){
 			ofile = file.path( 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
-			png( file= file.path( x@usedObj$sessionPath, ofile ), width=800, height=800)
-			hist( -log10(data[,col]), main = paste( x@usedObj$sessionName, method )  )
-			dev.off()
+			grDevices::png( file= file.path( x@usedObj$sessionPath, ofile ), width=800, height=800)
+			graphics::hist( -log10(data[,col]), main = paste( x@usedObj$sessionName, method )  )
+			grDevices::dev.off()
 
 			cat( sep="\n",
 					paste("![](",ofile,")"),

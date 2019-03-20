@@ -20,7 +20,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, path=NULL ) {
 		if ( is.null(path) ){
 			path= cellexalObj@outpath
-		}else if ( !.hasSlot(cellexalObj, "outpath") ) {
+		}else if ( ! methods::.hasSlot(cellexalObj, "outpath") ) {
 			cellexalObj@outpath = path
 		}
 	ofile = file.path( path, 'cellexalObj.RData' )
@@ -63,7 +63,7 @@ setMethod('lockedLoad', signature = c ('character'),
 			}
 			path = dirname(cellexalObj)
 			load( cellexalObj )
-			if ( is.na('dat', slotNames(cellexalObj)) ){
+			if ( is.na('dat', methods::slotNames(cellexalObj)) ){
 				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
 						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
 			}

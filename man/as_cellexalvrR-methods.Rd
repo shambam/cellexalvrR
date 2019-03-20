@@ -3,7 +3,7 @@
 \docType{methods}
 \name{as_cellexalvrR}
 \alias{as_cellexalvrR}
-\alias{as_cellexalvrR,cellexalvrR-method}
+\alias{as_cellexalvrR,environment-method}
 \title{convert a BioData object to cellexalvrR keeping all 3D mds objects.}
 \usage{
 as_cellexalvrR(x, meta.cell.groups, meta.genes.groups = NULL,

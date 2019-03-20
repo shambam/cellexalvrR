@@ -20,7 +20,7 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
     meta4cellexalvr <- NULL
 
     for(i in 1:length(rq.fields)){
-        tmp.met <- to.matrix(metad[,rq.fields[i]],unique(metad[,rq.fields[i]]) )
+        tmp.met <- phytools::to.matrix(metad[,rq.fields[i]],unique(metad[,rq.fields[i]]) )
         colnames(tmp.met) <- paste(rq.fields[i],colnames(tmp.met),sep="@")
         meta4cellexalvr <- cbind(meta4cellexalvr,tmp.met)
     }

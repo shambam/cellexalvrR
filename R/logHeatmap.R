@@ -29,7 +29,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	if ( !is.null(genes)){
 		if ( file.exists(genes)) {
-			genes = as.vector(read.delim(genes)[,1])
+			genes = as.vector(utils::read.delim(genes)[,1])
 		}
 	}
 
@@ -68,7 +68,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	  i =  +1
 	  if ( max == i ){
 		  message( paste( "An important log file is missing", cellexalObj@usedObj$sessionRmdFiles[1] ))
-	      last
+		  break
 	  }
 	 }
 

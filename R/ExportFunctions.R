@@ -47,15 +47,15 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		if ( ! file.exists( ofile )) {
         	rq.tring <- NULL
 
-        	if(entropy(as.matrix(cellexalObj@mds[[i]]))<0){
-	            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))<0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
             	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
 
-        	if(entropy(as.matrix(cellexalObj@mds[[i]]))>0){
-	            ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
+        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))>0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
             	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
@@ -84,11 +84,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function
-		mdc = data.frame(
-				gene_id= cellexalObj@dat@i +1, 
-				cell_id = toColNums( cellexalObj@dat ), 
-				value= cellexalObj@dat@x
-		)
+		mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@dat )
 		
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
@@ -97,18 +93,18 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 		
-		dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+		RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
         
-		dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+		RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
 
 		RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 		RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
 
-		dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
-		dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
+		RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+		RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
 		
-		dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
-		dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+		RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+		RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
 
 		
     	RSQLite::dbDisconnect(con)

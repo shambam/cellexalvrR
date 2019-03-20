@@ -59,7 +59,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	  Sys.sleep( 10)
 	  i =  +1
 	  if ( max == i )
-	    last
+	    break
 	}
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
@@ -86,7 +86,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	## if you give me a gene list here you will get a GO analysis ;-)
 	if ( ! is.null(genes)){
 		if ( file.exists(genes)) {
-			genes = as.vector(read.delim(genes)[,1])
+			genes = as.vector(utils::read.delim(genes)[,1])
 		}
 		cellexalObj = ontologyLogPage(cellexalObj, genes, ... )
 	}
