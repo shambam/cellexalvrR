@@ -3,13 +3,13 @@
 \docType{methods}
 \name{lockedLoad}
 \alias{lockedLoad}
-\alias{lockedLoad,cellexalvrR-method}
+\alias{lockedLoad,character-method}
 \title{description of function lockedSave}
 \arguments{
 \item{cellexalObj}{the file containing the cellexalObj data}
 }
 \description{
 Loading the RData in the VR tool might create a problem. Hence this function will
-  save the cellexalObj in a controlled way.
+save the cellexalObj in a controlled way.
 }
 \keyword{lockedSave}

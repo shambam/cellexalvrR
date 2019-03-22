@@ -3,7 +3,7 @@
 \docType{methods}
 \name{filename}
 \alias{filename}
-\alias{filename,cellexalvrR-method}
+\alias{filename,character-method}
 \title{description of function filename}
 \usage{
 filename(str)

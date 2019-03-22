@@ -18,7 +18,9 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{the expression matrix}
+\item{\code{data}}{the expression matrix (unused!)}
+
+\item{\code{dat}}{the spearse matrix}
 
 \item{\code{meta.cell}}{the cell level meta information (matrix)}
 
@@ -27,6 +29,10 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 \item{\code{userGroups}}{internally used to store the user defined groupings from the 3D process (data.frame)}
 
 \item{\code{colors}}{a list for each userGroups entry defining the color sheme for this grouping}
+
+\item{\code{groupSelectedFrom}}{local info to store which usergroup has been selected from which mds structure}
+
+\item{\code{usedObj}}{a generic storage list collecting objects not fitting into any other slot}
 
 \item{\code{mds}}{a list of all mds objects to be visible in the 3D application}
 

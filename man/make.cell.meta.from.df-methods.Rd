@@ -3,7 +3,7 @@
 \docType{methods}
 \name{make.cell.meta.from.df}
 \alias{make.cell.meta.from.df}
-\alias{make.cell.meta.from.df,cellexalvrR-method}
+\alias{make.cell.meta.from.df,data.frame-method}
 \title{description of function make.cell.meta.from.df}
 \arguments{
 \item{metad}{A dataframe of per cell metadata}

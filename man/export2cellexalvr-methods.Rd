@@ -5,10 +5,19 @@
 \alias{export2cellexalvr}
 \alias{export2cellexalvr,cellexalvrR-method}
 \title{description of function export2cellexalvr}
+\usage{
+\S4method{export2cellexalvr}{cellexalvrR}(cellexalObj, path, forceDB = F,
+  VRpath = NULL)
+}
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
 
+\item{path}{the oputpath to store the data in}
+
 \item{forceDB}{re-write the db even if it exisis (default =F)}
+
+\item{VRpath}{in order to re-color the data in the VR process the 
+VR process needs the grouping names which will be exported if we get the correct path here}
 }
 \description{
 Creates the base files needed to run the VR environment

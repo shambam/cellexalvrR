@@ -3,8 +3,11 @@
 \docType{methods}
 \name{renew}
 \alias{renew}
-\alias{renew,cellexalvr-method}
+\alias{renew,cellexalvrR-method}
 \title{description of function renew}
+\usage{
+\S4method{renew}{cellexalvrR}(x)
+}
 \arguments{
 \item{x}{the object you want to update}
 }

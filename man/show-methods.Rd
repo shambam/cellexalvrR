@@ -3,7 +3,7 @@
 \docType{methods}
 \name{show}
 \alias{show}
-\alias{show,cellexalvr-method}
+\alias{show,cellexalvrR-method}
 \title{show the object contents}
 \arguments{
 \item{object}{the cellexalvr object}
@@ -12,5 +12,5 @@
 nothing
 }
 \description{
-show the cellexalvr
+show the cellexalvrR
 }

@@ -3,7 +3,7 @@
 \docType{methods}
 \name{cleanParts}
 \alias{cleanParts}
-\alias{cleanParts,cellexalvrR-method}
+\alias{cleanParts,character-method}
 \title{cleanParts removes all parts when storing the whole object.}
 \arguments{
 \item{path}{the outpath}

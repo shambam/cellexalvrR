@@ -3,7 +3,7 @@
 \docType{methods}
 \name{partFname}
 \alias{partFname}
-\alias{partFname,cellexalvrR-method}
+\alias{partFname,character-method}
 \title{description of internally used function partFname}
 \arguments{
 \item{part}{to get the fanme for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )}

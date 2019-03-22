@@ -3,7 +3,7 @@
 \docType{methods}
 \name{useInbuiltGOIlists}
 \alias{useInbuiltGOIlists}
-\alias{useInbuiltGOIlists,cellexalvr-method}
+\alias{useInbuiltGOIlists,cellexalvrR-method}
 \title{description of function useInbuiltGOIlists}
 \arguments{
 \item{x, }{cellexalvr object}

@@ -3,7 +3,7 @@
 \docType{methods}
 \name{rmdLink}
 \alias{rmdLink}
-\alias{rmdLink,cellexalvrR-method}
+\alias{rmdLink,character-method}
 \title{easily create an Rmd link that opens in a new window.}
 \arguments{
 \item{name}{the displayed text}

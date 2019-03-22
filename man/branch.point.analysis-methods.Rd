@@ -3,8 +3,12 @@
 \docType{methods}
 \name{branch.point.analysis}
 \alias{branch.point.analysis}
-\alias{branch.point.analysis,cellexalvrR-method,character-method}
-\title{description of function branch.point.analysis}
+\alias{branch.point.analysis,character-method}
+\title{simple preload cellexalObj}
+\usage{
+\S4method{branch.point.analysis}{character}(cellexalObj, cellidfile,
+  maxsig, outfile)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
@@ -15,9 +19,7 @@
 \item{outfile}{The name of the output file}
 }
 \description{
-Performs a branch-point analysis identifying genes that have opposite changes in
-
-two branches stemming from one trunk in a pseudotime analysis
+simple preload the cellexalObj and run the cellexalvrR function afterwards
 }
 \keyword{analysis}
 \keyword{branch}

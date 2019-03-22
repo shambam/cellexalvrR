@@ -3,7 +3,7 @@
 \docType{methods}
 \name{reorder.samples}
 \alias{reorder.samples}
-\alias{reorder.samples,cellexalvr-method}
+\alias{reorder.samples,cellexalvrR-method}
 \title{simple reordering of the samples}
 \arguments{
 \item{dataObj}{the cellexalvr object}

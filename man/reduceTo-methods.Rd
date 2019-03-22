@@ -3,7 +3,7 @@
 \docType{methods}
 \name{reduceTo}
 \alias{reduceTo}
-\alias{reduceTo,cellexalvr-method}
+\alias{reduceTo,cellexalvrR-method}
 \title{description of function reduceTo}
 \arguments{
 \item{x}{the cellexalvrR object}
