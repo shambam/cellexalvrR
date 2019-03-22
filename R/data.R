@@ -1,8 +1,19 @@
-#' @importFrom methods new
-#' @importFrom utils write.table
-#' @importFrom AnnotationDbi keys mapIds
-#' @import Matrix
-#' @importFrom graphics plot
+#' @importFrom AnnotationDbi mapIds
+#' @importFrom DDRTree DDRTree
+#' @importFrom FastWilcoxTest CorMatrix StatTest collapse meltSparseMatrix
+#' @importFrom Matrix Matrix drop0 rowSums t
+#' @importFrom RSQLite dbConnect dbDisconnect dbSendStatement dbWriteTable
+#' @importFrom Seurat CreateSeuratObject FindAllMarkers SetIdent
+#' @importFrom alphashape3d ashape3d
+#' @importFrom bookdown render_book
+#' @importFrom entropy entropy
+#' @importFrom grDevices png rainbow
+#' @importFrom graphics hist
+#' @importFrom knitr kable
+#' @importFrom methods new slotNames validObject
+#' @importFrom stats cor hclust
+#' @importFrom stringr str_replace_all str_split
+#' @importFrom topGO GenTable runTest
 NULL
 
 

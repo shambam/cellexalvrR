@@ -22,6 +22,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	
 	ofile = file.path( path, "cellexalObj.RData")
 	if ( ! file.exists( ofile) ){
+		cellexalObj@outpath = ''
 		save(cellexalObj,file=ofile )
 	}
     

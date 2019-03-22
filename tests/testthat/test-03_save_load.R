@@ -30,7 +30,7 @@ tryCatch( {
 			cellexalObj2 =loadObject( datafile, maxwait= 1 )
 		},  error = function(err)  {
 			file.remove( lockfile )
-			expect_equal( str_extract( as.character(paste(err)), ' Could not obtain access to locked file'),
+			expect_equal( stringr::str_extract( as.character(paste(err)), ' Could not obtain access to locked file'),
 					" Could not obtain access to locked file",
 					'Could not obtain access to locked file with lock')
 		} )

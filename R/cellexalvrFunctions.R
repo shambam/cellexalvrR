@@ -56,11 +56,6 @@ setMethod('loadObject', signature = c ('character'),
 			#tmp = new('cellexalvrR')
 			#reload = 0
 			
-			tryCatch({file.exists(cellexalObj@outpath ) }, error= { 
-						cellexalObj = renew(cellexalObj)
-						cellexalObj@outpath = normalizePath(dirname( fname ))
-					} )
-			
 			if ( ! file.exists(cellexalObj@outpath )) {
 				cellexalObj@outpath = normalizePath(dirname( fname ))
 			}else {

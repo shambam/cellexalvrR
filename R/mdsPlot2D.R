@@ -28,7 +28,7 @@ setMethod('mdsPlots2D', signature = c ('cellexalvrR'),
 	}
 	if ( ! file.exists( MDS1 ) ){
 		grDevices::png( file= MDS1, width=1000, height=1000)
-		plot(
+		graphics::plot(
 				cellexalObj@mds[[gInfo$mds]][,1], cellexalObj@mds[[gInfo$mds]][,2], col= c('grey',gInfo$col)[ gInfo$grouping ],
 				main = paste( gInfo$mds, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
 		grDevices::dev.off()
@@ -38,7 +38,7 @@ setMethod('mdsPlots2D', signature = c ('cellexalvrR'),
 	MDS2 = file.path( sessionPath , 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$mds, "2_3", 'png' ) ))
 	if ( ! file.exists( MDS2 ) ){
 		grDevices::png( file= MDS2, width=1000, height=1000)
-		plot(
+		graphics::plot(
 				cellexalObj@mds[[gInfo$mds]][,2], cellexalObj@mds[[gInfo$mds]][,3],col= c('grey',gInfo$col)[ gInfo$grouping ],
 				main = paste( gInfo$mds, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
 		grDevices::dev.off()

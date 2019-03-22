@@ -15,7 +15,7 @@ setGeneric('sessionPath', ## Name
 
 setMethod('sessionPath', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj, sessionName=NULL ) {
-			#browser()
+			
 			
 			if ( ! is.null(sessionName) ){
 				if ( is.null(cellexalObj@usedObj$sessionName)){
@@ -32,6 +32,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				}
 			}
 			if ( is.null(cellexalObj@usedObj$sessionName )) {
+				browser()
 				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
 				cellexalObj@usedObj$sessionRmdFiles = NULL
 				cellexalObj@usedObj$sessionPath = NULL
