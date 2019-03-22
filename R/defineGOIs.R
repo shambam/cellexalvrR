@@ -31,7 +31,7 @@ setMethod('defineGOIs', signature = c ('cellexalvrR'),
 			}
 			
 			#OK <- which(is.na(match( rownames(cellexalObj@dat), genes)) == F)
-			OK_genes <- match( genes, rownames(cellexalObj@dat) )
+			OK_genes <- match ( genes, rownames(cellexalObj@dat) )
 			OK <- OK_genes[which(is.na(OK_genes) ==F)]
 			n = rep(NA, nrow(cellexalObj@meta.gene))
 			#browser()

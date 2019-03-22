@@ -1,5 +1,5 @@
 #' @name rmdLink
-#' @aliases rmdLink,cellexalvrR-method
+#' @aliases rmdLink,character-method
 #' @rdname rmdLink-methods
 #' @docType methods
 #' @description creates a linke in the structure [<name>](<link><name>){target='blank'}

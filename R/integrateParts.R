@@ -102,7 +102,7 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 
 
 #' @name partFname
-#' @aliases partFname,cellexalvrR-method
+#' @aliases partFname,character-method
 #' @rdname partFname-methods
 #' @docType methods
 #' @description returns the possible outfile for the partial saving of the cellexal object
@@ -146,7 +146,7 @@ setMethod('partFname', signature = c ('character'),
 		} )
 
 #' @name cleanParts
-#' @aliases cleanParts,cellexalvrR-method
+#' @aliases cleanParts,character-method
 #' @rdname cleanParts-methods
 #' @docType methods
 #' @description remove all parts from the file system

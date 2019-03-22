@@ -18,12 +18,6 @@ if ( ! isGeneric('make.cellexalvr.heatmap.list') ){setGeneric('make.cellexalvr.h
 			}
 	) }
 
-setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
-		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
-			cvrObj <- loadObject( cvrObj )
-			make.cellexalvr.heatmap.list(cvrObj,cellidfile,num.sig,outfile, stats_method )
-		}
-)
 
 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
@@ -37,3 +31,20 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
 		} )
 
+#' @describeIn make.cellexalvr.heatmap.list cellexalvrR
+#' @docType methods
+#' @description  preload the cellexalObj.RData file
+#' @param cvrObj the cellexalObj.RData file
+#' @param cellidfile file containing cell IDs or the grouping name
+#' @param num.sig The number of differentials to be returned
+#' @param outfile The name of the output file
+#' @param stats_method the stats method to use see getDifferentials()
+#' @title Create the gene list files for VR
+#' @keywords differential, gene list
+#' @export make.cellexalvr.heatmap.list
+setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
+		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
+			cvrObj <- loadObject( cvrObj )
+			make.cellexalvr.heatmap.list(cvrObj,cellidfile,num.sig,outfile, stats_method )
+		}
+)

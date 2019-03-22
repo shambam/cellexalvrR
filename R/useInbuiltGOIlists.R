@@ -1,5 +1,5 @@
 #' @name useInbuiltGOIlists
-#' @aliases useInbuiltGOIlists,cellexalvr-method
+#' @aliases useInbuiltGOIlists,cellexalvrR-method
 #' @rdname useInbuiltGOIlists-methods
 #' @docType methods
 #' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs', epigenetic factors

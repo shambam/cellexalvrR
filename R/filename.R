@@ -1,5 +1,5 @@
 #' @name filename
-#' @aliases filename,cellexalvrR-method
+#' @aliases filename,character-method
 #' @rdname filename-methods
 #' @docType methods
 #' @description simple function to join by '.' and remove whitespace.

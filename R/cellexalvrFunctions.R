@@ -1,20 +1,20 @@
-#' @name loadObject
-#' @aliases loadObject,cellexalvrR-method
-#' @rdname loadObject-methods
-#' @docType methods
-#' @description  Loads the cellexalvr object, if the fname is a file
-#' @param fname the file to load or a cellexalvr object
-#' @param fname  TEXT MISSING
-#' @param maxwait  TEXT MISSING default=50
-#' @keywords load
-#' @title description of function loadObject
-#' @export loadObject
+
 if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
 	function ( fname, maxwait=50 ) { 
 		standardGeneric('loadObject') 
 	}
 ) }
 
+#' @name loadObject
+#' @aliases loadObject,character-method
+#' @rdname loadObject-methods
+#' @docType methods
+#' @description  Loads the cellexalvr object, if the fname is a file
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title description of function loadObject
+#' @export loadObject
 setMethod('loadObject', signature = c ('character'),
 		definition = function ( fname, maxwait=50 ) {
 			if ( file.exists( fname) ) {
@@ -72,10 +72,19 @@ setMethod('loadObject', signature = c ('character'),
 			cellexalObj
 		} )
 
+#' @describeIn loadObject cellexalvrR
+#' @docType methods
+#' @description just returns the cellexalObj
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title description of function loadObject
+#' @export loadObject
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
 			return (fname)
 } )
+
 #' @name set.specie
 #' @aliases set.specie,cellexalvrR-method
 #' @rdname set.specie-methods
@@ -110,6 +119,13 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 	cellexalObj@specie <- specie
 	cellexalObj
 } )
+
+
+if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
+	function (cellexalObj, gname, output, is.smarker=F, cpp=T) { 
+		standardGeneric('get.genes.cor.to') 
+	}
+) }
 #' @name get.genes.cor.to
 #' @aliases get.genes.cor.to,cellexalvrR-method
 #' @rdname get.genes.cor.to-methods
@@ -119,26 +135,10 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 #' @param gname The required gene
 #' @param output the outfile
 #' @param is.smarker Whether the supplied gene is a surface marker (default =F)
-#' @param gname  TEXT MISSING
-#' @param output  TEXT MISSING
-#' @param is.smarker  TEXT MISSING default=F
 #' @param cpp use the c++ cor implementation (default = TRUE)
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
 #' @export get.genes.cor.to
-if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
-	function (cellexalObj, gname, output, is.smarker=F, cpp=T) { 
-		standardGeneric('get.genes.cor.to') 
-	}
-) }
-
-setMethod('get.genes.cor.to', signature = c ('character'),
-		definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
-			cellexalObj <- loadObject(cellexalObj)
-			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp)
-		}
-)
-
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
 	
@@ -186,3 +186,20 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	utils::write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 	invisible(tab)
 } )
+
+#' @describeIn get.genes.cor.to cellexalvrR
+#' @docType methods
+#' @description  preload the cellexalObj
+#' @param cellexalObj the cellexalObj.RData file
+#' @param gname The required gene
+#' @param output the outfile
+#' @param is.smarker Whether the supplied gene is a surface marker (default =F)
+#' @param cpp use the c++ cor implementation (default = TRUE)
+#' @title description of function get.genes.cor.to (character)
+#' @export 
+setMethod('get.genes.cor.to', signature = c ('character'),
+		definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
+			cellexalObj <- loadObject(cellexalObj)
+			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp)
+		}
+)

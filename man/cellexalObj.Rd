@@ -11,4 +11,4 @@ cellexalObj
 \description{
 THE test dataset
 }
-\keyword{datasets}
+\keyword{data}

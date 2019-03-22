@@ -1,8 +1,8 @@
 #' @name show
-#' @aliases show,cellexalvr-method
+#' @aliases show,cellexalvrR-method
 #' @rdname show-methods
 #' @docType methods
-#' @description  show the cellexalvr
+#' @description  show the cellexalvrR
 #' @param object the cellexalvr object
 #' @return nothing
 #' @title show the object contents

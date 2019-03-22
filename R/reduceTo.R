@@ -1,5 +1,5 @@
 #' @name reduceTo
-#' @aliases reduceTo,cellexalvr-method
+#' @aliases reduceTo,cellexalvrR-method
 #' @rdname reduceTo-methods
 #' @docType methods
 #' @description  The main reduction function can drop both samples and genes using the colnames /

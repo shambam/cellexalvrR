@@ -1,5 +1,13 @@
+
+if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
+	function ( x ) {
+		standardGeneric('renew')
+	}
+) }
+
+
 #' @name renew
-#' @aliases renew,cellexalvr-method
+#' @aliases renew,cellexalvrR-method
 #' @rdname renew-methods
 #' @docType methods
 #' @description  update the class definition by re-creating the instance This version also makes sure,
@@ -7,17 +15,6 @@
 #' @param x the object you want to update
 #' @title description of function renew
 #' @export renew
-if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
-	function ( x ) {
-		standardGeneric('renew')
-	}
-) }
-setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
-    definition = function (x) {
-		class(x) = 'cellexalvrR'
-		renew(x)
-	} )
-
 setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
 			#ret <- new("cellexalvrR",data=as.matrix(x@dat),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
@@ -25,32 +22,32 @@ setMethod('renew', signature = c ('cellexalvrR'),
 			if( isS4(x)) {
 				## OK no R6 then ;-)
 				ret = x
-				tryCatch({  validObject(x) } ,  error = function(e) {
+				tryCatch({  methods::validObject(x) } ,  error = function(e) {
 
 				ret <- new("cellexalvrR",data=as.matrix(x@dat),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
 				#browser()
-				if( .hasSlot(x,'userGroups') ){
+				if( methods::.hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups
 				}
-				if( .hasSlot(x,'colors') ){
+				if( methods::.hasSlot(x,'colors') ){
 					ret@colors = x@colors
 				}
-				if( .hasSlot(x,'usedObj') ){
+				if( methods::.hasSlot(x,'usedObj') ){
 					ret@usedObj = x@usedObj
 				}
-				if( .hasSlot(x,'specie') ){
+				if( methods::.hasSlot(x,'specie') ){
 					ret@specie = x@specie
 				}
 				} )
 			}else {
-				ret <- new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
-				if( .hasSlot(x,'userGroups') ){
+				ret <- methods::new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
+				if( methods::.hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups
 				}
-				if( .hasSlot(x,'colors') ){
+				if( methods::.hasSlot(x,'colors') ){
 					ret$colors = x$colors
 				}
-				if( .hasSlot(x,'usedObj') ){
+				if( methods::.hasSlot(x,'usedObj') ){
 
 					ret$usedObj = x$usedObj
 				}
@@ -64,3 +61,15 @@ setMethod('renew', signature = c ('cellexalvrR'),
 
 			invisible(ret)
 }  )
+
+#' @describeIn renew cellexalvrR
+#' @docType methods
+#' @description renew the OLD cellexalvr objects
+#' @param x the old cellexalvr (not cellexalvrR) object
+#' @title description of function renew
+#' @export renew
+setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
+		definition = function (x) {
+			class(x) = 'cellexalvrR'
+			renew(x)
+		} )

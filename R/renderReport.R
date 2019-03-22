@@ -90,7 +90,12 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 } )
 
 
-
+#' @describeIn renderReport cellexalvrR
+#' @docType methods
+#' @description preload the cellexalObj
+#' @param cellexalObj the cellexal.RData file 
+#' @title description of function renderReport
+#' @export 
 setMethod('renderReport', signature = c ('character'),
 		definition = function (cellexalObj) {
 			cellexalObj <- loadObject(cellexalObj)

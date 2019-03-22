@@ -1,3 +1,13 @@
+
+if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
+			function (cellexalObj,cellidfile,
+					deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) { 
+				standardGeneric('getDifferentials') 
+			}
+	) 
+}
+
 #' @name getDifferentials
 #' @aliases getDifferentials,cellexalvrR-method
 #' @rdname getDifferentials-methods
@@ -14,23 +24,6 @@
 #' @keywords DEGs
 #' @title description of function getDifferentials
 #' @export getDifferentials
-if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
-			function (cellexalObj,cellidfile,
-					deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) { 
-				standardGeneric('getDifferentials') 
-			}
-	) }
-
-setMethod('getDifferentials', signature = c ('character'),
-		definition = function (cellexalObj,cellidfile,
-				deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
-			cellexalObj <- loadObject(cellexalObj)
-			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
-		}
-)
-
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
@@ -158,10 +151,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			if ( deg.method != 'Linear' ) {
 				genes_list <- split( as.vector(all_markers[,'gene']), all_markers[,'cluster'] )
 				ret_genes =  ceiling(num.sig / length(table(grp.vec)))
-			
+				
 				if ( ret_genes < 1)
 					ret_genes = 1
-			
+				
 				top_genes <- function( x ) {
 					if ( length(x) == 0) {
 						NA
@@ -201,7 +194,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				hc <- stats::hclust(stats::as.dist( 1- stats::cor(tab, method='pearson') ),method = 'ward.D2')
 				deg.genes = rownames(loc@dat)[hc$order]
 			}
-	
+			
 			if ( length(deg.genes) == 0){
 				message('deg.genes no entries - fix that')
 				if ( interactive() ) {
@@ -223,4 +216,28 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			
 			deg.genes
-		} )
+		}
+)
+
+
+#' @describeIn getDifferentials cellexalvrR
+#' @docType methods
+#' @description preload the cellexalObj
+#' @param cellexalObj the cellexal.RData file
+#' @param cellidfile file containing cell IDs
+#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")
+#' @param num.sig number of differnetial genes to return (250)
+#' @param Log log the results (default=TRUE)
+#' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
+#' @param minPct the minium percent expressing cells in a group (default 0.1)
+#' @keywords DEGs
+#' @title description of function getDifferentials
+#' @export getDifferentials
+setMethod('getDifferentials', signature = c ('character'),
+		definition = function (cellexalObj,cellidfile,
+				deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
+			cellexalObj <- loadObject(cellexalObj)
+			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
+		}
+)

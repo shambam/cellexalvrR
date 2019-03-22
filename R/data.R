@@ -1,3 +1,11 @@
+#' @importFrom methods new
+#' @importFrom utils write.table
+#' @importFrom AnnotationDbi keys mapIds
+#' @import Matrix
+#' @importFrom graphics plot
+NULL
+
+
 #' A list of mouse transcription factors.
 #'
 #' A list of mouse transcription factors. Used when generating TF networks
@@ -8,7 +16,12 @@
 #'   ...
 #' }
 #' @source \url{http://bioinfo.life.hust.edu.cn/AnimalTFDB/}
+#' @keywords data
 "mouse.tfs"
+
+globalVariables("mouse.tfs", 'cellexalvrR' , add = TRUE)
+
+NULL
 
 #' A list of human transcription factors.
 #'
@@ -20,7 +33,11 @@
 #'   ...
 #' }
 #' @source \url{http://bioinfo.life.hust.edu.cn/AnimalTFDB/}
+#' @keywords data
 "human.tfs"
+
+globalVariables("human.tfs", 'cellexalvrR' , add = TRUE)
+
 
 #' @name Epigenetic
 #' @title A simple table containing the data from http://epifactors.autosome.ru/ as from 21st September 2017
@@ -28,8 +45,10 @@
 #' @docType data
 #' @usage Epigenetic
 #' @format data.frame
+#' @keywords data
 'Epigenetic'
 
+globalVariables("Epigenetic", 'cellexalvrR' , add = TRUE)
 
 #' @name CellCycle
 #' @title A simple table containing the Human and mouse orthologe CellCycle genes from PMID17994010
@@ -41,8 +60,10 @@
 #' @docType data
 #' @usage CellCycle
 #' @format data.frame
+#' @keywords data
 'CellCycle'
 
+globalVariables("CellCycle", 'cellexalvrR' , add = TRUE)
 
 #' @name cellexalObj
 #' @title The cellexlvrR object described in the vignette
@@ -50,7 +71,12 @@
 #' @docType data
 #' @usage cellexalObj
 #' @format cellexalvrR
+#' @keywords data
 'cellexalObj' 
+
+globalVariables("cellexalObj", 'cellexalvrR' , add = TRUE)
+
+
 
 #' @name human.CellSurface
 #' @title A simple list containing the human ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
@@ -58,7 +84,11 @@
 #' @docType data
 #' @usage human.CellSurface
 #' @format vector
+#' @keywords data
 "human.CellSurface"
+
+globalVariables("human.CellSurface", 'cellexalvrR' , add = TRUE)
+
 
 #' @name mouse.CellSurface
 #' @title A simple list containing the mouse ENTREZ.gene.symbols from 'A Mass Spectrometric-Derived Cell Surface Protein Atlas' plos 2015
@@ -66,4 +96,8 @@
 #' @docType data
 #' @usage mouse.CellSurface
 #' @format vector
+#' @keywords data
 "mouse.CellSurface"
+
+globalVariables("mouse.CellSurface", 'cellexalvrR' , add = TRUE)
+

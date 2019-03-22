@@ -1,3 +1,9 @@
+setGeneric('logNetwork', ## Name
+	function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
+		standardGeneric('logNetwork')
+	}
+)
+
 #' @name logNetwork
 #' @aliases logNetwork,cellexalvrR-method
 #' @rdname logNetwork-methods
@@ -10,19 +16,6 @@
 #' @param ... options you want to send to the ontologyLogPage() function
 #' @title description of function logNetwork
 #' @export
-setGeneric('logNetwork', ## Name
-	function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
-		standardGeneric('logNetwork')
-	}
-)
-
-setMethod('logNetwork', signature = c ('character'),
-		definition = function (cellexalObj, genes = NULL, png, grouping, ... ) {
-			cellexalObj <- loadObject(cellexalObj)
-			logNetwork(cellexalObj, genes, png, grouping, ... )
-		}
-)
-
 setMethod('logNetwork', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ... ) {
 	## almost the same page as in the logHeatmap function - including a GO analyis?
@@ -99,3 +92,21 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	
 	cellexalObj
 } )
+
+
+#' @describeIn logNetwork cellexalvrR
+#' @docType methods
+#' @description preload the cellexalObj.RData file
+#' @param cellexalObj the cellexalObj.RData file
+#' @param genes the genes displayed on the network
+#' @param png the VR generated network (png)
+#' @param grouping the grouping file used to create this network
+#' @param ... options you want to send to the ontologyLogPage() function
+#' @title description of function logNetwork
+#' @export
+setMethod('logNetwork', signature = c ('character'),
+		definition = function (cellexalObj, genes = NULL, png, grouping, ... ) {
+			cellexalObj <- loadObject(cellexalObj)
+			logNetwork(cellexalObj, genes, png, grouping, ... )
+		}
+)

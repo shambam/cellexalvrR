@@ -1,18 +1,21 @@
+
+if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
+	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { 
+		standardGeneric('export2cellexalvr') 
+	}
+) }
 #' @name export2cellexalvr
 #' @aliases export2cellexalvr,cellexalvrR-method
 #' @rdname export2cellexalvr-methods
 #' @docType methods
 #' @description  Creates the base files needed to run the VR environment
 #' @param cellexalObj A cellexalvr object
+#' @param path the oputpath to store the data in
 #' @param forceDB re-write the db even if it exisis (default =F)
+#' @param VRpath in order to re-color the data in the VR process the 
+#' VR process needs the grouping names which will be exported if we get the correct path here
 #' @title description of function export2cellexalvr
 #' @export export2cellexalvr
-if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
-	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { 
-		standardGeneric('export2cellexalvr') 
-	}
-) }
-
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
 
@@ -117,25 +120,26 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	invisible(cellexalObj)
 
 } )
-#' @name checkVRfiles
-#' @aliases checkVRfiles,cellexalvrR-method
-#' @rdname checkVRfiles-methods
-#' @docType methods
-#' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
-#' @description  function if any is missing.
-#' @param cellexalObj the cellexal object
-#' @param path the outpath to check
-#' @param cellexalvr  TEXT MISSING
-#' @param path  TEXT MISSING
-#' @title description of function checkVRfiles
-#' @export checkVRfiles
-if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
-	function ( cellexalvr, path ) { 
-		standardGeneric('checkVRfiles') 
-	}
-) }
 
-setMethod('checkVRfiles', signature = c ('cellexalvrR'),
-	definition = function ( cellexalvr, path ) {
-	export2cellexalvr( cellexalvr, path, forceDB=F )
-} )
+##' @name checkVRfiles
+##' @aliases checkVRfiles,cellexalvrR-method
+##' @rdname checkVRfiles-methods
+##' @docType methods
+##' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
+##' @description  function if any is missing.
+##' @param cellexalObj the cellexal object
+##' @param path the outpath to check
+##' @param cellexalvr  TEXT MISSING
+##' @param path  TEXT MISSING
+##' @title description of function checkVRfiles
+##' @export checkVRfiles
+#if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
+#	function ( cellexalvr, path ) { 
+#		standardGeneric('checkVRfiles') 
+#	}
+#) }
+#
+#setMethod('checkVRfiles', signature = c ('cellexalvrR'),
+#	definition = function ( cellexalvr, path ) {
+#	export2cellexalvr( cellexalvr, path, forceDB=F )
+#} )

@@ -1,3 +1,10 @@
+
+if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
+	function ( cellexalObj, path ) { 
+		standardGeneric('exportUserGroups4vr') 
+	}
+) }
+
 #' @name exportUserGroups4vr
 #' @aliases exportUserGroups4vr,cellexalvrR-method
 #' @rdname exportUserGroups4vr-methods
@@ -9,25 +16,6 @@
 #' @param path the outpath
 #' @title description of function exportUserGroups4vr
 #' @export exportUserGroups4vr
-if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## Name
-	function ( cellexalObj, path ) { 
-		standardGeneric('exportUserGroups4vr') 
-	}
-) }
-
-setMethod('exportUserGroups4vr', signature = c ('character'),
-		definition = function (cellexalObj, path) {
-			## This is the first function the VR does actually run in the R environment.
-			if ( file.exists( file.path(path, 'cellexalObj.RData'))){
-				cellexalObj <- loadObject(file.path(path, 'cellexalObj.RData'))
-			}else {
-				cellexalObj <- loadObject(cellexalObj)
-			}
-			exportUserGroups4vr( cellexalObj, path )
-		}
-)
-
-
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
 	#cellexalObj <- loadObject(cellexalObj)
@@ -66,3 +54,22 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	
 	ret
 } )
+
+#' @describeIn exportUserGroups4vr cellexalvrR
+#' @docType methods
+#' @description simply preload the cellexalObj before running the cellexalvrR specififc function
+#' @param cellexalObj the cellexalObj.RData file
+#' @param path the outpath
+#' @title description of function exportUserGroups4vr
+#' @export exportUserGroups4vr
+setMethod('exportUserGroups4vr', signature = c ('character'),
+		definition = function (cellexalObj, path) {
+			## This is the first function the VR does actually run in the R environment.
+			if ( file.exists( file.path(path, 'cellexalObj.RData'))){
+				cellexalObj <- loadObject(file.path(path, 'cellexalObj.RData'))
+			}else {
+				cellexalObj <- loadObject(cellexalObj)
+			}
+			exportUserGroups4vr( cellexalObj, path )
+		}
+)

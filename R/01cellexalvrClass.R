@@ -6,13 +6,17 @@
 #' It e.g. does not implement normalization or mds methods, but expects all data to be preprocessed.
 #' 
 #' @name cellexalvrR-class
+#' @rdname FastWilcoxTest-class
 #' @title cellexalvrR class definition
 #' @description  The R backend for the CellexalVR 3D application
-#' @slot data the expression matrix
+#' @slot data the expression matrix (unused!)
+#' @slot dat the spearse matrix
 #' @slot meta.cell the cell level meta information (matrix)
 #' @slot meta.gene the gene level meta information (matrix)
 #' @slot userGroups internally used to store the user defined groupings from the 3D process (data.frame)
 #' @slot colors a list for each userGroups entry defining the color sheme for this grouping
+#' @slot groupSelectedFrom local info to store which usergroup has been selected from which mds structure
+#' @slot usedObj a generic storage list collecting objects not fitting into any other slot
 #' @slot mds a list of all mds objects to be visible in the 3D application
 #' @slot index a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application
 #' @slot tfs depricated not used any more
@@ -55,8 +59,9 @@ setClass(Class="cellexalvrR",
 
 
 
-#' @name cellexalvr
+#' @name cellexalvr-class
 #' @title cellexalvr class definition (old)
+#' @description This class definition is totally empty and only incuded here to allow for a smooth update of the old objects.
 #' @exportClass cellexalvr
 setClass( 
 		Class='cellexalvr', 
@@ -66,54 +71,4 @@ setClass(
 		contains='cellexalvrR'
 )
 
-##' @name print
-##' @aliases print,cellexalvr-method
-##' @rdname print-methods
-##' @docType methods
-##' @description  print the cellexalvr
-##' @param x the cellexalvr object
-##' @return nothing
-##' @title description of function print
-##' @export print
-#setMethod('print', signature = c ('cellexalvr'),
-#		definition = function (x) {
-#			cat (paste("An object of class", class(x)),"\n" )
-#			#cat("named ",x@name,"\n")
-#			cat (paste( 'with',nrow(x@dat),'genes and', ncol(x@dat),' cells.'),"\n")
-#			cat (paste("Annotation datasets (",paste(dim(x@meta.gene),collapse=','),"): '",paste( colnames(x@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-#			cat (paste("Sample annotation (",paste(dim(x@meta.cell),collapse=','),"): '",paste( colnames(x@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-#			cat ( paste("There are",(ncol(x@userGroups)/2), "user groups stored" ),"\n")
-#			if ( length(names(x@mds)) > 0 ){
-#				cat ( "and", length(names(x@mds)), "mds object(s)\n")
-#			}
-#			cat (paste("Specie is set to", x@specie),"\n")
-#		}
-#)
 
-#' @name show
-#' @aliases show,cellexalvrR-method
-#' @rdname show-methods
-#' @docType methods
-#' @description  shows the cellexalvr contents
-#' @param x the cellexalvr object
-#' @return nothing
-#' @title description of function show
-#' @export show
-setMethod('show', signature = c ('cellexalvrR'),
-		definition = function (object) {
-			cat (paste("An object of class", class(object)),"\n" )
-			#cat("named ",x@name,"\n")
-			cat (paste( 'with',nrow(object@dat),'genes and', ncol(object@dat),' cells.'),"\n")
-			cat (paste("Annotation datasets (",paste(dim(object@meta.gene),collapse=','),"): '",paste( colnames(object@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat (paste("Sample annotation (",paste(dim(object@meta.cell),collapse=','),"): '",paste( colnames(object@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("There are",length(grep('order', colnames(object@userGroups), invert=T)), "user groups stored" ),":\n")
-			if ( ncol(object@userGroups) > 0 ) {
-				cat ( paste( collapse=", ", colnames(object@userGroups)) )
-			}
-			if ( length(names(object@mds)) > 0 ){
-				cat ( "and", length(names(object@mds)), "mds object(s)\n")
-			}
-			cat (paste("Specie is set to", object@specie),"\n")
-			
-		}
-)

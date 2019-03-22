@@ -1,5 +1,5 @@
 #' @name make.cell.meta.from.df
-#' @aliases make.cell.meta.from.df,cellexalvrR-method
+#' @aliases make.cell.meta.from.df,data.frame-method
 #' @rdname make.cell.meta.from.df-methods
 #' @docType methods
 #' @description  Creates a meta cell matrix from a supplied dataframe from required fields

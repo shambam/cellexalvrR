@@ -1,28 +1,40 @@
-#' @name branch.point.analysis
-#' @aliases branch.point.analysis,cellexalvrR-method,character-method
-#' @rdname branch.point.analysis-methods
-#' @docType methods
-#' @description  Performs a branch-point analysis identifying genes that have opposite changes in
-#' @description  two branches stemming from one trunk in a pseudotime analysis
-#' @param cellexalObj, cellexalvr object
-#' @param cellidfile file containing cell IDs
-#' @param maxsig The number of differentials to be returned
-#' @param outfile The name of the output file
-#' @keywords branch point analysis
-#' @title description of function branch.point.analysis
-#' @export branch.point.analysis
+
 if ( ! isGeneric('branch.point.analysis') ){setGeneric('branch.point.analysis', ## Name
 	function (cellexalObj, cellidfile,maxsig,outfile) { 
 		standardGeneric('branch.point.analysis') 
 	}
 ) }
+
+#' @name branch.point.analysis
+#' @aliases branch.point.analysis,character-method
+#' @rdname branch.point.analysis-methods
+#' @docType methods
+#' @description simple preload the cellexalObj and run the cellexalvrR function afterwards
+#' @param cellexalObj, cellexalvr object
+#' @param cellidfile file containing cell IDs
+#' @param maxsig The number of differentials to be returned
+#' @param outfile The name of the output file
+#' @keywords branch point analysis
+#' @title simple preload cellexalObj
+#' @export 
 setMethod('branch.point.analysis', signature = c ('character'),
 		definition = function (cellexalObj, cellidfile,maxsig,outfile) {
 			cellexalObj <- loadObject(cellexalObj)
 			branch.point.analysis( cellexalObj, cellidfile,maxsig,outfile )
 		}
 )
-			
+
+#' @describeIn branch.point.analysis cellexalvrR
+#' @docType methods
+#' @description  Performs a branch-point analysis identifying genes that have opposite changes in
+#' two branches stemming from one trunk in a pseudotime analysis
+#' @param cellexalObj, cellexalvr object
+#' @param cellidfile file containing cell IDs
+#' @param maxsig The number of differentials to be returned
+#' @param outfile The name of the output file
+#' @keywords branch point analysis
+#' @title description of function branch.point.analysis
+#' @export 
 setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile,maxsig,outfile) {
 

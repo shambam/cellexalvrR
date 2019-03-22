@@ -17,13 +17,6 @@ if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.networ
 	}
 ) }
 
-setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
-			cellexalObj2 <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter)
-		}
-)
-
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
 
@@ -74,9 +67,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
         sub.d <- dat[, rq.cells ]
         print(dim(sub.d))
 
-        inferred.pcor <- ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")
-        test.results <- network.test.edges(inferred.pcor,plot=F)
-        net <- extract.network(test.results, cutoff.ggm = cutoff.ggm )
+        inferred.pcor <- GeneNet::ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")
+        test.results <- GeneNet::network.test.edges(inferred.pcor,plot=F)
+        net <- GeneNet::extract.network(test.results, cutoff.ggm = cutoff.ggm )
 
         if(nrow(net)>top.n.inter){
             net <- net[1:top.n.inter,]
@@ -113,9 +106,28 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
         message("There are no networks to see here.")
         invisible(cellexalObj)
     }else{
-    write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
-    write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
+    utils::write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
+    utils::write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
     #write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
     }
 } )
+
+
+#' @describeIn make.cellexalvr.network cellexalvrR
+#' @docType methods
+#' @description preload the cellexalObj.RData file
+#' @param cellexalObj, cellexalvr object
+#' @param cellidfile file containing cell IDs
+#' @param outpath the outpath
+#' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
+#' @param top.n.inter get only the n top interations default=125
+#' @title description of function make.cellexalvr.network
+#' @keywords network construction
+#' @export make.cellexalvr.network
+setMethod('make.cellexalvr.network', signature = c ('character'),
+		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
+			cellexalObj2 <- loadObject(cellexalObj)
+			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter)
+		}
+)

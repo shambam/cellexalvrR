@@ -23,7 +23,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	save = FALSE
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
-		cellid <- read.delim(cellidfile,header=F)
+		cellid <- utils::read.delim(cellidfile,header=F)
 	
 		grp.vec <- as.vector(cellid[,2])
 		grps <- as.vector(unique(cellid[,2]))

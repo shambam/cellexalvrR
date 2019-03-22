@@ -39,11 +39,11 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 
 
 #' @name lockedLoad
-#' @aliases lockedLoad,cellexalvrR-method
+#' @aliases lockedLoad,character-method
 #' @rdname lockedLoad-methods
 #' @docType methods
 #' @description  Loading the RData in the VR tool might create a problem. Hence this function will
-#'   save the cellexalObj in a controlled way. 
+#' save the cellexalObj in a controlled way. 
 #' @param cellexalObj the file containing the cellexalObj data
 #' @title description of function lockedSave
 #' @keywords lockedSave
@@ -63,8 +63,8 @@ setMethod('lockedLoad', signature = c ('character'),
 			}
 			path = dirname(cellexalObj)
 			load( cellexalObj )
-			if ( is.na('dat', methods::slotNames(cellexalObj)) ){
-				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
+			if ( is.na(match('dat', methods::slotNames(cellexalObj)) ) ){
+				methods::new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
 						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
 			}
 			if ( is.null(cellexalObj@outpath) ){

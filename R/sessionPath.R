@@ -66,8 +66,13 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 			invisible(cellexalObj)
 			
 		} )
-
-
+#' @describeIn sessionPath cellexalvrR
+#' @docType methods
+#' @description preload the cellexalOvh.RData file 
+#' @param cellexalObj the cellexalOvh.RData file 
+#' @param sessionName the session ID default=NULL
+#' @title description of function sessionPath
+#' @export
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
 			cellexalObj <- loadObject(cellexalObj)
