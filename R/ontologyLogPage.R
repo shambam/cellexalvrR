@@ -21,7 +21,8 @@ setGeneric('ontologyLogPage', ## Name
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
-	#requireNamespace( AnnotationDbi )
+	#requireNamespace( 'AnnotationDbi' )
+	require( 'topGO' )
 	
 	if ( file.exists(genes)) {
 		genes = as.vector(utils::read.delim(genes)[,1])
@@ -43,13 +44,13 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
 	}
 	if(cellexalObj@specie =='mouse'){
-		if( requireNamespace(org.Mm.eg.db)){
+		if( requireNamespace('org.Mm.eg.db')){
 			x <- org.Mm.eg.db
 		}else{
 			stop("Install org.Mm.eg.db package for retrieving gene lists from GO")
 		}
 	}else if ( cellexalObj@specie=='human'){
-		if( requireNamespace(org.Hs.eg.db)){
+		if( requireNamespace('org.Hs.eg.db')){
 			x <- org.Hs.eg.db
 		}else{
 			stop("Install org.Hs.eg.db package for retrieving gene lists from GO")
