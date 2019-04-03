@@ -28,14 +28,18 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 		ret@mets.gene = x$annoatation[, meta.genes.groups]
 	ret@meta.cell = make.cell.meta.from.df( x$samples[,meta.cell.groups] ,rq.fields= meta.cell.groups )
 	rownames(ret@meta.cell) = colnames( ret@dat )
-	if ( ! is.null( userGroups )) {
-		if ( length( userGroups ) == 1){
-			ret@userGroups = as.data.frame(x$samples[,userGroups])
-			colnames(ret@userGroups) = userGroups
-		}else {
-			ret@userGroups = x$samples[,userGroups]
-		}
-	}
+	t = data.frame(lapply( 
+		x$usedObj$userGroups, 
+		function(n) {
+			OK = which(! is.na( x$samples[,n]))
+			order=as.vector(x$samples[,n])
+			order[OK] = 1:length(OK)
+			list( x$samples[,n],order) 
+		} ))
+	
+	colnames(t) = unlist(lapply( x$usedObj$userGroups, function (n) paste( n, c("", "order"))))
+	ret@userGroups = t
+	
 	MDS <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
 	OK = grep ( '_dim_' , MDS, invert= TRUE )
 	if ( length(OK) == 0 ) {
@@ -48,6 +52,8 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 		}
 	}
 	ret@colors = x$usedObj$colorRange
+	ret@specie=forCellexal$usedObj$specie
+	
 	bad = which( ret@dat@x < 0)
 	if ( length(bad) > 0 ) {
 		ret@dat@x[ bad ] = 0

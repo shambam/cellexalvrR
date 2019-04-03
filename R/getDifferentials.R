@@ -2,7 +2,7 @@
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 			function (cellexalObj,cellidfile,
 					deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) { 
+					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) { 
 				standardGeneric('getDifferentials') 
 			}
 	) 
@@ -21,13 +21,14 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
 #' @param minPct the minium percent expressing cells in a group (default 0.1)
+#' @param onlyPos select only genes showing an higher expression in the group (default =T)
 #' @keywords DEGs
 #' @title description of function getDifferentials
 #' @export getDifferentials
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
-				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
+				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) {
 			
 			cellexalObj <- loadObject(cellexalObj)
 			num.sig <- as.numeric( num.sig )
@@ -95,7 +96,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
 					r = as.data.frame(
-							FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, logfc.threshold, minPct )
+							FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, 
+									logfc.threshold, minPct, onlyPos=onlyPos )
 					)
 					r= r[order( r[,'p.value']),]
 					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
@@ -136,7 +138,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
 						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 				all_markers <- Seurat::FindAllMarkers(
-						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct 
+						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
 				)
 				if ( Log ) {
 					logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
