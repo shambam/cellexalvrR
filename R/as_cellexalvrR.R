@@ -52,7 +52,7 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 		}
 	}
 	ret@colors = x$usedObj$colorRange
-	ret@specie=forCellexal$usedObj$specie
+	ret@specie=x$usedObj$specie
 	
 	bad = which( ret@dat@x < 0)
 	if ( length(bad) > 0 ) {
