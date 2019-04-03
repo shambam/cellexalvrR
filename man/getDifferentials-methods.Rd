@@ -9,7 +9,7 @@
 \S4method{getDifferentials}{cellexalvrR}(cellexalObj, cellidfile,
   deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit",
   "poisson", "negbinom", "MAST", "DESeq2", "anova"), num.sig = 250,
-  Log = TRUE, logfc.threshold = 1, minPct = 0.1)
+  Log = TRUE, logfc.threshold = 1, minPct = 0.1, onlyPos = TRUE)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
@@ -25,6 +25,8 @@
 \item{logfc.threshold}{the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)}
 
 \item{minPct}{the minium percent expressing cells in a group (default 0.1)}
+
+\item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
 }
 \description{
 Creates a heatmap from a selection of groups
