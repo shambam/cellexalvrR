@@ -9,7 +9,7 @@
 #' @param sleepT sleep time in seconds between checks for the input.R file
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
-#' @export loadObject
+#' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
 			function ( file, sleepT=1 ) { 

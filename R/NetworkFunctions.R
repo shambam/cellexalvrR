@@ -44,7 +44,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 			] )
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	info <- groupingInfo( loc )
-	if ( info$mds == 'unknown' ) {
+	if ( info$mds == 'unknown' || is.null( info$mds) ) {
 		## just assume the user selected from graph 1
 		## better than breaking
 		info$mds = names(loc@mds)[1]
