@@ -18,15 +18,8 @@ lockfile   = paste( tmpFile, 'input.lock', sep=".")
 ## This function is crucial as it checks that the R script is finished using file.exists(scriptfile)
 ## and waits. For a working version should it also restart the server after some time?
 write_lines <- function( x, f=scriptfile, maxWait=5) {
-	while ( file.exists(f) ){
-		Sys.sleep( 1 )
-		maxWait = maxWait -1;
-		if(maxWait == 0)
-			break;
-	}
-	if ( file.exists(f) ){
-		stop( "Server is not clear for usage - start a new instance?")
-	}
+	wait4server ( f, maxWait)
+	
 	file.create(lockfile)
 	
 	fileConn<-file(f)

@@ -122,6 +122,59 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 } )
 
+
+#' @name write_as_sqlite3
+#' @aliases write_as_sqlite3,cellexalvrR-method
+#' @rdname write_as_sqlite3-methods
+#' @docType methods
+#' @description save the cellexalObj@dat object without questions asked.
+#' @param cellexalObj the cellexalvrR object
+#' @param ofile the database outfile
+#' @title write a cellexalvrR objects data to a qslite3 database of name ofile.
+#' @export 
+setGeneric('write_as_sqlite3', ## Name
+		function ( cellexalObj, ofile )  { ## Argumente der generischen Funktion
+			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
+		definition = function ( cellexalObj, ofile )  {
+			
+			genes <- rownames(cellexalObj@dat)
+			genes <- data.frame( 'id' = 1:length(genes), genes= genes )
+			
+			cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
+			
+			## melt the sparse matrix using the toColNums Rcpp function
+			mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@dat )
+			
+			colnames(genes) <- c('id', 'gname')
+			colnames(cells) <- c('id','cname')
+			
+			con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
+			
+			RSQLite::dbWriteTable(con, "datavalues",mdc)
+			
+			RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+			
+			RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+			
+			RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
+			RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+			
+			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
+			
+			RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+			RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+			
+			
+			RSQLite::dbDisconnect(con)
+			
+		} )
+
+
 ##' @name checkVRfiles
 ##' @aliases checkVRfiles,cellexalvrR-method
 ##' @rdname checkVRfiles-methods
