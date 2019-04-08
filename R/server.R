@@ -31,7 +31,7 @@ setMethod('server', signature = c ('character'),
 		}
         if ( file.exists( scriptfile ) ) {
                 while ( file.exists( lockfile ) ) {
-                        sleep( sleepT )
+                        Sys.sleep( sleepT )
                 }
 				file.create(lockfile)
                 try ( {source( scriptfile ) } )
