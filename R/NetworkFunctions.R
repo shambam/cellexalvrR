@@ -99,8 +99,10 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             cor.mat.flt <- cormat2df(cor.mat)
             cor.mat.ord <-  cor.mat.flt[rev(order(cor.mat.flt[,3])),]
             
-            hi.prop <- length(which(cor.mat.ord[,3] > 0.2))
-            lo.prop <- length(which(cor.mat.ord[,3] < -0.2))
+            cor.cut <- quantile(cor.mat.ord[,3],0.99)
+
+            hi.prop <- length(which(cor.mat.ord[,3] > cor.cut))
+            lo.prop <- length(which(cor.mat.ord[,3] < -1*cor.cut))
 
             hi.num <- round(top.n.inter*(hi.prop/(hi.prop+lo.prop)))
             lo.num <- top.n.inter-hi.num
