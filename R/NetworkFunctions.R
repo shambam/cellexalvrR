@@ -13,7 +13,7 @@ if ( ! isGeneric('cormat2df') ){setGeneric('cormat2df', ## Name
 	}
 ) }
 
-setMethod('cormat2df', signature = c ('cellexalvrR'),definition = function (cors) {
+setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 
     ut <- upper.tri(cors)
     df.out <- data.frame(
