@@ -38,13 +38,13 @@ setMethod('cormat2df', signature = c ('cellexalvrR'),definition = function (cors
 #' @keywords network construction
 #' @export make.cellexalvr.network
 if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,methods=c("rho.p","pcor"),outpath, cutoff.ggm=0.8,top.n.inter=130) {
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=130,method=c("rho.p","pcor")) {
 		standardGeneric('make.cellexalvr.network')
 	}
 ) }
 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=130) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=130,method=c("rho.p","pcor")) {
 
 		if ( !file.exists(outpath)) {
 			dir.create( outpath ,  recursive = TRUE)
