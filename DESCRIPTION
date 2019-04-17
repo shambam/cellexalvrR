@@ -41,7 +41,8 @@ Imports:
 	Seurat,
 	stringr,
 	topGO,
-	utils
+	utils,
+	propr
 Remotes: 
 	stela2502/FastWilcoxTest
 License: GPL-3

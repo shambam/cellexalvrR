@@ -14,7 +14,7 @@
 
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.8)}
 
-\item{top.n.inter}{get only the n top interations default=125}
+\item{top.n.inter}{get only the n top interations default=130}
 }
 \description{
 Creates a network from selected groups for selected genes
