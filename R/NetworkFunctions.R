@@ -116,9 +116,6 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
              if(nrow(cor.mat.req)>0){
 
-                net[,2] <- rownames(sub.d)[net[,2]]
-                net[,3] <- rownames(sub.d)[net[,3]]
-
                 key1 <- paste(net[,2],net[,3],sep="")
                 key2 <- paste(net[,3],net[,2],sep="")
 
