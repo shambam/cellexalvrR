@@ -22,10 +22,10 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		ids = order( dataObj@userGroups[,column])
 	}
 	dataObj@dat <- dataObj@dat[ , ids]
-	if ( ncol(dataObj@dat) == ncol(dataObj@meta.cell) ) {
+	if ( ncol(dataObj@dat) == nrow(dataObj@meta.cell) ) {
 		dataObj@meta.cell <- dataObj@meta.cell[ids,]
 	}
-	if ( ncol(dataObj@dat) == ncol(dataObj@userGroups) ) {
+	if ( ncol(dataObj@dat) == nrow(dataObj@userGroups) ) {
 		dataObj@userGroups <- dataObj@userGroups[ids,]
 	}
 	dataObj
