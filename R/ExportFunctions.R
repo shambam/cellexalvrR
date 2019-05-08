@@ -48,7 +48,8 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
         #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
 		#ofile = file.path(path,paste("graph",i,".hull",sep=""))
 		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".hull",sep=""))
-		if ( ! file.exists( ofile )) {
+		#if ( ! file.exists( ofile )) {
+		if ( FALSE ) { # never create them the VR process is taking care of that now.
         	rq.tring <- NULL
 
         	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))<0){
@@ -56,11 +57,11 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
             	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-        	}
+         	}
 
         	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))>0){
 	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
-            	#rgl.open()
+           	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
