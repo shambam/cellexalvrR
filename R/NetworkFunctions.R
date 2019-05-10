@@ -83,7 +83,6 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     grp.tabs <- NULL
     avg.mds.coods <- NULL
     #layout.tabs <- NULL
-
     if(method=="rho.p"){
 
         for(i in 1:length(grps)){
@@ -93,7 +92,11 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
 
             sub.d <- dat[, rq.cells ]
+
+            rem.ind<- which(apply(sub.d,1,sum)==0)
             print(dim(sub.d))
+
+            sub.d <- sub.d[-rem.ind,]
 
             cor.mat <- propr::perb(as.matrix(t(sub.d)))@matrix
             cor.mat.flt <- cormat2df(cor.mat)
@@ -103,6 +106,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             hi.prop <- length(which(cor.mat.ord[,3] > cor.cut))
             lo.prop <- length(which(cor.mat.ord[,3] < -1*cor.cut))
+
 
             hi.num <- round(top.n.inter*(hi.prop/(hi.prop+lo.prop)))
             lo.num <- top.n.inter-hi.num
