@@ -95,9 +95,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             rem.ind<- which(apply(sub.d,1,sum)==0)
             print(dim(sub.d))
-
-            sub.d <- sub.d[-rem.ind,]
-
+            if (length(rem.ind) > 0) {
+                sub.d <- sub.d[-rem.ind,]
+            }
             cor.mat <- propr::perb(as.matrix(t(sub.d)))@matrix
             cor.mat.flt <- cormat2df(cor.mat)
             cor.mat.ord <-  cor.mat.flt[rev(order(cor.mat.flt[,3])),]
