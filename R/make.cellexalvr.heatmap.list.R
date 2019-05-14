@@ -32,7 +32,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			## we only need the GOIs
 			tmp = reduceTo(cvrObj, what='row', to=  gene.cluster.order )
 			## we also only need the samples that have been selected:
-			tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@dat)[
+			tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@data)[
 							which(!is.na(cvrObj@userGroups[,cellexalObj@usedObj$lastGroup])) ] )
 			write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') )
 			

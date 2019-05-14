@@ -10,7 +10,7 @@
 #' @title cellexalvrR class definition
 #' @description  The R backend for the CellexalVR 3D application
 #' @slot data the expression matrix (unused!)
-#' @slot dat the spearse matrix
+#' @slot data the spearse matrix
 #' @slot meta.cell the cell level meta information (matrix)
 #' @slot meta.gene the gene level meta information (matrix)
 #' @slot userGroups internally used to store the user defined groupings from the 3D process (data.frame)
@@ -25,8 +25,7 @@
 #' @exportClass cellexalvrR
 setClass(Class="cellexalvrR",
 		representation=representation(
-				data="matrix",
-				dat="dgCMatrix",
+				data="dgCMatrix",
 				meta.cell="matrix", #test commit
 				meta.gene="matrix",
 				userGroups="data.frame", # whenever a user defined grouping is read from file we add one column
@@ -40,8 +39,7 @@ setClass(Class="cellexalvrR",
 				outpath="character"
 		),
 		prototype(
-				data=matrix(),
-				dat=new('dgCMatrix'),
+				data=new('dgCMatrix'),
 				meta.cell=matrix(),
 				meta.gene=matrix(),
 				userGroups= data.frame(),
@@ -61,7 +59,7 @@ setClass(Class="cellexalvrR",
 
 #' @name cellexalvr-class
 #' @title cellexalvr class definition (old)
-#' @description This class definition is totally empty and only incuded here to allow for a smooth update of the old objects.
+#' @description This class definition is totally empty and only incuded here to allow for a smooth updatae of the old objects.
 #' @exportClass cellexalvr
 setClass( 
 		Class='cellexalvr', 

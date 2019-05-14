@@ -21,7 +21,7 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (x, name ) {
 			
 		if ( length(colnames(x@meta.gene)) == 0){
-			x@meta.gene = matrix( ncol=1, rownames(x@dat) )
+			x@meta.gene = matrix( ncol=1, rownames(x@data) )
 			colnames(x@meta.gene) = "gene_id"
 		}
 			if ( ! is.na( match(name, colnames(x@meta.gene)))) {
@@ -36,8 +36,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				#}
 				#else {
 					## use inbuilt lists
-					hum_t <- length(which(is.na(match(rownames(x@dat),human.tfs))==F))
-					mouse_t <- length(which(is.na(match( rownames(x@dat), mouse.tfs))==F))
+					hum_t <- length(which(is.na(match(rownames(x@data),human.tfs))==F))
+					mouse_t <- length(which(is.na(match( rownames(x@data), mouse.tfs))==F))
 					if (hum_t > mouse_t ){
 						x = defineGOIs( x, name, human.tfs )
 						x@specie = 'human'
@@ -51,8 +51,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 			}
 			else if ( name == 'epigenetic' ) {
 				# register 'epigeneic'
-				hum_e <- length(which(is.na(match(rownames(x@dat),Epigenetic$HGNC_symbol))==F))
-				mouse_e <- length(which(is.na(match( rownames(x@dat),Epigenetic$MGI_symbol ))==F))
+				hum_e <- length(which(is.na(match(rownames(x@data),Epigenetic$HGNC_symbol))==F))
+				mouse_e <- length(which(is.na(match( rownames(x@data),Epigenetic$MGI_symbol ))==F))
 				if ( hum_e > mouse_e){
 					x = defineGOIs( x, name, Epigenetic$HGNC_symbol, Epigenetic$Target )
 					x@specie = 'human'
@@ -64,8 +64,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				}
 			}
 			else if ( name =="CellCycle" ) {
-				hum_e <- length(which(is.na(match(rownames(x@dat),CellCycle$Gene.Symbol))==F))
-				mouse_e <- length(which(is.na(match( rownames(x@dat),CellCycle$MouseGene ))==F))
+				hum_e <- length(which(is.na(match(rownames(x@data),CellCycle$Gene.Symbol))==F))
+				mouse_e <- length(which(is.na(match( rownames(x@data),CellCycle$MouseGene ))==F))
 				if ( hum_e > mouse_e){
 					x = defineGOIs( x, name, CellCycle$Gene.Symbol, CellCycle$X )
 				}else if ( mouse_e > hum_e ){
@@ -75,8 +75,8 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				}
 			}
 			else if ( name =="CellSurface" ) {
-				hum_e <- length(which(is.na(match(rownames(x@dat),human.CellSurface))==F))
-				mouse_e <- length(which(is.na(match( rownames(x@dat),mouse.CellSurface ))==F))
+				hum_e <- length(which(is.na(match(rownames(x@data),human.CellSurface))==F))
+				mouse_e <- length(which(is.na(match( rownames(x@data),mouse.CellSurface ))==F))
 				if ( hum_e > mouse_e){
 					x = defineGOIs( x, name, human.CellSurface)
 				}else if ( mouse_e > hum_e ){

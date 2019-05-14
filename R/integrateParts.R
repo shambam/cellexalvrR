@@ -18,7 +18,7 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 	  definition = function ( x , path=NULL ) {
 			if ( is.null(path) )
 				path = x@outpath
-			## now we check a list of outpath slots that could be updated:
+			## now we check a list of outpath slots that could be updataed:
 			## if you change somthing here also change all other functions in this file!
 			F = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' )
 			sample  = annotation = userGroups = usedObj = groupSelectedFrom = colors = lastGroup = NULL 

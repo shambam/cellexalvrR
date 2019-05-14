@@ -34,7 +34,7 @@ setMethod('MakeCellexaVRObj', signature = c ('matrix'),
 	if ( ! class(exdata) == 'dgCMatrix' ) {
 		exdata = Matrix::Matrix(exdata, sparse=T)
 	}
-	cellexalobj <- methods::new("cellexalvrR",dat=exdata,mds=mds.list,meta.cell=as.matrix(cell.metadata))
+	cellexalobj <- methods::new("cellexalvrR",data=exdata,mds=mds.list,meta.cell=as.matrix(cell.metadata))
 
     if(!is.null(facs.data)){
         cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)

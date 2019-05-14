@@ -51,7 +51,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 		}
 
 	datadir <- cellexalObj@outpath
-    #dat <- cellexalObj@dat
+    #data <- cellexalObj@data
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
 	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
@@ -65,7 +65,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- onlyGOIs( cellexalObj, 'TFs' )
 
 	## kick the not groupoed samples out of the loc object
-	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@dat)[-
+	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[-
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
@@ -77,7 +77,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	}
 	grps <- as.vector(unique(info$grouping))
 
-    dat <- loc@dat
+    data <- loc@data
     req.graph <- info$mds
 
     grp.tabs <- NULL
@@ -89,9 +89,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             print(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
 
-            sub.d <- dat[, rq.cells ]
+            sub.d <- data[, rq.cells ]
 
             rem.ind<- which(apply(sub.d,1,sum)==0)
             print(dim(sub.d))
@@ -136,9 +136,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             print(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(dat)[which(info$grouping==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
 
-            sub.d <- dat[, rq.cells ]
+            sub.d <- data[, rq.cells ]
             print(dim(sub.d))
 
             inferred.pcor <- GeneNet::ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")

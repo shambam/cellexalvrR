@@ -35,7 +35,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	
 	#error = ""
 	# message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
-	## for this to work as expected you need an up to date pandoc:
+	## for this to work as expected you need an up to datae pandoc:
 	## https://pandoc.org/installing.html
 
 	n = length( grep ( "GOanalyis.csv", list.files( file.path(cellexalObj@usedObj$sessionPath, 'tables') ) ) ) +1
@@ -63,8 +63,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	}
 	
 	
-	all = is.na(match(rownames(cellexalObj@dat), genes ))
-	names(all) = rownames(cellexalObj@dat)
+	all = is.na(match(rownames(cellexalObj@data), genes ))
+	names(all) = rownames(cellexalObj@data)
 	all = factor(all)
 	if ( length(table(all)) == 1) {
 		message( "No genes of the list are in this object - This should not have happened!")

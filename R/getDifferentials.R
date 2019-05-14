@@ -40,24 +40,24 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			cellexalObj <- userGrouping(cellexalObj, cellidfile)
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			if ( length(not) > 0) {
-				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
+				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
 			}else {
 				loc <- cellexalObj
 			}
-			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@dat))) ){
+			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
 				loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 			}
 			
 			info <- groupingInfo( loc )
 			
-			rem.ind <- which(Matrix::rowSums(loc@dat)==0)
+			rem.ind <- which(Matrix::rowSums(loc@data)==0)
 			
 			grp.vec <- info$grouping
 			
 			col.tab <- info$col
 			
 			if(length(rem.ind)>0){
-				loc = reduceTo(loc, what='row', to=rownames(loc@dat)[-rem.ind])
+				loc = reduceTo(loc, what='row', to=rownames(loc@data)[-rem.ind])
 			}
 			
 			deg.genes <- NULL
@@ -75,7 +75,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				lin <- function( v, order ) {
 					stats::cor.test( v, order, method="spearman" )
 				}
-				ps <- apply(loc@dat,1,lin,order=1:ncol(loc@dat))
+				ps <- apply(loc@data,1,lin,order=1:ncol(loc@data))
 				
 				ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				ps = data.frame(t(ps))
@@ -96,11 +96,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
 					r = as.data.frame(
-							FastWilcoxTest::StatTest( Matrix::t( loc@dat), OK, BAD, 
+							FastWilcoxTest::StatTest( Matrix::t( loc@data), OK, BAD, 
 									logfc.threshold, minPct, onlyPos=onlyPos )
 					)
 					r= r[order( r[,'p.value']),]
-					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@dat)[r[,1]] )
+					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@data)[r[,1]] )
 					r
 				}
 				
@@ -128,14 +128,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					stop("seurat needed for this function to work. Please install it.",
 							call. = FALSE)
 				}
-				sca <- Seurat::CreateSeuratObject(loc@dat, project = "SeuratProject", min.cells = 0,
-						min.genes = ceiling(ncol(loc@dat)/100), is.expr = 1, normalization.method = NULL,
+				sca <- Seurat::CreateSeuratObject(loc@data, project = "SeuratProject", min.cells = 0,
+						min.genes = ceiling(ncol(loc@data)/100), is.expr = 1, normalization.method = NULL,
 						scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
 						names.field = 1, names.delim = "_", 
-						meta.data = data.frame(wellKey=colnames(loc@dat), GroupName = grp.vec),
+						meta.data = data.frame(wellKey=colnames(loc@data), GroupName = grp.vec),
 						display.progress = TRUE)
 				
-				sca = Seurat::SetIdent( sca, colnames(loc@dat), 
+				sca = Seurat::SetIdent( sca, colnames(loc@data), 
 						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 				all_markers <- Seurat::FindAllMarkers(
 						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
@@ -183,18 +183,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 						break
 				}
 				
-				deg.genes = rownames(cellexalObj@dat)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@dat) ) )]
+				deg.genes = rownames(cellexalObj@data)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@data) ) )]
 				loc = reduceTo(loc, what='row', to=deg.genes)
-				#tab <- as.matrix(Matrix::t(loc@dat))
+				#tab <- as.matrix(Matrix::t(loc@data))
 				if ( length(which(is.na( loc@userGroups[, loc@usedObj$lastGroup]) )) > 0 ) {
 					## shit that will not work!
 					loc = reduceTo(loc, what='col', to= which(is.na( loc@userGroups[, cellexalObj@usedObj$lastGroup]) ==F) )
 				}
 				
-				tab <- t(FastWilcoxTest::collapse( loc@dat, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 1 )) ## simple sum up the data
+				tab <- t(FastWilcoxTest::collapse( loc@data, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 1 )) ## simple sum up the data
 				tab[which(tab == -Inf)] = 0
 				hc <- stats::hclust(stats::as.dist( 1- stats::cor(tab, method='pearson') ),method = 'ward.D2')
-				deg.genes = rownames(loc@dat)[hc$order]
+				deg.genes = rownames(loc@data)[hc$order]
 			}
 			
 			if ( length(deg.genes) == 0){

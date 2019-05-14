@@ -38,8 +38,8 @@ setMethod('loadObject', signature = c ('character'),
 					cellexalObj = renew(cellexalObj)
 				}
 			}
-			## old objects need an update
-			if ( ! methods::.hasSlot( cellexalObj, 'dat') ){
+			## old objects need an updatae
+			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
 				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
@@ -138,13 +138,13 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
 	
 	cellexalObj <- loadObject(cellexalObj)
-	dat <- cellexalObj@dat
-	rownames(dat) <- tolower(rownames(dat))
+	data <- cellexalObj@data
+	rownames(data) <- tolower(rownames(data))
 	
 	goi <- NULL
 
 	if(is.smarker==F){
-		goi <- dat[tolower(gname),]
+		goi <- data[tolower(gname),]
 	}
 	
 	if(is.smarker==T){
@@ -166,10 +166,10 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	}
 	
 	if ( cpp ) {
-	  cor.values <-  FastWilcoxTest::CorMatrix( dat, goi)
-	  names(cor.values) = rownames(dat)
+	  cor.values <-  FastWilcoxTest::CorMatrix( data, goi)
+	  names(cor.values) = rownames(data)
   	}else {
-		cor.values <- apply(dat,1,calc.cor,comp=goi)
+		cor.values <- apply(data,1,calc.cor,comp=goi)
 	}
 	
 	ord <- names(sort(cor.values))

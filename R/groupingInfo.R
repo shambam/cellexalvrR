@@ -23,7 +23,7 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	}
 	ret <- list( 
 			grouping = cellexalObj@userGroups[,gname] ,
-			order = 1:ncol(cellexalObj@dat),
+			order = 1:ncol(cellexalObj@data),
 			'mds' = cellexalObj@groupSelectedFrom[[gname]],
 			col = cellexalObj@colors[[gname]] 
 	)

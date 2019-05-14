@@ -45,7 +45,7 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 	not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 	if ( length(not) > 0) {
-		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@dat)[- not ] )
+		loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
 	}else {
 		loc <- cellexalObj
 	}
@@ -53,7 +53,7 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	info <- groupingInfo( loc )
 
-	dat <- loc@dat
+	data <- loc@data
 	#cellid <- read.delim(cellidfile,header=F)
 	
 	grp.vec <- info$grouping
@@ -66,6 +66,6 @@ setMethod('branch.point.analysis', signature = c ('cellexalvrR'),
         stats::wilcox.test(v[ind2],v[ind2])$p.value
     }
 
-    branch.1 <- apply(dat,1,wilcox.test.vec,ind1=which(grp.vec==grp.un[1]),ind2=which(grp.vec==grp.un[3]))
+    branch.1 <- apply(data,1,wilcox.test.vec,ind1=which(grp.vec==grp.un[1]),ind2=which(grp.vec==grp.un[3]))
     branch.1
 } )
