@@ -4,6 +4,11 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 		standardGeneric('export2cellexalvr') 
 	}
 ) }
+
+#' This function creates all files necessary 
+#' for the CellexalVR application to show this data.
+#'
+#' Consult the CellexalVR documentation for further path requrements.
 #' @name export2cellexalvr
 #' @aliases export2cellexalvr,cellexalvrR-method
 #' @rdname export2cellexalvr-methods
@@ -46,24 +51,24 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		utils::write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 
-    for(i in 1:length(cellexalObj@mds)){
+    for(i in 1:length(cellexalObj@drc)){
         
-        #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+        #ashape <- ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
 		#ofile = file.path(path,paste("graph",i,".hull",sep=""))
-		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".hull",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".hull",sep=""))
 		#if ( ! file.exists( ofile )) {
 		if ( FALSE ) { # never create them the VR process is taking care of that now.
         	rq.tring <- NULL
 
-        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))<0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))<0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
             	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
          	}
 
-        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))>0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
+        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))>0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 2)
            	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
@@ -72,9 +77,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 			utils::write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
 
 		}
-		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".mds",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".drc",sep=""))
 		if ( ! file.exists( ofile )) {
-			utils::write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+			utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
     }
 	
@@ -134,7 +139,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #' @description save the cellexalObj@data object without questions asked.
 #' @param cellexalObj the cellexalvrR object
 #' @param ofile the database outfile
-#' @title write a cellexalvrR objects data to a qslite3 database of name ofile.
+#' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
 #' @export 
 setGeneric('write_as_sqlite3', ## Name
 		function ( cellexalObj, ofile )  { ## Argumente der generischen Funktion

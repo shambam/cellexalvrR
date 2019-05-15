@@ -30,6 +30,8 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	}
 	dataObj
 } )
+
+
 #' @name reorder.genes
 #' @aliases reorder.genes,cellexalvrR-method
 #' @rdname reorder.genes-methods

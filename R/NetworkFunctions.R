@@ -54,7 +54,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     #data <- cellexalObj@data
 	cellexalObj <- userGrouping(cellexalObj, cellidfile)
 
-	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
+	message( paste( "the cellexal object drc names:", paste( collapse= ", ", names(cellexalObj@drc))))
 	
 	#checkVRfiles( cellexalObj, datadir)
 	## cut loc to only include TFs
@@ -70,18 +70,18 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 			] )
 	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
 	info <- groupingInfo( loc )
-	if ( info$mds == 'unknown' || is.null( info$mds) ) {
+	if ( info$drc == 'unknown' || is.null( info$drc) ) {
 		## just assume the user selected from graph 1
 		## better than breaking
-		info$mds = names(loc@mds)[1]
+		info$drc = names(loc@drc)[1]
 	}
 	grps <- as.vector(unique(info$grouping))
 
     data <- loc@data
-    req.graph <- info$mds
+    req.graph <- info$drc
 
     grp.tabs <- NULL
-    avg.mds.coods <- NULL
+    avg.drc.coods <- NULL
     #layout.tabs <- NULL
     if(method=="rho.p"){
 
@@ -116,7 +116,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             net <- cbind(cor.mat.req[,c(3,1,2)],0,0,0)
             colnames(net) <- c("pcor","node1","node2","pval","qval","prob")
 
-            avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
+            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info$col[i]))
 
              if(nrow(cor.mat.req)>0){
 
@@ -149,7 +149,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
                 net <- net[1:top.n.inter,]
             }
 
-            avg.mds.coods <- rbind(avg.mds.coods, c(apply(cellexalObj@mds[[req.graph]][rq.cells,],2,mean),info$col[i]))
+            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info$col[i]))
 
             if(nrow(net)>0){
 
@@ -165,14 +165,14 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
         }
     }
-	message( paste( "the cellexal object mds names:", paste( collapse= ", ", names(cellexalObj@mds))))
+	message( paste( "the cellexal object drc names:", paste( collapse= ", ", names(cellexalObj@drc))))
 	
     if(nrow(grp.tabs)==0){
         message("There are no networks to see here.")
         invisible(cellexalObj)
     }else{
     utils::write.table(grp.tabs,file.path( outpath,"Networks.nwk"),row.names=F,col.names=T,quote=F,sep="\t",eol="\r\n")
-    utils::write.table(cbind(avg.mds.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
+    utils::write.table(cbind(avg.drc.coods,req.graph),file.path( outpath,"NwkCentroids.cnt"),row.names=F,col.names=F,quote=F,sep="\t",eol="\r\n")
     #write.table(layout.tabs,file.path(outpath,"NwkLayouts.lay"),row.names=T,col.names=F,quote=F,sep="\t",eol="\r\n")
 	invisible(cellexalObj)
     }

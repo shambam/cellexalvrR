@@ -3,7 +3,7 @@
 #' https://www.cellexalvr.med.lu.se/ is a VR application to analyze single cell expression data.
 #' This R class is the backend of the VR application and a dependency of that.
 #' CellexalvrR is not developed to be a general purpose single cell analysis class like Seurat.
-#' It e.g. does not implement normalization or mds methods, but expects all data to be preprocessed.
+#' It e.g. does not implement normalization or drc methods, but expects all data to be preprocessed.
 #' 
 #' @name cellexalvrR-class
 #' @rdname FastWilcoxTest-class
@@ -15,9 +15,9 @@
 #' @slot meta.gene the gene level meta information (matrix)
 #' @slot userGroups internally used to store the user defined groupings from the 3D process (data.frame)
 #' @slot colors a list for each userGroups entry defining the color sheme for this grouping
-#' @slot groupSelectedFrom local info to store which usergroup has been selected from which mds structure
+#' @slot groupSelectedFrom local info to store which usergroup has been selected from which drc structure
 #' @slot usedObj a generic storage list collecting objects not fitting into any other slot
-#' @slot mds a list of all mds objects to be visible in the 3D application
+#' @slot drc a list of all DRC objects to be visible in the 3D application
 #' @slot index a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application
 #' @slot tfs depricated not used any more
 #' @slot specie the species this data is from (mouse or human)
@@ -30,9 +30,9 @@ setClass(Class="cellexalvrR",
 				meta.gene="matrix",
 				userGroups="data.frame", # whenever a user defined grouping is read from file we add one column
 				colors="list", # the color information linked to all user groups
-				groupSelectedFrom = 'list', # which mds rep has been used to create the grouping
+				groupSelectedFrom = 'list', # which drc rep has been used to create the grouping
 				usedObj="list", # push all other objects you temporarily need here
-				mds="list",
+				drc="list",
 				index=c("matrix"),
 				tfs="vector",
 				specie="character",
@@ -46,7 +46,7 @@ setClass(Class="cellexalvrR",
 				colors=list(),
 				groupSelectedFrom=list(),
 				usedObj=list(),
-				mds=list(),
+				drc=list(),
 				index=matrix(),
 				tfs=NA_character_,
 				specie=NA_character_,
