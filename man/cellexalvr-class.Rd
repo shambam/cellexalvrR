@@ -5,5 +5,5 @@
 \alias{cellexalvr-class}
 \title{cellexalvr class definition (old)}
 \description{
-This class definition is totally empty and only incuded here to allow for a smooth update of the old objects.
+This class definition is totally empty and only incuded here to allow for a smooth updatae of the old objects.
 }

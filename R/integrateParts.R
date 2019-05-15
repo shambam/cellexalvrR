@@ -1,3 +1,7 @@
+#' The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR
+#'
+#' Instead of saving all data in each VR script call only the modified data is saved.
+#' This function loads all separately saved parts into the main cellexalvrR object.
 #' @name integrateParts
 #' @aliases integrateParts,cellexalvrR-method
 #' @rdname integrateParts-methods
@@ -49,7 +53,10 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 			}
 			invisible( x )
 		} )
-
+#' Thge function savePart is one main part in the load and save speed up implemented for cellexalvrR
+#'
+#' Instead of saving all data in each VR script call only the modified data is saved.
+#' This function saves a specific data part of the whole cellexalvrR speeding up the save process.
 #' @name savePart
 #' @aliases savePart,cellexalvrR-method
 #' @rdname savePart-methods

@@ -2,11 +2,11 @@
 #' @aliases as_cellexalvrR,environment-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
-#' @description convert a BioData list (BioData libraray not loaded) into a cellexalvrR obejct
+#' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
 #' @param x the BioData 'object'
 #' @param meta.cell.groups which x$samples column to convert to meta.cell classes
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x§samples columns to add to the userGroups slot
+#' @param userGroups which x$samples columns to add to the userGroups slot
 #' @param outpath set the outpath of the object (default getwd())
 #' @param specie set the specie to either mouse or human (default check gene names)
 #' @title convert a BioData object to cellexalvrR keeping all 3D mds objects.

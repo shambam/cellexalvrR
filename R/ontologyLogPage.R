@@ -1,3 +1,4 @@
+#' The ontology analysis for the log files.
 #' @name ontologyLogPage
 #' @aliases ontologyLogPage,cellexalvrR-method
 #' @rdname ontologyLogPage-methods

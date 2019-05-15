@@ -1,4 +1,5 @@
-#' @name MakeCellexaVRObj
+#' MakeCellexaVRObj creates a CellexalVR object from a matrix object.
+#' @name MakeCellexaVRObj 
 #' @aliases MakeCellexaVRObj,matrix-method
 #' @rdname MakeCellexaVRObj-methods
 #' @docType methods
@@ -8,8 +9,8 @@
 #' @param specie Specify whether data is from mouse or human (required)
 #' @param cell.metadata Required meta data for cells
 #' @param facs.data Surface marker intensities from index sorted cells
-#' @keywords heatmap
-#' @title description of function MakeCellexaVRObj
+#' @keywords create cellexalvrR object
+#' @title Create a cellexalvrR object from a matrix object.
 #' @export MakeCellexaVRObj
 if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
 	function (exdata,mds.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 

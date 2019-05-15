@@ -20,7 +20,7 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 \describe{
 \item{\code{data}}{the expression matrix (unused!)}
 
-\item{\code{dat}}{the spearse matrix}
+\item{\code{data}}{the spearse matrix}
 
 \item{\code{meta.cell}}{the cell level meta information (matrix)}
 

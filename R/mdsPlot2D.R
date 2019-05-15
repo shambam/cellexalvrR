@@ -1,3 +1,5 @@
+#' mdsPlots2D is a function linked to the log functions.
+#' This function will create the 2D MDS images for the log sections.
 #' @name mdsPlots2D
 #' @aliases mdsPlots2D,cellexalvrR-method
 #' @rdname mdsPlots2D-methods

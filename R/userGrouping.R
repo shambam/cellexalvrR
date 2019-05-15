@@ -1,3 +1,4 @@
+#' VR function that ready the VR grouping information and stores it in the R object.
 #' @name userGrouping
 #' @aliases userGrouping,cellexalvrR-method
 #' @rdname userGrouping-methods

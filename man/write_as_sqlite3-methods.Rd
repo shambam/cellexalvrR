@@ -14,5 +14,5 @@ write_as_sqlite3(cellexalObj, ofile)
 \item{ofile}{the database outfile}
 }
 \description{
-save the cellexalObj@dat object without questions asked.
+save the cellexalObj@data object without questions asked.
 }

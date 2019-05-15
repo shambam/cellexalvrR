@@ -8,6 +8,12 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 	) 
 }
 
+#' Identify differentially expressed genes.
+#' 
+#' This function makes three statistics available for the VR process 
+#' (1) 'linear' correlation for one group selections
+#' (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function
+#' (3) 'Seurat_wilcox' use the original Seurat::FindAllMarkers function(10x slower than the c++ version)
 #' @name getDifferentials
 #' @aliases getDifferentials,cellexalvrR-method
 #' @rdname getDifferentials-methods
@@ -23,8 +29,10 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @param minPct the minium percent expressing cells in a group (default 0.1)
 #' @param onlyPos select only genes showing an higher expression in the group (default =T)
 #' @keywords DEGs
-#' @title description of function getDifferentials
-#' @export getDifferentials
+#' @title VR helper function getDifferentials
+#' @example getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+#' @return a list of the top differential genes (num.sig)
+#' @export getDifferentials( cellexalObj,  'User.Group.2')
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),

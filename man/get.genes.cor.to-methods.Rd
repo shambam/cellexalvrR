@@ -6,8 +6,8 @@
 \alias{get.genes.cor.to,cellexalvrR-method}
 \title{description of function get.genes.cor.to}
 \usage{
-\S4method{get.genes.cor.to}{cellexalvrR}(cellexalObj, gname, output,
-  is.smarker = F, cpp = T)
+\S4method{get.genes.cor.to}{cellexalvrR}(cellexalObj, gname,
+  output = NULL, is.smarker = F, cpp = T)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}

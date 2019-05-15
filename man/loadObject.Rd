@@ -3,7 +3,7 @@
 \docType{methods}
 \name{loadObject,cellexalvrR-method}
 \alias{loadObject,cellexalvrR-method}
-\title{description of function loadObject}
+\title{dummy function just returning the cellexalvrR object.}
 \usage{
 \S4method{loadObject}{cellexalvrR}(fname, maxwait = 50)
 }

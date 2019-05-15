@@ -4,7 +4,7 @@
 #' @docType methods
 #' @description  Adds mds coordinates to a cellexalvrObj
 #' @param cellexalObj, cellexalvr object
-#' @param mdsmatrix A matrix of coordinates
+#' @param mdsmatrix A (3 columns) matrix of coordinates
 #' @param name A name for the object (default = graph<n>)
 #' @title description of function addMDS2cellexalvr
 #' @export addMDS2cellexalvr

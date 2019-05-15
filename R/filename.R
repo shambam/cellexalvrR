@@ -4,7 +4,7 @@
 #' @docType methods
 #' @description simple function to join by '.' and remove whitespace.
 #' @param str a string vector
-#' @title description of function filename
+#' @title create a filename without spaces from a list of strings
 #' @export 
 setGeneric('filename', ## Name
 	function ( str ) { 

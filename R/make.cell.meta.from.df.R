@@ -1,3 +1,6 @@
+#' The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
+#' As this is no common format this function will convert a multi named grouping 
+#' like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
 #' @name make.cell.meta.from.df
 #' @aliases make.cell.meta.from.df,data.frame-method
 #' @rdname make.cell.meta.from.df-methods

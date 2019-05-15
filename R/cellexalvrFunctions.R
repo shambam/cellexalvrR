@@ -73,7 +73,7 @@ setMethod('loadObject', signature = c ('character'),
 #' @param fname the file to load or a cellexalvr object
 #' @param maxwait stop after maxwait seconds default=50
 #' @keywords load
-#' @title description of function loadObject
+#' @title dummy function just returning the cellexalvrR object.
 #' @export loadObject
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
@@ -86,9 +86,7 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 #' @docType methods
 #' @description  Loads TF annotation into cellexalvr object
 #' @param cellexalObj, cellexalvr object
-#' @param specie The specie required
-#' @param specie  TEXT MISSING default=c("mouse"
-#' @param "human")  TEXT MISSING default=c("mouse"
+#' @param specie The specie required options: "mouse" or "human"
 #' @title description of function set.specie
 #' @keywords TFs
 #' @export set.specie
@@ -117,7 +115,7 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 
 
 if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
-	function (cellexalObj, gname, output, is.smarker=F, cpp=T) { 
+	function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) { 
 		standardGeneric('get.genes.cor.to') 
 	}
 ) }
@@ -133,9 +131,10 @@ if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
 #' @param cpp use the c++ cor implementation (default = TRUE)
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
+#' @example print (get.genes.cor.to ( cellexalObj, 'Gata1'))
 #' @export get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
+	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 	
 	cellexalObj <- loadObject(cellexalObj)
 	data <- cellexalObj@data
@@ -177,8 +176,11 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	pos <- ord[ (length(ord)-1): (length(ord)-10) ]
 	neg <- ord[1:10]
 	tab <- cbind(pos,neg)
-	
-	utils::write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
+	if ( ! is.null(output)){
+		utils::write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
+	}else {
+		return ( tab)
+	}
 	invisible(tab)
 } )
 
@@ -193,7 +195,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 #' @title description of function get.genes.cor.to (character)
 #' @export 
 setMethod('get.genes.cor.to', signature = c ('character'),
-		definition = function (cellexalObj, gname, output, is.smarker=F, cpp=T) {
+		definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 			cellexalObj <- loadObject(cellexalObj)
 			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp)
 		}

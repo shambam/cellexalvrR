@@ -1,3 +1,5 @@
+#' logStatResult will create a clickable link in the log document 
+#' where the user can download the stats table from.
 #' @name logStatResult
 #' @aliases logStatResult,cellexalvrR-method
 #' @rdname logStatResult-methods

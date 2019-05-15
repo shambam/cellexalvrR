@@ -4,7 +4,7 @@
 \name{export2cellexalvr}
 \alias{export2cellexalvr}
 \alias{export2cellexalvr,cellexalvrR-method}
-\title{description of function export2cellexalvr}
+\title{create the VR data folder necessary for CellexalVR}
 \usage{
 \S4method{export2cellexalvr}{cellexalvrR}(cellexalObj, path, forceDB = F,
   VRpath = NULL)
@@ -21,4 +21,8 @@ VR process needs the grouping names which will be exported if we get the correct
 }
 \description{
 Creates the base files needed to run the VR environment
+}
+\examples{
+dir.create ('data')
+export2cellexalvr(cellexalObj, path='data')
 }

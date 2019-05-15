@@ -14,7 +14,10 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 #' @description  selection and the number of cells in the whole group.
 #' @param cellexalObj, cellexalvr object
 #' @param path the outpath
-#' @title description of function exportUserGroups4vr
+#' @title VR helper function exportUserGroups4vr
+#' @examples
+#' dir.create('data')
+#' exportUserGroups4vr( cellexalObj, 'data')
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
@@ -60,7 +63,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 #' @description simply preload the cellexalObj before running the cellexalvrR specififc function
 #' @param cellexalObj the cellexalObj.RData file
 #' @param path the outpath
-#' @title description of function exportUserGroups4vr
+#' @title load object and run exportUserGroups4vr
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('character'),
 		definition = function (cellexalObj, path) {

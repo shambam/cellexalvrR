@@ -14,7 +14,10 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 #' @param forceDB re-write the db even if it exisis (default =F)
 #' @param VRpath in order to re-color the data in the VR process the 
 #' VR process needs the grouping names which will be exported if we get the correct path here
-#' @title description of function export2cellexalvr
+#' @title create the VR data folder necessary for CellexalVR
+#' @examples
+#' dir.create ('data')
+#' export2cellexalvr(cellexalObj, path='data')
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {

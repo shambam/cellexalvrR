@@ -9,7 +9,7 @@
 #' @param name the name of the inbuilt list to use ( either 'TFs' or 'epigenetic' for now)
 #' @param x, TEXT MISSING
 #' @param name one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")
-#' @title description of function useInbuiltGOIlists
+#' @title easily identify e.g. all TFs in the dataset
 #' @export useInbuiltGOIlists
 if ( ! isGeneric('useInbuiltGOIlists') ){setGeneric('useInbuiltGOIlists', ## Name
 	function (x, name ) { 

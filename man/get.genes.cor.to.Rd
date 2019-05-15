@@ -5,7 +5,7 @@
 \alias{get.genes.cor.to,character-method}
 \title{description of function get.genes.cor.to (character)}
 \usage{
-\S4method{get.genes.cor.to}{character}(cellexalObj, gname, output,
+\S4method{get.genes.cor.to}{character}(cellexalObj, gname, output = NULL,
   is.smarker = F, cpp = T)
 }
 \arguments{

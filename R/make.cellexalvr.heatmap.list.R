@@ -1,3 +1,7 @@
+#' This is a function called from CellexalVR.
+#' 
+#' Its main function is to store the result from getDifferentials() in a file 
+#' to be read by CellexalVR.
 #' @name make.cellexalvr.heatmap.list
 #' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
 #' @rdname make.cellexalvr.heatmap.list-methods

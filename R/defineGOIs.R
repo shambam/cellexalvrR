@@ -8,8 +8,8 @@
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)
 #' @param ...  unused
-#' @title description of function defineGOIs
-#' @export defineGOIs
+#' @title Define special genes based on inbuilt data sets (TFs, ...)
+##' @export defineGOIs
 if ( ! isGeneric('defineGOIs') ){setGeneric('defineGOIs', ## Name
 	function ( cellexalObj, name, genes, lables=NULL,... ) { 
 		standardGeneric('defineGOIs') 

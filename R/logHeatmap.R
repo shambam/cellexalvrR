@@ -4,7 +4,10 @@ setGeneric('logHeatmap', ## Name
 		standardGeneric('logHeatmap')
 	}
 )
-
+#' logHeatmap will create a section in the log document including 
+#' (1) the MDS the groupings were selected (colored 2D)
+#' (2) the heatmap itself
+#' and (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 #' @name logHeatmap
 #' @aliases logHeatmap,cellexalvrR-method
 #' @rdname logHeatmap-methods

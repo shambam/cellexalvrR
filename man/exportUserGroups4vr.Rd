@@ -3,7 +3,7 @@
 \docType{methods}
 \name{exportUserGroups4vr,character-method}
 \alias{exportUserGroups4vr,character-method}
-\title{description of function exportUserGroups4vr}
+\title{load object and run exportUserGroups4vr}
 \usage{
 \S4method{exportUserGroups4vr}{character}(cellexalObj, path)
 }

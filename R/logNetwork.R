@@ -3,7 +3,7 @@ setGeneric('logNetwork', ## Name
 		standardGeneric('logNetwork')
 	}
 )
-
+#' logNetwork is a VR helper funtion that stores one network in the log document.
 #' @name logNetwork
 #' @aliases logNetwork,cellexalvrR-method
 #' @rdname logNetwork-methods
