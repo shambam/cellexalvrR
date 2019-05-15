@@ -20,10 +20,10 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This document describes how to use `cellexalvrR`, an R package that accompanies [CellexalVR](wwww.cellexalvr.med.lu.se) which is a virtual reality environment to analyse single-cell RNAseq data. `cellexalvrR` has two functions:
+This document describes how to use `cellexalvrR`, an R package that accompanies [CellexalVR](wwww.cellexalvr.med.lu.se) which is a virtual reality environment to analyze single-cell RNAseq data. `cellexalvrR` has two functions:
 
 1. To aid the formatting and export of data that can be imported by CellexalVR.
-2. To perform bakend calculations during a CellexalVR session.
+2. To perform backend calculations during a CellexalVR session.
 
 ##Installation
 The easiest way to install `cellexalvrR` is directly from github using the `devtools` package:
@@ -33,7 +33,7 @@ library(devtools)
 install_github("sonejilab/cellexalvrR")
 ```
 
-**If you are installing this on your VR station then be sure to install `cellexalvrR` system-wide, so on your Windows 10 machine right-click the R icon, and then "Run as administator" before issuing the commands above.**
+**If you are installing this on your VR station then be sure to install `cellexalvrR` system-wide, so on your Windows 10 machine right-click the R icon, and then "Run as administrator" before issuing the commands above.**
 
 
 ## Quick start
@@ -151,7 +151,7 @@ While `MakeCellexaVRObj` is the most convenient way to make the object, sometime
 This is done calling `new`:
 
 ```{r,fig.show='hold',eval=T}
-cell.vr.scr <- new("cellexalvr",data=log2data,mds=list(tsne=tsne.proj))
+cell.vr.scr <- new("cellexalvr",data=Matrix(log2data,sparse=T),mds=list(tsne=tsne.proj))
 cell.vr.scr
 ```
 

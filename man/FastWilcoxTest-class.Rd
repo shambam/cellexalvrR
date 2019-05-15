@@ -13,7 +13,7 @@ cellexalvrR is the R class that build the backend of CellexalVR
 https://www.cellexalvr.med.lu.se/ is a VR application to analyze single cell expression data.
 This R class is the backend of the VR application and a dependency of that.
 CellexalvrR is not developed to be a general purpose single cell analysis class like Seurat.
-It e.g. does not implement normalization or mds methods, but expects all data to be preprocessed.
+It e.g. does not implement normalization or drc methods, but expects all data to be preprocessed.
 }
 \section{Slots}{
 
@@ -30,11 +30,11 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 
 \item{\code{colors}}{a list for each userGroups entry defining the color sheme for this grouping}
 
-\item{\code{groupSelectedFrom}}{local info to store which usergroup has been selected from which mds structure}
+\item{\code{groupSelectedFrom}}{local info to store which usergroup has been selected from which drc structure}
 
 \item{\code{usedObj}}{a generic storage list collecting objects not fitting into any other slot}
 
-\item{\code{mds}}{a list of all mds objects to be visible in the 3D application}
+\item{\code{drc}}{a list of all DRC objects to be visible in the 3D application}
 
 \item{\code{index}}{a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application}
 

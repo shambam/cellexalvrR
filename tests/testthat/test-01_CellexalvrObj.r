@@ -18,8 +18,8 @@ if ( ! file.exists (file.path(ipath,'cellexalObj.RData') ) ) {
 }
 cellexalObj <- loadObject(file.path(ipath,'cellexalObj.RData'))
 
-ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph2.mds', 
-		'graph2.hull',  'index.facs',  'graph1.mds' )
+ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph2.drc', 
+		'graph2.hull',  'index.facs',  'graph1.drc' )
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 

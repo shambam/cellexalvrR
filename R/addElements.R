@@ -1,44 +1,44 @@
-#' @name addMDS2cellexalvr
-#' @aliases addMDS2cellexalvr,cellexalvrR-method
-#' @rdname addMDS2cellexalvr-methods
+#' @name addDRC2cellexalvr
+#' @aliases addDRC2cellexalvr,cellexalvrR-method
+#' @rdname addDRC2cellexalvr-methods
 #' @docType methods
-#' @description  Adds mds coordinates to a cellexalvrObj
+#' @description  Adds drc coordinates to a 'cellexalvrObj'
 #' @param cellexalObj, cellexalvr object
-#' @param mdsmatrix A (3 columns) matrix of coordinates
+#' @param drcmatrix A (3 columns) matrix of coordinates
 #' @param name A name for the object (default = graph<n>)
-#' @title description of function addMDS2cellexalvr
-#' @export addMDS2cellexalvr
-if ( ! isGeneric('addMDS2cellexalvr') ){setGeneric('addMDS2cellexalvr', ## Name
-	function (cellexalObj, mdsmatrix, name=NULL) { 
-		standardGeneric('addMDS2cellexalvr')
+#' @title description of function 'addDRC2cellexalvr'
+#' @export addDRC2cellexalvr
+if ( ! isGeneric('addDRC2cellexalvr') ){setGeneric('addDRC2cellexalvr', ## Name
+	function (cellexalObj, drcmatrix, name=NULL) { 
+		standardGeneric('addDRC2cellexalvr')
 	}
 ) }
 
-setMethod('addMDS2cellexalvr', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, mdsmatrix, name=NULL) {
+setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj, drcmatrix, name=NULL) {
 
-    rq.ind <- (length(cellexalObj@mds)+1)
+    rq.ind <- (length(cellexalObj@drc)+1)
 	if ( ! is.null(name) ){
 		rq.nm <- name
 	}else {
-    	rq.nm <- paste("graph",(length(cellexalObj@mds)+1),sep="")
+    	rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
 	}
-    mp <- mdsmatrix
+    mp <- drcmatrix
     colnames(mp) <- c("x","y","z")
     rownames(mp) <- colnames(cellexalObj@data)
 
-    cellexalObj@mds[[rq.ind]] <- mp
-    names(cellexalObj@mds)[rq.ind] <- rq.nm
+    cellexalObj@drc[[rq.ind]] <- mp
+    names(cellexalObj@drc)[rq.ind] <- rq.nm
     cellexalObj
 } )
 #' @name addCellMeta2cellexalvr
 #' @aliases addCellMeta2cellexalvr,cellexalvrR-method
 #' @rdname addCellMeta2cellexalvr-methods
 #' @docType methods
-#' @description  Adds per cell metadata to a cellexalvrObj
+#' @description  Adds per cell metadata to a 'cellexalvrObj'
 #' @param cellexalObj, cellexalvr object
 #' @param cell.meta A matrix of cell metadata
-#' @title description of function addCellMeta2cellexalvr
+#' @title description of function 'addCellMeta2cellexalvr'
 #' @export addCellMeta2cellexalvr
 if ( ! isGeneric('addCellMeta2cellexalvr') ){setGeneric('addCellMeta2cellexalvr', ## Name
 	function (cellexalObj, cell.meta) { 
@@ -60,7 +60,7 @@ setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 #' @description  Adds FACS index to a cellexalvrObj
 #' @param cellexalObj, cellexalvr object
 #' @param facs.data A matrix of surface marker intensities
-#' @title description of function addFACS2cellexalvr
+#' @title description of function 'addFACS2cellexalvr'
 #' @export addFACS2cellexalvr
 if ( ! isGeneric('addFACS2cellexalvr') ){setGeneric('addFACS2cellexalvr', ## Name
 	function (cellexalObj, facs.data) { 

@@ -22,6 +22,12 @@ VR process needs the grouping names which will be exported if we get the correct
 \description{
 Creates the base files needed to run the VR environment
 }
+\details{
+This function creates all files necessary 
+for the CellexalVR application to show this data.
+
+Consult the CellexalVR documentation for further path requrements.
+}
 \examples{
 dir.create ('data')
 export2cellexalvr(cellexalObj, path='data')

@@ -26,8 +26,8 @@ for ( fname in ofiles ) {
 
 CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
-expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: input object mds names == ('graph1', 'graph2') [", 
-				paste(collapse=", ", names(CO@mds)) ))
+expect_true( all.equal( names(CO@drc), c('graph1', 'graph2')), paste("before: input object drc names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@drc)) ))
 
 
 system( paste( 'Rscript', script, input_file, datadir, output_file ))
@@ -35,8 +35,8 @@ system( paste( 'Rscript', script, input_file, datadir, output_file ))
 
 CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
-expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("after: input object mds names == ('graph1', 'graph2') [", 
-				paste(collapse=", ", names(CO@mds)), "]" ))
+expect_true( all.equal( names(CO@drc), c('graph1', 'graph2')), paste("after: input object drc names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@drc)), "]" ))
 
 
 

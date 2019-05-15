@@ -23,4 +23,7 @@
 \description{
 Gets positively and negatively correlated genes to a chosen gene
 }
+\examples{
+print (get.genes.cor.to ( cellexalObj, 'Gata1'))
+}
 \keyword{correlation}

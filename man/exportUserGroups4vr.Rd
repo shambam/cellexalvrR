@@ -13,7 +13,7 @@
 \item{path}{the outpath}
 }
 \description{
-simply preload the cellexalObj before running the cellexalvrR specififc function
+simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
 }
 \section{Methods (by class)}{
 \itemize{

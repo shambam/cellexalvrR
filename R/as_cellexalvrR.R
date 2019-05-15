@@ -1,3 +1,6 @@
+#' This function is part of the conversion path of a BioData::R6 object into a cellexalvrR object.
+#'
+#' The function will most likely not be of importance to anybody but me.
 #' @name as_cellexalvrR
 #' @aliases as_cellexalvrR,environment-method
 #' @rdname as_cellexalvrR-methods
@@ -9,7 +12,7 @@
 #' @param userGroups which x$samples columns to add to the userGroups slot
 #' @param outpath set the outpath of the object (default getwd())
 #' @param specie set the specie to either mouse or human (default check gene names)
-#' @title convert a BioData object to cellexalvrR keeping all 3D mds objects.
+#' @title convert a BioData object to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
 	function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { ## Argumente der generischen Funktion
@@ -40,15 +43,15 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	colnames(t) = unlist(lapply( x$usedObj$userGroups, function (n) paste( n, c("", "order"))))
 	ret@userGroups = t
 	
-	MDS <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
-	OK = grep ( '_dim_' , MDS, invert= TRUE )
+	DRC <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
+	OK = grep ( '_dim_' , DRC, invert= TRUE )
 	if ( length(OK) == 0 ) {
-		stop( "cellexalvrR does need at least one 3D MDS structure to work on - please create that first!")
+		stop( "cellexalvrR does need at least one 3D DRC structure to work on - please create that first!")
 	}
-	for ( n in MDS[OK] ) {
+	for ( n in DRC[OK] ) {
 		for ( n2 in names(x$usedObj[[n]]) ) {
 			new_name = stringr::str_replace_all( n2, "\\s", "_")
-			ret@mds[[new_name]] = x$usedObj[[n]][[n2]]
+			ret@drc[[new_name]] = x$usedObj[[n]][[n2]]
 		}
 	}
 	ret@colors = x$usedObj$colorRange

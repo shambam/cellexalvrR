@@ -1,8 +1,9 @@
+#' This function can convert a 'Seurat' (v <3.0.0) object into 'cellexalvrR'.
 #' @name seurat2cellexalvr
 #' @aliases seurat2cellexalvr,seurat-method
 #' @rdname seurat2cellexalvr-methods
 #' @docType methods
-#' @description  Converts a seurat class to one of cellexalvr. If the cell-cycle score have been calculated
+#' @description  Converts a 'seurat' class to one of 'cellexalvr'. If the cell-cycle score have been calculated
 #' @description  they will be added to the cell.mata table
 #' @param seuratObj the suerat object to be converted
 #' @title description of function seurat2cellexalvr
@@ -29,7 +30,7 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
 
     if (exists("pca", where = seuratObj@dr) == T) {
         pca <- as.matrix(seuratObj@dr$pca@cell.embeddings[,1:3])
-        cellObj <- addMDS2cellexalvr(cellObj,pca,"PCA")
+        cellObj <- addDRC2cellexalvr(cellObj,pca,"PCA")
     }
 
     if (exists("tsne", where = seuratObj@dr) == T) {
@@ -37,7 +38,7 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
         if(ncol(tsne)<3){
             stop("Number of compoments is less than 3. Rerun \"RunTSNE\" using \"dim.embed=3\" to make use of all that VR goodness")
         }else{
-            cellObj <- addMDS2cellexalvr(cellObj,tsne[,1:3],"tSNE")
+            cellObj <- addDRC2cellexalvr(cellObj,tsne[,1:3],"tSNE")
         }
     }
 

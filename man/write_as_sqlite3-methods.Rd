@@ -4,7 +4,7 @@
 \name{write_as_sqlite3}
 \alias{write_as_sqlite3}
 \alias{write_as_sqlite3,cellexalvrR-method}
-\title{write a cellexalvrR objects data to a qslite3 database of name ofile.}
+\title{write a cellexalvrR objects data to a 'sqlite3' database of name ofile.}
 \usage{
 write_as_sqlite3(cellexalObj, ofile)
 }

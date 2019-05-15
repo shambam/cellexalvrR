@@ -4,17 +4,23 @@
 \name{groupingInfo}
 \alias{groupingInfo}
 \alias{groupingInfo,cellexalvrR-method}
-\title{description of function groupingInfo}
+\title{get information on a sample grouping}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
 \item{gname}{The optional group name to get info on a specific grouping (not the last)}
-
-\item{cellexalObj, }{TEXT MISSING}
-
-\item{gname}{TEXT MISSING default=NULL}
+}
+\value{
+a list with the entries 'grouping', 'order', 'drc' and 'col'
 }
 \description{
 returns the information stored for the last grouping read
+}
+\details{
+groupingInfo collects all information about one grouping from 
+the cellexalvrR internals and returns them as list.
+}
+\examples{
+groupingInfo(cellexalObj, 'User.group.4')
 }
 \keyword{groupingInfo}

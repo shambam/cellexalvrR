@@ -4,7 +4,7 @@
 \name{addFACS2cellexalvr}
 \alias{addFACS2cellexalvr}
 \alias{addFACS2cellexalvr,cellexalvrR-method}
-\title{description of function addFACS2cellexalvr}
+\title{description of function 'addFACS2cellexalvr'}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

@@ -5,6 +5,9 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 	}
 ) }
 
+#' This is a 'VR' helper function that creates a dynamic file.
+#'
+#' Users of the 'cellexalvrR' R class should not need this function.
 #' @name exportUserGroups4vr
 #' @aliases exportUserGroups4vr,cellexalvrR-method
 #' @rdname exportUserGroups4vr-methods
@@ -60,7 +63,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 
 #' @describeIn exportUserGroups4vr cellexalvrR
 #' @docType methods
-#' @description simply preload the cellexalObj before running the cellexalvrR specififc function
+#' @description simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
 #' @param cellexalObj the cellexalObj.RData file
 #' @param path the outpath
 #' @title load object and run exportUserGroups4vr

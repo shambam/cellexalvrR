@@ -20,6 +20,11 @@ outfolder that contains the group name (in the R object) the numer of groups in 
 
 selection and the number of cells in the whole group.
 }
+\details{
+This is a 'VR' helper function that creates a dynamic file.
+
+Users of the 'cellexalvrR' R class should not need this function.
+}
 \examples{
 dir.create('data')
 exportUserGroups4vr( cellexalObj, 'data')

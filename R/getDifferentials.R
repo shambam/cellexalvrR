@@ -1,7 +1,7 @@
 
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 			function (cellexalObj,cellidfile,
-					deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) { 
 				standardGeneric('getDifferentials') 
 			}
@@ -13,7 +13,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' This function makes three statistics available for the VR process 
 #' (1) 'linear' correlation for one group selections
 #' (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function
-#' (3) 'Seurat_wilcox' use the original Seurat::FindAllMarkers function(10x slower than the c++ version)
+#' (3) 'Seurat_wilcox' the original Seurat::FindAllMarkers function (~10x slower than the c++ version)
 #' @name getDifferentials
 #' @aliases getDifferentials,cellexalvrR-method
 #' @rdname getDifferentials-methods
@@ -22,7 +22,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")
+#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2' )
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
@@ -30,20 +30,23 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @param onlyPos select only genes showing an higher expression in the group (default =T)
 #' @keywords DEGs
 #' @title VR helper function getDifferentials
-#' @example getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+#' @examples 
+#' \dontrun{
+#' getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+#' }
 #' @return a list of the top differential genes (num.sig)
-#' @export getDifferentials( cellexalObj,  'User.Group.2')
+#' @export getDifferentials
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
-				deg.method=c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				deg.method=c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) {
 			
 			cellexalObj <- loadObject(cellexalObj)
 			num.sig <- as.numeric( num.sig )
 			
-			accepted = c("wilcox",'Seurat_wilcox',  "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova")
+			accepted = c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova')
 			if ( sum(unlist(lapply( accepted, function(ok) { return ( ok == deg.method )} ))) != 1 ) {
-				stop( paste("The deg.method",deg.method, "is not supported" ) )
+				stop( paste('The deg.method',deg.method, 'is not supported' ) )
 			}
 			cellexalObj <- userGrouping(cellexalObj, cellidfile)
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
@@ -72,7 +75,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			if ( is.null(cellexalObj@usedObj$sigGeneLists)) 
 				cellexalObj@usedObj$sigGeneLists = list()
 			
-			if(deg.method=="anova"){
+			if(deg.method=='anova'){
 				message('anova gene stats is deprecated - using wilcox instead!')
 				deg.method= 'wilcox'
 			}
@@ -81,7 +84,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.method == 'Linear'
 				message('cor.stat linear gene stats')
 				lin <- function( v, order ) {
-					stats::cor.test( v, order, method="spearman" )
+					stats::cor.test( v, order, method='spearman' )
 				}
 				ps <- apply(loc@data,1,lin,order=1:ncol(loc@data))
 				
@@ -132,19 +135,19 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
 				## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
 				
-				if (!requireNamespace("Seurat", quietly = TRUE)) {
-					stop("seurat needed for this function to work. Please install it.",
+				if (!requireNamespace('Seurat', quietly = TRUE)) {
+					stop('seurat needed for this function to work. Please install it.',
 							call. = FALSE)
 				}
-				sca <- Seurat::CreateSeuratObject(loc@data, project = "SeuratProject", min.cells = 0,
+				sca <- Seurat::CreateSeuratObject(loc@data, project = 'SeuratProject', min.cells = 0,
 						min.genes = ceiling(ncol(loc@data)/100), is.expr = 1, normalization.method = NULL,
 						scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
-						names.field = 1, names.delim = "_", 
+						names.field = 1, names.delim = '_', 
 						meta.data = data.frame(wellKey=colnames(loc@data), GroupName = grp.vec),
 						display.progress = TRUE)
 				
 				sca = Seurat::SetIdent( sca, colnames(loc@data), 
-						paste("Group", as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
+						paste('Group', as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
 				all_markers <- Seurat::FindAllMarkers(
 						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
 				)
@@ -218,11 +221,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
 			## we only need to store the stats object here.
 			## and as that is part of the usedObj we will store that ;-)
-			## lockedSave(cellexalObj) ## to much overhead!
+			## lockedSave(cellexalObj) ## to much overheard!
 			if ( ! interactive() ) { ## likely the VR scripts
-				#print( paste("Do we reach this point?", 'usedObj', cellexalObj@outpath ) )
+				#print( paste('Do we reach this point?', 'usedObj', cellexalObj@outpath ) )
 				savePart( cellexalObj, 'usedObj');
-				#print( "And this - Do we reach this point, too?")
+				#print( 'And this - Do we reach this point, too?')
 			}
 			
 			deg.genes
@@ -235,7 +238,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 #' @description preload the cellexalObj
 #' @param cellexalObj the cellexal.RData file
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")
+#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod',
+#' 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2')
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
@@ -245,7 +249,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 #' @export getDifferentials
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (cellexalObj,cellidfile,
-				deg.method=c("wilcox", 'Seurat_wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2", "anova"),
+				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
 			cellexalObj <- loadObject(cellexalObj)
 			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)

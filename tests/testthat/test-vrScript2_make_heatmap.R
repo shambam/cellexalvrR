@@ -33,8 +33,8 @@ expect_true( file.exists( file.path(datadir, 'cellexalObj.RData' ) ), paste("inp
 
 CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
-expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: input object mds names == ('graph1', 'graph2') [", 
-				paste(collapse=", ", names(CO@mds)), "]" ))
+expect_true( all.equal( names(CO@drc), c('graph1', 'graph2')), paste("before: input object drc names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@drc)), "]" ))
 
 expect_true( CO@outpath == normalizePath(datadir), "outpath is absolute" )
 
@@ -54,7 +54,7 @@ expect_true(length(unique(t)) == 250, paste("not the expected number of genes re
 
 CO2 <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
-expect_true( all.equal( names(CO2@mds), c('graph1', 'graph2')), paste("after: input object mds names == ('graph1', 'graph2') [", paste(collapse=", ", names(CO2@mds)), "]" ))
+expect_true( all.equal( names(CO2@drc), c('graph1', 'graph2')), paste("after: input object drc names == ('graph1', 'graph2') [", paste(collapse=", ", names(CO2@drc)), "]" ))
 
 
 

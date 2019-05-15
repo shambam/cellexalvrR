@@ -20,3 +20,7 @@ logStatResult(x, method, data, col = NULL)
 \description{
 add small section in the log file including a stats data download link (coma separted table file)
 }
+\details{
+logStatResult will create a clickable link in the log document 
+where the user can download the stats table from.
+}

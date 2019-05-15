@@ -32,12 +32,12 @@ for ( fname in ofiles ){
 
 OV <- loadObject(file.path(dataSourceFolder, "cellexalObj.RData"))
 
-expect_true( all.equal( names(OV@mds), c('graph1', 'graph2')), paste("input object mds names == ('graph1', 'graph2') [", paste(collapse=", ", names(OV@mds)) ))
+expect_true( all.equal( names(OV@drc), c('graph1', 'graph2')), paste("input object drc names == ('graph1', 'graph2') [", paste(collapse=", ", names(OV@drc)) ))
 
 
 OV2 <- loadObject(file.path(outputFolder, "cellexalObj.RData"))
 
 #print( paste("Script tests file content:" , file.path(outputFolder, "cellexalObj.RData") ))
 
-expect_true( all.equal( names(OV2@mds), c('graph1', 'graph2')), paste("output object mds names == ('graph1', 'graph2') [", paste(collapse=", ", names(OV2@mds)) ))
+expect_true( all.equal( names(OV2@drc), c('graph1', 'graph2')), paste("output object drc names == ('graph1', 'graph2') [", paste(collapse=", ", names(OV2@drc)) ))
 

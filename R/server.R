@@ -1,3 +1,7 @@
+#' This server function is the main speed up for big data files.
+#'
+#' Instead of loading and saving all files for each function call in the VR process
+#' we now can have one R process that sequencially works on all requests.
 #' @name server
 #' @aliases server,character-method
 #' @rdname server-methods
@@ -5,7 +9,7 @@
 #' @description starts a server looking for a sourcable file in paste(file, 'input.R', sep='.')
 #' The function sets a paste(file, 'input.lock', sep='.') lock file on processed scripts.
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
-#' @param file the file bas string to create input.R input.log and pid files.
+#' @param file the file core name to create input.R input.log and pid files.
 #' @param sleepT sleep time in seconds between checks for the input.R file
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.

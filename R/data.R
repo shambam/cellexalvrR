@@ -51,8 +51,8 @@ globalVariables("human.tfs", 'cellexalvrR' , add = TRUE)
 
 
 #' @name Epigenetic
-#' @title A simple table containing the data from http://epifactors.autosome.ru/ as from 21st September 2017
-#' @description This table can be used to create the epigenetics MDS objects.
+#' @title A simple table containing the data from 'http://epifactors.autosome.ru/' as from 21st September 2017
+#' @description This table can be used to create the epigenetics DRC objects.
 #' @docType data
 #' @usage Epigenetic
 #' @format data.frame

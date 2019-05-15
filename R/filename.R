@@ -1,3 +1,6 @@
+#' Filename simple pastes a vector of characters using '.' and removes all whitespace.
+#'
+#' Simple function to unclutter the R code.
 #' @name filename
 #' @aliases filename,character-method
 #' @rdname filename-methods

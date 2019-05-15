@@ -23,8 +23,8 @@ setMethod('show', signature = c ('cellexalvrR'),
 			if ( ncol(object@userGroups) > 0 ) {
 				cat ( paste( collapse=", ", colnames(object@userGroups)), '\n' )
 			}
-			if ( length(names(object@mds)) > 0 ){
-				cat ( "and", length(names(object@mds)), "mds object(s)\n")
+			if ( length(names(object@drc)) > 0 ){
+				cat ( "and", length(names(object@drc)), "drc object(s)\n")
 			}
 			cat (paste("Specie is set to", object@specie),"\n")
 			

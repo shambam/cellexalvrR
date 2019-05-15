@@ -1,3 +1,4 @@
+#' A thread save saving of the object. 
 #' @name lockedSave
 #' @aliases lockedSave,cellexalvrR-method
 #' @rdname lockedSave-methods
@@ -37,7 +38,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 	print (paste("saved the object to",path))
 } )
 
-
+#' A thread save loading of the object.
 #' @name lockedLoad
 #' @aliases lockedLoad,character-method
 #' @rdname lockedLoad-methods
@@ -64,7 +65,7 @@ setMethod('lockedLoad', signature = c ('character'),
 			path = dirname(cellexalObj)
 			load( cellexalObj )
 			if ( is.na(match('data', methods::slotNames(cellexalObj)) ) ){
-				methods::new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
+				methods::new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,
 						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
 			}
 			if ( is.null(cellexalObj@outpath) ){

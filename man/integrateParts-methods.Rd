@@ -14,3 +14,9 @@
 integrate the parts that have been split from the main object.
 This function is called by the loadObject function. Nothing the user has to think about!
 }
+\details{
+The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR
+
+Instead of saving all data in each VR script call only the modified data is saved.
+This function loads all separately saved parts into the main cellexalvrR object.
+}

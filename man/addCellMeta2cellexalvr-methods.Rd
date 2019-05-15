@@ -4,12 +4,12 @@
 \name{addCellMeta2cellexalvr}
 \alias{addCellMeta2cellexalvr}
 \alias{addCellMeta2cellexalvr,cellexalvrR-method}
-\title{description of function addCellMeta2cellexalvr}
+\title{description of function 'addCellMeta2cellexalvr'}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
 \item{cell.meta}{A matrix of cell metadata}
 }
 \description{
-Adds per cell metadata to a cellexalvrObj
+Adds per cell metadata to a 'cellexalvrObj'
 }

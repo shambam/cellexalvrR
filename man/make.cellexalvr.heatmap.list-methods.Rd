@@ -20,6 +20,12 @@
 Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR
 Internally this function uses the getDifferentials() function and just writes the output of that into the outfile.
 }
+\details{
+This is a function called from CellexalVR.
+
+Its main function is to store the result from getDifferentials() in a file 
+to be read by CellexalVR.
+}
 \keyword{differential,}
 \keyword{gene}
 \keyword{list}

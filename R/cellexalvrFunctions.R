@@ -40,7 +40,7 @@ setMethod('loadObject', signature = c ('character'),
 			}
 			## old objects need an updatae
 			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
-				new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
+				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
 				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
@@ -131,7 +131,8 @@ if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
 #' @param cpp use the c++ cor implementation (default = TRUE)
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
-#' @example print (get.genes.cor.to ( cellexalObj, 'Gata1'))
+#' @examples
+#' print (get.genes.cor.to ( cellexalObj, 'Gata1'))
 #' @export get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {

@@ -4,7 +4,7 @@
 \name{useInbuiltGOIlists}
 \alias{useInbuiltGOIlists}
 \alias{useInbuiltGOIlists,cellexalvrR-method}
-\title{description of function useInbuiltGOIlists}
+\title{easily identify e.g. all TFs in the dataset}
 \arguments{
 \item{x, }{cellexalvr object}
 
