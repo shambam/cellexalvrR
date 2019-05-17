@@ -19,12 +19,20 @@ setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
 			#ret <- new("cellexalvrR",data=as.matrix(x@data),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
 			ret = NULL
-
+			#browser()
 			if( isS4(x)) {
 				## OK no R6 then ;-)
 				ret = x
-
-				ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+				if ( ! .hasSlot( x, 'version') ) {
+					if ( .hasSlot( x, 'dat')) {
+							ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						}else {
+							ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						}
+					
+				}else if (x@version != as.character(packageVersion("cellexalvrR"))  ) { 
+					ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+				}
 				#browser()
 				if( methods::.hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups
@@ -39,7 +47,11 @@ setMethod('renew', signature = c ('cellexalvrR'),
 					ret@specie = x@specie
 				}
 			}else {
-				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$drc,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
+				if ( is.null(x$index)){
+					x$index = matrix()
+				}
+
+				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$mds,meta.cell=as.matrix(x$meta.cell),meta.gene = as.matrix(x$meta.gene),  index = x$index, specie= 'unset!')
 				if( methods::.hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups
 				}
