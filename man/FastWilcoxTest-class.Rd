@@ -43,5 +43,7 @@ It e.g. does not implement normalization or drc methods, but expects all data to
 \item{\code{specie}}{the species this data is from (mouse or human)}
 
 \item{\code{outpath}}{the path this object will be saved to}
+
+\item{\code{version}}{the cellexalvrR package version that created this object.}
 }}
 

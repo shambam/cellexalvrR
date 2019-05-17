@@ -22,6 +22,7 @@
 #' @slot tfs depricated not used any more
 #' @slot specie the species this data is from (mouse or human)
 #' @slot outpath the path this object will be saved to
+#' @slot version the cellexalvrR package version that created this object.
 #' @exportClass cellexalvrR
 setClass(Class="cellexalvrR",
 		representation=representation(
@@ -36,7 +37,8 @@ setClass(Class="cellexalvrR",
 				index=c("matrix"),
 				tfs="vector",
 				specie="character",
-				outpath="character"
+				outpath="character",
+				version="character"
 		),
 		prototype(
 				data=new('dgCMatrix'),
@@ -50,7 +52,8 @@ setClass(Class="cellexalvrR",
 				index=matrix(),
 				tfs=NA_character_,
 				specie=NA_character_,
-				outpath=NA_character_
+				outpath=NA_character_,
+				version=as.character(packageVersion("cellexalvrR"))
 		)
 )
 

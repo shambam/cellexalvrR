@@ -19,10 +19,10 @@ setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
 			#ret <- new("cellexalvrR",data=as.matrix(x@data),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
 			ret = NULL
+
 			if( isS4(x)) {
 				## OK no R6 then ;-)
 				ret = x
-				tryCatch({  methods::validObject(x) } ,  error = function(e) {
 
 				ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
 				#browser()
@@ -38,7 +38,6 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				if( methods::.hasSlot(x,'specie') ){
 					ret@specie = x@specie
 				}
-				} )
 			}else {
 				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$drc,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
 				if( methods::.hasSlot(x,'userGroups') ){
