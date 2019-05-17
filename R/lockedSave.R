@@ -63,11 +63,10 @@ setMethod('lockedLoad', signature = c ('character'),
 				Sys.sleep(1)
 			}
 			path = dirname(cellexalObj)
-			load( cellexalObj )
-			if ( is.na(match('data', methods::slotNames(cellexalObj)) ) ){
-				methods::new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,
-						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
-			}
+			load( cellexalObj  )
+			
+			cellexalObj = renew( cellexalObj )
+			
 			if ( is.null(cellexalObj@outpath) ){
 				cellexalObj@outpath = normalizePath( path )
 			}
