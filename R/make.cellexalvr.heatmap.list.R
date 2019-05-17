@@ -38,6 +38,9 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			## we also only need the samples that have been selected:
 			tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@data)[
 							which(!is.na(cvrObj@userGroups[,cellexalObj@usedObj$lastGroup])) ] )
+			if ( file.exists( paste(sep=".", outfile, 'sqlite3')) ){
+				unlink( paste(sep=".", outfile, 'sqlite3') )
+			}
 			write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') )
 			
 		} )

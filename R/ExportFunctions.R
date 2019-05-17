@@ -77,7 +77,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 			utils::write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
 
 		}
-		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".drc",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".mds",sep=""))
 		if ( ! file.exists( ofile )) {
 			utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}

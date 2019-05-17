@@ -17,14 +17,14 @@ simpleLoadT = end_time - start_time
 
 ## now change something and check if the new loadObject call loads the updated version
 
-expect_true( ncol(this@userGroups) == 10 )
-this@userGroups = this@userGroups[,1:4]
+expect_true( ncol(this@userGroups) == 4 )
+this@userGroups = this@userGroups[,3:4]
 
 savePart( this, 'userGroups' )
 
 this = loadObject( file.path(opath, 'cellexalObj.RData' ))
 
-expect_true( ncol(this@userGroups) == 4 )
+expect_true( ncol(this@userGroups) == 2 )
 
 expect_true( length(this@groupSelectedFrom) == 2 )
 
@@ -36,7 +36,7 @@ this = loadObject( file.path(opath, 'cellexalObj.RData' ))
 
 expect_true( length(this@groupSelectedFrom) == 0 )
 
-expect_true( length(this@colors) == 5 )
+expect_true( length(this@colors) == 2 )
 
 this@colors <- list()
 
@@ -59,25 +59,25 @@ this = loadObject( file.path(opath, 'cellexalObj.RData' ))
 
 expect_true(this@usedObj$useless_add == 1  )
 
-expect_true( ncol(this@meta.cell) == 23 )
+expect_true( ncol(this@meta.cell) == 22 )
 this@meta.cell = cbind(this@meta.cell, test= rep('useless', nrow(this@meta.cell)))
 savePart( this, 'meta.cell' )
 
-this@meta.cell = this@meta.cell[,1:23]
+this@meta.cell = this@meta.cell[,1:22]
 
 this = loadObject( file.path(opath, 'cellexalObj.RData' ))
 
-expect_true( ncol(this@meta.cell) == 24 )
+expect_true( ncol(this@meta.cell) == 23 )
 
-m =  matrix(ncol=0, nrow=0)
-storage.mode(m) <- 'double'
+m =  matrix(ncol=1, nrow=1)
+storage.mode(m) <- 'logical'
 
 expect_equal(this@meta.gene ,  m)
 
-this@meta.gene =as.matrix(data.frame( 'geneID' = rownames(this@dat)) )
+this@meta.gene =as.matrix(data.frame( 'geneID' = rownames(this@data)) )
 
 expect_true( storage.mode(this@meta.gene) == "character" )
-expect_true( nrow(this@meta.gene ) == 4709 )
+expect_true( nrow(this@meta.gene ) == 4773 )
 
 savePart( this, 'meta.gene' )
 this@meta.gene = m
@@ -87,7 +87,7 @@ this = loadObject( file.path(opath, 'cellexalObj.RData' ))
 end_time = Sys.time()
 
 expect_true( storage.mode(this@meta.gene) == "character" )
-expect_true( nrow(this@meta.gene ) == 4709 )
+expect_true( nrow(this@meta.gene ) == 4773 )
 
 expect_true ( simpleLoadT > (end_time - start_time) *0.8 )
 
