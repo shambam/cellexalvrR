@@ -13,3 +13,6 @@
 \description{
 returns the possible outfile for the partial saving of the cellexal object
 }
+\details{
+The function partFname checks which part to save and throws an error it the part is not avaialable for saving.
+}

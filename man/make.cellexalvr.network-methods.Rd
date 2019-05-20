@@ -19,5 +19,8 @@
 \description{
 Creates a network from selected groups for selected genes
 }
+\details{
+This is the R function that calculates the TF networks shown in the VR environment.
+}
 \keyword{construction}
 \keyword{network}

@@ -16,7 +16,7 @@
 save only a part of the cellexal object increasing the VR interaction speed
 }
 \details{
-Thge function savePart is one main part in the load and save speed up implemented for cellexalvrR
+The function savePart is one main part in the load and save speed up implemented for cellexalvrR
 
 Instead of saving all data in each VR script call only the modified data is saved.
 This function saves a specific data part of the whole cellexalvrR speeding up the save process.

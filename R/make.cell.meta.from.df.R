@@ -23,9 +23,9 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
     meta4cellexalvr <- NULL
 
     for(i in 1:length(rq.fields)){
-        tmp.met <- phytools::to.matrix(metad[,rq.fields[i]],unique(metad[,rq.fields[i]]) )
-        colnames(tmp.met) <- paste(rq.fields[i],colnames(tmp.met),sep="@")
-        meta4cellexalvr <- cbind(meta4cellexalvr,tmp.met)
+        tmp.met <- phytools::to.matrix(metad[,rq.fields[i]], unique(metad[,rq.fields[i]]) )
+        colnames(tmp.met) <- paste(rq.fields[i], colnames(tmp.met), sep="@")
+        meta4cellexalvr <- cbind(meta4cellexalvr, tmp.met)
     }
 	# match any repeat of whitespace and replace it with one '.' each
 	colnames(meta4cellexalvr) <- gsub( '\\s+', '.', perl=T, colnames(meta4cellexalvr))

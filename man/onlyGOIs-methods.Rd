@@ -9,11 +9,12 @@
 \item{cellexalObj, }{cellexalvr object}
 
 \item{name}{the name of the GIO list (eg TFs or epigenetic)}
-
-\item{cellexalObj, }{TEXT MISSING}
-
-\item{name}{TEXT MISSING}
 }
 \description{
 Allows the user to select only (G)enes (O)f (I)nterest lists from the object
+}
+\details{
+onlyGOIs is able to use the inbuild GOI datasest to subset the main data to e.g. TFs only.
+
+This function is used internally.
 }

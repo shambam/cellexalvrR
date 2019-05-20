@@ -21,7 +21,7 @@ outfolder that contains the group name (in the R object) the numer of groups in 
 selection and the number of cells in the whole group.
 }
 \details{
-This is a 'VR' helper function that creates a dynamic file.
+This is a 'VR' helper function that creates a dynamic file used to make the R groupings known to the VR process.
 
 Users of the 'cellexalvrR' R class should not need this function.
 }

@@ -1,5 +1,7 @@
-#' drcPlots2D is a function linked to the log functions.
+#' drcPlots2D is a function linked to the log functionallity.
+#' 
 #' This function will create the 2D DRC images for the log sections.
+#' 
 #' @name drcPlots2D
 #' @aliases drcPlots2D,cellexalvrR-method
 #' @rdname drcPlots2D-methods

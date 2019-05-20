@@ -5,7 +5,7 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 	}
 ) }
 
-#' This is a 'VR' helper function that creates a dynamic file.
+#' This is a 'VR' helper function that creates a dynamic file used to make the R groupings known to the VR process.
 #'
 #' Users of the 'cellexalvrR' R class should not need this function.
 #' @name exportUserGroups4vr

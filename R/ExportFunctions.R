@@ -131,7 +131,10 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 } )
 
-
+#' SQLite is the database the VR reads the expression values from.
+#' 
+#' This function creates these databases from the data stored in the data slot.
+#' 
 #' @name write_as_sqlite3
 #' @aliases write_as_sqlite3,cellexalvrR-method
 #' @rdname write_as_sqlite3-methods
@@ -183,26 +186,3 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			
 		} )
 
-
-##' @name checkVRfiles
-##' @aliases checkVRfiles,cellexalvrR-method
-##' @rdname checkVRfiles-methods
-##' @docType methods
-##' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
-##' @description  function if any is missing.
-##' @param cellexalObj the cellexal object
-##' @param path the outpath to check
-##' @param cellexalvr  TEXT MISSING
-##' @param path  TEXT MISSING
-##' @title description of function checkVRfiles
-##' @export checkVRfiles
-#if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
-#	function ( cellexalvr, path ) { 
-#		standardGeneric('checkVRfiles') 
-#	}
-#) }
-#
-#setMethod('checkVRfiles', signature = c ('cellexalvrR'),
-#	definition = function ( cellexalvr, path ) {
-#	export2cellexalvr( cellexalvr, path, forceDB=F )
-#} )

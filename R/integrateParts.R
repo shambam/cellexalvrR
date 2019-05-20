@@ -1,4 +1,4 @@
-#' The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR
+#' The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR.
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
 #' This function loads all separately saved parts into the main cellexalvrR object.
@@ -53,7 +53,8 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 			}
 			invisible( x )
 		} )
-#' Thge function savePart is one main part in the load and save speed up implemented for cellexalvrR
+
+#' The function savePart is one main part in the load and save speed up implemented for cellexalvrR
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
 #' This function saves a specific data part of the whole cellexalvrR speeding up the save process.
@@ -108,6 +109,8 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 		} )
 
 
+#' The function partFname checks which part to save and throws an error it the part is not avaialable for saving.
+#' 
 #' @name partFname
 #' @aliases partFname,character-method
 #' @rdname partFname-methods
@@ -152,6 +155,9 @@ setMethod('partFname', signature = c ('character'),
 			unlist( lapply(fname, function( FN ) { file.path( path, paste(sep="",'.' , FN, '.RData' ) )  } ) )
 		} )
 
+#' The parts clean up function is called after a object is saved using the lockedSave function,
+#' as all previousely saved sub parts should have been integrated into this object then.
+#' 
 #' @name cleanParts
 #' @aliases cleanParts,character-method
 #' @rdname cleanParts-methods

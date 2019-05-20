@@ -1,3 +1,4 @@
+#' reorder function to reorder the whole cellexalvrR object based on a samples order.
 #' @name reorder.samples
 #' @aliases reorder.samples,cellexalvrR-method
 #' @rdname reorder.samples-methods
@@ -31,7 +32,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	dataObj
 } )
 
-
+#' reorder function to reorder the whole cellexalvrR object based on a genes order.
 #' @name reorder.genes
 #' @aliases reorder.genes,cellexalvrR-method
 #' @rdname reorder.genes-methods

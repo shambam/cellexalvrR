@@ -5,67 +5,6 @@ if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
 	}
 ) }
 
-#' @name loadObject
-#' @aliases loadObject,character-method
-#' @rdname loadObject-methods
-#' @docType methods
-#' @description  Loads the cellexalvr object, if the fname is a file
-#' @param fname the file to load or a cellexalvr object
-#' @param maxwait stop after maxwait seconds default=50
-#' @keywords load
-#' @title description of function loadObject
-#' @export loadObject
-setMethod('loadObject', signature = c ('character'),
-		definition = function ( fname, maxwait=50 ) {
-			if ( file.exists( fname) ) {
-				waited = 0
-				while ( file.exists( paste(fname, 'lock',sep='.'))){
-					Sys.sleep(1)
-					waited = waited +1
-					if ( waited == maxwait) { break }
-				}
-				if (waited != maxwait ){
-					load(fname)
-				}else {
-					stop( paste("Could not obtain access to locked file", fname ))
-				}
-			}else {
-				stop( paste( "file does not exixit", fname) )
-			}
-			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
-				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){
-					class(cellexalObj) = 'cellexalvrR'
-					cellexalObj = renew(cellexalObj)
-				}
-			}
-			## old objects need an updatae
-			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
-				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
-				new@userGroups = cellexalObj@userGroups
-				new@colors = cellexalObj@colors
-				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
-				new@userGroups = cellexalObj@userGroups
-				new@usedObj = cellexalObj@usedObj
-				new@tfs = cellexalObj@tfs
-				new@index = cellexalObj@index
-				rm(cellexalObj)
-				cellexalObj = new
-				rm(new)
-				gc()
-			}
-			#tmp = new('cellexalvrR')
-			#reload = 0
-			
-			if ( ! file.exists(cellexalObj@outpath )) {
-				cellexalObj@outpath = normalizePath(dirname( fname ))
-			}else {
-				cellexalObj@outpath = normalizePath(cellexalObj@outpath)
-			}
-			## there might be different other objects in the same path
-			## integrat them now
-			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) )
-			cellexalObj
-		} )
 
 #' @describeIn loadObject cellexalvrR
 #' @docType methods
@@ -80,6 +19,11 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 			return (fname)
 } )
 
+
+#' set.specie is depricated
+#' 
+#' It simply sets the specie slot to the user supplied specie string.
+#' 
 #' @name set.specie
 #' @aliases set.specie,cellexalvrR-method
 #' @rdname set.specie-methods
@@ -119,7 +63,14 @@ if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
 		standardGeneric('get.genes.cor.to') 
 	}
 ) }
-#' @name get.genes.cor.to
+
+
+#' get.genes.cor.to is able to correlate gene expression in 
+#' a cellexalvrR object to the expression of either a gene or a FACS marker.
+#' 
+#' The function is used in the VR process to calculate correlating genes in the keybord list view.
+#' 
+#' @name  get.genes.cor.to
 #' @aliases get.genes.cor.to,cellexalvrR-method
 #' @rdname get.genes.cor.to-methods
 #' @docType methods

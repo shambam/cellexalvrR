@@ -1,5 +1,6 @@
 #' groupingInfo collects all information about one grouping from 
-#' the cellexalvrR internals and returns them as list.
+#' the cellexalvrR internals and returns them as a list.
+#' 
 #' @name groupingInfo
 #' @aliases groupingInfo,cellexalvrR-method
 #' @rdname groupingInfo-methods

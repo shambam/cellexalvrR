@@ -5,7 +5,10 @@ if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
 	}
 ) }
 
-
+#' renew is trying to update objects from old versions to the most up to date structure.
+#' 
+#' It is tested to work on version <= 0.11.1.
+#' 
 #' @name renew
 #' @aliases renew,cellexalvrR-method
 #' @rdname renew-methods

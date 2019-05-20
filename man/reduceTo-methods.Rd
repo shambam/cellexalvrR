@@ -17,3 +17,7 @@ The main reduction function can drop both samples and genes using the colnames /
 
 rownames of the data tables
 }
+\details{
+reduceTo is the main cellexalvrR subsetting function. It can drop cells as well as genes
+and makes sure, that all other objects still are in the same dimensianlity as the main data.
+}

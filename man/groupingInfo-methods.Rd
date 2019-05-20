@@ -18,7 +18,7 @@ returns the information stored for the last grouping read
 }
 \details{
 groupingInfo collects all information about one grouping from 
-the cellexalvrR internals and returns them as list.
+the cellexalvrR internals and returns them as a list.
 }
 \examples{
 groupingInfo(cellexalObj, 'User.group.4')

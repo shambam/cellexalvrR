@@ -25,7 +25,7 @@ preload the object before creating one Heatmap session report page
 }
 \details{
 logHeatmap will create a section in the log document including 
-(1) the DRC the groupings were selected (colored 2D)
+(1) the DRC the grouping was selected from (colored 2D)
 (2) the heatmap itself
-and (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
+(3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 }

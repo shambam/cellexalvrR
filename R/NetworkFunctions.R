@@ -24,6 +24,8 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
     df.out
 })
 
+#' This is the R function that calculates the TF networks shown in the VR environment.
+#' 
 #' @name make.cellexalvr.network
 #' @aliases make.cellexalvr.network,cellexalvrR-method
 #' @rdname make.cellexalvr.network-methods
