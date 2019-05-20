@@ -44,29 +44,46 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
 
     cellObj
 } )
-#' @name run.ddrtree
-#' @aliases run.ddrtree,seurat-method
-#' @rdname run.ddrtree-methods
+
+
+#' addDRC2cellexalvr is a simple helper function that applies some tests 
+#' of usabilty to a 3D DRC matrix object and adds it to the cellexalvrR object.
+#' 
+#' @name addDRC2cellexalvr
+#' @aliases addDRC2cellexalvr,cellexalvrR-method
+#' @rdname addDRC2cellexalvr-methods
 #' @docType methods
-#' @description  Runs DDRtree for a Seurat class
-#' @param seuratObj A cellexalvr object
-#' @title description of function run.ddrtree
-#' @keywords ddrtree
-#' @export run.ddrtree
-if ( ! isGeneric('run.ddrtree') ){setGeneric('run.ddrtree', ## Name
-	function (seuratObj) { 
-		standardGeneric('run.ddrtree') 
-	}
+#' @description  Adds drc coordinates to a 'cellexalvrObj'
+#' @param cellexalObj, cellexalvr object
+#' @param drcmatrix A (3 columns) matrix of coordinates
+#' @param name A name for the object (default = graph<n>)
+#' @title description of function 'addDRC2cellexalvr'
+#' @export addDRC2cellexalvr
+if ( ! isGeneric('addDRC2cellexalvr') ){setGeneric('addDRC2cellexalvr', ## Name
+    function (cellexalObj, drcmatrix, name=NULL) { 
+        standardGeneric('addDRC2cellexalvr')
+    }
 ) }
 
-setMethod('run.ddrtree', signature = c ('seurat'),
-	definition = function (seuratObj) {
+setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
+    definition = function (cellexalObj, drcmatrix, name=NULL) {
 
-    data.samp <- as.matrix(seuratObj@data[seuratObj@var.genes,])
-    ddr.samp <- DDRTree::DDRTree((data.samp), dimensions=3)
-    ddr.cood <- t(ddr.samp$Z)
-    ddr.cood    
+    rq.ind <- (length(cellexalObj@drc)+1)
+    if ( ! is.null(name) ){
+        rq.nm <- name
+    }else {
+        rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
+    }
+    mp <- drcmatrix
+    colnames(mp) <- c("x","y","z")
+    rownames(mp) <- colnames(cellexalObj@data)
+
+    cellexalObj@drc[[rq.ind]] <- mp
+    names(cellexalObj@drc)[rq.ind] <- rq.nm
+    cellexalObj
 } )
+
+
 #' @name changeIdent
 #' @aliases changeIdent,seurat-method
 #' @rdname changeIdent-methods
