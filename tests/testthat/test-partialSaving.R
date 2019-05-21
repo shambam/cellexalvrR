@@ -1,6 +1,6 @@
 context('partial save process')
 
-prefix = './'
+prefix = '.'
 opath = file.path(prefix,'data','output')
 
 this = cellexalObj ## the inbuil one...

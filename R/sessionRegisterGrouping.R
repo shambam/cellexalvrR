@@ -1,3 +1,4 @@
+#' Log function that keeps trach of the number of sections used in the log file.
 #' @name sessionRegisterGrouping
 #' @aliases sessionRegisterGrouping,cellexalvrR-method
 #' @rdname sessionRegisterGrouping-methods

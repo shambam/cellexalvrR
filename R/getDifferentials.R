@@ -128,37 +128,39 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					cellexalObj@usedObj$sigGeneLists$Cpp = list()
 				cellexalObj@usedObj$sigGeneLists$Cpp[[cellexalObj@usedObj$lastGroup]] = all_markers
 			}
+			# else {
+			# 	if ( deg.method == 'Seurat_wilcox') {
+			# 		deg.method = 'wilcox'
+			# 	} 
+			# 	message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
+			# 	## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
+				
+			# 	if (!requireNamespace('Seurat', quietly = TRUE)) {
+			# 		stop('seurat needed for this function to work. Please install it.',
+			# 				call. = FALSE)
+			# 	}
+			# 	sca <- Seurat::CreateSeuratObject(loc@data, project = 'SeuratProject', min.cells = 0,
+			# 			min.genes = ceiling(ncol(loc@data)/100), is.expr = 1, normalization.method = NULL,
+			# 			scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
+			# 			names.field = 1, names.delim = '_', 
+			# 			meta.data = data.frame(wellKey=colnames(loc@data), GroupName = grp.vec),
+			# 			display.progress = TRUE)
+				
+			# 	sca = Seurat::SetIdent( sca, colnames(loc@data), 
+			# 			paste('Group', as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
+			# 	all_markers <- Seurat::FindAllMarkers(
+			# 			object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
+			# 	)
+			# 	if ( Log ) {
+			# 		logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
+			# 	}
+			# 	if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
+			# 		cellexalObj@usedObj$sigGeneLists$Seurat = list()
+			# 	cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+			# }
 			else {
-				if ( deg.method == 'Seurat_wilcox') {
-					deg.method = 'wilcox'
-				} 
-				message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
-				## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
-				
-				if (!requireNamespace('Seurat', quietly = TRUE)) {
-					stop('seurat needed for this function to work. Please install it.',
-							call. = FALSE)
-				}
-				sca <- Seurat::CreateSeuratObject(loc@data, project = 'SeuratProject', min.cells = 0,
-						min.genes = ceiling(ncol(loc@data)/100), is.expr = 1, normalization.method = NULL,
-						scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
-						names.field = 1, names.delim = '_', 
-						meta.data = data.frame(wellKey=colnames(loc@data), GroupName = grp.vec),
-						display.progress = TRUE)
-				
-				sca = Seurat::SetIdent( sca, colnames(loc@data), 
-						paste('Group', as.character(loc@userGroups[ ,cellexalObj@usedObj$lastGroup]) ) )
-				all_markers <- Seurat::FindAllMarkers(
-						object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
-				)
-				if ( Log ) {
-					logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
-				}
-				if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
-					cellexalObj@usedObj$sigGeneLists$Seurat = list()
-				cellexalObj@usedObj$sigGeneLists$Seurat[[cellexalObj@usedObj$lastGroup]] = all_markers
+				stop(paste('The stats method', deg.method, "is not supported by this version of cellexalvrR"))
 			}
-			
 			
 			### get the top genes
 			if ( deg.method != 'Linear' ) {

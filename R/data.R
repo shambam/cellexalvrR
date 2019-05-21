@@ -3,7 +3,7 @@
 #' @importFrom FastWilcoxTest CorMatrix StatTest collapse meltSparseMatrix
 #' @importFrom Matrix Matrix drop0 rowSums t
 #' @importFrom RSQLite dbConnect dbDisconnect dbSendStatement dbWriteTable
-#' @importFrom Seurat CreateSeuratObject FindAllMarkers SetIdent
+##' @importFrom Seurat CreateSeuratObject FindAllMarkers SetIdent
 #' @importFrom alphashape3d ashape3d
 #' @importFrom bookdown render_book
 #' @importFrom entropy entropy
