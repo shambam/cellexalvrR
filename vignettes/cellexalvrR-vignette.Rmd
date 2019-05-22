@@ -35,6 +35,7 @@ install_github("sonejilab/cellexalvrR")
 
 **If you are installing this on your VR station then be sure to install `cellexalvrR` system-wide, so on your Windows 10 machine right-click the R icon, and then "Run as administrator" before issuing the commands above.**
 
+Make sure that you also have the Rtools installed on your windows machine which provides c and c++ compilers.
 
 ## Quick start
 
@@ -46,7 +47,7 @@ First, load the library:
 library(cellexalvrR)
 
 if ( ! file.exists("log2data.RData") ) {
-   log2data = as.matrix(cellexalObj@dat)
+   log2data = as.matrix(cellexalObj@data)
    save( log2data, file="log2data.RData")
    rm( log2data)
    
@@ -58,15 +59,15 @@ if ( ! file.exists("log2data.RData") ) {
    save( cell.ids, file="cell.ids.RData")
    rm(cell.ids)
    
-   diff.proj = cellexalObj@mds$diffusion
+   diff.proj = cellexalObj@drc$diffusion
    save( diff.proj, file="diff.proj.RData")
    rm( diff.proj )
    
-   ddr.proj = cellexalObj@mds$DDRtree
+   ddr.proj = cellexalObj@drc$DDRtree
    save( ddr.proj, file="ddr.proj.RData" )
    rm(ddr.proj)
    
-   tsne.proj = cellexalObj@mds$tSNE
+   tsne.proj = cellexalObj@drc$tSNE
    save( tsne.proj, file="tsne.proj.RData")
    rm(tsne.proj)
    
@@ -124,7 +125,7 @@ proj.list <- list(diffusion=diff.proj,DDRtree=ddr.proj,tSNE=tsne.proj)
 The next is to make a `cellexalvr` object by calling `MakeCellexaVRObj` and passing the required objects to it:
 
 ```{r, fig.show='hold',eval=T}
-cellvr <- MakeCellexaVRObj(log2data,mds.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=facs)
+cellvr <- MakeCellexaVRObj( Marix(log2data, sparse=T),drc.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=facs)
 ```
 In the same step we also set the specie as mouse which ensures the correct 
 transcription factor IDs are using during network construction if implemented in CellexalVR.
@@ -141,6 +142,7 @@ to a specified directory:
 ```{r, fig.show='hold',eval=F}
 export2cellexalvr(cellvr,"CellexalOut/")
 ```
+Make sure that this directory exists.
 
 All the files needed by CellexalVR are created at this point. The entire "CellexalOut/" folder should then be 
 moved/copied to the "Data" folder in your CellexalVR setup. See the [manual](https://www.cellexalvr.med.lu.se/manual)
@@ -151,14 +153,14 @@ While `MakeCellexaVRObj` is the most convenient way to make the object, sometime
 This is done calling `new`:
 
 ```{r,fig.show='hold',eval=T}
-cell.vr.scr <- new("cellexalvr",data=Matrix(log2data,sparse=T),mds=list(tsne=tsne.proj))
+cell.vr.scr <- new("cellexalvr",data=Matrix(log2data,sparse=T),drc=list(tsne=tsne.proj))
 cell.vr.scr
 ```
 
 We can add another set of dimension reduction coordinates using the `addMDS2cellexalvr` function:
 
 ```{r,fig.show='hold',eval=T}
-cell.vr.scr <- addMDS2cellexalvr(cell.vr.scr,ddr.proj,"DDRTree")
+cell.vr.scr <- addDRC2cellexalvr(cell.vr.scr,ddr.proj,"DDRTree")
 cell.vr.scr
 ```
 
@@ -203,12 +205,15 @@ head(required.cell.metad)
 
 ```
 
-It can be seen the field name is placed in the column heading preceeding a ".", and this is used by 
+It can be seen the field name is placed in the column heading preceeding a "@", and this is used by 
 CellexalVR to form catagories on the menu system, so "CellType" and "Treatment" will be on separate tabs. 
-This metadata matrix can now be added to a `cellexalvr` object as decribed above using the `addCellMeta2cellexalvr` 
+This metadata matrix can now be added to a `cellexalvrR` object as decribed above using the `addCellMeta2cellexalvr` 
 function.
 
 ##Converting a Seurat object to a cellexalvr object
+
+This functionallity is currently not implemented as the Seurat format has changed lately.
+
 For those using [Seurat](https://satijalab.org/seurat/), cellexalvrR offers some basic functionality 
 to convert a Seurat object to a cellexalvr object. It takes the data from the `@dat` slot, and cell 
 identities from the `@ident` slot, and will also take the cell-cycle phase assignments if this has been done.
