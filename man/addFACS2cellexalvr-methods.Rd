@@ -13,3 +13,6 @@
 \description{
 Adds FACS index to a cellexalvrObj
 }
+\details{
+This function simply adds a table object into the index slot of the cellexalvrR obejct.
+}

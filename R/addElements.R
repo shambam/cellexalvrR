@@ -1,5 +1,9 @@
 
-
+#' This function adds a 0/1 information matrix to the cellexalvrR object.
+#' 
+#' If the sample annotation data is not in 0/1 format please convert it using
+#' make.cell.meta.from.df().
+#'
 #' @name addCellMeta2cellexalvr
 #' @aliases addCellMeta2cellexalvr,cellexalvrR-method
 #' @rdname addCellMeta2cellexalvr-methods
@@ -22,6 +26,9 @@ setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
     cellexalObj@meta.cell <- as.matrix(cell.meta)
     cellexalObj
 } )
+
+#' This function simply adds a table object into the index slot of the cellexalvrR obejct.
+#'
 #' @name addFACS2cellexalvr
 #' @aliases addFACS2cellexalvr,cellexalvrR-method
 #' @rdname addFACS2cellexalvr-methods

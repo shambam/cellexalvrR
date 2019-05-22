@@ -13,3 +13,9 @@
 \description{
 Adds per cell metadata to a 'cellexalvrObj'
 }
+\details{
+This function adds a 0/1 information matrix to the cellexalvrR object.
+
+If the sample annotation data is not in 0/1 format please convert it using
+make.cell.meta.from.df().
+}

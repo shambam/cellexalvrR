@@ -39,6 +39,27 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 } )
 
 
+
+if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
+	function ( fname, maxwait=50 ) { 
+		standardGeneric('loadObject') 
+	}
+) }
+
+
+#' @describeIn loadObject cellexalvrR
+#' @docType methods
+#' @description just returns the cellexalObj
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title dummy function just returning the cellexalvrR object.
+#' @export loadObject
+setMethod('loadObject', signature = c ('cellexalvrR'),
+		definition = function ( fname, maxwait=50 ) {
+			return (fname)
+} )
+
 #' loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
 #' before reporting a failed attempt.
 #' 
