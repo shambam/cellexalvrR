@@ -1,4 +1,5 @@
-#' This function is part of the conversion path of a BioData::R6 object into a cellexalvrR object.
+#' This function is part of the conversion path of a BioData::R6 object 
+#' into a cellexalvrR object.
 #'
 #' The function will most likely not be of importance to anybody but me.
 #' @name as_cellexalvrR

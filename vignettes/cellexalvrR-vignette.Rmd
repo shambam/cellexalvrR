@@ -125,7 +125,7 @@ proj.list <- list(diffusion=diff.proj,DDRtree=ddr.proj,tSNE=tsne.proj)
 The next is to make a `cellexalvr` object by calling `MakeCellexaVRObj` and passing the required objects to it:
 
 ```{r, fig.show='hold',eval=T}
-cellvr <- MakeCellexaVRObj( Marix(log2data, sparse=T),drc.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=facs)
+cellvr <- MakeCellexaVRObj( log2data, ,drc.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=facs)
 ```
 In the same step we also set the specie as mouse which ensures the correct 
 transcription factor IDs are using during network construction if implemented in CellexalVR.
@@ -153,7 +153,7 @@ While `MakeCellexaVRObj` is the most convenient way to make the object, sometime
 This is done calling `new`:
 
 ```{r,fig.show='hold',eval=T}
-cell.vr.scr <- new("cellexalvr",data=Matrix(log2data,sparse=T),drc=list(tsne=tsne.proj))
+cell.vr.scr <- new("cellexalvr",data=Matrix::Matrix(log2data,sparse=T),drc=list(tsne=tsne.proj))
 cell.vr.scr
 ```
 
