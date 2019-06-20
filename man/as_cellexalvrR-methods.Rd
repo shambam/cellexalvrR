@@ -26,7 +26,8 @@ as_cellexalvrR(x, meta.cell.groups, meta.genes.groups = NULL,
 convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
 }
 \details{
-This function is part of the conversion path of a BioData::R6 object into a cellexalvrR object.
+This function is part of the conversion path of a BioData::R6 object 
+into a cellexalvrR object.
 
 The function will most likely not be of importance to anybody but me.
 }
