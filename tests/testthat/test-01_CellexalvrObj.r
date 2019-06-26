@@ -10,16 +10,16 @@ if ( file.exists(opath)) {
 }
 dir.create(opath,  showWarnings = FALSE, recursive = TRUE)
 
-if ( file.exists(file.path(ipath,'cellexalObj.RData.lock')) ) {
-	unlink(file.path(ipath, 'cellexalObj.RData.lock') )
+if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
+	unlink(file.path(ipath, 'cellexalObjOK.RData.lock') )
 }
-if ( ! file.exists (file.path(ipath,'cellexalObj.RData') ) ) {
-	stop( paste("Libraray error - test fil3e not found ", file.path(ipath,'cellexalObj.RData')) )
+if ( ! file.exists (file.path(ipath,'cellexalObjOK.RData') ) ) {
+	stop( paste("Libraray error - test file not found ", file.path(ipath,'cellexalObjOK.RData')) )
 }
-cellexalObj <- loadObject(file.path(ipath,'cellexalObj.RData'))
+cellexalObj <- loadObject(file.path(ipath,'cellexalObjOK.RData'))
 
-ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'graph1.hull', 'graph2.mds', 
-		'graph2.hull',  'index.facs',  'graph1.mds' )
+ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'DDRtree.mds', 
+		 'index.facs',  'diffusion.mds', 'tSNE.mds' )
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 
