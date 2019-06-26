@@ -4,7 +4,7 @@
 \name{filename}
 \alias{filename}
 \alias{filename,character-method}
-\title{description of function filename}
+\title{create a filename without spaces from a list of strings}
 \usage{
 filename(str)
 }
@@ -13,4 +13,9 @@ filename(str)
 }
 \description{
 simple function to join by '.' and remove whitespace.
+}
+\details{
+Filename simple pastes a vector of characters using '.' and removes all whitespace.
+
+Simple function to unclutter the R code.
 }

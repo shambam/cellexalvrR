@@ -5,26 +5,37 @@ if ( ! isGeneric('renew') ){setGeneric('renew', ## Name
 	}
 ) }
 
-
+#' renew is trying to update objects from old versions to the most up to date structure.
+#' 
+#' It is tested to work on version <= 0.11.1.
+#' 
 #' @name renew
 #' @aliases renew,cellexalvrR-method
 #' @rdname renew-methods
 #' @docType methods
-#' @description  update the class definition by re-creating the instance This version also makes sure,
+#' @description  updatae the class definition by re-creating the instance This version also makes sure,
 #' @description  that the returned object is an S4 object.
-#' @param x the object you want to update
+#' @param x the object you want to updatae
 #' @title description of function renew
 #' @export renew
 setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
-			#ret <- new("cellexalvrR",data=as.matrix(x@dat),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
+			#ret <- new("cellexalvrR",data=as.matrix(x@data),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
 			ret = NULL
+			#browser()
 			if( isS4(x)) {
 				## OK no R6 then ;-)
 				ret = x
-				tryCatch({  methods::validObject(x) } ,  error = function(e) {
-
-				ret <- new("cellexalvrR",data=as.matrix(x@dat),mds=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+				if ( ! .hasSlot( x, 'version') ) {
+					if ( .hasSlot( x, 'dat')) {
+							ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						}else {
+							ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						}
+					
+				}else if (x@version != as.character(packageVersion("cellexalvrR"))  ) { 
+					ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+				}
 				#browser()
 				if( methods::.hasSlot(x,'userGroups') ){
 					ret@userGroups = x@userGroups
@@ -38,9 +49,12 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				if( methods::.hasSlot(x,'specie') ){
 					ret@specie = x@specie
 				}
-				} )
 			}else {
-				ret <- methods::new("cellexalvrR",data=as.matrix(x$data),mds=x$mds,meta.cell=x$meta.cell,meta.gene = x$meta.gene,  index = x$index, specie= x$specie)
+				if ( is.null(x$index)){
+					x$index = matrix()
+				}
+
+				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$mds,meta.cell=as.matrix(x$meta.cell),meta.gene = as.matrix(x$meta.gene),  index = x$index, specie= 'unset!')
 				if( methods::.hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups
 				}

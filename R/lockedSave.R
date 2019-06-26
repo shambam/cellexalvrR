@@ -1,3 +1,4 @@
+#' A thread save saving of the object. 
 #' @name lockedSave
 #' @aliases lockedSave,cellexalvrR-method
 #' @rdname lockedSave-methods
@@ -38,41 +39,89 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 } )
 
 
-#' @name lockedLoad
-#' @aliases lockedLoad,character-method
-#' @rdname lockedLoad-methods
+
+if ( ! isGeneric('loadObject') ){setGeneric('loadObject', ## Name
+	function ( fname, maxwait=50 ) { 
+		standardGeneric('loadObject') 
+	}
+) }
+
+
+#' @describeIn loadObject cellexalvrR
 #' @docType methods
-#' @description  Loading the RData in the VR tool might create a problem. Hence this function will
-#' save the cellexalObj in a controlled way. 
-#' @param cellexalObj the file containing the cellexalObj data
-#' @title description of function lockedSave
-#' @keywords lockedSave
-#' @export lockedSave
-if ( ! isGeneric('lockedLoad') ){setGeneric('lockedLoad', ## Name
-			function (cellexalObj ) {
-				standardGeneric('lockedLoad' )
-			}
-	) }
+#' @description just returns the cellexalObj
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title dummy function just returning the cellexalvrR object.
+#' @export loadObject
+setMethod('loadObject', signature = c ('cellexalvrR'),
+		definition = function ( fname, maxwait=50 ) {
+			return (fname)
+} )
 
-setMethod('lockedLoad', signature = c ('character'),
-		definition = function (cellexalObj ) {
-
-			lockFile = file.path( paste(cellexalObj, 'lock', sep= '.'))
-			while ( file.exists(lockFile) ){
-				Sys.sleep(1)
+#' loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
+#' before reporting a failed attempt.
+#' 
+#' @name loadObject
+#' @aliases loadObject,character-method
+#' @rdname loadObject-methods
+#' @docType methods
+#' @description  Loads the cellexalvr object, if the fname is a file
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title description of function loadObject
+#' @export loadObject
+setMethod('loadObject', signature = c ('character'),
+		definition = function ( fname, maxwait=50 ) {
+			if ( file.exists( fname) ) {
+				waited = 0
+				while ( file.exists( paste(fname, 'lock',sep='.'))){
+					Sys.sleep(1)
+					waited = waited +1
+					if ( waited == maxwait) { break }
+				}
+				if (waited != maxwait ){
+					load(fname)
+				}else {
+					stop( paste("Could not obtain access to locked file", fname ))
+				}
+			}else {
+				stop( paste( "file does not exixit", fname) )
 			}
-			path = dirname(cellexalObj)
-			load( cellexalObj )
-			if ( is.na(match('dat', methods::slotNames(cellexalObj)) ) ){
-				methods::new = MakeCellexaVRObj ( cellexalObj@data, mds.list = cellexalObj@mds,
-						specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= cellexalObj@index )
+			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
+				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){
+					class(cellexalObj) = 'cellexalvrR'
+					cellexalObj = renew(cellexalObj)
+				}
 			}
-			if ( is.null(cellexalObj@outpath) ){
-				cellexalObj@outpath = normalizePath( path )
+			## old objects need an updatae
+			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
+				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
+				new@userGroups = cellexalObj@userGroups
+				new@colors = cellexalObj@colors
+				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
+				new@userGroups = cellexalObj@userGroups
+				new@usedObj = cellexalObj@usedObj
+				new@tfs = cellexalObj@tfs
+				new@index = cellexalObj@index
+				rm(cellexalObj)
+				cellexalObj = new
+				rm(new)
+				gc()
 			}
-			if ( ! file.exists( cellexalObj@outpath) ) {
-				cellexalObj@outpath = normalizePath( path )
-			}
+			#tmp = new('cellexalvrR')
+			#reload = 0
 			
+			if ( ! file.exists(cellexalObj@outpath )) {
+				cellexalObj@outpath = normalizePath(dirname( fname ))
+			}else {
+				cellexalObj@outpath = normalizePath(cellexalObj@outpath)
+			}
+			## there might be different other objects in the same path
+			## integrat them now
+			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) )
 			cellexalObj
 		} )
+

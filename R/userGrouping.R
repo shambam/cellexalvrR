@@ -1,3 +1,4 @@
+#' VR function that ready the VR grouping information and stores it in the R object.
 #' @name userGrouping
 #' @aliases userGrouping,cellexalvrR-method
 #' @rdname userGrouping-methods
@@ -34,11 +35,11 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		id= (ncol(cellexalObj@userGroups) /2) + 1
 		gname = paste( "User.group", id, sep="." ) #the VR program depended on it
 	
-		n = vector( 'numeric', ncol(cellexalObj@dat))
-		n[match(cellid[,1], colnames(cellexalObj@dat)) ] = cellid[,2]
+		n = vector( 'numeric', ncol(cellexalObj@data))
+		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
 		n[which(n==0)] = NA
 		order = n
-		order[match(cellid[,1], colnames(cellexalObj@dat))] = 1:nrow(cellid)
+		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
 	
 		#I need to record the order in the grouping
 		if ( id == 1 ) { 

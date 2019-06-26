@@ -4,6 +4,11 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 		standardGeneric('export2cellexalvr') 
 	}
 ) }
+
+#' This function creates all files necessary 
+#' for the CellexalVR application to show this data.
+#'
+#' Consult the CellexalVR documentation for further path requrements.
 #' @name export2cellexalvr
 #' @aliases export2cellexalvr,cellexalvrR-method
 #' @rdname export2cellexalvr-methods
@@ -14,7 +19,10 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 #' @param forceDB re-write the db even if it exisis (default =F)
 #' @param VRpath in order to re-color the data in the VR process the 
 #' VR process needs the grouping names which will be exported if we get the correct path here
-#' @title description of function export2cellexalvr
+#' @title create the VR data folder necessary for CellexalVR
+#' @examples
+#' dir.create ('data')
+#' export2cellexalvr(cellexalObj, path='data')
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
@@ -27,14 +35,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	}
     
 
-    #write.table(cellexalObj@dat,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
 		utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
-		if ( nrow(cellexalObj@index) == ncol(cellexalObj@dat) ){
+		if ( nrow(cellexalObj@index) == ncol(cellexalObj@data) ){
 			utils::write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 		}
 	}
@@ -43,24 +51,25 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		utils::write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 
-    for(i in 1:length(cellexalObj@mds)){
+    for(i in 1:length(cellexalObj@drc)){
         
-        #ashape <- ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+        #ashape <- ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
 		#ofile = file.path(path,paste("graph",i,".hull",sep=""))
-		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".hull",sep=""))
-		if ( ! file.exists( ofile )) {
+		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".hull",sep=""))
+		#if ( ! file.exists( ofile )) {
+		if ( FALSE ) { # never create them the VR process is taking care of that now.
         	rq.tring <- NULL
 
-        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))<0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 5)
+        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))<0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
             	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-        	}
+         	}
 
-        	if(entropy::entropy(as.matrix(cellexalObj@mds[[i]]))>0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@mds[[i]]), alpha = 2)
-            	#rgl.open()
+        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))>0){
+	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 2)
+           	#rgl.open()
             	#plot(ashape)
             	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
         	}
@@ -68,9 +77,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 			utils::write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
 
 		}
-		ofile = file.path(path,paste(names(cellexalObj@mds)[i],".mds",sep=""))
+		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".mds",sep=""))
 		if ( ! file.exists( ofile )) {
-			utils::write.table(cellexalObj@mds[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+			utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
 		}
     }
 	
@@ -81,14 +90,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #		}
 #	}
 	if ( ! file.exists(ofile) || forceDB==T ) {
-	    #genes <- tolower(rownames(cellexalObj@dat))
-		genes <- rownames(cellexalObj@dat)
+	    #genes <- tolower(rownames(cellexalObj@data))
+		genes <- rownames(cellexalObj@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
-		cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
+		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function
-		mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@dat )
+		mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@data )
 		
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
@@ -122,25 +131,58 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 } )
 
-##' @name checkVRfiles
-##' @aliases checkVRfiles,cellexalvrR-method
-##' @rdname checkVRfiles-methods
-##' @docType methods
-##' @description  checkVRfiles: Checks the existance of all VR specific files and re-runs the export
-##' @description  function if any is missing.
-##' @param cellexalObj the cellexal object
-##' @param path the outpath to check
-##' @param cellexalvr  TEXT MISSING
-##' @param path  TEXT MISSING
-##' @title description of function checkVRfiles
-##' @export checkVRfiles
-#if ( ! isGeneric('checkVRfiles') ){setGeneric('checkVRfiles', ## Name
-#	function ( cellexalvr, path ) { 
-#		standardGeneric('checkVRfiles') 
-#	}
-#) }
-#
-#setMethod('checkVRfiles', signature = c ('cellexalvrR'),
-#	definition = function ( cellexalvr, path ) {
-#	export2cellexalvr( cellexalvr, path, forceDB=F )
-#} )
+#' SQLite is the database the VR reads the expression values from.
+#' 
+#' This function creates these databases from the data stored in the data slot.
+#' 
+#' @name write_as_sqlite3
+#' @aliases write_as_sqlite3,cellexalvrR-method
+#' @rdname write_as_sqlite3-methods
+#' @docType methods
+#' @description save the cellexalObj@data object without questions asked.
+#' @param cellexalObj the cellexalvrR object
+#' @param ofile the database outfile
+#' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
+#' @export 
+setGeneric('write_as_sqlite3', ## Name
+		function ( cellexalObj, ofile )  { ## Argumente der generischen Funktion
+			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
+		definition = function ( cellexalObj, ofile )  {
+			
+			genes <- rownames(cellexalObj@data)
+			genes <- data.frame( 'id' = 1:length(genes), genes= genes )
+			
+			cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+			
+			## melt the sparse matrix using the toColNums Rcpp function
+			mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@data )
+			
+			colnames(genes) <- c('id', 'gname')
+			colnames(cells) <- c('id','cname')
+			
+			con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
+			
+			RSQLite::dbWriteTable(con, "datavalues",mdc)
+			
+			RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+			
+			RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+			
+			RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
+			RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+			
+			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
+			
+			RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+			RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+			
+			
+			RSQLite::dbDisconnect(con)
+			
+		} )
+

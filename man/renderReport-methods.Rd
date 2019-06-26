@@ -14,3 +14,8 @@ renderReport(cellexalObj)
 \description{
 after one session this function renders the output gitbook
 }
+\details{
+renderReport is the final step to create a html log file.
+
+These log files can be accessed from within the VR environment using the inbuilt browser.
+}

@@ -13,5 +13,10 @@
 \description{
 Creates a meta cell matrix from a supplied dataframe from required fields
 }
+\details{
+The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
+As this is no common format this function will convert a multi named grouping 
+like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
+}
 \keyword{cell}
 \keyword{metadata}

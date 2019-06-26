@@ -1,3 +1,4 @@
+#' VR method that creates the session specific settings for each VR session.
 #' @name sessionPath
 #' @aliases sessionPath,cellexalvrR-method
 #' @rdname sessionPath-methods

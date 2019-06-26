@@ -17,4 +17,7 @@ Saving the RData in the VR tool might create a problem. Hence this function will
 
 save the cellexalObj in a controlled way. Locked save removes all parts from the file system.
 }
+\details{
+A thread save saving of the object.
+}
 \keyword{lockedSave}

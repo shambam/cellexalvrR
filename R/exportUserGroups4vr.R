@@ -5,6 +5,9 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 	}
 ) }
 
+#' This is a 'VR' helper function that creates a dynamic file used to make the R groupings known to the VR process.
+#'
+#' Users of the 'cellexalvrR' R class should not need this function.
 #' @name exportUserGroups4vr
 #' @aliases exportUserGroups4vr,cellexalvrR-method
 #' @rdname exportUserGroups4vr-methods
@@ -14,7 +17,10 @@ if ( ! isGeneric('exportUserGroups4vr') ){setGeneric('exportUserGroups4vr', ## N
 #' @description  selection and the number of cells in the whole group.
 #' @param cellexalObj, cellexalvr object
 #' @param path the outpath
-#' @title description of function exportUserGroups4vr
+#' @title VR helper function exportUserGroups4vr
+#' @examples
+#' dir.create('data')
+#' exportUserGroups4vr( cellexalObj, 'data')
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
@@ -35,7 +41,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 				cellexalObj@colors[[gname]] <- grDevices::rainbow( length(unique( as.integer( cellexalObj@userGroups[ids,gname] ) )))
 			}
 			t <- data.frame( 
-				cellname = colnames(cellexalObj@dat)[ids],
+				cellname = colnames(cellexalObj@data)[ids],
 				color = cellexalObj@colors[[gname]][  cellexalObj@userGroups[ids,gname]  ],
 				'parent.graph' = rep( 'unknown', length(ids) ),
 				'gid' = as.integer( cellexalObj@userGroups[ids,gname] ) 
@@ -57,10 +63,10 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 
 #' @describeIn exportUserGroups4vr cellexalvrR
 #' @docType methods
-#' @description simply preload the cellexalObj before running the cellexalvrR specififc function
+#' @description simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
 #' @param cellexalObj the cellexalObj.RData file
 #' @param path the outpath
-#' @title description of function exportUserGroups4vr
+#' @title load object and run exportUserGroups4vr
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('character'),
 		definition = function (cellexalObj, path) {

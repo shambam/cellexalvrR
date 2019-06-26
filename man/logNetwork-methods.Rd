@@ -23,3 +23,6 @@
 \description{
 create one Network page in the session report
 }
+\details{
+logNetwork is a VR helper funtion that stores one network in the log document.
+}

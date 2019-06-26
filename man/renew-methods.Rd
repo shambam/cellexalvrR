@@ -9,10 +9,15 @@
 \S4method{renew}{cellexalvrR}(x)
 }
 \arguments{
-\item{x}{the object you want to update}
+\item{x}{the object you want to updatae}
 }
 \description{
-update the class definition by re-creating the instance This version also makes sure,
+updatae the class definition by re-creating the instance This version also makes sure,
 
 that the returned object is an S4 object.
+}
+\details{
+renew is trying to update objects from old versions to the most up to date structure.
+
+It is tested to work on version <= 0.11.1.
 }

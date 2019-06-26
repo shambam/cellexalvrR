@@ -25,3 +25,6 @@ ontologyLogPage(cellexalObj, genes, grouping = NULL, ontology = "BP",
 \description{
 creates the GO analysis for a gene list and puts it into the report.
 }
+\details{
+The ontology analysis for the log files.
+}

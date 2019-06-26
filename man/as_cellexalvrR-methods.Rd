@@ -4,7 +4,7 @@
 \name{as_cellexalvrR}
 \alias{as_cellexalvrR}
 \alias{as_cellexalvrR,environment-method}
-\title{convert a BioData object to cellexalvrR keeping all 3D mds objects.}
+\title{convert a BioData object to cellexalvrR keeping all 3D drc objects.}
 \usage{
 as_cellexalvrR(x, meta.cell.groups, meta.genes.groups = NULL,
   userGroups = NULL, outpath = getwd(), specie)
@@ -16,12 +16,18 @@ as_cellexalvrR(x, meta.cell.groups, meta.genes.groups = NULL,
 
 \item{meta.genes.groups}{which annotation columns to keep (default NULL)}
 
-\item{userGroups}{which x§samples columns to add to the userGroups slot}
+\item{userGroups}{which x$samples columns to add to the userGroups slot}
 
 \item{outpath}{set the outpath of the object (default getwd())}
 
 \item{specie}{set the specie to either mouse or human (default check gene names)}
 }
 \description{
-convert a BioData list (BioData libraray not loaded) into a cellexalvrR obejct
+convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+}
+\details{
+This function is part of the conversion path of a BioData::R6 object 
+into a cellexalvrR object.
+
+The function will most likely not be of importance to anybody but me.
 }

@@ -4,11 +4,11 @@
 \name{MakeCellexaVRObj}
 \alias{MakeCellexaVRObj}
 \alias{MakeCellexaVRObj,matrix-method}
-\title{description of function MakeCellexaVRObj}
+\title{Create a cellexalvrR object from a matrix object.}
 \arguments{
 \item{exdata}{A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names}
 
-\item{mds.list}{A list of 3-column MDS coords (at least one required)}
+\item{drc.list}{A list of 3-column DRC coords (at least one required)}
 
 \item{specie}{Specify whether data is from mouse or human (required)}
 
@@ -19,4 +19,9 @@
 \description{
 Creates a cellexalvr objext with the data given
 }
-\keyword{heatmap}
+\details{
+MakeCellexaVRObj creates a CellexalVR object from a matrix object.
+}
+\keyword{cellexalvrR}
+\keyword{create}
+\keyword{object}

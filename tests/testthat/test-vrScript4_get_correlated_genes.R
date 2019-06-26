@@ -28,8 +28,8 @@ if (  file.exists( outputfile ) ){
 
 CO <- loadObject( file.path(datadir, 'cellexalObj.RData' ) )
 
-expect_true( all.equal( names(CO@mds), c('graph1', 'graph2')), paste("before: input object mds names == ('graph1', 'graph2') [", 
-				paste(collapse=", ", names(CO@mds)) ))
+expect_true( all.equal( names(CO@drc), c('graph1', 'graph2')), paste("before: input object drc names == ('graph1', 'graph2') [", 
+				paste(collapse=", ", names(CO@drc)) ))
 
 print( paste( 'Rscript', script, datadir, gene_name, outputfile, facsTypeArg ) )
 

@@ -13,14 +13,14 @@ cellexalvrR is the R class that build the backend of CellexalVR
 https://www.cellexalvr.med.lu.se/ is a VR application to analyze single cell expression data.
 This R class is the backend of the VR application and a dependency of that.
 CellexalvrR is not developed to be a general purpose single cell analysis class like Seurat.
-It e.g. does not implement normalization or mds methods, but expects all data to be preprocessed.
+It e.g. does not implement normalization or drc methods, but expects all data to be preprocessed.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{data}}{the expression matrix (unused!)}
 
-\item{\code{dat}}{the spearse matrix}
+\item{\code{data}}{the spearse matrix}
 
 \item{\code{meta.cell}}{the cell level meta information (matrix)}
 
@@ -30,11 +30,11 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 
 \item{\code{colors}}{a list for each userGroups entry defining the color sheme for this grouping}
 
-\item{\code{groupSelectedFrom}}{local info to store which usergroup has been selected from which mds structure}
+\item{\code{groupSelectedFrom}}{local info to store which usergroup has been selected from which drc structure}
 
 \item{\code{usedObj}}{a generic storage list collecting objects not fitting into any other slot}
 
-\item{\code{mds}}{a list of all mds objects to be visible in the 3D application}
+\item{\code{drc}}{a list of all DRC objects to be visible in the 3D application}
 
 \item{\code{index}}{a matrix for FACS or other linear numeric data that should be available for colouring in the 3D application}
 
@@ -43,5 +43,7 @@ It e.g. does not implement normalization or mds methods, but expects all data to
 \item{\code{specie}}{the species this data is from (mouse or human)}
 
 \item{\code{outpath}}{the path this object will be saved to}
+
+\item{\code{version}}{the cellexalvrR package version that created this object.}
 }}
 

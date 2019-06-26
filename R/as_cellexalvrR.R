@@ -1,15 +1,19 @@
+#' This function is part of the conversion path of a BioData::R6 object 
+#' into a cellexalvrR object.
+#'
+#' The function will most likely not be of importance to anybody but me.
 #' @name as_cellexalvrR
 #' @aliases as_cellexalvrR,environment-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
-#' @description convert a BioData list (BioData libraray not loaded) into a cellexalvrR obejct
+#' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
 #' @param x the BioData 'object'
 #' @param meta.cell.groups which x$samples column to convert to meta.cell classes
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x§samples columns to add to the userGroups slot
+#' @param userGroups which x$samples columns to add to the userGroups slot
 #' @param outpath set the outpath of the object (default getwd())
 #' @param specie set the specie to either mouse or human (default check gene names)
-#' @title convert a BioData object to cellexalvrR keeping all 3D mds objects.
+#' @title convert a BioData object to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
 	function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { ## Argumente der generischen Funktion
@@ -21,13 +25,13 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
 	ret = methods::new('cellexalvrR')
-	ret@dat = x$dat
-	#ret@dat@x = log( exp( ret@dat@x ) +1 ) ## fixed in BioData
+	ret@data = x$data
+	#ret@data@x = log( exp( ret@data@x ) +1 ) ## fixed in BioData
 	
 	if ( ! is.null(meta.genes.groups) )
 		ret@mets.gene = x$annoatation[, meta.genes.groups]
 	ret@meta.cell = make.cell.meta.from.df( x$samples[,meta.cell.groups] ,rq.fields= meta.cell.groups )
-	rownames(ret@meta.cell) = colnames( ret@dat )
+	rownames(ret@meta.cell) = colnames( ret@data )
 	t = data.frame(lapply( 
 		x$usedObj$userGroups, 
 		function(n) {
@@ -40,24 +44,24 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	colnames(t) = unlist(lapply( x$usedObj$userGroups, function (n) paste( n, c("", "order"))))
 	ret@userGroups = t
 	
-	MDS <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
-	OK = grep ( '_dim_' , MDS, invert= TRUE )
+	DRC <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
+	OK = grep ( '_dim_' , DRC, invert= TRUE )
 	if ( length(OK) == 0 ) {
-		stop( "cellexalvrR does need at least one 3D MDS structure to work on - please create that first!")
+		stop( "cellexalvrR does need at least one 3D DRC structure to work on - please create that first!")
 	}
-	for ( n in MDS[OK] ) {
+	for ( n in DRC[OK] ) {
 		for ( n2 in names(x$usedObj[[n]]) ) {
 			new_name = stringr::str_replace_all( n2, "\\s", "_")
-			ret@mds[[new_name]] = x$usedObj[[n]][[n2]]
+			ret@drc[[new_name]] = x$usedObj[[n]][[n2]]
 		}
 	}
 	ret@colors = x$usedObj$colorRange
 	ret@specie=x$usedObj$specie
 	
-	bad = which( ret@dat@x < 0)
+	bad = which( ret@data@x < 0)
 	if ( length(bad) > 0 ) {
-		ret@dat@x[ bad ] = 0
-		ret@dat = Matrix::drop0(ret@dat)
+		ret@data@x[ bad ] = 0
+		ret@data = Matrix::drop0(ret@data)
 	}
 	ret@outpath = outpath
 	ret

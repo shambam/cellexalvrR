@@ -4,12 +4,18 @@
 \name{addCellMeta2cellexalvr}
 \alias{addCellMeta2cellexalvr}
 \alias{addCellMeta2cellexalvr,cellexalvrR-method}
-\title{description of function addCellMeta2cellexalvr}
+\title{description of function 'addCellMeta2cellexalvr'}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
 \item{cell.meta}{A matrix of cell metadata}
 }
 \description{
-Adds per cell metadata to a cellexalvrObj
+Adds per cell metadata to a 'cellexalvrObj'
+}
+\details{
+This function adds a 0/1 information matrix to the cellexalvrR object.
+
+If the sample annotation data is not in 0/1 format please convert it using
+make.cell.meta.from.df().
 }

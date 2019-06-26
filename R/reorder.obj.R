@@ -1,3 +1,4 @@
+#' reorder function to reorder the whole cellexalvrR object based on a samples order.
 #' @name reorder.samples
 #' @aliases reorder.samples,cellexalvrR-method
 #' @rdname reorder.samples-methods
@@ -21,11 +22,17 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	}else {
 		ids = order( dataObj@userGroups[,column])
 	}
-	dataObj@dat <- dataObj@dat[ , ids]
-	dataObj@meta.cell <- dataObj@meta.cell[ids,]
-	dataObj@userGroups <- dataObj@userGroups[ids,]
+	dataObj@data <- dataObj@data[ , ids]
+	if ( ncol(dataObj@data) == nrow(dataObj@meta.cell) ) {
+		dataObj@meta.cell <- dataObj@meta.cell[ids,]
+	}
+	if ( ncol(dataObj@data) == nrow(dataObj@userGroups) ) {
+		dataObj@userGroups <- dataObj@userGroups[ids,]
+	}
 	dataObj
 } )
+
+#' reorder function to reorder the whole cellexalvrR object based on a genes order.
 #' @name reorder.genes
 #' @aliases reorder.genes,cellexalvrR-method
 #' @rdname reorder.genes-methods
@@ -44,7 +51,7 @@ if ( ! isGeneric('reorder.genes') ){setGeneric('reorder.genes', ## Name
 
 setMethod('reorder.genes', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
-	dataObj@dat <- dataObj@dat[ order( dataObj@meta.gene[,column]),]
+	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]
 	dataObj@meta.gene <- dataObj@meta.gene[order( dataObj@meta.gene[,column]),]
 	dataObj
 } )

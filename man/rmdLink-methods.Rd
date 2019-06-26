@@ -15,3 +15,6 @@
 \description{
 creates a linke in the structure [<name>](<link><name>){target='blank'}
 }
+\details{
+Create a R markdown link used in the (VR) log files.
+}

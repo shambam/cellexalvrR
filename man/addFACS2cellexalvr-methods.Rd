@@ -4,7 +4,7 @@
 \name{addFACS2cellexalvr}
 \alias{addFACS2cellexalvr}
 \alias{addFACS2cellexalvr,cellexalvrR-method}
-\title{description of function addFACS2cellexalvr}
+\title{description of function 'addFACS2cellexalvr'}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
@@ -12,4 +12,7 @@
 }
 \description{
 Adds FACS index to a cellexalvrObj
+}
+\details{
+This function simply adds a table object into the index slot of the cellexalvrR obejct.
 }

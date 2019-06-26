@@ -1,3 +1,5 @@
+#' Create a R markdown link used in the (VR) log files.
+#' 
 #' @name rmdLink
 #' @aliases rmdLink,character-method
 #' @rdname rmdLink-methods

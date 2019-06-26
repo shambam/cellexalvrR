@@ -11,3 +11,7 @@
 \description{
 remove all parts from the file system
 }
+\details{
+The parts clean up function is called after a object is saved using the lockedSave function,
+as all previousely saved sub parts should have been integrated into this object then.
+}

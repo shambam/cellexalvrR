@@ -1,3 +1,7 @@
+#' renderReport is the final step to create a html log file.
+#' 
+#' These log files can be accessed from within the VR environment using the inbuilt browser.
+#' 
 #' @name renderReport
 #' @aliases renderReport,cellexalvrR-method
 #' @rdname renderReport-methods
@@ -39,45 +43,6 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )
 	setwd( oldwd )
 	
-	
-#	#this part is so buggy I need to export it into a new thread
-#	## first a short script
-#	cmd = paste(
-#			Sys.which('Rscript') , 
-#			file.path(sessionPath, 'knit.R' ), 
-#			file.path( cellexalObj@outpath , 'cellexalObj.RData') 
-#	)
-#	fileConn<-file(file.path(sessionPath, 'knit.R' ) )
-#		
-#	writeLines(c(
-#					"args <- commandArgs(trailingOnly = TRUE)",
-#					"library(cellexalvrR)",
-#					"#this should now have this useless comment",
-#					"cellexalObj = loadObject( args[1] )" ,
-#					"setwd(cellexalObj@usedObj$sessionPath)",
-#					"message ( getwd())",
-#					"files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))",
-#					"message( paste( files ) )",
-#					"bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )",
-#					paste( sep=" ", "#", cmd )
-#			), fileConn )
-#	close(fileConn)
-#	
-#	#print ( cmd )
-#	system( 
-#			paste(
-#					Sys.which('Rscript') , 
-#					file.path(sessionPath, 'knit.R' ), 
-#					file.path( cellexalObj@outpath , 'cellexalObj.RData') 
-#			)
-#			)
-#
-#	for ( i in 1:6 ){
-#		if (file.exists( file.path(sessionPath, paste(cellexalObj@usedObj$sessionName, sep='.', 'html') )) ){
-#			last
-#		}
-#		Sys.sleep(10)
-#	}
 	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))
 	if ( file.exists( expected_outfile )){
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL

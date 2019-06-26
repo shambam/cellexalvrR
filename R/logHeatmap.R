@@ -4,7 +4,10 @@ setGeneric('logHeatmap', ## Name
 		standardGeneric('logHeatmap')
 	}
 )
-
+#' logHeatmap will create a section in the log document including 
+#' (1) the DRC the grouping was selected from (colored 2D)
+#' (2) the heatmap itself
+#' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 #' @name logHeatmap
 #' @aliases logHeatmap,cellexalvrR-method
 #' @rdname logHeatmap-methods
@@ -41,16 +44,16 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
 	figureF = file.path( 'png', basename( png ) )
 
-	## now I need to create the 2D mds plots for the grouping
+	## now I need to create the 2D drc plots for the grouping
 	#cellexalObj = userGrouping(cellexalObj, grouping )
 	gInfo = groupingInfo( cellexalObj, cellexalObj@usedObj$lastGroup )
 
-	## gInfo is a list with names grouping, mds, col and order
-	# create a file containing the grouping info (and thereby color) and the mds info - do not create doubles
+	## gInfo is a list with names grouping, drc, col and order
+	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 
-	mdsFiles = mdsPlots2D( cellexalObj, gInfo )
+	drcFiles = drcPlots2D( cellexalObj, gInfo )
 
-	# figureF, mdsFiles[1] and mdsFiles[2] do now need to be integrated into a Rmd file
+	# figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd file
 	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) )
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
@@ -76,11 +79,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### Heatmap (from CellexalVR)"),
 		paste("![](",figureF,")"),
 		'',
-		paste( "### 2D MDS", gInfo$mds, " dim 1,2"),
-		paste("![](",mdsFiles[1],")"),
+		paste( "### 2D DRC", gInfo$drc, " dim 1,2"),
+		paste("![](",drcFiles[1],")"),
 		'',
-		paste( "### 2D MDS", gInfo$mds, " dim 2,3"),
-		paste("![](",mdsFiles[2],")"),
+		paste( "### 2D DRC", gInfo$drc, " dim 2,3"),
+		paste("![](",drcFiles[2],")"),
 		""
 		, file = mainOfile, append = TRUE)
 

@@ -1,12 +1,14 @@
-#' @name onlyGOIs
+#' onlyGOIs is able to use the inbuild GOI datasest to subset the main data to e.g. TFs only.
+#' 
+#' This function is used internally.
+#' 
+#' @name onlyGOIs 
 #' @aliases onlyGOIs,cellexalvrR-method
 #' @rdname onlyGOIs-methods
 #' @docType methods
 #' @description  Allows the user to select only (G)enes (O)f (I)nterest lists from the object
 #' @param cellexalObj, cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
-#' @param cellexalObj, TEXT MISSING
-#' @param name  TEXT MISSING
 #' @title description of function onlyGOIs
 #' @export onlyGOIs
 if ( ! isGeneric('onlyGOIs') ){setGeneric('onlyGOIs', ## Name
@@ -26,7 +28,7 @@ setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	cellexalObj = reduceTo(
 			cellexalObj, 
 			'row', 
-			to=rownames(cellexalObj@dat)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 
+			to=rownames(cellexalObj@data)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 
 	)
 
 	cellexalObj

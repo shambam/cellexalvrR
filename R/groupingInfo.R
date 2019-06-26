@@ -1,3 +1,6 @@
+#' groupingInfo collects all information about one grouping from 
+#' the cellexalvrR internals and returns them as a list.
+#' 
 #' @name groupingInfo
 #' @aliases groupingInfo,cellexalvrR-method
 #' @rdname groupingInfo-methods
@@ -5,9 +8,10 @@
 #' @description  returns the information stored for the last grouping read
 #' @param cellexalObj, cellexalvr object
 #' @param gname The optional group name to get info on a specific grouping (not the last)
-#' @param cellexalObj, TEXT MISSING
-#' @param gname  TEXT MISSING default=NULL
-#' @title description of function groupingInfo
+#' @title get information on a sample grouping
+#' @examples
+#' groupingInfo(cellexalObj, 'User.group.4')
+#' @return a list with the entries 'grouping', 'order', 'drc' and 'col'
 #' @keywords groupingInfo
 #' @export groupingInfo
 if ( ! isGeneric('groupingInfo') ){setGeneric('groupingInfo', ## Name
@@ -23,8 +27,8 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	}
 	ret <- list( 
 			grouping = cellexalObj@userGroups[,gname] ,
-			order = 1:ncol(cellexalObj@dat),
-			'mds' = cellexalObj@groupSelectedFrom[[gname]],
+			order = 1:ncol(cellexalObj@data),
+			'drc' = cellexalObj@groupSelectedFrom[[gname]],
 			col = cellexalObj@colors[[gname]] 
 	)
 	if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){

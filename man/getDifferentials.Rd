@@ -15,7 +15,8 @@
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")}
+\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod',
+'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2')}
 
 \item{num.sig}{number of differnetial genes to return (250)}
 

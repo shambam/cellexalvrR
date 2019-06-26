@@ -2,9 +2,9 @@ context('error throwing')
 expect_error( loadObject( 'SomeFileNotExistsing') )
 
 context('export2cellexalvr function')
-
-opath = file.path('data','output')
-ipath = file.path('data' );
+prefix = '.'
+opath = file.path( prefix, 'data','output' )
+ipath = file.path( prefix, 'data' )
 if ( file.exists(opath)) {
 	unlink( opath, recursive=TRUE)
 }
@@ -20,6 +20,7 @@ cellexalObj <- loadObject(file.path(ipath,'cellexalObjOK.RData'))
 
 ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'DDRtree.mds', 
 		 'index.facs',  'diffusion.mds', 'tSNE.mds' )
+
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 

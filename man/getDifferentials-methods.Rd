@@ -4,7 +4,7 @@
 \name{getDifferentials}
 \alias{getDifferentials}
 \alias{getDifferentials,cellexalvrR-method}
-\title{description of function getDifferentials}
+\title{VR helper function getDifferentials}
 \usage{
 \S4method{getDifferentials}{cellexalvrR}(cellexalObj, cellidfile,
   deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit",
@@ -16,7 +16,7 @@
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', "bimod", "roc", "t", "tobit", "poisson", "negbinom", "MAST", "DESeq2")}
+\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2' )}
 
 \item{num.sig}{number of differnetial genes to return (250)}
 
@@ -28,8 +28,24 @@
 
 \item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
 }
+\value{
+a list of the top differential genes (num.sig)
+}
 \description{
 Creates a heatmap from a selection of groups
 The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
+}
+\details{
+Identify differentially expressed genes.
+
+This function makes three statistics available for the VR process 
+(1) 'linear' correlation for one group selections
+(2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function
+(3) 'Seurat_wilcox' the original Seurat::FindAllMarkers function (~10x slower than the c++ version)
+}
+\examples{
+\dontrun{
+getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+}
 }
 \keyword{DEGs}

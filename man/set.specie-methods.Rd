@@ -8,13 +8,14 @@
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
-\item{specie}{The specie required}
-
-\item{specie}{TEXT MISSING default=c("mouse"}
-
-\item{"human")}{TEXT MISSING default=c("mouse"}
+\item{specie}{The specie required options: "mouse" or "human"}
 }
 \description{
 Loads TF annotation into cellexalvr object
+}
+\details{
+set.specie is depricated
+
+It simply sets the specie slot to the user supplied specie string.
 }
 \keyword{TFs}

@@ -1,22 +1,34 @@
-as_cellexalvrR <- function( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL ) {
-	## x has to be a BioData object which is read as a simple list here!
-	ret = new('cellexalvrR')
-	ret@dat = x$dat
-	if ( ! is.null(meta.genes.groups) )
-		ret@mets.gene = x$annoatation[, meta.genes.groups]
-	ret@meta.cell = make.cell.meta.from.df( x$samples[,meta.cell.groups])
-	if ( ! is.null( userGroups )) {
-		ret@userGroups = x$samples[,userGroups]
-	}
-	MDS <- names(x$usedObj)[grep ( 'MDS', names(x$usedObj))]
-	OK = grep ( '_dim_' , MDS, invert= TRUE )
-	if ( length(OK) == 0 ) {
-		stop( "cellexalvrR does need at least one 3D MDS structure to work on - please create that first!")
-	}
-	for ( n in MDS[OK] ) {
-		for ( n2 in names(x$usedObj[[n]]) ) {
-			ret@mds[[n2]] = x$usedObj[[n]][[n2]]
-		}
-	}
-	ret
+write_as_sqlite3 <- function( cellexalObj, ofile ) { 
+	
+	genes <- rownames(cellexalObj@dat)
+	genes <- data.frame( 'id' = 1:length(genes), genes= genes )
+	
+	cells <- data.frame( 'id'= 1:ncol(cellexalObj@dat), sample= colnames(cellexalObj@dat) )
+	
+	## melt the sparse matrix using the toColNums Rcpp function
+	mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@dat )
+	
+	colnames(genes) <- c('id', 'gname')
+	colnames(cells) <- c('id','cname')
+	
+	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
+	
+	RSQLite::dbWriteTable(con, "datavalues",mdc)
+	
+	RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+	
+	RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+	
+	RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
+	RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+	
+	RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+	RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
+	
+	RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+	RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+	
+	
+	RSQLite::dbDisconnect(con)
+
 }

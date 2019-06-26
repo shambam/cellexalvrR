@@ -15,3 +15,6 @@ this function reorderes the cellexalvr object based on a column in the samples t
 
 (e.g. for plotting)
 }
+\details{
+reorder function to reorder the whole cellexalvrR object based on a genes order.
+}
