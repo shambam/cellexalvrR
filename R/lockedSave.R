@@ -113,7 +113,6 @@ setMethod('loadObject', signature = c ('character'),
 			}
 			#tmp = new('cellexalvrR')
 			#reload = 0
-			
 			if ( ! file.exists(cellexalObj@outpath )) {
 				cellexalObj@outpath = normalizePath(dirname( fname ))
 			}else {

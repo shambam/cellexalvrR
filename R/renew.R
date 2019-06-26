@@ -27,11 +27,16 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				## OK no R6 then ;-)
 				ret = x
 				if ( ! .hasSlot( x, 'version') ) {
-					if ( .hasSlot( x, 'dat')) {
-							ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
-						}else {
-							ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
-						}
+					if ( .hasSlot( x, 'dat') & .hasSlot(x, 'mds') ) {
+						ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+					}else if ( .hasSlot( x, 'data') & .hasSlot(x, 'drc')) {
+						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+					}else if ( .hasSlot( x, 'mds')) {	
+						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+					}else {
+						print ( "Sorry this need re-coding - how do we update this old object here?")
+						browser()
+					}
 					
 				}else if (x@version != as.character(packageVersion("cellexalvrR"))  ) { 
 					ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)

@@ -34,8 +34,15 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		#add two lines into the object # one for the group and the other for the order in the group
 		id= (ncol(cellexalObj@userGroups) /2) + 1
 		gname = paste( "User.group", id, sep="." ) #the VR program depended on it
-	
 		n = vector( 'numeric', ncol(cellexalObj@data))
+		m = match(cellid[,1], colnames(cellexalObj@data))
+		if ( length(which(is.na(m))) > 0 ){
+			stop( paste (
+				"The grouping file has cells that are not defined in the object:", 
+				paste(as.vector(cellid[which(is.na(m)),1]), collapse=", " )
+					))
+
+		}
 		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
 		n[which(n==0)] = NA
 		order = n

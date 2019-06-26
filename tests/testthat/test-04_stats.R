@@ -2,14 +2,14 @@ context('stat functions')
 
 prefix = './'
 
-genes <- file.path(prefix, 'data/heatmap_0.txt')
+#genes <- file.path(prefix, 'data/heatmap_0.txt')
 
-genes = read.delim(genes)[,1]
+#genes = read.delim(genes)[,1]
 
-cellexalObj <- loadObject(file.path('data','cellexalObj.RData') )
+cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
-x = reduceTo(cellexalObj, what='row', to=genes )
-x@outpath = file.path('data','output','statTest' )
+x = cellexalObj
+x@outpath = file.path(prefix,'data','output','statTest' )
 
 grouping <- file.path(prefix, 'data/selection0.txt')
 
@@ -28,15 +28,16 @@ for ( fname in ofiles ){
 
 gene1 = getDifferentials(x, grouping, 'anova', num.sig=50, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
-expect_true( length( gene1) == 52, paste("wrong gene number anova", length( gene1) ) )
+expect_true( length( gene1) == 51, paste("wrong gene number anova", length( gene1) ) )
 
 gene2 = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
-expect_true( length( gene2) == 100, paste("wrong gene number c++ wilcox", length( gene2) ) )
+expect_true( length( gene2) == 101, paste("wrong gene number c++ wilcox", length( gene2) ) )
 
+skip("The up to date Seurat version is incompatible with cellexalvrR")
 gene3 = getDifferentials(x, grouping, 'Seurat_wilcox', num.sig=100, logfc.threshold = .1, minPct=0.1 )
 
-expect_true( length( gene3) == 100, paste("wrong gene number seurat wilcox", length( gene3) ) )
+expect_true( length( gene3) == 101, paste("wrong gene number seurat wilcox", length( gene3) ) )
 
 
 #test_that( 'MAST' ,{
