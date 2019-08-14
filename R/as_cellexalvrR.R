@@ -25,11 +25,11 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
 	ret = methods::new('cellexalvrR')
-	ret@data = x$data
+	ret@data = x$zscored
 	#ret@data@x = log( exp( ret@data@x ) +1 ) ## fixed in BioData
 	
 	if ( ! is.null(meta.genes.groups) )
-		ret@mets.gene = x$annoatation[, meta.genes.groups]
+		ret@meta.gene = x$annoatation[, meta.genes.groups]
 	ret@meta.cell = make.cell.meta.from.df( x$samples[,meta.cell.groups] ,rq.fields= meta.cell.groups )
 	rownames(ret@meta.cell) = colnames( ret@data )
 	t = data.frame(lapply( 
