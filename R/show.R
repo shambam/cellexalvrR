@@ -19,7 +19,7 @@ setMethod('show', signature = c ('cellexalvrR'),
 			cat (paste( 'with',nrow(object@data),'genes and', ncol(object@data),' cells.'),"\n")
 			cat (paste("Annotation datasets (",paste(dim(object@meta.gene),collapse=','),"): '",paste( colnames(object@meta.gene ), collapse="', '"),"'  ",sep='' ),"\n")
 			cat (paste("Sample annotation (",paste(dim(object@meta.cell),collapse=','),"): '",paste( colnames(object@meta.cell ), collapse="', '"),"'  ",sep='' ),"\n")
-			cat ( paste("There are",length(grep('order', colnames(object@userGroups), invert=T)), "user groups stored" ),":\n")
+			cat ( paste("There are",length(grep('order', colnames(object@userGroups), invert=T)), "user group(s) stored" ),":\n")
 			if ( ncol(object@userGroups) > 0 ) {
 				cat ( paste( collapse=", ", colnames(object@userGroups)), '\n' )
 			}

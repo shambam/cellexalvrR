@@ -28,18 +28,22 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				ret = x
 				if ( ! .hasSlot( x, 'version') ) {
 					if ( .hasSlot( x, 'dat') & .hasSlot(x, 'mds') ) {
-						ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						ret <- new("cellexalvrR",data=x@dat,drc=x@mds,meta.cell=x@meta.cell, specie=x@specie,
+							meta.gene = x@meta.gene,  index = x@index, outpath= x@outpath)
 					}else if ( .hasSlot( x, 'data') & .hasSlot(x, 'drc')) {
-						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc, specie=x@specie,
+							meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath= x@outpath)
 					}else if ( .hasSlot( x, 'mds')) {	
-						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+						ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@mds, specie=x@specie,
+							meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath= x@outpath)
 					}else {
 						print ( "Sorry this need re-coding - how do we update this old object here?")
 						browser()
 					}
 					
 				}else if (x@version != as.character(packageVersion("cellexalvrR"))  ) { 
-					ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index)
+					ret <- new("cellexalvrR",data=Matrix(x@data, sparse=T),drc=x@drc, specie=x@specie,
+						meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath= x@outpath)
 				}
 				#browser()
 				if( methods::.hasSlot(x,'userGroups') ){
@@ -59,7 +63,9 @@ setMethod('renew', signature = c ('cellexalvrR'),
 					x$index = matrix()
 				}
 
-				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$mds,meta.cell=as.matrix(x$meta.cell),meta.gene = as.matrix(x$meta.gene),  index = x$index, specie= 'unset!')
+				ret <- methods::new("cellexalvrR",data=Matrix(x$data, sparse=T),drc=x$mds,
+					meta.cell=as.matrix(x$meta.cell),meta.gene = as.matrix(x$meta.gene),  index = x$index, specie= 'unset!',
+					 outpath= x@outpath)
 				if( methods::.hasSlot(x,'userGroups') ){
 					ret$userGroups = x$userGroups
 				}

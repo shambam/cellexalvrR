@@ -1,3 +1,5 @@
+skip('deprecated')
+
 context('VR log network 1')
 
 if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {

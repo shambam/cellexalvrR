@@ -125,7 +125,8 @@ proj.list <- list(diffusion=diff.proj,DDRtree=ddr.proj,tSNE=tsne.proj)
 The next is to make a `cellexalvr` object by calling `MakeCellexaVRObj` and passing the required objects to it:
 
 ```{r, fig.show='hold',eval=T}
-cellvr <- MakeCellexaVRObj( log2data, ,drc.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=facs)
+cellvr <- MakeCellexaVRObj( Matrix::Matrix(log2data, sparse=TRUE),
+  drc.list=proj.list,specie="mouse",cell.meta=cell.ids,facs.data=NULL)
 ```
 In the same step we also set the specie as mouse which ensures the correct 
 transcription factor IDs are using during network construction if implemented in CellexalVR.
@@ -172,7 +173,7 @@ cell.vr.scr
 ```
 
 To add FACS for each cell use `addFACS2cellexalvr`:
-```{r,fig.show='hold',eval=T}
+```{r,fig.show='hold',eval=F}
 cell.vr.scr <- addFACS2cellexalvr(cell.vr.scr,facs)
 ```
 
@@ -212,8 +213,6 @@ function.
 
 ##Converting a Seurat object to a cellexalvr object
 
-This functionallity is currently not implemented as the Seurat format has changed lately.
-
 For those using [Seurat](https://satijalab.org/seurat/), cellexalvrR offers some basic functionality 
 to convert a Seurat object to a cellexalvr object. It takes the data from the `@dat` slot, and cell 
 identities from the `@ident` slot, and will also take the cell-cycle phase assignments if this has been done.
@@ -221,7 +220,18 @@ identities from the `@ident` slot, and will also take the cell-cycle phase assig
   been implemented using the `dim.embed=3` option when calling `RunTSNE` from Seurat.
 
 ```{r,eval=F}
-cellvrObj <- seurat2cellexalvr(SeuratObj)
+# mca comes from from https://satijalab.org/seurat/v3.0/mca.html
+mca <- RunUMAP(mca, dims = 1:75, min.dist = 0.75,n.components=3)
+
+mca.data <- GetAssayData(object = mca) #Extract the expression data
+drl <- list(UMAP=Embeddings(object = mca, reduction = "umap")) # Put the UMAP coordinated into a list
+meta <- make.cell.meta.from.df(mca[[]],"Tissue") # Make the metadata using just the "Tissue" column
+
+cvr <- new("cellexalvrR",data=mca.data,drc=drl) # Initialise a new cellexalvrR object with the expression data and UMAP
+cvr <- set.specie(cvr,"mouse") # Set the specie to Mouse
+cvr <- addCellMeta2cellexalvr(cvr,meta) # Add the metadata to the cellexalvrR object
+export2cellexalvr(cvr,"MCA_full") #Export the files to a folder called "MCA_full" 
+
 ```
 
 

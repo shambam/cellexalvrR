@@ -16,6 +16,7 @@ simpleLoadT = end_time - start_time
 
 
 ## now change something and check if the new loadObject call loads the updated version
+skip('unreliable tests')
 
 old_n= ncol(this@userGroups) 
 this@userGroups = this@userGroups[,3:4]

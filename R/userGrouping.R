@@ -25,16 +25,13 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
 		cellid <- utils::read.delim(cellidfile,header=F)
-	
-		grp.vec <- as.vector(cellid[,2])
-		grps <- as.vector(unique(cellid[,2]))
-	
-		req.graph <- unique(as.vector(cellid[,3]))
-	
-		#add two lines into the object # one for the group and the other for the order in the group
+
+		#init local vars
 		id= (ncol(cellexalObj@userGroups) /2) + 1
 		gname = paste( "User.group", id, sep="." ) #the VR program depended on it
 		n = vector( 'numeric', ncol(cellexalObj@data))
+		
+		#find overlap with own data
 		m = match(cellid[,1], colnames(cellexalObj@data))
 		if ( length(which(is.na(m))) > 0 ){
 			stop( paste (
@@ -44,17 +41,17 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 
 		}
 		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
-		n[which(n==0)] = NA
+		n[which(n==0)] = NA # ro not run stats on them, too.
 		order = n
 		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
-	
-		#I need to record the order in the grouping
-		if ( id == 1 ) { 
-			## new grouping data
-			cellexalObj@userGroups = data.frame( a = n, b = order )
-		
+
+		if ( ncol(cellexalObj@data) != nrow(cellexalObj@userGroups)){
+			## Just create a new one...
+			id = 1
+			gname = paste( "User.group", id, sep="." )
+			cellexalObj@userGroups = data.frame(row.names= colnames(cellexalObj@data), a = n, b = order  )
 		}else {
-			## did we already have this exact grouping?
+			# did we already read this file?
 			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),n); if ( ok == T ) {TRUE } else { FALSE } } )
 			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),order); if ( ok == T ) {TRUE } else { FALSE } } )
 			ok <- which( t == T )
@@ -63,15 +60,15 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				gname = names(ok)
 				id = ceiling(as.vector(ok) / 2)
 			}else {
-				## add this new one
 				cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
 			}
 		}
+		
 		colnames(cellexalObj@userGroups)[2*id-1] = gname
 		colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 		
-		cellexalObj@groupSelectedFrom[[gname]] = req.graph
-		cellexalObj@colors[[gname]] = unique(grps)
+		cellexalObj@groupSelectedFrom[[gname]] = unique(as.vector(cellid[,3]))
+		cellexalObj@colors[[gname]] = unique(as.vector(unique(cellid[,2])))
 		savePart ( cellexalObj, 'groupSelectedFrom')
 		savePart ( cellexalObj, 'colors')
 		savePart ( cellexalObj, 'userGroups')
