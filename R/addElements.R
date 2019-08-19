@@ -51,3 +51,41 @@ setMethod('addFACS2cellexalvr', signature = c ('cellexalvrR'),
     cellexalObj@index <- as.matrix(facs.data)
     cellexalObj
 } )
+
+
+#' addDRC2cellexalvr is a simple helper function that applies some tests 
+#' of usabilty to a 3D DRC matrix object and adds it to the cellexalvrR object.
+#' 
+#' @name addDRC2cellexalvr
+#' @aliases addDRC2cellexalvr,cellexalvrR-method
+#' @rdname addDRC2cellexalvr-methods
+#' @docType methods
+#' @description  Adds drc coordinates to a 'cellexalvrObj'
+#' @param cellexalObj, cellexalvr object
+#' @param drcmatrix A (3 columns) matrix of coordinates
+#' @param name A name for the object (default = graph<n>)
+#' @title description of function 'addDRC2cellexalvr'
+#' @export addDRC2cellexalvr
+if ( ! isGeneric('addDRC2cellexalvr') ){setGeneric('addDRC2cellexalvr', ## Name
+    function (cellexalObj, drcmatrix, name=NULL) { 
+        standardGeneric('addDRC2cellexalvr')
+    }
+) }
+
+setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
+    definition = function (cellexalObj, drcmatrix, name=NULL) {
+
+    rq.ind <- (length(cellexalObj@drc)+1)
+    if ( ! is.null(name) ){
+        rq.nm <- name
+    }else {
+        rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
+    }
+    mp <- drcmatrix
+    colnames(mp) <- c("x","y","z")
+    rownames(mp) <- colnames(cellexalObj@data)
+
+    cellexalObj@drc[[rq.ind]] <- mp
+    names(cellexalObj@drc)[rq.ind] <- rq.nm
+    cellexalObj
+} )
