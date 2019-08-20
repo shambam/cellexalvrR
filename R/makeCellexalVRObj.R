@@ -22,20 +22,33 @@ if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
 setMethod('MakeCellexaVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 
+    if ( ! class(exdata) == 'dgCMatrix' ) {
+		exdata = Matrix::Matrix(exdata, sparse=T)
+	}
+
+
     ### add the rownames to the given matricies
     for(i in 1:length(drc.list)){
         rownames(drc.list[[i]]) <- colnames(exdata)
+
+        if(ncol(drc.list[[i]])==3){
+            colnames(drc.list[[i]]) <- c("dim1","dim2","dim3")
+        }
+
+        if(ncol(drc.list[[i]])==6){
+            colnames(drc.list[[i]]) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
+        }
     }
     
     if(!is.null(cell.metadata)){
         rownames(cell.metadata) <- colnames(exdata)
     }
 
-    #cellexalobj <- new("cellexalvr",data=as.matrix(exdata),drc=drc.list,meta.cell=as.matrix(cell.metadata),index=facs.data)
-	if ( ! class(exdata) == 'dgCMatrix' ) {
-		exdata = Matrix::Matrix(exdata, sparse=T)
-	}
-	cellexalobj <- methods::new("cellexalvrR",data=exdata,drc=drc.list,meta.cell=as.matrix(cell.metadata))
+	cellexalobj <- methods::new("cellexalvrR",data=exdata,drc=drc.list)
+
+    if(!is.null(cell.metadata)){
+        cellexalobj  <- addCellMeta2cellexalvr(cellexalobj,cell.metadata)
+    }
 
     if(!is.null(facs.data)){
         cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)

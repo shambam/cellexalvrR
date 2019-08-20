@@ -53,35 +53,25 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
     for(i in 1:length(cellexalObj@drc)){
         
-        #ashape <- ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
-		#ofile = file.path(path,paste("graph",i,".hull",sep=""))
-		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".hull",sep=""))
-		#if ( ! file.exists( ofile )) {
-		if ( FALSE ) { # never create them the VR process is taking care of that now.
-        	rq.tring <- NULL
 
-        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))<0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 5)
-            	#rgl.open()
-            	#plot(ashape)
-            	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-         	}
+		if(ncol(cellexalObj@drc[[i]])==3){
 
-        	if(entropy::entropy(as.matrix(cellexalObj@drc[[i]]))>0){
-	            ashape <- alphashape3d::ashape3d(as.matrix(cellexalObj@drc[[i]]), alpha = 2)
-           	#rgl.open()
-            	#plot(ashape)
-            	rq.triang <- ashape$triang[which(ashape$triang[,9]>1),1:3]
-        	}
-
-			utils::write.table(format(rq.triang,scientific=FALSE),ofile,row.names=F,col.names=F,quote=F,sep="\t",eol="\n")
-
+			ofile = file.path(path,paste(names(cellexalObj@drc)[i],".mds",sep=""))
+			if ( ! file.exists( ofile )) {
+				#utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+				utils::write.table(data.frame("CellID"=rownames(cellexalObj@drc[[i]]),cellexalObj@drc[[i]]),ofile,row.names=F,col.names=T,quote=F,sep="\t",eol="\n")
+			}
 		}
-		ofile = file.path(path,paste(names(cellexalObj@drc)[i],".mds",sep=""))
-		if ( ! file.exists( ofile )) {
-			utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+
+		if(ncol(cellexalObj@drc[[i]])==6){
+
+			ofile = file.path(path,paste(names(cellexalObj@drc)[i],".velo",sep=""))
+			if ( ! file.exists( ofile )) {
+				#utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+				utils::write.table(data.frame("CellID"=rownames(cellexalObj@drc[[i]]),cellexalObj@drc[[i]]),ofile,row.names=F,col.names=T,quote=F,sep="\t",eol="\n")
+			}
 		}
-    }
+	}
 	
 	ofile = file.path(path,"database.sqlite")
 	#if ( file.exists( ofile ) ) {

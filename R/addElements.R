@@ -27,6 +27,75 @@ setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
     cellexalObj
 } )
 
+
+#' This function adds RNA velocity coordinates to an already existing set of dimension reduction coordinates. 
+#' Should be a 6 column matrix of values describing the velocity arrows.
+#'
+#'
+#' @name addVelocityToExistingDR
+#' @aliases addVelocityToExistingDR,cellexalvrR-method
+#' @rdname addVelocityToExistingDR-methods
+#' @docType methods
+#' @description  Adds RNA volocity data to an existing DR methods in an 'cellexalvrObj' object.
+#' @param cellexalObj, cellexalvr object
+#' @param velo.arrows A 6 column matrix describing RNA velocity arrows
+#' @param dr.name The name of the DR coordinates being added to
+#' @title description of function 'addVelocityToExistingDR'
+#' @export addVelocityToExistingDR
+if ( ! isGeneric('addVelocityToExistingDR') ){setGeneric('addVelocityToExistingDR', ## Name
+	function (cellexalObj, velo.arrows,dr.name) { 
+		standardGeneric('addVelocityToExistingDR')
+	}
+) }
+
+setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
+	definition = function (cellexalObj,velo.arrows,dr.name) {
+
+    colnames(velo.arrows) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
+    cellexalObj@drc[[dr.name]] <- velo.arrows[colnames(cellexalObj@data),]
+    cellexalObj
+} )
+
+
+#' addNewVelocity is a simple helper function that applies some tests 
+#' of usabilty to a 3D DRC matrix object and adds it to the cellexalvrR object.
+#' 
+#' @name addNewVelocity
+#' @aliases addNewVelocity,cellexalvrR-method
+#' @rdname addNewVelocity-methods
+#' @docType methods
+#' @description  Adds drc coordinates to a 'cellexalvrObj'
+#' @param cellexalObj, cellexalvr object
+#' @param drcmatrix A (3 columns) matrix of coordinates
+#' @param name A name for the object (default = graph<n>)
+#' @title description of function 'addNewVelocity'
+#' @export addNewVelocity
+if ( ! isGeneric('addNewVelocity') ){setGeneric('addNewVelocity', ## Name
+    function (cellexalObj, drcmatrix, name=NULL) { 
+        standardGeneric('addNewVelocity')
+    }
+) }
+
+setMethod('addNewVelocity', signature = c ('cellexalvrR'),
+    definition = function (cellexalObj, drcmatrix, name=NULL) {
+
+    rq.ind <- (length(cellexalObj@drc)+1)
+    if ( ! is.null(name) ){
+        rq.nm <- name
+    }else {
+        rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
+    }
+    mp <- drcmatrix
+    colnames(mp) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
+    #rownames(mp) <- colnames(cellexalObj@data)
+
+    cellexalObj@drc[[rq.ind]] <- mp[colnames(cellexalObj@data),]
+    names(cellexalObj@drc)[rq.ind] <- rq.nm
+    cellexalObj
+} )
+
+
+
 #' This function simply adds a table object into the index slot of the cellexalvrR obejct.
 #'
 #' @name addFACS2cellexalvr
@@ -82,10 +151,11 @@ setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
         rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
     }
     mp <- drcmatrix
-    colnames(mp) <- c("x","y","z")
+    colnames(mp) <- c("dim1","dim2","dim3")
     rownames(mp) <- colnames(cellexalObj@data)
 
     cellexalObj@drc[[rq.ind]] <- mp
     names(cellexalObj@drc)[rq.ind] <- rq.nm
     cellexalObj
 } )
+
