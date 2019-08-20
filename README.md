@@ -9,7 +9,7 @@ cellexalvrR is an R package to prep data single-cell expression data for explora
 install.packages("devtools")
 library(devtools)
 
-install_github("shambam/cellexalvrR")
+install_github("sonejilab/cellexalvrR")
 library(cellexalvrR)
 ```
 
