@@ -51,9 +51,13 @@ if ( ! isGeneric('addVelocityToExistingDR') ){setGeneric('addVelocityToExistingD
 setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,velo.arrows,dr.name) {
 
-    colnames(velo.arrows) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
-    cellexalObj@drc[[dr.name]] <- velo.arrows[colnames(cellexalObj@data),]
-    cellexalObj
+
+	if(is.na(match(dr.name,names(cellexalObj@drc)))==T) {
+		stop("There is no DR graph in your current CellexalObj that matches the one being added to")
+	}else{ colnames(velo.arrows) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
+    	cellexalObj@drc[[dr.name]] <- velo.arrows[colnames(cellexalObj@data),]
+    	cellexalObj
+	}
 } )
 
 
@@ -67,31 +71,27 @@ setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
 #' @description  Adds drc coordinates to a 'cellexalvrObj'
 #' @param cellexalObj, cellexalvr object
 #' @param drcmatrix A (3 columns) matrix of coordinates
-#' @param name A name for the object (default = graph<n>)
+#' @param dr.name A name for the object (default = graph<n>)
 #' @title description of function 'addNewVelocity'
 #' @export addNewVelocity
 if ( ! isGeneric('addNewVelocity') ){setGeneric('addNewVelocity', ## Name
-    function (cellexalObj, drcmatrix, name=NULL) { 
+    function (cellexalObj, velo.arrows, dr.name) { 
         standardGeneric('addNewVelocity')
     }
 ) }
 
 setMethod('addNewVelocity', signature = c ('cellexalvrR'),
-    definition = function (cellexalObj, drcmatrix, name=NULL) {
+    definition = function (cellexalObj, velo.arrows, dr.name) {
 
-    rq.ind <- (length(cellexalObj@drc)+1)
-    if ( ! is.null(name) ){
-        rq.nm <- name
-    }else {
-        rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
-    }
-    mp <- drcmatrix
-    colnames(mp) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
-    #rownames(mp) <- colnames(cellexalObj@data)
+    if(is.na(match(dr.name,names(cellexalObj@drc)))==F) {
+		stop("There is already a DR graph in your current CellexalObj that matches the name of the one being added as new.")
+    }else{rq.ind <- (length(cellexalObj@drc)+1)
+    
+    colnames(velo.arrows) <- c("dim1","dim2","dim3","velo1","velo2","velo3")
 
-    cellexalObj@drc[[rq.ind]] <- mp[colnames(cellexalObj@data),]
-    names(cellexalObj@drc)[rq.ind] <- rq.nm
+    cellexalObj@drc[[dr.name]] <- velo.arrows[colnames(cellexalObj@data),]
     cellexalObj
+    }
 } )
 
 

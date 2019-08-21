@@ -10,7 +10,7 @@
 
 \item{drcmatrix}{A (3 columns) matrix of coordinates}
 
-\item{name}{A name for the object (default = graph<n>)}
+\item{dr.name}{A name for the object (default = graph<n>)}
 }
 \description{
 Adds drc coordinates to a 'cellexalvrObj'
