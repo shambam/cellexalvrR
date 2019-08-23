@@ -1,4 +1,5 @@
 
+skip('deprecated')
 context('VR create heatmap ')
 
 skip( "checked later and throws errors in this test script" )
