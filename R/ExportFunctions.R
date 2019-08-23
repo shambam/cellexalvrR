@@ -27,7 +27,20 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
 
-	
+	## check that the cell names (all rownames) contain no spaces!!
+	good_names = stringr::str_replace_all( colnames(cellexalObj@data),'\\s+', '_')
+
+
+	colnames(cellexalObj@data) = good_names
+	rownames(cellexalObj@meta.cell) = good_names
+	for ( n in names(cellexalObj@drc) ) {
+		rownames( cellexalObj@drc[[n]]) = good_names
+	}
+	if ( nrow(cellexalObj@index) == ncol(cellexalObj@data) ){
+		rownames( cellexalObj@index ) = good_names
+	}
+
+
 	ofile = file.path( path, "cellexalObj.RData")
 	if ( ! file.exists( ofile) ){
 		cellexalObj@outpath = ''
@@ -106,9 +119,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		
     	RSQLite::dbWriteTable(con, "datavalues",mdc)
 		
-		RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+		RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) COLLATE NOCASE)")
         
-		RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+		RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) COLLATE NOCASE)")
 
 		RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 		RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
