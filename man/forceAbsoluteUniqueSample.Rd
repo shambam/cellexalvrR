@@ -6,6 +6,11 @@
 \usage{
 forceAbsoluteUniqueSample(x, separator = "_")
 }
+\arguments{
+\item{x}{the string vector you want to force into uniques}
+
+\item{separator}{the separator between orig str and id ( default '_')}
+}
 \description{
 This function adds _<id> to all duplicate values thereby enforcing uniques.
 }

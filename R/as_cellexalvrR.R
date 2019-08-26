@@ -16,14 +16,17 @@
 #' @title convert a BioData object to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { ## Argumente der generischen Funktion
+	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { ## Argumente der generischen Funktion
 		standardGeneric('as_cellexalvrR') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
 
 setMethod('as_cellexalvrR', signature = c ('environment'),
-	definition = function ( x, meta.cell.groups, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
+	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
+	if ( is.null(meta.cell.groups)){
+		stop( paste(sep="\n","meta.cell.groups is not defined - please set it to one of", paste(colnames(x$samples))) )
+	}
 	ret = methods::new('cellexalvrR')
 	ret@data = x$zscored
 	#ret@data@x = log( exp( ret@data@x ) +1 ) ## fixed in BioData
@@ -90,6 +93,7 @@ setMethod('as_cellexalvrR', signature = c ('character'),
 	}
 } )
 
+#' Cast a loom object to a cellexalvrR object
 setMethod('as_cellexalvrR', signature = c ('loom'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 		## code adapted from Seurat::ReadH5AD.H5File() 2019/08/22
@@ -120,6 +124,53 @@ setMethod('as_cellexalvrR', signature = c ('loom'),
     sparse=T
   ))
 	}
+	print ( "reading cell information" )
+	ret@usedObj$original_meta.cell = obs = H5Anno2df(x,'col_attrs', 'cell_names', onlyStrings=TRUE )
+  	## now we check which ones the user wanted and throw an error if we did not get anything
+  	if ( is.null(meta.cell.groups)){
+  		cat( paste(
+  			"meta.cell.groups is missing", 
+  			"Please select some from the list:", 
+  			paste( sep="","c('", paste(colnames(obs), collapse="', '" ),"')"),sep='\n','' ) )
+  		stop("Please give me a meta.cell.groups vector!")
+  	}else {
+  		if ( length( which(is.na( match(meta.cell.groups, colnames(obs)) )) ) > 0 ){
+  			bad = which(is.na( match(meta.cell.groups, colnames(obs) )))
+  			cat( paste( sep="\n", 
+  				"I could not find the sample columns", 
+  				paste(collapse=", ",meta.cell.groups[bad]),
+  				"But I have these:",
+  				 paste( sep="", "c('",paste( colnames(obs), collapse="', '" ),"')")
+  				,''))
+  			stop("please select existsing cell annotation columns!")
+  		}
+  		if ( length(meta.cell.groups) == 1){
+  			obs = matrix(obs[, meta.cell.groups], ncol=length(meta.cell.groups))
+  		} else {
+  			obs =obs[, meta.cell.groups]
+  		}
+  	}
+  	# col_complexity = apply( obs, 2, function(x) { length( unique( as.vector(x) ) ) })
+  	# names( col_complexity) = colnames(obs)
+  	# obs = matrix(obs)
+  	# ## Get rid of all columns that are too complex for cellexalVR
+  	# names( col_complexity) = colnames( obs )
+  	# if ( length(which( col_complexity > 50)) > 0 ){
+  	# 	if ( length(which( col_complexity < 51)) <2 ) {
+  	# 		## problems with the matrix reduced to a vector/list
+  	# 		tmp = obs
+  	# 		obs = matrix(obs[, - which( col_complexity > 50)])
+  	# 		rownames( obs) = rownames(obs)
+  	# 	}else {
+  	# 		obs = obs[, - which( col_complexity > 50)]
+  	# 	}
+  	# }
+  	# for ( i in length(col_complexity):1){
+  	# 	if (col_complexity[i] > 50 ){
+  	# 		obs = obs[ ,-i]
+ 		# }
+  	# }
+  	print ( "reading data" )
   	if (is(object = x[['matrix']], class2 = 'H5Group')) {
     	dat <- as.sparse(x = x[['matrix']])
   	} else {
@@ -130,77 +181,14 @@ setMethod('as_cellexalvrR', signature = c ('loom'),
   		## the loom files seam to store all data as matrix and not as sparse matrix?!
   		dat = Matrix::Matrix(dat, sparse=T)
   	}
+  	print ( "reading feature data")
+  	ret@usedObj$original_meta.features = meta.features = H5Anno2df(x, 'row_attrs', 'gene_names', onlyStrings=TRUE )
 
-  	toDF <- function( slotName, namecol ) {
-  		obs = data.frame(lapply(names(x[[slotName]]), function(n) { x[[paste(sep="/",slotName,n)]][] } ))
-  		colnames( obs ) = names(x[[slotName]])
-  		col_uniq= NULL
-  		for( n in colnames(obs) ) {
-	  		if ( all(obs[,n] =="") ){
-  				obs[,n] = NULL
-  			}else {
-	  			suppressWarnings({OK = length(which( is.na(as.numeric(obs[,n])) )) })
-  				col_uniq = c( col_uniq, OK )
-  			}
-  		}
-  		## most likely cell names column
-  		if ( ! is.na(match(namecol, colnames(obs)) )) {
-			rownames(obs) =  forceAbsoluteUniqueSample (
-				as.vector(obs[, namecol]) )
-  		}else {
-	  		rownames(obs) =  forceAbsoluteUniqueSample (
-  				as.vector(obs[, which(col_uniq == max(col_uniq))[1]]))
-  		}
-  		obs
-  	}
-  	obs = toDF('col_attrs', 'cell_names' )
- 	#obs = data.frame(lapply(names(x[['col_attrs']]), function(n) { x[[paste(sep="/",'col_attrs',n)]][] } ))
-  	#colnames( obs ) = names(x[['col_attrs']])
-  	#col_uniq= NULL
-  	#for( n in colnames(obs) ) {
-  	#	if ( all(obs[,n] =="") ){
-  	#		obs[,n] = NULL
-  	#	}else {
-  	#		suppressWarnings({OK = length(which( is.na(as.numeric(meta.features[,n])) )) })
-  	#		col_uniq = c( col_uniq, OK )
-  	#	}
-  	#}
-  	## most likely cell names column
-  	#if ( ! is.na(match('cell_names', colnames(obs)) )) {
-	#	rownames(obs) =  forceAbsoluteUniqueSample (
-	#		as.vector(obs[, 'cell_names']) )
-  	#}else {
-  	#	rownames(obs) =  forceAbsoluteUniqueSample (
-  	#		as.vector(obs[, which(col_uniq == max(col_uniq))[1]]))
-  	#}
-
-  	meta.features = toDF('row_attrs', 'gene_names' )
-  	#meta.features = data.frame(lapply(names(x[['row_attrs']]), function(n) { x[[paste(sep="/",'row_attrs',n)]][] } ))
-  	#colnames( meta.features ) = names(x[['row_attrs']])
-  	#row_uniq= NULL
-  	#for( n in colnames(meta.features) ) {
-  	#	if ( all(meta.features[,n] =="") ){
-  	#		meta.features[,n] = NULL
-  	#	}else{
-  	#		suppressWarnings({OK = length(which( is.na(as.numeric(meta.features[,n])) )) })
-  	#		row_uniq = c( row_uniq, OK )
-  	#	}
-  	#}
-  	## most likely gene names column
-  	#if ( ! is.na(match('gene_names', colnames(meta.features)) )) {
-	#	rownames(meta.features) =  forceAbsoluteUniqueSample (
-	#		as.vector(meta.features[, 'gene_names']) )
-  	#}else {
-  	#	rownames(meta.features) =  forceAbsoluteUniqueSample (
-  	#		as.vector(meta.features[, which(row_uniq == max(row_uniq))[1]]))
-  	#}
-  	#browser()
   	dat = Matrix::t(dat)
   	rownames(dat) = rownames( meta.features)
   	colnames(dat) = rownames(obs)
 	ret@data = dat
-
-	ret = addCellMeta2cellexalvr(ret, obs)
+	ret = addCellMeta2cellexalvr(ret, makeCellMetaFromDataframe(obs, rq.fields= colnames(obs)))
 	ret@meta.gene = as.matrix(meta.features[match( rownames(ret@data), rownames(meta.features) ),])
 
 	rm( dat)
@@ -213,13 +201,14 @@ setMethod('as_cellexalvrR', signature = c ('loom'),
 		'tSNE' = c('_tSNE1', '_tSNE2', '_tSNE3'), 
 		'PCA' = c('_PC1', '_PC2', '_PC3') 
 	)
-
+	print ("reading drc data")
 	dr = lapply( interest, function(a) { 
 		d=NULL
 		
-		if ( var(ret@meta.cell[,a[1]]) + var (ret@meta.cell[,a[2]]) != 0 ){
+		if ( var(ret@usedObj$original_meta.cell[,a[1]]) + var (ret@usedObj$original_meta.cell[,a[2]]) != 0 ){
+
 			## the third column is not defined in the loom structures. Hence I simply do not check for it here
-			d= cbind(as.numeric(as.vector(ret@meta.cell[,a[1]])), as.numeric(as.vector(ret@meta.cell[,a[2]])), rep(0,nrow(ret@meta.cell)) )
+			d= cbind(as.numeric(as.vector(ret@usedObj$original_meta.cell[,a[1]])), as.numeric(as.vector(ret@usedObj$original_meta.cell[,a[2]])), rep(0,nrow(ret@meta.cell)) )
 			colnames(d) = a
 			rownames(d) = rownames(ret@meta.cell)
 		}
@@ -243,6 +232,7 @@ setMethod('as_cellexalvrR', signature = c ('loom'),
     invisible(ret)
 } )
 
+#' Cast an AnnData object to a cellexalvrR object
 setMethod('as_cellexalvrR', signature = c ('H5File'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 		## code adapted from Seurat::ReadH5AD.H5File() 2019/08/22
@@ -271,21 +261,56 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
     p = x[['indptr']][],
     x = x[['data']][]
   ))
-}
+	}
   	if (is(object = x[['X']], class2 = 'H5Group')) {
     	dat <- as.sparse(x = x[['X']])
   	} else {
    		dat <- x[['X']][, ]
   	}
   	# x will be an S3 matrix if X was scaled, otherwise will be a dgCMatrix
+  	print ( "accessing expression data")
   	scaled <- is.matrix(x = dat)
 
-	obs <- x[['obs']][]
+  	print ( "accessing cell data")
+	ret@usedObj$original_meta.cell <- obs <- x[['obs']][]
+
+	print ( "accessing feature data")
   	dat.var <- x[['var']][]
-  	rownames(x = dat) <- rownames(x = dat.var) <- dat.var$index
-  	colnames(x = dat) <- rownames(x = obs) <- obs$index	
+  	#browser()
+  	rownames(x = dat) = rownames(x = dat.var) = dat.var$index
+  	colnames(x = dat) = rownames(x = obs) = obs$index
+  	## col_complexity - we can not handle really complex information bits
+  	## some 50 colors is the maximum na dwould blow up the data table quite significantly.
+  	## hen ce we remove all columns with too complex information - if asked for
+  	if ( is.null(meta.cell.groups)){
+  		cat( paste(
+  			"meta.cell.groups is missing", 
+  			"Please select some from the list:", 
+  			paste( sep="","c('", paste(colnames(obs), collapse="', '" ),"')"),sep='\n','' ) )
+  		stop("Please give me a meta.cell.groups vector!")
+  	}else {
+  		if ( length( which(is.na( match(meta.cell.groups, colnames(obs)) )) ) > 0 ){
+  			bad = which(is.na( match(meta.cell.groups, colnames(obs) )))
+  			cat( paste( sep="\n", 
+  				"I could not find the sample columns", 
+  				paste(collapse=", ",meta.cell.groups[bad]),
+  				"But I have these:",
+  				 paste( sep="", "c('",paste( colnames(obs), collapse="', '" ),"')")
+  				,''))
+  			stop("please select existsing cell annotation columns!")
+  		}
+  		if ( length(meta.cell.groups) == 1){
+  			obs = data.frame(obs[, meta.cell.groups])
+  			colnames(obs) = meta.cell.groups
+  		} else {
+  			obs =obs[, meta.cell.groups]
+  		}
+  	}
+  	
+
   	x.slot = FALSE
   	meta.features <- NULL
+  	## here we do not handle anything in cellexalVR and hence can keep everything.
   	if ( scaled ){
   		if (x$exists(name = 'raw.X')) {
   			dat <- as.sparse(x = x[['raw.X']])
@@ -293,7 +318,7 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
     		slot(object = dat, name = 'Dim') <- c(nrow(x = add.var), nrow(x = obs))
     		
     		rownames(x = dat) <- rownames(x = add.var) <- add.var$index
-    		colnames(x = dat) <- obs$index
+    		colnames(x = dat) <- rownames(obs)
     		add.var <- add.var[, -which(x = colnames(x = add.var) == 'index'), drop = FALSE]
     		#Merging feature-level metadata dataframes
     		dat.var <- dat.var[, -which(x = colnames(x = dat.var) %in% colnames(x = add.var))]
@@ -312,11 +337,11 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 
 	## obtain the data slot information
 	ret@data = dat
-
-	ret = addCellMeta2cellexalvr(ret, obs)
+#	browser()
+	ret = addCellMeta2cellexalvr(ret, make.cell.meta.from.df(data.frame(obs), rq.fields= colnames(obs)))
 	ret@meta.gene = as.matrix(meta.features[match( rownames(ret@data), rownames(meta.features) ),])
 
-	rm( dat)
+	rm( dat )
 	rm( meta.features)
 	rm(obs)
 
@@ -368,6 +393,9 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 } )
 
 #' This function adds _<id> to all duplicate values thereby enforcing uniques.
+#' @param x the string vector you want to force into uniques
+#' @param separator the separator between orig str and id ( default '_')
+#' @export
 forceAbsoluteUniqueSample = function( x ,separator='_') {
 	ret <- vector(length=length(x))
 	last = x[1]
@@ -381,3 +409,54 @@ forceAbsoluteUniqueSample = function( x ,separator='_') {
 	}
 	ret
 }
+
+
+#' convert a H5 annotation (any name) table to a data table
+#' @param x the H5 object
+#' @param slotName the H5 entity tro convert to a data.frame
+#' @param namecol the (optional) rownames column for the data
+#' @param onlyStrings return only columns that not only contain numbers (default FALSE)
+#' @export
+H5Anno2df <- function(x, slotName, namecol=NULL, onlyStrings=FALSE ) {
+  		obs = data.frame(lapply(names(x[[slotName]]), function(n) { x[[paste(sep="/",slotName,n)]][] } ))
+  		colnames( obs ) = names(x[[slotName]])
+  		col_uniq= NULL
+  		for( n in colnames(obs) ) {
+	  		if ( all(obs[,n] =="") ){
+  				obs[,n] = NULL
+  			}else {
+  				col_uniq = c( col_uniq, length(unique(obs[,n]))) 
+  			}
+  		}
+  		names(col_uniq) = colnames( obs )
+  		## most likely cell names column
+  		if ( ! is.na(match(namecol, colnames(obs)) )) {
+			rownames(obs) =  forceAbsoluteUniqueSample (
+				as.vector(obs[, namecol]) )
+  		}else {
+  			## now I need to check for strings...
+  			OK = unlist(lapply( colnames(obs) , function(id) {
+  				a= which( is.na(as.numeric(as.vector(obs[,id])))==T) ## Strings only
+  				if ( length(a) > 0) {
+  					length(unique(as.vector(obs[a, id])))
+  				}else {
+  						0
+  				}
+  			}))
+  			names(OK) = colnames(obs)
+  			# if ( slotName == 'row_attrs'){
+  			# 	browser()
+  			# }
+  			rownames(obs) =  forceAbsoluteUniqueSample (
+  				as.vector(obs[, names(OK)[which(OK == max(OK))[1]]]) )
+  		}
+  		if ( onlyStrings ) {
+  			for( i in 1:length(col_uniq) ) {
+  				if ( col_uniq[i] == 0 ){ # all entries convertable to numeric
+  					obs[,i] = NULL
+  				}
+  			}
+  		}
+
+  		obs
+  	}
