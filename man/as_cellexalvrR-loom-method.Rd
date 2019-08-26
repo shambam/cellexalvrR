@@ -5,7 +5,7 @@
 \alias{as_cellexalvrR,loom-method}
 \title{Cast a loom object to a cellexalvrR object}
 \usage{
-\S4method{as_cellexalvrR}{loom}(x, meta.cell.groups,
+\S4method{as_cellexalvrR}{loom}(x, meta.cell.groups = NULL,
   meta.genes.groups = NULL, userGroups = NULL, outpath = getwd(),
   specie)
 }
