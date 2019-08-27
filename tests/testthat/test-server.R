@@ -11,7 +11,7 @@ tmpFile = tempfile(pattern = "file", tmpdir = tempdir(), fileext = "")
 srvFile =  paste( tmpFile, 'serverR', sep='.')
 
 pidfile    = paste( tmpFile, 'pid', sep='.')
-scriptfile= paste( sep=".", tmpFile, 'input.R')
+scriptfile = paste( tmpFile, 'input.R', sep=".")
 lockfile   = paste( tmpFile, 'input.lock', sep=".") 
 pv_file    = paste( tmpFile, 'cellexalvrR.version', sep='.')
 
