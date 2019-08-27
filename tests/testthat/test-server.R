@@ -13,7 +13,11 @@ srvFile =  paste( tmpFile, 'serverR', sep='.')
 pidfile    = paste( tmpFile, 'pid', sep='.')
 scriptfile= paste( sep=".", tmpFile, 'input.R')
 lockfile   = paste( tmpFile, 'input.lock', sep=".") 
+pv_file    = paste( tmpFile, 'cellexalvrR.version', sep='.')
 
+
+prefix = '.'
+ipath = file.path( prefix, 'data' )
 
 ## This function is crucial as it checks that the R script is finished using file.exists(scriptfile)
 ## and waits. For a working version should it also restart the server after some time?
@@ -31,7 +35,7 @@ write_lines <- function( x, f=scriptfile, maxWait=5) {
 	invisible(NULL)
 }
 
-wait4server<- function( file=scriptfile,  maxWait=15) {
+wait4server<- function( file=scriptfile,  maxWait=15, pidTest=TRUE) {
 	while ( file.exists(file) ){
 		Sys.sleep( 1 )
 		maxWait = maxWait -1;
@@ -41,9 +45,10 @@ wait4server<- function( file=scriptfile,  maxWait=15) {
 	if ( file.exists(file) ){
 		stop( "Server is not clear for usage - start a new instance?")
 	}
+	if ( pidTest ){
 	if( ! isAlive(pid) ) {
 		stop("Server crashed!")
-	}
+	}}
 }
 	
 isAlive <- function( pid ) {
@@ -57,15 +62,17 @@ write_lines( c(
 )
 
 print ( paste( file.path(R.home("bin"), "R CMD BATCH") , srvFile , " &") )
+
+cat('Sys.sleep(10)', file=scriptfile)
+expect_true(file.exists( scriptfile))
+
 system( paste( file.path(R.home("bin"), "R CMD BATCH") , srvFile , " &") )
 
-file.create(scriptfile)
-expect_true(file.exists( scriptfile))
+Sys.sleep(10)
 
 #system( paste( file.path(R.home("bin"), "R CMD BATCH") , srvFile , " &") )
 
-Sys.sleep(10)
-#wait4server ( )
+wait4server ( scriptfile, pidTest=FALSE )
 
 expect_true(!file.exists( scriptfile))
 
@@ -74,6 +81,14 @@ expect_true(file.exists( pidfile ))
 pid = scan( pidfile )
 
 expect_true(isAlive(pid))
+
+expect_true(file.exists( pv_file ))
+vers = scan( pv_file, what=character() )
+
+#print ( paste( vers, '==', packageVersion("cellexalvrR") ))
+expect_true(vers == packageVersion("cellexalvrR") )
+
+
 
 
 ## would only work on linux....
@@ -118,8 +133,9 @@ dir.create( tmpFile )
 #system(paste( sep="",'ps -af | grep "',pid,'"  | grep -v grep '))
 wait4server()
 
+
 write_lines(c(" ", paste( sep="",
-	"make.cellexalvr.heatmap.list(cellexalObj, 'User.group.1', 250, '",paste(sep=".", tmpFile, "diffGenes"),"', 'wilcox' )" 
+	"make.cellexalvr.heatmap.list(cellexalObj, '",file.path(ipath,'selection0.txt'),"', 250, '",paste(sep=".", tmpFile, "diffGenes"),"', 'wilcox' )" 
 )	) )
 
 
@@ -131,14 +147,15 @@ expect_true(isAlive(pid))
 expect_true(file.exists( paste(tmpFile, 'diffGenes', sep='.' )))
 diffGenes = scan( paste(tmpFile, 'diffGenes', sep='.' ), what=character())[-1]
 
-expect_true( length(diffGenes) == 251)
+#print(paste( "numbv3er of  diff genes", length(diffGenes) ) )
+expect_true( length(diffGenes) == 252)
 
 
 context('server make.cellexalvr.network')
 
 ## that does not work - the networks need different input?
 write_lines( paste( sep="",
-	"make.cellexalvr.network(cellexalObj, 'User.group.1', '",paste(sep=".", tmpFile, "Networks"),"', 'wilcox' )" 
+	"make.cellexalvr.network(cellexalObj, 'GMP_broad', '",paste(sep=".", tmpFile, "Networks"),"', 'wilcox' )" 
 )	)
 ## but the block in the write_lines works fine!
 

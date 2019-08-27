@@ -2,6 +2,7 @@
 #'
 #' Instead of loading and saving all files for each function call in the VR process
 #' we now can have one R process that sequencially works on all requests.
+#'
 #' @name server
 #' @aliases server,character-method
 #' @rdname server-methods
@@ -26,6 +27,11 @@ setMethod('server', signature = c ('character'),
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
+	# package version needs to be exported
+	pv_file    = paste( file, 'cellexalvrR.version', sep='.')
+	file.create(pv_file)
+	cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
+
 	cat( Sys.getpid() , file = pidfile )
 	
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
