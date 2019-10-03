@@ -13,6 +13,10 @@
 #' @importFrom stats cor hclust
 #' @importFrom stringr str_replace_all str_split
 #' @importFrom topGO GenTable runTest
+#' @importFrom methods .hasSlot is slot<- 
+#' @importFrom stats quantile var
+#' @importFrom utils packageVersion 
+
 NULL
 
 
