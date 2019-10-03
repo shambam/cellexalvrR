@@ -28,7 +28,7 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 			sample  = annotation = userGroups = usedObj = groupSelectedFrom = colors = lastGroup = NULL 
 			for ( i in 1:length(F)  ) {
 				
-				filename = partFname( F[i] , path )
+				filename = partFname( F[i] , path ) #function definition in file 'integrateParts.R'
 				
 				if ( file.exists( filename ) ){
 					#print ( paste("I am trying to load file ", filename ))
@@ -80,7 +80,7 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 			if ( is.null(path) )
 				path = x@outpath
 			
-			filename = partFname( part, path )
+			filename = partFname( part, path ) #function definition in file 'integrateParts.R'
 			#print ( paste("I am saving parts file", filename ))
 			if (part == 'meta.cell') {#sample.RData
 				sample = x@meta.cell
@@ -174,8 +174,8 @@ if ( ! isGeneric('cleanParts') ){setGeneric('cleanParts', ## Name
 
 setMethod('cleanParts', signature = c ('character'),
 		definition = function ( path ) {
-			#print ( paste(path, "I am cleaning the files:", paste( collapse=", ", partFname( 'all', path ))))
-			for ( fname in partFname( 'all', path ) ) {
+			#print ( paste(path, "I am cleaning the files:", paste( collapse=", ", partFname( 'all', path )))) #function definition in file 'integrateParts.R'
+			for ( fname in partFname( 'all', path ) ) { #function definition in file 'integrateParts.R'
 				if ( file.exists(fname))
 					unlink( fname)
 			}

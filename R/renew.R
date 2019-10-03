@@ -80,7 +80,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 			## now lets add the inbuilt groupings...
 #			for ( name in c('TFs', 'epigenetic', 'CellCycle', 'CellSurface') ) {
 #				if ( is.na( match(name, colnames(ret@meta.gene))) ) {
-#					useInbuiltGOIlists ( ret, name )
+#					useInbuiltGOIlists ( ret, name ) #function definition in file 'useInbuiltGOIlists.R'
 #				}
 #			}
 
@@ -96,5 +96,5 @@ setMethod('renew', signature = c ('cellexalvrR'),
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
 		definition = function (x) {
 			class(x) = 'cellexalvrR'
-			renew(x)
+			renew(x) #function definition in file 'renew.R'
 		} )

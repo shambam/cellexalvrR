@@ -20,14 +20,14 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj) {
 	## here you should know which files to render  ;-)
 	if ( is.null( cellexalObj@usedObj$sessionPath )){
-		cellexalObj = sessionPath(cellexalObj)
+		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
 	cellexalObj@usedObj$sessionRmdFiles = unique( cellexalObj@usedObj$sessionRmdFiles )
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}
-	lockedSave( cellexalObj)
+	lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
 	
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
@@ -46,7 +46,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))
 	if ( file.exists( expected_outfile )){
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
-		savePart(cellexalObj,part = 'usedObj' )
+		savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 	}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	
@@ -63,7 +63,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 #' @export 
 setMethod('renderReport', signature = c ('character'),
 		definition = function (cellexalObj) {
-			cellexalObj <- loadObject(cellexalObj)
-			renderReport(cellexalObj )
+			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
+			renderReport(cellexalObj ) #function definition in file 'renderReport.R'
 		}
 )

@@ -62,12 +62,12 @@ if ( ! isGeneric('get.genes.cor.to') ){setGeneric('get.genes.cor.to', ## Name
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
 #' @examples
-#' print (get.genes.cor.to ( cellexalObj, 'Gata1'))
+#' print (get.genes.cor.to ( cellexalObj, 'Gata1')) #function definition in file 'cellexalvrFunctions.R'
 #' @export get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 	
-	cellexalObj <- loadObject(cellexalObj)
+	cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 	data <- cellexalObj@data
 	rownames(data) <- tolower(rownames(data))
 	
@@ -123,11 +123,11 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 #' @param output the outfile
 #' @param is.smarker Whether the supplied gene is a surface marker (default =F)
 #' @param cpp use the c++ cor implementation (default = TRUE)
-#' @title description of function get.genes.cor.to (character)
+#' @title description of function get.genes.cor.to (character) #function definition in file 'cellexalvrFunctions.R'
 #' @export 
 setMethod('get.genes.cor.to', signature = c ('character'),
 		definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
-			cellexalObj <- loadObject(cellexalObj)
-			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp)
+			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
+			get.genes.cor.to( cellexalObj, gname, output, is.smarker, cpp) #function definition in file 'cellexalvrFunctions.R'
 		}
 )

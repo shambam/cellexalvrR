@@ -32,7 +32,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @title VR helper function getDifferentials
 #' @examples 
 #' \dontrun{
-#' getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+#' getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox') #function definition in file 'getDifferentials.R'
 #' }
 #' @return a list of the top differential genes (num.sig)
 #' @export getDifferentials
@@ -41,25 +41,25 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.method=c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) {
 			
-			cellexalObj <- loadObject(cellexalObj)
+			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			num.sig <- as.numeric( num.sig )
 			
 			accepted = c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova')
 			if ( sum(unlist(lapply( accepted, function(ok) { return ( ok == deg.method )} ))) != 1 ) {
 				stop( paste('The deg.method',deg.method, 'is not supported' ) )
 			}
-			cellexalObj <- userGrouping(cellexalObj, cellidfile)
+			cellexalObj <- userGrouping(cellexalObj, cellidfile) #function definition in file 'userGrouping.R'
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			if ( length(not) > 0) {
-				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] )
+				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] ) #function definition in file 'reduceTo.R'
 			}else {
 				loc <- cellexalObj
 			}
 			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
-				loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
+				loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order')) #function definition in file 'reorder.obj.R'
 			}
 			
-			info <- groupingInfo( loc )
+			info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
 			
 			rem.ind <- which(Matrix::rowSums(loc@data)==0)
 			
@@ -68,7 +68,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			col.tab <- info$col
 			
 			if(length(rem.ind)>0){
-				loc = reduceTo(loc, what='row', to=rownames(loc@data)[-rem.ind])
+				loc = reduceTo(loc, what='row', to=rownames(loc@data)[-rem.ind]) #function definition in file 'reduceTo.R'
 			}
 			
 			deg.genes <- NULL
@@ -97,7 +97,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
 				if ( Log ) {
-					logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' )
+					logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' ) #function definition in file 'logStatResult.R'
 				}
 				
 			}else if ( deg.method == 'wilcox') {
@@ -122,7 +122,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				#all_markers <- all_markers[ order( all_markers[,'p.value']),]
 				if ( Log ) {
-					logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' )
+					logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' ) #function definition in file 'logStatResult.R'
 				}
 				if ( is.null(cellexalObj@usedObj$sigGeneLists$Cpp)) 
 					cellexalObj@usedObj$sigGeneLists$Cpp = list()
@@ -152,7 +152,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			# 			object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
 			# 	)
 			# 	if ( Log ) {
-			# 		logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' )
+			# 		logStatResult( cellexalObj, 'Seurat', all_markers, 'p_val_adj' ) #function definition in file 'logStatResult.R'
 			# 	}
 			# 	if ( is.null(cellexalObj@usedObj$sigGeneLists$Seurat)) 
 			# 		cellexalObj@usedObj$sigGeneLists$Seurat = list()
@@ -197,11 +197,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				
 				deg.genes = rownames(cellexalObj@data)[ match( make.names(deg.genes), make.names( rownames( cellexalObj@data) ) )]
-				loc = reduceTo(loc, what='row', to=deg.genes)
+				loc = reduceTo(loc, what='row', to=deg.genes) #function definition in file 'reduceTo.R'
 				#tab <- as.matrix(Matrix::t(loc@data))
 				if ( length(which(is.na( loc@userGroups[, loc@usedObj$lastGroup]) )) > 0 ) {
 					## shit that will not work!
-					loc = reduceTo(loc, what='col', to= which(is.na( loc@userGroups[, cellexalObj@usedObj$lastGroup]) ==F) )
+					loc = reduceTo(loc, what='col', to= which(is.na( loc@userGroups[, cellexalObj@usedObj$lastGroup]) ==F) ) #function definition in file 'reduceTo.R'
 				}
 				
 				tab <- t(FastWilcoxTest::collapse( loc@data, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 1 )) ## simple sum up the data
@@ -220,13 +220,13 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				
 			}
-			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') )
+			#promise <- future(lockedSave(cellexalObj), evaluator = plan('multiprocess') ) #function definition in file 'lockedSave.R'
 			## we only need to store the stats object here.
 			## and as that is part of the usedObj we will store that ;-)
-			## lockedSave(cellexalObj) ## to much overheard!
+			## lockedSave(cellexalObj) ## to much overheard! #function definition in file 'lockedSave.R'
 			if ( ! interactive() ) { ## likely the VR scripts
 				#print( paste('Do we reach this point?', 'usedObj', cellexalObj@outpath ) )
-				savePart( cellexalObj, 'usedObj');
+				savePart( cellexalObj, 'usedObj'); #function definition in file 'integrateParts.R'
 				#print( 'And this - Do we reach this point, too?')
 			}
 			
@@ -253,7 +253,7 @@ setMethod('getDifferentials', signature = c ('character'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
-			cellexalObj <- loadObject(cellexalObj)
-			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log)
+			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
+			getDifferentials( cellexalObj,cellidfile,deg.method,num.sig, Log=Log) #function definition in file 'getDifferentials.R'
 		}
 )

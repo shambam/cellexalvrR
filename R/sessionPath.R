@@ -29,12 +29,12 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 					cellexalObj@usedObj$sessionRmdFiles = NULL
 					cellexalObj@usedObj$sessionPath = NULL
 					cellexalObj@usedObj$sessionCounter = NULL
-					#lockedSave( cellexalObj)
+					#lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
 				}
 			}
 			if ( is.null(cellexalObj@usedObj$sessionName )) {
 				browser()
-				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time()))
+				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time())) #function definition in file 'filename.R'
 				cellexalObj@usedObj$sessionRmdFiles = NULL
 				cellexalObj@usedObj$sessionPath = NULL
 				cellexalObj@usedObj$sessionCounter = NULL
@@ -49,9 +49,9 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
 				}
-				mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) )
+				mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) ) #function definition in file 'filename.R'
 				cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
-				savePart(cellexalObj,part = 'usedObj' )
+				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 				
 				fileConn<-file( mainOfile )
 				writeLines(c(paste(
@@ -77,7 +77,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 #' @export
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
-			cellexalObj <- loadObject(cellexalObj)
-			sessionPath(cellexalObj, sessionName )
+			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
+			sessionPath(cellexalObj, sessionName ) #function definition in file 'sessionPath.R'
 		}
 )

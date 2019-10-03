@@ -21,11 +21,11 @@ setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {
 		tryCatch({
-					cellexalObj = useInbuiltGOIlists( cellexalObj, 'TFs') }, error= { 
+					cellexalObj = useInbuiltGOIlists( cellexalObj, 'TFs') }, error= {  #function definition in file 'useInbuiltGOIlists.R'
 					stop( "Sorry, but this GIO list not known" )
 				} )
 	}
-	cellexalObj = reduceTo(
+	cellexalObj = reduceTo( #function definition in file 'reduceTo.R'
 			cellexalObj, 
 			'row', 
 			to=rownames(cellexalObj@data)[which(is.na(as.vector(cellexalObj@meta.gene[,name]))==F)] 

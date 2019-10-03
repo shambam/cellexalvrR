@@ -31,8 +31,8 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	if ( is.null( grouping )) {
 		grouping = cellexalObj@usedObj$lastGroup
 	}
-	cellexalObj = userGrouping( cellexalObj, grouping )
-	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
+	cellexalObj = userGrouping( cellexalObj, grouping ) #function definition in file 'userGrouping.R'
+	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionRegisterGrouping.R'
 	
 	#error = ""
 	# message( paste( sep=" ","ontologyLogPage genes:",  paste( sep=", ",genes) ) )
@@ -42,7 +42,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	n = length( grep ( "GOanalyis.csv", list.files( file.path(cellexalObj@usedObj$sessionPath, 'tables') ) ) ) +1
 	
 	if( length(cellexalObj@specie) == 0){
-		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set
+		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs' ) ## sets the species if not alread set #function definition in file 'useInbuiltGOIlists.R'
 	}
 	if(cellexalObj@specie =='mouse'){
 		if( requireNamespace('org.Mm.eg.db')){
@@ -97,7 +97,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	    )
 	}
 	for ( i in 1:nrow(allRes) ) {
-		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/", lineEnd=FALSE )
+		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/", lineEnd=FALSE ) #function definition in file 'rmdLink.R'
 	}
 
 	GOI_2_genes = cbind(GOI_2_genes,  allRes )	
@@ -106,7 +106,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					file.path( 
 							cellexalObj@usedObj$sessionPath, 
 							'tables', 
-							filename(
+							filename( #function definition in file 'filename.R'
 								c( 
 									n,
 									"GOgenes.csv"
@@ -119,23 +119,23 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	
 	allRes = allRes[,-c(4,5)] ## significant and expected columns do not contain info
 	utils::write.table(allRes, sep='\t', quote=F, row.names=F, file= file.path( cellexalObj@usedObj$sessionPath, 'tables', 
-					filename(c( n , "GOanalysis.csv") ) ) )
+					filename(c( n , "GOanalysis.csv") ) ) ) #function definition in file 'filename.R'
 	## and now put this nice little table into the GEO section ;-)
 	## and probably save this damn analysis object....
 
 	if ( is.null( cellexalObj@usedObj$sessionPath)) {
-		cellexalObj = sessionPath(cellexalObj)
+		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 	}
 	sessionPath = cellexalObj@usedObj$sessionPath
 
 
-	#mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") ))
+	#mainOfile = file.path(sessionPath, filename( c( n, "GOanalysis.Rmd") )) #function definition in file 'filename.R'
 	#fileConn<-file( mainOfile )
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 	
 	cat( sep="\n", 
-					paste( "##", "GO analysis from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ),
+					paste( "##", "GO analysis from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ), #function definition in file 'sessionCounter.R'
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),

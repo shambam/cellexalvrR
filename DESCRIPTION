@@ -17,8 +17,6 @@ Depends:
 	Matrix
 Imports:
 	alphashape3d,
-	hdf5r,
-	loomR,
 	AnnotationDbi,
 	bookdown,
 	DDRTree,

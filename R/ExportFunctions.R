@@ -22,7 +22,7 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 #' @title create the VR data folder necessary for CellexalVR
 #' @examples
 #' dir.create ('data')
-#' export2cellexalvr(cellexalObj, path='data')
+#' export2cellexalvr(cellexalObj, path='data') #function definition in file 'ExportFunctions.R'
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
@@ -128,7 +128,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 	}
 	if ( ! is.null( VRpath ) ) {
-		exportUserGroups4vr(cellexalObj, VRpath)
+		exportUserGroups4vr(cellexalObj, VRpath) #function definition in file 'exportUserGroups4vr.R'
 	}
 	invisible(cellexalObj)
 

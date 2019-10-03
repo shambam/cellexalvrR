@@ -32,17 +32,17 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 			if ( name == "TFs" ) {
 				## register TFs
 				#if ( ! is.na(x@tfs) ){
-				#	x = defineGOIs( x, 'TFs', x@tfs[!x@tfs==""] )
+				#	x = defineGOIs( x, 'TFs', x@tfs[!x@tfs==""] ) #function definition in file 'defineGOIs.R'
 				#}
 				#else {
 					## use inbuilt lists
 					hum_t <- length(which(is.na(match(rownames(x@data),human.tfs))==F))
 					mouse_t <- length(which(is.na(match( rownames(x@data), mouse.tfs))==F))
 					if (hum_t > mouse_t ){
-						x = defineGOIs( x, name, human.tfs )
+						x = defineGOIs( x, name, human.tfs ) #function definition in file 'defineGOIs.R'
 						x@specie = 'human'
 					}else if ( mouse_t > hum_t ){
-						x = defineGOIs( x, name, mouse.tfs )
+						x = defineGOIs( x, name, mouse.tfs ) #function definition in file 'defineGOIs.R'
 						x@specie = 'mouse'
 					}else {
 						stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
@@ -54,10 +54,10 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				hum_e <- length(which(is.na(match(rownames(x@data),Epigenetic$HGNC_symbol))==F))
 				mouse_e <- length(which(is.na(match( rownames(x@data),Epigenetic$MGI_symbol ))==F))
 				if ( hum_e > mouse_e){
-					x = defineGOIs( x, name, Epigenetic$HGNC_symbol, Epigenetic$Target )
+					x = defineGOIs( x, name, Epigenetic$HGNC_symbol, Epigenetic$Target ) #function definition in file 'defineGOIs.R'
 					x@specie = 'human'
 				}else if ( mouse_e > hum_e ){
-					x = defineGOIs( x, name, Epigenetic$MGI_symbol, Epigenetic$Target)
+					x = defineGOIs( x, name, Epigenetic$MGI_symbol, Epigenetic$Target) #function definition in file 'defineGOIs.R'
 					x@specie = 'mouse'
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
@@ -67,9 +67,9 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				hum_e <- length(which(is.na(match(rownames(x@data),CellCycle$Gene.Symbol))==F))
 				mouse_e <- length(which(is.na(match( rownames(x@data),CellCycle$MouseGene ))==F))
 				if ( hum_e > mouse_e){
-					x = defineGOIs( x, name, CellCycle$Gene.Symbol, CellCycle$X )
+					x = defineGOIs( x, name, CellCycle$Gene.Symbol, CellCycle$X ) #function definition in file 'defineGOIs.R'
 				}else if ( mouse_e > hum_e ){
-					x = defineGOIs( x, name, CellCycle$MouseGene, CellCycle$X )
+					x = defineGOIs( x, name, CellCycle$MouseGene, CellCycle$X ) #function definition in file 'defineGOIs.R'
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}
@@ -78,9 +78,9 @@ setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 				hum_e <- length(which(is.na(match(rownames(x@data),human.CellSurface))==F))
 				mouse_e <- length(which(is.na(match( rownames(x@data),mouse.CellSurface ))==F))
 				if ( hum_e > mouse_e){
-					x = defineGOIs( x, name, human.CellSurface)
+					x = defineGOIs( x, name, human.CellSurface) #function definition in file 'defineGOIs.R'
 				}else if ( mouse_e > hum_e ){
-					x = defineGOIs( x, name, mouse.CellSurface )
+					x = defineGOIs( x, name, mouse.CellSurface ) #function definition in file 'defineGOIs.R'
 				}else {
 					stop( "Sorry, but neither inbuilt dataset (Gene Symbols from mouse and humans) do match to the rownames(data$data) - please double ckech that.")
 				}

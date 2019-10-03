@@ -20,7 +20,7 @@ if ( ! isGeneric('userGrouping') ){setGeneric('userGrouping', ## Name
 setMethod('userGrouping', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile) {
 	
-	cellexalObj <- renew(cellexalObj)
+	cellexalObj <- renew(cellexalObj) #function definition in file 'renew.R'
 	save = FALSE
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
@@ -69,9 +69,9 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		
 		cellexalObj@groupSelectedFrom[[gname]] = unique(as.vector(cellid[,3]))
 		cellexalObj@colors[[gname]] = unique(as.vector(unique(cellid[,2])))
-		savePart ( cellexalObj, 'groupSelectedFrom')
-		savePart ( cellexalObj, 'colors')
-		savePart ( cellexalObj, 'userGroups')
+		savePart ( cellexalObj, 'groupSelectedFrom') #function definition in file 'integrateParts.R'
+		savePart ( cellexalObj, 'colors') #function definition in file 'integrateParts.R'
+		savePart ( cellexalObj, 'userGroups') #function definition in file 'integrateParts.R'
 		
 	}
 	else if ( is.na(match(cellidfile, colnames(cellexalObj@userGroups))) ==F ) {
@@ -82,6 +82,6 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	}
 	## store the grouing name
 	cellexalObj@usedObj$lastGroup = gname
-	savePart ( cellexalObj, 'lastGroup')
+	savePart ( cellexalObj, 'lastGroup') #function definition in file 'integrateParts.R'
 	cellexalObj
 } )

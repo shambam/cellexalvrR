@@ -23,14 +23,14 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
     #     cell.meta$Phase <- as.vector(seuratObj@meta.data$Phase)
     # }
 
-    # cell.meta.10 <- make.cell.meta.from.df(cell.meta,colnames(cell.meta))
+    # cell.meta.10 <- make.cell.meta.from.df(cell.meta,colnames(cell.meta)) #function definition in file 'make.cell.meta.from.df.R'
     # rownames(cell.meta.10) <- seuratObj@cell.names
     
     # cellObj <- methods::new("cellexalvr", data = as.matrix(seuratObj@data), meta.cell = as.matrix(cell.meta.10))
 
     # if (exists("pca", where = seuratObj@dr) == T) {
     #     pca <- as.matrix(seuratObj@dr$pca@cell.embeddings[,1:3])
-    #     cellObj <- addDRC2cellexalvr(cellObj,pca,"PCA")
+    #     cellObj <- addDRC2cellexalvr(cellObj,pca,"PCA") #function definition in file 'addElements.R'
     # }
 
     # if (exists("tsne", where = seuratObj@dr) == T) {
@@ -38,7 +38,7 @@ setMethod('seurat2cellexalvr', signature = c ('seurat'),
     #     if(ncol(tsne)<3){
     #         stop("Number of compoments is less than 3. Rerun \"RunTSNE\" using \"dim.embed=3\" to make use of all that VR goodness")
     #     }else{
-    #         cellObj <- addDRC2cellexalvr(cellObj,tsne[,1:3],"tSNE")
+    #         cellObj <- addDRC2cellexalvr(cellObj,tsne[,1:3],"tSNE") #function definition in file 'addElements.R'
     #     }
     # }
 

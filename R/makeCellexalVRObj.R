@@ -47,14 +47,14 @@ setMethod('MakeCellexaVRObj', signature = c ('dgCMatrix'),
 	cellexalobj <- methods::new("cellexalvrR",data=exdata,drc=drc.list)
 
     if(!is.null(cell.metadata)){
-        cellexalobj  <- addCellMeta2cellexalvr(cellexalobj,cell.metadata)
+        cellexalobj  <- addCellMeta2cellexalvr(cellexalobj,cell.metadata) #function definition in file 'addElements.R'
     }
 
     if(!is.null(facs.data)){
-        cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data)
+        cellexalobj  <- addFACS2cellexalvr(cellexalobj,facs.data) #function definition in file 'addElements.R'
     }
 
-    cellexalobj <- set.specie(cellexalobj,specie)
+    cellexalobj <- set.specie(cellexalobj,specie) #function definition in file 'cellexalvrFunctions.R'
 
     cellexalobj
 } )

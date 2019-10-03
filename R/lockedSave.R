@@ -32,7 +32,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 	file.create(lockFile)
 	save(cellexalObj, file=ofile)
 	## and now I should remove all parts...
-	cleanParts ( path )
+	cleanParts ( path ) #function definition in file 'integrateParts.R'
 	file.remove(lockFile)
 	
 	print (paste("saved the object to",path))
@@ -93,12 +93,12 @@ setMethod('loadObject', signature = c ('character'),
 			if ( ! is.null(attributes(cellexalObj@class)$package) ) {
 				if ( attributes(cellexalObj@class)$package == 'cellexalvr' ){
 					class(cellexalObj) = 'cellexalvrR'
-					cellexalObj = renew(cellexalObj)
+					cellexalObj = renew(cellexalObj) #function definition in file 'renew.R'
 				}
 			}
 			## old objects need an updatae
 			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
-				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL )
+				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL ) #function definition in file 'makeCellexalVRObj.R'
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
 				new@groupSelectedFrom = cellexalObj@groupSelectedFrom
@@ -120,7 +120,7 @@ setMethod('loadObject', signature = c ('character'),
 			}
 			## there might be different other objects in the same path
 			## integrat them now
-			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) )
+			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) ) #function definition in file 'integrateParts.R'
 			cellexalObj
 		} )
 

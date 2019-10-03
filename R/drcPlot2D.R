@@ -20,11 +20,11 @@ setGeneric('drcPlots2D', ## Name
 setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, gInfo ) {
 
-		cellexalObj = sessionPath(cellexalObj)
+		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
 		
 		print ( paste( cellexalObj@outpath, sessionPath))
-	DRC1 = file.path( sessionPath , 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) ))
+	DRC1 = file.path( sessionPath , 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
 	gInfo$grouping = gInfo$grouping +1
 	if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
@@ -37,9 +37,9 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 				main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
 		grDevices::dev.off()
 	}
-	DRC1 = file.path('png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) ))
+	DRC1 = file.path('png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 	
-	DRC2 = file.path( sessionPath , 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$drc, "2_3", 'png' ) ))
+	DRC2 = file.path( sessionPath , 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 	if ( ! file.exists( DRC2 ) ){
 		grDevices::png( file= DRC2, width=1000, height=1000)
 		graphics::plot(
@@ -47,6 +47,6 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 				main = paste( gInfo$drc, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
 		grDevices::dev.off()
 	}
-	DRC2 = file.path( 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$drc, "2_3", 'png' ) ))
+	DRC2 = file.path( 'png', filename(c( cellexalObj@usedObj$lastGroup ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 	c( DRC1, DRC2)
 } )

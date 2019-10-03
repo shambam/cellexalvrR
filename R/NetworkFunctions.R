@@ -54,24 +54,24 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
 	datadir <- cellexalObj@outpath
     #data <- cellexalObj@data
-	cellexalObj <- userGrouping(cellexalObj, cellidfile)
+	cellexalObj <- userGrouping(cellexalObj, cellidfile) #function definition in file 'userGrouping.R'
 
 	message( paste( "the cellexal object drc names:", paste( collapse= ", ", names(cellexalObj@drc))))
 	
 	#checkVRfiles( cellexalObj, datadir)
 	## cut loc to only include TFs
 	if ( is.na( match('TFs', colnames(cellexalObj@meta.gene)))) {
-		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
+		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs') #function definition in file 'useInbuiltGOIlists.R'
 	}
 
-	loc <- onlyGOIs( cellexalObj, 'TFs' )
+	loc <- onlyGOIs( cellexalObj, 'TFs' ) #function definition in file 'onlyGOIs.R'
 
 	## kick the not groupoed samples out of the loc object
-	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[-
+	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[- #function definition in file 'reduceTo.R'
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
-	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order'))
-	info <- groupingInfo( loc )
+	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order')) #function definition in file 'reorder.obj.R'
+	info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
 	if ( info$drc == 'unknown' || is.null( info$drc) ) {
 		## just assume the user selected from graph 1
 		## better than breaking
@@ -101,7 +101,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
                 sub.d <- sub.d[-rem.ind,]
             }
             cor.mat <- propr::perb(as.matrix(t(sub.d)))@matrix
-            cor.mat.flt <- cormat2df(cor.mat)
+            cor.mat.flt <- cormat2df(cor.mat) #function definition in file 'NetworkFunctions.R'
             cor.mat.ord <-  cor.mat.flt[rev(order(cor.mat.flt[,3])),]
             
             cor.cut <- quantile(cor.mat.ord[,3],0.99)
@@ -196,7 +196,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 #' @export make.cellexalvr.network
 setMethod('make.cellexalvr.network', signature = c ('character'),
 		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
-			cellexalObj2 <- loadObject(cellexalObj)
-			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter)
+			cellexalObj2 <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
+			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter) #function definition in file 'NetworkFunctions.R'
 		}
 )

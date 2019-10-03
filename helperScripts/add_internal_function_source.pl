@@ -134,13 +134,13 @@ foreach my $fname ( @files ) {
   close ( IN );
 }
 
-if ( ! $debug ) {
+#if ( ! $debug ) {
   ## replace the originals with the changed!
   foreach my $fname ( @files ) {
-    move( "$fname.out.R", $fname )
+    move( "../R/$fname.out.R", "../R/$fname" )
   }
-}else {
-  print "Debug mode - check the .out files in the R source folder.\n";
-}
+  #}else {
+  #  print "Debug mode - check the .out files in the R source folder.\n";
+  #}
 ## Do whatever you want!
 
