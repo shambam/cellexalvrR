@@ -171,9 +171,9 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			
 			RSQLite::dbWriteTable(con, "datavalues",mdc)
 			
-			RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) )")
+			RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) COLLATE NOCASE)")
 			
-			RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) )")
+			RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) COLLATE NOCASE)")
 			
 			RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 			RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
