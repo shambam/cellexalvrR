@@ -45,7 +45,11 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(sep="', '",files),
 		"'), output_format='bookdown::gitbook', clean_envir = FALSE ))" )
 	cat( cmd, file="runRender.R" )
-	system( "Rscript runRender.R" )
+	Rscript = file.path( R.home(),"bin","Rscript" )
+	if ( ! file.exists(Rscript)){
+		Rscript = file.path( R.home(),"bin","Rscript.exe" )
+	}
+	system( paste(Rscript, "runRender.R" ))
 	#bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )
 	setwd( oldwd )
 	

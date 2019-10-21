@@ -40,3 +40,5 @@ expect_true( n == 1, paste("third try: first entry not 1(", n, ")"))
 ## try to render a session - that might take forever!
 
 renderReport ( cellexalObj )
+
+expect_true(file.exists( file.path( prefix, 'data', 'output', 'session-log-for-session-sessiongroupingtest.html')), 'html report')
