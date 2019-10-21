@@ -40,7 +40,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	oldwd = getwd()
 	setwd( cellexalObj@usedObj$sessionPath )
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
-	bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )
+	message( 'bookdown::render_book' )
+	## and now a bloody hack:
+	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(sep="', '",files),
+		"'), output_format='bookdown::gitbook', clean_envir = FALSE ))" )
+	cat( cmd, file="runRender.R" )
+	system( "Rscript runRender.R" )
+	#bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )
 	setwd( oldwd )
 	
 	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))
