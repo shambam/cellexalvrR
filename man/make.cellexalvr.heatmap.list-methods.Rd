@@ -14,16 +14,16 @@
 
 \item{outfile}{The name of the output file}
 
-\item{stats_method}{the stats method to use see getDifferentials()}
+\item{stats_method}{the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'}
 }
 \description{
 Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR
-Internally this function uses the getDifferentials() function and just writes the output of that into the outfile.
+Internally this function uses the getDifferentials() function and just writes the output of that into the outfile. #function definition in file 'getDifferentials.R'
 }
 \details{
 This is a function called from CellexalVR.
 
-Its main function is to store the result from getDifferentials() in a file 
+Its main function is to store the result from getDifferentials() in a file  #function definition in file 'getDifferentials.R'
 to be read by CellexalVR.
 }
 \keyword{differential,}

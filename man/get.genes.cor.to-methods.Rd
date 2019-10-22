@@ -30,6 +30,6 @@ a cellexalvrR object to the expression of either a gene or a FACS marker.
 The function is used in the VR process to calculate correlating genes in the keybord list view.
 }
 \examples{
-print (get.genes.cor.to ( cellexalObj, 'Gata1'))
+print (get.genes.cor.to ( cellexalObj, 'Gata1')) #function definition in file 'cellexalvrFunctions.R'
 }
 \keyword{correlation}

@@ -11,7 +11,7 @@ CellCycle
 }
 \description{
 The data can be used by stating
-useInbuiltGOIlists (cellexalObj, 'CellCycle' )
+useInbuiltGOIlists (cellexalObj, 'CellCycle' ) #function definition in file 'useInbuiltGOIlists.R'
 And it is used to visualize the cell cycle genes in the VR environment.
 Only the genes also identifyable in mouse were used here.
 }

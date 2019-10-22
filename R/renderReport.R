@@ -49,8 +49,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	if ( ! file.exists(Rscript)){
 		Rscript = file.path( R.home(),"bin","Rscript.exe" )
 	}
+	Rscript = paste(sep="", '"', Rscript,'"')
 	system( paste(Rscript, "runRender.R" ))
-	#bookdown::render_book( input=files, output_format='bookdown::gitbook', clean_envir = FALSE )
+	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
 	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))

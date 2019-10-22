@@ -17,7 +17,7 @@
 
 \item{grouping}{the grouping file used to create this network}
 
-\item{...}{options you want to send to the ontologyLogPage() function}
+\item{...}{options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'}
 }
 \description{
 preload the cellexalObj.RData file

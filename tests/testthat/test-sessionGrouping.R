@@ -39,6 +39,11 @@ expect_true( n == 1, paste("third try: first entry not 1(", n, ")"))
 
 ## try to render a session - that might take forever!
 
+ofile=  file.path( prefix, 'data', 'output', 'session-log-for-session-sessiongroupingtest.html')
+if( file.exists(ofile)) {
+	unlink(ofile)
+}
+
 renderReport ( cellexalObj )
 
-expect_true(file.exists( file.path( prefix, 'data', 'output', 'session-log-for-session-sessiongroupingtest.html')), 'html report')
+expect_true(file.exists( ofile), 'html report / padoc installed?')

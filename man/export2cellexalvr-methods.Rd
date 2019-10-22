@@ -30,5 +30,5 @@ Consult the CellexalVR documentation for further path requrements.
 }
 \examples{
 dir.create ('data')
-export2cellexalvr(cellexalObj, path='data')
+export2cellexalvr(cellexalObj, path='data') #function definition in file 'ExportFunctions.R'
 }

@@ -17,7 +17,7 @@
 
 \item{outfile}{The name of the output file}
 
-\item{stats_method}{the stats method to use see getDifferentials()}
+\item{stats_method}{the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'}
 }
 \description{
 preload the cellexalObj.RData file

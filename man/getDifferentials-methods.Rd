@@ -45,7 +45,7 @@ This function makes three statistics available for the VR process
 }
 \examples{
 \dontrun{
-getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')
+getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox') #function definition in file 'getDifferentials.R'
 }
 }
 \keyword{DEGs}
