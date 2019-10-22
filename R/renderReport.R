@@ -43,7 +43,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:
 	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(sep="', '",files),
-		"'), output_format='bookdown::gitbook', clean_envir = FALSE ))" )
+		"'), output_format='bookdown::gitbook', clean_envir = FALSE )" )
 	cat( cmd, file="runRender.R" )
 	Rscript = file.path( R.home(),"bin","Rscript" )
 	if ( ! file.exists(Rscript)){
