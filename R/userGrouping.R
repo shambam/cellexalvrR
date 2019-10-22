@@ -53,7 +53,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 			## Just create a new one...
 			id = 1
 			gname = paste( "User.group", id, sep="." )
-			conames(new)[1] = gname
+			colnames(new)[1] = gname
 			cellexalObj@userGroups = data.frame( new )
 		}else {
 			# did we already read this file?
