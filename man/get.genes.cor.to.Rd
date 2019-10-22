@@ -3,7 +3,7 @@
 \docType{methods}
 \name{get.genes.cor.to,character-method}
 \alias{get.genes.cor.to,character-method}
-\title{description of function get.genes.cor.to (character)}
+\title{description of function get.genes.cor.to (character) #function definition in file 'cellexalvrFunctions.R'}
 \usage{
 \S4method{get.genes.cor.to}{character}(cellexalObj, gname, output = NULL,
   is.smarker = F, cpp = T)

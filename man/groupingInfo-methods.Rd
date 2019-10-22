@@ -20,7 +20,4 @@ returns the information stored for the last grouping read
 groupingInfo collects all information about one grouping from 
 the cellexalvrR internals and returns them as a list.
 }
-\examples{
-groupingInfo(cellexalObj, 'User.group.4')
-}
 \keyword{groupingInfo}

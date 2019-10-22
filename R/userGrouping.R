@@ -28,7 +28,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 
 		#init local vars
 		id= (ncol(cellexalObj@userGroups) /2) + 1
-		gname = paste( "User.group", id, sep="." ) #the VR program depended on it
+		gname = paste( "User.group", id, sep="." ) #the VR program dependeds on it
 		n = vector( 'numeric', ncol(cellexalObj@data))
 		
 		#find overlap with own data
@@ -40,32 +40,35 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 					))
 
 		}
-		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
-		n[which(n==0)] = NA # ro not run stats on them, too.
+		m = match(colnames(cellexalObj@data), cellid[,1])
+		n = rep( NA, ncol(cellexalObj@data))
+		n[ which(! is.na(m)) ] = cellid[m[ which(! is.na(m)) ],4] +1
+		
+		names(n) = colnames(cellexalObj@data)
 		order = n
 		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
+		new =(cbind(n, order))
+		colnames(new) = c( gname, paste( gname, 'order' ))
 
 		if ( ncol(cellexalObj@data) != nrow(cellexalObj@userGroups)){
 			## Just create a new one...
 			id = 1
 			gname = paste( "User.group", id, sep="." )
-			cellexalObj@userGroups = data.frame(row.names= colnames(cellexalObj@data), a = n, b = order  )
+			colnames(new)[1] = gname
+			cellexalObj@userGroups = data.frame( new )
 		}else {
 			# did we already read this file?
-			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),n); if ( ok == T ) {TRUE } else { FALSE } } )
-			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),order); if ( ok == T ) {TRUE } else { FALSE } } )
+			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(n))); if ( ok == T ) {TRUE } else { FALSE } } )
+			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(order))); if ( ok == T ) {TRUE } else { FALSE } } )
 			ok <- which( t == T )
 			if ( length(ok) == 1 & length( which(d == T)) == 1) {
 				## OK use the old one
 				gname = names(ok)
 				id = ceiling(as.vector(ok) / 2)
 			}else {
-				cellexalObj@userGroups = cbind(cellexalObj@userGroups, n, order)
+				cellexalObj@userGroups = cbind(cellexalObj@userGroups, new)
 			}
 		}
-		
-		colnames(cellexalObj@userGroups)[2*id-1] = gname
-		colnames(cellexalObj@userGroups)[2*id] = paste( gname, 'order' )
 		
 		cellexalObj@groupSelectedFrom[[gname]] = unique(as.vector(cellid[,3]))
 		cellexalObj@colors[[gname]] = unique(as.vector(unique(cellid[,2])))

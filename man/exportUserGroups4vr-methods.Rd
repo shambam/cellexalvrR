@@ -27,5 +27,5 @@ Users of the 'cellexalvrR' R class should not need this function.
 }
 \examples{
 dir.create('data')
-exportUserGroups4vr( cellexalObj, 'data')
+exportUserGroups4vr( cellexalObj, 'data') #function definition in file 'exportUserGroups4vr.R'
 }

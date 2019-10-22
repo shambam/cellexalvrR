@@ -16,7 +16,7 @@
 
 \item{grouping}{the grouping file used to create this heatmap}
 
-\item{...}{options you want to send to the ontologyLogPage() function}
+\item{...}{options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'}
 }
 \description{
 create one Heatmap session report page
