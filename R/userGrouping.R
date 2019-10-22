@@ -40,9 +40,10 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 					))
 
 		}
-
-		n[match(cellid[,1], colnames(cellexalObj@data)) ] = cellid[,2]
-		n[which(n==0)] = NA # ro not run stats on them, too.
+		m = match(colnames(cellexalObj@data), cellid[,1])
+		n = rep( NA, ncol(cellexalObj@data))
+		n[ which(! is.na(m)) ] = cellid[m[ which(! is.na(m)) ],4] +1
+		
 		names(n) = colnames(cellexalObj@data)
 		order = n
 		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
