@@ -48,9 +48,8 @@ for ( f in ofiles ) {
 context( "store user groupings" )
 
 old_length = 0
-if ( length(cellexalObj@userGroups) > 0 ){
-	old_length = length(cellexalObj@userGroups) -2 ## and therefore a pointless test...
-}
+cellexalObj@userGroups = data.frame()
+
 cellexalObj = userGrouping(cellexalObj, file.path(ipath, 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
 
