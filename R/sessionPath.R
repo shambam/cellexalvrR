@@ -33,7 +33,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				}
 			}
 			if ( is.null(cellexalObj@usedObj$sessionName )) {
-				browser()
+				#browser()
 				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time())) #function definition in file 'filename.R'
 				cellexalObj@usedObj$sessionRmdFiles = NULL
 				cellexalObj@usedObj$sessionPath = NULL
@@ -49,20 +49,21 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
 				}
-				mainOfile = file.path( cellexalObj@usedObj$sessionPath , filename( "00.SessionStart.Rmd" ) ) #function definition in file 'filename.R'
-				cellexalObj@usedObj$sessionRmdFiles = c(mainOfile)
-				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
-				
-				fileConn<-file( mainOfile )
-				writeLines(c(paste(
-										"# Session Log for Session", cellexalObj@usedObj$sessionName ),
+
+				content = c(paste(sep="\n",
+										paste("# Session Log for Session", cellexalObj@usedObj$sessionName )),
 								paste("Analysis of data: ", basename(cellexalObj@outpath) ),
 								""
 						)
-						, fileConn  )
-				close(fileConn)
-				
+				#browser()
 				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
+
+				cellexalObj = storeLogContents( cellexalObj, content)
+				id = length(cellexalObj@usedObj$sessionRmdFiles)
+				cellexalObj = renderFile( cellexalObj, id )
+
+				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
+
 			}
 			
 			invisible(cellexalObj)

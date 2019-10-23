@@ -5,14 +5,24 @@ prefix = './'
 data = file.path(prefix, 'data/cellexalObj.RData')
 
 cellexalObj = loadObject( data )
+datadir <- normalizePath(file.path( prefix, 'data', 'output'))
+cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 
-cellexalObj@outpath = file.path(prefix, 'data', 'output') ## to not mess up the package
+cellexalObj@outpath = file.path(datadir) ## to not mess up the package
 
 ## init a session
 lockedSave(cellexalObj)
+if ( file.exists( file.path(datadir, 'sessionGroupingTest' )) ){
+	lapply( list.files(file.path(datadir) , 
+		full.names = TRUE, recursive = TRUE), unlink )
+
+}
+
 cellexalObj = sessionPath( cellexalObj, 'sessionGroupingTest' )
 
-expect_true( file.exists( file.path(prefix, 'data', 'output', 'sessionGroupingTest' ) ) , "session path has not been created" )
+expect_true( file.exists( file.path(datadir, 'sessionGroupingTest' ) ) , "session path has not been created" )
+
+lapply( list.files(datadir , full.names = TRUE, recursive = FALSE), unlink )
 
 grouping =  file.path(prefix, 'data', 'selection0.txt' )
 
@@ -37,13 +47,82 @@ n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup )
 
 expect_true( n == 1, paste("third try: first entry not 1(", n, ")"))
 
-## try to render a session - that might take forever!
+## now add some Session reports:
 
-ofile=  file.path( prefix, 'data', 'output', 'session-log-for-session-sessiongroupingtest.html')
+genes <- file.path(prefix, 'data/heatmap_0.txt')
+if ( ! file.exists(file.path(datadir,  'tmp')) ){
+	dir.create(file.path(datadir, 'tmp'), recursive = TRUE )
+}
+
+png( file=file.path(datadir, 'tmp', 'a_simple_figure.png'), width=800, height=800 )
+plot(1:100, sample(100:1, 100), main="Just for the test 1!" )
+dev.off()
+
+
+heatmap_png <- file.path(datadir,  'tmp', 'a_simple_figure.png')
+
+grouping <- file.path(prefix, 'data/selection0.txt')
+
+ontology <- 'BP'
+
+topNodes  <- 20
+
+ofiles = c('2_paritalLog.Rmd', 'png/User.group.1.DDRtree.1_2.png', 'png/a_simple_figure.png','png/User.group.1.DDRtree.2_3.png' )
+
+for ( fname in ofiles ){
+	
+	if( file.exists( file.path( datadir,  'sessionGroupingTest', fname ) ) ) {
+		file.remove( file.path( datadir,  'sessionGroupingTest', fname ) )
+	}
+}
+ofile=  file.path( datadir, '2_sessionGroupingTest.html')
+
+if( file.exists(ofile)) {
+	unlink(ofile)
+}
+#system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
+cellexalObj = logHeatmap(cellexalObj, genes, heatmap_png, grouping, ontology = ontology, topNodes = topNodes )
+
+
+for ( fname in c( ofiles ) ){
+	expect_true( file.exists( file.path(datadir, 'sessionGroupingTest',  fname ) ) , paste( "file has not been created",file.path(datadir, 'sessionGroupingTest', fname) ))
+}
+expect_true( file.exists( ofile), paste( "file has not been created", ofile))
+
+#now lets try the logStatResult funtion:
+
+test = data.frame( A = rep(0,10), B= rep(1,10), 'p_val'= c( 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1) )
+
+if ( file.exists( file.path(datadir, '3_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '3_sessionGroupingTest.html' ) )
+}
+cellexalObj = logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
+
+expect_true( file.exists( file.path(datadir, '3_sessionGroupingTest.html' )), 'logStatResult failed')
+
+
+# logNetwork
+
+if ( file.exists( file.path(datadir, '4_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '4_sessionGroupingTest.html' ) )
+}
+cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
+expect_true( file.exists( file.path(datadir, '4_sessionGroupingTest.html' )), 'logNetworks failed')
+
+## ontologyLogPage
+
+if ( file.exists( file.path(datadir, '5_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '5_sessionGroupingTest.html' ) )
+}
+cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
+expect_true( file.exists( file.path(datadir, '5_sessionGroupingTest.html' )), 'logNetworks failed')
+
+
+ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')
 if( file.exists(ofile)) {
 	unlink(ofile)
 }
 
-renderReport ( cellexalObj )
+cellexalObj = renderReport ( cellexalObj )
 
 expect_true(file.exists( ofile), 'html report / padoc installed?')

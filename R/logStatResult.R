@@ -22,16 +22,21 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 	if (! is.null( x@usedObj$sessionName)) {
 		## export the data into a file and add a small download link into the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="."   )
+		if ( ! file.exists(file.path( x@usedObj$sessionPath,'tables') )) {
+			dir.create( file.path( x@usedObj$sessionPath,'tables') )
+		}
 		utils::write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 
 		mainOfile = x@usedObj$sessionRmdFiles[1]
 
-		cat( sep="\n",
+		## this need to become a relative path - relative to the final outfile
+		content=paste( sep="\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
 				"",
-				paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
+				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
+				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
 				""
-				, file = mainOfile, append = TRUE)
+		)
 
 		if ( ! is.null(col) ){
 			ofile = file.path( 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
@@ -39,13 +44,13 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 			graphics::hist( -log10(data[,col]), main = paste( x@usedObj$sessionName, method )  )
 			grDevices::dev.off()
 
-			cat( sep="\n",
+			content = c( content, paste( sep="\n",
 					paste("![](",ofile,")"),
-					""
-					, file = mainOfile, append = TRUE)
-
+					"" ))
 		}
-
+		x = storeLogContents( x, content)
+		id = length(x@usedObj$sessionRmdFiles)
+		x = renderFile( x, id )
 
 	}
 	invisible(x)

@@ -134,7 +134,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	#file.create(mainOfile)
 	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 	
-	cat( sep="\n", 
+	content = paste( sep="\n", 
 					paste( "##", "GO analysis from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ), #function definition in file 'sessionCounter.R'
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
@@ -144,16 +144,15 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					paste( "The R package topGO was used to create this output table:"),
 					" ",
 					" ",
-					knitr::kable(allRes, caption=paste("GO analysis for grouping", cellexalObj@usedObj$lastGroup )),
+					paste( collapse="\n",knitr::kable(allRes, caption=paste("GO analysis for grouping", cellexalObj@usedObj$lastGroup ))),
 					" ",
-					knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" )),
-					""
-			, file = mainOfile, append = TRUE)
+					paste( collapse="\n",knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" ))),
+					"")
 
+	cellexalObj = storeLogContents( cellexalObj, content)
+	id = length(cellexalObj@usedObj$sessionRmdFiles)
+	cellexalObj = renderFile( cellexalObj, id )
 	#close(fileConn)
-
-	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
-	## object is saved in the heatmap function!
 
 	invisible(cellexalObj)
 
