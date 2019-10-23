@@ -56,20 +56,9 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	# figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd file
 	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) ) #function definition in file 'filename.R'
 	#file.create(mainOfile)
-	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
 
-	max = 10
-	i = 0
-	 while ( ! file.exists(cellexalObj@usedObj$sessionRmdFiles[1])){
-	  Sys.sleep( 10)
-	  i =  +1
-	  if ( max == i ){
-		  message( paste( "An important log file is missing", cellexalObj@usedObj$sessionRmdFiles[1] ))
-		  break
-	  }
-	 }
 
-	cat( sep="\n",
+	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
@@ -85,24 +74,18 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### 2D DRC", gInfo$drc, " dim 2,3"),
 		paste("![](",drcFiles[2],")"),
 		""
-		, file = mainOfile, append = TRUE)
+	)
 
-	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
+	cellexalObj = storeLogContents( cellexalObj, content)
+	id = length(cellexalObj@usedObj$sessionRmdFiles)
+	cellexalObj = renderFile( cellexalObj, id )
 
-	## an entry in the annotation gene lists and a GO ontology page for this gene list
-	#if ( ! is.null(genes)){
-	#  if ( file.exists(genes)) {
-	#    genes = as.vector(read.delim(genes)[,1])
-	#  }
-	#  cellexalObj = ontologyLogPage(cellexalObj, genes, ... ) #function definition in file 'ontologyLogPage.R'
-	#}
 	if ( ! file.exists(file.path(sessionPath, '..', "cellexalObj.RData") )){
 		lockedSave(cellexalObj, file.path(sessionPath, '..') ) #function definition in file 'lockedSave.R'
 	}else {
 		savePart(cellexalObj, 'usedObj' ) #function definition in file 'integrateParts.R'
 	}
 	
-
 	cellexalObj
 } )
 

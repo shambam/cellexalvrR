@@ -42,19 +42,23 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:
-	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(sep="', '",files),
-		"'), output_format='bookdown::gitbook', clean_envir = FALSE )" )
-	cat( cmd, file="runRender.R" )
+	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(collapse="', '",files),
+		"'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+	script= 'runRender.R'
+	if ( file.exists( script)) {
+		unlink( script )
+	}
+	cat( cmd, file=script , append=FALSE)
 	Rscript = file.path( R.home(),"bin","Rscript" )
 	if ( ! file.exists(Rscript)){
 		Rscript = file.path( R.home(),"bin","Rscript.exe" )
 	}
 	Rscript = paste(sep="", '"', Rscript,'"')
-	system( paste(Rscript, "runRender.R" ))
+	system( paste(Rscript, script))
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
-	expected_outfile = file.path(sessionPath, '..', paste('session-log-for-session-',tolower(cellexalObj@usedObj$sessionName), sep='', '.html'))
+	expected_outfile = file.path(sessionPath, '..', paste(cellexalObj@usedObj$sessionName, sep='', '.html'))
 	if ( file.exists( expected_outfile )){
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
@@ -78,3 +82,5 @@ setMethod('renderReport', signature = c ('character'),
 			renderReport(cellexalObj ) #function definition in file 'renderReport.R'
 		}
 )
+
+

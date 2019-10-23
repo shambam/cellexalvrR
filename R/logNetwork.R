@@ -44,20 +44,10 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	#mainOfile = file.path(sessionPath, filename( c( n, "Network.Rmd") ) ) #function definition in file 'filename.R'
 	#file.create(mainOfile)
 	#fileConn<-file( mainOfile )
-	mainOfile = cellexalObj@usedObj$sessionRmdFiles[1]
-
-	max = 10
-	i = 0
-	while ( ! file.exists( mainOfile ) ){
-	  Sys.sleep( 10)
-	  i =  +1
-	  if ( max == i )
-	    break
-	}
 
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionRegisterGrouping.R'
 
-	cat(
+	content = paste(
 					paste( "##", "Network from Saved Selection", sessionCounter(  cellexalObj, cellexalObj@usedObj$lastGroup ) ), #function definition in file 'sessionCounter.R'
 					paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 					"",
@@ -70,11 +60,13 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 					paste( "### 2D DRC", gInfo$drc, " dim 2,3"),
 					paste("![](",drcFiles[2],")"),
 					""
-			, sep="\n", file = mainOfile, append= TRUE)
+			, sep="\n")
 
 	#close(fileConn)
 
-	cellexalObj@usedObj$sessionRmdFiles = c( cellexalObj@usedObj$sessionRmdFiles, mainOfile)
+	cellexalObj = storeLogContents( cellexalObj, content)
+	id = length(cellexalObj@usedObj$sessionRmdFiles)
+	cellexalObj = renderFile( cellexalObj, id )
 
 	## if you give me a gene list here you will get a GO analysis ;-)
 	if ( ! is.null(genes)){
