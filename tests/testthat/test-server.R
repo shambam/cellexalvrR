@@ -61,7 +61,7 @@ write_lines( c(
 	f= srvFile , 0
 )
 
-print ( paste( file.path(R.home("bin"), "R CMD BATCH") , srvFile , " &") )
+print ( paste( R.exe(), "R CMD BATCH" , srvFile , " &") )
 
 cat('Sys.sleep(10)', file=scriptfile)
 expect_true(file.exists( scriptfile))
