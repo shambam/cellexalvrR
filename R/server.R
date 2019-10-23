@@ -34,6 +34,11 @@ setMethod('server', signature = c ('character'),
 
 	cat( Sys.getpid() , file = pidfile )
 	
+	## redirect all output to output file
+	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
+
+	sink(outFile)
+
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
   	while(TRUE){
 		if ( ! file.exists(pidfile ) ) {
@@ -44,6 +49,7 @@ setMethod('server', signature = c ('character'),
                         Sys.sleep( sleepT )
                 }
 				file.create(lockfile)
+                cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
                 try ( {source( scriptfile ) } )
                 file.remove( scriptfile )
 				file.remove(lockfile)
@@ -51,6 +57,9 @@ setMethod('server', signature = c ('character'),
         Sys.sleep( sleepT )   
 	} 
 	message( "Server pid file lost - closing down" );
+	sink()
+	close(outFile)
+
 	q('no')
 }
 )
