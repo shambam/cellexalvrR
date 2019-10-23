@@ -52,6 +52,18 @@ cellexalObj@userGroups = data.frame()
 
 cellexalObj = userGrouping(cellexalObj, file.path(ipath, 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
+## but also test whether the file was read correctly!! Epic bug went undetected!!
+ids = cellexalObj@userGroups[,1] 
+names(ids) = colnames(cellexalObj@data)
+orig = read.delim( file.path(ipath, 'selection0.txt'), header=F)
+origids = orig[,4] +1
+names(origids) = orig[,1]
+m = match(names(origids), names(ids) ) ## likely some missing
+expect_true( all.equal(origids, ids[m]) == TRUE, 'grouping stored correctly')
+## and check the order and the colors, too
+expect_true( all.equal(cellexalObj@userGroups[m,2], 1:length(m)) == TRUE, 'order stored correctly' )
+expect_true( all.equal(cellexalObj@colors[[1]], as.vector(unique(orig[,2]))) == TRUE, 'color stored correctly' )
+
 
 cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
