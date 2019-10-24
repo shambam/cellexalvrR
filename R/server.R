@@ -63,18 +63,6 @@ setMethod('server', signature = c ('character'),
 	q('no')
 }
 )
-Rscript.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'Rscript')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ))
-}
 
-R.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'R')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ) )
-}
+
+
