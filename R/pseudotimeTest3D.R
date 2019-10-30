@@ -64,9 +64,9 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		unlink(file.path( outpath ,"*.png") )
 		unlink(file.path( outpath ,"*.pdf") )
 	}
-	if ( is.null( names(a) )) {
-		stop( "This function needs names on the a vector" )
-	}
+	#if ( is.null( names(a) )) {
+#		stop( "This function needs names on the a vector" )
+#	}
 	
 	## would a partial loess work??
 	## identify turns
