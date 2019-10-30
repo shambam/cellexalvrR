@@ -79,26 +79,42 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				message('anova gene stats is deprecated - using wilcox instead!')
 				deg.method= 'wilcox'
 			}
-			
-			if(length(col.tab) == 1){
-				deg.method == 'Linear'
-				message('cor.stat linear gene stats')
+			if(  length(table(info$grouping)) == 1 ){
+				deg.method = 'Linear'
+				message('cor.stat linear gene stats TIMELINE')
+				if ( is.null( info$drc )) {
+					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] ))
+					info$drc = names(loc@drc )[1]
+				}
+				drc = loc@drc[[ info$drc ]]
+				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
+				loc = pseudotimeTest3D( loc, drc[OK,1], drc[OK,2], drc[OK,3] )
+
 				lin <- function( v, order ) {
 					stats::cor.test( v, order, method='spearman' )
 				}
-				ps <- apply(loc@data,1,lin,order=1:ncol(loc@data))
+				#ps <- apply(loc@data,1,lin,order=loc@usedObj$timelines[['lastEntry']]$time )
 				
-				ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
-				ps = data.frame(t(ps))
-				colnames(ps) = c('statsistics', 'p.value' )
-				sigp <- order(ps$p.value)[1:num.sig]
-				deg.genes <- rownames(ps)[sigp]		
+				ps <- FastWilcoxTest::CorMatrix( loc@data, loc@usedObj$timelines[['lastEntry']]$time )
+				names(ps) = rownames(loc@data)
+
+				ps[which(is.na(ps))] = 0
+				o = order(abs( ps ), decreasing=TRUE)
+
+				deg.genes = names(ps)[o[1:num.sig]]
+
+				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
+				#ps = data.frame(t(ps))
+				#colnames(ps) = c('statsistics', 'p.value' )
+				#sigp <- order(ps$p.value)[1:num.sig]
+				#deg.genes <- rownames(ps)[sigp]		
 				
-				ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
+				#ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
-				if ( Log ) {
-					logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' ) #function definition in file 'logStatResult.R'
-				}
+
+				#if ( Log ) {
+				#	logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' ) #function definition in file 'logStatResult.R'
+				#}
 				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation

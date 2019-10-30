@@ -1,21 +1,8 @@
-Rscript.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'Rscript')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ))
-}
+## each cluster in the grouping file should be processed as separate timeline and information put into a log section
+## the log section should plot the group in 2x2D drc + blue red timeline and probably a heatmap with the cells order by time (blue to red)
+timelineAnalysis <- function( x, grouping, n.genes = 200 ) {
+	
+	x <- userGrouping(x, grouping)
+	
 
-R.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'R')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ) )
-}
-
-file2Script <- function( path, mustWork = FALSE) {
-    output <- c(strsplit(dirname(normalizePath(path,mustWork = mustWork)),
-                       .Platform$file.sep )[[1]], basename(path))
-    paste("file.path('",paste( output, collapse="','"),"')", sep="")
 }
