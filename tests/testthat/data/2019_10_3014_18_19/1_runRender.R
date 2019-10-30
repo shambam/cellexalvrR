@@ -1,0 +1,1 @@
+rmarkdown::render(input='/home/med-sal/git_Projects/cellexalvrR/tests/testthat/data/2019_10_3014_18_19/1_paritalLog.Rmd', output_format= 'html_document', output_file='1_2019_10_3014_18_19', output_dir='../')
