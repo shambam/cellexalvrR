@@ -36,10 +36,8 @@ setMethod('server', signature = c ('character'),
 	
 	## redirect all output to output file
 
-	#outFile = file( file.path( "R_logs.txt" ) )
-	outFile = file.path( "R_logs.txt" )
+	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
 	sink(outFile)
-	#sink(outFile, append=TRUE, type='message')
 
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
   	while(TRUE){
