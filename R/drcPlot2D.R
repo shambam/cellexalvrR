@@ -27,7 +27,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}
-	browser()
+
 	DRC1 = file.path( sessionPath , 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
 	gInfo$grouping = as.vector(gInfo$grouping) +1

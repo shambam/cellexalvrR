@@ -61,7 +61,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	n = vector( 'numeric', ncol(cellexalObj@data))
 	cellexalObj = CreateBin( cellexalObj, gname)
 
-	browser()
+	#browser()
 
 	drcFiles2 = drcPlots2D( cellexalObj, groupingInfo(cellexalObj, gname) ) #function definition in file 'drcPlot2D.R'
 
