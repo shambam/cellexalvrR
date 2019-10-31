@@ -36,7 +36,7 @@ setMethod('server', signature = c ('character'),
 	
 	## redirect all output to output file
 
-	outFile = file( file.path( "..","..","R_logs.txt" ) )
+	outFile = file( file.path( "R_logs.txt" ) )
 
 	sink(outFile)
 	sink(outFile, type='message')
