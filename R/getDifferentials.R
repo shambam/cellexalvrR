@@ -56,7 +56,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				loc <- cellexalObj
 			}
 			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
-				loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order')) #function definition in file 'reorder.obj.R'
+				## at some time we had a problem in the creeation of order column names:
+    			possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
+    			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
+				loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
 			}
 			
 			info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
