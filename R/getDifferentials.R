@@ -163,7 +163,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				#all_markers <- all_markers[ order( all_markers[,'p.value']),]
 				if ( Log ) {
-					logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' ) #function definition in file 'logStatResult.R'
+					try ( {logStatResult( cellexalObj, 'Cpp', all_markers, 'p.value' ) }) #function definition in file 'logStatResult.R'
 				}
 				if ( is.null(cellexalObj@usedObj$sigGeneLists$Cpp)) 
 					cellexalObj@usedObj$sigGeneLists$Cpp = list()
@@ -270,8 +270,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				savePart( cellexalObj, 'usedObj'); #function definition in file 'integrateParts.R'
 				#print( 'And this - Do we reach this point, too?')
 			}
-			
-			deg.genes
+			cellexalObj@usedObj$deg.genes = deg.genes
+			invisible( cellexalObj )
 		}
 )
 
