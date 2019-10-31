@@ -127,7 +127,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
 
 				## grab the one out of my BioData obeject?!
-				cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info,  groupingInfo( cellexalObj, gname ) ) #function definition in file 'logStatResult.R'
+				try( { cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info,  groupingInfo( cellexalObj, gname ) ) } )#function definition in file 'logStatResult.R'
 				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				#ps = data.frame(t(ps))
 				#colnames(ps) = c('statsistics', 'p.value' )
