@@ -29,7 +29,9 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			
 			if ( is.na(stats_method) )
 				stats_method= 'wilcox'
-			gene.cluster.order = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			gene.cluster.order = cvrObj@usedObj$deg.genes
+
 			message (paste( "trying to write file", outfile ) )
 			write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
 			## probably a good way to export the information as database, too.
@@ -38,10 +40,11 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			## we also only need the samples that have been selected:
 			tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@data)[ #function definition in file 'reduceTo.R'
 							which(!is.na(cvrObj@userGroups[,cellexalObj@usedObj$lastGroup])) ] )
+
 			if ( file.exists( paste(sep=".", outfile, 'sqlite3')) ){
 				unlink( paste(sep=".", outfile, 'sqlite3') )
 			}
-			write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') ) #function definition in file 'ExportFunctions.R'
+			try ( write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') ) ) #function definition in file 'ExportFunctions.R'
 			invisible( cvrObj )
 		} )
 
