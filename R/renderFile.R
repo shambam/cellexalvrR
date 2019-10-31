@@ -30,9 +30,9 @@ if ( is.null( x@usedObj$sessionPath )){
 	writeLines(c(
 		paste('book_filename:', paste(id, x@usedObj$sessionName, sep="_" )),
 		'output_dir: ../',			
-		'delete_merged_file: false' )
+		'delete_merged_file: true' )
 		, fileConn 
-	)
+	) 
     close(fileConn)
     message( paste('bookdown::render_book log id', id) )
 	## and now a bloody hack:
@@ -44,7 +44,7 @@ if ( is.null( x@usedObj$sessionPath )){
 		files =  basename(x@usedObj$sessionRmdFiles[1])
 	}
 	
-	cmd = paste( sep="","rmarkdown::render(input='",fname,"', output_format= 'html_document', output_file='",
+	cmd = paste( sep="","rmarkdown::render(input=",file2Script(fname),", output_format= 'html_document', output_file='",
 		paste(id, x@usedObj$sessionName, sep='_' ),"', output_dir='../')")
 
 	script = paste( sep="_", id,"runRender.R")

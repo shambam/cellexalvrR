@@ -64,13 +64,15 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs') #function definition in file 'useInbuiltGOIlists.R'
 	}
 
+    browser()
 	loc <- onlyGOIs( cellexalObj, 'TFs' ) #function definition in file 'onlyGOIs.R'
 
 	## kick the not groupoed samples out of the loc object
 	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[- #function definition in file 'reduceTo.R'
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
-	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order')) #function definition in file 'reorder.obj.R'
+	loc <- reorder.samples ( loc, paste(cellexalObj@usedObj$lastGroup, 'order', sep=" ")) #function definition in file 'reorder.obj.R'
+
 	info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
 	if ( info$drc == 'unknown' || is.null( info$drc) ) {
 		## just assume the user selected from graph 1

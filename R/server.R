@@ -64,5 +64,3 @@ setMethod('server', signature = c ('character'),
 }
 )
 
-
-

@@ -99,7 +99,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## so the new group needs to get into the main object:
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
-				gnameO =  paste(sep=".",gname , 'order')
+				gnameO =  paste(sep=" ",gname , 'order')
 				cellexalObj@userGroups[, gname ] = NA
 				cellexalObj@userGroups[, gnameO] = NA
 				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
