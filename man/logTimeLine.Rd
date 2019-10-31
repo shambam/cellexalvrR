@@ -5,7 +5,8 @@
 \alias{logTimeLine,character-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{character}(cellexalObj, stats, genes, info)
+\S4method{logTimeLine}{character}(cellexalObj, stats, genes, info,
+  timeInfo)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR file}
@@ -14,7 +15,9 @@
 
 \item{genes}{the genes to display on the heatmap}
 
-\item{info}{the grouping information list}
+\item{info}{the original grouping information list}
+
+\item{timeInfo}{the time grouping information list}
 }
 \description{
 create one Heatmap session report page

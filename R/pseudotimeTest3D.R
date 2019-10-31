@@ -110,9 +110,22 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	x@usedObj$timelines[['lastEntry']] = res
 	x@usedObj$timelines[[paste("run", length(names(x@usedObj$timelines))) ]] = res
 
+	id= (ncol(x@userGroups) /2) + 1
+	gname = paste( "Time.group", id, sep="." ) #the VR program dependeds on it
+
+	m = match( names(res$a), colnames(x@data) )
+	x@userGroups[,gname] = NA
+	x@userGroups[m,gname] = res$time
+	x@userGroups[,paste(gname, sep=".", 'order')] = NA
+	x@userGroups[m,paste(gname, sep=".", 'order')] = order(res$time)
+	
+	x@usedObj$lastGroup = gname
+
+	x = CreateBin( x , gname)
+
 	return(x)
 
-# 	rgl::plot3d( res, col=gplots::bluered(length(o))[order[o]] )
+# 	rgl::plot3d( res, col=gplots::bluered(length(o))[order(o)] )
 # 	rgl::rgl.points( a,b,c, col= x@colors[[grouping]][ x@userGroups[,grouping]])
 	
 # 	# this data would now need to be put into the object?!

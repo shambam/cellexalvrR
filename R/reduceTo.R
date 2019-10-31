@@ -78,6 +78,10 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 						if ( nrow(x@userGroups) == n){
 							x@userGroups <- x@userGroups[useOnly,]
 						}
+						for ( n in names( x@drc) ) {
+							## I need to cut them down, too
+							x@drc[[n]] = x@drc[[n]][useOnly,]
+						}
 						
 												
 					}else {

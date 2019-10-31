@@ -6,7 +6,8 @@
 \alias{logTimeLine,cellexalvrR-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info)
+\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info,
+  timeInfo)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
@@ -15,7 +16,9 @@
 
 \item{genes}{the genes to display on the heatmap}
 
-\item{info}{the grouping information list}
+\item{info}{the original grouping information list}
+
+\item{timeInfo}{the time grouping information list}
 }
 \description{
 preload the object before creating one Heatmap session report page

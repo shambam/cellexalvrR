@@ -96,12 +96,25 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
 				loc = pseudotimeTest3D( loc, drc[OK,1], drc[OK,2], drc[OK,3] )
 
+				## so the new group needs to get into the main object:
+				m = match( colnames(cellexalObj@data), colnames( loc@data) )
+				gname = loc@usedObj$lastGroup
+				gnameO =  paste(sep=".",gname , 'order')
+				cellexalObj@userGroups[, gname ] = NA
+				cellexalObj@userGroups[, gnameO] = NA
+				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
+				cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
+				cellexalObj@colors[[gname]] = loc@colors[[gname]]
+				cellexalObj@groupSelectedFrom[[gname]] = info$drc
+
+				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
+
 				lin <- function( v, order ) {
 					stats::cor.test( v, order, method='spearman' )
 				}
 				#ps <- apply(loc@data,1,lin,order=loc@usedObj$timelines[['lastEntry']]$time )
 				
-				ps <- FastWilcoxTest::CorMatrix( loc@data, loc@usedObj$timelines[['lastEntry']]$time )
+				ps <- FastWilcoxTest::CorMatrix( loc@data, as.vector(loc@userGroups[, gnameO ]) )
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
@@ -110,8 +123,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.genes = names(ps)[o[1:num.sig]]
 
 				## now we lack the heatmap here... But I would need one - crap!
+				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
+				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
+
 				## grab the one out of my BioData obeject?!
-				cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info ) #function definition in file 'logStatResult.R'
+				cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info,  groupingInfo( cellexalObj, gname ) ) #function definition in file 'logStatResult.R'
 				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				#ps = data.frame(t(ps))
 				#colnames(ps) = c('statsistics', 'p.value' )

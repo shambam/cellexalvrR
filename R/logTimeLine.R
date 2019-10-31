@@ -1,6 +1,6 @@
 
 setGeneric('logTimeLine', ## Name
-	function ( cellexalObj, stats, genes, info ) {
+	function ( cellexalObj, stats, genes, info, timeInfo  ) {
 		standardGeneric('logTimeLine')
 	}
 )
@@ -16,11 +16,12 @@ setGeneric('logTimeLine', ## Name
 #' @param cellexalObj the cellexalvrR object
 #' @param stats the correlation statistics
 #' @param genes the genes to display on the heatmap
-#' @param info the grouping information list
+#' @param info the original grouping information list
+#' @param timeInfo the time grouping information list
 #' @title description of function logTimeLine
 #' @export 
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, stats, genes, info ) {
+	definition = function ( cellexalObj, stats, genes, info, timeInfo ) {
 	## here I need to create a page of the final log
 
 	if ( !is.null(genes)){
@@ -44,35 +45,20 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## now I need to create the 2D drc plots for the grouping
 	drcFiles = drcPlots2D( cellexalObj, info ) #function definition in file 'drcPlot2D.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
-	id= (ncol(cellexalObj@userGroups) /2) + 1
-	gname = paste( "User.group", id, sep="." ) #the VR program dependeds on it
-	# using this object I can plot a detailed description of the timeline: x@usedObj$timelines[['lastEntry']] 
-	gr = rep( NA, ncol(cellexalObj@data))
-	time = cellexalObj@usedObj$timelines[['lastEntry']]$time
 
-	m = match( names(cellexalObj@usedObj$timelines[['lastEntry']]$a), colnames(cellexalObj@data) )
-	gr[m] = time
-
-	cellexalObj@userGroups[, gname] = gr
-	gr[m] = order(time)
-	cellexalObj@userGroups[, paste( sep=".",gname, 'order')] = gr
-	## copy the from drc info
-	cellexalObj@groupSelectedFrom[[gname]] = cellexalObj@groupSelectedFrom[[info$gname]]
-	n = vector( 'numeric', ncol(cellexalObj@data))
-	cellexalObj = CreateBin( cellexalObj, gname)
-
-	#browser()
-
-	drcFiles2 = drcPlots2D( cellexalObj, groupingInfo(cellexalObj, gname) ) #function definition in file 'drcPlot2D.R'
+	drcFiles2 = drcPlots2D( cellexalObj, timeInfo) #function definition in file 'drcPlot2D.R'
 
 
 	content = paste( sep="\n",
-		paste( "##", "TimeLine control from Saved Selection ", n ),
+		paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 		paste("This TimeLine is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
-		paste( "### Genes"),
-		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ), #function definition in file 'rmdLink.R'
-		'',
+		paste( "### Genes") )
+	content = paste( collapse=" ",content,
+		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ))
+	
+
+	content = paste( sep="\n", content,
 		paste( "### Heatmap (from R)"),
 	#	paste("![](",figureF,")"),
 		'',
@@ -109,11 +95,12 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 #' @param cellexalObj the cellexalvrR file
 #' @param stats the correlation statistics
 #' @param genes the genes to display on the heatmap
-#' @param info the grouping information list
+#' @param info the original grouping information list
+#' @param timeInfo the time grouping information list
 #' @title description of function logTimeLine
 #' @export
 setMethod('logTimeLine', signature = c ('character'),
-		definition = function (cellexalObj, stats, genes, info  ) {
+		definition = function (cellexalObj, stats, genes, info, timeInfo   ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			logTimeLine(cellexalObj, genes, png, grouping, ... ) #function definition in file 'logTimeLine.R'
 		}

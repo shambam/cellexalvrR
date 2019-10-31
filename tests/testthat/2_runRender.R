@@ -1,2 +1,0 @@
-bookdown::render_book( input= c('/home/med-sal/git_Projects/cellexalvrR/tests/testthat/data/output/sessionGroupingTest/2_paritalLog.Rmd'), output_format='bookdown::gitbook', 
-clean_envir = FALSE , config_file = '_2bookdown.yml' )
