@@ -38,8 +38,8 @@ setMethod('server', signature = c ('character'),
 
 	outFile = file( file.path( "R_logs.txt" ) )
 
-	sink(outFile)
-	sink(outFile, type='message')
+	sink(outFile, append=TRUE)
+	sink(outFile, append=TRUE, type='message')
 
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
   	while(TRUE){
