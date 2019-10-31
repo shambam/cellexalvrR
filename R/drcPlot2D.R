@@ -27,9 +27,10 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}
+	browser()
 	DRC1 = file.path( sessionPath , 'png', filename( c( cellexalObj@usedObj$lastGroup ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
-	gInfo$grouping = gInfo$grouping +1
+	gInfo$grouping = as.vector(gInfo$grouping) +1
 	if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
 		stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
 	}

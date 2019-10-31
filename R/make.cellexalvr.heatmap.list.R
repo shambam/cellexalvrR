@@ -42,7 +42,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 				unlink( paste(sep=".", outfile, 'sqlite3') )
 			}
 			write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') ) #function definition in file 'ExportFunctions.R'
-			
+			invisible( cvrObj )
 		} )
 
 #' @describeIn make.cellexalvr.heatmap.list cellexalvrR

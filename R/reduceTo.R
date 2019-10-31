@@ -78,6 +78,7 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 						if ( nrow(x@userGroups) == n){
 							x@userGroups <- x@userGroups[useOnly,]
 						}
+						
 												
 					}else {
 						print (paste( "None of the names (to) matched the sample names in the cellexalvr object -> keep everything!"))

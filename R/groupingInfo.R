@@ -23,7 +23,8 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	if ( is.null(gname)){
 		gname = cellexalObj@usedObj$lastGroup
 	}
-	ret <- list( 
+	ret <- list(
+			gname = gname,
 			grouping = cellexalObj@userGroups[,gname] ,
 			order = 1:ncol(cellexalObj@data),
 			'drc' = cellexalObj@groupSelectedFrom[[gname]],

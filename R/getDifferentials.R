@@ -81,12 +81,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			if(  length(table(info$grouping)) == 1 ){
 				deg.method = 'Linear'
-				message('cor.stat linear gene stats TIMELINE')
+				message('cor.stat linear gene stats timeline EXPERIMENTAL')
 				if ( is.null( info$drc )) {
-					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] ))
+					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
 					info$drc = names(loc@drc )[1]
 				}
 				drc = loc@drc[[ info$drc ]]
+				if ( is.null(drc) ){
+					message(paste("the drc info",info$drc, "can not be found in the data! (", paste(collapse=", ", names(loc@drc)) ))
+					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
+					info$drc = names(loc@drc )[1] ## for the log!
+					drc = loc@drc[[ 1 ]]
+				}
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
 				loc = pseudotimeTest3D( loc, drc[OK,1], drc[OK,2], drc[OK,3] )
 
@@ -103,6 +109,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				deg.genes = names(ps)[o[1:num.sig]]
 
+				## now we lack the heatmap here... But I would need one - crap!
+				## grab the one out of my BioData obeject?!
+				cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info ) #function definition in file 'logStatResult.R'
 				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				#ps = data.frame(t(ps))
 				#colnames(ps) = c('statsistics', 'p.value' )
