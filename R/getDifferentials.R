@@ -96,13 +96,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					info$drc = names(loc@drc )[1] ## for the log!
 					drc = loc@drc[[ 1 ]]
 				}
+
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
-				loc = pseudotimeTest3D( loc, drc[OK,1], drc[OK,2], drc[OK,3] )
+
+				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3] )
 
 				## so the new group needs to get into the main object:
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
 				gnameO =  paste(sep=" ",gname , 'order')
+				#browser()
+
 				cellexalObj@userGroups[, gname ] = NA
 				cellexalObj@userGroups[, gnameO] = NA
 				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
@@ -116,7 +120,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					stats::cor.test( v, order, method='spearman' )
 				}
 				#ps <- apply(loc@data,1,lin,order=loc@usedObj$timelines[['lastEntry']]$time )
-				
+
 				ps <- FastWilcoxTest::CorMatrix( loc@data, as.vector(loc@userGroups[, gnameO ]) )
 				names(ps) = rownames(loc@data)
 

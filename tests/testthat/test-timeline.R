@@ -12,7 +12,15 @@ x = cellexalObj
 
 x@outpath = file.path(prefix,'data','output','statTest' )
 
+x@usedObj$sessionPath = x@usedObj$sessionRmdFiles = x@usedObj$sessionName = NULL
+
+ofile = file.path( prefix, 'data','output','statTest','timelineTest','1_paritalLog.Rmd' )
+if ( file.exists( ofile) ) {
+	unlink( ofile )
+}
 x = sessionPath( x, 'timelineTest')
+
+expect_true( x@usedObj$sessionName == 'timelineTest', 'session path not set correctly')
 
 grouping <- file.path(prefix, 'data/selection0.txt')
 
@@ -31,8 +39,21 @@ dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
 
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
 
-t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
+t@u
 
+#t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
+ofile = file.path( prefix, 'data','output','statTest','timelineTest','2_paritalLog.Rmd' )
+if ( file.exists( ofile) ) {
+	unlink( ofile )
+}
 
+t = getDifferentials( t,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
 
-getDifferentials( t,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
+expect_true( file.exists( ofile), "Rmd (subset) ofile not created" )
+if ( file.exists( ofile) ) {
+	unlink( ofile )
+}
+
+a = getDifferentials( x,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
+
+expect_true( file.exists( ofile), "Rmd (total) ofile not created" )

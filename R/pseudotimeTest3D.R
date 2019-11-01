@@ -116,8 +116,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	m = match( names(res$a), colnames(x@data) )
 	x@userGroups[,gname] = NA
 	x@userGroups[m,gname] = res$time
-	x@userGroups[,paste(gname, sep=".", 'order')] = NA
-	x@userGroups[m,paste(gname, sep=".", 'order')] = order(res$time)
+	x@userGroups[,paste(gname, sep=" ", 'order')] = NA
+	x@userGroups[m,paste(gname, sep=" ", 'order')] = order(res$time)
 	
 	x@usedObj$lastGroup = gname
 
