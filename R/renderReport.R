@@ -23,7 +23,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
-	cellexalObj@usedObj$sessionRmdFiles = unique( cellexalObj@usedObj$sessionRmdFiles )
+	## honestly - this is likely to contain wrong data anyhow...
+
+	cellexalObj@usedObj$sessionRmdFiles = list.files(sessionPath, full.names = TRUE, pattern='*.Rmd')
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}

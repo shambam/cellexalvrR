@@ -20,7 +20,6 @@ if ( is.null( x@usedObj$sessionPath )){
 		x = sessionPath(x) #function definition in file 'sessionPath.R'
 	}
 		sessionPath = normalizePath(x@usedObj$sessionPath)
-
 	fname = x@usedObj$sessionRmdFiles[id]
 	if ( ! file.exists(fname) ){
 		stop( paste( "fname for the sessionRmdFiles id",id,",", fname,"does not exists on the file system"))
@@ -52,13 +51,8 @@ if ( is.null( x@usedObj$sessionPath )){
 		unlink( script )
 	}
 	cat( paste(sep="\n",cmd), file=script, append=FALSE )
-	Rscript = file.path( R.home(),"bin","Rscript" )
-	if ( ! file.exists(Rscript)){
-		Rscript = file.path( R.home(),"bin","Rscript.exe" )
-	}
-	Rscript = paste(sep="", '"', Rscript,'"')
 	
-	system( paste(Rscript, script ))
+	system( paste(Rscript.exe(), script ))
 	message( paste('bookdown::render_book log id', id, 'finished') )
 
 	setwd( oldwd )
@@ -91,6 +85,14 @@ setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	id = length(x@usedObj$sessionRmdFiles) +1
 	fname = paste( sep="_", id, "paritalLog.Rmd" )
 	fname = file.path( sessionPath, fname )
+
+	if ( file.exists( fname )) {
+		## damn - somewhere the cellexal object was not saved - better read in all Rmd files now
+		x@usedObj$sessionRmdFiles = list.files(sessionPath, full.names = TRUE, pattern='*.Rmd')
+		id = length(x@usedObj$sessionRmdFiles) +1
+		fname = paste( sep="_", id, "paritalLog.Rmd" )
+		fname = file.path( sessionPath, fname )
+	}
 
 	x@usedObj$sessionRmdFiles = c(x@usedObj$sessionRmdFiles, fname )
 	

@@ -13,10 +13,29 @@ cellexalObj@outpath = file.path(datadir) ## to not mess up the package
 ## init a session
 lockedSave(cellexalObj)
 if ( file.exists( file.path(datadir, 'sessionGroupingTest' )) ){
-	lapply( list.files(file.path(datadir) , 
-		full.names = TRUE, recursive = TRUE), unlink )
-
+	#t = lapply( list.files(file.path(datadir) , 
+	#	full.names = TRUE, recursive = TRUE), unlink )
+	unlink(  file.path(datadir, 'sessionGroupingTest' ), recursive=TRUE )
 }
+
+dir.create( file.path(datadir, 'sessionGroupingTest' ) )
+fnames = ( c( 
+file.path(datadir,"1_sessionGroupingTest.html") , 
+file.path(datadir,"2_sessionGroupingTest.html"),
+file.path(datadir,"3_sessionGroupingTest.html"),
+file.path(datadir,'sessionGroupingTest',"1_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"2_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"3_paritalLog.Rmd")
+))
+t = lapply ( fnames, file.create)
+
+sessionPath( cellexalObj, 'sessionGroupingTest' )
+for ( n in fnames[-c(1,4)] ) { expect_true( ! file.exists(n), paste("file not removed",n)) }
+for ( n in fnames[c(1,4)] ) { expect_true( file.exists(n), paste("file not created",n)) }
+
+
+lapply( list.files(file.path(datadir) , 
+		full.names = TRUE, recursive = TRUE), unlink )
 
 cellexalObj = sessionPath( cellexalObj, 'sessionGroupingTest' )
 
@@ -96,7 +115,7 @@ test = data.frame( A = rep(0,10), B= rep(1,10), 'p_val'= c( 1e-9, 1e-8, 1e-7, 1e
 if ( file.exists( file.path(datadir, '3_sessionGroupingTest.html' ))) {
 	unlink(  file.path(datadir, '3_sessionGroupingTest.html' ) )
 }
-cellexalObj = logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
+logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
 expect_true( file.exists( file.path(datadir, '3_sessionGroupingTest.html' )), 'logStatResult failed')
 
