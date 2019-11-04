@@ -64,7 +64,6 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 		cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs') #function definition in file 'useInbuiltGOIlists.R'
 	}
 
-    browser()
 	loc <- onlyGOIs( cellexalObj, 'TFs' ) #function definition in file 'onlyGOIs.R'
 
 	## kick the not groupoed samples out of the loc object

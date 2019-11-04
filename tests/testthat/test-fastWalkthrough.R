@@ -1,6 +1,6 @@
 context('fast walk through')
 
-qskip( "takes forever and is implemented in single tests later on" )
+skip( "takes forever and is implemented in single tests later on" )
 
 if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
 	skip("cellexalvrR has to be installed before this test")
