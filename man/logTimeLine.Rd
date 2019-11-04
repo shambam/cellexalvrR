@@ -5,7 +5,7 @@
 \alias{logTimeLine,character-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{character}(cellexalObj, stats, genes, info,
+\S4method{logTimeLine}{character}(cellexalObj, stats, genes, info, png,
   timeInfo)
 }
 \arguments{

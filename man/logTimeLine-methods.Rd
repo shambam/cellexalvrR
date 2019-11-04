@@ -6,7 +6,7 @@
 \alias{logTimeLine,cellexalvrR-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info,
+\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info, png,
   timeInfo)
 }
 \arguments{
@@ -17,6 +17,8 @@
 \item{genes}{the genes to display on the heatmap}
 
 \item{info}{the original grouping information list}
+
+\item{png}{the heatmap of the rolling sum data}
 
 \item{timeInfo}{the time grouping information list}
 }
