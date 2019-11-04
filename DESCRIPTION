@@ -21,7 +21,7 @@ Imports:
 	bookdown,
 	DDRTree,
 	entropy,
-	FastWilcoxTest (>= 0.1.10),
+	FastWilcoxTest (>= 0.1.11),
 	GeneNet,
 	gplots,
 	graph,

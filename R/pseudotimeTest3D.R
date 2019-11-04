@@ -121,7 +121,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	
 	x@usedObj$lastGroup = gname
 
-	x = CreateBin( x , gname)
+	#x = CreateBin( x , gname)
 
 	return(x)
 

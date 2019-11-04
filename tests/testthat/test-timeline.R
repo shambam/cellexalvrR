@@ -39,7 +39,8 @@ dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
 
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
 
-t@u
+a = getDifferentials( x,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
+
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
 ofile = file.path( prefix, 'data','output','statTest','timelineTest','2_paritalLog.Rmd' )

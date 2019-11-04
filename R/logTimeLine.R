@@ -1,6 +1,6 @@
 
 setGeneric('logTimeLine', ## Name
-	function ( cellexalObj, stats, genes, info, timeInfo  ) {
+	function ( cellexalObj, stats, genes, info, png, timeInfo  ) {
 		standardGeneric('logTimeLine')
 	}
 )
@@ -17,11 +17,12 @@ setGeneric('logTimeLine', ## Name
 #' @param stats the correlation statistics
 #' @param genes the genes to display on the heatmap
 #' @param info the original grouping information list
+#' @param png the heatmap of the rolling sum data
 #' @param timeInfo the time grouping information list
 #' @title description of function logTimeLine
 #' @export 
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, stats, genes, info, timeInfo ) {
+	definition = function ( cellexalObj, stats, genes, info, png, timeInfo ) {
 	## here I need to create a page of the final log
 
 	if ( !is.null(genes)){
@@ -37,10 +38,11 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionCounter.R'
 
 	## now I need to create a heatmap myself using the genes provided
-	message("find a usable way to get the heatmap png")
+
+#	message("find a usable way to get the heatmap png")
 	#file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
 	#figureF = file.path( 'png', basename( png ) )
-	figureF = "Missing at the moment!"
+	#figureF = "Missing at the moment!"
 
 	## now I need to create the 2D drc plots for the grouping
 	drcFiles = drcPlots2D( cellexalObj, info ) #function definition in file 'drcPlot2D.R'
@@ -57,11 +59,15 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	content = paste( collapse=" ",content,
 		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ))
 	
+	if ( file.exists( png ) ) {
+		figureF = stringr::str_extract( png,'png.*')
 
+		content = paste( sep="\n", content,
+			paste( "### Heatmapof rolling sum transformed expression (from R)"),
+			paste("![](",figureF,")"),
+			'The gene order is the same as in the Genes section and the VR heatmap')
+	}
 	content = paste( sep="\n", content,
-		paste( "### Heatmap (from R)"),
-	#	paste("![](",figureF,")"),
-		'',
 		paste( "### 2D DRC", info$drc, " dim 1,2"),
 		paste("![](",drcFiles[1],")"),
 		'',
@@ -100,7 +106,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 #' @title description of function logTimeLine
 #' @export
 setMethod('logTimeLine', signature = c ('character'),
-		definition = function (cellexalObj, stats, genes, info, timeInfo   ) {
+		definition = function (cellexalObj, stats, genes, info, png, timeInfo   ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			logTimeLine(cellexalObj, genes, png, grouping, ... ) #function definition in file 'logTimeLine.R'
 		}
@@ -133,6 +139,7 @@ setMethod('CreateBin', signature = c ('cellexalvrR'),
 	}else {
 		stop(paste("Sorry where =",where,"is not supported (only sample and gene)") )
 	}
+	n[which(is.na(n))] = -1
 	m <- min( n )
 	brks= c( (m-.1),m ,as.vector(quantile(n[which(n != m)],seq(0,1,by=0.1)) ))
 	brks = unique(as.numeric(sprintf("%2.6e", brks)))

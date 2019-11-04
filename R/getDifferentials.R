@@ -116,12 +116,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
 
-				lin <- function( v, order ) {
-					stats::cor.test( v, order, method='spearman' )
-				}
-				#ps <- apply(loc@data,1,lin,order=loc@usedObj$timelines[['lastEntry']]$time )
+				## run the correlation on a rolling window smothed information
+				#browser()
+				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
+				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
 
-				ps <- FastWilcoxTest::CorMatrix( loc@data, as.vector(loc@userGroups[, gnameO ]) )
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
@@ -129,12 +128,29 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				deg.genes = names(ps)[o[1:num.sig]]
 
+				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
+				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
+				colnames(p) = deg.genes
+				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
+				deg.genes = hc$labels[hc$order]
+
 				## now we lack the heatmap here... But I would need one - crap!
 				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
 
 				## grab the one out of my BioData obeject?!
-				try( { cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info,  groupingInfo( cellexalObj, gname ) ) } )#function definition in file 'logStatResult.R'
+				## add a simple one - the most simple one ever
+				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
+				
+				png( file=ofile, width=1000, height = 1000)
+				image( p[,deg.genes], col=gplots::bluered(40))
+				dev.off()
+
+				try( { 
+					#browser()
+					cellexalObj = CreateBin(  cellexalObj, gname, colFun= function(x) { c('gray', gplots::bluered(x-1))} )
+					cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info, png = ofile, groupingInfo( cellexalObj, gname ) ) 
+				} )
 				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				#ps = data.frame(t(ps))
 				#colnames(ps) = c('statsistics', 'p.value' )
