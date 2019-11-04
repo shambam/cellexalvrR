@@ -29,7 +29,8 @@
 \item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
 }
 \value{
-a list of the top differential genes (num.sig)
+the cellexalvrr object with the stats table stored in cellexalObj@usedObj$sigGeneLists$Cpp[[cellexalObj@usedObj$lastGroup]]
+and significant genes can be accessed in the cellexalObj@usedObj$deg.genes slot.
 }
 \description{
 Creates a heatmap from a selection of groups
@@ -39,13 +40,13 @@ The Seurat based statsictsics is applied only to genes expressed in at least 1 p
 Identify differentially expressed genes.
 
 This function makes three statistics available for the VR process 
-(1) 'linear' correlation for one group selections
-(2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function
-(3) 'Seurat_wilcox' the original Seurat::FindAllMarkers function (~10x slower than the c++ version)
+(1) 'timeline' will automaticly be choosen it there is only one group in the data
+(2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function (default)
+(3) 'Seurat_wilcox' the original Seurat::FindAllMarkers function (~10x slower than the c++ version and currently not working)
 }
 \examples{
 \dontrun{
-getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox') #function definition in file 'getDifferentials.R'
+getDifferentials( cellexalObj,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes #function definition in file 'getDifferentials.R'
 }
 }
 \keyword{DEGs}
