@@ -6,12 +6,14 @@
 \alias{renderFile,cellexalvrR-method}
 \title{description of function renderFile}
 \usage{
-renderFile(x, id)
+renderFile(x, id, type = "")
 }
 \arguments{
 \item{x}{the cellexalvrR object}
 
 \item{id}{the id of the report file to render ('x@usedObj$sessionRmdFiles[id]')}
+
+\item{type}{the type of log saved (default '')}
 }
 \description{
 render only one html section, not the whole session log

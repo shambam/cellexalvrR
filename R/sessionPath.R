@@ -56,7 +56,11 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 
 				## I need to clear out all old session report Rmd and html files
 				t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
-				#t = do.call(file.remove, list(list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[0-9].*.html" )))
+				htmls = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[0-9].*.html" )
+				bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
+				if ( length(bad) > 0 ) {
+					t = do.call(file.remove, list(bad) )
+				}
 
 				content = c(paste(sep="\n",
 										paste("# Session Log for Session", cellexalObj@usedObj$sessionName )),

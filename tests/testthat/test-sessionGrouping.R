@@ -20,19 +20,23 @@ if ( file.exists( file.path(datadir, 'sessionGroupingTest' )) ){
 
 dir.create( file.path(datadir, 'sessionGroupingTest' ) )
 fnames = ( c( 
-file.path(datadir,"1_sessionGroupingTest.html") , 
-file.path(datadir,"2_sessionGroupingTest.html"),
-file.path(datadir,"3_sessionGroupingTest.html"),
-file.path(datadir,'sessionGroupingTest',"1_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"2_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"3_paritalLog.Rmd")
+file.path(datadir,"1_Start_sessionGroupingTest.html") , 
+file.path(datadir,"2_Heatmap_sessionGroupingTest.html"),
+file.path(datadir,"3_Network_sessionGroupingTest.html"),
+file.path(datadir,"3_Stats_sessionGroupingTest.html"),
+file.path(datadir,"4_Ontology_sessionGroupingTest.html"),
+file.path(datadir,'sessionGroupingTest',"1_Start_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"2_Heatmap_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"3_Network_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"3_Stats_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"4_Ontology_paritalLog.Rmd")
+
 ))
 t = lapply ( fnames, file.create)
 
 sessionPath( cellexalObj, 'sessionGroupingTest' )
-for ( n in fnames[-c(1,4)] ) { expect_true( ! file.exists(n), paste("file not removed",n)) }
-for ( n in fnames[c(1,4)] ) { expect_true( file.exists(n), paste("file not created",n)) }
-
+for ( n in fnames[-c(1,6)] ) { expect_true( ! file.exists(n), paste("file not removed",n)) }
+for ( n in fnames[c(1,6)] ) { expect_true( file.exists(n), paste("file not created",n)) }
 
 lapply( list.files(file.path(datadir) , 
 		full.names = TRUE, recursive = TRUE), unlink )
@@ -122,19 +126,19 @@ expect_true( file.exists( file.path(datadir, '3_Stats_sessionGroupingTest.html' 
 
 # logNetwork
 
-if ( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '4_Network_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '3_Network_sessionGroupingTest.html' ) )
 }
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' )), 'logNetworks failed')
 
 ## ontologyLogPage
 
-if ( file.exists( file.path(datadir, '5_Ontology_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '5_OntologysessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '4_Ontology_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '4_Ontology_sessionGroupingTest.html' ) )
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '5_OntologysessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, '4_Ontology_sessionGroupingTest.html' )), 'ontologyLog failed')
 
 
 ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')

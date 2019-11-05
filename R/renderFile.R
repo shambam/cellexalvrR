@@ -44,8 +44,9 @@ if ( is.null( x@usedObj$sessionPath )){
 		files =  basename(x@usedObj$sessionRmdFiles[1])
 	}
 	
-	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), paste( sep="","rmarkdown::render(input=",file2Script(fname),", output_format= 'html_document', output_file='",
-		paste(id, x@usedObj$sessionName, sep='_' ),"', output_dir='../')") )
+	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), paste( sep="","rmarkdown::render(input=",file2Script(fname),
+		", output_format= 'html_document', output_file='",
+		paste(id, type, x@usedObj$sessionName, sep='_' ),"', output_dir='../')") )
 
 	script = paste( sep="_", id,"runRender.R")
 	if ( file.exists( script)) {
