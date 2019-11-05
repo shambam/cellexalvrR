@@ -54,7 +54,7 @@ if ( is.null( x@usedObj$sessionPath )){
 	}
 	cat( paste(sep="\n",cmd), file=script, append=FALSE )
 	
-	system( paste(Rscript.exe(), script ))
+	system( paste(Rscript.exe(), script ), intern=TRUE)
 	message( paste('bookdown::render_book log id', id, 'finished') )
 
 	setwd( oldwd )

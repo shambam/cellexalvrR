@@ -59,7 +59,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
-	expected_outfile =  paste("session-log-for-session-",cellexalObj@usedObj$sessionName, sep='', '.html')
+	expected_outfile =  paste("session-log-for-session-",tolower(cellexalObj@usedObj$sessionName), sep='', '.html')
 	expected_outfile = stringr::str_replace_all( expected_outfile, '_', '-')
 	expected_outfile = file.path(sessionPath, '..', expected_outfile )
 	if ( file.exists( expected_outfile )){
