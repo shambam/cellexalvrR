@@ -50,7 +50,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		}
 		x = storeLogContents( x, content, type='Stats')
 		id = length(x@usedObj$sessionRmdFiles)
-		x = renderFile( x, id )
+		x = renderFile( x, id, type='Stats' )
 
 	}
 	invisible(x)

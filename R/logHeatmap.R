@@ -78,7 +78,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	cellexalObj = storeLogContents( cellexalObj, content, type='Heatmap')
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
-	cellexalObj = renderFile( cellexalObj, id )
+	cellexalObj = renderFile( cellexalObj, id, type='Heatmap' )
 
 	if ( ! file.exists(file.path(sessionPath, '..', "cellexalObj.RData") )){
 		lockedSave(cellexalObj, file.path(sessionPath, '..') ) #function definition in file 'lockedSave.R'

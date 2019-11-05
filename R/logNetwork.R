@@ -66,7 +66,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 
 	cellexalObj = storeLogContents( cellexalObj, content, type='Network')
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
-	cellexalObj = renderFile( cellexalObj, id )
+	cellexalObj = renderFile( cellexalObj, id, type='Network' )
 
 	## if you give me a gene list here you will get a GO analysis ;-)
 	if ( ! is.null(genes)){

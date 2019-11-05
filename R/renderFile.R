@@ -5,16 +5,17 @@
 #' @description render only one html section, not the whole session log
 #' @param x  the cellexalvrR object
 #' @param id the id of the report file to render ('x@usedObj$sessionRmdFiles[id]')
+#' @param type the type of log saved (default '')
 #' @title description of function renderFile
 #' @export 
 setGeneric('renderFile', ## Name
-	function ( x, id ) { ## Argumente der generischen Funktion
+	function ( x, id, type='' ) { ## Argumente der generischen Funktion
 		standardGeneric('renderFile') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
 
 setMethod('renderFile', signature = c ('cellexalvrR'),
-	definition = function ( x, id ) {
+	definition = function ( x, id, type='' ) {
 
 if ( is.null( x@usedObj$sessionPath )){
 		x = sessionPath(x) #function definition in file 'sessionPath.R'
@@ -27,7 +28,7 @@ if ( is.null( x@usedObj$sessionPath )){
 	
 	fileConn<-file(file.path(sessionPath, '_bookdown.yml') )
 	writeLines(c(
-		paste('book_filename:', paste(id, x@usedObj$sessionName, sep="_" )),
+		paste('book_filename:', paste(id, type, x@usedObj$sessionName, sep="_" )),
 		'output_dir: ../',			
 		'delete_merged_file: true' )
 		, fileConn 
@@ -91,7 +92,7 @@ setMethod('storeLogContents', signature = c ('cellexalvrR'),
 		## damn - somewhere the cellexal object was not saved - better read in all Rmd files now
 		x@usedObj$sessionRmdFiles = list.files(sessionPath, full.names = TRUE, pattern='*.Rmd')
 		id = length(x@usedObj$sessionRmdFiles) +1
-		fname = paste( sep="_", id, "paritalLog.Rmd" )
+		fname = paste( sep="_", id, type, "paritalLog.Rmd" )
 		fname = file.path( sessionPath, fname )
 	}
 	if ( file.exists(fname) ){
