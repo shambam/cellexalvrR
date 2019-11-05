@@ -86,7 +86,7 @@ ontology <- 'BP'
 
 topNodes  <- 20
 
-ofiles = c('2_paritalLog.Rmd', 'png/User.group.1.DDRtree.1_2.png', 'png/a_simple_figure.png','png/User.group.1.DDRtree.2_3.png' )
+ofiles = c('2_Heatmap_paritalLog.Rmd', 'png/User.group.1.DDRtree.1_2.png', 'png/a_simple_figure.png','png/User.group.1.DDRtree.2_3.png' )
 
 for ( fname in ofiles ){
 	
@@ -94,7 +94,7 @@ for ( fname in ofiles ){
 		file.remove( file.path( datadir,  'sessionGroupingTest', fname ) )
 	}
 }
-ofile=  file.path( datadir, '2_sessionGroupingTest.html')
+ofile=  file.path( datadir, '2_Heatmap_sessionGroupingTest.html')
 
 if( file.exists(ofile)) {
 	unlink(ofile)
@@ -112,29 +112,29 @@ expect_true( file.exists( ofile), paste( "file has not been created", ofile))
 
 test = data.frame( A = rep(0,10), B= rep(1,10), 'p_val'= c( 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1) )
 
-if ( file.exists( file.path(datadir, '3_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '3_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '3_Stats_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '3_Stats_sessionGroupingTest.html' ) )
 }
 logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
-expect_true( file.exists( file.path(datadir, '3_sessionGroupingTest.html' )), 'logStatResult failed')
+expect_true( file.exists( file.path(datadir, '3_Stats_sessionGroupingTest.html' )), 'logStatResult failed')
 
 
 # logNetwork
 
-if ( file.exists( file.path(datadir, '4_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '4_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '4_Network_sessionGroupingTest.html' ) )
 }
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '4_sessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' )), 'logNetworks failed')
 
 ## ontologyLogPage
 
-if ( file.exists( file.path(datadir, '5_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '5_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '5_Ontology_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '5_OntologysessionGroupingTest.html' ) )
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '5_sessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, '5_OntologysessionGroupingTest.html' )), 'logNetworks failed')
 
 
 ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')

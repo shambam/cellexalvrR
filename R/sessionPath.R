@@ -66,9 +66,9 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				#browser()
 				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
 
-				cellexalObj = storeLogContents( cellexalObj, content)
+				cellexalObj = storeLogContents( cellexalObj, content, type='Start')
 				id = length(cellexalObj@usedObj$sessionRmdFiles)
-				cellexalObj = renderFile( cellexalObj, id )
+				cellexalObj = renderFile( cellexalObj, id, type='Start' )
 
 				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 
