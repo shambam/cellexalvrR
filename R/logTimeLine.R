@@ -83,7 +83,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 	)
 
-	cellexalObj = storeLogContents( cellexalObj, content)
+	cellexalObj = storeLogContents( cellexalObj, content, type="OneGroupTime")
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id )
 

@@ -76,7 +76,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		""
 	)
 
-	cellexalObj = storeLogContents( cellexalObj, content)
+	cellexalObj = storeLogContents( cellexalObj, content, type='Heatmap')
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id )
 

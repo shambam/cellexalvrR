@@ -66,7 +66,7 @@ setMethod('server', signature = c ('character'),
 			cellexalObj = renderReport( cellexalObj )
 		}
 		message( "saving the main object" );
-		lockedSave( cellexalObj )
+		#lockedSave( cellexalObj ) ##the renderReport does that
 	}
 	if ( debug ) {
 		sink()

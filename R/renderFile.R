@@ -67,23 +67,24 @@ if ( is.null( x@usedObj$sessionPath )){
 #' @description store the Rmd contens produced in a logXYZ function into a file and register that one.
 #' @param x the CellexalvrR object
 #' @param content the text content of the Rmd file
+#' @param type the type of log saved (default '')
 #' @title description of function storeLogContents
 #' @export 
 setGeneric('storeLogContents', ## Name
-	function ( x, content ) { ## Argumente der generischen Funktion
+	function ( x, content, type='' ) { ## Argumente der generischen Funktion
 		standardGeneric('storeLogContents') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
 
 setMethod('storeLogContents', signature = c ('cellexalvrR'),
-	definition = function ( x, content ) {
+	definition = function ( x, content, type='' ) {
 
 	if ( is.null( x@usedObj$sessionPath )){
 		x = sessionPath(x) #function definition in file 'sessionPath.R'
 	}
 	sessionPath = normalizePath(x@usedObj$sessionPath)
 	id = length(x@usedObj$sessionRmdFiles) +1
-	fname = paste( sep="_", id, "paritalLog.Rmd" )
+	fname = paste( sep="_", id, type, "paritalLog.Rmd" )
 	fname = file.path( sessionPath, fname )
 
 	if ( file.exists( fname )) {
@@ -93,12 +94,13 @@ setMethod('storeLogContents', signature = c ('cellexalvrR'),
 		fname = paste( sep="_", id, "paritalLog.Rmd" )
 		fname = file.path( sessionPath, fname )
 	}
-
-	x@usedObj$sessionRmdFiles = c(x@usedObj$sessionRmdFiles, fname )
-	
 	if ( file.exists(fname) ){
 		stop(paste( "The outfile already existed!" , fname))
 	}
+
+	file.create( fname )
+
+	x@usedObj$sessionRmdFiles = c(x@usedObj$sessionRmdFiles, fname )
 	
 	fileConn<-file( fname )
 	writeLines( content, fileConn )

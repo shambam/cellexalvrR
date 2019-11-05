@@ -64,7 +64,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 
 	#close(fileConn)
 
-	cellexalObj = storeLogContents( cellexalObj, content)
+	cellexalObj = storeLogContents( cellexalObj, content, type='Network')
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id )
 
