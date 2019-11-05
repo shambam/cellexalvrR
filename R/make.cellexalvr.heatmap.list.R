@@ -29,8 +29,8 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			
 			if ( is.na(stats_method) )
 				stats_method= 'wilcox'
-			#cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
-			getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			#getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
 			gene.cluster.order = cvrObj@usedObj$deg.genes
 
 			message (paste( "trying to write file", outfile ) )
