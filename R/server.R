@@ -12,18 +12,19 @@
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
 #' @param file the file core name to create input.R input.log and pid files.
 #' @param sleepT sleep time in seconds between checks for the input.R file
+#' @param debug create an output file containing each line processed by the server. (default FALSE)
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
-			function ( file, sleepT=1 ) { 
+			function ( file, sleepT=1, debug=FALSE ) { 
 				standardGeneric('server') 
 			}
 	) }
 
 setMethod('server', signature = c ('character'),
-		definition =  function(file, sleepT=1){
+		definition =  function(file, sleepT=1, debug=FALSE){
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
@@ -34,11 +35,12 @@ setMethod('server', signature = c ('character'),
 
 	cat( Sys.getpid() , file = pidfile )
 	
-	## redirect all output to output file
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
 
-	sink(outFile)
-
+	if ( debug ){
+		## redirect appendll output to output file
+		sink(outFile)
+	}
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
   	while(TRUE){
 		if ( ! file.exists(pidfile ) ) {
@@ -49,7 +51,9 @@ setMethod('server', signature = c ('character'),
                         Sys.sleep( sleepT )
                 }
 				file.create(lockfile)
-                cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+				if ( debug ) {
+               	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+            	}
                 try ( {source( scriptfile ) } )
                 file.remove( scriptfile )
 				file.remove(lockfile)
@@ -65,9 +69,10 @@ setMethod('server', signature = c ('character'),
 		message( "saving the main object" );
 		lockedSave( cellexalObj )
 	}
-	sink()
-	close(outFile)
-
+	if ( debug ) {
+		sink()
+		close(outFile)
+	}
 	q('no')
 }
 )
