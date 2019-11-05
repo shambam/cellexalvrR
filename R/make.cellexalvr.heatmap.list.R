@@ -33,7 +33,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			#getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
 			gene.cluster.order = cvrObj@usedObj$deg.genes
 
-			message (paste( "trying to write file", outfile ) )
+			message (paste( "trying to write file", outfile, "containing", length(gene.cluster.order), "genes") )
 			write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
 			## probably a good way to export the information as database, too.
 			## we only need the GOIs
