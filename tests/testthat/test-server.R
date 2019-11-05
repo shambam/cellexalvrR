@@ -57,7 +57,7 @@ isAlive <- function( pid ) {
 
 write_lines( c( 
 	"library(cellexalvrR)", 
-	paste(sep="","server( file='",tmpFile,"')" ) ), 
+	paste(sep="","server( file='",tmpFile,"', debug=TRUE)" ) ), 
 	f= srvFile , 0
 )
 

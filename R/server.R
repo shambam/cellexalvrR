@@ -27,16 +27,16 @@ setMethod('server', signature = c ('character'),
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
-	# package version needs to be exported
-	pv_file    = paste( file, 'cellexalvrR.version', sep='.')
-	file.create(pv_file)
-	cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
 
 	cat( Sys.getpid() , file = pidfile )
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
 
 	if ( debug ){
+		# package version needs to be exported
+		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
+		file.create(pv_file)
+		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
 		## redirect appendll output to output file
 		sink(outFile)
 	}
