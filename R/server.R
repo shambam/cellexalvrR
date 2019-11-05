@@ -17,13 +17,13 @@
 #' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
-			function ( file, sleepT=1 ) { 
+			function ( file, sleepT=1, debug=FALSE ) { 
 				standardGeneric('server') 
 			}
 	) }
 
 setMethod('server', signature = c ('character'),
-		definition =  function(file, sleepT=1){
+		definition =  function(file, sleepT=1, debug=FALSE){
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
@@ -34,11 +34,12 @@ setMethod('server', signature = c ('character'),
 
 	cat( Sys.getpid() , file = pidfile )
 	
-	## redirect all output to output file
-
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
-	sink(outFile)
 
+	if ( debug ){
+		## redirect appendll output to output file
+		sink(outFile)
+	}
 	print ( paste( "server is starting - reading from file:\n", scriptfile))
   	while(TRUE){
 		if ( ! file.exists(pidfile ) ) {
@@ -49,17 +50,28 @@ setMethod('server', signature = c ('character'),
                         Sys.sleep( sleepT )
                 }
 				file.create(lockfile)
-                cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+				if ( debug ) {
+               	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+            	}
                 try ( {source( scriptfile ) } )
                 file.remove( scriptfile )
 				file.remove(lockfile)
         }
         Sys.sleep( sleepT )   
-	} 
+	}
 	message( "Server pid file lost - closing down" );
-	sink()
-	close(outFile)
-
+	if ( exists('cellexalObj') ) {
+		if ( ! is.null(cellexalObj@usedObj$sessionName ) ) {
+			message( "closing session" );
+			cellexalObj = renderReport( cellexalObj )
+		}
+		message( "saving the main object" );
+		lockedSave( cellexalObj )
+	}
+	if ( debug ) {
+		sink()
+		close(outFile)
+	}
 	q('no')
 }
 )
