@@ -55,8 +55,16 @@ setMethod('server', signature = c ('character'),
 				file.remove(lockfile)
         }
         Sys.sleep( sleepT )   
-	} 
+	}
 	message( "Server pid file lost - closing down" );
+	if ( exists('cellexalObj') ) {
+		if ( ! is.null(cellexalObj@usedObj$sessionName ) ) {
+			message( "closing session" );
+			cellexalObj = renderReport( cellexalObj )
+		}
+		message( "saving the main object" );
+		lockedSave( cellexalObj )
+	}
 	sink()
 	close(outFile)
 

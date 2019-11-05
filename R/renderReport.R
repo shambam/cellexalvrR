@@ -58,10 +58,19 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
-	expected_outfile = file.path(sessionPath, '..', paste(cellexalObj@usedObj$sessionName, sep='', '.html'))
+	expected_outfile =  paste("session-log-for-session-",cellexalObj@usedObj$sessionName, sep='', '.html')
+	expected_outfile = stringr::str_replace_all( expected_outfile, '_', '-')
+	expected_outfile = file.path(sessionPath, '..', expected_outfile )
 	if ( file.exists( expected_outfile )){
+		## get rid of all section html files
+		htmls <-  list.files(file.path( cellexalObj@usedObj$sessionPath,'..'), full.names = TRUE, pattern='*.html')
+		mine = htmls[ grep(paste( sep="", '_',cellexalObj@usedObj$sessionName) , htmls )]
+		do.call(file.remove, list(mine))
+
+		## get rid of session information
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
+
 	}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	
