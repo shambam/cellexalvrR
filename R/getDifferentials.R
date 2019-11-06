@@ -86,6 +86,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			if(  length(table(info$grouping)) == 1 ){
 				deg.method = 'Linear'
+				stop( "Please selecting more than one group!")
 				message('cor.stat linear gene stats timeline EXPERIMENTAL')
 				if ( is.null( info$drc )) {
 					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 

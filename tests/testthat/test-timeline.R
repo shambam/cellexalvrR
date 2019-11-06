@@ -1,5 +1,7 @@
 context('timeline')
 
+skip('not stable enough')
+
 prefix = './'
 
 #genes <- file.path(prefix, 'data/heatmap_0.txt')
