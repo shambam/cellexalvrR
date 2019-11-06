@@ -76,7 +76,7 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 	# 	cellexalObj = ontologyLogPage(cellexalObj, genes, ... ) #function definition in file 'ontologyLogPage.R'
 	# }
 	
-	cellexalObj
+	invisible(cellexalObj)
 } )
 
 
