@@ -10,17 +10,17 @@ cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
 
-x@outpath = file.path(prefix,'data','output','statTest' )
+x@outpath = file.path(prefix,'data','output','timeLineTest' )
 
 x@usedObj$sessionPath = x@usedObj$sessionRmdFiles = x@usedObj$sessionName = NULL
 
-ofile = file.path( prefix, 'data','output','statTest','timelineTest','1_paritalLog.Rmd' )
+ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', '1_OneGroupTime_paritalLog.Rmd' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
-x = sessionPath( x, 'timelineTest')
+x = sessionPath( x, 'timeSession')
 
-expect_true( x@usedObj$sessionName == 'timelineTest', 'session path not set correctly')
+expect_true( x@usedObj$sessionName == 'timeSession', 'session path not set correctly')
 
 grouping <- file.path(prefix, 'data/selection0.txt')
 
@@ -39,11 +39,8 @@ dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
 
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
 
-a = getDifferentials( x,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
-
-
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
-ofile = file.path( prefix, 'data','output','statTest','timelineTest','2_paritalLog.Rmd' )
+ofile = file.path( prefix, 'data','output','timeLineTest','2_OneGroupTime_timeSession.html' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
@@ -56,5 +53,6 @@ if ( file.exists( ofile) ) {
 }
 
 a = getDifferentials( x,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
+ofile = file.path( prefix, 'data','output','timeLineTest','3_OneGroupTime_timeSession.html' )
 
 expect_true( file.exists( ofile), "Rmd (total) ofile not created" )
