@@ -64,25 +64,19 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 
 	#close(fileConn)
 
-	cellexalObj = storeLogContents( cellexalObj, content)
+	cellexalObj = storeLogContents( cellexalObj, content, type='Network')
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
-	cellexalObj = renderFile( cellexalObj, id )
+	cellexalObj = renderFile( cellexalObj, id, type='Network' )
 
 	## if you give me a gene list here you will get a GO analysis ;-)
-	if ( ! is.null(genes)){
-		if ( file.exists(genes)) {
-			genes = as.vector(utils::read.delim(genes)[,1])
-		}
-		cellexalObj = ontologyLogPage(cellexalObj, genes, ... ) #function definition in file 'ontologyLogPage.R'
-	}
-
-	if ( ! file.exists(file.path(sessionPath, '..', "cellexalObj.RData") )){
-		lockedSave(cellexalObj, file.path(sessionPath, '..') ) #function definition in file 'lockedSave.R'
-	}else {
-		savePart(cellexalObj, 'usedObj' ) #function definition in file 'integrateParts.R'
-	}
+	# if ( ! is.null(genes)){
+	# 	if ( file.exists(genes)) {
+	# 		genes = as.vector(utils::read.delim(genes)[,1])
+	# 	}
+	# 	cellexalObj = ontologyLogPage(cellexalObj, genes, ... ) #function definition in file 'ontologyLogPage.R'
+	# }
 	
-	cellexalObj
+	invisible(cellexalObj)
 } )
 
 

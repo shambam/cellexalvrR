@@ -6,12 +6,14 @@
 \alias{storeLogContents,cellexalvrR-method}
 \title{description of function storeLogContents}
 \usage{
-storeLogContents(x, content)
+storeLogContents(x, content, type = "")
 }
 \arguments{
 \item{x}{the CellexalvrR object}
 
 \item{content}{the text content of the Rmd file}
+
+\item{type}{the type of log saved (default '')}
 }
 \description{
 store the Rmd contens produced in a logXYZ function into a file and register that one.

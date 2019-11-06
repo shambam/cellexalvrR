@@ -49,6 +49,18 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
 					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
 				}
+				if (! dir.exists(file.path(cellexalObj@usedObj$sessionPath, 'png') ) )  {
+					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
+					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
+				}
+
+				## I need to clear out all old session report Rmd and html files
+				t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
+				htmls = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[0-9].*.html" )
+				bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
+				if ( length(bad) > 0 ) {
+					t = do.call(file.remove, list(bad) )
+				}
 
 				content = c(paste(sep="\n",
 										paste("# Session Log for Session", cellexalObj@usedObj$sessionName )),
@@ -58,9 +70,9 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				#browser()
 				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
 
-				cellexalObj = storeLogContents( cellexalObj, content)
+				cellexalObj = storeLogContents( cellexalObj, content, type='Start')
 				id = length(cellexalObj@usedObj$sessionRmdFiles)
-				cellexalObj = renderFile( cellexalObj, id )
+				cellexalObj = renderFile( cellexalObj, id, type='Start' )
 
 				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 

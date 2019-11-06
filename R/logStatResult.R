@@ -18,7 +18,7 @@ setGeneric('logStatResult', ## Name
 )
 
 setMethod('logStatResult', signature = c ('cellexalvrR'),
-	definition = function ( x, method, data, col=NULL  ) {
+	definition = function ( x, method, data, col=NULL ) {
 	if (! is.null( x@usedObj$sessionName)) {
 		## export the data into a file and add a small download link into the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="."   )
@@ -48,9 +48,9 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 					paste("![](",ofile,")"),
 					"" ))
 		}
-		x = storeLogContents( x, content)
+		x = storeLogContents( x, content, type='Stats')
 		id = length(x@usedObj$sessionRmdFiles)
-		x = renderFile( x, id )
+		x = renderFile( x, id, type='Stats' )
 
 	}
 	invisible(x)

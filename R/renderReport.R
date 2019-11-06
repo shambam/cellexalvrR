@@ -23,11 +23,12 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
-	cellexalObj@usedObj$sessionRmdFiles = unique( cellexalObj@usedObj$sessionRmdFiles )
+
+	cellexalObj = storeLogContents( cellexalObj, paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")) 
+
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}
-	lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
 	
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
@@ -58,7 +59,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
-	expected_outfile =  paste("session-log-for-session-",cellexalObj@usedObj$sessionName, sep='', '.html')
+	expected_outfile =  paste("session-log-for-session-",tolower(cellexalObj@usedObj$sessionName), sep='', '.html')
 	expected_outfile = stringr::str_replace_all( expected_outfile, '_', '-')
 	expected_outfile = file.path(sessionPath, '..', expected_outfile )
 	if ( file.exists( expected_outfile )){
@@ -69,11 +70,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 
 		## get rid of session information
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
-		savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
+		#savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 
 	}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	
+
+	lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
 	
 	cellexalObj
 } )

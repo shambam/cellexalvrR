@@ -12,7 +12,6 @@
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
 #' @param file the file core name to create input.R input.log and pid files.
 #' @param sleepT sleep time in seconds between checks for the input.R file
-#' @param debug create an output file containing each line processed by the server. (default FALSE)
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
@@ -28,16 +27,16 @@ setMethod('server', signature = c ('character'),
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
-	# package version needs to be exported
-	pv_file    = paste( file, 'cellexalvrR.version', sep='.')
-	file.create(pv_file)
-	cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
 
 	cat( Sys.getpid() , file = pidfile )
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
 
 	if ( debug ){
+		# package version needs to be exported
+		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
+		file.create(pv_file)
+		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
 		## redirect appendll output to output file
 		sink(outFile)
 	}
@@ -67,7 +66,7 @@ setMethod('server', signature = c ('character'),
 			cellexalObj = renderReport( cellexalObj )
 		}
 		message( "saving the main object" );
-		lockedSave( cellexalObj )
+		#lockedSave( cellexalObj ) ##the renderReport does that
 	}
 	if ( debug ) {
 		sink()
@@ -77,19 +76,3 @@ setMethod('server', signature = c ('character'),
 }
 )
 
-
-Rscript.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'Rscript')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ))
-}
-
-R.exe <- function( ) {
-	rscript = file.path( R.home(), 'bin', 'R')
-	if (! file.exists(rscript ) ) {
-		rscript = paste( rscript, sep=".", 'exe')
-	}
-	return( paste( '"',rscript,'"', sep="" ) )
-}

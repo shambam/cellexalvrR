@@ -163,7 +163,7 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			
 			## melt the sparse matrix using the toColNums Rcpp function
 			mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@data )
-			#mdc = mdc[order(mdc[,1]),]
+			
 			colnames(genes) <- c('id', 'gname')
 			colnames(cells) <- c('id','cname')
 			

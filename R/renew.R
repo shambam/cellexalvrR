@@ -58,6 +58,9 @@ setMethod('renew', signature = c ('cellexalvrR'),
 				if( methods::.hasSlot(x,'specie') ){
 					ret@specie = x@specie
 				}
+				ret@groupSelectedFrom = x@groupSelectedFrom
+				ret@index = x@index
+
 			}else {
 				if ( is.null(x$index)){
 					x$index = matrix()
@@ -76,6 +79,8 @@ setMethod('renew', signature = c ('cellexalvrR'),
 
 					ret$usedObj = x$usedObj
 				}
+				ret$groupSelectedFrom = x$groupSelectedFrom
+				ret$index = x$index
 			}
 			## now lets add the inbuilt groupings...
 #			for ( name in c('TFs', 'epigenetic', 'CellCycle', 'CellSurface') ) {

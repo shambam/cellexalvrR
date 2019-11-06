@@ -57,16 +57,19 @@ isAlive <- function( pid ) {
 
 write_lines( c( 
 	"library(cellexalvrR)", 
-	paste(sep="","server( file='",tmpFile,"')" ) ), 
+	paste(sep="","server( file='",tmpFile,"', debug=TRUE)" ) ), 
 	f= srvFile , 0
 )
 
-print ( paste( R.exe(),  "CMD BATCH" , srvFile , " &") )
+#startCMD = paste( "paste(", R.exe(),",'CMD BATCH',", file2Script(srvFile),",'&')" )
+
+startCMD = paste( R.exe(),"CMD BATCH", srvFile,"&" )
+print (startCMD)
 
 cat('Sys.sleep(10)', file=scriptfile)
 expect_true(file.exists( scriptfile))
 
-system( paste( R.exe(), "R CMD BATCH" , srvFile , "&") )
+system( startCMD )
 
 Sys.sleep(10)
 
@@ -79,7 +82,7 @@ expect_true(!file.exists( scriptfile))
 expect_true(file.exists( pidfile ))
 
 pid = scan( pidfile )
-
+print ( paste("The PID of the server is", pid ))
 expect_true(isAlive(pid))
 
 expect_true(file.exists( pv_file ))
@@ -97,7 +100,7 @@ expect_true(vers == packageVersion("cellexalvrR") )
 context('server create a png')
 
 write_lines( c(
-paste(sep="", "png(file='",tmpFile,".png', width=800, height=800)"),
+paste(sep="", "png(file=paste( sep='.',",file2Script(tmpFile),",'png'), width=800, height=800)"),
 "plot ( 1:10, 1:10)",
 "dev.off()"))
 
@@ -135,7 +138,7 @@ wait4server()
 
 
 write_lines(c(" ", paste( sep="",
-	"make.cellexalvr.heatmap.list(cellexalObj, '",file.path(ipath,'selection0.txt'),"', 250, '",paste(sep=".", tmpFile, "diffGenes"),"', 'wilcox' )" 
+	"make.cellexalvr.heatmap.list(cellexalObj, ",file2Script(file.path(ipath,'selection0.txt')),", 250, ",file2Script( paste(sep=".", tmpFile, "diffGenes")),", 'wilcox' )" 
 )	) )
 
 
@@ -155,13 +158,14 @@ context('server make.cellexalvr.network')
 
 ## that does not work - the networks need different input?
 write_lines( paste( sep="",
-	"make.cellexalvr.network(cellexalObj, 'GMP_broad', '",paste(sep=".", tmpFile, "Networks"),"', 'wilcox' )" 
+	"make.cellexalvr.network(cellexalObj, 'GMP_broad', ",file2Script(paste(sep=".", tmpFile, "Networks")),", 'wilcox' )" 
 )	)
 ## but the block in the write_lines works fine!
 
 context('server get.genes.cor.to')
 
-write_lines( paste( sep="", "get.genes.cor.to(cellexalObj, '",  diffGenes[3], "', output = '",  paste(tmpFile, 'corrGenes', sep='.' ) ,"',  is.smarker= FALSE, cpp=TRUE)" ))
+write_lines( paste( sep="", "get.genes.cor.to(cellexalObj, '",  diffGenes[3], "', output = ", file2Script( paste(tmpFile, 'corrGenes', sep='.' )) ,
+	",  is.smarker= FALSE, cpp=TRUE)" ))
 
 wait4server()
 
