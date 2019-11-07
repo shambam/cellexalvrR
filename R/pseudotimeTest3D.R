@@ -75,24 +75,62 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		ret = list()
 		inp = list( a=a, b=b, c=c )
 		ranges = unlist(lapply( list(a,b,c), function(d) { r = range(d[ids]); r[2] - r[1]} ))
-		inp$order= c('a','b','c')[ order( ranges )]
+		inp$order= c('a','b','c')[ order( ranges, decreasing=T )]
 		
 		ls = loess( inp[[inp$order[2]]][ids] ~ inp[[inp$order[1]]][ids] )
 		ret[[inp$order[1]]] = inp[[inp$order[1]]][ids]
 		ret[[inp$order[2]]] = predict( ls)
 		ls = loess(  inp[[inp$order[3]]][ids] ~ inp[[inp$order[1]]][ids] )
 		ret[[inp$order[3]]] = predict( ls )
-		
+
 		names(ret[['a']]) = names( inp[['a']])
 		RET = list( 'x' = ret$a, 'y' = ret$b, 'z' = ret$c )
+
+		#rgl::plot3d( cbind( x=a,y=b,z=c), col= gplots::bluered(length(a))[ x@userGroups[[paste(grouping, 'order')]] ])
+		#rgl::rgl.points( RET )
+
 		RET
 	}
 
+	
+
 	res = localLoess( 1:length(a), a, b, c)
 	
-	o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )
+	o = NULL
+	try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
+
+	## now I have to possible failures:
+	## the correlation to the expected order is horrible 
+	## the ordering has not worked at all
 	
+	# if( abs(cor( o, x@userGroups[,paste( grouping, 'order')])) < .5){
+	# 	## This is bad! the clustering has basicly failed!
+	# 	selOrd =  x@userGroups[,paste( grouping, 'order')]
+	# 	d = FastWilcoxTest::euclidian_distances3d( a[selOrd], b[selOrd], c[selOrd]  )
+	# 	bL = length(a)
+	# 	bV = which(d == max(d))
+	# 	bad= NULL
+	# 	while( length(a) -bV < length(a)/3 ){
+	# 		bad = c(bad , bV)
+	# 		# I want to re-run this without at least 10% of the cells selected. rinse repeate
+	# 		bV = which(d == max(d[-bad]))
+	# 		if ( length(d[-bad]) < length(a)/10 ){
+	# 			stop("981299sshd - this is strange and a but - search and fix it - please!")
+	# 		}			
+	# 	}
+	# 	br = which( selOrd == bad[length(bad)])
+		
+	# 	res = localLoess( 1:br, a[1:br], b[1:br], c[1:br] )
+	# 	try({o = FastWilcoxTest::euclidian_order3d( res$x[1:br], res$y[1:br], res$z[1:br] )},silent= TRUE)
+
+	# 	rgl::plot3d( res, col=gplots::bluered(length(o))[order(o)] )
+ # 		rgl::rgl.points( a[1:br],b[1:br],c[1:br], col= x@colors[[grouping]][ x@userGroups[[grouping]][1:br]])
+	# }
+	
+	#browser()
 	time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
+
+	#browser()
 
 	res$time = time[order(o)]
 	res$x = res$x
@@ -125,8 +163,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 
 	return(x)
 
-# 	rgl::plot3d( res, col=gplots::bluered(length(o))[order(o)] )
-# 	rgl::rgl.points( a,b,c, col= x@colors[[grouping]][ x@userGroups[,grouping]])
+ 	#rgl::plot3d( cbind(x=a,y=b,z=c), col= x@colors[[grouping]][ x@userGroups[,grouping]] )
+ 	#rgl::rgl.points( res, col=gplots::bluered(length(o))[order(o)] )
 	
 # 	# this data would now need to be put into the object?!
 

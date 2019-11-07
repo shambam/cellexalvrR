@@ -86,7 +86,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			if(  length(table(info$grouping)) == 1 ){
 				deg.method = 'Linear'
-				stop( "Please selecting more than one group!")
+				#stop( "Please selecting more than one group!")
 				message('cor.stat linear gene stats timeline EXPERIMENTAL')
 				if ( is.null( info$drc )) {
 					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
@@ -102,7 +102,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
 
-				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3] )
+				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )
 
 				## so the new group needs to get into the main object:
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
@@ -143,8 +143,15 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				## grab the one out of my BioData obeject?!
 				## add a simple one - the most simple one ever
+				if ( is.null(cellexalObj@usedObj$sessionPath)){
+					cellexalObj = sessionPath( cellexalObj )
+				}
 				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
-				
+				#browser()
+				if ( ! file.exists( dirname(ofile) ) == TRUE) {
+					browser()
+					dir.create( dirname(ofile), recursive= TRUE )
+				}
 				png( file=ofile, width=1000, height = 1000)
 				image( p[,deg.genes], col=gplots::bluered(40))
 				dev.off()
