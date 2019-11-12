@@ -121,7 +121,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				## run the correlation on a rolling window smothed information
 				## It does not make sense to check genes that are hardly expressed at all in the group.
-				## Lets say I want min 30% of the genes - how would that look?
+				## Lets say I want min 10% of the genes - how would that look?
 				nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
 				OK = which( nCells / ncol(loc@data)  > .1 )
 
@@ -142,19 +142,59 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
 				deg.genes = hc$labels[hc$order]
 
-				## now we lack the heatmap here... But I would need one - crap!
+
+				## and store the timeline in the cellexal object!!!
 				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
+				
+				## for the usability of the log file the genes need to be ordered.
+				## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
+				
+				points = unlist(lapply( 1:20, function(k, x) { 
+					gr = cutree(hc, k); 
+					mean( unlist( lapply( 1:k, function(id) {
+						dat = t(x@data[which(gr == id),])
+						(nrow(dat)-1)*sum(apply(dat,2,var) )
+						} ) ))
+					}, cellexalObj ) )
+				## create a linear function between 1, points[1] and length(points), points[length(points)]
+				slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
+				intercept <- points[1]-slope
+				f = function(x) { x * slope + intercept }
+				der = unlist(lapply( 1:length(points) ,function(x) { points[x] - f(x) }))
+				der = der- min(der)
+				## here more groups is likely better than less
+				optimum <- max ( which(der < max(der) / 1e+10) )
 
-				## grab the one out of my BioData obeject?!
-				## add a simple one - the most simple one ever
+				## now we lack the heatmap here... But I would need one - crap!
+
+				## add a simple one - the most simple one ever, but use a subcluster of genes only!!
+				gr = cutree(hc, optimum); 
+				i = 1
+				pngs = character( optimum )
 				if ( is.null(cellexalObj@usedObj$sessionPath)){
 					cellexalObj = sessionPath( cellexalObj )
 				}
+				for( genes in  split( names(gr), gr) ) {
+					ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, i,'png', sep=".") )
+					h = round(1000 * length(genes) /num.sig )
+					if ( h < 200)
+						h = 200
+
+					print( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
+
+					png( file=ofile, width=1000, height = h )
+					image( p[,genes], col=gplots::bluered(40))
+					dev.off()
+					pngs[i] = ofile
+					i = i+1
+				} 
+				
+				#browser()
+
 				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
 				#browser()
 				if ( ! file.exists( dirname(ofile) ) == TRUE) {
-					browser()
 					dir.create( dirname(ofile), recursive= TRUE )
 				}
 				png( file=ofile, width=1000, height = 1000)
@@ -164,7 +204,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				try( { 
 					#browser()
 					cellexalObj = CreateBin(  cellexalObj, gname, colFun= function(x) { c('gray', gplots::bluered(x-1))} )
-					cellexalObj = logTimeLine( cellexalObj, ps, deg.genes, info, png = ofile, groupingInfo( cellexalObj, gname ) ) 
+					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , info, png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
 				} )
 				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
 				#ps = data.frame(t(ps))

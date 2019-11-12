@@ -25,12 +25,6 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes, info, png, timeInfo ) {
 	## here I need to create a page of the final log
 
-	if ( !is.null(genes)){
-		if ( file.exists(genes[1])) {
-			genes = as.vector(utils::read.delim(genes[1])[,1])
-		}
-	}
-
 	cellexalObj = sessionPath( cellexalObj ) #function definition in file 'sessionPath.R'
 	sessionPath = cellexalObj@usedObj$sessionPath
 
@@ -45,7 +39,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	#figureF = "Missing at the moment!"
 
 	## now I need to create the 2D drc plots for the grouping
-	drcFiles = drcPlots2D( cellexalObj, info ) #function definition in file 'drcPlot2D.R'
+	drcFiles = drcPlots2Dtime( cellexalObj, info ) #function definition in file 'drcPlot2D.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
 	drcFiles2 = drcPlots2D( cellexalObj, timeInfo) #function definition in file 'drcPlot2D.R'
@@ -54,18 +48,23 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	content = paste( sep="\n",
 		paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 		paste("This TimeLine is available in the R object as group",cellexalObj@usedObj$lastGroup ),
-		"",
-		paste( "### Genes") )
-	content = paste( collapse=" ",content,
-		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ))
+		"")
 	
-	if ( file.exists( png ) ) {
-		figureF = stringr::str_extract( png,'png.*')
+	if ( file.exists( png[1] ) ) {
+		figureF = stringr::str_extract( png[1],'png.*')
 
 		content = paste( sep="\n", content,
 			paste( "### Heatmapof rolling sum transformed expression (from R)"),
-			paste("![](",figureF,")"),
-			'The gene order is the same as in the Genes section and the VR heatmap')
+			paste("![](",figureF,")") )
+	}
+	## genes should be a list
+	content = paste( sep="\n", content, "### Genes") 
+	for ( i in 1:length(genes) ) {
+
+	content = paste( collapse=" ",content,"\nGene group ",i,
+		paste("![](",png[i+1],")"),
+		paste( collapse=" ", unlist( lapply(sort(genes[[i]]), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
+		"\n")
 	}
 	content = paste( sep="\n", content,
 		paste( "### 2D DRC", info$drc, " dim 1,2"),
