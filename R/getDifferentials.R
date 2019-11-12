@@ -120,11 +120,16 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
 
 				## run the correlation on a rolling window smothed information
-				#browser()
-				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
+				## It does not make sense to check genes that are hardly expressed at all in the group.
+				## Lets say I want min 30% of the genes - how would that look?
+				nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
+				OK = which( nCells / ncol(loc@data)  > .1 )
+				browser()
+				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
+				rolled <- FastWilcoxTest::rollSum( loc@data[OK, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
 
-				names(ps) = rownames(loc@data)
+				names(ps) = rownames(loc@data)[OK]
 
 				ps[which(is.na(ps))] = 0
 				o = order(abs( ps ), decreasing=TRUE)
