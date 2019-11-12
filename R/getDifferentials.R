@@ -124,12 +124,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## Lets say I want min 30% of the genes - how would that look?
 				nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
 				OK = which( nCells / ncol(loc@data)  > .1 )
-				browser()
+
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
-				rolled <- FastWilcoxTest::rollSum( loc@data[OK, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
+				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
 
-				names(ps) = rownames(loc@data)[OK]
+				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
 				o = order(abs( ps ), decreasing=TRUE)
