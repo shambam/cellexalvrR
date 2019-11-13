@@ -25,7 +25,14 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
 		cellid <- utils::read.delim(cellidfile,header=F)
-
+		sessionStoreFile <- function() {
+			if ( ! is.null(cellexalObj@usedObj$sessionPath) ){## active session - we need to copy the cellidfile to this path
+				if ( file.exists( cellidfile )){
+					file.copy(cellidfile, file.path(cellexalObj@usedObj$sessionPath,""))
+					cat( gname ,file=file.path(cellexalObj@usedObj$sessionPath, paste( basename(cellidfile), 'group', 'txt', sep=".") ),append=TRUE)
+				}
+			}
+		}
 		#init local vars
 		id= (ncol(cellexalObj@userGroups) /2) + 1
 		gname = paste( "User.group", id, sep="." ) #the VR program dependeds on it
@@ -56,6 +63,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 			gname = paste( "User.group", id, sep="." )
 			colnames(new)[1] = gname
 			cellexalObj@userGroups = data.frame( new )
+			sessionStoreFile() ## local function
 		}else {
 			# did we already read this file?
 			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(n))); if ( ok == T ) {TRUE } else { FALSE } } )
@@ -67,6 +75,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				id = ceiling(as.vector(ok) / 2)
 			}else {
 				cellexalObj@userGroups = cbind(cellexalObj@userGroups, new)
+				sessionStoreFile() ## local function
 			}
 		}
 		

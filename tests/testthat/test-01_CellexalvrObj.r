@@ -47,11 +47,19 @@ for ( f in ofiles ) {
 
 context( "store user groupings" )
 
+if ( file.exists( file.path(cellexalObj@outpath, 'initialTest')) ){
+	 unlink(file.path(cellexalObj@outpath, 'initialTest'), recursive=TRUE)
+}
+
+cellexalObj@outpath = opath
+cellexalObj = sessionPath(cellexalObj, 'initialTest' )
+
 old_length = 0
 cellexalObj@userGroups = data.frame()
 
 cellexalObj = userGrouping(cellexalObj, file.path(ipath, 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
+
 ## but also test whether the file was read correctly!! Epic bug went undetected!!
 ids = cellexalObj@userGroups[,1] 
 names(ids) = colnames(cellexalObj@data)
@@ -64,11 +72,11 @@ expect_true( all.equal(origids, ids[m]) == TRUE, 'grouping stored correctly')
 expect_true( all.equal(cellexalObj@userGroups[m,2], 1:length(m)) == TRUE, 'order stored correctly' )
 expect_true( all.equal(cellexalObj@colors[[1]], as.vector(unique(orig[,2]))) == TRUE, 'color stored correctly' )
 
+expect_true( file.exists( file.path(cellexalObj@outpath, 'initialTest', 'selection0.txt')), "the selction has not been copied to the session path")
+expect_true( file.exists( file.path(cellexalObj@outpath, 'initialTest', 'selection0.txt.group.txt')), "the selction's internal colname is not stored")
 
 cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
-
-
 
 context( "heatmap is produced" )
 ofile = file.path(opath, 'selection0.png') 
