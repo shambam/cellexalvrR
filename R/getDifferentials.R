@@ -149,7 +149,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				## for the usability of the log file the genes need to be ordered.
 				## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
-				
+				## https://www.icsi.berkeley.edu/icsi/node/4806
+				## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
+				## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
 				points = unlist(lapply( 1:20, function(k, x) { 
 					gr = cutree(hc, k); 
 					mean( unlist( lapply( 1:k, function(id) {
@@ -168,7 +170,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				## now we lack the heatmap here... But I would need one - crap!
 
-				## add a simple one - the most simple one ever, but use a subcluster of genes only!!
+				## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
 				gr = cutree(hc, optimum); 
 				i = 1
 				pngs = character( optimum )
