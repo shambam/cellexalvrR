@@ -88,3 +88,4 @@ make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path
 
 expect_true( file.exists( ofile ),  paste("outfile missing:", ofile) )
 
+

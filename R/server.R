@@ -12,18 +12,20 @@
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
 #' @param file the file core name to create input.R input.log and pid files.
 #' @param sleepT sleep time in seconds between checks for the input.R file
+#' @param debug create the server output file? default FALSE
+#' @param masterPID if this pid is not active any more stop the server (default NULL)
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
-			function ( file, sleepT=1, debug=FALSE ) { 
+			function ( file, sleepT=1, debug=FALSE, masterPID = NULL ) { 
 				standardGeneric('server') 
 			}
 	) }
 
 setMethod('server', signature = c ('character'),
-		definition =  function(file, sleepT=1, debug=FALSE){
+		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL){
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
@@ -32,6 +34,9 @@ setMethod('server', signature = c ('character'),
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
 
+	if (! is.null(masterPID)) {
+		masterPID = ps::ps_handle( pid = as.integer(masterPID) )
+	}
 	if ( debug ){
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
@@ -56,6 +61,12 @@ setMethod('server', signature = c ('character'),
                 try ( {source( scriptfile ) } )
                 file.remove( scriptfile )
 				file.remove(lockfile)
+        }
+        if ( ! is.null( masterPID ) ){
+        	message( paste("is the master ",masterPID, "active?",ps::ps_is_running( masterPID )) )
+        	if ( ! ps::ps_is_running( masterPID )) {
+        		unlink( pidfile ) ## shutdown in the next cycle.
+        	}
         }
         Sys.sleep( sleepT )   
 	}

@@ -152,19 +152,20 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## https://www.icsi.berkeley.edu/icsi/node/4806
 				## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
 				## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
-				points = unlist(lapply( 1:20, function(k, x) { 
-					gr = cutree(hc, k); 
+				points = unlist(lapply( 1:20, function(k, x) {  #total within-cluster sum of square (WSS)
+					gr = cutree(hc, k);  
 					mean( unlist( lapply( 1:k, function(id) {
 						dat = t(x@data[which(gr == id),])
 						(nrow(dat)-1)*sum(apply(dat,2,var) )
 						} ) ))
 					}, cellexalObj ) )
-				## create a linear function between 1, points[1] and length(points), points[length(points)]
+				## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
 				slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
 				intercept <- points[1]-slope
 				f = function(x) { x * slope + intercept }
 				der = unlist(lapply( 1:length(points) ,function(x) { points[x] - f(x) }))
 				der = der- min(der)
+				## And find the max length of this value
 				## here more groups is likely better than less
 				optimum <- max ( which(der < max(der) / 1e+10) )
 
