@@ -30,6 +30,8 @@ setMethod('server', signature = c ('character'),
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
 
+	t = lapply( c( lockfile, scriptfile, pidfile) , function(file) { if(file.exists(file)) { unlink(file)} })
+
 	cat( Sys.getpid() , file = pidfile )
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )

@@ -89,8 +89,8 @@ expect_true(!file.exists( scriptfile))
 
 expect_true(file.exists( pidfile ))
 
-pid = scan( pidfile )
-print ( paste("The PID of the server is", pid ))
+pid = scan( pidfile, quiet=TRUE )
+#print ( paste("The PID of the server is", pid ))
 expect_true(isAlive(pid))
 
 expect_true(file.exists( pv_file ))
@@ -111,12 +111,12 @@ write_lines( c(
 	f= srvFile , 0
 )
 
-print ( "starting slave server" )
+#print ( "starting slave server" )
 system( startCMD )
 
 Sys.sleep(10)
 
-slavePID = scan( paste( tmpFile2, 'pid', sep='.' ))
+slavePID = scan( paste( tmpFile2, 'pid', sep='.' ), quiet=TRUE)
 
 expect_true(isAlive(slavePID), "slave failed to start up")
 
@@ -213,14 +213,12 @@ unlink( pidfile ) ## shut the server down
 wait4server()
 
 file.create(scriptfile)
-expect_true(file.exists( scriptfile)) ## no stange error?
+expect_true(file.exists( scriptfile) ,"after a short wait") ## no strange error?
 Sys.sleep( 2 )
 
-expect_true(file.exists( scriptfile)) ## server is down
+expect_true(! file.exists( scriptfile), "after two more seconds the server has failed to remove the script file!") ## server is down
 
-file.remove( scriptfile )
-
-Sys.sleep( 2 )
+Sys.sleep( 10 )
 
 context('slave server shuts down if PID of master becomes inactive')
 
