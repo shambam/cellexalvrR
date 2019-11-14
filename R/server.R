@@ -47,7 +47,11 @@ setMethod('server', signature = c ('character'),
 		## redirect appendll output to output file
 		sink(outFile)
 	}
-	print ( paste( "server is starting - reading from file:\n", scriptfile))
+	message ( paste( "server is starting - reading from file:\n", scriptfile))
+	message ( paste( "server debug mode:", debug))
+	if ( !is.null(masterPID) ) {
+		message ( paste( "server is checking the process",masterPID,"and shuts down if it is shutted down"))
+	}
   	while(TRUE){
 		if ( ! file.exists(pidfile ) ) {
 			break
