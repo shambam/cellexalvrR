@@ -69,8 +69,9 @@ setMethod('server', signature = c ('character'),
 				file.remove(lockfile)
         }
         if ( ! is.null( masterPID ) ){
-        	message( paste("is the master ",masterPID, "active?",ps::ps_is_running( masterPID )) )
+        	#
         	if ( ! ps::ps_is_running( masterPID )) {
+        		message( paste("is the master",masterPID, "became inactive!") )
         		unlink( pidfile ) ## shutdown in the next cycle.
         	}
         }
