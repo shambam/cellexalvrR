@@ -50,7 +50,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
     #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
-	if ( ! file.exists( ofile) ){
+	if ( ! file.exists( ofile) & nrow( cellexalObj@meta.cell) == ncol( cellexalObj@data ) ){
 		utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 	ofile = file.path(path,"index.facs")

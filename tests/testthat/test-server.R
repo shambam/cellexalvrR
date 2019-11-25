@@ -1,5 +1,9 @@
 context('server basic testing')
 
+if ( .Platform$OS.type != 'unix' ) {
+	skip('Test only work on unix platform')
+}
+
 if ( is.na( match('cellexalvrR',rownames(installed.packages()))) ) {
 	skip("cellexalvrR has to be installed before this test")
 }else if ( installed.packages()['cellexalvrR','Version'] != packageDescription("cellexalvrR")$Version) {
@@ -55,11 +59,15 @@ isAlive <- function( pid ) {
 	tools::pskill( pid, 0) == T
 }
 
+
+## this will become the master we work with
 write_lines( c( 
 	"library(cellexalvrR)", 
-	paste(sep="","server( file='",tmpFile,"', debug=TRUE)" ) ), 
+	paste(sep="","server( file='",tmpFile,"', debug=TRUE )" ) ), 
 	f= srvFile , 0
 )
+
+
 
 #startCMD = paste( "paste(", R.exe(),",'CMD BATCH',", file2Script(srvFile),",'&')" )
 
@@ -81,8 +89,8 @@ expect_true(!file.exists( scriptfile))
 
 expect_true(file.exists( pidfile ))
 
-pid = scan( pidfile )
-print ( paste("The PID of the server is", pid ))
+pid = scan( pidfile, quiet=TRUE )
+#print ( paste("The PID of the server is", pid ))
 expect_true(isAlive(pid))
 
 expect_true(file.exists( pv_file ))
@@ -90,6 +98,27 @@ vers = scan( pv_file, what=character() )
 
 #print ( paste( vers, '==', packageVersion("cellexalvrR") ))
 expect_true(vers == packageVersion("cellexalvrR") )
+
+
+## I can re-use the server file
+
+context('starting server in slave mode')
+
+tmpFile2 = paste(tmpFile,"2", sep="")
+write_lines( c( 
+	"library(cellexalvrR)", 
+	paste(sep="","server( file='",tmpFile2,"', debug=TRUE, masterPID=",pid," )" ) ), 
+	f= srvFile , 0
+)
+
+#print ( "starting slave server" )
+system( startCMD )
+
+Sys.sleep(10)
+
+slavePID = scan( paste( tmpFile2, 'pid', sep='.' ), quiet=TRUE)
+
+expect_true(isAlive(slavePID), "slave failed to start up")
 
 
 
@@ -184,10 +213,15 @@ unlink( pidfile ) ## shut the server down
 wait4server()
 
 file.create(scriptfile)
-expect_true(file.exists( scriptfile)) ## no stange error?
+expect_true(file.exists( scriptfile) ,"after a short wait") ## no strange error?
 Sys.sleep( 2 )
 
-expect_true(file.exists( scriptfile)) ## server is down
+expect_true(! file.exists( scriptfile), "after two more seconds the server has failed to remove the script file!") ## server is down
 
-file.remove( scriptfile )
+Sys.sleep( 10 )
+
+context('slave server shuts down if PID of master becomes inactive')
+
+expect_true( ! isAlive(slavePID), "slave failed to shut down")
+
 
