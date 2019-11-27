@@ -10,6 +10,17 @@ if ( file.exists(opath)) {
 }
 dir.create(opath,  showWarnings = FALSE, recursive = TRUE)
 
+context('minimal cellexalvrR object') 
+m = matrix( floor(runif(30000, min=-1000, max=101)), ncol=300)
+colnames(m) = paste('cell', 1:ncol(m))
+rownames(m) = paste('gene', 1:nrow(m))
+m[which(m< 1)] = 0
+m = Matrix::Matrix(m,sparse=T)
+obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(100), y=runif(100), z=runif(100) )) )
+
+export2cellexalvr( obj, opath )
+
+
 if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
 	unlink(file.path(ipath, 'cellexalObjOK.RData.lock') )
 }

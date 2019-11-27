@@ -9,6 +9,10 @@
 \item{file}{the file core name to create input.R input.log and pid files.}
 
 \item{sleepT}{sleep time in seconds between checks for the input.R file}
+
+\item{debug}{create the server output file? default FALSE}
+
+\item{masterPID}{if this pid is not active any more stop the server (default NULL)}
 }
 \description{
 starts a server looking for a sourcable file in paste(file, 'input.R', sep='.')
