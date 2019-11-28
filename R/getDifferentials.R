@@ -99,7 +99,6 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					info$drc = names(loc@drc )[1] ## for the log!
 					drc = loc@drc[[ 1 ]]
 				}
-
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
 
 				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )

@@ -125,7 +125,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             if ( is.null(rownames(cellexalObj@drc[[req.graph]])) ) {
                 rownames(cellexalObj@drc[[req.graph]]) =colnames( data )
             }
-            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info$col[i]))
+            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,1:3],2,mean),info$col[i]))
 
              if(nrow(cor.mat.req)>0){
 

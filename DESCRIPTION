@@ -44,7 +44,7 @@ Imports:
 	propr,
 	ps
 Remotes: 
-	stela2502/FastWilcoxTest
+	sonejilab/FastWilcoxTest
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

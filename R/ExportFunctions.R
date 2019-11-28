@@ -32,7 +32,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 
 	colnames(cellexalObj@data) = good_names
-	rownames(cellexalObj@meta.cell) = good_names
 	for ( n in names(cellexalObj@drc) ) {
 		rownames( cellexalObj@drc[[n]]) = good_names
 	}
@@ -51,7 +50,10 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
     #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
-		utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		if ( nrow( cellexalObj@meta.cell) == ncol( cellexalObj@data ) ) {
+			rownames(cellexalObj@meta.cell) = good_names
+			utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		}
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
@@ -76,14 +78,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 			}
 		#}
 
-		#if(ncol(cellexalObj@drc[[i]])==6){
-
-		#	ofile = file.path(path,paste(names(cellexalObj@drc)[i],".velo",sep=""))
-		#	if ( ! file.exists( ofile )) {
-		#		#utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
-		#		utils::write.table(data.frame("CellID"=rownames(cellexalObj@drc[[i]]),cellexalObj@drc[[i]]),ofile,row.names=F,col.names=T,quote=F,sep="\t",eol="\n")
-		#	}
-		#}
 	}
 	
 	ofile = file.path(path,"database.sqlite")
