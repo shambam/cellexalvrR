@@ -16,7 +16,7 @@ colnames(m) = paste('cell', 1:ncol(m))
 rownames(m) = paste('gene', 1:nrow(m))
 m[which(m< 1)] = 0
 m = Matrix::Matrix(m,sparse=T)
-obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(100), y=runif(100), z=runif(100) )) )
+obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
 
 export2cellexalvr( obj, opath )
 
@@ -86,7 +86,7 @@ expect_true( all.equal(cellexalObj@colors[[1]], as.vector(unique(orig[,2]))) == 
 expect_true( file.exists( file.path(cellexalObj@outpath, 'initialTest', 'selection0.txt')), "the selction has not been copied to the session path")
 expect_true( file.exists( file.path(cellexalObj@outpath, 'initialTest', 'selection0.txt.group.txt')), "the selction's internal colname is not stored")
 
-cellexalObj = userGrouping(cellexalObj, file.path(opath,'..', 'selection0.txt') )
+cellexalObj = userGrouping(cellexalObj, file.path(ipath, 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
 
 context( "heatmap is produced" )
@@ -94,6 +94,10 @@ ofile = file.path(opath, 'selection0.png')
 if(  file.exists(ofile ) ){
 	unlink( ofile)
 }
+
+load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
+cellexalObj@outpath = opath
+lockedSave( cellexalObj )
 
 make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
 

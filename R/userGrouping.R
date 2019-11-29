@@ -73,6 +73,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				## OK use the old one
 				gname = names(ok)
 				id = ceiling(as.vector(ok) / 2)
+				sessionStoreFile()
 			}else {
 				cellexalObj@userGroups = cbind(cellexalObj@userGroups, new)
 				sessionStoreFile() ## local function
@@ -94,6 +95,12 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	}
 	## store the grouing name
 	cellexalObj@usedObj$lastGroup = gname
-	savePart ( cellexalObj, 'lastGroup') #function definition in file 'integrateParts.R'
+	if ( is.null(cellexalObj@usedObj$SelectionFiles)) {
+		cellexalObj@usedObj$SelectionFiles = list()
+	}
+	if ( file.exists(cellidfile) ){
+		cellexalObj@usedObj$SelectionFiles[[gname]] = cellidfile
+	}
+	savePart ( cellexalObj, 'usedObj') #function definition in file 'integrateParts.R'
 	cellexalObj
 } )

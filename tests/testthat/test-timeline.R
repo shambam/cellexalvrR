@@ -25,6 +25,10 @@ x = sessionPath( x, 'timeSession')
 expect_true( x@usedObj$sessionName == 'timeSession', 'session path not set correctly')
 
 grouping <- file.path(prefix, 'data/selection0.txt')
+timef = paste( sep=".", grouping, 'time' )
+if ( file.exists( timef)) {
+	unlink( timef)
+}
 
 ## I need the 3D vectors for the cells in e.g. group 1
 x = userGrouping( x, grouping)
@@ -33,11 +37,13 @@ x@userGroups[,'User.group.2'] = NA
 x@userGroups[,'User.group.2.order'] = x@userGroups[,'User.group.1.order']
 x@userGroups[which(x@userGroups[,'User.group.1'] == 2), 'User.group.2'] = 1
 
+x@usedObj$SelectionFiles[['User.group.2']] = x@usedObj$SelectionFiles[['User.group.1']]
 
 x@groupSelectedFrom[['User.group.2']] = x@groupSelectedFrom[['User.group.1']] 
 
 
 dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
+
 
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
 
@@ -49,7 +55,19 @@ if ( file.exists( ofile) ) {
 
 t = getDifferentials( t,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
 
+expect_true(file.exists( timef), "new time selectio  file is missing" )
+
+time= t@usedObj$timelines[['lastEntry']]
+o = order(time$time)
+d = read.delim(timef, header=F )
+
+expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
+expect_true( all.equal( as.vector(d[,2]), gplots::bluered( length(o) ))==TRUE, "new order")
+
+
+
 expect_true( file.exists( ofile), "Rmd (subset) ofile not created" )
+
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }

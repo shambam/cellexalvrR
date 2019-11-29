@@ -98,39 +98,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	
 	o = NULL
 	try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
-
-	## now I have to possible failures:
-	## the correlation to the expected order is horrible 
-	## the ordering has not worked at all
 	
-	# if( abs(cor( o, x@userGroups[,paste( grouping, 'order')])) < .5){
-	# 	## This is bad! the clustering has basicly failed!
-	# 	selOrd =  x@userGroups[,paste( grouping, 'order')]
-	# 	d = FastWilcoxTest::euclidian_distances3d( a[selOrd], b[selOrd], c[selOrd]  )
-	# 	bL = length(a)
-	# 	bV = which(d == max(d))
-	# 	bad= NULL
-	# 	while( length(a) -bV < length(a)/3 ){
-	# 		bad = c(bad , bV)
-	# 		# I want to re-run this without at least 10% of the cells selected. rinse repeate
-	# 		bV = which(d == max(d[-bad]))
-	# 		if ( length(d[-bad]) < length(a)/10 ){
-	# 			stop("981299sshd - this is strange and a but - search and fix it - please!")
-	# 		}			
-	# 	}
-	# 	br = which( selOrd == bad[length(bad)])
-		
-	# 	res = localLoess( 1:br, a[1:br], b[1:br], c[1:br] )
-	# 	try({o = FastWilcoxTest::euclidian_order3d( res$x[1:br], res$y[1:br], res$z[1:br] )},silent= TRUE)
-
-	# 	rgl::plot3d( res, col=gplots::bluered(length(o))[order(o)] )
- # 		rgl::rgl.points( a[1:br],b[1:br],c[1:br], col= x@colors[[grouping]][ x@userGroups[[grouping]][1:br]])
-	# }
-	
-	#browser()
 	time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
-
-	#browser()
 
 	res$time = time[order(o)]
 	res$x = res$x
@@ -140,16 +109,38 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	res$b = b
 	res$c = c
 
-	#sadfws
-
+	id= (ncol(x@userGroups) /2) + 1
+	gname = paste( "Time.group", id, sep="." ) 
 	if ( is.null( x@usedObj$timelines )){
 	  x@usedObj$timelines= list()
 	}
-	x@usedObj$timelines[['lastEntry']] = res
-	x@usedObj$timelines[[paste("run", length(names(x@usedObj$timelines))) ]] = res
 
-	id= (ncol(x@userGroups) /2) + 1
-	gname = paste( "Time.group", id, sep="." ) #the VR program dependeds on it
+	x@usedObj$timelines[['lastEntry']] = res
+	x@usedObj$timelines[[ gname ]] = res
+
+	f = NULL
+	if ( file.exists(x@usedObj$SelectionFiles[[ grouping ]] )) {
+		## I need to create a new one named 
+		info = groupingInfo(x, grouping )
+		f = x@usedObj$SelectionFiles[[ gname ]] = 
+		paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
+		## no colnames: cell name, color, drc name and selection id - fille with 0
+		o = order(res$time)
+		l = length(o) 
+		d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
+		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f )
+
+		f2 = paste( sep=".", f,'points')
+		d = cbind( names(res$c)[o], res$x[o], res$y[o], res$z[o]  )
+		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2 )
+
+		if ( file.exists( x@usedObj$sessionPath ) ) {
+			file.copy( f, x@usedObj$sessionPath)
+		}
+	}
+
+
+	#the VR program dependeds on it
 
 	m = match( names(res$a), colnames(x@data) )
 	x@userGroups[,gname] = NA
@@ -159,127 +150,6 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	
 	x@usedObj$lastGroup = gname
 
-	#x = CreateBin( x , gname)
-
 	return(x)
-
- 	#rgl::plot3d( cbind(x=a,y=b,z=c), col= x@colors[[grouping]][ x@userGroups[,grouping]] )
- 	#rgl::rgl.points( res, col=gplots::bluered(length(o))[order(o)] )
-	
-# 	# this data would now need to be put into the object?!
-
-
-# 	fit$orig = fit$fitted.values
-# 	fit$fitted.values = time
-	
-# 	openPlot( file.path( outpath,"Pseudotime" ) )
-# 	plot( a ,  b, col= x$usedObj$colorRange[[grouping]][ x$samples[,grouping]] , pch=16)
-# 	o = order( fit$fitted.values )
-# 	points( a[o], fit$orig[o] , lwd=1.5, col=gplots::bluered(length(a)), pch=16, cex=2 )
-# 	#lines( a,  fit$fitted.values, lwd=1.5, col='red' )
-# 	dev.off()
-				
-# #	fit = lm( b~a )
-# #	png ( file=file.path( outpath,"Pseudotime.png"), width=800, height=800)
-# #	plot( a ,  b, col= x$usedObj$colorRange[[grouping]][ x$samples[,grouping]] )
-# #	lines( a,  fit$fitted.values, lwd=1.5, col='red' )
-# #	dev.off()
-# 	dat = x@data
-# 	#dat@x[which(dat@x == -1)] = 0
-# 	dat=Matrix::drop0(dat)
-	
-# 	fit$fitted.values = fit$fitted.values - min( fit$fitted.values )
-# 	traj.corGenes = FastWilcoxTest::CorMatrix( dat, fit$fitted.values )
-# 	names(traj.corGenes) = rownames(x)
-# 	x$annotation$cor2pseudotime = traj.corGenes 
-# 	traj.corGenes =traj.corGenes[ which( ! is.na(traj.corGenes))]
-	
-# 	genes = c( sort(names(traj.corGenes[order(traj.corGenes)[1:n]])), sort(names(traj.corGenes[order(traj.corGenes, decreasing=T)[1:n]]))   ) 
-	
-# 	## stable variables:
-# 	#browser()
-# 	roll = function( x, smooth, type ) {
-# 		func = NULL
-# 		if ( type=='mean') {
-# 			func = function(start, x, smooth ) { ret= mean( as.vector(x[(start-smooth):start])); if ( is.na(ret)){browser();}; ret  } 
-# 		}else if ( type == 'table' ) {
-# 			func = function( start, x, smooth) { length(names(table(as.vector(x[(start-smooth):start])))) }
-# 		}else {
-# 			stop ( "the roll function needs either 'mean' or 'table' as type!" )
-# 		}
-# 		#browser()
-# 		unlist(lapply ( (smooth+1):length(x), func, x, smooth ) )
-# 	}
-# 	o = order( fit$fitted.values ) ## time
-# 	X = roll ( fit$fitted.values[o], smooth, 'mean' )
-# 	colV = roll ( as.numeric(x$samples[o,grouping]), smooth , 'mean' )
-# 	colD = roll ( as.numeric(x$samples[o,grouping]), smooth , 'table' )
-# 	col = x$usedObj$colorRange[[grouping]][ round( colV ) ]
-# 	col[which(colD != 1)] = 'black'
-
-# 	## create a summary plot for all genee
-# 	if( ! is.null(summaryPlot)){
-
-# 		openPlot(file.path( outpath, paste(summaryPlot,sep="_",'top') ))
-# 		plot( min(X, na.rm=T), 0, xlim=c(min(X, na.rm=T), max(X, na.rm=T) ), ylim=c(0,1), xlab='pseudotime', ylab='smoothed normalized expression', col='white')
-	
-# 		for(  gname in sort(names(traj.corGenes[order(traj.corGenes)[1:n]])) ) {
-# 			Y = roll( dat[gname, o], smooth, 'mean' )
-# 			Y = Y - min(Y)
-# 			Y = Y / max(Y)
-# 			#lines(loess( Y ~ X, se=F , span=0.1),  lwd=1, col= x$usedObj$colorRange[[grouping]][ col ] )
-# 			#browser()
-# 			lines( X, Y, lwd=1, col= 'black' )
-# 			lapply( names(table( col)) , function(n) {
-# 				if ( n != 'black'){
-# 					lines( X[which(col == n)], Y[which(col==n)], lwd=1, col= n )
-# 				}
-# 			})
-# 		}
-# 		dev.off()
-		
-# 		openPlot(file.path( outpath, paste(summaryPlot,sep="_",'bottom') ))
-# 		plot(min(X, na.rm=T), 0, xlim=c(min(X, na.rm=T), max(X, na.rm=T) ), ylim=c(0,1) , xlab='pseudotime', ylab='smoothed normalized expression',col='white')
-		
-# 		for(  gname in sort(names(traj.corGenes[order(traj.corGenes, decreasing=T)[1:n]])) ) {
-# 			Y = roll( dat[gname, o], smooth, 'mean' )
-# 			Y = Y - min(Y)
-# 			Y = Y / max(Y)
-# 			lines( X, Y, lwd=1, col= 'black' )
-# 			lapply( names(table( col)) , function(n) {
-# 				if ( n != 'black'){
-# 					lines( X[which(col == n)], Y[which(col==n)], lwd=1, col= n )
-# 				}
-# 			})
-# 			#lines(loess( Y ~ X, se=F , span=0.1),  lwd=1, col= x$usedObj$colorRange[[grouping]][ col ] )
-# 		}
-# 		dev.off()
-# 	}
-# 	if ( is.null(summaryPlot)){
-# 	for ( gname in unique(c( plotGenes, genes ) ) ){
-# 		fname = paste(sep="_", gname, "traj.corGenes", smooth,"factor" )
-# 		message(fname)
-		
-# 		Y = roll( dat[gname, o], smooth, 'mean' )
-# 		openPlot(file.path( outpath, fname))
-		
-# 		plot(min(X, na.rm=T), 0, xlim=c(min(X, na.rm=T), max(X, na.rm=T) ), 
-# 				ylim=c(min(Y), max(Y)) , xlab='pseudotime', ylab='smoothed expression',col='white')
-# 		lines( X, Y, lwd=5, col= 'black' )
-# 		lapply( names(table( col)) , function(n) {
-# 			if ( n != 'black'){
-# 				lines( X[which(col == n)], Y[which(col==n)], lwd=5, col= n )
-# 			}
-# 		})
-# 		#plot( x, y ,  main = gname, xlab='pseudotime', ylab='smoothed expression', type='l', lwd=5 )
-#         #plot(loess( unlist(Y) ~ unlist(X), se=F , span=0.1),  main = gname, col= col,
-# 		#		xlab='pseudotime', ylab='smoothed expression', type='l', lwd=5 )
-		
-# 		dev.off()
-# 	}
-# 	}
-# 	x$samples$Pseudotime = fit$fitted.values
-	
-# 	genes
 	
 } )
