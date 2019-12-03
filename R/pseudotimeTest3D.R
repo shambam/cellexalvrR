@@ -136,6 +136,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 
 		if ( file.exists( x@usedObj$sessionPath ) ) {
 			file.copy( f, x@usedObj$sessionPath)
+			file.copy( f2, x@usedObj$sessionPath)
 		}
 	}
 
