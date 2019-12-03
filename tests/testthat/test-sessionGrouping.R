@@ -126,19 +126,19 @@ expect_true( file.exists( file.path(datadir, '3_Stats_sessionGroupingTest.html' 
 
 # logNetwork
 
-if ( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '3_Network_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '4_Network_sessionGroupingTest.html' ) )
 }
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, '4_Network_sessionGroupingTest.html' )), 'logNetworks failed')
 
 ## ontologyLogPage
 
-if ( file.exists( file.path(datadir, '4_Ontology_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, '4_Ontology_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, '5_Ontology_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, '5_Ontology_sessionGroupingTest.html' ) )
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
-expect_true( file.exists( file.path(datadir, '4_Ontology_sessionGroupingTest.html' )), 'ontologyLog failed')
+expect_true( file.exists( file.path(datadir, '5_Ontology_sessionGroupingTest.html' )), 'logNetworks failed')
 
 
 ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')

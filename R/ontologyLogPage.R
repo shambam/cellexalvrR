@@ -149,9 +149,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					paste( collapse="\n",knitr::kable(GOI_2_genes, caption=paste("The genes mapping to get GO ids" ))),
 					"")
 
-	cellexalObj = storeLogContents( cellexalObj, content, type='Ontology')
+	cellexalObj = storeLogContents( cellexalObj, content, type="Ontology")
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
-	cellexalObj = renderFile( cellexalObj, id, type='Ontology' )
+	cellexalObj = renderFile( cellexalObj, id, type="Ontology" )
 	#close(fileConn)
 
 	invisible(cellexalObj)
