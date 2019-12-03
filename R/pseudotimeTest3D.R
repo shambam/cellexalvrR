@@ -54,6 +54,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 				grDevices::png ( file=paste(fname,'png', sep="."), width=800, height=800)
 			}
 		}
+	
 	if ( is.null( outpath )) {
 		x = sessionPath(x)
 		outpath = x@usedObj$sessionPath
@@ -119,6 +120,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	x@usedObj$timelines[[ gname ]] = res
 
 	f = NULL
+
 	if ( file.exists(x@usedObj$SelectionFiles[[ grouping ]] )) {
 		## I need to create a new one named 
 		info = groupingInfo(x, grouping )

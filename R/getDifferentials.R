@@ -99,6 +99,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					info$drc = names(loc@drc )[1] ## for the log!
 					drc = loc@drc[[ 1 ]]
 				}
+
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
 
 				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )
@@ -125,6 +126,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				OK = which( nCells / ncol(loc@data)  > .1 )
 
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
+
 				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
 
@@ -138,14 +140,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
 				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
 				colnames(p) = deg.genes
+				#browser()
 				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
 				deg.genes = hc$labels[hc$order]
 
-
-				## and store the timeline in the cellexal object!!!
+				## now we lack the heatmap here... But I would need one - crap!
 				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
-				
+
 				## for the usability of the log file the genes need to be ordered.
 				## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
 				## https://www.icsi.berkeley.edu/icsi/node/4806
@@ -156,8 +158,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					mean( unlist( lapply( 1:k, function(id) {
 						dat = t(x@data[which(gr == id),])
 						(nrow(dat)-1)*sum(apply(dat,2,var) )
-						} ) ))
-					}, cellexalObj ) )
+						} ) ), na.rm=TRUE)
+					}, reduceTo(loc, what='row', to = deg.genes ) ) )
 				## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
 				slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
 				intercept <- points[1]-slope
@@ -177,6 +179,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				if ( is.null(cellexalObj@usedObj$sessionPath)){
 					cellexalObj = sessionPath( cellexalObj )
 				}
+				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
+				#browser()
+				if ( ! file.exists( dirname(ofile) ) == TRUE) {
+					dir.create( dirname(ofile), recursive= TRUE )
+				}
 				for( genes in  split( names(gr), gr) ) {
 					ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, i,'png', sep=".") )
 					h = round(1000 * length(genes) /num.sig )
@@ -191,14 +198,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					pngs[i] = ofile
 					i = i+1
 				} 
-				
-				#browser()
 
 				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
-				#browser()
-				if ( ! file.exists( dirname(ofile) ) == TRUE) {
-					dir.create( dirname(ofile), recursive= TRUE )
-				}
+
 				png( file=ofile, width=1000, height = 1000)
 				image( p[,deg.genes], col=gplots::bluered(40))
 				dev.off()
@@ -208,18 +210,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					cellexalObj = CreateBin(  cellexalObj, gname, colFun= function(x) { c('gray', gplots::bluered(x-1))} )
 					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , info, png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
 				} )
-				#ps = data.frame((lapply(ps, function(x){ c(x$statistic, x$p.value) })))
-				#ps = data.frame(t(ps))
-				#colnames(ps) = c('statsistics', 'p.value' )
-				#sigp <- order(ps$p.value)[1:num.sig]
-				#deg.genes <- rownames(ps)[sigp]		
-				
-				#ps[,'p.adj.fdr'] = stats::p.adjust(ps[,'p.value'], method = 'fdr')
+			
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
 
-				#if ( Log ) {
-				#	logStatResult( cellexalObj, 'linear', ps, 'p.adj.fdr' ) #function definition in file 'logStatResult.R'
-				#}
 				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
