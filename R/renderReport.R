@@ -26,9 +26,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 
 	cellexalObj = storeLogContents( cellexalObj, paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")) 
 
-	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
-		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
-	}
+	## there might have been some problems - collect all Rmd files for this session to make sure we got really everything!
+	cellexalObj@usedObj$sessionRmdFiles = list.files(sessionPath,  pattern = ".*Rmd$",full.names =TRUE,  no.. = TRUE )
 	
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(

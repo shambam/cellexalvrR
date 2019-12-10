@@ -3,6 +3,11 @@
 #' Instead of loading and saving all files for each function call in the VR process
 #' we now can have one R process that sequencially works on all requests.
 #'
+#' The server will look for a file called <file>.input.R amnd process all commands in the file 
+#' using source(fname) so please be careful there!
+#'
+#' While the file <file>.input.lock is existing the input.R file is processed by the R and should not be touched.
+#' 
 #' @name server
 #' @aliases server,character-method
 #' @rdname server-methods
@@ -29,6 +34,8 @@ setMethod('server', signature = c ('character'),
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
+
+	workSource = paste( file, 'input.working', sep="." )
 
 	t = lapply( c( lockfile, scriptfile, pidfile) , function(file) { if(file.exists(file)) { unlink(file)} })
 
@@ -64,9 +71,10 @@ setMethod('server', signature = c ('character'),
 				if ( debug ) {
                	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
             	}
-                try ( {source( scriptfile ) } )
-                file.remove( scriptfile )
-				file.remove(lockfile)
+            	file.move( scriptfile, workSource )
+            	file.remove(lockfile)
+                try ( {source( workSource ) } )
+                file.remove( workSource )
         }
         if ( ! is.null( masterPID ) ){
         	#

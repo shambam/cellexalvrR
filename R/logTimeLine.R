@@ -138,11 +138,8 @@ setMethod('CreateBin', signature = c ('cellexalvrR'),
 	}else {
 		stop(paste("Sorry where =",where,"is not supported (only sample and gene)") )
 	}
-	n[which(is.na(n))] = -1
-	m <- min( n )
-	brks= c( (m-.1),m ,as.vector(quantile(n[which(n != m)],seq(0,1,by=0.1)) ))
-	brks = unique(as.numeric(sprintf("%2.6e", brks)))
-	d  <- factor(brks [cut( n, breaks= brks)], levels=brks)
+
+	d = CreateBin( n )
 	if ( where == 'sample' ){
 		x@userGroups[, group] <- d
 	}else {
@@ -150,4 +147,14 @@ setMethod('CreateBin', signature = c ('cellexalvrR'),
 	# defined the color
 	x@colors[[group]] <- colFun( 13 )
 	invisible(x)
+} )
+
+setMethod('CreateBin', signature = c ('numeric'),
+	definition = function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) {
+		x[which(is.na(x))] = -1
+		m <- min( x )
+		brks= c( (m-.1),m ,as.vector(quantile(x[which(x != m)],seq(0,1,by=0.1)) ))
+		brks = unique(as.numeric(sprintf("%2.6e", brks)))
+		d  <- factor(brks [cut( x, breaks= brks)], levels=brks)
+		d
 } )
