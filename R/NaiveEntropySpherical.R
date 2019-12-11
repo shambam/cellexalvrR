@@ -42,7 +42,9 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
                 dist = FastWilcoxTest::euclidian_distances3d( X, Y ,Z )
                 n = seq( dist[2] / 1000, dist[2] / 100, dist[2] / 1000)[c(1,2,4,6,8)]
                 n = c(n, seq( dist[2] / 100, dist[2] / 10, dist[2] / 100)[1:5])
-                message ( paste("n set to:",paste(collapse=", ", n )) )
+                n = c(n,  dist[2] / 10 )
+                n = c(n, seq( dist[2] / 10, dist[2] , dist[2] / 10)[seq(2,10,2)])
+                message ( paste("n set to:",paste(collapse=", ", n / dist[2] )) )
         }
         pb <- progress::progress_bar$new(total = length(gvect))
         closest= data.frame(lapply( 1:length(gvect), function( id ) {
@@ -64,6 +66,6 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
         else {
              ret = sumFunc(entropy)   
         }
-        names(ret) = n
+        names(ret) =round( n / dist[2] , digits=4)
         return(ret)
 } )
