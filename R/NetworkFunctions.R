@@ -35,7 +35,7 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.1)
-#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.1)
+#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.01)
 #' @param top.n.inter get only the n top interations default=130
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
@@ -75,6 +75,10 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
     loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[ OK ] )
 
+    message( paste("We have", nrow(loc@data), "genes remaining after TF and fracExpr cuts") )
+    if ( nrow(loc@data) < 10 ) {
+        return ( make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm / 10, exprFract, top.n.inter,method ) )
+    }
     ## at some time we had a problem in the creeation of order column names:
     possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
     gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
