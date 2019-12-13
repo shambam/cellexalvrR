@@ -53,32 +53,11 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
                 n = c(n,  dist[2] / 10, dist[2] / 5,  dist[2] / 2)
                 n = c( seq( dist[2] / 10000, dist[2]/1000 , dist[2] / 10000)[seq(2,10,2)], n)
                 message ( paste("n set to:",paste(collapse=", ", n / dist[2] )) )
+        }else {
+            n = sort(n)
         }
 
-       closest = FastWilcoxTest::SphericEntropy (  x[,1], x[,2],x[,3], gvect, n )
-
-#         pb <- progress::progress_bar$new(total = length(gvect))
-#         closest=NULL
-        
-#         for( res in  lapply( 1:length(gvect), function( id ) {
-#                 d = FastWilcoxTest::eDist3d( x[,1], x[,2],x[,3], id -1 )
-# #               order(d)[1:n]
-#                 pb$tick()
-#                 m = matrix(
-#                    unlist( lapply( n , function( N ) {
-#                         OK = which(d < N)
-#                         if ( length(OK) == 0 ){q
-#                                 return(0)
-#                         }
-#                         c( FastWilcoxTest::entropy(  gvect[ OK ]), length(OK) )
-#                    } ))
-#                 , nrow=2)
-#                 rownames(m) = paste( 'cell', id, c('entropy', 'selectedCells'))
-#                 m
-
-#         })) {
-#               closest = rbind( closest, res )
-#         }
+        closest = FastWilcoxTest::SphericEntropy (  x[,1], x[,2],x[,3], gvect, n )
         
         ret = apply(closest[seq(1,nrow(closest),2),],2, sumFunc )
         names(ret) = n / dist[2]
@@ -87,8 +66,11 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
         cells = cells / length(gvect)
 
         m = rbind(ret, cells )
+        ## and add the total in one step:
+        total_entr =  FastWilcoxTest::entropy( gvect )
         colnames(m) = n / dist[2]
         rownames(m) = c('total entropy', 'mean selectedCells')
+        cbind( m, 1 = c( sumFunc( rep(total_entr, nrow(x) ) ), nrow(x)) )
         return(m)
 } )
 
