@@ -2,7 +2,7 @@
 #' @aliases entrop,cellexalvrR-method
 #' @rdname entrop-methods
 #' @docType methods
-#' @description 
+#' @description replaced by c++ FastWilcoxTest::entropy ( twice as fast )
 #' @param d a vector of group names ( class character)
 #' @title description of function entrop
 #' @export 

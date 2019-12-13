@@ -1,10 +1,18 @@
 #' Calculates a simple entropy value for a grouping vector and a 3D drc data.
+#' If 2D drc data should be analyzed add a constant third column.
+#'
+#' The tools calculates the max dimension of the drc plot and splits this dimension into 18 radii,
+#' of a total divided by c( 2e-04, 4e-04, 6e-04, 8e-04, 1e-03, 1e-03, 2e-03, 4e-03, 6e-03, 8e-03, 1e-02, 2e-02, 3e-02 4e-02 5e-02 1e-01 2e-01 5e-01)
+#' 
+#' For each cell and all cells within an euclidian distance less than radius[n] the group id the Shannon entropy of the group information is calculated.
+#' 
+#' A two column matrix is returned with the first row containing summed up entropies and the second row containing mean selected cells per cell in the analysis.
 #'
 #' @name NaiveEntropySpherical
 #' @aliases NaiveEntropySpherical,cellexalvrR-method
 #' @rdname NaiveEntropySpherical-methods
 #' @docType methods
-#' @description 
+#' @description Calculate the entropy of one grouping based on a 3D data set based on euclidian max distances (spherical selections around ech cell)
 #' @param x the cellexalvrR object
 #' @param gvect a vector with group ids
 #' @param drc the dimension reduction name to process
@@ -34,7 +42,7 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
         if ( !is.function(sumFunc) ){
                 stop( "sumFunc needs to be an R function" )
         }
-        gvect = as.character( gvect )
+        gvect = as.numeric( factor( gvect ))
         if ( is.null(n) ) {
                 X = c( min(x[,1]), max(x[,1]) )
                 Y = c( min(x[,2]), max(x[,2]) )
@@ -42,30 +50,46 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
                 dist = FastWilcoxTest::euclidian_distances3d( X, Y ,Z )
                 n = seq( dist[2] / 1000, dist[2] / 100, dist[2] / 1000)[c(1,2,4,6,8)]
                 n = c(n, seq( dist[2] / 100, dist[2] / 10, dist[2] / 100)[1:5])
-                n = c(n,  dist[2] / 10 )
-                n = c(n, seq( dist[2] / 10, dist[2] , dist[2] / 10)[seq(2,10,2)])
+                n = c(n,  dist[2] / 10, dist[2] / 5,  dist[2] / 2)
+                n = c( seq( dist[2] / 10000, dist[2]/1000 , dist[2] / 10000)[seq(2,10,2)], n)
                 message ( paste("n set to:",paste(collapse=", ", n / dist[2] )) )
         }
-        pb <- progress::progress_bar$new(total = length(gvect))
-        closest= data.frame(lapply( 1:length(gvect), function( id ) {
-                d = FastWilcoxTest::eDist3d( x[,1], x[,2],x[,3], id -1 )
-#               order(d)[1:n]
-                pb$tick()
-                unlist( lapply( n , function( N ) {
-                        OK = which(d < N)
-                        if ( length(OK) == 0 ){
-                                return(0)
-                        }
-                        entrop(  gvect[ OK ])
-                } ))
-        }))
-        ret= NULL
-        if ( length(n) > 1) {
-                ret = apply(closest,1, sumFunc )
-        }
-        else {
-             ret = sumFunc(entropy)   
-        }
-        names(ret) =round( n / dist[2] , digits=4)
-        return(ret)
+
+       closest = FastWilcoxTest::SphericEntropy (  x[,1], x[,2],x[,3], gvect, n )
+
+#         pb <- progress::progress_bar$new(total = length(gvect))
+#         closest=NULL
+        
+#         for( res in  lapply( 1:length(gvect), function( id ) {
+#                 d = FastWilcoxTest::eDist3d( x[,1], x[,2],x[,3], id -1 )
+# #               order(d)[1:n]
+#                 pb$tick()
+#                 m = matrix(
+#                    unlist( lapply( n , function( N ) {
+#                         OK = which(d < N)
+#                         if ( length(OK) == 0 ){q
+#                                 return(0)
+#                         }
+#                         c( FastWilcoxTest::entropy(  gvect[ OK ]), length(OK) )
+#                    } ))
+#                 , nrow=2)
+#                 rownames(m) = paste( 'cell', id, c('entropy', 'selectedCells'))
+#                 m
+
+#         })) {
+#               closest = rbind( closest, res )
+#         }
+        
+        ret = apply(closest[seq(1,nrow(closest),2),],2, sumFunc )
+        names(ret) = n / dist[2]
+
+        cells = apply(closest[seq(2,nrow(closest),2),],2, sumFunc )
+        cells = cells / length(gvect)
+
+        m = rbind(ret, cells )
+        colnames(m) = n / dist[2]
+        rownames(m) = c('total entropy', 'mean selectedCells')
+        return(m)
 } )
+
+

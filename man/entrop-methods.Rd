@@ -12,5 +12,5 @@ entrop(d)
 \item{d}{a vector of group names ( class character)}
 }
 \description{
-description of function entrop
+replaced by c++ FastWilcoxTest::entropy ( twice as fast )
 }

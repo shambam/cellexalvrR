@@ -20,8 +20,16 @@ NaiveEntropySpherical(x, gvect, drc, n = 20, sumFunc = sum())
 \item{sumFunc}{function to sum up the single entropy values (default sum)}
 }
 \description{
-description of function NaiveEntropySpherical
+Calculate the entropy of one grouping based on a 3D data set based on euclidian max distances (spherical selections around ech cell)
 }
 \details{
 Calculates a simple entropy value for a grouping vector and a 3D drc data.
+If 2D drc data should be analyzed add a constant third column.
+
+The tools calculates the max dimension of the drc plot and splits this dimension into 18 radii,
+of a total divided by c( 2e-04, 4e-04, 6e-04, 8e-04, 1e-03, 1e-03, 2e-03, 4e-03, 6e-03, 8e-03, 1e-02, 2e-02, 3e-02 4e-02 5e-02 1e-01 2e-01 5e-01)
+
+For each cell and all cells within an euclidian distance less than radius[n] the group id the Shannon entropy of the group information is calculated.
+
+A two column matrix is returned with the first row containing summed up entropies and the second row containing mean selected cells per cell in the analysis.
 }

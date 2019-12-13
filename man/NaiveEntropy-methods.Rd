@@ -20,7 +20,7 @@ NaiveEntropy(x, gvect, drc, n = 20, sumFunc = sum())
 \item{sumFunc}{function to sum up the single entropy values (default sum)}
 }
 \description{
-description of function NaiveEntropy
+Nearest neighbors based entropy calculation.
 }
 \details{
 Calculates a simple entropy value for a grouping vector and a 3D drc data.

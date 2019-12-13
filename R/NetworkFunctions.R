@@ -34,19 +34,20 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
-#' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
+#' @param cutoff.ggm The cutoff for the correlation (default = 0.1)
+#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.1)
 #' @param top.n.inter get only the n top interations default=130
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network
 if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=130,method=c("rho.p","pcor")) {
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 		standardGeneric('make.cellexalvr.network')
 	}
 ) }
 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=130,method=c("rho.p","pcor")) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 
 		if ( !file.exists(outpath)) {
 			dir.create( outpath ,  recursive = TRUE)
@@ -70,6 +71,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[- #function definition in file 'reduceTo.R'
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
+    OK = which( Matrix::rowSums(loc@data) >= exprFract * ncol(loc@data))
+
+    loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[ OK ] )
 
     ## at some time we had a problem in the creeation of order column names:
     possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
@@ -195,12 +199,13 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
+#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.1)
 #' @param top.n.inter get only the n top interations default=125
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network
 setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
+		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 			cellexalObj2 <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter) #function definition in file 'NetworkFunctions.R'
 		}
