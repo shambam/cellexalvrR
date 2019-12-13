@@ -70,7 +70,7 @@ setMethod('NaiveEntropySpherical', signature = c ('matrix'),
         total_entr =  FastWilcoxTest::entropy( gvect )
         colnames(m) = n / dist[2]
         rownames(m) = c('total entropy', 'mean selectedCells')
-        cbind( m, 1 = c( sumFunc( rep(total_entr, nrow(x) ) ), nrow(x)) )
+        cbind( m, '1' = c( sumFunc( rep(total_entr, nrow(x) ) ), nrow(x)) )
         return(m)
 } )
 

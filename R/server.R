@@ -71,7 +71,8 @@ setMethod('server', signature = c ('character'),
 				if ( debug ) {
                	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
             	}
-            	filesstrings::file.move( scriptfile, workSource )
+				file.copy( scriptfile, workSource )     
+				file.remove(scriptfile) 	
             	file.remove(lockfile)
                 try ( {source( workSource ) } )
                 file.remove( workSource )

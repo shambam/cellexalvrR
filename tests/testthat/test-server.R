@@ -99,20 +99,24 @@ vers = scan( pv_file, what=character() )
 #print ( paste( vers, '==', packageVersion("cellexalvrR") ))
 expect_true(vers == packageVersion("cellexalvrR") )
 
-
 ## I can re-use the server file
 
 context('starting server in slave mode')
+
+srvFile2 =  paste( tmpFile,'slave', 'serverR', sep='.')
+
 
 tmpFile2 = paste(tmpFile,"2", sep="")
 write_lines( c( 
 	"library(cellexalvrR)", 
 	paste(sep="","server( file='",tmpFile2,"', debug=TRUE, masterPID=",pid," )" ) ), 
-	f= srvFile , 0
+	f= srvFile2 , 0
 )
 
-#print ( "starting slave server" )
-system( startCMD )
+startCMD2 = paste( R.exe(),"CMD BATCH", srvFile2,"&" )
+
+print ( "starting slave server" )
+system( startCMD2 )
 
 Sys.sleep(10)
 
