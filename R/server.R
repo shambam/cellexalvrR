@@ -71,11 +71,14 @@ setMethod('server', signature = c ('character'),
 				if ( debug ) {
                	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
             	}
-				file.copy( scriptfile, workSource )     
-				file.remove(scriptfile) 	
-            	file.remove(lockfile)
-                try ( {source( workSource ) } )
-                file.remove( workSource )
+				#file.copy( scriptfile, workSource )     
+				#file.remove(scriptfile) 	
+            	#file.remove(lockfile)
+                #try ( {source( workSource ) } )
+                #file.remove( workSource )
+                try ( {source( scriptfile ) } )
+                file.remove(scriptfile)
+                file.remove(lockfile)
         }
         if ( ! is.null( masterPID ) ){
         	#
