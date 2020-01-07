@@ -115,7 +115,7 @@ write_lines( c(
 
 startCMD2 = paste( R.exe(),"CMD BATCH", srvFile2,"&" )
 
-print ( "starting slave server" )
+#print ( "starting slave server" )
 system( startCMD2 )
 
 Sys.sleep(10)

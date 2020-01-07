@@ -65,7 +65,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 	grDevices::png( file= DRC2, width=1000, height=1000)
 	graphics::plot(
 		timeline$b[order(timeline$time)], timeline$c[order(timeline$time)], col= col ,
-		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+		main = paste( gInfo$drc, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
 		
 	graphics::points (x, y, col= col)
 	lapply( 2:length(timeline$a), function(i){ 
@@ -73,5 +73,6 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 	} )
 	grDevices::dev.off()
 	
+
 	c( DRC1, DRC2)
 } )

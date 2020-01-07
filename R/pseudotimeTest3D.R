@@ -36,7 +36,7 @@
 #' @export 
 if ( ! isGeneric('pseudotimeTest3D') ){setGeneric('pseudotimeTest3D', ## Name
 	function ( x, a, b, c, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
-			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL ) { 
+			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL) { 
 		standardGeneric('pseudotimeTest3D')
 	}
 ) }
@@ -90,6 +90,19 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		#rgl::plot3d( cbind( x=a,y=b,z=c), col= gplots::bluered(length(a))[ x@userGroups[[paste(grouping, 'order')]] ])
 		#rgl::rgl.points( RET )
 
+		## get the time here, too
+		dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], 1 )
+		B = which(dists == max(dists))
+		dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], B )
+		A= which(dists == max(dists))
+
+		inp[[inp$order[2]]][ids[A]]
+
+		alpha <- -atan((inp[[inp$order[2]]][ids[A]]- inp[[inp$order[2]]][ids[B]])/(inp[[inp$order[1]]][ids[A]]- inp[[inp$order[1]]][ids[B]]))
+		rotm <- matrix(c(cos(alpha),sin(alpha),-sin(alpha),cos(alpha)),ncol=2)
+		M2 <- t(rotm %*% rbind(inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] ) )
+		RET$time = order( M2[,1] )
+
 		RET
 	}
 
@@ -98,11 +111,15 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	res = localLoess( 1:length(a), a, b, c)
 	
 	o = NULL
+
+	## do the time in a different way - brutally different!
+
+
 	try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
 	
 	time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
 
-	res$time = time[order(o)]
+	res$timeOld = time[order(o)]
 	res$x = res$x
 	res$y = res$y
 	res$z = res$z

@@ -19,10 +19,11 @@ setGeneric('logTimeLine', ## Name
 #' @param info the original grouping information list
 #' @param png the heatmap of the rolling sum data
 #' @param timeInfo the time grouping information list
+#' @param GOIs an optional vector of genes to plot rolling sum graphs for.
 #' @title description of function logTimeLine
 #' @export 
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, stats, genes, info, png, timeInfo ) {
+	definition = function ( cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL ) {
 	## here I need to create a page of the final log
 
 	cellexalObj = sessionPath( cellexalObj ) #function definition in file 'sessionPath.R'
@@ -39,7 +40,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	#figureF = "Missing at the moment!"
 
 	## now I need to create the 2D drc plots for the grouping
-	drcFiles = drcPlots2Dtime( cellexalObj, info ) #function definition in file 'drcPlot2D.R'
+	drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
 	drcFiles2 = drcPlots2D( cellexalObj, timeInfo) #function definition in file 'drcPlot2D.R'
@@ -82,6 +83,10 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 	)
 
+	if ( ! is.null( GOIs ) ) {
+
+	}
+
 	cellexalObj = storeLogContents( cellexalObj, content, type="OneGroupTime")
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id, type="OneGroupTime" )
@@ -102,10 +107,11 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 #' @param genes the genes to display on the heatmap
 #' @param info the original grouping information list
 #' @param timeInfo the time grouping information list
+#' @param GOIs an optional vector of genes to plot rolling sum graphs for.
 #' @title description of function logTimeLine
 #' @export
 setMethod('logTimeLine', signature = c ('character'),
-		definition = function (cellexalObj, stats, genes, info, png, timeInfo   ) {
+		definition = function (cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL   ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			logTimeLine(cellexalObj, genes, png, grouping, ... ) #function definition in file 'logTimeLine.R'
 		}
@@ -124,7 +130,7 @@ setMethod('logTimeLine', signature = c ('character'),
 #' @title Create a binned annotation column from numeric data
 #' @export 
 setGeneric('CreateBin', ## Name
-	function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) { 
+	function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered  ) { 
 		standardGeneric('CreateBin')
 	}
 )

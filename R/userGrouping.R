@@ -25,6 +25,9 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
 		cellid <- utils::read.delim(cellidfile,header=F)
+		if ( cellid[1,1] == 'CellID'){ ## reading a file from the session path
+			cellid = cellid[-1,]
+		}
 		sessionStoreFile <- function() {
 			if ( ! is.null(cellexalObj@usedObj$sessionPath) ){## active session - we need to copy the cellidfile to this path
 				if ( file.exists( cellidfile )){

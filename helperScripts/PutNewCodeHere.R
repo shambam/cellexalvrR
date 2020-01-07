@@ -1,20 +1,44 @@
 
-plotEntropyDiff_2D_3D <- function(entro2D, entro3D, file, size=800 ){
-	file = stringr::str_replace( file, '.png$', '')
-	png( file= paste( sep="", file, '.png'), width=size, height=size)
-	plot(log(as.numeric(colnames(entro2D))), log(entro2D[1,]), ylim=c(log(min( c( entro2D[1,], entro3D[1,]))),log( max( c( entro2D[1,], entro3D[1,])))),
-  	   xlab='rel max distance [log]', ylab="cummulative entropy [log]",
-  	   main= paste("2D vs 3D (red) entropy difference - euclidian spheres",entro2D[2,ncol(entro2D)], "cells"), type='l')
-	lines(log(as.numeric(colnames(entro3D))),log( entro3D[1,]) , col='red')
-	dev.off()
+plotGOIsTimeLine <- function( cellexalObj, gInfo, GOIs=NULL, plotType='png' ) {
+	if ( is.null( GOIs)) {
+		return (c())
+	}
+	openPlot <- function(fname) {
+		if ( plotType == 'pdf' ) {
+			grDevices::pdf( file=paste(fname,'pdf', sep="."), width=10, height=10 )
+		}else if (plotType == 'png_high_res' ){
+			grDevices::png ( file=paste(fname,'highRes','png', sep="."), width=1600, height=1600)
+		}else {
+			grDevices::png ( file=paste(fname,'png', sep="."), width=800, height=800)
+		}
+	}
 
-	max = entro2D[1,ncol(entro2D)]
+	loc <- reduceTo( cellexalObj, what='row', to= GOIs )
+	gnameO =  paste(sep=" ",gInfo$gname , 'order')
+	rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
+	rownames(rolled) = rownames(loc@data)
 
-	png( file= paste( sep="", file,'_scaled', '.png'), width=size, height=size)
-	plot(log(as.numeric(colnames(entro2D))), log(entro2D[1,]/max), ylim=c(log(min( c( entro2D[1,], entro3D[1,]))/max),log( max( c( entro2D[1,], entro3D[1,]))/max)),
-  	   xlab='rel max distance [log]', ylab="cummulative entropy [log]",
-  	   main= paste("2D vs 3D (red) entropy difference - euclidian spheres",entro2D[2,ncol(entro2D)], "cells"), type='l')
-	lines(log(as.numeric(colnames(entro3D))),log( entro3D[1,] /max ) , col='red')
-	dev.off()
+	col= gplots::bluered( ncol(loc@data) )
+
+	for ( gene in rownames(loc@data)) {
+		fname = cellexalObj@usedObj$sessionPath
+		if ( is.null(fname) ) {
+			fname = cellexalObj@outpath
+		}
+		fname  = file.path( fname, paste( sep=".", gInfo$gname,gene ) )
+		openPlot ( fname )
+		plot( 1, 0, xlim=c(min(1), ncol(rolled)), ylim=c(0,1), xlab='pseudotime', ylab='smoothed normalized expression', col='white', main=gene)
+		Y = rolled[gene,]
+		Y = Y - min(Y)
+		Y = Y / max(Y)
+		lines( X, Y, lwd=1, col= 'black' )
+		lapply( names(table( col)) , function(n) {
+			if ( n != 'black'){
+				lines( X[which(col == n)], Y[which(col==n)], lwd=1, col= n )
+			}
+		})
+		dev.off()
+
+	}
 
 }

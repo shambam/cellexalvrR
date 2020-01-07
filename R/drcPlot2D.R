@@ -12,13 +12,13 @@
 #' @title description of function drcPlot2D
 #' @export 
 setGeneric('drcPlots2D', ## Name
-	function ( cellexalObj, gInfo ) { 
+	function ( cellexalObj, gInfo, GOIs=NULL ) { 
 		standardGeneric('drcPlots2D')
 	}
 )
 
 setMethod('drcPlots2D', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, gInfo ) {
+	definition = function ( cellexalObj, gInfo, GOIs=NULL ) {
 
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath

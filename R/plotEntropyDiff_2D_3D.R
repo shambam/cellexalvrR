@@ -38,4 +38,30 @@ setMethod('plotEntropyDiff_2D_3D', signature = c ('matrix'),
 	lines(log(as.numeric(colnames(entro3D))),log( entro3D[1,] /max ) , col='red')
 	dev.off()
 
+	## knee point analysis:
+	png( file= paste( sep="", file,'_kneePoint', '.png'), width=size, height=size)
+	plot( log(as.numeric(colnames(entro2D))), log(entro2D[1,] / entro2D[2,] ), 
+		xlab="rel max distance [log]", ylab="cummulative entropy / selected cells [log]",
+		main="Knee point analysis")
+    d=  log(entro2D[1,] / entro2D[2,])
+    cut2D = as.numeric(names(which(d==max(d))))[1]
+    abline( v=log(cut2D), col='black')
+    points( log(as.numeric(colnames(entro3D))), log(entro3D[1,] / entro3D[2,] ), col='red')
+    d=  log(entro3D[1,] / entro3D[2,])
+    cut3D = as.numeric(names(which(d==max(d))))[1]
+    abline( v=log(cut3D), col='red')
+    legend( 'topright', legend= c(
+    	paste( collapse=" / ", 
+    		round(entro2D[, as.character(cut2D)],2)
+    	), 
+    	paste( collapse=" / ", 
+    		round(entro3D[, as.character(cut3D)],2 ) 
+    		)) , col=c('black', 'red') , lty=1:2, cex=0.8)
+    dev.off()
+
+    png( file= paste( sep="", file,'_scaledToMeanCellsSelected', '.png'), width=size, height=size)
+    plot( log(entro2D[1,]), log(entro2D[2,]), 'l', xlab='mean cells in range [log]', ylab='total entropy [log]')
+	lines( log(entro3D[1,]), log(entro3D[2,]), col='red')
+	dev.off()
+
 } )

@@ -62,6 +62,7 @@ o = order(time$time)
 d = read.delim(timef, header=F )
 
 expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
+expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
 expect_true( all.equal( as.vector(d[,2]), gplots::bluered( length(o) ))==TRUE, "new order")
 
 
