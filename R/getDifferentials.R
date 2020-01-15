@@ -52,6 +52,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}
 			cellexalObj <- userGrouping(cellexalObj, cellidfile) #function definition in file 'userGrouping.R'
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+
 			if ( length(not) > 0) {
 				loc <- reduceTo (cellexalObj, what='col', to=colnames(cellexalObj@data)[- not ] ) #function definition in file 'reduceTo.R'
 			}else {
@@ -74,6 +75,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			
 			if(length(rem.ind)>0){
 				loc = reduceTo(loc, what='row', to=rownames(loc@data)[-rem.ind]) #function definition in file 'reduceTo.R'
+				grp.vec = grp.vec[-rem.ind]
 			}
 			
 			deg.genes <- NULL
@@ -108,14 +110,13 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
 				gnameO =  paste(sep=" ",gname , 'order')
-				#browser()
 
 				cellexalObj@userGroups[, gname ] = NA
 				cellexalObj@userGroups[, gnameO] = NA
 				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
 				cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
 				cellexalObj@colors[[gname]] = loc@colors[[gname]]
-				cellexalObj@groupSelectedFrom[[gname]] = info$drc
+				#cellexalObj@groupSelectedFrom[[gname]]$drc = info$drc
 
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
 
@@ -180,6 +181,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				if ( is.null(cellexalObj@usedObj$sessionPath)){
 					cellexalObj = sessionPath( cellexalObj )
 				}
+				browser()
 				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
 				#browser()
 				if ( ! file.exists( dirname(ofile) ) == TRUE) {
@@ -221,12 +223,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
-					r = as.data.frame(
-							FastWilcoxTest::StatTest( Matrix::t( loc@data), OK, BAD, 
-									logfc.threshold, minPct, onlyPos=onlyPos )
-					)
-					r= r[order( r[,'p.value']),]
-					r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@data)[r[,1]] )
+					if ( length(OK) > 0 & length(BAD) >0){
+						r = as.data.frame(
+								FastWilcoxTest::StatTest( Matrix::t( loc@data), OK, BAD, 
+										logfc.threshold, minPct, onlyPos=onlyPos )
+						)
+						r= r[order( r[,'p.value']),]
+						r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@data)[r[,1]] )
+					}
 					r
 				}
 				

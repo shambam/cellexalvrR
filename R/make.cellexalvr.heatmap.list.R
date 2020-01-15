@@ -34,8 +34,11 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 				unlink( paste(sep=".", outfile, 'sqlite3') )
 			}
 			
+
 			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
 			#getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			#browser()
+			cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]][["heatmapBasename"]] = basename( cellidfile )
 			gene.cluster.order = cvrObj@usedObj$deg.genes
 
 			message (paste( "trying to write file", outfile, "containing", length(gene.cluster.order), "genes") )
@@ -44,8 +47,8 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			## we only need the GOIs
 			tmp = reduceTo(cvrObj, what='row', to=  gene.cluster.order ) #function definition in file 'reduceTo.R'
 			## we also only need the samples that have been selected:
-			tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@data)[ #function definition in file 'reduceTo.R'
-							which(!is.na(cvrObj@userGroups[,cellexalObj@usedObj$lastGroup])) ] )
+			#tmp = reduceTo(tmp, what='col', to=  colnames(cvrObj@data)[ #function definition in file 'reduceTo.R'
+			#				which(!is.na(cvrObj@userGroups[,cvrObj@usedObj$lastGroup])) ] )
 
 			try ( write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') ) ) #function definition in file 'ExportFunctions.R'
 			invisible( cvrObj )

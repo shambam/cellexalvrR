@@ -83,7 +83,18 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 			}
 		}
 		
-		cellexalObj@groupSelectedFrom[[gname]] = unique(as.vector(cellid[,3]))
+		ginfo = list(
+			gname = gname,
+			selectionFile= basename( cellidfile ),
+			grouping = cellexalObj@userGroups[,gname] ,
+			order = 1:ncol(cellexalObj@data),
+			'drc' = unique(as.vector(cellid[,3])),
+			col = unique(as.vector(unique(cellid[,2])))
+		)
+		if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+			ginfo[['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
+		}
+		cellexalObj@groupSelectedFrom[[gname]] = ginfo
 		cellexalObj@colors[[gname]] = unique(as.vector(unique(cellid[,2])))
 		savePart ( cellexalObj, 'groupSelectedFrom') #function definition in file 'integrateParts.R'
 		savePart ( cellexalObj, 'colors') #function definition in file 'integrateParts.R'

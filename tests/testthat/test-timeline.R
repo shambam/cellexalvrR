@@ -31,16 +31,22 @@ if ( file.exists( timef)) {
 }
 
 ## I need the 3D vectors for the cells in e.g. group 1
+x@groupSelectedFrom = list()
+x@userGroups = data.frame()
+x@usedObj$lastGroup = NULL
+
 x = userGrouping( x, grouping)
+
 #which( x@userGroups[,x@usedObj$lastGroup] == 1 )
 x@userGroups[,'User.group.2'] = NA
 x@userGroups[,'User.group.2.order'] = x@userGroups[,'User.group.1.order']
 x@userGroups[which(x@userGroups[,'User.group.1'] == 2), 'User.group.2'] = 1
-
 x@usedObj$SelectionFiles[['User.group.2']] = x@usedObj$SelectionFiles[['User.group.1']]
 
 x@groupSelectedFrom[['User.group.2']] = x@groupSelectedFrom[['User.group.1']] 
 
+x@groupSelectedFrom[['User.group.2']][['order']] = x@userGroups[,'User.group.2.order'] 
+x@groupSelectedFrom[['User.group.2']][['grouping']] = x@usedObj$SelectionFiles[['User.group.2']]
 
 dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
 
@@ -52,7 +58,6 @@ ofile = file.path( prefix, 'data','output','timeLineTest','2_OneGroupTime_timeSe
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
-
 t = getDifferentials( t,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
 
 expect_true(file.exists( timef), "new time selectio  file is missing" )
