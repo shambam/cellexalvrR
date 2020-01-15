@@ -8,8 +8,6 @@
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
-\item{cellidfile}{file containing cell IDs}
-
 \item{cellidfile}{TEXT MISSING}
 }
 \description{

@@ -6,10 +6,17 @@
 \alias{getDifferentials,cellexalvrR-method}
 \title{VR helper function getDifferentials}
 \usage{
-\S4method{getDifferentials}{cellexalvrR}(cellexalObj, cellidfile,
-  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit",
-  "poisson", "negbinom", "MAST", "DESeq2", "anova"), num.sig = 250,
-  Log = TRUE, logfc.threshold = 1, minPct = 0.1, onlyPos = TRUE)
+\S4method{getDifferentials}{cellexalvrR}(
+  cellexalObj,
+  cellidfile,
+  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
+    "negbinom", "MAST", "DESeq2", "anova"),
+  num.sig = 250,
+  Log = TRUE,
+  logfc.threshold = 1,
+  minPct = 0.1,
+  onlyPos = TRUE
+)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}

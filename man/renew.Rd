@@ -13,8 +13,8 @@
 \description{
 renew the OLD cellexalvr objects
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{cellexalvr}: cellexalvrR
+\item \code{renew,cellexalvr-method}: cellexalvrR
 }}
 

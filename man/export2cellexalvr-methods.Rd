@@ -6,8 +6,7 @@
 \alias{export2cellexalvr,cellexalvrR-method}
 \title{create the VR data folder necessary for CellexalVR}
 \usage{
-\S4method{export2cellexalvr}{cellexalvrR}(cellexalObj, path, forceDB = F,
-  VRpath = NULL)
+\S4method{export2cellexalvr}{cellexalvrR}(cellexalObj, path, forceDB = F, VRpath = NULL)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}

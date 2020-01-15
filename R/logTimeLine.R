@@ -1,6 +1,6 @@
 
 setGeneric('logTimeLine', ## Name
-	function ( cellexalObj, stats, genes, info, png, timeInfo  ) {
+	function ( cellexalObj, stats, genes, info, png, timeInfo , GOIs=NULL ) {
 		standardGeneric('logTimeLine')
 	}
 )

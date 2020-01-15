@@ -15,8 +15,8 @@
 \description{
 simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{exportUserGroups4vr,character-method}: cellexalvrR
 }}
 

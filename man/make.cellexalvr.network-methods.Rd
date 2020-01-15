@@ -14,7 +14,7 @@
 
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.1)}
 
-\item{exprFrac}{which fraction of cells needs to express a gene to be included in the analysis (default 0.1)}
+\item{exprFrac}{which fraction of cells needs to express a gene to be included in the analysis (default 0.01)}
 
 \item{top.n.inter}{get only the n top interations default=130}
 }

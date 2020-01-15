@@ -5,8 +5,13 @@
 \alias{make.cellexalvr.heatmap.list,character-method}
 \title{Create the gene list files for VR}
 \usage{
-\S4method{make.cellexalvr.heatmap.list}{character}(cvrObj, cellidfile,
-  num.sig, outfile, stats_method = NA)
+\S4method{make.cellexalvr.heatmap.list}{character}(
+  cvrObj,
+  cellidfile,
+  num.sig,
+  outfile,
+  stats_method = NA
+)
 }
 \arguments{
 \item{cvrObj}{the cellexalObj.RData file}
@@ -22,9 +27,9 @@
 \description{
 preload the cellexalObj.RData file
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{make.cellexalvr.heatmap.list,character-method}: cellexalvrR
 }}
 
 \keyword{differential,}

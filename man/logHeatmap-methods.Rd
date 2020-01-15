@@ -6,8 +6,7 @@
 \alias{logHeatmap,cellexalvrR-method}
 \title{description of function logHeatmap}
 \usage{
-\S4method{logHeatmap}{cellexalvrR}(cellexalObj, genes = NULL, png,
-  grouping, ...)
+\S4method{logHeatmap}{cellexalvrR}(cellexalObj, genes = NULL, png, grouping, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}

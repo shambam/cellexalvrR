@@ -6,8 +6,14 @@
 \alias{as_cellexalvrR,environment-method}
 \title{convert a BioData object to cellexalvrR keeping all 3D drc objects.}
 \usage{
-as_cellexalvrR(x, meta.cell.groups = NULL, meta.genes.groups = NULL,
-  userGroups = NULL, outpath = getwd(), specie)
+as_cellexalvrR(
+  x,
+  meta.cell.groups = NULL,
+  meta.genes.groups = NULL,
+  userGroups = NULL,
+  outpath = getwd(),
+  specie
+)
 }
 \arguments{
 \item{x}{the BioData 'object'}
