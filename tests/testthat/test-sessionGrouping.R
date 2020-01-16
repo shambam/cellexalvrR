@@ -5,6 +5,11 @@ prefix = './'
 data = file.path(prefix, 'data/cellexalObj.RData')
 
 cellexalObj = loadObject( data )
+
+cellexalObj@userGroups=data.frame()
+cellexalObj@usedObj$lastGroup = NULL
+cellexalObj@usedObj$SelectionFiles = list()
+
 datadir <- normalizePath(file.path( prefix, 'data', 'output'))
 cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 
@@ -48,6 +53,7 @@ expect_true( file.exists( file.path(datadir, 'sessionGroupingTest' ) ) , "sessio
 lapply( list.files(datadir , full.names = TRUE, recursive = FALSE), unlink )
 
 grouping =  file.path(prefix, 'data', 'selection0.txt' )
+
 
 cellexalObj = userGrouping( cellexalObj, grouping )
 cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup )
@@ -103,6 +109,8 @@ ofile=  file.path( datadir, '2_Heatmap_sessionGroupingTest.html')
 if( file.exists(ofile)) {
 	unlink(ofile)
 }
+
+
 #system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 cellexalObj = logHeatmap(cellexalObj, genes, heatmap_png, grouping, ontology = ontology, topNodes = topNodes )
 

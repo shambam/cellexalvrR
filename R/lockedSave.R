@@ -159,6 +159,7 @@ setMethod('loadObject', signature = c ('character'),
 			## there might be different other objects in the same path
 			## integrat them now
 			cellexalObj = integrateParts( cellexalObj , normalizePath(dirname( fname )) ) #function definition in file 'integrateParts.R'
+			colnames(cellexalObj@userGroups) = stringr::str_replace_all( colnames(cellexalObj@userGroups), '.order', ' order')
 			cellexalObj
 		} )
 

@@ -137,19 +137,22 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	x@usedObj$timelines[[ gname ]] = res
 
 	f = NULL
-
-	if ( file.exists(x@usedObj$SelectionFiles[[ grouping ]] )) {
+	if ( class(x@groupSelectedFrom[[ grouping ]]) == 'list' ) {
 		## I need to create a new one named 
 		info = groupingInfo(x, grouping )
-		f = x@usedObj$SelectionFiles[[ gname ]] = 
-		paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
+		info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
+		info$order = order(res$time)
+
+		x@groupSelectedFrom[[ gname ]] = info
+
 		## no colnames: cell name, color, drc name and selection id - fille with 0
 		o = order(res$time)
 		l = length(o) 
 		d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
-		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f )
 
-		f2 = paste( sep=".", f,'points')
+		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= info$selectionFile)
+
+		f2 = paste( sep=".",info$selectionFile ,'points')
 		d = cbind( names(res$c)[o], res$x[o], res$y[o], res$z[o]  )
 		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2 )
 

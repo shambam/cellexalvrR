@@ -40,11 +40,10 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	#figureF = "Missing at the moment!"
 
 	## now I need to create the 2D drc plots for the grouping
-	drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
+	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
+	drcFiles = drcPlots2Dtime( cellexalObj, info ) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
-
 	drcFiles2 = drcPlots2D( cellexalObj, timeInfo) #function definition in file 'drcPlot2D.R'
-
 
 	content = paste( sep="\n",
 		paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),

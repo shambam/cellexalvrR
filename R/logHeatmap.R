@@ -57,7 +57,6 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 			break
 		}
 	}
-
 	cellexalObj = sessionRegisterGrouping( cellexalObj, grouping ) #function definition in file 'sessionRegisterGrouping.R'
 	n = sessionCounter( cellexalObj, grouping ) #function definition in file 'sessionCounter.R'
 
@@ -80,7 +79,6 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
-
 	drcFiles = drcPlots2D( cellexalObj, gInfo ) #function definition in file 'drcPlot2D.R'
 
 	# figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd file

@@ -50,7 +50,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			if ( sum(unlist(lapply( accepted, function(ok) { return ( ok == deg.method )} ))) != 1 ) {
 				stop( paste('The deg.method',deg.method, 'is not supported' ) )
 			}
+			
 			cellexalObj <- userGrouping(cellexalObj, cellidfile) #function definition in file 'userGrouping.R'
+			
 			not <- which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 
 			if ( length(not) > 0) {
@@ -58,7 +60,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			}else {
 				loc <- cellexalObj
 			}
-			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
+			if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@userGroups))) ){
 				## at some time we had a problem in the creeation of order column names:
     			possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
     			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
@@ -110,12 +112,15 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
 				gnameO =  paste(sep=" ",gname , 'order')
-
+	
 				cellexalObj@userGroups[, gname ] = NA
 				cellexalObj@userGroups[, gnameO] = NA
 				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
 				cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
 				cellexalObj@colors[[gname]] = loc@colors[[gname]]
+				cellexalObj@groupSelectedFrom[[ gname ]] = loc@groupSelectedFrom[[ gname ]]
+				cellexalObj@groupSelectedFrom[[ gname ]][['grouping']] = cellexalObj@userGroups[, gname ]
+				cellexalObj@groupSelectedFrom[[ gnameO ]][['order']] = cellexalObj@userGroups[, gnameO ]
 				#cellexalObj@groupSelectedFrom[[gname]]$drc = info$drc
 
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
@@ -181,7 +186,6 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				if ( is.null(cellexalObj@usedObj$sessionPath)){
 					cellexalObj = sessionPath( cellexalObj )
 				}
-				browser()
 				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
 				#browser()
 				if ( ! file.exists( dirname(ofile) ) == TRUE) {
@@ -219,7 +223,6 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
-				
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )

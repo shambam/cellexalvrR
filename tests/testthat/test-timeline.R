@@ -36,20 +36,18 @@ x@userGroups = data.frame()
 x@usedObj$lastGroup = NULL
 
 x = userGrouping( x, grouping)
-
 #which( x@userGroups[,x@usedObj$lastGroup] == 1 )
 x@userGroups[,'User.group.2'] = NA
-x@userGroups[,'User.group.2.order'] = x@userGroups[,'User.group.1.order']
+x@userGroups[,'User.group.2 order'] = x@userGroups[,'User.group.1 order']
 x@userGroups[which(x@userGroups[,'User.group.1'] == 2), 'User.group.2'] = 1
 x@usedObj$SelectionFiles[['User.group.2']] = x@usedObj$SelectionFiles[['User.group.1']]
 
 x@groupSelectedFrom[['User.group.2']] = x@groupSelectedFrom[['User.group.1']] 
 
-x@groupSelectedFrom[['User.group.2']][['order']] = x@userGroups[,'User.group.2.order'] 
+x@groupSelectedFrom[['User.group.2']][['order']] = x@userGroups[,'User.group.2 order'] 
 x@groupSelectedFrom[['User.group.2']][['grouping']] = x@usedObj$SelectionFiles[['User.group.2']]
 
 dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
-
 
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
 

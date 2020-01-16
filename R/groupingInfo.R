@@ -30,7 +30,7 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	# 		'drc' = cellexalObj@groupSelectedFrom[[gname]],
 	# 		col = cellexalObj@colors[[gname]] 
 	# )
-	cellexalObj@groupSelectedFrom[[gname]][['order']] = cellexalObj@userGroups[,paste(gname, 'order', sep=".")]
+	cellexalObj@groupSelectedFrom[[gname]][['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
 	cellexalObj@groupSelectedFrom[[gname]][['grouping']] = cellexalObj@userGroups[, gname ]
 	
 	cellexalObj@groupSelectedFrom[[gname]]

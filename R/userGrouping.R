@@ -22,6 +22,13 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 	
 	cellexalObj <- renew(cellexalObj) #function definition in file 'renew.R'
 	save = FALSE
+	#init local vars
+	id= (ncol(cellexalObj@userGroups) /2) + 1
+	gname = paste( "User.group", id, sep="." ) #the VR program dependeds on it
+	gOrderName = paste( gname, 'order', sep=" ")
+
+	n = vector( 'numeric', ncol(cellexalObj@data))
+
 	if ( file.exists(cellidfile)){ ## file from the VR env
 		## add this group into the object
 		cellid <- utils::read.delim(cellidfile,header=F)
@@ -36,11 +43,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				}
 			}
 		}
-		#init local vars
-		id= (ncol(cellexalObj@userGroups) /2) + 1
-		gname = paste( "User.group", id, sep="." ) #the VR program dependeds on it
-		n = vector( 'numeric', ncol(cellexalObj@data))
-		
+	#	browser()
 		#find overlap with own data
 		m = match(cellid[,1], colnames(cellexalObj@data))
 		if ( length(which(is.na(m))) > 0 ){
@@ -58,19 +61,24 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		order = n
 		order[match(cellid[,1], colnames(cellexalObj@data))] = 1:nrow(cellid)
 		new =(cbind(n, order))
-		colnames(new) = c( gname, paste( gname, 'order' ))
+		colnames(new) = c( gname, gOrderName)
 
 		if ( ncol(cellexalObj@data) != nrow(cellexalObj@userGroups)){
 			## Just create a new one...
 			id = 1
 			gname = paste( "User.group", id, sep="." )
-			colnames(new)[1] = gname
-			cellexalObj@userGroups = data.frame( new )
+			gOrderName = paste( gname, 'order', sep=" ")
+			new = data.frame( new )
+			colnames(new) = c( gname, gOrderName)
+
+			cellexalObj@userGroups = new 
 			sessionStoreFile() ## local function
 		}else {
 			# did we already read this file?
-			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(n))); if ( ok == T ) {TRUE } else { FALSE } } )
-			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(order))); if ( ok == T ) {TRUE } else { FALSE } } )
+			t <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = 
+				all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(n))); if ( ok == T ) {TRUE } else { FALSE } } )
+			d <- apply( cellexalObj@userGroups, 2, function ( x ) { ok = 
+				all.equal(as.numeric(as.vector(x)),as.numeric(as.vector(order))); if ( ok == T ) {TRUE } else { FALSE } } )
 			ok <- which( t == T )
 			if ( length(ok) == 1 & length( which(d == T)) == 1) {
 				## OK use the old one
@@ -82,7 +90,7 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				sessionStoreFile() ## local function
 			}
 		}
-		
+
 		ginfo = list(
 			gname = gname,
 			selectionFile= basename( cellidfile ),
@@ -91,8 +99,8 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 			'drc' = unique(as.vector(cellid[,3])),
 			col = unique(as.vector(unique(cellid[,2])))
 		)
-		if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order'), colnames(cellexalObj@data))) ){
-			ginfo[['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
+		if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order', sep=" "), colnames(cellexalObj@data))) ){
+			ginfo[['order']] = cellexalObj@userGroups[,paste(gname, 'order', sep=" ")]
 		}
 		cellexalObj@groupSelectedFrom[[gname]] = ginfo
 		cellexalObj@colors[[gname]] = unique(as.vector(unique(cellid[,2])))
