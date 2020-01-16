@@ -213,9 +213,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				dev.off()
 
 				try( { 
-					#browser()
 					cellexalObj = CreateBin(  cellexalObj, gname, colFun= function(x) { c('gray', gplots::bluered(x-1))} )
-					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , info, png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
+					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , groupingInfo( cellexalObj,info$gname), png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
 				} )
 			
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps

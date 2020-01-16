@@ -47,7 +47,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		#if ( gInfo$gname == 'Time.group.3') {		browser()   }
 		grDevices::png( file= DRC1, width=1000, height=1000)
 		graphics::plot(
-				cellexalObj@drc[[gInfo$drc]][,1], cellexalObj@drc[[gInfo$drc]][,2], col= c('grey',gInfo$col)[ gInfo$grouping ],
+				cellexalObj@drc[[gInfo$drc]][,1], cellexalObj@drc[[gInfo$drc]][,2], col= c( grey(.6) ,gInfo$col)[ gInfo$grouping ],
 				main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
 		grDevices::dev.off()
 	#}	
@@ -55,7 +55,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	#if ( ! file.exists( DRC2 ) ){
 		grDevices::png( file= DRC2, width=1000, height=1000)
 		graphics::plot(
-				cellexalObj@drc[[gInfo$drc]][,2], cellexalObj@drc[[gInfo$drc]][,3],col= c('grey',gInfo$col)[ gInfo$grouping ],
+				cellexalObj@drc[[gInfo$drc]][,2], cellexalObj@drc[[gInfo$drc]][,3],col= c( grey(.6) ,gInfo$col)[ gInfo$grouping ],
 				main = paste( gInfo$drc, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
 		grDevices::dev.off()
 	#}

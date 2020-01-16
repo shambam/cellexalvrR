@@ -142,7 +142,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		info = groupingInfo(x, grouping )
 		info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
 		info$order = order(res$time)
-
+		info$col = gplots::bluered( length(info$order) )[ info$order ]
+		info$gname = gname
 		x@groupSelectedFrom[[ gname ]] = info
 
 		## no colnames: cell name, color, drc name and selection id - fille with 0

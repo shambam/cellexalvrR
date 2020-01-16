@@ -28,51 +28,40 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			dir.create(file.path( sessionPath , 'png')  )
 		}
 
+		if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
+			stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
+		}
+
+		drc = cellexalObj@drc[[gInfo$drc]]
+		gInfo$order[ which(is.na(gInfo$order))] = 0
+		if ( any( ! is.numeric(gInfo$order)) ) {
+			message("wrong data in gInfo$order")
+			browser()
+		}
+		gInfo$order = as.numeric(as.vector(gInfo$order)) +1
+		col = rep( gray(0.6), ncol(cellexalObj@data))
+		col[which( gInfo$order > 1 ) ] = gInfo$col
+		
+		#if ( ncol( cellexalObj@data) > 200) { browser()}
+
+		DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
+		grDevices::png( file= DRC1, width=1000, height=1000)
+		graphics::plot(
+				drc[,1], drc[,2], col= col,
+			main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+		dev.off()
+
+
 		timeline = cellexalObj@usedObj$timelines[[paste(gInfo$gname, 'timeline' )]]
-
-	DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
-	gInfo$grouping = as.numeric( gInfo$grouping )
-
-	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
-	if ( any( ! is.numeric(gInfo$grouping)) ) {
-		message("wrong data in gInfo$grouping")
-		browser()
-	}
-	gInfo$grouping = as.vector(gInfo$grouping) +1
-	if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
-		stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
-	}
-
-	x = timeline$x[order(timeline$time)]
-	y = timeline$y[order(timeline$time)]
-	col = gplots::bluered( length(timeline$a))
-
-	grDevices::png( file= DRC1, width=1000, height=1000)
-	graphics::plot(
-		timeline$a[order(timeline$time)], timeline$b[order(timeline$time)], col= col ,
-		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+		#rgl::plot3d( timeline$x[timeline$time], timeline$y[timeline$time], timeline$z[timeline$time], col=gplots::bluered( length( timeline$x)))
+		#rgl::plot3d( timeline$a[timeline$time], timeline$b[timeline$time], timeline$c[timeline$time], col=gplots::bluered( length( timeline$x)) )
 		
-	graphics::points (x, y, col= col)
-	lapply( 2:length(timeline$a), function(i){ 
-		graphics::segments( x[i-1], y[i-1], x[i], y[i],  col= col[i] ) 
-	} )
-	grDevices::dev.off()
-
-	DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
-	x = timeline$y[order(timeline$time)]
-	y = timeline$z[order(timeline$time)]
-
-	grDevices::png( file= DRC2, width=1000, height=1000)
-	graphics::plot(
-		timeline$b[order(timeline$time)], timeline$c[order(timeline$time)], col= col ,
-		main = paste( gInfo$drc, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
+		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
+		grDevices::png( file= DRC2, width=1000, height=1000)
+		graphics::plot(
+				drc[,1], drc[,3], col= col,
+			main = paste( gInfo$drc, 'dim 1+3' ), xlab="dimension 1", ylab= "dimension 3" )
+		dev.off()
 		
-	graphics::points (x, y, col= col)
-	lapply( 2:length(timeline$a), function(i){ 
-		graphics::segments( x[i-1], y[i-1], x[i], y[i],  col= col[i] ) 
-	} )
-	grDevices::dev.off()
-	
-
-	c( DRC1, DRC2)
+		c( DRC1, DRC2)
 } )

@@ -24,7 +24,7 @@ x = sessionPath( x, 'timeSession')
 
 expect_true( x@usedObj$sessionName == 'timeSession', 'session path not set correctly')
 
-grouping <- file.path(prefix, 'data/selection0.txt')
+grouping <- file.path(prefix, 'data/SelectionHSPC_time.txt')
 timef = paste( sep=".", grouping, 'time' )
 if ( file.exists( timef)) {
 	unlink( timef)
@@ -37,28 +37,29 @@ x@usedObj$lastGroup = NULL
 
 x = userGrouping( x, grouping)
 #which( x@userGroups[,x@usedObj$lastGroup] == 1 )
-x@userGroups[,'User.group.2'] = NA
-x@userGroups[,'User.group.2 order'] = x@userGroups[,'User.group.1 order']
-x@userGroups[which(x@userGroups[,'User.group.1'] == 2), 'User.group.2'] = 1
-x@usedObj$SelectionFiles[['User.group.2']] = x@usedObj$SelectionFiles[['User.group.1']]
+#x@userGroups[,'User.group.2'] = NA
+#x@userGroups[,'User.group.2 order'] = x@userGroups[,'User.group.1 order']
+#x@userGroups[which(x@userGroups[,'User.group.1'] == 2), 'User.group.2'] = 1
+#x@usedObj$SelectionFiles[['User.group.2']] = x@usedObj$SelectionFiles[['User.group.1']]
 
-x@groupSelectedFrom[['User.group.2']] = x@groupSelectedFrom[['User.group.1']] 
+#x@groupSelectedFrom[['User.group.2']] = x@groupSelectedFrom[['User.group.1']] 
 
-x@groupSelectedFrom[['User.group.2']][['order']] = x@userGroups[,'User.group.2 order'] 
-x@groupSelectedFrom[['User.group.2']][['grouping']] = x@usedObj$SelectionFiles[['User.group.2']]
+#x@groupSelectedFrom[['User.group.2']][['order']] = x@userGroups[,'User.group.2 order'] 
+#x@groupSelectedFrom[['User.group.2']][['grouping']] = x@usedObj$SelectionFiles[['User.group.2']]
 
-dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 2 ), ]
+dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 1 ), ]
 
-t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 2 )] )
+t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
 ofile = file.path( prefix, 'data','output','timeLineTest','2_OneGroupTime_timeSession.html' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
-t = getDifferentials( t,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
 
-expect_true(file.exists( timef), "new time selectio  file is missing" )
+t = getDifferentials( t,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
+
+expect_true(file.exists( ofile), "new time selection file is missing" )
 
 time= t@usedObj$timelines[['lastEntry']]
 o = order(time$time)
@@ -76,7 +77,7 @@ if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
 
-a = getDifferentials( x,'User.group.2' ,deg.method= 'wilcox' , Log=FALSE)
+a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
 ofile = file.path( prefix, 'data','output','timeLineTest','3_OneGroupTime_timeSession.html' )
 
 expect_true( file.exists( ofile), "Rmd (total) ofile not created" )
