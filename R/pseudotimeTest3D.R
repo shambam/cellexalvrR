@@ -137,31 +137,30 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	x@usedObj$timelines[[ gname ]] = res
 
 	f = NULL
-	if ( class(x@groupSelectedFrom[[ grouping ]]) == 'list' ) {
-		## I need to create a new one named 
-		info = groupingInfo(x, grouping )
-		info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
-		info$order = order(res$time)
-		info$col = gplots::bluered( length(info$order) )[ info$order ]
-		info$gname = gname
-		x@groupSelectedFrom[[ gname ]] = info
 
-		## no colnames: cell name, color, drc name and selection id - fille with 0
-		o = order(res$time)
-		l = length(o) 
-		d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
+	## I need to create a new one named 
+	info = groupingInfo(x, grouping )
+	info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
+	info$order = order(res$time)
+	info$col = gplots::bluered( length(info$order) )[ info$order ]
+	info$gname = gname
+	x@groupSelectedFrom[[ gname ]] = info
 
-		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= info$selectionFile)
+	## no colnames: cell name, color, drc name and selection id - fille with 0
+	o = res$time
+	l = length(o) 
+	d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
+	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= file.path( x@outpath, basename(info$selectionFile)) ) 
 
-		f2 = paste( sep=".",info$selectionFile ,'points')
-		d = cbind( names(res$c)[o], res$x[o], res$y[o], res$z[o]  )
-		write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2 )
+	f2 = paste( sep=".",info$selectionFile ,'points')
+	d = cbind( names(res$c)[o], res$x[o], res$y[o], res$z[o]  )
+	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=file.path( x@outpath, basename(f2)) )
 
-		if ( file.exists( x@usedObj$sessionPath ) ) {
-			file.copy( f, x@usedObj$sessionPath)
-			file.copy( f2, x@usedObj$sessionPath)
-		}
+	if ( file.exists( x@usedObj$sessionPath ) ) {
+		file.copy( f, x@usedObj$sessionPath)
+		file.copy( f2, x@usedObj$sessionPath)
 	}
+	
 
 
 	#the VR program dependeds on it
