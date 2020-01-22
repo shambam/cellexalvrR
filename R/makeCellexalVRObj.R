@@ -1,7 +1,7 @@
-#' MakeCellexaVRObj creates a CellexalVR object from a matrix object.
-#' @name MakeCellexaVRObj 
-#' @aliases MakeCellexaVRObj,matrix-method
-#' @rdname MakeCellexaVRObj-methods
+#' MakeCellexalVRObj creates a CellexalVR object from a matrix object.
+#' @name MakeCellexalVRObj 
+#' @aliases MakeCellexalVRObj,matrix-method
+#' @rdname MakeCellexalVRObj-methods
 #' @docType methods
 #' @description  Creates a cellexalvr objext with the data given
 #' @param exdata A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
@@ -12,14 +12,14 @@
 #' @keywords create cellexalvrR object
 #' @title Create a cellexalvrR object from a matrix object.
 #' @export MakeCellexaVRObj
-if ( ! isGeneric('MakeCellexaVRObj') ){setGeneric('MakeCellexaVRObj', ## Name
+if ( ! isGeneric('MakeCellexalVRObj') ){setGeneric('MakeCellexalVRObj', ## Name
 	function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
-		standardGeneric('MakeCellexaVRObj') 
+		standardGeneric('MakeCellexalVRObj') 
 	}
 ) }
 
 
-setMethod('MakeCellexaVRObj', signature = c ('dgCMatrix'),
+setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 
     if ( ! class(exdata) == 'dgCMatrix' ) {
