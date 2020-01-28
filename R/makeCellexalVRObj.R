@@ -11,7 +11,7 @@
 #' @param facs.data Surface marker intensities from index sorted cells
 #' @keywords create cellexalvrR object
 #' @title Create a cellexalvrR object from a matrix object.
-#' @export MakeCellexaVRObj
+#' @export MakeCellexalVRObj
 if ( ! isGeneric('MakeCellexalVRObj') ){setGeneric('MakeCellexalVRObj', ## Name
 	function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
 		standardGeneric('MakeCellexalVRObj') 
