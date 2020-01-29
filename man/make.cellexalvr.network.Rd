@@ -5,8 +5,13 @@
 \alias{make.cellexalvr.network,character-method}
 \title{description of function make.cellexalvr.network}
 \usage{
-\S4method{make.cellexalvr.network}{character}(cellexalObj, cellidfile,
-  outpath, cutoff.ggm = 0.8, top.n.inter = 125)
+\S4method{make.cellexalvr.network}{character}(
+  cellexalObj,
+  cellidfile,
+  outpath,
+  cutoff.ggm = 0.8,
+  top.n.inter = 125
+)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
@@ -22,9 +27,9 @@
 \description{
 preload the cellexalObj.RData file
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{make.cellexalvr.network,character-method}: cellexalvrR
 }}
 
 \keyword{construction}

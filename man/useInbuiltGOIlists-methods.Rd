@@ -6,10 +6,6 @@
 \alias{useInbuiltGOIlists,cellexalvrR-method}
 \title{easily identify e.g. all TFs in the dataset}
 \arguments{
-\item{x, }{cellexalvr object}
-
-\item{name}{the name of the inbuilt list to use ( either 'TFs' or 'epigenetic' for now)}
-
 \item{x, }{TEXT MISSING}
 
 \item{name}{one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")}

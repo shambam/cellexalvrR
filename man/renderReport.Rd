@@ -13,8 +13,8 @@
 \description{
 preload the cellexalObj
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{renderReport,character-method}: cellexalvrR
 }}
 

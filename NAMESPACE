@@ -2,7 +2,7 @@
 
 export(CreateBin)
 export(H5Anno2df)
-export(MakeCellexaVRObj)
+export(MakeCellexalVRObj)
 export(R.exe)
 export(Rscript.exe)
 export(addCellMeta2cellexalvr)

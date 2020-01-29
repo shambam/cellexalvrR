@@ -6,8 +6,7 @@
 \alias{logTimeLine,cellexalvrR-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info, png,
-  timeInfo)
+\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes, info, png, timeInfo)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}

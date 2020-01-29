@@ -5,8 +5,7 @@
 \alias{logNetwork,character-method}
 \title{description of function logNetwork}
 \usage{
-\S4method{logNetwork}{character}(cellexalObj, genes = NULL, png,
-  grouping, ...)
+\S4method{logNetwork}{character}(cellexalObj, genes = NULL, png, grouping, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalObj.RData file}
@@ -22,8 +21,8 @@
 \description{
 preload the cellexalObj.RData file
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{logNetwork,character-method}: cellexalvrR
 }}
 

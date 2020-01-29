@@ -6,8 +6,7 @@
 \alias{CreateBin,cellexalvrR-method}
 \title{Create a binned annotation column from numeric data}
 \usage{
-CreateBin(x, group = "nUMI", where = "sample",
-  colFun = gplots::bluered)
+CreateBin(x, group = "nUMI", where = "sample", colFun = gplots::bluered)
 }
 \arguments{
 \item{x}{the cellexalvrR object}

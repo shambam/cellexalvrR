@@ -15,9 +15,9 @@
 \description{
 just returns the cellexalObj
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{cellexalvrR}: cellexalvrR
+\item \code{loadObject,cellexalvrR-method}: cellexalvrR
 }}
 
 \keyword{load}

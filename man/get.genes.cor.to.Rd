@@ -5,8 +5,7 @@
 \alias{get.genes.cor.to,character-method}
 \title{description of function get.genes.cor.to (character) #function definition in file 'cellexalvrFunctions.R'}
 \usage{
-\S4method{get.genes.cor.to}{character}(cellexalObj, gname, output = NULL,
-  is.smarker = F, cpp = T)
+\S4method{get.genes.cor.to}{character}(cellexalObj, gname, output = NULL, is.smarker = F, cpp = T)
 }
 \arguments{
 \item{cellexalObj}{the cellexalObj.RData file}
@@ -22,8 +21,8 @@
 \description{
 preload the cellexalObj
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{get.genes.cor.to,character-method}: cellexalvrR
 }}
 

@@ -5,10 +5,16 @@
 \alias{getDifferentials,character-method}
 \title{description of function getDifferentials}
 \usage{
-\S4method{getDifferentials}{character}(cellexalObj, cellidfile,
-  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit",
-  "poisson", "negbinom", "MAST", "DESeq2", "anova"), num.sig = 250,
-  Log = TRUE, logfc.threshold = 1, minPct = 0.1)
+\S4method{getDifferentials}{character}(
+  cellexalObj,
+  cellidfile,
+  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
+    "negbinom", "MAST", "DESeq2", "anova"),
+  num.sig = 250,
+  Log = TRUE,
+  logfc.threshold = 1,
+  minPct = 0.1
+)
 }
 \arguments{
 \item{cellexalObj}{the cellexal.RData file}
@@ -29,9 +35,9 @@
 \description{
 preload the cellexalObj
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{getDifferentials,character-method}: cellexalvrR
 }}
 
 \keyword{DEGs}

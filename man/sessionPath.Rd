@@ -15,8 +15,8 @@
 \description{
 preload the cellexalOvh.RData file
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{character}: cellexalvrR
+\item \code{sessionPath,character-method}: cellexalvrR
 }}
 
