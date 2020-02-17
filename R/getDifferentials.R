@@ -142,7 +142,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], nrol )
 
-				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
+				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
 
 				names(ps) = rownames(loc@data)
 
