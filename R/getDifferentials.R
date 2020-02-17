@@ -132,8 +132,15 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				OK = which( nCells / ncol(loc@data)  > .1 )
 
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
+				nrol = round( length(OK) / 100 )
+				if ( nrol < 10){
+					nrol = 10
+				}
+				if ( nrol > 500){
+					nrol = 500
+				}
 
-				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
+				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], nrol )
 
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[10:ncol(loc@data), gname ] ) 
 
