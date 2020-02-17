@@ -16,12 +16,9 @@ Depends:
 	R (>= 3.5),
 	Matrix
 Imports:
-	alphashape3d,
 	AnnotationDbi,
 	progress,
 	bookdown,
-	DDRTree,
-	entropy,
 	FastWilcoxTest (>= 0.1.11),
 	GeneNet,
 	gplots,
@@ -32,13 +29,10 @@ Imports:
 	methods,
 	org.Hs.eg.db,
 	org.Mm.eg.db,
-	pheatmap,
 	phytools,
-	ppcor,
 	reshape2,
 	rmarkdown,
 	RSQLite,
-	scales,
 	stringr,
 	topGO,
 	utils,
@@ -46,6 +40,8 @@ Imports:
 	ps
 Remotes: 
 	sonejilab/FastWilcoxTest
+Enhances:
+	Seurat
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
