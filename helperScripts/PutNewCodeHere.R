@@ -1,44 +1,38 @@
 
-plotGOIsTimeLine <- function( cellexalObj, gInfo, GOIs=NULL, plotType='png' ) {
-	if ( is.null( GOIs)) {
-		return (c())
+export_GOIs <- function(x, GOIs, grouping, path ) {
+	if ( is.null( x@samples[,grouping] )){
+		stop(paste("Grouping", grouping,"not in the object!") )
 	}
-	openPlot <- function(fname) {
-		if ( plotType == 'pdf' ) {
-			grDevices::pdf( file=paste(fname,'pdf', sep="."), width=10, height=10 )
-		}else if (plotType == 'png_high_res' ){
-			grDevices::png ( file=paste(fname,'highRes','png', sep="."), width=1600, height=1600)
-		}else {
-			grDevices::png ( file=paste(fname,'png', sep="."), width=800, height=800)
-		}
+	m = match(GOIs, rownames(x))
+	if ( length(which(is.na(m))) > 0 ){
+		stop(paste("These genes are not in the object:", paste(collapse=", ", GOIs[which(is.na(m))])))
 	}
+	if ( ! file.exists(path) ){
+		stop(paste("Path",path, "does not exist!" ))
+	}
+	gene_cuts <- split(GOIs, ceiling(seq_along(GOIs)/250))
+	## the drc the groups have been selected from is unknown - take the first one...
+	cellidfile = file.path( path, "GOIs_selection.txt")
+	# name color drcName id - no colnames!
+	cols = rainbow(length(table(x@samples[,grouping])))[x@samples[,grouping]]
+	write.table( data.frame( colnames(x@data), cols, rep(names(x$drc)[1], nrow(x@samples)), x@samples[,grouping] ), 
+		file= cellidfile, quote=FALSE, row.names=FALSE, sep="\t")
 
-	loc <- reduceTo( cellexalObj, what='row', to= GOIs )
-	gnameO =  paste(sep=" ",gInfo$gname , 'order')
-	rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], 10 )
-	rownames(rolled) = rownames(loc@data)
+	for ( i in 1:length(gene_cuts)) {
+			outfile=file.path( path,paste(sep="", "GOIS_slice_",i,".txt") )
+			x@groupSelectedFrom[[x@usedObj$lastGroup]][["heatmapBasename"]] = basename( cellidfile )
+			gene.cluster.order = gene_cuts[[i]]
 
-	col= gplots::bluered( ncol(loc@data) )
+			message (paste( "trying to write file", outfile, "containing", length(gene.cluster.order), "genes") )
+			write(c(length(gene.cluster.order),gene.cluster.order),file=outfile,ncolumns=1)
+			## probably a good way to export the information as database, too.
+			## we only need the GOIs
+			tmp = reduceTo(x, what='row', to=  gene.cluster.order ) #function definition in file 'reduceTo.R'
+			## we also only need the samples that have been selected:
+			#tmp = reduceTo(tmp, what='col', to=  colnames(x@data)[ #function definition in file 'reduceTo.R'
+			#				which(!is.na(x@userGroups[,x@usedObj$lastGroup])) ] )
 
-	for ( gene in rownames(loc@data)) {
-		fname = cellexalObj@usedObj$sessionPath
-		if ( is.null(fname) ) {
-			fname = cellexalObj@outpath
-		}
-		fname  = file.path( fname, paste( sep=".", gInfo$gname,gene ) )
-		openPlot ( fname )
-		plot( 1, 0, xlim=c(min(1), ncol(rolled)), ylim=c(0,1), xlab='pseudotime', ylab='smoothed normalized expression', col='white', main=gene)
-		Y = rolled[gene,]
-		Y = Y - min(Y)
-		Y = Y / max(Y)
-		lines( X, Y, lwd=1, col= 'black' )
-		lapply( names(table( col)) , function(n) {
-			if ( n != 'black'){
-				lines( X[which(col == n)], Y[which(col==n)], lwd=1, col= n )
-			}
-		})
-		dev.off()
-
+			try ( write_as_sqlite3( tmp, paste(sep=".", outfile, 'sqlite3') ) ) #function definition in file 'ExportFunctions.R'
 	}
 
 }

@@ -147,6 +147,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	x@groupSelectedFrom[[ gname ]] = info
 
 	## no colnames: cell name, color, drc name and selection id - fille with 0
+	
+	## create the .time selection file for cellexalVR
 	o = res$time
 	l = length(o) 
 	d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
