@@ -38,8 +38,9 @@ setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	cellidfile = file.path( path, "GOIs_selection.txt")
 	# name color drcName id - no colnames!
 	cols = rainbow(length(table(x@userGroups[,grouping])))[x@userGroups[,grouping]]
-	write.table( data.frame( colnames(x@data), cols, rep(names(x@drc)[1], nrow(x@userGroups)), x@userGroups[,grouping] ), 
-		file= cellidfile, quote=FALSE, row.names=FALSE, sep="\t", col.names=FALSE)
+	sel = data.frame( colnames(x@data), cols, rep(names(x@drc)[1], nrow(x@userGroups)), x@userGroups[,grouping] )
+	sel = sel[order(sel[,4]),]
+	write.table( sel, file= cellidfile, quote=FALSE, row.names=FALSE, sep="\t", col.names=FALSE)
 
 	for ( i in 1:length(gene_cuts)) {
 			outfile=file.path( path,paste(sep="", "GOIS_slice_",i,".txt") )
