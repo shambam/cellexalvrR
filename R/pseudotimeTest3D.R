@@ -142,16 +142,18 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	info = groupingInfo(x, grouping )
 	info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
 	info$order = order(res$time)
-	info$col = gplots::bluered( length(info$order) )[ info$order ]
+	## to not break VR I need to restrict the number of colors here to 10!
+
+	info$col = gplots::bluered( 10 )[ round(seq( from=1, to=10,  length.out = length(info$order)))[info$order] ]
 	info$gname = gname
 	x@groupSelectedFrom[[ gname ]] = info
 
 	## no colnames: cell name, color, drc name and selection id - fille with 0
-	
+
 	## create the .time selection file for cellexalVR
 	o = res$time
 	l = length(o) 
-	d = cbind( names(res$c)[o], gplots::bluered(l), rep( info$drc , l ), rep(0, l)  )
+	d = cbind( names(res$c)[o], gplots::bluered( 9 )[ round(seq( from=1, to=9,  length.out = l))], rep( info$drc , l ), rep(0, l)  )
 	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= file.path( x@outpath, basename(info$selectionFile)) ) 
 
 	f2 = paste( sep=".",info$selectionFile ,'points')

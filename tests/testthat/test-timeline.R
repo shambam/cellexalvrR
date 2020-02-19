@@ -70,7 +70,7 @@ d = read.delim(SelectionFile, header=F )
 
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
 expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
-expect_true( all.equal( as.vector(d[,2]), gplots::bluered( length(o) ))==TRUE, "new order")
+#expect_true( all.equal( as.vector(d[,2]), gplots::bluered( 9 ))==TRUE, "new order")
 
 
 
@@ -90,3 +90,6 @@ a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
 
 expect_true( file.exists( ofile), "Rmd (total) ofile not created" )
 expect_true( file.exists( SelectionFile), "Updated selection ofile not created" )
+t = table(read.delim( SelectionFile, header=F )[,2])
+
+expect_true(length(t) == 9, paste("too many time colors (", sep="", length(t)," != 9)" ) )

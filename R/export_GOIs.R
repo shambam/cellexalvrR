@@ -13,16 +13,17 @@
 #' @param GOIs the genes of interest
 #' @param grouping the grouping the hetmap should be using (a cellexalVR selection file will be produced)
 #' @param path the outpath for the files
+#' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
 #' @title description of function export_GOIs
 #' @export 
 if ( ! isGeneric('export_GOIs') ){setGeneric('export_GOIs', ## Name
-	function (x, GOIs, grouping, path ) { 
+	function (x, GOIs, grouping, path, colorF = rainbow ) { 
 		standardGeneric('export_GOIs')
 	}
 ) }
 
 setMethod('export_GOIs', signature = c ('cellexalvrR'),
-	definition = function (x, GOIs, grouping, path ) {
+	definition = function (x, GOIs, grouping, path, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,grouping] )){
 		stop(paste("Grouping", grouping,"not in the object!") )
 	}
@@ -37,11 +38,12 @@ setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	## the drc the groups have been selected from is unknown - take the first one...
 	cellidfile = file.path( path, "GOIs_selection.txt")
 	# name color drcName id - no colnames!
-	cols = rainbow(length(table(x@userGroups[,grouping])))[x@userGroups[,grouping]]
+	cols = colorF(length(table(x@userGroups[,grouping])))[x@userGroups[,grouping]]
 	sel = data.frame( colnames(x@data), cols, rep(names(x@drc)[1], nrow(x@userGroups)), x@userGroups[,grouping] )
-	sel = sel[order(sel[,4]),]
+	sel = sel[order( x@userGroups[,grouping] ),]
+	browser()
+	sel[,2] = colorF( length( levels(sel[,2]) ))[ as.numeric(factor( sel[,2], levels=unique(sel[,2])))]
 	write.table( sel, file= cellidfile, quote=FALSE, row.names=FALSE, sep="\t", col.names=FALSE)
-
 	for ( i in 1:length(gene_cuts)) {
 			outfile=file.path( path,paste(sep="", "GOIS_slice_",i,".txt") )
 			x@groupSelectedFrom[[x@usedObj$lastGroup]][["heatmapBasename"]] = basename( cellidfile )
