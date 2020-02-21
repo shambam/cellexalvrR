@@ -58,18 +58,18 @@ if ( file.exists( ofile) ) {
 if ( file.exists( SelectionFile)){
 	unlink( SelectionFile )
 }
-
 t = getDifferentials( t,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
+
 
 expect_true(file.exists( ofile), "new time selection file is missing" )
 
 time= t@usedObj$timelines[['lastEntry']]
-o = time$time
+o = time@dat$time
 d = read.delim(SelectionFile, header=F )
 
 
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
-expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
+expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[o]) == TRUE, "new order was wrong")
 #expect_true( all.equal( as.vector(d[,2]), gplots::bluered( 9 ))==TRUE, "new order")
 
 

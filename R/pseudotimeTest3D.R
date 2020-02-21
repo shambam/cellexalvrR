@@ -106,76 +106,63 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		RET
 	}
 
-	
+	#res = localLoess( 1:length(a), a, b, c)
 
-	res = localLoess( 1:length(a), a, b, c)
-	
-	o = NULL
+	## Rather base this on slingshot's implementation.
+	## But that needs groups.
+	dat = cbind( a, b, c )
+	opt = optGroupCountKmeans( dat )
+	group = kmeans( dat , opt )
+	dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
+	end = which( dist_of_centers == max(dist_of_centers))
 
-	## do the time in a different way - brutally different!
-
-
-	try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
-	
-	time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
-
-	res$timeOld = time[order(o)]
-	res$x = res$x
-	res$y = res$y
-	res$z = res$z
-	res$a = a
-	res$b = b
-	res$c = c
-
-	id= (ncol(x@userGroups) /2) + 1
-	gname = paste( "Time.group", id, sep="." ) 
-	if ( is.null( x@usedObj$timelines )){
-	  x@usedObj$timelines= list()
+	sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
+	slingTime = slingshot::slingPseudotime( sling )
+	## I am interested in the longest slope
+	use = 1
+	if ( ncol(slingTime) > 1){
+		tmp= apply( slingTime,2, function(x){ length(which(! is.na(x))) } )
+		use = which(tmp == max(tmp))
 	}
-
-	x@usedObj$timelines[['lastEntry']] = res
-	x@usedObj$timelines[[ gname ]] = res
-
-	f = NULL
-
-	## I need to create a new one named 
+	o = order( slingTime[,use])
+	
+	res = data.frame( 
+		time = slingTime[,use],
+		order = order(slingTime[,use]),
+		x = sling@curves[[use]]$s[,1],
+		y = sling@curves[[use]]$s[,2],
+		z = sling@curves[[use]]$s[,3],
+		a = a,
+		b = b,
+		c = c,
+	## to not break VR I need to restrict the number of colors here to 10!		
+		col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
+		)
 	info = groupingInfo(x, grouping )
-	info$selectionFile = paste( sep=".", x@usedObj$SelectionFiles[[ grouping ]], 'time')
-	info$order = order(res$time)
-	## to not break VR I need to restrict the number of colors here to 10!
+	res = new('cellexalTime', dat= res, drc=info$drc)
+	res = check(res)
 
-	info$col = gplots::bluered( 10 )[ round(seq( from=1, to=10,  length.out = length(info$order)))[info$order] ]
-	info$gname = gname
-	x@groupSelectedFrom[[ gname ]] = info
+	#plot(res)
+
+	# try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
+	# time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
+
+	## add the time as group:
+
+	#the VR program dependeds on it
+	x = addSelection( res, x, grouping )
 
 	## no colnames: cell name, color, drc name and selection id - fille with 0
-
+	info = groupingInfo(x, grouping )
 	## create the .time selection file for cellexalVR
-	o = res$time
-	l = length(o) 
-	d = cbind( names(res$c)[o], gplots::bluered( 9 )[ round(seq( from=1, to=9,  length.out = l))], rep( info$drc , l ), rep(0, l)  )
-	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= file.path( x@outpath, basename(info$selectionFile)) ) 
-
-	f2 = paste( sep=".",info$selectionFile ,'points')
-	d = cbind( names(res$c)[o], res$x[o], res$y[o], res$z[o]  )
-	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=file.path( x@outpath, basename(f2)) )
+	f= file.path( x@outpath, basename(info$selectionFile)) 
+	f= paste(sep=".", f, 'time')
+	exportSelection( res, f )
 
 	if ( file.exists( x@usedObj$sessionPath ) ) {
 		file.copy( f, x@usedObj$sessionPath)
-		file.copy( f2, x@usedObj$sessionPath)
+		file.copy( paste( sep=".",f,'points'), x@usedObj$sessionPath)
 	}
-	
-
-
-	#the VR program dependeds on it
-
-	m = match( names(res$a), colnames(x@data) )
-	x@userGroups[,gname] = NA
-	x@userGroups[m,gname] = res$time
-	x@userGroups[,paste(gname, sep=" ", 'order')] = NA
-	x@userGroups[m,paste(gname, sep=" ", 'order')] = order(res$time)
-	
-	x@usedObj$lastGroup = gname
 
 	return(x)
 	

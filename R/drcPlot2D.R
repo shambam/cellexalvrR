@@ -31,6 +31,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		# 	browser()
 		# }
 	DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
+
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0

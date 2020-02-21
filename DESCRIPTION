@@ -17,27 +17,29 @@ Depends:
 	Matrix
 Imports:
 	AnnotationDbi,
-	progress,
 	bookdown,
 	FastWilcoxTest (>= 0.1.11),
 	GeneNet,
 	gplots,
 	graph,
-	grDevices,   
+	grDevices,
 	knitr,
 	Matrix.utils,
 	methods,
 	org.Hs.eg.db,
 	org.Mm.eg.db,
 	phytools,
+	progress,
+	propr,
+	ps,
 	reshape2,
 	rmarkdown,
 	RSQLite,
+	slingshot,
 	stringr,
 	topGO,
 	utils,
-	propr,
-	ps
+	wesanderson
 Remotes: 
 	sonejilab/FastWilcoxTest
 Enhances:

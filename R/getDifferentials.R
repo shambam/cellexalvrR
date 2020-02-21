@@ -112,16 +112,20 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
 				gnameO =  paste(sep=" ",gname , 'order')
-	
-				cellexalObj@userGroups[, gname ] = NA
-				cellexalObj@userGroups[, gnameO] = NA
-				cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
-				cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
-				cellexalObj@colors[[gname]] = loc@colors[[gname]]
-				cellexalObj@groupSelectedFrom[[ gname ]] = loc@groupSelectedFrom[[ gname ]]
-				cellexalObj@groupSelectedFrom[[ gname ]][['grouping']] = cellexalObj@userGroups[, gname ]
-				cellexalObj@groupSelectedFrom[[ gnameO ]][['order']] = cellexalObj@userGroups[, gnameO ]
-				#cellexalObj@groupSelectedFrom[[gname]]$drc = info$drc
+
+				cellexalTime = loc@usedObj$timelines[[ gname ]] 
+			
+				cellexalObj = addSelection( cellexalTime, cellexalObj, info$gname)
+
+				# cellexalObj@userGroups[, gname ] = NA
+				# cellexalObj@userGroups[, gnameO] = NA
+				# cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
+				# cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
+				# cellexalObj@colors[[gname]] = loc@colors[[gname]]
+				# cellexalObj@groupSelectedFrom[[ gname ]] = loc@groupSelectedFrom[[ gname ]]
+				# cellexalObj@groupSelectedFrom[[ gname ]][['grouping']] = cellexalObj@userGroups[, gname ]
+				# cellexalObj@groupSelectedFrom[[ gnameO ]][['order']] = cellexalObj@userGroups[, gnameO ]
+				# cellexalObj@groupSelectedFrom[[gname]]$drc = info$drc
 
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
 
@@ -140,7 +144,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					nrol = 500
 				}
 
-				rolled <- FastWilcoxTest::rollSum( loc@data[, as.vector(loc@userGroups[, gnameO ] ) ], nrol )
+				rolled <- FastWilcoxTest::rollSum( loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], nrol )
 
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
 
@@ -159,6 +163,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.genes = hc$labels[hc$order]
 
 				## now we lack the heatmap here... But I would need one - crap!
+				if ( is.null( cellexalObj@usedObj$timelines)) {
+					cellexalObj@usedObj$timelines = list()
+				}
 				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
 
@@ -204,7 +211,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					if ( h < 200)
 						h = 200
 
-					print( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
+					message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
 
 					png( file=ofile, width=1000, height = h )
 					image( p[,genes], col=gplots::bluered(40))
@@ -218,10 +225,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				png( file=ofile, width=1000, height = 1000)
 				image( p[,deg.genes], col=gplots::bluered(40))
 				dev.off()
-
 				try( { 
-					cellexalObj = CreateBin(  cellexalObj, gname, colFun= function(x) { c('gray', gplots::bluered(x-1))} )
-					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , groupingInfo( cellexalObj,info$gname), png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
+					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , 
+						groupingInfo( cellexalObj,info$gname), png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
 				} )
 			
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps

@@ -13,6 +13,8 @@
 \item{grouping}{the grouping the hetmap should be using (a cellexalVR selection file will be produced)}
 
 \item{path}{the outpath for the files}
+
+\item{colorF}{a function returning the colors in the order they should appear on the heatmap (default = rainbow)}
 }
 \description{
 export a list of genes of interest to be loaded as heatmaps in cellexalVR

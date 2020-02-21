@@ -27,11 +27,10 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}
-
 		if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
 			stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
 		}
-
+		
 		drc = cellexalObj@drc[[gInfo$drc]]
 		gInfo$order[ which(is.na(gInfo$order))] = 0
 		if ( any( ! is.numeric(gInfo$order)) ) {
@@ -39,15 +38,12 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			browser()
 		}
 		gInfo$order = as.numeric(as.vector(gInfo$order)) +1
-		col = rep( gray(0.6), ncol(cellexalObj@data))
-		col[which( gInfo$order > 1 ) ] = gInfo$col
-		
+		#browser()
 		#if ( ncol( cellexalObj@data) > 200) { browser()}
 
 		DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 		grDevices::png( file= DRC1, width=1000, height=1000)
-		graphics::plot(
-				drc[,1], drc[,2], col= col,
+		graphics::plot(	drc[,1], drc[,2], col= color(gInfo$time,colnames(cellexalObj@data)), pch=16,
 			main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
 		dev.off()
 
@@ -59,7 +55,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 		grDevices::png( file= DRC2, width=1000, height=1000)
 		graphics::plot(
-				drc[,1], drc[,3], col= col,
+				drc[,1], drc[,3], col= color(gInfo$time,colnames(cellexalObj@data)), pch=16,
 			main = paste( gInfo$drc, 'dim 1+3' ), xlab="dimension 1", ylab= "dimension 3" )
 		dev.off()
 		
