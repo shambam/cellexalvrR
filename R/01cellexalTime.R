@@ -57,7 +57,7 @@ if ( ! isGeneric('exportSelection') ){setGeneric('exportSelection', ## Name
 setMethod('exportSelection', signature = c ('cellexalTime'),
 	definition = function (x, fname) {
 
-	dat = x@dat[x@dat$order,]
+	dat = x@dat[order(x@dat$time),]
 	d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), rep(0, nrow(dat))  )
 	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
 
