@@ -67,6 +67,7 @@ time= t@usedObj$timelines[['lastEntry']]
 o = order(time@dat$time)
 d = read.delim(SelectionFile, header=F )
 
+#browser()
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
 expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[order( time@dat$time)]) == TRUE, "new order was wrong")
 #expect_true( all.equal( as.vector(d[,2]), gplots::bluered( 9 ))==TRUE, "new order")
