@@ -116,7 +116,12 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	}
 	opt = optGroupCountKmeans( dat )
 	group = kmeans( dat , opt )
-	dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
+	dist_of_centers = NULL
+	if ( ncol(dat) == 2) {
+		dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], rep(0, length(group$centers[,'b'])), group$cluster[1]-1 )
+	}else {
+		dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
+	}
 	end = which( dist_of_centers == max(dist_of_centers))
 
 	sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
@@ -128,19 +133,34 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		use = which(tmp == max(tmp))
 	}
 	o = order( slingTime[,use])
-	
-	res = data.frame( 
-		time = slingTime[,use],
-		order = order(slingTime[,use]),
-		x = sling@curves[[use]]$s[,1],
-		y = sling@curves[[use]]$s[,2],
-		z = sling@curves[[use]]$s[,3],
-		a = a,
-		b = b,
-		c = c,
-	## to not break VR I need to restrict the number of colors here to 10!		
-		col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
+	if ( ncol(dat) == 2) {
+		res = data.frame( 
+			time = slingTime[,use],
+			order = order(slingTime[,use]),
+			x = sling@curves[[use]]$s[,1],
+			y = sling@curves[[use]]$s[,2],
+			z = rep(0, length(group$centers[,'b'])) ,
+			a = a,
+			b = b,
+			c = rep(0, length(group$centers[,'b'])),
+		## to not break VR I need to restrict the number of colors here to 10!		
+			col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
 		)
+	}
+	else{
+		res = data.frame( 
+			time = slingTime[,use],
+			order = order(slingTime[,use]),
+			x = sling@curves[[use]]$s[,1],
+			y = sling@curves[[use]]$s[,2],
+			z = sling@curves[[use]]$s[,3],
+			a = a,
+			b = b,
+			c = c,
+		## to not break VR I need to restrict the number of colors here to 10!		
+			col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
+		)
+	}
 	info = groupingInfo(x, grouping )
 	res = new('cellexalTime', dat= res, drc=info$drc)
 	res = check(res)
