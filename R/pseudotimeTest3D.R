@@ -111,6 +111,9 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	## Rather base this on slingshot's implementation.
 	## But that needs groups.
 	dat = cbind( a, b, c )
+	if ( var(c) == 0){
+		dat = cbind(a,b)
+	}
 	opt = optGroupCountKmeans( dat )
 	group = kmeans( dat , opt )
 	dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
