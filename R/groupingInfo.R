@@ -23,6 +23,9 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	if ( is.null(gname)){
 		gname = cellexalObj@usedObj$lastGroup
 	}
+	if ( !is.null( cellexalObj@groupSelectedFrom[[gname]])){
+		return ( cellexalObj@groupSelectedFrom[[gname]] )
+	}
 	cellexalObj@groupSelectedFrom[[gname]][['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
 	cellexalObj@groupSelectedFrom[[gname]][['grouping']] = cellexalObj@userGroups[, gname ]
 	

@@ -41,7 +41,6 @@ setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	cols = colorF(length(table(x@userGroups[,grouping])))[x@userGroups[,grouping]]
 	sel = data.frame( colnames(x@data), cols, rep(names(x@drc)[1], nrow(x@userGroups)), x@userGroups[,grouping] )
 	sel = sel[order( x@userGroups[,grouping] ),]
-	browser()
 	sel[,2] = colorF( length( levels(sel[,2]) ))[ as.numeric(factor( sel[,2], levels=unique(sel[,2]))) ]
 	write.table( sel, file= cellidfile, quote=FALSE, row.names=FALSE, sep="\t", col.names=FALSE)
 	for ( i in 1:length(gene_cuts)) {

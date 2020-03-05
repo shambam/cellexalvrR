@@ -105,18 +105,21 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 
 				OK = match( colnames(loc@data), colnames(cellexalObj@data) )
-
-				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )
+				a = drc[,1]
+				names(a) = colnames(loc@data)
+				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
 
 				## so the new group needs to get into the main object:
-				m = match( colnames(cellexalObj@data), colnames( loc@data) )
 				gname = loc@usedObj$lastGroup
 				gnameO =  paste(sep=" ",gname , 'order')
 
 				cellexalTime = loc@usedObj$timelines[[ gname ]] 
 			
+				#browser()
 				cellexalObj = addSelection( cellexalTime, cellexalObj, info$gname)
 
+				#fnames = drcPlots2Dtime( cellexalObj, groupingInfo( cellexalObj, cellexalTime@gname ))
+				#system( paste('display', fnames[1]))
 				# cellexalObj@userGroups[, gname ] = NA
 				# cellexalObj@userGroups[, gnameO] = NA
 				# cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]

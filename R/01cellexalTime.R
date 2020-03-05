@@ -95,29 +95,52 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 		  cellexalObj@usedObj$timelines= list()
 		}
 
+	if ( is.null( cellexalObj@usedObj$timelines) ) {
+		cellexalObj@usedObj$timelines = list()
+	}
 	cellexalObj@usedObj$timelines[['lastEntry']] = x
 	cellexalObj@usedObj$timelines[[ x@gname ]] = x
-
 	## I need to create a new one named 
 	info = groupingInfo(cellexalObj, upstreamSelection )
 	info$selectionFile = paste( sep=".", cellexalObj@usedObj$SelectionFiles[[ upstreamSelection ]], 'time')
 	info$timeObj = x
 
-
-
 	info$gname = x@gname
 	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
 	m = match( rownames(x@dat), colnames(cellexalObj@data) )
-	if ( length(which(is.na(m)))>0){
-		stop("ERROR: This timeline describes cells that are not in the ecellexalvrR object!")
+	## BUGFIX
+	t1 = x@dat[,c('a','b','c')]
+	t2 = cellexalObj@drc[[x@drc]][m,]
+	colnames(t1) = colnames(t2)
+	if ( ! all.equal( t1, t2) == TRUE ){
+		stop( "The drc models are not the same!")
 	}
+
+	if ( length(which(is.na(m)))>0){
+		stop("ERROR: This timeline describes cells that are not in the cellexalvrR object!")
+	}
+	#m = match( colnames(cellexalObj@data), rownames(x@dat))
+	#OK = which(!is.na(m))
+	#all.equal( colnames(cellexalObj@data)[m], rownames(x@dat))
+
 	cellexalObj@userGroups[,x@gname] = NA
-	cellexalObj@userGroups[m,x@gname] = x@dat$time
+	cellexalObj@userGroups[m,x@gname] = as.vector(x@dat$time)
+
 	cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')] = NA
-	cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')] = x@dat$order
+	cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')] = order( x@dat$time )
 	
+	#all.equal(cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')],  order( x@dat$time ) )
 	cellexalObj@usedObj$lastGroup = x@gname
+	#browser()
+	col = rep('gray80', ncol(cellexalObj@data))
+	col[m] = as.vector(x@dat$col)
+	#all.equal( rownames(cellexalObj@drc[[info$drc]])[m], rownames(x@dat))
+	#rgl::open3d()
+	#rgl::plot3d( cellexalObj@drc[[info$drc]], col=col)
+	#rgl::points3d (cbind( x@dat[,c('a','b')], 'c'= rep(1, nrow(x@dat)) ), col= as.vector(x@dat$col))
+
+#	rgl::plot3d( cellexalObj@drc[[info$drc]][ cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')],], col=wesanderson::wes_palette("Zissou1", nrow(cellexalObj@userGroups), type = "continuous") ) 
 
 	invisible( cellexalObj)
 } )
@@ -144,6 +167,12 @@ setMethod('check', signature = c ('cellexalTime'),
 		warning("Missing values detected in the time - dropping these")
 		x@dat= x@dat[-bad,]
 	}
+	x@dat = x@dat[order(x@dat$time),]
+	## onestly change the color NOW!
+	ids = ceiling(seq( from=0, to=10,  length.out = nrow(x@dat) +1))
+	ids = ids[-1]
+	x@dat$col = factor(wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ ids ], 
+		levels= wesanderson::wes_palette("Zissou1", 10, type = "continuous") )
 	invisible(x)
 } )
 

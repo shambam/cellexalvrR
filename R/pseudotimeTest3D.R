@@ -54,7 +54,6 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 				grDevices::png ( file=paste(fname,'png', sep="."), width=800, height=800)
 			}
 		}
-	
 	if ( is.null( outpath )) {
 		x = sessionPath(x)
 		outpath = x@usedObj$sessionPath
@@ -71,40 +70,40 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	
 	## would a partial loess work??
 	## identify turns
-	localLoess <- function (ids, a,b,c ) {
-		## return a 3d loess line part
-		ret = list()
-		inp = list( a=a, b=b, c=c )
-		ranges = unlist(lapply( list(a,b,c), function(d) { r = range(d[ids]); r[2] - r[1]} ))
-		inp$order= c('a','b','c')[ order( ranges, decreasing=T )]
+	# localLoess <- function (ids, a,b,c ) {
+	# 	## return a 3d loess line part
+	# 	ret = list()
+	# 	inp = list( a=a, b=b, c=c )
+	# 	ranges = unlist(lapply( list(a,b,c), function(d) { r = range(d[ids]); r[2] - r[1]} ))
+	# 	inp$order= c('a','b','c')[ order( ranges, decreasing=T )]
 		
-		ls = loess( inp[[inp$order[2]]][ids] ~ inp[[inp$order[1]]][ids] )
-		ret[[inp$order[1]]] = inp[[inp$order[1]]][ids]
-		ret[[inp$order[2]]] = predict( ls)
-		ls = loess(  inp[[inp$order[3]]][ids] ~ inp[[inp$order[1]]][ids] )
-		ret[[inp$order[3]]] = predict( ls )
+	# 	ls = loess( inp[[inp$order[2]]][ids] ~ inp[[inp$order[1]]][ids] )
+	# 	ret[[inp$order[1]]] = inp[[inp$order[1]]][ids]
+	# 	ret[[inp$order[2]]] = predict( ls)
+	# 	ls = loess(  inp[[inp$order[3]]][ids] ~ inp[[inp$order[1]]][ids] )
+	# 	ret[[inp$order[3]]] = predict( ls )
 
-		names(ret[['a']]) = names( inp[['a']])
-		RET = list( 'x' = ret$a, 'y' = ret$b, 'z' = ret$c )
+	# 	names(ret[['a']]) = names( inp[['a']])
+	# 	RET = list( 'x' = ret$a, 'y' = ret$b, 'z' = ret$c )
 
-		#rgl::plot3d( cbind( x=a,y=b,z=c), col= gplots::bluered(length(a))[ x@userGroups[[paste(grouping, 'order')]] ])
-		#rgl::rgl.points( RET )
+	# 	#rgl::plot3d( cbind( x=a,y=b,z=c), col= gplots::bluered(length(a))[ x@userGroups[[paste(grouping, 'order')]] ])
+	# 	#rgl::rgl.points( RET )
 
-		## get the time here, too
-		dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], 1 )
-		B = which(dists == max(dists))
-		dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], B )
-		A= which(dists == max(dists))
+	# 	## get the time here, too
+	# 	dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], 1 )
+	# 	B = which(dists == max(dists))
+	# 	dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], B )
+	# 	A= which(dists == max(dists))
 
-		inp[[inp$order[2]]][ids[A]]
+	# 	inp[[inp$order[2]]][ids[A]]
 
-		alpha <- -atan((inp[[inp$order[2]]][ids[A]]- inp[[inp$order[2]]][ids[B]])/(inp[[inp$order[1]]][ids[A]]- inp[[inp$order[1]]][ids[B]]))
-		rotm <- matrix(c(cos(alpha),sin(alpha),-sin(alpha),cos(alpha)),ncol=2)
-		M2 <- t(rotm %*% rbind(inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] ) )
-		RET$time = order( M2[,1] )
+	# 	alpha <- -atan((inp[[inp$order[2]]][ids[A]]- inp[[inp$order[2]]][ids[B]])/(inp[[inp$order[1]]][ids[A]]- inp[[inp$order[1]]][ids[B]]))
+	# 	rotm <- matrix(c(cos(alpha),sin(alpha),-sin(alpha),cos(alpha)),ncol=2)
+	# 	M2 <- t(rotm %*% rbind(inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] ) )
+	# 	RET$time = order( M2[,1] )
 
-		RET
-	}
+	# 	RET
+	# }
 
 	#res = localLoess( 1:length(a), a, b, c)
 
@@ -114,6 +113,8 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	if ( var(c) == 0){
 		dat = cbind(a,b)
 	}
+	#browser()
+	colnames= names(a)
 	opt = optGroupCountKmeans( dat )
 	group = kmeans( dat , opt )
 	dist_of_centers = NULL
@@ -133,47 +134,49 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		use = which(tmp == max(tmp))
 	}
 	o = order( slingTime[,use])
+
 	if ( ncol(dat) == 2) {
+		o = order(slingTime[,use])
 		res = data.frame( 
 			time = slingTime[,use],
-			order = order(slingTime[,use]),
+			order = o,
 			x = sling@curves[[use]]$s[,1],
 			y = sling@curves[[use]]$s[,2],
-			z = rep(0, length(group$centers[,'b'])) ,
+			z = rep(0, nrow(slingTime)) ,
 			a = a,
 			b = b,
-			c = rep(0, length(group$centers[,'b'])),
-		## to not break VR I need to restrict the number of colors here to 10!		
-			col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
+			c = rep(0, nrow(slingTime))
 		)
+		rownames(res) = rownames(slingTime)
 	}
 	else{
+		o = order(slingTime[,use])
 		res = data.frame( 
 			time = slingTime[,use],
-			order = order(slingTime[,use]),
+			order = o,
 			x = sling@curves[[use]]$s[,1],
 			y = sling@curves[[use]]$s[,2],
 			z = sling@curves[[use]]$s[,3],
 			a = a,
 			b = b,
-			c = c,
-		## to not break VR I need to restrict the number of colors here to 10!		
-			col=  wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ round(seq( from=1, to=9,  length.out = length(o)))[ order(o)] ] 
+			c = c
 		)
+		rownames(res) = rownames(slingTime)
 	}
 	info = groupingInfo(x, grouping )
 	res = new('cellexalTime', dat= res, drc=info$drc)
 	res = check(res)
-
-	#plot(res)
-
-	# try({o = FastWilcoxTest::euclidian_order3d( res$x, res$y, res$z )},silent= TRUE)
-	# time = FastWilcoxTest::euclidian_distances3d( res$x[o], res$y[o], res$z[o], sum=T )
+	## does the color and the line look OK?
+	#plotTime(res)
 
 	## add the time as group:
-
 	#the VR program dependeds on it
+
 	x = addSelection( res, x, grouping )
+
+	## does the time look ok 3when copied to the cellexal object?
+	#fnames = drcPlots2Dtime( x, groupingInfo(x, colnames(x@userGroups)[ncol(x@userGroups) -1]) )
+	#system( paste('display', fnames[1]))
 
 	## no colnames: cell name, color, drc name and selection id - fille with 0
 	info = groupingInfo(x, grouping )

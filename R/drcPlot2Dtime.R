@@ -37,7 +37,10 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			message("wrong data in gInfo$order")
 			browser()
 		}
-		gInfo$order = as.numeric(as.vector(gInfo$order)) +1
+		if ( min(as.vector(gInfo$order)) == 0) {
+			gInfo$order = as.numeric(as.vector(gInfo$order)) +1
+		}
+		gInfo$order = as.vector(gInfo$order)
 		#browser()
 		#if ( ncol( cellexalObj@data) > 200) { browser()}
 
