@@ -16,7 +16,7 @@ colnames(m) = paste('cell', 1:ncol(m))
 rownames(m) = paste('gene', 1:nrow(m))
 m[which(m< 1)] = 0
 m = Matrix::Matrix(m,sparse=T)
-obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(100), y=runif(100), z=runif(100) )) )
+obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
 
 export2cellexalvr( obj, opath )
 
@@ -82,12 +82,20 @@ expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing n
 
 
 context( "heatmap is produced" )
-ofile = file.path(opath, 'selection0.png') 
+ofile = file.path(opath, 'heatmaps','testHeatmap.txt') 
+
+if ( ! file.exists( file.path(opath, 'heatmaps')) ){
+	dir.create( file.path(opath, 'heatmaps') )
+}
 if(  file.exists(ofile ) ){
 	unlink( ofile)
 }
+if(  file.exists(paste( ofile , '.sqlite3', sep="")) ){
+	unlink( paste( ofile , '.sqlite3', sep="") )
+}
 
-make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
+make.cellexalvr.heatmap.list ( file.path(ipath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
 
-expect_true( file.exists( ofile ),  paste("outfile missing:", ofile) )
+expect_true( file.exists( ofile ),  paste("gene list file missing:", ofile) )
 
+expect_true( file.exists( paste( ofile , '.sqlite3', sep="") ),  paste("heatmap database file missing:", ofile) )
