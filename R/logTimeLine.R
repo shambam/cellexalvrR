@@ -69,16 +69,16 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 		"\n")
 	}
 	content = paste( sep="\n", content,
-		paste( "### 2D DRC", info$drc, " dim 1,2"),
+		paste( "### 2D DRC", info$drc, " dim 1,2 original selection"),
 		paste("![](",drcFiles[1],")"),
 		'',
-		paste( "### 2D DRC", info$drc, " dim 2,3"),
+		paste( "### 2D DRC", info$drc, " dim 2,3 original selection"),
 		paste("![](",drcFiles[2],")"),
 		"",
-		paste( "### TimeLine 2D DRC", info$drc, " dim 1,2"),
+		paste( "### TimeLine 2D DRC", info$drc, " dim 1,2 time line"),
 		paste("![](",drcFiles2[1],")"),
 		'',
-		paste( "### TimeLine 2D DRC", info$drc, " dim 2,3"),
+		paste( "### TimeLine 2D DRC", info$drc, " dim 2,3 time line"),
 		paste("![](",drcFiles2[2],")"),
 		""
 

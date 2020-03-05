@@ -136,7 +136,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## It does not make sense to check genes that are hardly expressed at all in the group.
 				## Lets say I want min 10% of the genes - how would that look?
 				nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
-				OK = which( nCells / ncol(loc@data)  > .1 )
+				OK = which( nCells / ncol(loc@data)  > .01 )
 
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
 				nrol = round( length(OK) / 100 )
