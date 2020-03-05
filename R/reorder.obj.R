@@ -29,6 +29,9 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	if ( ncol(dataObj@data) == nrow(dataObj@userGroups) ) {
 		dataObj@userGroups <- dataObj@userGroups[ids,]
 	}
+	for ( n in names(dataObj@drc) ) {
+		dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
+	}
 	dataObj
 } )
 
