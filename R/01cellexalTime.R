@@ -111,9 +111,11 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 	## BUGFIX
 	t1 = x@dat[,c('a','b','c')]
-	t2 = cellexalObj@drc[[x@drc]][m,]
+	t2 = cellexalObj@drc[[x@drc]][m,1:3]
 	colnames(t1) = colnames(t2)
-	if ( ! all.equal( as.matrix(t1), as.matrix(t2)) == TRUE ){
+	rownames(t1) = rownames(t2)
+	if ( ! all( t1 == t2) ){
+		message("drc models not the same")
 		browser()
 		stop( "The drc models are not the same!")
 	}
