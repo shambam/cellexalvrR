@@ -41,7 +41,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (cellexalObj,cellidfile,
 				deg.method=c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
-				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) {
+				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE) {
 			
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			num.sig <- as.numeric( num.sig )
@@ -241,13 +241,16 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				CppStats <- function( n ) {
 					OK = which(grp.vec == n )
 					BAD= which(grp.vec != n )
+					r = NULL
 					if ( length(OK) > 0 & length(BAD) >0){
+						try({
 						r = as.data.frame(
 								FastWilcoxTest::StatTest( Matrix::t( loc@data), OK, BAD, 
 										logfc.threshold, minPct, onlyPos=onlyPos )
 						)
 						r= r[order( r[,'p.value']),]
 						r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@data)[r[,1]] )
+						})
 					}
 					r
 				}
