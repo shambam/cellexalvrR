@@ -9,8 +9,10 @@
   cellexalObj,
   cellidfile,
   outpath,
-  cutoff.ggm = 0.8,
-  top.n.inter = 125
+  cutoff.ggm = 0.1,
+  exprFract = 0.1,
+  top.n.inter = 130,
+  method = c("rho.p", "pcor")
 )
 }
 \arguments{
@@ -23,6 +25,8 @@
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.8)}
 
 \item{top.n.inter}{get only the n top interations default=125}
+
+\item{exprFrac}{which fraction of cells needs to express a gene to be included in the analysis (default 0.1)}
 }
 \description{
 preload the cellexalObj.RData file
