@@ -34,19 +34,20 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
-#' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
+#' @param cutoff.ggm The cutoff for the correlation (default = 0.1)
+#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.01)
 #' @param top.n.inter get only the n top interations default=130
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network
 if ( ! isGeneric('make.cellexalvr.network') ){setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8,top.n.inter=130,method=c("rho.p","pcor")) {
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 		standardGeneric('make.cellexalvr.network')
 	}
 ) }
 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=130,method=c("rho.p","pcor")) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 
 		if ( !file.exists(outpath)) {
 			dir.create( outpath ,  recursive = TRUE)
@@ -71,6 +72,10 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
 
+    message( paste("We have", nrow(loc@data), "genes remaining after TF and fracExpr cuts") )
+    if ( nrow(loc@data) < 10 ) {
+        return ( make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm / 10, exprFract, top.n.inter,method ) )
+    }
     ## at some time we had a problem in the creeation of order column names:
     possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
     gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
@@ -90,27 +95,44 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     grp.tabs <- NULL
     avg.drc.coods <- NULL
     #layout.tabs <- NULL
+    if ( length(method) == 2) {
+        method="rho.p"
+    }
     if(method=="rho.p"){
 
         for(i in 1:length(grps)){
 
-            print(paste("Making network",i))
+            message(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info$gname] ==grps[i])])
 
+            if ( length(rq.cells) < 10 ) {
+                message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
+                browser()
+                next
+            }
+            ## now remove all 'rarely expressed' genes
             sub.d <- data[, rq.cells ]
+            min = exprFract * length( rq.cells )
+            if ( min < 5){
+                min = 5
+            }
 
-            rem.ind<- which(apply(sub.d,1,sum)==0)
-            print(dim(sub.d))
-            if (length(rem.ind) > 0) {
-                sub.d <- sub.d[-rem.ind,]
+            OK = which( FastWilcoxTest::ColNotZero( Matrix::t(sub.d) ) >= min )
+            sub.d <- sub.d[OK,]
+            
+            if ( nrow( sub.d) < 2 ) {
+                message("less than two genes expressed in the group - next")
+                next
             }
             cor.mat <- propr::perb(as.matrix(t(sub.d)))@matrix
             cor.mat.flt <- cormat2df(cor.mat) #function definition in file 'NetworkFunctions.R'
             cor.mat.ord <-  cor.mat.flt[rev(order(cor.mat.flt[,3])),]
             
             cor.cut <- quantile(cor.mat.ord[,3],0.99)
-
+            if ( cor.cut == 1) {
+                cor.cut = 1-1e-4
+            }
             hi.prop <- length(which(cor.mat.ord[,3] > cor.cut))
             lo.prop <- length(which(cor.mat.ord[,3] < -1*cor.cut))
 
@@ -123,7 +145,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             net <- cbind(cor.mat.req[,c(3,1,2)],0,0,0)
             colnames(net) <- c("pcor","node1","node2","pval","qval","prob")
             if ( is.null(rownames(cellexalObj@drc[[req.graph]])) ) {
-                rownames(cellexalObj@drc[[req.graph]]) =colnames( data )
+                rownames(cellexalObj@drc[[req.graph]]) =colnames( cellexalObj@data )
             }
             avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,1:3],2,mean),info$col[i]))
 
@@ -143,12 +165,29 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
         for(i in 1:length(grps)){
 
-            print(paste("Making network",i))
+            message(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info$gname] ==grps[i])])
 
+            if ( length(rq.cells) < 10 ) {
+                message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
+                browser()
+                next
+            }
+            ## now remove all 'rarely expressed' genes
             sub.d <- data[, rq.cells ]
-            print(dim(sub.d))
+            min = exprFract * length( rq.cells )
+            if ( min < 5){
+                min = 5
+            }
+
+            OK = which( FastWilcoxTest::ColNotZero( Matrix::t(sub.d) ) >= min )
+            sub.d <- sub.d[OK,]
+            
+            if ( nrow( sub.d) < 2 ) {
+                message("less than two genes expressed in the group - next")
+                next
+            }
 
             inferred.pcor <- GeneNet::ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")
             test.results <- GeneNet::network.test.edges(inferred.pcor,plot=F)
@@ -195,12 +234,13 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
+#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.1)
 #' @param top.n.inter get only the n top interations default=125
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network
 setMethod('make.cellexalvr.network', signature = c ('character'),
-		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.8, top.n.inter=125) {
+		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 			cellexalObj2 <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			make.cellexalvr.network( cellexalObj2, cellidfile,outpath, cutoff.ggm, top.n.inter) #function definition in file 'NetworkFunctions.R'
 		}
