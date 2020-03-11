@@ -102,23 +102,34 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
         for(i in 1:length(grps)){
 
-            print(paste("Making network",i))
+            message(paste("Making network",i))
 
             rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
+
+            if ( length(rq.cells) < 10 ) {
+                message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
+                next
+            }
 
             sub.d <- data[, rq.cells ]
 
             rem.ind<- which(apply(sub.d,1,sum)==0)
-            print(dim(sub.d))
+            #print(dim(sub.d))
             if (length(rem.ind) > 0) {
                 sub.d <- sub.d[-rem.ind,]
+            }
+            if ( nrow( sub.d) < 2 ) {
+                message("less than two genes expressed in the group - next")
+                next
             }
             cor.mat <- propr::perb(as.matrix(t(sub.d)))@matrix
             cor.mat.flt <- cormat2df(cor.mat) #function definition in file 'NetworkFunctions.R'
             cor.mat.ord <-  cor.mat.flt[rev(order(cor.mat.flt[,3])),]
             
             cor.cut <- quantile(cor.mat.ord[,3],0.99)
-
+            if ( cor.cut == 1) {
+                cor.cut = 1-1e-4
+            }
             hi.prop <- length(which(cor.mat.ord[,3] > cor.cut))
             lo.prop <- length(which(cor.mat.ord[,3] < -1*cor.cut))
 
@@ -131,7 +142,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             net <- cbind(cor.mat.req[,c(3,1,2)],0,0,0)
             colnames(net) <- c("pcor","node1","node2","pval","qval","prob")
             if ( is.null(rownames(cellexalObj@drc[[req.graph]])) ) {
-                rownames(cellexalObj@drc[[req.graph]]) =colnames( data )
+                rownames(cellexalObj@drc[[req.graph]]) =colnames( cellexalObj@data )
             }
             avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,1:3],2,mean),info$col[i]))
 
