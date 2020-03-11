@@ -71,11 +71,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[- #function definition in file 'reduceTo.R'
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
-#    OK = which( Matrix::rowSums(loc@data) >= exprFract * ncol(loc@data))
 
-#    loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[ OK ] )
-
-#    browser()
     message( paste("We have", nrow(loc@data), "genes remaining after TF and fracExpr cuts") )
     if ( nrow(loc@data) < 10 ) {
         return ( make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm / 10, exprFract, top.n.inter,method ) )
