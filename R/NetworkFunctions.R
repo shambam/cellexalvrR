@@ -110,14 +110,16 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
                 message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
                 next
             }
-
+            ## now remove all 'rarely expressed' genes
             sub.d <- data[, rq.cells ]
-
-            rem.ind<- which(apply(sub.d,1,sum)==0)
-            #print(dim(sub.d))
-            if (length(rem.ind) > 0) {
-                sub.d <- sub.d[-rem.ind,]
+            min = exprFract * length( rq.cells )
+            if ( min < 5){
+                min = 5
             }
+
+            OK = which( FastWilcoxTest::ColNotZero( Matrix::t(sub.d) ) >= min )
+            sub.d <- sub.d[OK,]
+            
             if ( nrow( sub.d) < 2 ) {
                 message("less than two genes expressed in the group - next")
                 next
