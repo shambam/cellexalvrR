@@ -32,6 +32,10 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	for ( n in names(dataObj@drc) ) {
 		dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
 	}
+	for ( n in names(dataObj@groupSelectedFrom) ) {
+		dataObj@groupSelectedFrom[[n]]$order= dataObj@groupSelectedFrom[[n]]$order[ids]
+		dataObj@groupSelectedFrom[[n]]$grouping= dataObj@groupSelectedFrom[[n]]$grouping[ids]
+	}
 	dataObj
 } )
 

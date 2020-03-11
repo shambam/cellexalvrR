@@ -71,7 +71,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- reduceTo (loc, what='col', to=colnames(cellexalObj@data)[- #function definition in file 'reduceTo.R'
 							which(is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
 			] )
-
+    if ( exprFract > 1) {
+        exprFract = .1
+    }
     message( paste("We have", nrow(loc@data), "genes remaining after TF and fracExpr cuts") )
     if ( nrow(loc@data) < 10 ) {
         return ( make.cellexalvr.network( cellexalObj, cellidfile,outpath, cutoff.ggm / 10, exprFract, top.n.inter,method ) )
@@ -114,10 +116,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             ## now remove all 'rarely expressed' genes
             sub.d <- data[, rq.cells ]
             min = exprFract * length( rq.cells )
-            if ( min < 5){
-                min = 5
+            if ( min < 3){
+                min = 3
             }
-
             OK = which( FastWilcoxTest::ColNotZero( Matrix::t(sub.d) ) >= min )
             sub.d <- sub.d[OK,]
             
@@ -196,7 +197,6 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             if(nrow(net)>top.n.inter){
                 net <- net[1:top.n.inter,]
             }
-
             avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info$col[i]))
 
             if(nrow(net)>0){
@@ -214,7 +214,13 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
         }
     }
 	message( paste( "the cellexal object drc names:", paste( collapse= ", ", names(cellexalObj@drc))))
-	
+    # browser()
+    # # check if this plot makes sense:
+    # rgl::plot3d( cellexalObj@drc[[req.graph]][which( is.na(cellexalObj@userGroups[,info$gname])),], col='gray80')
+    # OK = which( ! is.na(cellexalObj@userGroups[,info$gname]))
+    # rgl::points3d( cellexalObj@drc[[req.graph]][ OK, ], col= cellexalObj@colors[[ info$gname ]] [ cellexalObj@userGroups[OK,info$gname ]] )
+    # rgl::points3d( avg.drc.coods[,1:3], col=avg.drc.coods[,4], size=5 )
+    # # looks good! 2020/03/11
     if(nrow(grp.tabs)==0){
         message("There are no networks to see here.")
         invisible(cellexalObj)
