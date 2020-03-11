@@ -134,12 +134,19 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             if ( cor.cut == 1) {
                 cor.cut = 1-1e-4
             }
-            hi.prop <- length(which(cor.mat.ord[,3] > cor.cut))
-            lo.prop <- length(which(cor.mat.ord[,3] < -1*cor.cut))
+            cor.cut.low <- quantile(cor.mat.ord[,3],0.01)
+
+            hi.prop <- length(which(cor.mat.ord[,3] > cor.cut)) / nrow(cor.mat.ord)
+            lo.prop <- length(which(cor.mat.ord[,3] < cor.cut.low))/ nrow(cor.mat.ord)
 
 
-            hi.num <- round(top.n.inter*(hi.prop/(hi.prop+lo.prop)))
-            lo.num <- top.n.inter-hi.num
+            loc.top.n.inter = top.n.inter
+            if ( loc.top.n.inter > nrow(cor.mat.ord) ){
+                loc.top.n.inter = round(nrow(cor.mat.ord) / 10 )
+            }
+
+            hi.num <- round(loc.top.n.inter*(hi.prop/(hi.prop+lo.prop)))
+            lo.num <- loc.top.n.inter-hi.num
 
             cor.mat.req <- cor.mat.ord[ c(1:hi.num, (nrow(cor.mat.ord)-lo.num):nrow(cor.mat.ord)),]
 
