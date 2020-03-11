@@ -99,6 +99,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     grp.tabs <- NULL
     avg.drc.coods <- NULL
     #layout.tabs <- NULL
+    if ( length(method) == 2) {
+        method="rho.p"
+    }
     if(method=="rho.p"){
 
         for(i in 1:length(grps)){
@@ -166,12 +169,29 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
         for(i in 1:length(grps)){
 
-            print(paste("Making network",i))
+            message(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(data)[which(info$grouping==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info$gname] ==grps[i])])
 
+            if ( length(rq.cells) < 10 ) {
+                message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
+                browser()
+                next
+            }
+            ## now remove all 'rarely expressed' genes
             sub.d <- data[, rq.cells ]
-            print(dim(sub.d))
+            min = exprFract * length( rq.cells )
+            if ( min < 5){
+                min = 5
+            }
+
+            OK = which( FastWilcoxTest::ColNotZero( Matrix::t(sub.d) ) >= min )
+            sub.d <- sub.d[OK,]
+            
+            if ( nrow( sub.d) < 2 ) {
+                message("less than two genes expressed in the group - next")
+                next
+            }
 
             inferred.pcor <- GeneNet::ggm.estimate.pcor(as.matrix(Matrix::t(sub.d)),method="static")
             test.results <- GeneNet::network.test.edges(inferred.pcor,plot=F)
