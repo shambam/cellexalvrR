@@ -115,20 +115,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				cellexalTime = loc@usedObj$timelines[[ gname ]] 
 			
-				#browser()
 				cellexalObj = addSelection( cellexalTime, cellexalObj, info$gname)
-
-				#fnames = drcPlots2Dtime( cellexalObj, groupingInfo( cellexalObj, cellexalTime@gname ))
-				#system( paste('display', fnames[1]))
-				# cellexalObj@userGroups[, gname ] = NA
-				# cellexalObj@userGroups[, gnameO] = NA
-				# cellexalObj@userGroups[ which(!is.na(m)), gname ] = loc@userGroups[ m[which(!is.na(m))], gname ]
-				# cellexalObj@userGroups[ which(!is.na(m)), gnameO ] = loc@userGroups[ m[which(!is.na(m))], gnameO ]
-				# cellexalObj@colors[[gname]] = loc@colors[[gname]]
-				# cellexalObj@groupSelectedFrom[[ gname ]] = loc@groupSelectedFrom[[ gname ]]
-				# cellexalObj@groupSelectedFrom[[ gname ]][['grouping']] = cellexalObj@userGroups[, gname ]
-				# cellexalObj@groupSelectedFrom[[ gnameO ]][['order']] = cellexalObj@userGroups[, gnameO ]
-				# cellexalObj@groupSelectedFrom[[gname]]$drc = info$drc
 
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=cellexalObj@colors[[gname]][ cellexalObj@userGroups[OK, gname ] ] )
 
@@ -148,9 +135,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 
 				rolled <- FastWilcoxTest::rollSum( loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], nrol )
-
+				## create the stats
 				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
-
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
@@ -158,83 +144,29 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				deg.genes = names(ps)[o[1:num.sig]]
 
-				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
-				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
-				colnames(p) = deg.genes
-				#browser()
-				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
-				deg.genes = hc$labels[hc$order]
-
-				## now we lack the heatmap here... But I would need one - crap!
 				if ( is.null( cellexalObj@usedObj$timelines)) {
 					cellexalObj@usedObj$timelines = list()
 				}
 				cellexalObj@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
 				cellexalObj@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
-
-				## for the usability of the log file the genes need to be ordered.
-				## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
-				## https://www.icsi.berkeley.edu/icsi/node/4806
-				## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
-				## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
-				points = unlist(lapply( 1:20, function(k, x) {  #total within-cluster sum of square (WSS)
-					gr = cutree(hc, k);  
-					mean( unlist( lapply( 1:k, function(id) {
-						dat = t(x@data[which(gr == id),])
-						(nrow(dat)-1)*sum(apply(dat,2,var) )
-						} ) ), na.rm=TRUE)
-					}, reduceTo(loc, what='row', to = deg.genes ) ) )
-				## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
-				slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
-				intercept <- points[1]-slope
-				f = function(x) { x * slope + intercept }
-				der = unlist(lapply( 1:length(points) ,function(x) { points[x] - f(x) }))
-				der = der- min(der)
-				## And find the max length of this value
-				## here more groups is likely better than less
-				optimum <- max ( which(der < max(der) / 1e+10) )
-
+				
 				## now we lack the heatmap here... But I would need one - crap!
+				## create the smoothed data heatmap's
 
-				## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
-				gr = cutree(hc, optimum); 
-				i = 1
-				pngs = character( optimum )
-				if ( is.null(cellexalObj@usedObj$sessionPath)){
-					cellexalObj = sessionPath( cellexalObj )
-				}
-				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
-				#browser()
-				if ( ! file.exists( dirname(ofile) ) == TRUE) {
-					dir.create( dirname(ofile), recursive= TRUE )
-				}
-				for( genes in  split( names(gr), gr) ) {
-					ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, i,'png', sep=".") )
-					h = round(1000 * length(genes) /num.sig )
-					if ( h < 200)
-						h = 200
+				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
+				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
+				colnames(p) = deg.genes
 
-					message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
+				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
+				ret = simplePlotHeatmaps( mat= p,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', gname ) )
 
-					png( file=ofile, width=1000, height = h )
-					image( p[,genes], col=gplots::bluered(40))
-					dev.off()
-					pngs[i] = ofile
-					i = i+1
-				} 
-
-				ofile = file.path(cellexalObj@usedObj$sessionPath, 'png', paste('heatmap', gname, 'png', sep=".") )
-
-				png( file=ofile, width=1000, height = 1000)
-				image( p[,deg.genes], col=gplots::bluered(40))
-				dev.off()
+				## add the plots to the log
 				try( { 
-					cellexalObj = logTimeLine( cellexalObj, ps, split( names(gr), gr) , 
-						groupingInfo( cellexalObj,info$gname), png = c( ofile, pngs), groupingInfo( cellexalObj, gname ) ) 
+					cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
+						groupingInfo( cellexalObj,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( cellexalObj, gname ) ) 
 				} )
 			
 				cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = ps
-
 				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
