@@ -64,9 +64,7 @@ setMethod('simplePlotHeatmaps', signature = c ('matrix'),
 	i = 1
 
 	pngs = character( optimum )
-	if ( is.null(cellexalObj@usedObj$sessionPath)){
-		cellexalObj = sessionPath( cellexalObj )
-	}
+
 	ofile = paste( fname,'png', sep=".")
 	for( genes in  split( names(gr), gr) ) {
 		of = paste(fname, i,'png', sep=".")

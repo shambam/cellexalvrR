@@ -58,7 +58,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 	definition = function (x, fname) {
 
 	dat = x@dat[order(x@dat$time),]
-	d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), rep(0, nrow(dat))  )
+	d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), as.numeric( dat$col )  )
 	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
 
 	f2 = paste( sep=".",fname,'points')
