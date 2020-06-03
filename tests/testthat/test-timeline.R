@@ -20,6 +20,7 @@ ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', '1_One
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
+
 x = sessionPath( x, 'timeSession')
 
 expect_true( x@usedObj$sessionName == 'timeSession', 'session path not set correctly')
@@ -84,3 +85,29 @@ expect_true( file.exists( SelectionFile), "Updated selection ofile not created" 
 t = table(read.delim( SelectionFile, header=F )[,2])
 
 expect_true(length(t) <= 10, paste("too many time colors (", sep="", length(t)," > 10)" ) )
+
+context('timeline reproducibility')
+
+## the output from the time process is the file SelectionHSPC_time.txt.time no higher time resolution available
+## and this function is reproducible if I get the same thing multiple times - right?
+
+testF = file.path( prefix, 'data','output','timeLineTest','SelectionHSPC_time.txt.time' )
+cmpFile = file.path( prefix, 'data','output','SelectionHSPC_time.txt.time' )
+if ( ! file.exists( cmpFile )){
+	file.copy( testF, cmpFile )
+}
+
+old = read.delim( cmpFile )
+new = read.delim( testF )
+
+expect_true( all.equal( old[,1], new[,1] ) ==TRUE )
+expect_true( all.equal( old[,3], new[,3] ) ==TRUE )
+
+a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
+
+new = read.delim( testF )
+
+expect_true( all.equal( old[,1], new[,1] ) ==TRUE )
+expect_true( all.equal( old[,3], new[,3] ) ==TRUE )
+
+

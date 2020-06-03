@@ -22,6 +22,9 @@ setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	## https://www.icsi.berkeley.edu/icsi/node/4806
 	## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
 	## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
+
+	## this needs to be reproducible!!
+	set.seed(123581347)
 	points = unlist(lapply( k, function(i) {  #total within-cluster sum of square (WSS)
 		sum(kmeans( dat, i )$withinss)
 	} ) )
