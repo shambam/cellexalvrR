@@ -156,7 +156,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
 				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
 				colnames(p) = deg.genes
-
+				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
+				deg.genes = hc$labels[hc$order]
+				
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 				ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 
