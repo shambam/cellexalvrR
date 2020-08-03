@@ -126,17 +126,21 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				OK = which( nCells / ncol(loc@data)  > .01 )
 
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
-				nrol = round( length(OK) / 100 )
-				if ( nrol < 10){
-					nrol = 10
-				}
-				if ( nrol > 500){
-					nrol = 500
-				}
+				## this leads to horrible results
+				if ( 1==0 ){
+					nrol = round( length(OK) / 100 )
+					if ( nrol < 10){
+						nrol = 10
+					}
+					if ( nrol > 500){
+						nrol = 500
+					}	
 
-				rolled <- FastWilcoxTest::rollSum( loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], nrol )
-				## create the stats
-				ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
+					rolled <- FastWilcoxTest::rollSum( loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], nrol )
+					## create the stats
+					ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
+				}
+				ps = FastWilcoxTest::CorMatrix(  loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], loc@userGroups[, gname ] ) 
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
@@ -153,12 +157,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## now we lack the heatmap here... But I would need one - crap!
 				## create the smoothed data heatmap's
 
-				ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
-				p =  apply(ploot, 1, function(x) {( x- mean(x)) / sd(x) } )
+				#ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
+				p =  apply(loc@data[deg.genes, order(as.vector(loc@userGroups[, gname ] )) ], 1, function(x) {( x- mean(x)) / sd(x) } )
 				colnames(p) = deg.genes
 				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
 				deg.genes = hc$labels[hc$order]
-				
+
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 				ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 
@@ -202,36 +206,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					x@usedObj$sigGeneLists$Cpp = list()
 				x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]] = all_markers
 			}
-			# else {
-			# 	if ( deg.method == 'Seurat_wilcox') {
-			# 		deg.method = 'wilcox'
-			# 	} 
-			# 	message(paste('Seurat::FindAllMarkers gene stats using stat method',deg.method)  )
-			# 	## in parts copied from my BioData::createStats() function for R6::BioData::SingleCells
-				
-			# 	if (!requireNamespace('Seurat', quietly = TRUE)) {
-			# 		stop('seurat needed for this function to work. Please install it.',
-			# 				call. = FALSE)
-			# 	}
-			# 	sca <- Seurat::CreateSeuratObject(loc@data, project = 'SeuratProject', min.cells = 0,
-			# 			min.genes = ceiling(ncol(loc@data)/100), is.expr = 1, normalization.method = NULL,
-			# 			scale.factor = 10000, do.scale = FALSE, do.center = FALSE,
-			# 			names.field = 1, names.delim = '_', 
-			# 			meta.data = data.frame(wellKey=colnames(loc@data), GroupName = grp.vec),
-			# 			display.progress = TRUE)
-				
-			# 	sca = Seurat::SetIdent( sca, colnames(loc@data), 
-			# 			paste('Group', as.character(loc@userGroups[ ,x@usedObj$lastGroup]) ) )
-			# 	all_markers <- Seurat::FindAllMarkers(
-			# 			object = sca, test.use = deg.method, logfc.threshold = logfc.threshold, minPct=minPct , only.pos=onlyPos
-			# 	)
-			# 	if ( Log ) {
-			# 		logStatResult( x, 'Seurat', all_markers, 'p_val_adj' ) #function definition in file 'logStatResult.R'
-			# 	}
-			# 	if ( is.null(x@usedObj$sigGeneLists$Seurat)) 
-			# 		x@usedObj$sigGeneLists$Seurat = list()
-			# 	x@usedObj$sigGeneLists$Seurat[[x@usedObj$lastGroup]] = all_markers
-			# }
+
 			else {
 				stop(paste('The stats method', deg.method, "is not supported by this version of cellexalvrR"))
 			}
