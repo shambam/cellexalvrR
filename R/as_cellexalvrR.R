@@ -70,6 +70,33 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	ret
 } )
 
+
+setMethod('as_cellexalvrR', signature = c ('Seurat'),
+	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
+
+		ret = methods::new('cellexalvrR')
+		if ( is.null( meta.cell.groups ) ) {
+			stop(paste( sep="", "The 'meta.cell.groups' is undefined - you need to select values from:\n'",
+				colnames(x@meta.data), sep="', '") )
+		}
+		if ( .hasSlot(x, 'data')) {
+			warning( "Untested Seurat object version 2.x")
+			ret@data = x@data
+			ret@drc = lapply( names(x@dr), function(n) { Embeddings(object = x, reduction = n)} )
+			names(ret@drc) = names(x@dr)
+		}
+		else {
+			ret@data = GetAssayData(object = x)
+			ret@drc = lapply( names(x@reductions), function(n) { Embeddings(object = x, reduction = n) } )
+			names(ret@drc) = names(x@reductions)
+		}
+		ret@meta.cell = make.cell.meta.from.df( x@meta.data, meta.cell.groups)
+		ret@meta.gene = matrix( ncol=1,  rownames(ret@data) )
+		colnames(ret@meta.gene) = "Gene Symbol"
+
+		ret
+	})
+
 # setMethod('as_cellexalvrR', signature = c ('character'),
 # 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	
