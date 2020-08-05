@@ -16,7 +16,7 @@
 #' @title convert a BioData object to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) { 
+	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie, ... ) { 
 		standardGeneric('as_cellexalvrR')
 	}
 )
@@ -74,7 +74,7 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 
 
 setMethod('as_cellexalvrR', signature = c ('Seurat'),
-	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
+	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie, assay=NULL ) {
 
 		ret = methods::new('cellexalvrR')
 		getEmb = function (n) {
@@ -99,8 +99,8 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 			names(ret@drc) = names(x@dr)
 		}
 		else {
-			ret@data = GetAssayData(object = x)
-			ret@drc = lapply( names(x@reductions), getEmb )
+			ret@data = GetAssayData(object = x, assay = assay )
+			ret@drc = lapply( names(x@reductions), getEmb  )
 			names(ret@drc) = names(x@reductions)
 		}
 		ret@meta.cell = make.cell.meta.from.df( x@meta.data, meta.cell.groups)
