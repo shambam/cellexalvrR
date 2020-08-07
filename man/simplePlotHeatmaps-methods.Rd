@@ -6,7 +6,7 @@
 \alias{simplePlotHeatmaps,cellexalvrR-method}
 \title{description of function simplePlotHeatmaps}
 \arguments{
-\item{mat}{the expression matrix (col cells; row genes)}
+\item{mat}{the expression matrix (col genes; row cells)}
 
 \item{fname}{the outfile base (.png for main .<i>.png for the slices)}
 }

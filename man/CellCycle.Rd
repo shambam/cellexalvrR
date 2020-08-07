@@ -4,8 +4,10 @@
 \name{CellCycle}
 \alias{CellCycle}
 \title{A simple table containing the Human and mouse orthologe CellCycle genes from PMID17994010
-"Genome-scale RNAi profiling of cell division in human tissue culture cells."}
-\format{data.frame}
+'Genome-scale RNAi profiling of cell division in human tissue culture cells.'}
+\format{
+data.frame
+}
 \usage{
 CellCycle
 }

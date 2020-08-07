@@ -64,56 +64,13 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		unlink(file.path( outpath ,"*.png") )
 		unlink(file.path( outpath ,"*.pdf") )
 	}
-	#if ( is.null( names(a) )) {
-#		stop( "This function needs names on the a vector" )
-#	}
-	
-	## would a partial loess work??
-	## identify turns
-	# localLoess <- function (ids, a,b,c ) {
-	# 	## return a 3d loess line part
-	# 	ret = list()
-	# 	inp = list( a=a, b=b, c=c )
-	# 	ranges = unlist(lapply( list(a,b,c), function(d) { r = range(d[ids]); r[2] - r[1]} ))
-	# 	inp$order= c('a','b','c')[ order( ranges, decreasing=T )]
-		
-	# 	ls = loess( inp[[inp$order[2]]][ids] ~ inp[[inp$order[1]]][ids] )
-	# 	ret[[inp$order[1]]] = inp[[inp$order[1]]][ids]
-	# 	ret[[inp$order[2]]] = predict( ls)
-	# 	ls = loess(  inp[[inp$order[3]]][ids] ~ inp[[inp$order[1]]][ids] )
-	# 	ret[[inp$order[3]]] = predict( ls )
 
-	# 	names(ret[['a']]) = names( inp[['a']])
-	# 	RET = list( 'x' = ret$a, 'y' = ret$b, 'z' = ret$c )
-
-	# 	#rgl::plot3d( cbind( x=a,y=b,z=c), col= gplots::bluered(length(a))[ x@userGroups[[paste(grouping, 'order')]] ])
-	# 	#rgl::rgl.points( RET )
-
-	# 	## get the time here, too
-	# 	dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], 1 )
-	# 	B = which(dists == max(dists))
-	# 	dists =FastWilcoxTest::eDist3d( inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] , inp[[inp$order[3]]][ids], B )
-	# 	A= which(dists == max(dists))
-
-	# 	inp[[inp$order[2]]][ids[A]]
-
-	# 	alpha <- -atan((inp[[inp$order[2]]][ids[A]]- inp[[inp$order[2]]][ids[B]])/(inp[[inp$order[1]]][ids[A]]- inp[[inp$order[1]]][ids[B]]))
-	# 	rotm <- matrix(c(cos(alpha),sin(alpha),-sin(alpha),cos(alpha)),ncol=2)
-	# 	M2 <- t(rotm %*% rbind(inp[[inp$order[1]]][ids] , inp[[inp$order[2]]][ids] ) )
-	# 	RET$time = order( M2[,1] )
-
-	# 	RET
-	# }
-
-	#res = localLoess( 1:length(a), a, b, c)
-
-	## Rather base this on slingshot's implementation.
+	## base this on slingshot's implementation.
 	## But that needs groups.
 	dat = cbind( a, b, c )
 	if ( var(c) == 0){
 		dat = cbind(a,b)
 	}
-	#browser()
 	colnames= names(a)
 	opt = optGroupCountKmeans( dat )
 	group = kmeans( dat , opt )

@@ -16,7 +16,7 @@
 #' @export 
 setGeneric('process_Seurat_ATAC_combined', ## Name
 	function (  rna, atac, merged, meta.cell.groups=NULL, outpath=getwd(), specie ) { 
-		standardGeneric('process_Seurat_ATAC') 
+		standardGeneric('process_Seurat_ATAC_combined') 
 	}
 )
 
@@ -28,4 +28,4 @@ setMethod( 'process_Seurat_ATAC_combined', signature = c ('Seurat', 'Seurat', 'S
 	## expression and chrmosomal areas if possible
 	## The total analysis likely needs a merge with the CellexalGenomeVR code.
 
-}
+})

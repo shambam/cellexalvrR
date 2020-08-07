@@ -164,6 +164,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
 				deg.genes = hc$labels[hc$order]
 
+				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
+				ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
+				## add the plots to the log
+				try( { 
+					x = logTimeLine( x, ps, ret$genes, 
+						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
+				} )
+			
+				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
+				
+
 				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation

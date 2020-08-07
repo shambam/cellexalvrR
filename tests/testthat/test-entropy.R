@@ -1,6 +1,6 @@
 context('Entropy')
 
-#skip('not stable enough')
+skip('useless')
 
 prefix = './'
 
@@ -29,8 +29,19 @@ entropy2D = NaiveEntropySpherical( cbind(mds[,1], mds[,2], rep(0, nrow(mds)) ) ,
 
 #expect_equal(entropy[1,16], entropy2D[1,16])
 
-plot(log(as.numeric(colnames(entropy2D))), log(entropy2D[1,]+1), ylim=c(0, max( log(c( entropy2D[1,], entropy[1,])+1))), xlab='rel max distance', ylab="cummulative entropy",
-     main= paste("2D vs 3D (red) entropy difference - euclidian spheres", nrow(mds),"cells"), type='l')
+plot(
+	log(as.numeric(colnames(entropy2D))), 
+	og(entropy2D[1,]+1), 
+	ylim=
+		c(
+			0, 
+			max( log(c( entropy2D[1,], entropy[1,])+1))
+		), 
+	xlab='rel max distance',
+	ylab="cummulative entropy",
+    main= paste("2D vs 3D (red) entropy difference - euclidian spheres", nrow(mds),"cells"), 
+    type='l'
+)
 lines(log(as.numeric(names(entropy[1,]))), log(entropy[1,]+1) , col='red')
 
 

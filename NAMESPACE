@@ -2,7 +2,9 @@
 
 export(CreateBin)
 export(H5Anno2df)
-
+export(MakeCellexalVRObj)
+export(NaiveEntropy)
+export(NaiveEntropySpherical)
 export(R.exe)
 export(Rscript.exe)
 export(addCellMeta2cellexalvr)
@@ -43,7 +45,10 @@ export(onlyGOIs)
 export(ontologyLogPage)
 export(optGroupCountKmeans)
 export(partFname)
-
+export(plotEntropyDiff_2D_3D)
+export(plotTime)
+export(processVelocytoPyResults)
+export(process_Seurat_ATAC_combined)
 export(pseudotimeTest3D)
 export(reduceTo)
 export(renderFile)
