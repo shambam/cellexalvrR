@@ -125,6 +125,27 @@ slavePID = scan( paste( tmpFile2, 'pid', sep='.' ), quiet=TRUE)
 expect_true(isAlive(slavePID), "slave failed to start up")
 
 
+## I can re-use the server file
+
+context('starting server in slave mode')
+
+tmpFile2 = paste(tmpFile,"2", sep="")
+write_lines( c( 
+	"library(cellexalvrR)", 
+	paste(sep="","server( file='",tmpFile2,"', debug=TRUE, masterPID=",pid," )" ) ), 
+	f= srvFile , 0
+)
+
+#print ( "starting slave server" )
+system( startCMD )
+
+Sys.sleep(10)
+
+slavePID = scan( paste( tmpFile2, 'pid', sep='.' ), quiet=TRUE)
+
+expect_true(isAlive(slavePID), "slave failed to start up")
+
+
 
 
 ## would only work on linux....

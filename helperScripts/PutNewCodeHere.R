@@ -1,6 +1,13 @@
-color <- function(x, names) {
-	col = rep( gray(0.6), length(names) )
-	m = match( rownames(x@dat), names)
-	col[which(!is.na(m))] = x@dat$col[m[which(!is.na(m))]]
-	col
+## the whole logic will be quite interesting.
+## Outline:
+## UMAP from all 3 objects with an unified cell lable.
+## expression and chrmosomal areas if possible
+## The total analysis likely needs a merge with the CellexalGenomeVR code.
+process_Seurat_ATAC <- function( rna, atac, merged, meta.cell.groups=NULL, outpath=getwd(), specie ){
+		## the whole logic will be quite interesting.
+		## Outline:
+		## UMAP from all 3 objects with an unified cell lable.
+		## expression and chrmosomal areas if possible
+		## The total analysis likely needs a merge with the CellexalGenomeVR code.
+		 
 }

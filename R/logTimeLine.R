@@ -26,6 +26,12 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL ) {
 	## here I need to create a page of the final log
 
+	if ( !is.null(genes)){
+		if ( file.exists(genes[1])) {
+			genes = as.vector(utils::read.delim(genes[1])[,1])
+		}
+	}
+
 	cellexalObj = sessionPath( cellexalObj ) #function definition in file 'sessionPath.R'
 	sessionPath = cellexalObj@usedObj$sessionPath
 

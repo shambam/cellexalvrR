@@ -90,9 +90,16 @@ cellexalObj = userGrouping(cellexalObj, file.path(ipath, 'selection0.txt') )
 expect_equal( length(cellexalObj@userGroups) ,old_length +  2 ) # same grouing no adding of the data
 
 context( "heatmap is produced" )
-ofile = file.path(opath, 'selection0.png') 
+ofile = file.path(opath, 'heatmaps','testHeatmap.txt') 
+
+if ( ! file.exists( file.path(opath, 'heatmaps')) ){
+	dir.create( file.path(opath, 'heatmaps') )
+}
 if(  file.exists(ofile ) ){
 	unlink( ofile)
+}
+if(  file.exists(paste( ofile , '.sqlite3', sep="")) ){
+	unlink( paste( ofile , '.sqlite3', sep="") )
 }
 
 load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
@@ -101,6 +108,7 @@ lockedSave( cellexalObj )
 
 make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
 
-expect_true( file.exists( ofile ),  paste("outfile missing:", ofile) )
+expect_true( file.exists( ofile ),  paste("gene list file missing:", ofile) )
 
 
+expect_true( file.exists( paste( ofile , '.sqlite3', sep="") ),  paste("heatmap database file missing:", ofile) )

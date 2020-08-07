@@ -13,7 +13,7 @@ for ( f in ofiles ) {
 cellexalObj = loadObject( file.path(opath, 'cellexalObj.RData') )
 cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 
-
+#browser()
 make.cellexalvr.network ( file.path(opath, 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
 
 for ( f in ofiles ) {

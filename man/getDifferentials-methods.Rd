@@ -13,7 +13,7 @@
     "negbinom", "MAST", "DESeq2", "anova"),
   num.sig = 250,
   Log = TRUE,
-  logfc.threshold = 0.1,
+  logfc.threshold = 1,
   minPct = 0.1,
   onlyPos = TRUE
 )

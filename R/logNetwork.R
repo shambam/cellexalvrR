@@ -63,7 +63,6 @@ setMethod('logNetwork', signature = c ('cellexalvrR'),
 					""
 			, sep="\n")
 
-	if ( ! is.null(genes)){
 
 		p = as.matrix(Matrix::t(cellexalObj@data[ genes, which( !is.na( cellexalObj@userGroups[, gInfo$gname]))] ))
 		ret = simplePlotHeatmaps( mat= p,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', gInfo$gname ) )
