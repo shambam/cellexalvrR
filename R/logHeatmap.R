@@ -94,6 +94,10 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		}
 	}
 	substract = paste( collapse=.Platform$file.sep, substract, '')
+	substract = stringr::str_replace(substract, ' *$', '')
+
+	path = R.utils::getRelativePath(sessionPath, relativeTo=substract, caseSensitive=T )
+	
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
@@ -112,11 +116,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		"",
 		"The heatmap can be restored in a new VR session using the 2D console (F12) and type:",
 		"",
-		paste("lsf", file.path( stringr::str_replace(sessionPath, substract, ''), gInfo$selectionFile) ),
+		paste("lsf", R.utils::getRelativePath(gInfo$selectionFile, relativeTo= path, caseSensitive=T) ),
 		"",
 		"confirm", 
 		"",
-		paste( "rsf", stringr::str_replace(base, substract, '') )
+		paste( "rsf", R.utils::getRelativePath( base, relativeTo=substract, caseSensitive=T) )
 
 	)
 
