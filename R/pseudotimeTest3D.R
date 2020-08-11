@@ -122,13 +122,13 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	}
 	info = groupingInfo(x, grouping )
 	res = new('cellexalTime', dat= res, drc=info$drc)
-	res = check(res)
+	res = checkTime(res)
 	## does the color and the line look OK?
 	#plotTime(res)
 
 	## add the time as group:
 	#the VR program dependeds on it
-	
+
 	x = addSelection( res, x, grouping )
 
 	## does the time look ok 3when copied to the cellexal object?

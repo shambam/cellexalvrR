@@ -104,10 +104,19 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					drc = loc@drc[[ 1 ]]
 				}
 
-				OK = match( colnames(loc@data), colnames(x@data) )
+				if ( !is.null(rownames(drc))){
+					OK = match( rownames(drc), colnames(x@data) )
+				}else {
+					OK = match( colnames(loc@data), colnames(x@data) )
+				}
 				a = drc[,1]
-				names(a) = colnames(loc@data)
+				if ( is.null(names(a))) {
+					names(a) = colnames(loc@data)
+				}
 				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
+
+				message("After timeline calculation in smaller object:")
+				check(loc)
 
 				## so the new group needs to get into the main object:
 				gname = loc@usedObj$lastGroup
@@ -117,7 +126,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				cellexalTime = loc@usedObj$timelines[[ gname ]] 
 			
 				x = addSelection( cellexalTime, x, info$gname)
-
+				message("after time copy over:")
+				check(x)
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=x@colors[[gname]][ x@userGroups[OK, gname ] ] )
 
 				## run the correlation on a rolling window smothed information

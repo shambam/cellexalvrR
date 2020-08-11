@@ -3,7 +3,7 @@
 \docType{methods}
 \name{addSelection}
 \alias{addSelection}
-\alias{addSelection,cellexalvrR-method}
+\alias{addSelection,cellexalTime-method}
 \title{description of function addSelection}
 \arguments{
 \item{x}{the cellexalTime object}

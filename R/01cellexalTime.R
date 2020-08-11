@@ -71,7 +71,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 
 
 #' @name addSelection
-#' @aliases addSelection,cellexalvrR-method
+#' @aliases addSelection,cellexalTime-method
 #' @rdname addSelection-methods
 #' @docType methods
 #' @description add this selection to any cellexal object
@@ -110,10 +110,13 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 
 	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 	## BUGFIX
+	## one of the two rownames is wrong!
+	
 	t1 = x@dat[,c('a','b','c')]
 	t2 = cellexalObj@drc[[x@drc]][m,1:3]
+
 	colnames(t1) = colnames(t2)
-	rownames(t1) = rownames(t2)
+	#rownames(t1) = rownames(t2)
 	if ( ! all( t1 == t2) ){
 		message("drc models not the same")
 		browser()
@@ -149,21 +152,21 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 } )
 
 
-#' @name check
-#' @aliases check,cellexalvrR-method
-#' @rdname check-methods
+#' @name checkTime
+#' @aliases checkTime,cellexalTime-method
+#' @rdname checkTime-methods
 #' @docType methods
 #' @description checks for NA elements in the table and removes them
 #' @param x the cellexalTime object
 #' @title description of function check
 #' @export 
-if ( ! isGeneric('check') ){setGeneric('check', ## Name
-	function (x) { 
-		standardGeneric('check')
+if ( ! isGeneric('checkTime') ){setGeneric('checkTime', ## Name
+	function (x, ...) { 
+		standardGeneric('checkTime')
 	}
 ) }
 
-setMethod('check', signature = c ('cellexalTime'),
+setMethod('checkTime', signature = c ('cellexalTime'),
 	definition = function (x) {
 	bad=which( is.na(x@dat$time))
 	if ( length(bad) > 0 ){
@@ -179,11 +182,43 @@ setMethod('check', signature = c ('cellexalTime'),
 	invisible(x)
 } )
 
+
+setMethod('checkTime', signature = c ('cellexalvrR'),
+	definition = function (x, dataObj ) {
+
+		error = NULL
+		#browser()
+		if ( is.null(x@drc[[dataObj@drc]])){
+			error = c( error, paste( sep="",
+				"The basis drc for this timeline (", x@drc,
+				") is not part of this cellexal object" ))
+		}else {
+			mine = dataObj@dat[,c('a','b','c')]
+			ids = NULL
+			if ( !is.null(rownames(x@drc[[dataObj@drc]])) ){
+				ids = match(rownames(dataObj@dat), rownames(x@drc[[dataObj@drc]]) )
+			}else {
+				ids = match(rownames(dataObj@dat), rownames(x@data) )
+			}
+			other = x@drc[[dataObj@drc]][ids,1:3]
+			colnames(mine) = c('x', 'y','z')
+			colnames(other) = c('x','y','z')
+			if ( !isTRUE( all.equal( as.matrix(mine), as.matrix(other))) ) {
+				error = c( error, "The drc DATA is incorrect!")
+			}
+		}
+
+		if ( ! is.null(error) ) {
+			message( paste(collapse="\n\r",c( "checkTime",error ) ) )
+		}
+		invisible(x)
+} )
+
 #' returns a color vector based on the intern col column and the cell names
 #' Not time containing cells will get gray(0.6) as color.
 #'
 #' @name color
-#' @aliases color,cellexalvrR-method
+#' @aliases color,cellexalTime-method
 #' @rdname color-methods
 #' @docType methods
 #' @description return the color in exactly the right format to color the names
