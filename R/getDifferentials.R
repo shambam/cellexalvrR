@@ -53,10 +53,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			
 			x <- userGrouping(x, cellidfile) #function definition in file 'userGrouping.R'
 			
-			not <- which(is.na(x@userGroups[,x@usedObj$lastGroup]))
+			ok <- which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
 
-			if ( length(not) > 0) {
-				loc <- reduceTo (x, what='col', to=colnames(x@data)[- not ] ) #function definition in file 'reduceTo.R'
+			if ( length(ok) > 0) {
+				loc <- reduceTo (x, what='col', to=colnames(x@data)[ ok ] ) #function definition in file 'reduceTo.R'
 			}else {
 				loc <- x
 			}

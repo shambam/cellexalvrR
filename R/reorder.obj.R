@@ -30,7 +30,22 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		dataObj@userGroups <- dataObj@userGroups[ids,]
 	}
 	for ( n in names(dataObj@drc) ) {
-		dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
+		if ( ! is.null(rownames(dataObj@drc[[n]]))){
+			want = rownames(dataObj@meta.cell)[ids]
+			here <- match(want, rownames(dataObj@drc[[n]]))
+			if ( length(here) > 0 ){
+				#here = here[which(!is.na(here))]
+				get = ids[which(!is.na(here))]
+				get =  match(want[get], rownames(dataObj@drc[[n]]))
+			}
+			else {
+				get = c()
+			}
+			dataObj@drc[[n]]  = dataObj@drc[[n]][get,]
+		}
+		else {
+			dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
+		}
 	}
 	for ( n in names(dataObj@groupSelectedFrom) ) {
 		dataObj@groupSelectedFrom[[n]]$order= dataObj@groupSelectedFrom[[n]]$order[ids]
