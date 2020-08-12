@@ -30,6 +30,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		dataObj@userGroups <- dataObj@userGroups[ids,]
 	}
 	for ( n in names(dataObj@drc) ) {
+		#browser()
 		if ( ! is.null(rownames(dataObj@drc[[n]]))){
 			want = rownames(dataObj@meta.cell)[ids]
 			here <- match(want, rownames(dataObj@drc[[n]]))

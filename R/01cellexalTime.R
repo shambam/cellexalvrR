@@ -111,7 +111,7 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 	## BUGFIX
 	## one of the two rownames is wrong!
-	
+	browser()	
 	t1 = x@dat[,c('a','b','c')]
 	t2 = cellexalObj@drc[[x@drc]][m,1:3]
 

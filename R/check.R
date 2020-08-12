@@ -35,16 +35,26 @@ setMethod('check', signature = c ('cellexalvrR'),
 		error = c( error,"the data rownames are not the same as the meta.gene rownames!")
 	}
 
+	if ( ! isTRUE( all.equal(names(table(cellexalObj@meta.cell[] )), c('0','1'))) ){
+		error = c( error,"meta.cells is not a 0/1 table")
+	}
+	
 	for( n in names( x@drc ) ){
+		OK = TRUE
 		if ( ! isTRUE(all.equal(rownames(x@drc[[n]]), cn) ) ){
+			if ( length(nrow( x@drc[[n]])) == length(cn) ){
+				OK = FALSE
+			}
+			if ( length(which(is.na(match(rownames(x@drc[[n]]), cn )))) > 0 ) {
+				browser()
+				OK =FALSE
+			}
+		}
+		if ( ! OK ){
 			error = c( error, paste(
-				"the data drc",
+				"ERROR:: the data drc",
 				n,
-				"has NOT the same cells as the data object! data n=", 
-				ncol(x@data), 
-				"drc n=", 
-				nrow(x@drc[[n]])
-				) )
+				"has NOT the same cells as the data object!") )
 		}
 	}
 
@@ -56,6 +66,8 @@ setMethod('check', signature = c ('cellexalvrR'),
 	
 	if ( !is.null(error) ){
 		message(paste(collapse=" \n\r",c ( "check cellexalvrR", error) ) )
+	}else {
+		message("seams OK")
 	}
 	
 

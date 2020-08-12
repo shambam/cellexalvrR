@@ -64,6 +64,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## at some time we had a problem in the creeation of order column names:
     			possible = c( paste(x@usedObj$lastGroup, c(' order','.order'), sep=""))
     			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
+				#browser()
 				loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
 			}
 			
@@ -110,8 +111,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					OK = match( colnames(loc@data), colnames(x@data) )
 				}
 				a = drc[,1]
+
 				if ( is.null(names(a))) {
-					names(a) = colnames(loc@data)
+					names(a) = colnames(loc@data)[OK]
 				}
 				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
 
@@ -124,7 +126,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 
 				cellexalTime = loc@usedObj$timelines[[ gname ]] 
-			
+				#browser()
 				x = addSelection( cellexalTime, x, info$gname)
 				message("after time copy over:")
 				check(x)
@@ -181,7 +183,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
 				} )
-			
+				
 				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
 				
 
@@ -289,6 +291,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#print( paste('Do we reach this point?', 'usedObj', x@outpath ) )
 				savePart( x, 'usedObj'); #function definition in file 'integrateParts.R'
 				#print( 'And this - Do we reach this point, too?')
+			}
+			if ( length(deg.genes ) < 10){
+				browser()
 			}
 			x@usedObj$deg.genes = deg.genes
 			invisible( x )
