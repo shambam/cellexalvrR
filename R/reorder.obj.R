@@ -43,10 +43,19 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 			else {
 				idsHere = c()
 			}
-			dataObj@drc[[n]]  = dataObj@drc[[n]][idsHere,]
+			result = tryCatch({
+   			 	dataObj@drc[[n]]  = dataObj@drc[[n]][idsHere,]
+				}, 
+				error = function(error_condition) {
+   				 browser()
+			} )
+			
+		}
+		else if (nrow(dataObj@drc[[n]]) == 0) {
+			dataObj@drc[[n]] = dataObj@drc[[n]]
 		}
 		else {
-			dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
+   			dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
 		}
 	}
 	for ( n in names(dataObj@groupSelectedFrom) ) {

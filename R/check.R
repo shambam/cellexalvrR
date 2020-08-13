@@ -27,6 +27,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 	OK = FALSE
 	error = NULL;
 
+	# meta.gene
 	if ( ! is(x@meta.gene, 'matrix') ) {
 		error = c( error, 'the meta.gene slot does not contain a matrix object!')
 	}
@@ -36,6 +37,12 @@ setMethod('check', signature = c ('cellexalvrR'),
 		colnames(x@meta.gene)[2] = "savekeeping"
 	}
 
+	if ( isFALSE( all.equal( rn, rownames(x@meta.gene)) ) ) {
+		error = c( error,"the data rownames are not the same as the meta.gene rownames!")
+	}
+
+
+	# meta.cell
 	if ( isTRUE( all.equal(rownames(x@meta.cell), cn) ) ){
 		OK = TRUE
 	}
@@ -44,14 +51,12 @@ setMethod('check', signature = c ('cellexalvrR'),
 		error = c(error,"the data colnames are not the same as the meta.cell rownames!")
 	}
 
-	if ( isFALSE( all.equal( rn, rownames(x@meta.gene)) ) ) {
-		error = c( error,"the data rownames are not the same as the meta.gene rownames!")
-	}
-
 	if ( ! isTRUE( all.equal(names(table(cellexalObj@meta.cell[] )), c('0','1'))) ){
 		error = c( error,"meta.cells is not a 0/1 table")
 	}
 	
+	## the 3D models
+
 	for( n in names( x@drc ) ){
 		OK = TRUE
 		if ( ! isTRUE(all.equal(rownames(x@drc[[n]]), cn) ) ){
@@ -81,6 +86,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 		}
 	}
 
+	# the timelines (if some exist)
 	if ( ! is.null(x@usedObj$timelines)){
 		for (n in names(x@usedObj$timelines)){
 			checkTime(x, x@usedObj$timelines[[n]] )
