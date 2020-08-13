@@ -38,9 +38,11 @@ setMethod('GrabDRCs', signature = c ('cellexalvrR', 'cellexalvrR'),
 		if ( ! is.null(x@drc[[new_name]])) {
 			stop(paste( "The drc with the name", new_name, "is already exisiting in the object") )
 		}
-		rownames(other@drc[[n]]) = colnames(other@data)
+		if ( is.null(rownames(other@drc[[n]]))){
+			rownames(other@drc[[n]]) = colnames(other@data)
+		}
 		x@drc[[new_name]] = other@drc[[n]][order(m),]
 	}
 
-	invisible( x )
+	invisible( check(x) )
 } )

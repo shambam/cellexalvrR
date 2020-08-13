@@ -108,17 +108,17 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	info$gname = x@gname
 	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
+	all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )
 	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 	## BUGFIX
-	## one of the two rownames is wrong!
-	#browser()	
-	t1 = x@dat[,c('a','b','c')]
-	t2 = cellexalObj@drc[[x@drc]][m,1:3]
+
+	t1 = as.matrix(x@dat[,c('a','b','c')])
+	t2 = as.matrix(cellexalObj@drc[[x@drc]][m,1:3])
 
 	colnames(t1) = colnames(t2)
 	#rownames(t1) = rownames(t2)
 	if ( ! isTRUE( all.equal( t1, t2) ) ){
-		message("drc models not the same")
+		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
 		browser()
 		stop( "The drc models are not the same!")
 	}

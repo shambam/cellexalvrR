@@ -32,17 +32,18 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	for ( n in names(dataObj@drc) ) {
 		#browser()
 		if ( ! is.null(rownames(dataObj@drc[[n]]))){
+			#if ( n == 'rna_pca'){browser()}
 			want = rownames(dataObj@meta.cell)[ids]
 			here <- match(want, rownames(dataObj@drc[[n]]))
 			if ( length(here) > 0 ){
 				#here = here[which(!is.na(here))]
-				get = ids[which(!is.na(here))]
-				get =  match(want[get], rownames(dataObj@drc[[n]]))
+				get = want[which(!is.na(here))]
+				idsHere =  match(get, rownames(dataObj@drc[[n]]))
 			}
 			else {
-				get = c()
+				idsHere = c()
 			}
-			dataObj@drc[[n]]  = dataObj@drc[[n]][get,]
+			dataObj@drc[[n]]  = dataObj@drc[[n]][idsHere,]
 		}
 		else {
 			dataObj@drc[[n]] = dataObj@drc[[n]][ids,]
@@ -51,6 +52,10 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	for ( n in names(dataObj@groupSelectedFrom) ) {
 		dataObj@groupSelectedFrom[[n]]$order= dataObj@groupSelectedFrom[[n]]$order[ids]
 		dataObj@groupSelectedFrom[[n]]$grouping= dataObj@groupSelectedFrom[[n]]$grouping[ids]
+	}
+	dataObj = check(dataObj)
+	if ( !dataObj@usedObj$checkPassed ) {
+		browser()
 	}
 	dataObj
 } )

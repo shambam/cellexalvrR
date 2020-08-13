@@ -44,6 +44,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE) {
 			
 			x <- loadObject(x) #function definition in file 'lockedSave.R'
+			check(x)
 			num.sig <- as.numeric( num.sig )
 			
 			accepted = c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova')
@@ -105,6 +106,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					drc = loc@drc[[ 1 ]]
 				}
 
+				#browser()
 				if ( !is.null(rownames(drc))){
 					OK = match( rownames(drc), colnames(x@data) )
 				}else {

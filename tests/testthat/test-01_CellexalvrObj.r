@@ -18,6 +18,16 @@ m[which(m< 1)] = 0
 m = Matrix::Matrix(m,sparse=T)
 obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
 
+obj = check( obj )
+expect_true( obj@usedObj$checkPassed == FALSE )
+## fix the object first
+rownames(obj@drc[[1]]) = colnames(obj@data)
+obj@meta.cell = make.cell.meta.from.df ( data.frame( 'a' = sample( c('A','B'), replace=T, 300), 'B' = sample( c('C','D','E'), replace=T, 300) ), c('a','B') )
+rownames(obj@meta.cell) =  colnames(obj@data)
+
+obj = check( obj )
+expect_true( obj@usedObj$checkPassed == TRUE ) 
+
 export2cellexalvr( obj, opath )
 
 

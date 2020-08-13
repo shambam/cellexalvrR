@@ -1,4 +1,7 @@
 #' check  cellexalvrR sanity check.
+#' prints out the problems and sets a x@usedObj$ceckPassed boolean value
+#' This function is called in the export2cellexalvr function.
+#'
 #' @name check
 #' @aliases check,cellexalvrR-method
 #' @rdname check-methods
@@ -6,6 +9,7 @@
 #' @description checks cellexalvrR internals
 #' @param x the cellexalvrR object
 #' @title cellexal internal checks
+#' @returns the checked cellexalvrR object
 #' @export 
 
 setGeneric('check', ## Name
@@ -22,6 +26,15 @@ setMethod('check', signature = c ('cellexalvrR'),
 
 	OK = FALSE
 	error = NULL;
+
+	if ( ! is(x@meta.gene, 'matrix') ) {
+		error = c( error, 'the meta.gene slot does not contain a matrix object!')
+	}
+	if ( ncol(x@meta.gene) == 1) {
+		## ooh that is bad - lets get a dummy one in, too
+		x@meta.gene = cbind( x@meta.gene, rep(1, nrow(x@meta.gene)))
+		colnames(x@meta.gene)[2] = "savekeeping"
+	}
 
 	if ( isTRUE( all.equal(rownames(x@meta.cell), cn) ) ){
 		OK = TRUE
@@ -42,19 +55,29 @@ setMethod('check', signature = c ('cellexalvrR'),
 	for( n in names( x@drc ) ){
 		OK = TRUE
 		if ( ! isTRUE(all.equal(rownames(x@drc[[n]]), cn) ) ){
-			if ( length(nrow( x@drc[[n]])) == length(cn) ){
+			if ( nrow( x@drc[[n]]) == length(cn) ){
+				if ( isTRUE(all.equal(sort(rownames(x@drc[[n]])), sort(cn))) ){
+					#error = c(error , 
+					#paste("drc", n ,
+					#	"wrong cell order") )
+					## reorder that!
+					m = match( cn, rownames(x@drc[[n]]))
+					x@drc[[n]] = x@drc[[n]][m[which(!is.na(m))],]
+				
+				}else {
+					error = c(error , 
+					paste("cell name missmatch - different cell names drc", n ,
+						" - contact Stefan.Lang@med.lu.se") )
+				}
 				OK = FALSE
 			}
 			if ( length(which(is.na(match(rownames(x@drc[[n]]), cn )))) > 0 ) {
-				browser()
+				error = c(error , 
+					paste("R logics ERROR: cell name missmatch - different cell names drc", n ,
+						" - contact Stefan.Lang@med.lu.se") )
+				#browser()
 				OK =FALSE
 			}
-		}
-		if ( ! OK ){
-			error = c( error, paste(
-				"ERROR:: the data drc",
-				n,
-				"has NOT the same cells as the data object!") )
 		}
 	}
 
@@ -65,8 +88,10 @@ setMethod('check', signature = c ('cellexalvrR'),
 	}
 	
 	if ( !is.null(error) ){
+		x@usedObj$checkPassed = FALSE
 		message(paste(collapse=" \n\r",c ( "check cellexalvrR", error) ) )
 	}else {
+		x@usedObj$checkPassed = TRUE
 		message("seams OK")
 	}
 	
