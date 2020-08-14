@@ -11,9 +11,14 @@ check(x)
 \arguments{
 \item{x}{the cellexalvrR object}
 }
+\value{
+the checked cellexalvrR object
+}
 \description{
 checks cellexalvrR internals
 }
 \details{
 check  cellexalvrR sanity check.
+prints out the problems and sets a x@usedObj$ceckPassed boolean value
+This function is called in the export2cellexalvr function.
 }
