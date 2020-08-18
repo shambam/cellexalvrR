@@ -97,6 +97,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				if ( is.null( info$drc )) {
 					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
 					info$drc = names(loc@drc )[1]
+			
 				}
 				drc = loc@drc[[ info$drc ]]
 				if ( is.null(drc) ){
@@ -106,7 +107,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					drc = loc@drc[[ 1 ]]
 				}
 
-				browser()
+				#browser()
 				if ( !is.null(rownames(drc))){
 					OK = match( rownames(drc), colnames(x@data) )
 				}else {

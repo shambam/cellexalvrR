@@ -65,7 +65,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		unlink(file.path( outpath ,"*.pdf") )
 	}
 
-	browser()
+	#browser()
 	## base this on slingshot's implementation.
 	## But that needs groups.
 	dat = cbind( a, b, c )
