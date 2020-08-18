@@ -106,7 +106,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					drc = loc@drc[[ 1 ]]
 				}
 
-				#browser()
+				browser()
 				if ( !is.null(rownames(drc))){
 					OK = match( rownames(drc), colnames(x@data) )
 				}else {

@@ -42,7 +42,7 @@ setMethod('server', signature = c ('character'),
 	cat( Sys.getpid() , file = pidfile )
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
-
+	
 	if (! is.null(masterPID)) {
 		masterPID = ps::ps_handle( pid = as.integer(masterPID) )
 	}
@@ -51,8 +51,13 @@ setMethod('server', signature = c ('character'),
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
 		file.create(pv_file)
 		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
+		close(pv_file)
 		## redirect appendll output to output file
 		sink(outFile)
+	}
+	if (! file.exists( cellexalObj@outpath )){
+		cat ( paste( sep="","cellexalObj@outpath = '", dirname(file),"')"))
+		cellexalObj@outpath = dirname(file)
 	}
 	message ( paste( "server is starting - reading from file:\n", scriptfile))
 	message ( paste( "server debug mode:", debug))
@@ -69,13 +74,10 @@ setMethod('server', signature = c ('character'),
                 }
 				file.create(lockfile)
 				if ( debug ) {
-               	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+					cmd = readLines( scriptfile)
+					cmd = stringr::str_replace_all( cmd, '\\s+', ' ')
+               	    cat ( cmd, file= outFile, sep="\n\r", append=TRUE )
             	}
-				#file.copy( scriptfile, workSource )     
-				#file.remove(scriptfile) 	
-            	#file.remove(lockfile)
-                #try ( {source( workSource ) } )
-                #file.remove( workSource )
                 try ( {source( scriptfile ) } )
                 file.remove(scriptfile)
                 file.remove(lockfile)
@@ -94,6 +96,9 @@ setMethod('server', signature = c ('character'),
 		if ( ! is.null(cellexalObj@usedObj$sessionName ) ) {
 			message( "closing session" );
 			cellexalObj = renderReport( cellexalObj )
+			if ( debug ) {
+				cat("cellexalObj = renderReport( cellexalObj )")
+			}
 		}
 		message( "saving the main object" );
 		#lockedSave( cellexalObj ) ##the renderReport does that

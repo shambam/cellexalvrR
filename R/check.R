@@ -84,6 +84,11 @@ setMethod('check', signature = c ('cellexalvrR'),
 				OK =FALSE
 			}
 		}
+		if ( length(which(is.na(x@drc[[n]]))) > 0){
+			error = c(error , 
+					paste("NA values in drc", n ,
+						" - not OK") )
+		}
 	}
 
 	# the timelines (if some exist)
