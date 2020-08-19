@@ -11,6 +11,8 @@ for ( f in ofiles ) {
 	}
 }
 
+d=lapply( list.files(opath), function(n) { file.remove(file.path( opath, n), recursive = TRUE)} )
+
 load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
 
 cellexalObj = check(cellexalObj)

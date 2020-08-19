@@ -52,14 +52,15 @@ setMethod('check', signature = c ('cellexalvrR'),
 	}
 	
 	testMatrix <- function ( x ) {
-		OK =TRUE
-		if ( ! isTRUE( all.equal(names(table(x)), c("0","1"))) ){
-			if ( isTRUE( all.equal(names(table(x)), c("1"))) | isTRUE( all.equal(names(table(x)), c("0")))){
-				OK =TRUE
+		OK = TRUE
+		if ( ! isTRUE( all.equal(names(table(x)), c("0","1"))) ) {
+			if ( isTRUE( all.equal(names(table(x)), c("1"))) | isTRUE( all.equal(names(table(x)), c("0")))  ){
+				OK = TRUE
 			}else {
-				OK =FALSE
+				OK = FALSE
 			}
 		}
+		OK
 	}
 
 	if ( !  all(apply(x@meta.cell,2, testMatrix), TRUE) ){
@@ -124,8 +125,6 @@ setMethod('check', signature = c ('cellexalvrR'),
 		message("seams OK")
 	}
 	
-	if (! file.exists(x@outpath)){
-		warning( paste(sep="","the outpath '",x@outpath, "' does not exist!") )
-	}
+
 	invisible( x )
 } )
