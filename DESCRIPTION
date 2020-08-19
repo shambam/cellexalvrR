@@ -13,7 +13,8 @@ biocViews: graph,
     topGO,
     edgeR
 Depends:
-	Matrix
+    Matrix,
+    R (>= 2.10)
 Imports:
 	AnnotationDbi,
 	bookdown,

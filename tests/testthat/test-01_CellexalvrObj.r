@@ -111,14 +111,3 @@ if(  file.exists(ofile ) ){
 if(  file.exists(paste( ofile , '.sqlite3', sep="")) ){
 	unlink( paste( ofile , '.sqlite3', sep="") )
 }
-
-load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
-cellexalObj@outpath = opath
-lockedSave( cellexalObj )
-
-make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
-
-expect_true( file.exists( ofile ),  paste("gene list file missing:", ofile) )
-
-
-expect_true( file.exists( paste( ofile , '.sqlite3', sep="") ),  paste("heatmap database file missing:", ofile) )

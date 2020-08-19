@@ -31,6 +31,11 @@ setMethod('check', signature = c ('cellexalvrR'),
 	if ( ! is(x@meta.gene, 'matrix') ) {
 		error = c( error, 'the meta.gene slot does not contain a matrix object!')
 	}
+	if ( nrow(x@meta.gene) != nrow(x@data)) {
+		warning("meta.gene object re-created from rownames")
+		x@meta.gene = matrix( rownames(cellexalObj@data), ncol=1)
+		colnames( x@meta.gene) = 'Gene Symbol'
+	}
 	if ( ncol(x@meta.gene) == 1) {
 		## ooh that is bad - lets get a dummy one in, too
 		x@meta.gene = cbind( x@meta.gene, rep(1, nrow(x@meta.gene)))
@@ -46,7 +51,16 @@ setMethod('check', signature = c ('cellexalvrR'),
 		error = c(error,"the data colnames are not the same as the meta.cell rownames!")
 	}
 	
-	testMatrix <- function ( x ) {  isTRUE( all.equal(names(table(x)), c("0","1"))) }
+	testMatrix <- function ( x ) {
+		OK =TRUE
+		if ( ! isTRUE( all.equal(names(table(x)), c("0","1"))) ){
+			if ( isTRUE( all.equal(names(table(x)), c("1"))) | isTRUE( all.equal(names(table(x)), c("0")))){
+				OK =TRUE
+			}else {
+				OK =FALSE
+			}
+		}
+	}
 
 	if ( !  all(apply(x@meta.cell,2, testMatrix), TRUE) ){
 		error = c( error,"meta.cells is not a 0/1 table")
@@ -110,6 +124,8 @@ setMethod('check', signature = c ('cellexalvrR'),
 		message("seams OK")
 	}
 	
-
+	if (! file.exists(x@outpath)){
+		warning( paste(sep="","the outpath '",x@outpath, "' does not exist!") )
+	}
 	invisible( x )
 } )

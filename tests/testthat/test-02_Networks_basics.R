@@ -10,10 +10,17 @@ for ( f in ofiles ) {
 		unlink( ofile)
 	}
 }
-cellexalObj = loadObject( file.path(opath, 'cellexalObj.RData') )
+
+load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
+
+cellexalObj = check(cellexalObj)
+cellexalObj@outpath = opath
+lockedSave(cellexalObj )
+
 cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 
-#browser()
+cellexalObj = check(cellexalObj)
+
 make.cellexalvr.network ( file.path(opath, 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
 
 for ( f in ofiles ) {
