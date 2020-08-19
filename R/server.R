@@ -19,18 +19,19 @@
 #' @param sleepT sleep time in seconds between checks for the input.R file (default 1)
 #' @param debug create the server output file? default FALSE
 #' @param masterPID if this pid is not active any more stop the server (default NULL)
+#' @param asFunction do not shut down R when exiting (default FALSE)
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
-			function ( file, sleepT=1, debug=FALSE, masterPID = NULL ) { 
+			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
 				standardGeneric('server') 
 			}
 	) }
 
 setMethod('server', signature = c ('character'),
-		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL){
+		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
@@ -49,10 +50,11 @@ setMethod('server', signature = c ('character'),
 	if ( debug ){
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
-		file.create(pv_file)
+		file = file.create(pv_file)
 		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
-		close(pv_file)
+		
 		## redirect appendll output to output file
+		## Error is captured by the VR application and this is important to leave it like that.
 		sink(outFile)
 	}
 	if (! file.exists( cellexalObj@outpath )){
@@ -77,6 +79,7 @@ setMethod('server', signature = c ('character'),
 					cmd = readLines( scriptfile)
 					cmd = stringr::str_replace_all( cmd, '\\s+', ' ')
                	    cat ( cmd, file= outFile, sep="\n\r", append=TRUE )
+               	    message( paste("VR cmd:", cmd) ) ## will go into the R_log.txt
             	}
                 try ( {source( scriptfile ) } )
                 file.remove(scriptfile)
@@ -108,7 +111,10 @@ setMethod('server', signature = c ('character'),
 		sink()
 		close(outFile)
 	}
-	q('no')
+	if ( ! asFunction ) {
+		q('no')
+	}
+	
 }
 )
 
