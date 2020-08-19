@@ -9,7 +9,7 @@
 \item{object}{the cellexalvr object}
 }
 \value{
-nothing
+nothing at all
 }
 \description{
 show the cellexalvrR

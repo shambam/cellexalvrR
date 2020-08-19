@@ -16,7 +16,7 @@
 #' The function sets a paste(file, 'input.lock', sep='.') lock file on processed scripts.
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
 #' @param file the file core name to create input.R input.log and pid files.
-#' @param sleepT sleep time in seconds between checks for the input.R file
+#' @param sleepT sleep time in seconds between checks for the input.R file (default 1)
 #' @param debug create the server output file? default FALSE
 #' @param masterPID if this pid is not active any more stop the server (default NULL)
 #' @keywords server

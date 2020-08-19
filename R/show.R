@@ -4,7 +4,7 @@
 #' @docType methods
 #' @description  show the cellexalvrR
 #' @param object the cellexalvr object
-#' @return nothing
+#' @return nothing at all
 #' @title show the object contents
 #' @export show
 if ( ! isGeneric('show') ){setGeneric('show', ## Name

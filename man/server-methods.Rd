@@ -8,7 +8,7 @@
 \arguments{
 \item{file}{the file core name to create input.R input.log and pid files.}
 
-\item{sleepT}{sleep time in seconds between checks for the input.R file}
+\item{sleepT}{sleep time in seconds between checks for the input.R file (default 1)}
 
 \item{debug}{create the server output file? default FALSE}
 
