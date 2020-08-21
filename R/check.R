@@ -71,6 +71,20 @@ setMethod('check', signature = c ('cellexalvrR'),
 
 	for( n in names( x@drc ) ){
 		OK = TRUE
+		## there seams to be an issue created during R object maniuplations creating NA rows.
+		## I need to get rid of them here!
+		bad = which(apply(x@drc[[n]], 1, function(x){ all( is.na(x), TRUE ) } ))
+		
+		if ( length(bad) > 0){
+			x@drc[[n]] = x@drc[[n]][-bad,]
+		}
+		if ( length(which(is.na(x@drc[[n]]))) > 0 ) {	
+			error = c(error , 
+				paste("R logics ERROR: NA's in the drc", n ,
+					"rownames - please fix that") )
+			#browser()
+			OK =FALSE
+		}
 		if ( ! isTRUE(all.equal(rownames(x@drc[[n]]), cn) ) ){
 			if ( nrow( x@drc[[n]]) == length(cn) ){
 				if ( isTRUE(all.equal(sort(rownames(x@drc[[n]])), sort(cn))) ){
@@ -92,13 +106,6 @@ setMethod('check', signature = c ('cellexalvrR'),
 						" - are you sure the drc is from this data?") )
 				}
 				OK = FALSE
-			}
-			if ( length(which(is.na(match(rownames(x@drc[[n]]), cn )))) > 0 ) {
-				error = c(error , 
-					paste("R logics ERROR: NA's in the drc", n ,
-						"rownames - please fix that") )
-				#browser()
-				OK =FALSE
 			}
 		}
 		if ( length(which(is.na(x@drc[[n]]))) > 0){
