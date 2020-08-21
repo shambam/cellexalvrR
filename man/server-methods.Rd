@@ -13,6 +13,8 @@
 \item{debug}{create the server output file? default FALSE}
 
 \item{masterPID}{if this pid is not active any more stop the server (default NULL)}
+
+\item{asFunction}{do not shut down R when exiting (default FALSE)}
 }
 \description{
 starts a server looking for a sourcable file in paste(file, 'input.R', sep='.')
