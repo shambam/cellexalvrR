@@ -73,11 +73,11 @@ setMethod('check', signature = c ('cellexalvrR'),
 		OK = TRUE
 		## there seams to be an issue created during R object maniuplations creating NA rows.
 		## I need to get rid of them here!
-		bad = which(apply(x@drc[[n]], 1, function(x){ all( is.na(x), TRUE ) } ))
+		#bad = which(apply(x@drc[[n]], 1, function(x){ all( is.na(x), TRUE ) } ))
 		
-		if ( length(bad) > 0){
-			x@drc[[n]] = x@drc[[n]][-bad,]
-		}
+		#if ( length(bad) > 0){
+		#	x@drc[[n]] = x@drc[[n]][-bad,]
+		#}
 		if ( length(which(is.na(x@drc[[n]]))) > 0 ) {	
 			error = c(error , 
 				paste("R logics ERROR: NA's in the drc", n ,

@@ -108,27 +108,28 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	info$gname = x@gname
 	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
-	all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )
-	m = match( rownames(x@dat), colnames(cellexalObj@data) )
+	#if ( ! isTRUE(all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )) ){
+	m = match( rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
+	#}
 	## BUGFIX
 
 	t1 = as.matrix(x@dat[,c('a','b','c')])
+
 	t2 = as.matrix(cellexalObj@drc[[x@drc]][m,1:3])
 
 	colnames(t1) = colnames(t2)
 	#rownames(t1) = rownames(t2)
 	if ( ! isTRUE( all.equal( t1, t2) ) ){
 		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
-		browser()
+		if(interactive()) { browser() }
 		stop( "The drc models are not the same!")
 	}
 
 	if ( length(which(is.na(m)))>0){
 		stop("ERROR: This timeline describes cells that are not in the cellexalvrR object!")
 	}
-	#m = match( colnames(cellexalObj@data), rownames(x@dat))
-	#OK = which(!is.na(m))
-	#all.equal( colnames(cellexalObj@data)[m], rownames(x@dat))
+	
+	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 
 	cellexalObj@userGroups[,x@gname] = NA
 	cellexalObj@userGroups[m,x@gname] = as.vector(x@dat$time)

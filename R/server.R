@@ -50,12 +50,12 @@ setMethod('server', signature = c ('character'),
 	if ( debug ){
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
-		file = file.create(pv_file)
+		file.create(pv_file)
 		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
 		
 		## redirect appendll output to output file
 		## Error is captured by the VR application and this is important to leave it like that.
-		sink(outFile)
+		if ( ! asFunction) {sink(outFile)}
 	}
 	if (! file.exists( cellexalObj@outpath )){
 		cat ( paste( sep="","cellexalObj@outpath = '", dirname(file),"')"))

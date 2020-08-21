@@ -6,10 +6,10 @@
 \alias{export2cellexalvr,cellexalvrR-method}
 \title{create the VR data folder necessary for CellexalVR}
 \usage{
-\S4method{export2cellexalvr}{cellexalvrR}(cellexalObj, path, forceDB = F, VRpath = NULL)
+\S4method{export2cellexalvr}{cellexalvrR}(x, path, forceDB = F, VRpath = NULL)
 }
 \arguments{
-\item{cellexalObj}{A cellexalvr object}
+\item{x}{A cellexalvr object}
 
 \item{path}{the oputpath to store the data in}
 
@@ -29,5 +29,5 @@ Consult the CellexalVR documentation for further path requrements.
 }
 \examples{
 dir.create ('data')
-export2cellexalvr(cellexalObj, path='data') #function definition in file 'ExportFunctions.R'
+export2cellexalvr(x, path='data') #function definition in file 'ExportFunctions.R'
 }

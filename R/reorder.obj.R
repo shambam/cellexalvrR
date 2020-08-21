@@ -32,7 +32,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 	for ( n in names(dataObj@drc) ) {
 		#browser()
 		if ( ! is.null(rownames(dataObj@drc[[n]]))){
-			#if ( n == 'rna_pca'){browser()}
+			#if ( n == 'LargeSubset'){browser()}
 			want = rownames(dataObj@meta.cell)[ids]
 			here <- match(want, rownames(dataObj@drc[[n]]))
 			if ( length(here) > 0 ){

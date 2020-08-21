@@ -1,6 +1,6 @@
 
 if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
-	function (cellexalObj,path, forceDB=F, VRpath=NULL ) { 
+	function (x,path, forceDB=F, VRpath=NULL ) { 
 		standardGeneric('export2cellexalvr') 
 	}
 ) }
@@ -14,7 +14,7 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 #' @rdname export2cellexalvr-methods
 #' @docType methods
 #' @description  Creates the base files needed to run the VR environment
-#' @param cellexalObj A cellexalvr object
+#' @param x A cellexalvr object
 #' @param path the oputpath to store the data in
 #' @param forceDB re-write the db even if it exisis (default =F)
 #' @param VRpath in order to re-color the data in the VR process the 
@@ -22,64 +22,64 @@ if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
 #' @title create the VR data folder necessary for CellexalVR
 #' @examples
 #' dir.create ('data')
-#' export2cellexalvr(cellexalObj, path='data') #function definition in file 'ExportFunctions.R'
+#' export2cellexalvr(x, path='data') #function definition in file 'ExportFunctions.R'
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj,path, forceDB=F, VRpath=NULL ) {
+	definition = function (x,path, forceDB=F, VRpath=NULL ) {
 
 	## check that the cell names (all rownames) contain no spaces!!
-	old_names = colnames(cellexalObj@data)
-	good_names = stringr::str_replace_all( colnames(cellexalObj@data),'\\s+', '_')
+	old_names = colnames(x@data)
+	good_names = stringr::str_replace_all( colnames(x@data),'\\s+', '_')
 
-	for ( n in names(cellexalObj@drc) ) {
-		if ( is.null(rownames( cellexalObj@drc[[n]]))){
-			rownames( cellexalObj@drc[[n]]) = good_names
+	for ( n in names(x@drc) ) {
+		if ( is.null(rownames( x@drc[[n]]))){
+			rownames( x@drc[[n]]) = good_names
 		}
 	}
-	if ( nrow(cellexalObj@index) == ncol(cellexalObj@data) ){
-		rownames( cellexalObj@index ) = good_names
+	if ( nrow(x@index) == ncol(x@data) ){
+		rownames( x@index ) = good_names
 	}
 
-	cellexalObj = check(cellexalObj)
-	if (! cellexalObj@usedObj$checkPassed ){
+	x = check(x)
+	if (! x@usedObj$checkPassed ){
 		stop( "The cellexalvrR object did not pass the internal check")
 	}
 
-	ofile = file.path( path, "cellexalObj.RData")
+	ofile = file.path( path, "x.RData")
 	if ( ! file.exists( ofile) ){
-		cellexalObj@outpath = ''
-		save(cellexalObj,file=ofile )
+		x@outpath = ''
+		save(x,file=ofile )
 	}
     
 
-    #write.table(cellexalObj@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+    #write.table(x@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
-		if ( nrow( cellexalObj@meta.cell) == ncol( cellexalObj@data ) ) {
-			rownames(cellexalObj@meta.cell) = good_names
-			utils::write.table(cellexalObj@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		if ( nrow( x@meta.cell) == ncol( x@data ) ) {
+			rownames(x@meta.cell) = good_names
+			utils::write.table(x@meta.cell,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 		}
 	}
 	ofile = file.path(path,"index.facs")
 	if ( ! file.exists( ofile) ){
-		if ( nrow(cellexalObj@index) == ncol(cellexalObj@data) ){
-			utils::write.table(cellexalObj@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		if ( nrow(x@index) == ncol(x@data) ){
+			utils::write.table(x@index,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 		}
 	}
 	ofile = file.path(path,"c.meta.gene")
 	if ( ! file.exists( ofile) ){
-		utils::write.table(cellexalObj@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+		utils::write.table(x@meta.gene,ofile,row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	}
 
-    for(i in 1:length(cellexalObj@drc)){
+    for(i in 1:length(x@drc)){
         
 
-		#if(ncol(cellexalObj@drc[[i]])==3){
+		#if(ncol(x@drc[[i]])==3){
 
-			ofile = file.path(path,paste(names(cellexalObj@drc)[i],".mds",sep=""))
+			ofile = file.path(path,paste(names(x@drc)[i],".mds",sep=""))
 			if ( ! file.exists( ofile )) {
-				#utils::write.table(cellexalObj@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
-				utils::write.table(data.frame("CellID"=rownames(cellexalObj@drc[[i]]),cellexalObj@drc[[i]]),ofile,row.names=F,col.names=T,quote=F,sep="\t",eol="\n")
+				#utils::write.table(x@drc[[i]],ofile,row.names=T,col.names=F,quote=F,sep="\t",eol="\n")
+				utils::write.table(data.frame("CellID"=rownames(x@drc[[i]]),x@drc[[i]]),ofile,row.names=F,col.names=T,quote=F,sep="\t",eol="\n")
 			}
 		#}
 
@@ -92,14 +92,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #		}
 #	}
 	if ( ! file.exists(ofile) || forceDB==T ) {
-	    #genes <- tolower(rownames(cellexalObj@data))
-		genes <- rownames(cellexalObj@data)
+	    #genes <- tolower(rownames(x@data))
+		genes <- rownames(x@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 	
-		cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+		cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function
-		mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@data )
+		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
 		
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
@@ -127,9 +127,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 	}
 	if ( ! is.null( VRpath ) ) {
-		exportUserGroups4vr(cellexalObj, VRpath) #function definition in file 'exportUserGroups4vr.R'
+		exportUserGroups4vr(x, VRpath) #function definition in file 'exportUserGroups4vr.R'
 	}
-	invisible(cellexalObj)
+	invisible(x)
 
 } )
 
@@ -141,27 +141,27 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #' @aliases write_as_sqlite3,cellexalvrR-method
 #' @rdname write_as_sqlite3-methods
 #' @docType methods
-#' @description save the cellexalObj@data object without questions asked.
-#' @param cellexalObj the cellexalvrR object
+#' @description save the x@data object without questions asked.
+#' @param x the cellexalvrR object
 #' @param ofile the database outfile
 #' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
 #' @export 
 setGeneric('write_as_sqlite3', ## Name
-		function ( cellexalObj, ofile )  { ## Argumente der generischen Funktion
+		function ( x, ofile )  { ## Argumente der generischen Funktion
 			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
 
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
-		definition = function ( cellexalObj, ofile )  {
+		definition = function ( x, ofile )  {
 			
-			genes <- rownames(cellexalObj@data)
+			genes <- rownames(x@data)
 			genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 			
-			cells <- data.frame( 'id'= 1:ncol(cellexalObj@data), sample= colnames(cellexalObj@data) )
+			cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
 			
 			## melt the sparse matrix using the toColNums Rcpp function
-			mdc = FastWilcoxTest::meltSparseMatrix( cellexalObj@data )
+			mdc = FastWilcoxTest::meltSparseMatrix( x@data )
 			
 			colnames(genes) <- c('id', 'gname')
 			colnames(cells) <- c('id','cname')

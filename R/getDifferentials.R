@@ -116,7 +116,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				a = drc[,1]
 
 				if ( is.null(names(a))) {
-					names(a) = colnames(loc@data)[OK]
+					names(a) = colnames(x@data)[OK]
 				}
 				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
 

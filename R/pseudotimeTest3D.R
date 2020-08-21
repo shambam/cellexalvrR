@@ -72,7 +72,14 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	if ( var(c) == 0){
 		dat = cbind(a,b)
 	}
-	colnames= names(a)
+
+	colnames = names(a)
+	bad= which(apply( dat,1, function(d) { all(is.na(d))}))
+	if ( length(bad) > 0 ) {
+		dat = dat[-bad,]
+		colnames= colnames[-bad]
+	}
+	
 	opt = optGroupCountKmeans( dat )
 	group = kmeans( dat , opt )
 	dist_of_centers = NULL
