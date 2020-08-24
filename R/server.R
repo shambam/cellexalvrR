@@ -77,8 +77,8 @@ setMethod('server', signature = c ('character'),
 				file.create(lockfile)
 				if ( debug ) {
 					cmd = readLines( scriptfile)
-					cmd = stringr::str_replace_all( cmd, '\\s+', ' ')
-               	    cat ( cmd, file= outFile, sep="\n\r", append=TRUE )
+					cmd = stringr::str_replace_all( paste( collapse=" " ,cmd), '\\s+', ' ')
+               	    cat ( c("", cmd,""), file= outFile, sep="\n\r", append=TRUE )
                	    message( paste("VR cmd:", cmd) ) ## will go into the R_log.txt
             	}
                 try ( {source( scriptfile ) } )

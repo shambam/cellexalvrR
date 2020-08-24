@@ -72,10 +72,13 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	if ( var(c) == 0){
 		dat = cbind(a,b)
 	}
+	mode(dat) = 'numeric'
 
 	colnames = names(a)
 	bad= which(apply( dat,1, function(d) { all(is.na(d))}))
 	if ( length(bad) > 0 ) {
+		message( "pseudotimeTest3D - There are NA values in the dat matrix!")
+		browser()	
 		dat = dat[-bad,]
 		colnames= colnames[-bad]
 	}
@@ -89,7 +92,12 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
 	}
 	end = which( dist_of_centers == max(dist_of_centers))
-
+	
+	if ( length(which(is.na(dat))) > 0 ){
+		message( "pseudotimeTest3D - There are NA values in the dat matrix!")
+		if ( interactive() ) {browser()}
+	}
+	
 	sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
 	slingTime = slingshot::slingPseudotime( sling )
 	## I am interested in the longest slope

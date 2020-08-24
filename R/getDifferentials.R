@@ -44,7 +44,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE) {
 			
 			x <- loadObject(x) #function definition in file 'lockedSave.R'
-			check(x)
+			x= check(x)
 			num.sig <- as.numeric( num.sig )
 			
 			accepted = c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova')
@@ -121,7 +121,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
 
 				message("After timeline calculation in smaller object:")
-				check(loc)
+				loc = check(loc)
 
 				## so the new group needs to get into the main object:
 				gname = loc@usedObj$lastGroup
