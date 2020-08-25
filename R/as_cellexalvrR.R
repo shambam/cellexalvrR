@@ -135,7 +135,7 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 	 specie, embeddings = c('umap', 'phate'), embeddingDims=3, velocyto =TRUE, veloScale=20, minCell4gene = 10) {
 
 		if ( length(embeddings) == 0 ) {
-			stop("A CellexalVR session without 3D embeddings is not making sense! STOP.")
+			message("A CellexalVR session without 3D embeddings is not making sense! STOP?!")
 		}
 	## parse the data into a sparse matrix
 	toSparse <- function(file){

@@ -160,10 +160,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
-				o = order(abs( ps ), decreasing=TRUE)
-
-				deg.genes = names(ps)[o[1:num.sig]]
-
+				o = order(ps)
+				
+				#deg.genes = names(ps)[o[1:num.sig]]
+				n = round( num.sig / 2)
+				deg.genes = names(ps)[c( o[1:n], rev(o)[n:1] )]
 				if ( is.null( x@usedObj$timelines)) {
 					x@usedObj$timelines = list()
 				}
@@ -180,9 +181,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.genes = hc$labels[hc$order]
 
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
-				ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
+				
 				## add the plots to the log
 				try( { 
+					ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
 				} )
