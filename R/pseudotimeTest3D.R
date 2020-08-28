@@ -78,7 +78,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	bad= which(apply( dat,1, function(d) { all(is.na(d))}))
 	if ( length(bad) > 0 ) {
 		message( "pseudotimeTest3D - There are NA values in the dat matrix!")
-		browser()	
+		if ( interactive() ) {browser()}
 		dat = dat[-bad,]
 		colnames= colnames[-bad]
 	}
