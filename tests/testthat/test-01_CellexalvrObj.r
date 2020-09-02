@@ -18,6 +18,16 @@ m[which(m< 1)] = 0
 m = Matrix::Matrix(m,sparse=T)
 obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
 
+obj = check( obj )
+expect_true( obj@usedObj$checkPassed == FALSE )
+## fix the object first
+rownames(obj@drc[[1]]) = colnames(obj@data)
+obj@meta.cell = make.cell.meta.from.df ( data.frame( 'a' = sample( c('A','B'), replace=T, 300), 'B' = sample( c('C','D','E'), replace=T, 300) ), c('a','B') )
+rownames(obj@meta.cell) =  colnames(obj@data)
+
+obj = check( obj )
+expect_true( obj@usedObj$checkPassed == TRUE ) 
+
 export2cellexalvr( obj, opath )
 
 
@@ -101,14 +111,3 @@ if(  file.exists(ofile ) ){
 if(  file.exists(paste( ofile , '.sqlite3', sep="")) ){
 	unlink( paste( ofile , '.sqlite3', sep="") )
 }
-
-load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
-cellexalObj@outpath = opath
-lockedSave( cellexalObj )
-
-make.cellexalvr.heatmap.list ( file.path(opath, 'cellexalObj.RData') , file.path(ipath,'selection0.txt'), 300, ofile )
-
-expect_true( file.exists( ofile ),  paste("gene list file missing:", ofile) )
-
-
-expect_true( file.exists( paste( ofile , '.sqlite3', sep="") ),  paste("heatmap database file missing:", ofile) )

@@ -80,7 +80,16 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 						}
 						for ( na in names( x@drc) ) {
 							## I need to cut them down, too
-							x@drc[[na]] = x@drc[[na]][useOnly,]
+							## but they might have another dimension as the others!!
+							if ( ! is.null(rownames(x@drc[[na]]))){
+								here <- match(to, tolower(rownames(x@drc[[na]])))
+								here = to[which(!is.na(here))]
+								## existing IDs
+								x@drc[[na]] = x@drc[[na]][match(here, tolower(rownames( x@drc[[na]]))),]
+							}else {
+								x@drc[[na]] = x@drc[[na]][useOnly,]
+							}
+							
 						}
 						for( na in names( x@groupSelectedFrom) ) {
 							if ( class( x@groupSelectedFrom[[na]]) != 'list'){

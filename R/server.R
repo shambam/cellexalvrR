@@ -16,21 +16,22 @@
 #' The function sets a paste(file, 'input.lock', sep='.') lock file on processed scripts.
 #' To shut down the server process you can either write a q('no') into the script file or remove the pid file.
 #' @param file the file core name to create input.R input.log and pid files.
-#' @param sleepT sleep time in seconds between checks for the input.R file
+#' @param sleepT sleep time in seconds between checks for the input.R file (default 1)
 #' @param debug create the server output file? default FALSE
 #' @param masterPID if this pid is not active any more stop the server (default NULL)
+#' @param asFunction do not shut down R when exiting (default FALSE)
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
 
 if ( ! isGeneric('server') ){setGeneric('server', ## Name
-			function ( file, sleepT=1, debug=FALSE, masterPID = NULL ) { 
+			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
 				standardGeneric('server') 
 			}
 	) }
 
 setMethod('server', signature = c ('character'),
-		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL){
+		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
 	lockfile   = paste( file, 'input.lock', sep=".") 
 	scriptfile = paste( file, 'input.R', sep="." )
 	pidfile    = paste( file, 'pid', sep='.')
@@ -42,7 +43,7 @@ setMethod('server', signature = c ('character'),
 	cat( Sys.getpid() , file = pidfile )
 	
 	outFile = file(paste( file,  Sys.getpid(), 'output', sep=".") )
-
+	
 	if (! is.null(masterPID)) {
 		masterPID = ps::ps_handle( pid = as.integer(masterPID) )
 	}
@@ -51,8 +52,14 @@ setMethod('server', signature = c ('character'),
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
 		file.create(pv_file)
 		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
+		
 		## redirect appendll output to output file
-		sink(outFile)
+		## Error is captured by the VR application and this is important to leave it like that.
+		if ( ! asFunction) {sink(outFile)}
+	}
+	if (! file.exists( cellexalObj@outpath )){
+		cat ( paste( sep="","cellexalObj@outpath = '", dirname(file),"')"))
+		cellexalObj@outpath = dirname(file)
 	}
 	message ( paste( "server is starting - reading from file:\n", scriptfile))
 	message ( paste( "server debug mode:", debug))
@@ -69,13 +76,11 @@ setMethod('server', signature = c ('character'),
                 }
 				file.create(lockfile)
 				if ( debug ) {
-               	 cat ( readLines( scriptfile), file= outFile, sep="\n\r", append=TRUE )
+					cmd = readLines( scriptfile)
+					cmd = stringr::str_replace_all( paste( collapse=" " ,cmd), '\\s+', ' ')
+               	    cat ( c("", cmd,""), file= outFile, sep="\n\r", append=TRUE )
+               	    message( paste("VR cmd:", cmd) ) ## will go into the R_log.txt
             	}
-				#file.copy( scriptfile, workSource )     
-				#file.remove(scriptfile) 	
-            	#file.remove(lockfile)
-                #try ( {source( workSource ) } )
-                #file.remove( workSource )
                 try ( {source( scriptfile ) } )
                 file.remove(scriptfile)
                 file.remove(lockfile)
@@ -94,6 +99,9 @@ setMethod('server', signature = c ('character'),
 		if ( ! is.null(cellexalObj@usedObj$sessionName ) ) {
 			message( "closing session" );
 			cellexalObj = renderReport( cellexalObj )
+			if ( debug ) {
+				cat("cellexalObj = renderReport( cellexalObj )")
+			}
 		}
 		message( "saving the main object" );
 		#lockedSave( cellexalObj ) ##the renderReport does that
@@ -103,7 +111,10 @@ setMethod('server', signature = c ('character'),
 		sink()
 		close(outFile)
 	}
-	q('no')
+	if ( ! asFunction ) {
+		q('no')
+	}
+	
 }
 )
 

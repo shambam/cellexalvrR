@@ -3,7 +3,7 @@
 \docType{methods}
 \name{color}
 \alias{color}
-\alias{color,cellexalvrR-method}
+\alias{color,cellexalTime-method}
 \title{description of function color}
 \arguments{
 \item{x}{the cellexalTime object}

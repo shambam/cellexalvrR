@@ -8,11 +8,13 @@
 \arguments{
 \item{file}{the file core name to create input.R input.log and pid files.}
 
-\item{sleepT}{sleep time in seconds between checks for the input.R file}
+\item{sleepT}{sleep time in seconds between checks for the input.R file (default 1)}
 
 \item{debug}{create the server output file? default FALSE}
 
 \item{masterPID}{if this pid is not active any more stop the server (default NULL)}
+
+\item{asFunction}{do not shut down R when exiting (default FALSE)}
 }
 \description{
 starts a server looking for a sourcable file in paste(file, 'input.R', sep='.')

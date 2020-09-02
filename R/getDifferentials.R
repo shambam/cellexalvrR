@@ -44,6 +44,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE) {
 			
 			x <- loadObject(x) #function definition in file 'lockedSave.R'
+			x= check(x)
 			num.sig <- as.numeric( num.sig )
 			
 			accepted = c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova')
@@ -53,10 +54,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			
 			x <- userGrouping(x, cellidfile) #function definition in file 'userGrouping.R'
 			
-			not <- which(is.na(x@userGroups[,x@usedObj$lastGroup]))
+			ok <- which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
 
-			if ( length(not) > 0) {
-				loc <- reduceTo (x, what='col', to=colnames(x@data)[- not ] ) #function definition in file 'reduceTo.R'
+			if ( length(ok) > 0) {
+				loc <- reduceTo (x, what='col', to=colnames(x@data)[ ok ] ) #function definition in file 'reduceTo.R'
 			}else {
 				loc <- x
 			}
@@ -64,6 +65,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## at some time we had a problem in the creeation of order column names:
     			possible = c( paste(x@usedObj$lastGroup, c(' order','.order'), sep=""))
     			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
+				#browser()
 				loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
 			}
 			
@@ -95,6 +97,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				if ( is.null( info$drc )) {
 					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
 					info$drc = names(loc@drc )[1]
+			
 				}
 				drc = loc@drc[[ info$drc ]]
 				if ( is.null(drc) ){
@@ -104,10 +107,21 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					drc = loc@drc[[ 1 ]]
 				}
 
-				OK = match( colnames(loc@data), colnames(x@data) )
+				#browser()
+				if ( !is.null(rownames(drc))){
+					OK = match( rownames(drc), colnames(x@data) )
+				}else {
+					OK = match( colnames(loc@data), colnames(x@data) )
+				}
 				a = drc[,1]
-				names(a) = colnames(loc@data)
+
+				if ( is.null(names(a))) {
+					names(a) = colnames(x@data)[OK]
+				}
 				loc = pseudotimeTest3D( loc, a, drc[,2], drc[,3], info$gname )
+
+				message("After timeline calculation in smaller object:")
+				loc = check(loc)
 
 				## so the new group needs to get into the main object:
 				gname = loc@usedObj$lastGroup
@@ -115,9 +129,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 
 				cellexalTime = loc@usedObj$timelines[[ gname ]] 
-			
+				#browser()
 				x = addSelection( cellexalTime, x, info$gname)
-
+				message("after time copy over:")
+				check(x)
 				#  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=x@colors[[gname]][ x@userGroups[OK, gname ] ] )
 
 				## run the correlation on a rolling window smothed information
@@ -145,10 +160,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				names(ps) = rownames(loc@data)
 
 				ps[which(is.na(ps))] = 0
-				o = order(abs( ps ), decreasing=TRUE)
-
-				deg.genes = names(ps)[o[1:num.sig]]
-
+				o = order(ps)
+				
+				#deg.genes = names(ps)[o[1:num.sig]]
+				n = round( num.sig / 2)
+				deg.genes = names(ps)[c( o[1:n], rev(o)[n:1] )]
 				if ( is.null( x@usedObj$timelines)) {
 					x@usedObj$timelines = list()
 				}
@@ -165,13 +181,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.genes = hc$labels[hc$order]
 
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
-				ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
+				
 				## add the plots to the log
 				try( { 
+					ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
 				} )
-			
+				
 				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
 				
 
@@ -279,6 +296,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#print( paste('Do we reach this point?', 'usedObj', x@outpath ) )
 				savePart( x, 'usedObj'); #function definition in file 'integrateParts.R'
 				#print( 'And this - Do we reach this point, too?')
+			}
+			if ( length(deg.genes ) < 10){
+				browser()
 			}
 			x@usedObj$deg.genes = deg.genes
 			invisible( x )

@@ -71,7 +71,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 
 
 #' @name addSelection
-#' @aliases addSelection,cellexalvrR-method
+#' @aliases addSelection,cellexalTime-method
 #' @rdname addSelection-methods
 #' @docType methods
 #' @description add this selection to any cellexal object
@@ -108,24 +108,28 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	info$gname = x@gname
 	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
-	m = match( rownames(x@dat), colnames(cellexalObj@data) )
+	#if ( ! isTRUE(all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )) ){
+	m = match( rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
+	#}
 	## BUGFIX
-	t1 = x@dat[,c('a','b','c')]
-	t2 = cellexalObj@drc[[x@drc]][m,1:3]
+
+	t1 = as.matrix(x@dat[,c('a','b','c')])
+
+	t2 = as.matrix(cellexalObj@drc[[x@drc]][m,1:3])
+
 	colnames(t1) = colnames(t2)
-	rownames(t1) = rownames(t2)
-	if ( ! all( t1 == t2) ){
-		message("drc models not the same")
-		browser()
+	#rownames(t1) = rownames(t2)
+	if ( ! isTRUE( all.equal( t1, t2) ) ){
+		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
+		if(interactive()) { browser() }
 		stop( "The drc models are not the same!")
 	}
 
 	if ( length(which(is.na(m)))>0){
 		stop("ERROR: This timeline describes cells that are not in the cellexalvrR object!")
 	}
-	#m = match( colnames(cellexalObj@data), rownames(x@dat))
-	#OK = which(!is.na(m))
-	#all.equal( colnames(cellexalObj@data)[m], rownames(x@dat))
+	
+	m = match( rownames(x@dat), colnames(cellexalObj@data) )
 
 	cellexalObj@userGroups[,x@gname] = NA
 	cellexalObj@userGroups[m,x@gname] = as.vector(x@dat$time)
@@ -149,21 +153,21 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 } )
 
 
-#' @name check
-#' @aliases check,cellexalvrR-method
-#' @rdname check-methods
+#' @name checkTime
+#' @aliases checkTime,cellexalTime-method
+#' @rdname checkTime-methods
 #' @docType methods
 #' @description checks for NA elements in the table and removes them
 #' @param x the cellexalTime object
 #' @title description of function check
 #' @export 
-if ( ! isGeneric('check') ){setGeneric('check', ## Name
-	function (x) { 
-		standardGeneric('check')
+if ( ! isGeneric('checkTime') ){setGeneric('checkTime', ## Name
+	function (x, ...) { 
+		standardGeneric('checkTime')
 	}
 ) }
 
-setMethod('check', signature = c ('cellexalTime'),
+setMethod('checkTime', signature = c ('cellexalTime'),
 	definition = function (x) {
 	bad=which( is.na(x@dat$time))
 	if ( length(bad) > 0 ){
@@ -179,11 +183,43 @@ setMethod('check', signature = c ('cellexalTime'),
 	invisible(x)
 } )
 
+
+setMethod('checkTime', signature = c ('cellexalvrR'),
+	definition = function (x, dataObj ) {
+
+		error = NULL
+		#browser()
+		if ( is.null(x@drc[[dataObj@drc]])){
+			error = c( error, paste( sep="",
+				"The basis drc for this timeline (", x@drc,
+				") is not part of this cellexal object" ))
+		}else {
+			mine = dataObj@dat[,c('a','b','c')]
+			ids = NULL
+			if ( !is.null(rownames(x@drc[[dataObj@drc]])) ){
+				ids = match(rownames(dataObj@dat), rownames(x@drc[[dataObj@drc]]) )
+			}else {
+				ids = match(rownames(dataObj@dat), rownames(x@data) )
+			}
+			other = x@drc[[dataObj@drc]][ids,1:3]
+			colnames(mine) = c('x', 'y','z')
+			colnames(other) = c('x','y','z')
+			if ( !isTRUE( all.equal( as.matrix(mine), as.matrix(other))) ) {
+				error = c( error, "The drc DATA is incorrect!")
+			}
+		}
+
+		if ( ! is.null(error) ) {
+			message( paste(collapse="\n\r",c( "checkTime",error ) ) )
+		}
+		invisible(x)
+} )
+
 #' returns a color vector based on the intern col column and the cell names
 #' Not time containing cells will get gray(0.6) as color.
 #'
 #' @name color
-#' @aliases color,cellexalvrR-method
+#' @aliases color,cellexalTime-method
 #' @rdname color-methods
 #' @docType methods
 #' @description return the color in exactly the right format to color the names

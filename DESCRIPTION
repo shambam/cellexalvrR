@@ -1,6 +1,6 @@
 Package: cellexalvrR
 Title: Provides the backend calculations for CellexalVR
-Version: 0.14.0
+Version: 0.14.1
 Authors@R: c(person("Stefan", "Lang", email = "stefan.lang@med.lu.se", role = c("aut")),
             person("Shamit", "Soneji", email = "shamit.soneji@med.lu.se", role = c("cre")))
 Description: This is the data analysis backend for the CellexalVR application.
@@ -13,7 +13,8 @@ biocViews: graph,
     topGO,
     edgeR
 Depends:
-	Matrix
+    Matrix,
+    R (>= 2.10)
 Imports:
 	AnnotationDbi,
 	bookdown,
@@ -34,6 +35,7 @@ Imports:
 	reshape2,
 	rmarkdown,
 	RSQLite,
+	R.utils,
 	slingshot,
 	stringr,
 	topGO,
@@ -46,5 +48,5 @@ Enhances:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

@@ -6,15 +6,15 @@
 \alias{write_as_sqlite3,cellexalvrR-method}
 \title{write a cellexalvrR objects data to a 'sqlite3' database of name ofile.}
 \usage{
-write_as_sqlite3(cellexalObj, ofile)
+write_as_sqlite3(x, ofile)
 }
 \arguments{
-\item{cellexalObj}{the cellexalvrR object}
+\item{x}{the cellexalvrR object}
 
 \item{ofile}{the database outfile}
 }
 \description{
-save the cellexalObj@data object without questions asked.
+save the x@data object without questions asked.
 }
 \details{
 SQLite is the database the VR reads the expression values from.
