@@ -204,7 +204,7 @@ expect_true(isAlive(pid))
 expect_true(file.exists( paste(tmpFile, 'diffGenes', sep='.' )))
 diffGenes = scan( paste(tmpFile, 'diffGenes', sep='.' ), what=character())[-1]
 
-#print(paste( "numbv3er of  diff genes", length(diffGenes) ) )
+message(paste( "number of  diff genes", length(diffGenes),"expected 252" ) )
 expect_true( length(diffGenes) == 252)
 
 
