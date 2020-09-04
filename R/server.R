@@ -59,7 +59,7 @@ setMethod('server', signature = c ('character'),
 		
 		## redirect appendll output to output file
 		## Error is captured by the VR application and this is important to leave it like that.
-		if ( ! asFunction) {sink(outFile)}
+		if ( ! asFunction ) { sink(outFile) }
 	}
 	if (! file.exists( cellexalObj@outpath )){
 		cat ( paste( sep="","cellexalObj@outpath = '", dirname(file),"')"))
