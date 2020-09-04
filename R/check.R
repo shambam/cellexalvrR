@@ -8,19 +8,24 @@
 #' @docType methods
 #' @description checks cellexalvrR internals
 #' @param x the cellexalvrR object
+#' @param silent do not report warnings (default FALSE)
 #' @title cellexal internal checks
 #' @returns the checked cellexalvrR object
 #' @export 
 
 setGeneric('check', ## Name
-	function ( x ) {
+	function ( x, silent=FALSE ) {
 		standardGeneric('check')
 	}
 )
 
 setMethod('check', signature = c ('cellexalvrR'),
-	definition = function ( x ) {
+	definition = function ( x, silent=FALSE ) {
 	
+	oldw <- getOption("warn")
+	if ( silent ) {
+    	options(warn = -1)
+	}
 	cn = colnames(x@data)
 	rn = rownames(x@data)
 
@@ -32,7 +37,9 @@ setMethod('check', signature = c ('cellexalvrR'),
 		error = c( error, 'the meta.gene slot does not contain a matrix object!')
 	}
 	if ( nrow(x@meta.gene) != nrow(x@data)) {
-		warning("meta.gene object re-created from rownames")
+		if ( ! silent ) {
+			warning("meta.gene object re-created from rownames")
+		}
 		x@meta.gene = matrix( rownames(cellexalObj@data), ncol=1)
 		colnames( x@meta.gene) = 'Gene Symbol'
 	}
@@ -125,13 +132,17 @@ setMethod('check', signature = c ('cellexalvrR'),
 	if ( !is.null(error) ){
 		x@usedObj$checkPassed = FALSE
 		x@usedObj$checkError = error
-		message(paste(collapse=" \n\r",c ( "check cellexalvrR", error) ) )
+		if ( ! silent ){
+			message(paste(collapse=" \n\r",c ( "check cellexalvrR", error) ) )
+		}
 	}else {
 		x@usedObj$checkPassed = TRUE
 		x@usedObj$checkError = error
-		message("seams OK")
+		if ( ! silent ) {
+			message("seams OK")
+		}
 	}
 	
-
+	options(warn = oldw)
 	invisible( x )
 } )

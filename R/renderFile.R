@@ -22,14 +22,18 @@ if ( is.null( x@usedObj$sessionPath )){
 	}
 		sessionPath = normalizePath(x@usedObj$sessionPath)
 	fname = x@usedObj$sessionRmdFiles[id]
+	####################
+	title = paste(id, type, x@usedObj$sessionName, sep="_" )
+	####################
 	if ( ! file.exists(fname) ){
 		stop( paste( "fname for the sessionRmdFiles id",id,",", fname,"does not exists on the file system"))
 	}
 	
 	fileConn<-file(file.path(sessionPath, '_bookdown.yml') )
 	writeLines(c(
-		paste('book_filename:', paste(id, type, x@usedObj$sessionName, sep="_" )),
-		'output_dir: ../',			
+		paste('book_filename:', title ),
+		'output_dir: ../',	
+		paste('title:', title),		
 		'delete_merged_file: true' )
 		, fileConn 
 	) 
@@ -44,9 +48,12 @@ if ( is.null( x@usedObj$sessionPath )){
 		files =  basename(x@usedObj$sessionRmdFiles[1])
 	}
 	
-	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), paste( sep="","rmarkdown::render(input=",file2Script(fname),
-		", output_format= 'html_document', output_file='",
-		paste(id, type, x@usedObj$sessionName, sep='_' ),"', output_dir='../')") )
+	cmd =c( 
+		paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), 
+		paste( sep="","rmarkdown::render(input=",file2Script(fname),
+		  ", output_format= 'html_document', output_file='",
+		  title,"', output_dir='../')") 
+		)
 
 	script = paste( sep="_", id,"runRender.R")
 	if ( file.exists( script)) {

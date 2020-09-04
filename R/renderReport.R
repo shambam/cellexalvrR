@@ -32,6 +32,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
 		paste('book_filename:', cellexalObj@usedObj$sessionName),
+		paste('title:', cellexalObj@usedObj$sessionName),
 		'output_dir: ../',			
 		'delete_merged_file: true' 
         ), fileConn )
@@ -42,9 +43,15 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:
-	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(collapse="', '",files),
-		"'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+
+	cmd = c( "options(warn = -1)\n", 
+	paste(sep="", "bookdown::render_book( input= c('",
+		paste(collapse="', '",files),"'), ",
+		"output_format='bookdown::gitbook', clean_envir = FALSE , ",
+		"config_file = '_bookdown.yml' )" )
+	)
 	script= 'runRender.R'
+
 	if ( file.exists( script)) {
 		unlink( script )
 	}

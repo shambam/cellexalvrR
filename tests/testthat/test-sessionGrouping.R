@@ -110,6 +110,7 @@ if( file.exists(ofile)) {
 	unlink(ofile)
 }
 
+context('create session grouping - logHeatmap')
 
 #system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 cellexalObj = logHeatmap(cellexalObj, genes, heatmap_png, grouping, ontology = ontology, topNodes = topNodes )
@@ -120,6 +121,7 @@ for ( fname in c( ofiles ) ){
 }
 expect_true( file.exists( ofile), paste( "file has not been created", ofile))
 
+context('create session grouping - logStatResult')
 #now lets try the logStatResult funtion:
 
 test = data.frame( A = rep(0,10), B= rep(1,10), 'p_val'= c( 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1) )
@@ -131,7 +133,7 @@ logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
 expect_true( file.exists( file.path(datadir, '3_Stats_sessionGroupingTest.html' )), 'logStatResult failed')
 
-
+context('create session grouping - logNetwork')
 # logNetwork
 
 if ( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' ))) {
@@ -140,6 +142,7 @@ if ( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' ))) {
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
 expect_true( file.exists( file.path(datadir, '3_Network_sessionGroupingTest.html' )), 'logNetworks failed')
 
+context('create session grouping - ontologyLogPage')
 ## ontologyLogPage
 
 if ( file.exists( file.path(datadir, '4_Ontology_sessionGroupingTest.html' ))) {
@@ -153,6 +156,8 @@ ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')
 if( file.exists(ofile)) {
 	unlink(ofile)
 }
+
+context('create session grouping - renderReport')
 
 cellexalObj = renderReport ( cellexalObj )
 

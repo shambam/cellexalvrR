@@ -6,10 +6,12 @@
 \alias{check,cellexalvrR-method}
 \title{cellexal internal checks}
 \usage{
-check(x)
+check(x, silent = FALSE)
 }
 \arguments{
 \item{x}{the cellexalvrR object}
+
+\item{silent}{do not report warnings (default FALSE)}
 }
 \value{
 the checked cellexalvrR object

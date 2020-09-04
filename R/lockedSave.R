@@ -35,7 +35,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 	cleanParts ( path ) #function definition in file 'integrateParts.R'
 	file.remove(lockFile)
 	
-	print (paste("saved the object to",path))
+	#print (paste("saved the object to",path))
 } )
 
 
