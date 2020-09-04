@@ -40,7 +40,7 @@ if ( ! file.exists (file.path(ipath,'cellexalObjOK.RData') ) ) {
 cellexalObj <- loadObject(file.path(ipath,'cellexalObjOK.RData'))
 
 ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'DDRtree.mds', 
-		 'index.facs',  'diffusion.mds', 'tSNE.mds' )
+		 'index.facs',  'diffusion.mds', 'tSNE.mds', 'cellexalObj.RData' )
 
 
 for ( f in ofiles ) {

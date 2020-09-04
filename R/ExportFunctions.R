@@ -42,13 +42,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 	x = check(x)
 	if (! x@usedObj$checkPassed ){
-		stop( "The cellexalvrR object did not pass the internal check")
+		stop( "The cellexalvrR object did not pass the internal checks")
 	}
 
-	ofile = file.path( path, "x.RData")
+	ofile = file.path( path, "cellexalObj.RData")
 	if ( ! file.exists( ofile) ){
 		x@outpath = ''
-		save(x,file=ofile )
+		cellecalObj = x
+		save(cellexalObj, file=ofile )
 	}
     
 
