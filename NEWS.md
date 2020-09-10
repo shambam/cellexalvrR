@@ -1,3 +1,11 @@
+# 0.14.2
+
+Logs fixed 3D plots not showing colours.
+
+# 0.14.0
+
+Add timeline features.
+
 # 0.13.2
 
 3D drc graph entropy calculations implemented in c++.

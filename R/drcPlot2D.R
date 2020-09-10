@@ -39,26 +39,31 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		message("wrong data in gInfo$grouping")
 		browser()
 	}
-	gInfo$grouping = as.vector(gInfo$grouping) +1
+	#gInfo$grouping = as.numeric(as.factor(gInfo$grouping))
 	if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
 		stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
 	}
-	#if( length( grep( 'Time', gInfo$gname)) > 0 ){ browser() }
-	#if ( ! file.exists( DRC1 ) ){
-		#if ( gInfo$gname == 'Time.group.3') {		browser()   }
-		grDevices::png( file= DRC1, width=1000, height=1000)
-		graphics::plot(
-				cellexalObj@drc[[gInfo$drc]][,1], cellexalObj@drc[[gInfo$drc]][,2], col= c( grey(.6) ,gInfo$col)[ gInfo$grouping ],
-				main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
-		grDevices::dev.off()
-	#}	
+
+
+	gr = gInfo$grouping + 1
+	grDevices::png( file= DRC1, width=1000, height=1000)
+
+	graphics::plot(
+		cellexalObj@drc[[gInfo$drc]][,1], cellexalObj@drc[[gInfo$drc]][,2], 
+		col= c(grey(.6), gInfo$col)[gr],
+		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+	
+	grDevices::dev.off()
+		
 	DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
-	#if ( ! file.exists( DRC2 ) ){
-		grDevices::png( file= DRC2, width=1000, height=1000)
-		graphics::plot(
-				cellexalObj@drc[[gInfo$drc]][,2], cellexalObj@drc[[gInfo$drc]][,3],col= c( grey(.6) ,gInfo$col)[ gInfo$grouping ],
-				main = paste( gInfo$drc, 'dim 2+3' ), xlab="dimension 2", ylab= "dimension 3" )
-		grDevices::dev.off()
-	#}
+
+	grDevices::png( file= DRC2, width=1000, height=1000)
+	
+	graphics::plot(
+		cellexalObj@drc[[gInfo$drc]][,2], cellexalObj@drc[[gInfo$drc]][,3], 
+		col= c(grey(.6), gInfo$col)[gr],
+		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+	
+	grDevices::dev.off()
 	c( DRC1, DRC2)
 } )
