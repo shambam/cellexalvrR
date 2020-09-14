@@ -65,7 +65,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				content = c(paste(sep="\n",
 										paste("# Session Log for Session", cellexalObj@usedObj$sessionName )),
 								paste("Analysis of data: ", basename(cellexalObj@outpath) ),
-								""
+								"",paste("Started on", format(Sys.time(), "%a %b %d %X %Y") ),""
 						)
 				#browser()
 				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )

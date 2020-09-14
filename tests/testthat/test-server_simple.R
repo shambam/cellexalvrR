@@ -1,3 +1,21 @@
+context('server Simple - screenshots')
+
+prefix= './'
+#prefix = 'tests/testthat'
+
+path = file.path( prefix,'data', 'output')
+
+oldF = c()
+
+oldF = newScreenshots( oldF, path )
+newF = newScreenshots( oldF, path )
+expect_true( length(newF) == 0 ,"no new files" )
+file.create( file.path( path, 'test.png'))
+newF = newScreenshots( oldF, path )
+expect_true( length(newF) == 1 ,"one new file" )
+expect_true( newF == 'test.png' ,"one new file" )
+
+
 context('server SIMPLE')
 
 skip( "only activate if you know what you do here!" )

@@ -70,8 +70,19 @@ setMethod('server', signature = c ('character'),
 	if ( !is.null(masterPID) ) {
 		message ( paste( "server is checking the process",masterPID,"and shuts down if it is shutted down"))
 	}
+
+	## we check for additional screenshots in folder
+	oldFiles = newScreenshots()
+
   	while(TRUE){
 		if ( ! file.exists(pidfile ) ) {
+			newFiles = newScreenshots(oldFiles)
+			if ( length(newFiles) > 0 ){
+				for (n in newFiles) {
+					cellexalObj = logFigure( cellexalObj, file.path('..', n), 'New VR screenshot.' )
+				}
+				oldFiles = c( oldFiles, newFiles)
+			}
 			break
 		}
         if ( file.exists( scriptfile ) ) {
@@ -122,3 +133,26 @@ setMethod('server', signature = c ('character'),
 }
 )
 
+
+
+
+#' @name newScreenshots
+#' @aliases newScreenshots,character-method
+#' @rdname newScreenshots-methods
+#' @docType methods
+#' @description Check the folder '../Screenshots' for files
+#' @param oldFiles a vector of old files.
+#' @param path the path to look for file (default '../Screenshots' )
+#' @keywords server
+#' @title internal function!
+#' @export 
+newScreenshots <- function(oldFiles, path ='../Screenshots/' ) {
+		files = list.files( path )
+		OK = NULL
+		for ( x in files ){
+			if ( all ( sapply( oldFiles, function(old) { ! old==x } )) ){
+				OK = c(OK, x)
+			}
+		}
+		OK
+	}
