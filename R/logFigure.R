@@ -20,7 +20,7 @@ setMethod("logFigure", signature = c("cellexalvrR"),
     	cellexalObj = sessionPath(cellexalObj)  #function definition in file 'sessionPath.R'
    		sessionPath = cellexalObj@usedObj$sessionPath
    		if (!file.exists(png)) {
-     	   stop(paste("logFigure - the png file can not be found!", png))
+     	   stop(paste("logFigure - the png file can not be found: '", png,"'"))
    		}
 
    		file.copy(png, file.path(sessionPath, "png", basename(png)))

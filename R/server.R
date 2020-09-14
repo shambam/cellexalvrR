@@ -61,10 +61,9 @@ setMethod('server', signature = c ('character'),
 		## Error is captured by the VR application and this is important to leave it like that.
 		if ( ! asFunction ) { sink(outFile) }
 	}
-	if (! file.exists( cellexalObj@outpath )){
-		cat ( paste( sep="","cellexalObj@outpath = '", dirname(file),"')"))
-		cellexalObj@outpath = dirname(file)
-	}
+
+	cellexalObj@outpath =  dirname(file)
+	
 	message ( paste( "server is starting - reading from file:\n", scriptfile))
 	message ( paste( "server debug mode:", debug))
 	if ( !is.null(masterPID) ) {
@@ -72,17 +71,20 @@ setMethod('server', signature = c ('character'),
 	}
 
 	## we check for additional screenshots in folder
-	oldFiles = newScreenshots()
+	path = file.path(dirname(file), 'Screenshots')
+	oldFiles = newScreenshots( c(), path =path )
 
   	while(TRUE){
-		if ( ! file.exists(pidfile ) ) {
-			newFiles = newScreenshots(oldFiles)
-			if ( length(newFiles) > 0 ){
-				for (n in newFiles) {
-					cellexalObj = logFigure( cellexalObj, file.path('..', n), 'New VR screenshot.' )
-				}
-				oldFiles = c( oldFiles, newFiles)
+  		newFiles = newScreenshots(oldFiles, path=path)
+  		if ( length(newFiles) > 0 ){
+
+			for (n in newFiles) {
+				message( paste( 'logFigure will log the file',file.path(path, n) ))
+				cellexalObj = logFigure( cellexalObj,png= file.path(path, n), text='New VR screenshot.' )
 			}
+			oldFiles = c( oldFiles, newFiles)
+		}
+		if ( ! file.exists(pidfile ) ) {
 			break
 		}
         if ( file.exists( scriptfile ) ) {
