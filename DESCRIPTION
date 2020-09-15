@@ -14,7 +14,7 @@ biocViews: graph,
     edgeR
 Depends:
     Matrix,
-    R (>= 2.10)
+    R (>= 3.6.0)
 Imports:
 	AnnotationDbi,
 	bookdown,

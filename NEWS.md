@@ -1,7 +1,6 @@
 # 0.14.2
 
 Logs fixed 3D plots not showing colours.
-Expression data gets z-scored during the export of the data.
 
 # 0.14.0
 

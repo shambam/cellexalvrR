@@ -103,11 +103,12 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function
-		mdc = FastWilcoxTest::ZScore( x@data )
-		colnames(mdc) <- colnames(x@data)
-		rownames(mdc) <- rownames(x@data)
-		mdc = FastWilcoxTest::meltSparseMatrix( mdc )
-		
+		#mdc = FastWilcoxTest::ZScore( x@data )
+		#colnames(mdc) <- colnames(x@data)
+		#rownames(mdc) <- rownames(x@data)
+		#mdc = FastWilcoxTest::meltSparseMatrix( mdc )
+		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
+
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
 	

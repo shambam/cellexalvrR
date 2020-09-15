@@ -7,13 +7,12 @@ cellexalvrR is an R package to prep data single-cell expression data for explora
 # Install using:
 ```
 install.packages("devtools")
-library(devtools)
 
-install_github("sonejilab/cellexalvrR")
+devtools::install_github("sonejilab/cellexalvrR", ref="V_0.14")
 library(cellexalvrR)
 ```
 
-cellexalvrR has been developed for R 3.4.X, testing is underway for R 3.5.
+cellexalvrR has been developed for R 3.6.X, and is productively used under R 4.0.2.
 
 # Preparing data using cellexalvrR
 The vignette detailing how to use the package to prepare data for CellexalVR can be found [here](https://cellexalvr.med.lu.se/cellexalvrr-vignette). It shows how to create a cellexalvr object ready for export, and also describes a couple of functions to make converting formats and making metadata easier.
