@@ -89,8 +89,6 @@ write_lines( c(
 	f= srvFile , 0
 )
 
-
-
 #startCMD = paste( "paste(", R.exe(),",'CMD BATCH',", file2Script(srvFile),",'&')" )
 
 
@@ -135,7 +133,8 @@ expect_true( all(dim(out) == c(8,1)), label="incorrect output size")
 
 expect_equal( as.vector(out[2:8,1]), c("An object of class cellexalvrR ",
 "with 4709 genes and 1654  cells. ",
-"Annotation datasets (0,0): ''   ",
+#"Annotation datasets (0,0): ''   ",
+"Annotation datasets (4709,2): 'Gene Symbol', 'savekeeping'   ",
 "Sample annotation (1654,23): 'LTHSC_broad', 'LMPP_broad', 'MPP_broad', 'CMP_broad', 'MEP_broad', 'GMP_broad', 'MPP1_broad', 'MPP2_broad', 'MPP3_broad', 'STHSC_broad', 'LTHSC', 'LMPP', 'MPP', 'CMP', 'MEP', 'GMP', 'MPP1', 'MPP2', 'MPP3', 'STHSC', 'ESLAM', 'HSC1', 'Projected'   ",
 "There are 0 user group(s) stored :",
 "and 3 drc object(s)",
@@ -189,12 +188,13 @@ write_lines(paste( sep="",
 ) 
 
 wait4server()
+Sys.sleep( 1 )
 
 out = read.delim( output, row.names=NULL, header=F )
 
 
 for ( file in c('testHeatmap','testHeatmap.sqlite3') ){
-	expect_true( file.exists( file.path( dirname(tmpFile), 'Heatmaps', file )))
+	expect_true( file.exists( file.path( dirname(tmpFile), 'Heatmaps', file )), label = file )
 }
 
 expect_true ( length(scan(what=character(), file.path( dirname(tmpFile), 'Heatmaps',"testHeatmap" ) ) ) == 253 , label="always get 253 genes instead of 250?" )
@@ -229,6 +229,7 @@ write_lines(
     )
 ) 
 wait4server()
+Sys.sleep( 1 )
 
 expect_true( 
 		file.exists( file.path( tmpDir, 'testSession', 'AB_Heatmap_paritalLog.Rmd' ))
@@ -236,7 +237,7 @@ expect_true(
 
 expect_true( 
 		file.exists( file.path( tmpDir,"AB_Heatmap_testSession.html")), 
-			label="AB_Heatmap_testSession.html" )
+			label=file.path( tmpDir,"AB_Heatmap_testSession.html") )
 
 
 ############################################################
@@ -256,6 +257,7 @@ write_lines(
 ) 
 
 wait4server()
+Sys.sleep( 1 )
 
 thisP = file.path( tmpDir, 'Networks' )
 expect_true( file.exists( thisP), label=thisP )
@@ -280,6 +282,7 @@ write_lines(
 )
 
 wait4server()
+Sys.sleep( 1 )
 
 thisP = file.path( tmpDir, 'testSession', 'AC_Network_paritalLog.Rmd'  )
 expect_true( file.exists(thisP), label = thisP)
@@ -295,16 +298,19 @@ context('server VR interface - log simple Figure')
 
 #logFigure(cellexalObj, png,  text = NULL,...)
 
+
 write_lines(
   paste( sep="",
 	"cellexalObj = logFigure( cellexalObj, ",
 	"png='",file.path( tmpDir, 'Heatmaps', "testHeatmap.png"),
 	"', text='just a simple figure - ",
-	"not really meaningful as that would be created in VR.')" 
+	"not really meaningful as that would be created in VR.')
+	" 
   )
 )
 
 wait4server()
+Sys.sleep( 1 )
 
 thisP = file.path(tmpDir, 'AD_Figure_testSession.html')
 expect_true( file.exists(thisP), label = thisP)
@@ -315,18 +321,80 @@ write_lines(
 	"cellexalObj = logFigure( cellexalObj, ",
 	"png='",file.path( tmpDir, 'Heatmaps', "testHeatmap.png"),
 	"', text='just a simple figure - ",
-	"not really meaningful as that would be created in VR.')" 
+	"not really meaningful as that would be created in VR.')
+	" 
   )
 )
 
+#browser()
 wait4server()
+Sys.sleep( 1 )
 
 thisP = file.path(tmpDir, 'AE_Figure_testSession.html')
 expect_true( file.exists(thisP), label = thisP)
 
+
+
+############################################################
+context('server VR interface - create timeline')
+############################################################
+
+#  make.cellexalvr.heatmap.list (cvrObj,cellidfile,num.sig,outfile, stats_method=NA)
+## first copy the selection file
+
+gFile= 'SelectionHSPC_time.txt'
+grouping <- file.path(prefix, 'data', gFile )
+
+expect_true( file.copy( grouping, file.path( tmpDir, gFile)), label='selection file copy')
+
+expect_true( file.exists( file.path( tmpDir, gFile)))
+
+#dir.create(file.path( tmpDir, 'Heatmaps') )
+
+write_lines(paste( sep="",
+	"cellexalObj = make.cellexalvr.heatmap.list( cellexalObj, cellidfile = '",
+	file.path( tmpDir, gFile),
+	"', num.sig = 250, outfile = '",
+	file.path(  tmpDir, 'Heatmaps', "timeHeatmap" ),
+	"', stats_method= 'wilcox')" 
+    )
+) 
+
+wait4server()
+Sys.sleep( 1 )
+
+out = read.delim( output, row.names=NULL, header=F )
+
+
+for ( file in c('timeHeatmap','timeHeatmap.sqlite3') ){
+	expect_true( file.exists( file.path( dirname(tmpFile), 'Heatmaps', file )), label = file )
+}
+
+
+l = length(scan(what=character(), file.path( dirname(tmpFile), 'Heatmaps',"timeHeatmap" ) ) )
+expect_true ( l == 251 , 
+     label=paste("always get 251 genes instead of 250? (",l,")" ) )
+
+## and now I alsoexpect the results to be in the log!
+
+for ( file in 
+	c('4_runRender.R', 'AF_OneGroupTime_paritalLog.Rmd', 
+		'SelectionHSPC_time.txt', 'SelectionHSPC_time.txt.group.txt',
+		'SelectionHSPC_time.txt.time','SelectionHSPC_time.txt.time.points') ){
+	expect_true( 
+		file.exists( file.path( tmpDir, 'testSession', file ))
+		, label=file )
+}
+
+expect_true( 
+		file.exists( file.path( tmpDir,"AF_OneGroupTime_testSession.html")), 
+			label="AF_OneGroupTime_paritalLog.html" )
+
+
+
 ## now shut down the server
 ############################################################
-context('server VR interface - create report - sutdown')
+context('server VR interface - create report - shutdown')
 ############################################################
 
 
@@ -337,12 +405,18 @@ write_lines(
 )
 wait4server()
 
-for ( f in c('testSession.zip','session-log-for-session-testsession.html')){
-	thisP = file.path(tmpDir, f)
-	expect_true( file.exists(thisP), label = thisP)
+if ( file.exists(file.path(prefix, 'data', 'output', 'TestDataset') )){
+	unlink( file.path(prefix, 'data', 'output', 'TestDataset'), recursive=TRUE )
 }
+dir.create( file.path(prefix, 'data', 'output', 'TestDataset') )
+file.copy( tmpDir,  file.path(prefix, 'data', 'output', 'TestDataset'), recursive=TRUE)
 
-file.copy( file.path(tmpDir, 'testSession.zip'), file.path( prefix, 'data', 'output', ''  ) )
+#for ( f in c('testSession.zip','session-log-for-session-testsession.html')){
+#	thisP = file.path(tmpDir, f)
+#	expect_true( file.exists(thisP), label = thisP)
+#}
+
+#file.copy( file.path(tmpDir, 'testSession.zip'), file.path( prefix, 'data', 'output', ''  ) )
 
 unlink(  file.path( tempdir(), 'Output'), recursive =TRUE )
 

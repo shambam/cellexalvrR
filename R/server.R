@@ -147,7 +147,6 @@ setMethod('server', signature = c ('character'),
 #' @param path the path to look for file (default '../Screenshots' )
 #' @keywords server
 #' @title internal function!
-#' @export 
 newScreenshots <- function(oldFiles, path ='../Screenshots/' ) {
 		files = list.files( path )
 		OK = NULL

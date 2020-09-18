@@ -95,21 +95,21 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	if ( ! file.exists(ofile) || forceDB==T ) {
 	    #genes <- tolower(rownames(x@data))
 	    oldw <- getOption("warn")
-		options(warn = -1)
+		#options(warn = -1)
 
 		genes <- rownames(x@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
-	
+
 		cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function
-		mdc = FastWilcoxTest::ZScore( x@data )
-		colnames(mdc) <- colnames(x@data)
-		rownames(mdc) <- rownames(x@data)
-		mdc = FastWilcoxTest::meltSparseMatrix( mdc )
-		
+		#mdc = FastWilcoxTest::ZScore( x@data )
+		#colnames(mdc) <- colnames(x@data)
+		#rownames(mdc) <- rownames(x@data)
+		#mdc = FastWilcoxTest::meltSparseMatrix( mdc )
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
+		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
 	
     	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 		

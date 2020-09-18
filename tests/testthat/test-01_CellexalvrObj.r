@@ -41,8 +41,12 @@ obj = check( obj )
 expect_true( obj@usedObj$checkPassed == TRUE,
 	"The internal check suceeds" ) 
 
-
-export2cellexalvr( obj, opath )
+opath = file.path( opath, 'initialTest' )
+if ( file.exists(opath)){
+	unlink( opath, recursive=TRUE)
+}
+dir.create( opath )
+export2cellexalvr( obj, opath, force=T )
 
 
 if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
@@ -134,7 +138,7 @@ if(  file.exists(paste( ofile , '.sqlite3', sep="")) ){
 	unlink( paste( ofile , '.sqlite3', sep="") )
 }
 
-
+file.copy( file.path( opath,'cellexalObj.RData'), file.path( prefix, 'data', 'output'))
 #load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
 #cellexalObj@outpath = opath
 #lockedSave( cellexalObj )

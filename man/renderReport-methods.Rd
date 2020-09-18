@@ -18,4 +18,5 @@ after one session this function renders the output gitbook
 renderReport is the final step to create a html log file.
 
 These log files can be accessed from within the VR environment using the inbuilt browser.
+It also creates a zip file that contains all data required to view this report.
 }

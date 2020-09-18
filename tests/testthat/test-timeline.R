@@ -16,14 +16,14 @@ x@outpath = file.path(prefix,'data','output','timeLineTest' )
 
 x@usedObj$sessionPath = x@usedObj$sessionRmdFiles = x@usedObj$sessionName = NULL
 
-ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', '1_OneGroupTime_paritalLog.Rmd' )
+ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', 'AB_OneGroupTime_paritalLog.Rmd' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
 
 x = sessionPath( x, 'timeSession')
 
-expect_true( x@usedObj$sessionName == 'timeSession', 'session path not set correctly')
+expect_true( x@usedObj$sessionName == 'timeSession',  label='session path not set correctly')
 gFile= 'SelectionHSPC_time.txt'
 grouping <- file.path(prefix, 'data', gFile )
 
@@ -41,7 +41,7 @@ dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 1 ), ]
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
-ofile = file.path( prefix, 'data','output','timeLineTest','2_OneGroupTime_timeSession.html' )
+ofile = file.path( prefix, 'data','output','timeLineTest','AB_OneGroupTime_timeSession.html' )
 SelectionFile = file.path(x@outpath , paste(gFile, 'time', sep=".") )
 
 if ( file.exists( ofile) ) {
@@ -50,10 +50,10 @@ if ( file.exists( ofile) ) {
 if ( file.exists( SelectionFile)){
 	unlink( SelectionFile )
 }
-t = getDifferentials( t,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
 
+t = getDifferentials( t,'User.group.1', deg.method= 'wilcox' , Log=FALSE)
 
-expect_true(file.exists( ofile), "new time selection file is missing" )
+expect_true(file.exists( ofile), label=ofile  )
 
 time= t@usedObj$timelines[['lastEntry']]
 o = order(time@dat$time)
@@ -61,15 +61,15 @@ d = read.delim(SelectionFile, header=F )
 
 #browser()
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
-expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[order( time@dat$time)]) == TRUE, "new order was wrong")
+expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[order( time@dat$time)]) == TRUE, "new order equal old order")
 #expect_true( all.equal( as.vector(d[,2]), gplots::bluered( 9 ))==TRUE, "new order")
 
 
 
-expect_true( file.exists( ofile), "Rmd (subset) ofile not created" )
-expect_true( file.exists( SelectionFile), "Updated selection ofile not created" )
+expect_true( file.exists( ofile), label= ofile )
+expect_true( file.exists( SelectionFile), label= SelectionFile)
 
-ofile = file.path( prefix, 'data','output','timeLineTest','3_OneGroupTime_timeSession.html' )
+ofile = file.path( prefix, 'data','output','timeLineTest','AC_OneGroupTime_timeSession.html' )
 
 if ( file.exists( ofile) ) {
 	unlink( ofile )
@@ -80,11 +80,11 @@ if ( file.exists( SelectionFile)){
 
 a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
 
-expect_true( file.exists( ofile), "Rmd (total) ofile not created" )
-expect_true( file.exists( SelectionFile), "Updated selection ofile not created" )
+expect_true( file.exists( ofile), label= ofile )
+expect_true( file.exists( SelectionFile), label= SelectionFile )
 t = table(read.delim( SelectionFile, header=F )[,2])
 
-expect_true(length(t) <= 10, paste("too many time colors (", sep="", length(t)," > 10)" ) )
+expect_true(length(t) <= 10,  label=paste("same time colors (", sep="", length(t)," > 10)" ) )
 
 context('timeline reproducibility')
 
@@ -100,14 +100,30 @@ if ( ! file.exists( cmpFile )){
 old = read.delim( cmpFile )
 new = read.delim( testF )
 
-expect_true( all.equal( old[,1], new[,1] ) ==TRUE )
-expect_true( all.equal( old[,3], new[,3] ) ==TRUE )
+expect_true( all.equal( old[,1], new[,1] ) ==TRUE, label= "old and new 1 are the same" )
+expect_true( all.equal( old[,3], new[,3] ) ==TRUE, label= "old and new 3 are the same")
+
+ofile = file.path( prefix, 'data','output','timeLineTest','AD_OneGroupTime_timeSession.html' )
+
+if ( file.exists( ofile) ) {
+	unlink( ofile )
+}
+if ( file.exists( SelectionFile)){
+	unlink( SelectionFile )
+}
 
 a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
+
+
+expect_true( file.exists( ofile), label= ofile )
+expect_true( file.exists( SelectionFile), label= SelectionFile )
 
 new = read.delim( testF )
 
 expect_true( all.equal( old[,1], new[,1] ) ==TRUE )
 expect_true( all.equal( old[,3], new[,3] ) ==TRUE )
 
+x= renderReport( x )
 
+ofile = file.path( prefix, 'data','output', 'timeLineTest', 'session-log-for-session-timeSession.html' )
+expect_true( file.exists( ofile), label= ofile )

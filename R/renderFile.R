@@ -22,23 +22,21 @@ if ( is.null( x@usedObj$sessionPath )){
 	}
 		sessionPath = normalizePath(x@usedObj$sessionPath)
 	fname = x@usedObj$sessionRmdFiles[id]
-	####################
-	title = paste(id, type, x@usedObj$sessionName, sep="_" )
-	####################
 	if ( ! file.exists(fname) ){
 		stop( paste( "fname for the sessionRmdFiles id",id,",", fname,"does not exists on the file system"))
 	}
 	
 	fileConn<-file(file.path(sessionPath, '_bookdown.yml') )
+	AA = as.vector( sapply(LETTERS, function(x) paste0(x, LETTERS)))
+
 	writeLines(c(
-		paste('book_filename:', title ),
-		'output_dir: ../',	
-		paste('title:', title),		
+		paste('book_filename:', paste(AA[id], type, x@usedObj$sessionName, sep="_" )),
+		'output_dir: ../',			
 		'delete_merged_file: true' )
 		, fileConn 
 	) 
     close(fileConn)
-    message( paste('bookdown::render_book log id', id) )
+    message( paste('bookdown::render_book log id', id, "/", AA[id] ) )
 	## and now a bloody hack:
 	oldwd = getwd()
 	setwd( x@usedObj$sessionPath )
@@ -48,12 +46,9 @@ if ( is.null( x@usedObj$sessionPath )){
 		files =  basename(x@usedObj$sessionRmdFiles[1])
 	}
 	
-	cmd =c( 
-		paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), 
-		paste( sep="","rmarkdown::render(input=",file2Script(fname),
-		  ", output_format= 'html_document', output_file='",
-		  title,"', output_dir='../')") 
-		)
+	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), paste( sep="","rmarkdown::render(input=",file2Script(fname),
+		", output_format= 'html_document', output_file='",
+		paste(AA[id], type, x@usedObj$sessionName, sep='_' ),"', output_dir='../')") )
 
 	script = paste( sep="_", id,"runRender.R")
 	if ( file.exists( script)) {
@@ -93,14 +88,16 @@ setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	}
 	sessionPath = normalizePath(x@usedObj$sessionPath)
 	id = length(x@usedObj$sessionRmdFiles) +1
-	fname = paste( sep="_", id, type, "paritalLog.Rmd" )
+	AA = as.vector( sapply(LETTERS, function(x) paste0(x, LETTERS)))
+	fname = paste( sep="_", AA[id], type, "paritalLog.Rmd" )
 	fname = file.path( sessionPath, fname )
 
 	if ( file.exists( fname )) {
 		## damn - somewhere the cellexal object was not saved - better read in all Rmd files now
 		x@usedObj$sessionRmdFiles = list.files(sessionPath, full.names = TRUE, pattern='*.Rmd')
 		id = length(x@usedObj$sessionRmdFiles) +1
-		fname = paste( sep="_", id, type, "paritalLog.Rmd" )
+		AA = as.vector( sapply(LETTERS, function(x) paste0(x, LETTERS)))
+		fname = paste( sep="_", AA[id], type, "paritalLog.Rmd" )
 		fname = file.path( sessionPath, fname )
 	}
 	if ( file.exists(fname) ){

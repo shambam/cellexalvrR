@@ -34,7 +34,7 @@ setMethod("logFigure", signature = c("cellexalvrR"),
    		cellexalObj = storeLogContents(cellexalObj, content, type = "Figure")
     	id = length(cellexalObj@usedObj$sessionRmdFiles)
     	cellexalObj = renderFile(cellexalObj, id, type = "Figure")
-
+      browser()
     	invisible(cellexalObj)
     }
 )
