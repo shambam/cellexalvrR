@@ -44,7 +44,9 @@ file.path(datadir,'sessionGroupingTest',"AD_Ontology_paritalLog.Rmd")
 lapply( list.files(file.path(datadir) , 
 		full.names = TRUE, recursive = TRUE), unlink )
 
+####################################################
 context('create session grouping - start clean')
+####################################################
 
 cellexalObj = sessionPath( cellexalObj, 'sessionGroupingTest' )
 
@@ -76,8 +78,6 @@ n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup )
 expect_true( n == 1, paste("third try: first entry not 1(", n, ")"))
 
 ## now add some Session reports:
-
-context('session logHeatmap' )
 
 genes <- file.path(prefix, 'data/heatmap_0.txt')
 if ( ! file.exists(file.path(datadir,  'tmp')) ){
@@ -124,7 +124,9 @@ for ( fname in c( ofiles ) ){
 }
 expect_true( file.exists( ofile), label = paste( "file has not been created", ofile))
 
-context('session logStatResult ')
+####################################################
+context('create session grouping - logStatResult ')
+####################################################
 
 test = data.frame( A = rep(0,10), B= rep(1,10), 'p_val'= c( 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1) )
 
@@ -141,8 +143,6 @@ context('create session grouping - logNetwork')
 ####################################################
 
 
-
-}
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
 expect_true( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' )),label =  'logNetworks')
 

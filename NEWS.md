@@ -1,6 +1,7 @@
 # 0.14.2
 
 Logs fixed 3D plots not showing colours.
+server + logFigure VR screenshot integration into the log file.
 
 # 0.14.0
 

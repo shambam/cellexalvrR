@@ -1,4 +1,4 @@
-context('server basic testing')
+context('server offline testing')
 
 if ( .Platform$OS.type != 'unix' ) {
 	skip('Test only work on unix platform')
