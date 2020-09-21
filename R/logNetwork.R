@@ -26,7 +26,7 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
     sessionPath = cellexalObj@usedObj$sessionPath
 
     if (!file.exists(png)) {
-        stop(paste("logNetwork the network png file can not be found!", png))
+        stop(paste("logNetwork the network png file can not be found!", "png"))
     }
     file.copy(png, file.path(sessionPath, "png", basename(png)))
     figureF = file.path("png", basename(png))

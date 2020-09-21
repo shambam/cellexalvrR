@@ -48,7 +48,7 @@ heatmap_png <- file.path(opath, 'tmp', 'a_simple_figure2.png')
 
 cellexalObj = sessionPath (cellexalObj, 'LogNetworkTest' )
 
-ofile = file.path( cellexalObj@outpath, '2_Network_LogNetworkTest.html')
+ofile = file.path( cellexalObj@outpath, 'AB_Network_LogNetworkTest.html')
 
 if ( file.exists( ofile ) ) {
 	unlink( ofile )

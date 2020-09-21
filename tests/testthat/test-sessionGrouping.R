@@ -17,13 +17,9 @@ cellexalObj@outpath = file.path(datadir) ## to not mess up the package
 
 ## init a session
 lockedSave(cellexalObj)
-if ( file.exists( file.path(datadir, 'sessionGroupingTest' )) ){
-	#t = lapply( list.files(file.path(datadir) , 
-	#	full.names = TRUE, recursive = TRUE), unlink )
-	unlink(  file.path(datadir, 'sessionGroupingTest' ), recursive=TRUE )
-}
 
-dir.create( file.path(datadir, 'sessionGroupingTest' ) )
+
+dir.create( datadir )
 fnames = ( c( 
 file.path(datadir,"AA_Start_sessionGroupingTest.html") , 
 file.path(datadir,"AB_Heatmap_sessionGroupingTest.html"),
@@ -92,6 +88,11 @@ png( file=file.path(datadir, 'tmp', 'a_simple_figure.png'), width=800, height=80
 plot(1:100, sample(100:1, 100), main="Just for the test 1!" )
 dev.off()
 
+####################################################
+context('create session grouping - logHeatmap')
+####################################################
+
+
 heatmap_png <- file.path(datadir,  'tmp', 'a_simple_figure.png')
 
 grouping <- file.path(prefix, 'data/selection0.txt')
@@ -114,15 +115,14 @@ if( file.exists(ofile)) {
 	unlink(ofile)
 }
 
-
 #system( paste( 'Rscript', script, datadir, genes, heatmap_png, grouping, ontology, topNodes ))
 cellexalObj = logHeatmap(cellexalObj, genes, heatmap_png, grouping, ontology = ontology, topNodes = topNodes )
 
 
 for ( fname in c( ofiles ) ){
-	expect_true( file.exists( file.path(datadir, 'sessionGroupingTest',  fname ) ) , paste( "file has not been created",file.path(datadir, 'sessionGroupingTest', fname) ))
+	expect_true( file.exists( file.path(datadir, 'sessionGroupingTest',  fname ) ) , label= paste( "file has not been created",file.path(datadir, 'sessionGroupingTest', fname) ))
 }
-expect_true( file.exists( ofile), paste( "file has not been created", ofile))
+expect_true( file.exists( ofile), label = paste( "file has not been created", ofile))
 
 context('session logStatResult ')
 
@@ -133,24 +133,28 @@ if ( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' ))) {
 }
 logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
-expect_true( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' )), 'logStatResult failed')
+expect_true( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' )), label =  'logStatResult')
 
 
-context('session logNetwork ')
+####################################################
+context('create session grouping - logNetwork')
+####################################################
 
-if ( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, 'AC_Network_sessionGroupingTest.html' ) )
+
+
 }
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
-expect_true( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' )), 'logNetworks failed')
+expect_true( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' )),label =  'logNetworks')
 
-context('session ontologyLogPage')
+####################################################
+context('create session grouping - ontologyLogPage')
+####################################################
 
 if ( file.exists( file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' ))) {
 	unlink(  file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' ) )
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
-expect_true( file.exists( file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' )), 'ontologyLog failed')
+expect_true( file.exists( file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' )), label =  'ontologyLog')
 
 
 ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')
@@ -158,7 +162,10 @@ if( file.exists(ofile)) {
 	unlink(ofile)
 }
 
-context('session renderReport')
+####################################################
+context('create session grouping - renderReport')
+####################################################
+
 
 cellexalObj = renderReport ( cellexalObj )
 

@@ -99,7 +99,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 		genes <- rownames(x@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
-	
+
 		cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
 		
 		## melt the sparse matrix using the toColNums Rcpp function

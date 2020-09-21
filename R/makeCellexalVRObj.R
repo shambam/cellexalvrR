@@ -22,7 +22,7 @@ if ( ! isGeneric('MakeCellexalVRObj') ){setGeneric('MakeCellexalVRObj', ## Name
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 
-    if ( ! isa(exdata, 'dgCMatrix') ) {
+    if ( ! is(exdata, 'dgCMatrix') ) {
 		exdata = Matrix::Matrix(exdata, sparse=T)
 	}
 

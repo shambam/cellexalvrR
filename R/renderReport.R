@@ -1,6 +1,7 @@
 #' renderReport is the final step to create a html log file.
 #' 
 #' These log files can be accessed from within the VR environment using the inbuilt browser.
+#' It also creates a zip file that contains all data required to view this report.
 #' 
 #' @name renderReport
 #' @aliases renderReport,cellexalvrR-method
@@ -26,13 +27,13 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 
 	cellexalObj = storeLogContents( cellexalObj, paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")) 
 
-	## there might have been some problems - collect all Rmd files for this session to make sure we got really everything!
-	cellexalObj@usedObj$sessionRmdFiles = list.files(sessionPath,  pattern = ".*Rmd$",full.names =TRUE,  no.. = TRUE )
+	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
+		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
+	}
 	
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
 		paste('book_filename:', cellexalObj@usedObj$sessionName),
-		paste('title:', cellexalObj@usedObj$sessionName),
 		'output_dir: ../',			
 		'delete_merged_file: true' 
         ), fileConn )
@@ -43,15 +44,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:
-
-	cmd = c( "options(warn = -1)\n", 
-	paste(sep="", "bookdown::render_book( input= c('",
-		paste(collapse="', '",files),"'), ",
-		"output_format='bookdown::gitbook', clean_envir = FALSE , ",
-		"config_file = '_bookdown.yml' )" )
-	)
+	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(collapse="', '",files),
+		"'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
 	script= 'runRender.R'
-
 	if ( file.exists( script)) {
 		unlink( script )
 	}
@@ -67,9 +62,11 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	
 	expected_outfile =  paste("session-log-for-session-",tolower(cellexalObj@usedObj$sessionName), sep='', '.html')
 	expected_outfile = stringr::str_replace_all( expected_outfile, '_', '-')
-	expected_outfile = file.path(sessionPath, '..', expected_outfile )
+	expected_outfile = file.path( cellexalObj@outpath,expected_outfile )
+	
 	if ( file.exists( expected_outfile )){
 		## get rid of all section html files
+
 		htmls <-  list.files(file.path( cellexalObj@usedObj$sessionPath,'..'), full.names = TRUE, pattern='*.html')
 		mine = htmls[ grep(paste( sep="", '_',cellexalObj@usedObj$sessionName) , htmls )]
 		do.call(file.remove, list(mine))
@@ -83,6 +80,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	}	
 
 	lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
+
+	
 	
 	cellexalObj
 } )
