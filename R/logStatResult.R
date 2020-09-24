@@ -25,14 +25,49 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		if ( ! file.exists(file.path( x@usedObj$sessionPath,'tables') )) {
 			dir.create( file.path( x@usedObj$sessionPath,'tables') )
 		}
+
+
+
+
 		utils::write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 
 		mainOfile = x@usedObj$sessionRmdFiles[1]
+
+		## we need a table to describe the grouping - INCLUDING COLOR INFORMATION
+		## the VR ids are R ID's -1 (!!) make that clearly visible.
+		## get the VR order:
+		cellCount = table(x@userGroups[,x@usedObj$lastGroup])
+		R_IDs = names(cellCount)
+		OK = which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
+		tab = x@userGroups[OK,]
+		tab = tab[order( tab[,paste( x@usedObj$lastGroup, 'order')]) ,]
+		tab = tab[ match( R_IDs,as.vector(tab[,x@usedObj$lastGroup] ) ),]
+		tab =  tab[order( as.numeric(tab[,paste(x@usedObj$lastGroup, 'order')])),]
+
+		tableHTML = paste( sep="\n",
+			"### group information table",'',
+			'<table>',
+			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
+			paste(collapse="\n",
+				sapply( as.vector(tab[,x@usedObj$lastGroup]), function(id){
+				paste(sep="",
+					'<tr><td style="background-color:', 
+					x@colors[[x@usedObj$lastGroup]][id],'"',
+					"></td><td>",
+					x@colors[[x@usedObj$lastGroup]][id],"</td><td>",
+					cellCount[id], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
+					)
+				}))
+			, '</table> '
+		)
 
 		## this need to become a relative path - relative to the final outfile
 		content=paste( sep="\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
 				"",
+				tableHTML,
+				"",
+				"### Data",
 				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
 				""

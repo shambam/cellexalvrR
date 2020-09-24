@@ -26,16 +26,32 @@ if ( is.null( x@usedObj$sessionPath )){
 		stop( paste( "fname for the sessionRmdFiles id",id,",", fname,"does not exists on the file system"))
 	}
 	
-	fileConn<-file(file.path(sessionPath, '_bookdown.yml') )
+	fileConn<-file(file.path(sessionPath, '_output.yaml') )
 	AA = as.vector( sapply(LETTERS, function(x) paste0(x, LETTERS)))
 
 	writeLines(c(
 		paste('book_filename:', paste(AA[id], type, x@usedObj$sessionName, sep="_" )),
-		'output_dir: ../',			
+		'output_dir: ../',	
+		'output:',
+		'  html_document:',
+		'    css: "table.css"',
 		'delete_merged_file: true' )
 		, fileConn 
 	) 
     close(fileConn)
+
+    if ( ! file.exists( file.path(sessionPath,"table.css" )) ) {
+		fileConn<-file(file.path(sessionPath,"table.css" ) )
+		writeLines(c(
+			'table, th, td {',
+			'  border: 1px solid black;',
+			'  border-collapse: collapse;',
+			'  padding: 15px;',
+			'}')
+			, fileConn 
+		)
+		close(fileConn)
+	}
     message( paste('bookdown::render_book log id', id, "/", AA[id] ) )
 	## and now a bloody hack:
 	oldwd = getwd()
@@ -46,11 +62,12 @@ if ( is.null( x@usedObj$sessionPath )){
 		files =  basename(x@usedObj$sessionRmdFiles[1])
 	}
 	
-	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"), paste( sep="","rmarkdown::render(input=",file2Script(fname),
-		", output_format= 'html_document', output_file='",
-		paste(AA[id], type, x@usedObj$sessionName, sep='_' ),"', output_dir='../')") )
+	cmd =c( paste( sep="","setwd( ", file2Script( sessionPath ), " )\n"),
+	 paste( sep="","markdown::markdownToHTML(file=",file2Script(fname),
+		",  output='",file.path('..',
+		paste(sep=".",paste(AA[id], type, x@usedObj$sessionName, sep='_' ),"html")),"',  stylesheet= 'table.css' )") )
 
-	script = paste( sep="_", id,"runRender.R")
+	script = paste( sep="_", id,type,"runRender.R")
 	if ( file.exists( script)) {
 		unlink( script )
 	}

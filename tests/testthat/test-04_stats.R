@@ -35,6 +35,13 @@ x@usedObj$SelectionFiles = list()
 gene2 = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
 expect_true( length( gene2@usedObj$deg.genes) == 102, info = paste("wrong gene number c++ wilcox", length( gene2) ) )
+logStatResult ( gene2, gene2@usedObj$sigGeneLists$Cpp[[gene2@usedObj$lastGroup]],
+method= 'wilcox', 'p.value')
+ofile=  file.path( x@usedObj$sessionPath, 'AB_Stats_paritalLog.Rmd' )
+expect_true( file.exists( ofile), label = ofile)
+ofile=  file.path( x@usedObj$outpath, 'AB_Stats_StatTest.html' )
+
+
 
 skip("The up to date Seurat version is incompatible with cellexalvrR")
 gene3 = getDifferentials(x, grouping, 'Seurat_wilcox', num.sig=100, logfc.threshold = .1, minPct=0.1 )
