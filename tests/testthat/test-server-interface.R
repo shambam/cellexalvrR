@@ -202,7 +202,7 @@ expect_true ( length(scan(what=character(), file.path( dirname(tmpFile), 'Heatma
 ## and now I alsoexpect the results to be in the log!
 
 for ( file in 
-	c('2_runRender.R', 'AB_Stats_paritalLog.Rmd', 
+	c('2_Stats_runRender.R', 'AB_Stats_paritalLog.Rmd', 
 		'selection0.txt', 'selection0.txt.group.txt') ){
 	expect_true( 
 		file.exists( file.path( tmpDir, 'testSession', file ))
@@ -378,7 +378,7 @@ expect_true ( l == 251 ,
 ## and now I alsoexpect the results to be in the log!
 
 for ( file in 
-	c('4_runRender.R', 'AF_OneGroupTime_paritalLog.Rmd', 
+	c('4_OneGroupTime_runRender.R', 'AF_OneGroupTime_paritalLog.Rmd', 
 		'SelectionHSPC_time.txt', 'SelectionHSPC_time.txt.group.txt',
 		'SelectionHSPC_time.txt.time','SelectionHSPC_time.txt.time.points') ){
 	expect_true( 

@@ -69,8 +69,8 @@ merger@userGroups=data.frame()
 merger@usedObj$groupSelectedFrom = list()
 merger@usedObj$timelines = list()
 
-selectionF = file.path(prefix,'data','SelectionHSPC_time.txt')
-merger = getDifferentials(merger, selectionF, 'wilcox')
+#selectionF = file.path(prefix,'data','SelectionHSPC_time.txt')
+#merger = getDifferentials(merger, selectionF, 'wilcox')
 
 
-check(merger)
+#check(merger)

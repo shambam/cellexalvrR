@@ -22,22 +22,22 @@ lockedSave(cellexalObj)
 dir.create( datadir )
 fnames = ( c( 
 file.path(datadir,"AA_Start_sessionGroupingTest.html") , 
-file.path(datadir,"AB_Heatmap_sessionGroupingTest.html"),
-file.path(datadir,"AC_Network_sessionGroupingTest.html"),
-file.path(datadir,"AC_Stats_sessionGroupingTest.html"),
-file.path(datadir,"AD_Ontology_sessionGroupingTest.html"),
+file.path(datadir,"AC_Heatmap_sessionGroupingTest.html"),
+file.path(datadir,"AD_Network_sessionGroupingTest.html"),
+file.path(datadir,"AB_Stats_sessionGroupingTest.html"),
+file.path(datadir,"AE_Ontology_sessionGroupingTest.html"),
 file.path(datadir,'sessionGroupingTest',"AA_Start_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"AB_Heatmap_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"AC_Network_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"AC_Stats_paritalLog.Rmd"),
-file.path(datadir,'sessionGroupingTest',"AD_Ontology_paritalLog.Rmd")
+file.path(datadir,'sessionGroupingTest',"AC_Heatmap_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"AD_Network_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"AB_Stats_paritalLog.Rmd"),
+file.path(datadir,'sessionGroupingTest',"AE_Ontology_paritalLog.Rmd")
 
 ))
 #t = lapply ( fnames, file.create)
 
 #context('create session grouping - initial clean up using empty files')
 
-#sessionPath( cellexalObj, 'sessionGroupingTest' )
+
 #for ( n in fnames[-c(1,6)] ) { expect_true( ! file.exists(n), paste("file not removed",n)) }
 #for ( n in fnames[c(1,6)] ) { expect_true( file.exists(n), paste("file not created",n)) }
 
@@ -52,7 +52,7 @@ cellexalObj = sessionPath( cellexalObj, 'sessionGroupingTest' )
 
 expect_true( file.exists( file.path(datadir, 'sessionGroupingTest' ) ) , "session path has not been created" )
 
-lapply( list.files(datadir , full.names = TRUE, recursive = FALSE), unlink )
+#lapply( list.files(datadir , full.names = TRUE, recursive = FALSE), unlink )
 
 grouping =  file.path(prefix, 'data', 'selection0.txt' )
 
@@ -144,29 +144,30 @@ context('create session grouping - logNetwork')
 
 
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
-expect_true( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' )),label =  'logNetworks')
+expect_true( file.exists( file.path(datadir, 'AD_Network_sessionGroupingTest.html' )),label =  'logNetworks')
 
 ####################################################
 context('create session grouping - ontologyLogPage')
 ####################################################
 
-if ( file.exists( file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' ))) {
-	unlink(  file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' ) )
+if ( file.exists( file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' ) )
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
-expect_true( file.exists( file.path(datadir, 'AD_Ontology_sessionGroupingTest.html' )), label =  'ontologyLog')
+expect_true( file.exists( file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' )), label =  'ontologyLog')
 
-
-ofile=  file.path( datadir, 'session-log-for-session-sessiongroupingtest.html')
-if( file.exists(ofile)) {
-	unlink(ofile)
-}
 
 ####################################################
 context('create session grouping - renderReport')
 ####################################################
 
+ofile=  file.path( cellexalObj@outpath, 'session-log-for-session-sessiongroupingtest.html')
+if( file.exists(ofile) ) {
+	unlink(ofile)
+}
 
 cellexalObj = renderReport ( cellexalObj )
 
-expect_true(file.exists( ofile), 'html report / padoc installed?')
+expect_true(file.exists( ofile), label = ofile)
+
+

@@ -25,7 +25,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
 
-	cellexalObj = storeLogContents( cellexalObj, paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")) 
+	cellexalObj = storeLogContents( cellexalObj, 
+		paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n"),
+		type='End') 
 
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
