@@ -140,8 +140,6 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### Genes"),
 		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ), #function definition in file 'rmdLink.R'
 		'',
-	#	paste( "### Group Information"), # tab already cointains that!'
-		tab, '',
 		paste( "### Heatmap (from CellexalVR)"),
 		paste("![](",figureF,")"),
 		'',
@@ -162,7 +160,6 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	)
 
 	cellexalObj = storeLogContents( cellexalObj, content, type='Heatmap')
-
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id, type='Heatmap' )
 

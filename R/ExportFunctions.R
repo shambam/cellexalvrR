@@ -107,10 +107,9 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		#colnames(mdc) <- colnames(x@data)
 		#rownames(mdc) <- rownames(x@data)
 		#mdc = FastWilcoxTest::meltSparseMatrix( mdc )
-		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
-
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
+		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
 	
     	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 		
