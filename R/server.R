@@ -63,6 +63,7 @@ setMethod('server', signature = c ('character'),
 	}
 
 	cellexalObj@outpath =  dirname(file)
+	cellexalObj = sessionPath(cellexalObj)
 	
 	message ( paste( "server is starting - reading from file:\n", scriptfile))
 	message ( paste( "server debug mode:", debug))

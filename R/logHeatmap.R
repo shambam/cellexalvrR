@@ -108,6 +108,30 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	substract = do.call( file.path, lapply(substract, function(x){x}) )
 	path = R.utils::getRelativePath(sessionPath, relativeTo=substract, caseSensitive=T )
 	
+	cellCount = table(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup])
+	R_IDs = names(cellCount)
+	OK = which(!is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
+	tab = cellexalObj@userGroups[OK,]
+	tab = tab[order( tab[,paste( cellexalObj@usedObj$lastGroup, 'order')]) ,]
+	tab = tab[ match( R_IDs,as.vector(tab[,cellexalObj@usedObj$lastGroup] ) ),]
+	tab =  tab[order( as.numeric(tab[,paste(cellexalObj@usedObj$lastGroup, 'order')])),]
+		tableHTML = paste( sep="\n",
+		"### group information table",'',
+		'<table>',
+		'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
+		paste(collapse="\n",
+			sapply( as.vector(tab[,cellexalObj@usedObj$lastGroup]), function(id){
+			paste(sep="",
+				'<tr><td style="background-color:', 
+				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],'"',
+				"></td><td>",
+				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],"</td><td>",
+				cellCount[id], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
+				)
+			}))
+		, '</table> '
+	)
+
 	
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
@@ -116,6 +140,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### Genes"),
 		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ), #function definition in file 'rmdLink.R'
 		'',
+	#	paste( "### Group Information"), # tab already cointains that!'
+		tab, '',
 		paste( "### Heatmap (from CellexalVR)"),
 		paste("![](",figureF,")"),
 		'',
@@ -136,7 +162,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	)
 
 	cellexalObj = storeLogContents( cellexalObj, content, type='Heatmap')
-	
+
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id, type='Heatmap' )
 

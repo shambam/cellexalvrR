@@ -23,7 +23,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
 		
-		print ( paste( cellexalObj@outpath, sessionPath))
+		#print ( paste( cellexalObj@outpath, sessionPath))
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}

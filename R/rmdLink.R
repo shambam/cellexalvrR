@@ -28,8 +28,8 @@ setMethod('rmdLink', signature = c ('character'),
 					# set non-Windows newline
 					newLine <- "\n"
 				}
-				paste( sep="", "[", name,"](",link,name,"){target='blank'}",newLine)
+				paste( sep="", "[", name,"](",link,name,")",newLine)
 			}else {
-				paste( sep="", "[", name,"](",link,name,"){target='blank'}")
+				paste( sep="", "[", name,"](",link,name,")")
 			}
 		} )

@@ -2,7 +2,7 @@ context('log figure integrated')
 
 prefix = './'
 
-# prefic ='tests/testthat'
+# prefix ='tests/testthat'
 
 ## need to start from scratch - why not a little bit heatmap first?
 
@@ -30,7 +30,7 @@ x@usedObj$SelectionFiles = list()
 x = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
 expect_true( length( x@usedObj$deg.genes) == 102, info = paste("wrong gene number c++ wilcox", length( gene2) ) )
-logStatResult ( x, x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]],method= 'wilcox', 'p.value')
+x= logStatResult ( x, x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]],method= 'wilcox', 'p.value')
 
 ofile=  file.path( x@usedObj$sessionPath, 'AB_Stats_paritalLog.Rmd' )
 expect_true( file.exists( ofile), label = ofile)
@@ -56,6 +56,7 @@ context('log figure - heatmap last')
 png( file= file.path( x@usedObj$sessionPath, 'testHeatmap.png') ,width=800, height=800)
 plot(10:1,1:10, main="Not reall a heatmap :-D")
 dev.off()
+
 
 cellexalObj = logHeatmap(x, x@usedObj$deg.genes, 
 	file.path( x@usedObj$sessionPath, 'testHeatmap.png'), grouping )

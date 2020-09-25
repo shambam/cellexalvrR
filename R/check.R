@@ -85,12 +85,15 @@ setMethod('check', signature = c ('cellexalvrR'),
 		#if ( length(bad) > 0){
 		#	x@drc[[n]] = x@drc[[n]][-bad,]
 		#}
-		if ( length(which(is.na(x@drc[[n]]))) > 0 ) {	
-			error = c(error , 
-				paste("R logics ERROR: NA's in the drc", n ,
-					"rownames - please fix that") )
+		bad = which(apply(x@drc[[n]], 1, function(x){ all( is.na(x), TRUE ) } ))
+		if ( length(bad) > 0 ) {	
+			# just fix that here - no need to brag about it...
+			x@drc[[n]] = x@drc[[n]][-bad,]
+			#error = c(error , 
+			#	paste("R logics ERROR: NA's in the drc", n ,
+			#		"rownames - please fix that") )
 			#browser()
-			OK =FALSE
+			#OK =FALSE
 		}
 		if ( ! isTRUE(all.equal(rownames(x@drc[[n]]), cn) ) ){
 			if ( nrow( x@drc[[n]]) == length(cn) ){
