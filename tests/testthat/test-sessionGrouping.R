@@ -18,6 +18,7 @@ cellexalObj@outpath = file.path(datadir) ## to not mess up the package
 ## init a session
 lockedSave(cellexalObj)
 
+
 fnames = ( c( 
 file.path(datadir,"AA_Start_sessionGroupingTest.html") , 
 file.path(datadir,"AC_Heatmap_sessionGroupingTest.html"),
@@ -32,9 +33,6 @@ file.path(datadir,'sessionGroupingTest',"AE_Ontology_paritalLog.Rmd")
 
 ))
 
-
-#for ( n in fnames[-c(1,6)] ) { expect_true( ! file.exists(n), paste("file not removed",n)) }
-#for ( n in fnames[c(1,6)] ) { expect_true( file.exists(n), paste("file not created",n)) }
 
 lapply( list.files(file.path(datadir) , 
 		full.names = TRUE, recursive = TRUE), unlink )
@@ -132,11 +130,9 @@ logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
 expect_true( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' )), label =  'logStatResult')
 
-
 ####################################################
 context('create session grouping - logNetwork')
 ####################################################
-
 
 if ( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' ))) {
 	unlink(  file.path(datadir, 'AC_Network_sessionGroupingTest.html' ) )
