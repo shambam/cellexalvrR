@@ -131,6 +131,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 			}))
 		, '</table> '
 	)
+		browser()
 
 	
 	content = paste( sep="\n",
@@ -143,6 +144,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste( "### Heatmap (from CellexalVR)"),
 		paste("![](",figureF,")"),
 		'',
+		tableHTML,'',
 		paste( "### 2D DRC", gInfo$drc, " dim 1,2"),
 		paste("![](",drcFiles[1],")"),
 		'',

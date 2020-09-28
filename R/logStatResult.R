@@ -43,7 +43,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		tab = tab[order( tab[,paste( x@usedObj$lastGroup, 'order')]) ,]
 		tab = tab[ match( R_IDs,as.vector(tab[,x@usedObj$lastGroup] ) ),]
 		tab =  tab[order( as.numeric(tab[,paste(x@usedObj$lastGroup, 'order')])),]
-
+		browser()
 		tableHTML = paste( sep="\n",
 			"### group information table",'',
 			'<table>',

@@ -37,7 +37,7 @@ setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	
 	## the drc the groups have been selected from is unknown - take the first one...
 	# name color drcName id - no colnames!
-	write.table( new, file= outfile, quote=FALSE, row.names=FALSE, sep="\t", col.names=FALSE)
-
+	write.table( new, file= outfile, quote=FALSE, 
+		row.names=FALSE, sep="\t", col.names=FALSE)
 	invisible(x)
 } )

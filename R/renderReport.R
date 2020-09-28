@@ -45,9 +45,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	setwd( cellexalObj@usedObj$sessionPath )
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
-	## and now a bloody hack:
-	cmd = paste(sep="", "bookdown::render_book( input= c('",paste(collapse="', '",files),
-		"'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+	## and now a bloody hack:list.files( './', filter='*.Rmd')
+	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', filter='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
 	script= 'runRender.R'
 	if ( file.exists( script)) {
 		unlink( script )
