@@ -2,6 +2,7 @@
 
 Logs fixed 3D plots not showing colours.
 server + logFigure VR screenshot integration into the log file.
+R sessions now should last for the whole length of a VR session and be unique.
 
 # 0.14.0
 

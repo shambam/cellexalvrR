@@ -46,7 +46,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:list.files( './', filter='*.Rmd')
-	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', filter='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
 	script= 'runRender.R'
 	if ( file.exists( script)) {
 		unlink( script )
@@ -68,7 +68,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	if ( file.exists( expected_outfile )){
 		## get rid of all section html files
 
-		htmls <-  list.files(file.path( cellexalObj@usedObj$sessionPath,'..'), full.names = TRUE, pattern='*.html')
+		htmls <-  list.files(file.path( cellexalObj@usedObj$sessionPath,'..'), 
+			full.names = TRUE, pattern='*.html')
 		mine = htmls[ grep(paste( sep="", '_',cellexalObj@usedObj$sessionName) , htmls )]
 		do.call(file.remove, list(mine))
 

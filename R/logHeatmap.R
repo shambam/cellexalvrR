@@ -126,13 +126,13 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],'"',
 				"></td><td>",
 				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],"</td><td>",
-				cellCount[id], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
+				cellCount[match(id, names(cellCount))], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
 				)
 			}))
 		, '</table> '
 	)
-		browser()
-
+	drcFiles[1] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[1]))
+	drcFiles[2] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[2]))
 	
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),

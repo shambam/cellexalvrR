@@ -40,6 +40,9 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 
     drcFiles = drcPlots2D(cellexalObj, gInfo)  #function definition in file 'drcPlot2D.R'
 
+    drcFiles[1] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[1]))
+    drcFiles[2] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[2]))
+    
     # figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd
     # file mainOfile = file.path(sessionPath, filename( c( n, 'Network.Rmd') ) )
     # #function definition in file 'filename.R' file.create(mainOfile)

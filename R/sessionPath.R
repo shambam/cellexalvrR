@@ -33,8 +33,21 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 				}
 			}
 			if ( is.null(cellexalObj@usedObj$sessionName )) {
-				#browser()
-				cellexalObj@usedObj$sessionName = filename( as.character(Sys.time())) #function definition in file 'filename.R'
+				## there seams to be a problem in the interplay between VR and R
+				## sometimes I get two cellexal outfolders in one session
+				## That does not make sense and therefore this here needs an upgrade.
+				if ( file.exists( file.path( cellexalObj@outpath, 'mainServer.pid'))) {
+					pid = scan( file.path( cellexalObj@outpath, 'mainServer.pid') )
+					if ( ps::ps_is_running( masterPID ) ) {
+						cellexalObj@usedObj$sessionName = scan( file.path(cellexalObj@outpath,'mainServer.sessionName'), what=character() )
+						cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
+					}
+				}
+				if ( is.null( cellexalObj@usedObj$sessionName) ){
+					cellexalObj@usedObj$sessionName = 
+						filename( as.character(Sys.time())) #function definition in file 'filename.R'
+					cat( cellexalObj@usedObj$sessionName , file = file.path(cellexalObj@outpath,'mainServer.sessionName') )
+				}
 				cellexalObj@usedObj$sessionRmdFiles = NULL
 				cellexalObj@usedObj$sessionPath = NULL
 				cellexalObj@usedObj$sessionCounter = NULL
