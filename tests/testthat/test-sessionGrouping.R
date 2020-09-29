@@ -130,6 +130,9 @@ logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
 expect_true( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' )), label =  'logStatResult')
 
+
+
+
 ####################################################
 context('create session grouping - logNetwork')
 ####################################################

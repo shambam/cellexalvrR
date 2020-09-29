@@ -95,7 +95,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	if ( ! file.exists(ofile) || forceDB==T ) {
 	    #genes <- tolower(rownames(x@data))
 	    oldw <- getOption("warn")
-		#options(warn = -1)
+		options(warn = -1)
 
 		genes <- rownames(x@data)
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )

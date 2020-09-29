@@ -160,7 +160,7 @@ wait4server()
 
 expect_true( file.exists( file.path( dirname(tmpFile), 'testSession' )))
 
-for (file in c('1_runRender.R', 'AA_Start_paritalLog.Rmd', '_bookdown.yml', 'png', 'tables') ){
+for (file in c('1_Start_runRender.R', 'AA_Start_paritalLog.Rmd', '_output.yaml', 'png', 'tables') ){
 	ofile = file.path( dirname(tmpFile), 'testSession', file )
 	expect_true( file.exists( ofile), label=paste("file exists:",ofile))
 }
@@ -231,13 +231,12 @@ write_lines(
 wait4server()
 Sys.sleep( 1 )
 
-expect_true( 
-		file.exists( file.path( tmpDir, 'testSession', 'AB_Heatmap_paritalLog.Rmd' ))
-		, label='AB_Heatmap_paritalLog.Rmd' )
+ofile = file.path( tmpDir, 'testSession', 'AC_Heatmap_paritalLog.Rmd' )
+expect_true( file.exists( ofile ), label=ofile )
 
-expect_true( 
-		file.exists( file.path( tmpDir,"AB_Heatmap_testSession.html")), 
-			label=file.path( tmpDir,"AB_Heatmap_testSession.html") )
+
+ofile = file.path( tmpDir,"AC_Heatmap_testSession.html" )
+expect_true( file.exists( ofile ), label=ofile )
 
 
 ############################################################
@@ -284,10 +283,10 @@ write_lines(
 wait4server()
 Sys.sleep( 1 )
 
-thisP = file.path( tmpDir, 'testSession', 'AC_Network_paritalLog.Rmd'  )
+thisP = file.path( tmpDir, 'testSession', 'AD_Network_paritalLog.Rmd'  )
 expect_true( file.exists(thisP), label = thisP)
 
-thisP =  file.path(tmpDir, 'AC_Network_testSession.html' ) 
+thisP =  file.path(tmpDir, 'AD_Network_testSession.html' ) 
 expect_true( file.exists(thisP), label = thisP)
 
 
@@ -312,7 +311,7 @@ write_lines(
 wait4server()
 Sys.sleep( 1 )
 
-thisP = file.path(tmpDir, 'AD_Figure_testSession.html')
+thisP = file.path(tmpDir, 'AE_Figure_testSession.html')
 expect_true( file.exists(thisP), label = thisP)
 
 
@@ -330,7 +329,7 @@ write_lines(
 wait4server()
 Sys.sleep( 1 )
 
-thisP = file.path(tmpDir, 'AE_Figure_testSession.html')
+thisP = file.path(tmpDir, 'AF_Figure_testSession.html')
 expect_true( file.exists(thisP), label = thisP)
 
 
@@ -378,7 +377,7 @@ expect_true ( l == 251 ,
 ## and now I alsoexpect the results to be in the log!
 
 for ( file in 
-	c('4_OneGroupTime_runRender.R', 'AF_OneGroupTime_paritalLog.Rmd', 
+	c('7_OneGroupTime_runRender.R', 'AG_OneGroupTime_paritalLog.Rmd', 
 		'SelectionHSPC_time.txt', 'SelectionHSPC_time.txt.group.txt',
 		'SelectionHSPC_time.txt.time','SelectionHSPC_time.txt.time.points') ){
 	expect_true( 
@@ -386,8 +385,9 @@ for ( file in
 		, label=file )
 }
 
+
 expect_true( 
-		file.exists( file.path( tmpDir,"AF_OneGroupTime_testSession.html")), 
+		file.exists( file.path( tmpDir,"AG_OneGroupTime_testSession.html")), 
 			label="AF_OneGroupTime_paritalLog.html" )
 
 

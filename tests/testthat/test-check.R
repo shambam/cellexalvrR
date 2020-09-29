@@ -76,7 +76,7 @@ sink(type='message')
 expect_equal( obj@usedObj$checkPassed, FALSE, 'check failed as expected')
 
 expect_equal( obj@usedObj$checkError, c(
-	"R logics ERROR: NA's in the drc SyntheticTest rownames - please fix that",
+#	"R logics ERROR: NA's in the drc SyntheticTest rownames - please fix that",
 	"NA values in drc SyntheticTest  - please fix that"
 	))
 

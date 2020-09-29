@@ -7,6 +7,10 @@ path = file.path( prefix,'data', 'output')
 
 oldF = c()
 
+new = file.path( path, 'test.png')
+if ( file.exists(new)){
+	unlink(new)
+}
 oldF = newScreenshots( oldF, path )
 newF = newScreenshots( oldF, path )
 expect_true( length(newF) == 0 ,"no new files" )
