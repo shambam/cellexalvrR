@@ -14,86 +14,117 @@ setGeneric('sessionPath', ## Name
 		}
 )
 
-setMethod('sessionPath', signature = c ('cellexalvrR'),
-		definition = function (cellexalObj, sessionName=NULL ) {
+setMethod('sessionPath', signature = c ('cellexalvrR'), 
+	definition = function (cellexalObj, sessionName=NULL ) {
 			
-			
-			if ( ! is.null(sessionName) ){
-				if ( is.null(cellexalObj@usedObj$sessionName)){
-					cellexalObj@usedObj$sessionName = sessionName
-					cellexalObj@usedObj$sessionRmdFiles = NULL
-					cellexalObj@usedObj$sessionPath = NULL
-					cellexalObj@usedObj$sessionCounter = NULL
-				}else if ( ! cellexalObj@usedObj$sessionName == sessionName)  {
-					cellexalObj@usedObj$sessionName = sessionName
-					cellexalObj@usedObj$sessionRmdFiles = NULL
-					cellexalObj@usedObj$sessionPath = NULL
-					cellexalObj@usedObj$sessionCounter = NULL
-					#lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
-				}
+	if ( ! is.null(cellexalObj@usedObj$sessionName) ){
+		if ( ! is.null(sessionName)){
+			if ( interactive()) {
+			warning(paste(
+				"new session name", sessionName , 
+				"is ignored in favor of the existsing session name",
+				" - use renderReport() to clear the old session") )
 			}
-			if ( is.null(cellexalObj@usedObj$sessionName )) {
-				## there seams to be a problem in the interplay between VR and R
-				## sometimes I get two cellexal outfolders in one session
-				## That does not make sense and therefore this here needs an upgrade.
-				if ( file.exists( file.path( cellexalObj@outpath, 'mainServer.pid'))) {
-					pid = scan( file.path( cellexalObj@outpath, 'mainServer.pid') )
-					if ( ps::ps_is_running( masterPID ) ) {
-						cellexalObj@usedObj$sessionName = scan( file.path(cellexalObj@outpath,'mainServer.sessionName'), what=character() )
-						cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
-					}
-				}
-				if ( is.null( cellexalObj@usedObj$sessionName) ){
-					cellexalObj@usedObj$sessionName = 
-						filename( as.character(Sys.time())) #function definition in file 'filename.R'
-					cat( cellexalObj@usedObj$sessionName , file = file.path(cellexalObj@outpath,'mainServer.sessionName') )
-				}
-				cellexalObj@usedObj$sessionRmdFiles = NULL
-				cellexalObj@usedObj$sessionPath = NULL
-				cellexalObj@usedObj$sessionCounter = NULL
-			}
-			if ( is.null(cellexalObj@usedObj$sessionPath) ) {
-				## init the session objects
-				## add a simple session log start file
-				cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
-				if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
-					message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
-					dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
-					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
-					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
-				}
-				if (! dir.exists(file.path(cellexalObj@usedObj$sessionPath, 'png') ) )  {
-					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
-					dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
-				}
+		}
+		return (invisible (cellexalObj));
+	}
 
-				## I need to clear out all old session report Rmd and html files
-				t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
-				htmls = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[A-Z].*.html" )
-				bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
-				if ( length(bad) > 0 ) {
-					t = do.call(file.remove, list(bad) )
-				}
+	## there seams to be a problem in the interplay between VR and R
+	## sometimes I get two cellexal outfolders in one session
+	## That does not make sense and therefore this here needs an upgrade.
 
-				content = c(paste(sep="\n",
-										paste("# Session Log for Session", cellexalObj@usedObj$sessionName )),
-								paste("Analysis of data: ", basename(cellexalObj@outpath) ),
-								"",paste("Started on", format(Sys.time(), "%a %b %d %X %Y") ),""
-						)
-				#browser()
-				cellexalObj@usedObj$sessionPath = normalizePath( cellexalObj@usedObj$sessionPath )
-
-				cellexalObj = storeLogContents( cellexalObj, content, type='Start')
-				id = length(cellexalObj@usedObj$sessionRmdFiles)
-				cellexalObj = renderFile( cellexalObj, id, type='Start' )
-
-				savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
-
-			}
+	removeOld = TRUE
+	if ( file.exists( file.path( cellexalObj@outpath, 'mainServer.pid'))) {
+		#warning('debug: mainServer.pid exists')
+		pid = scan( file.path( cellexalObj@outpath, 'mainServer.pid'), quiet = TRUE )
+		#warning (paste("debug: I got the pid", pid))
+		masterPID = ps::ps_handle( pid = as.integer(pid) )
+		if ( ps::ps_is_running( masterPID ) ) {
+			#warning ("debug: and the process is active")
+			if ( file.exists(file.path(cellexalObj@outpath,'mainServer.sessionName') )){
+				sessionName = 
+					scan( file.path(cellexalObj@outpath,'mainServer.sessionName'), what=character(), quiet = TRUE )
 			
-			invisible(cellexalObj)
-			
-		} )
+				#warning(paste(sep="",
+				#	"debug:  server is running and using session '",
+				#	sessionName, 
+				#	"' I will also add to that session!" ) 
+				#)
+				removeOld = FALSE
+			}
+		}else {
+			unlink( file.path( cellexalObj@outpath, 'mainServer.pid') )
+		}
+
+	}
+
+	if ( ! is.null(sessionName) ){
+		cellexalObj@usedObj$sessionName = sessionName
+		cellexalObj@usedObj$sessionRmdFiles = NULL
+		cellexalObj@usedObj$sessionPath = NULL
+		cellexalObj@usedObj$sessionCounter = NULL
+		cat( cellexalObj@usedObj$sessionName , file = file.path(cellexalObj@outpath,'mainServer.sessionName') )
+	}
+	else if ( is.null(cellexalObj@usedObj$sessionName )) {
+		
+		if ( is.null( cellexalObj@usedObj$sessionName ) ){
+			cellexalObj@usedObj$sessionName = 
+				filename( as.character(Sys.time())) #function definition in file 'filename.R'
+			cat( cellexalObj@usedObj$sessionName , file = file.path(cellexalObj@outpath,'mainServer.sessionName') )
+		}
+		cellexalObj@usedObj$sessionRmdFiles = NULL
+		cellexalObj@usedObj$sessionPath = NULL
+		cellexalObj@usedObj$sessionCounter = NULL
+	}
+	cat( cellexalObj@usedObj$sessionName , file = file.path(cellexalObj@outpath,'mainServer.sessionName') )
+
+	## now the session name is fixed and we can think about the internals
+
+	if ( is.null(cellexalObj@usedObj$sessionPath) ) {
+		## init the session objects
+		## add a simple session log start file
+		cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
+		if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
+			message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
+			dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
+			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
+			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
+		}
+		if (! dir.exists(file.path(cellexalObj@usedObj$sessionPath, 'png') ) )  {
+			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
+			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
+		}
+
+		if ( removeOld ){
+			## I need to clear out all old session report Rmd and html files
+			t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
+			htmls = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[A-Z].*.html" )
+			bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
+			if ( length(bad) > 0 ) {
+				t = do.call(file.remove, list(bad) )
+			}
+		}
+
+		content = c(
+			paste( "# Session Log for Session", cellexalObj@usedObj$sessionName ),
+			paste( "Analysis of data: ", basename(cellexalObj@outpath) ),
+			"",
+			paste( "Started on", format(Sys.time(), "%a %b %d %X %Y") ),
+			""
+		)
+		cellexalObj@usedObj$sessionPath = 
+			normalizePath( cellexalObj@usedObj$sessionPath )
+
+		cellexalObj = storeLogContents( cellexalObj, content, type='Start')
+		id = length(cellexalObj@usedObj$sessionRmdFiles)
+		cellexalObj = renderFile( cellexalObj, id, type='Start' )
+		
+		savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
+	}
+	invisible(cellexalObj)
+})
+
+
 #' @describeIn sessionPath cellexalvrR
 #' @docType methods
 #' @description preload the cellexalOvh.RData file 

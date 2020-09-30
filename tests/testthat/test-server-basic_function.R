@@ -39,6 +39,8 @@ scriptfile = paste( tmpFile, 'input.R', sep=".")
 lockfile   = paste( tmpFile, 'input.lock', sep=".") 
 pv_file    = paste( tmpFile, 'cellexalvrR.version', sep='.')
 
+
+message( tmpFile )
 warning( paste("please remove the Server.R file by hand! LOCKING!! ", tmpFile))
 
 

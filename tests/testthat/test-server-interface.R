@@ -385,7 +385,6 @@ for ( file in
 		, label=file )
 }
 
-
 expect_true( 
 		file.exists( file.path( tmpDir,"AG_OneGroupTime_testSession.html")), 
 			label="AF_OneGroupTime_paritalLog.html" )

@@ -46,7 +46,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:list.files( './', filter='*.Rmd')
-	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_output.yml' )" )
 	script= 'runRender.R'
 	if ( file.exists( script)) {
 		unlink( script )
@@ -76,7 +76,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		## get rid of session information
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		#savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
-
+		if ( file.exists( 'mainServer.sessionName' ) ) {
+			unlink(  'mainServer.sessionName' )
+		}
 	}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	
