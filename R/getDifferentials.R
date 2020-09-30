@@ -143,7 +143,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
 				## this leads to horrible results
-				if ( 1==0 ){
+				if ( FALSE){
 					nrol = round( length(OK) / 100 )
 					if ( nrol < 10){
 						nrol = 10
@@ -156,15 +156,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					## create the stats
 					ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
 				}
-				ps = FastWilcoxTest::CorMatrix(  loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], loc@userGroups[, gname ] ) 
-				names(ps) = rownames(loc@data)
+				ps = FastWilcoxTest::CorMatrix_N(  loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], loc@userGroups[, gname ] ) 
+				rownames(ps) = rownames(loc@data)
+				
+				ps = cbind(ps, apply( ps, 1, function(dat){ if( dat[2] < 2){NaN}else { 2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), pt( dat[3], dat[2]-2,lower.tail = FALSE ) ) }} ))
+				colnames(ps) = c('cor', 'n', 't', 'p.value')
 
-				ps[which(is.na(ps))] = 0
-				o = order(ps)
+				ps[which(is.na(ps[,1])),1] = 0
+				o = order(ps[,4])
 				
 				#deg.genes = names(ps)[o[1:num.sig]]
 				n = round( num.sig / 2)
-				deg.genes = names(ps)[c( o[1:n], rev(o)[n:1] )]
+				deg.genes = rownames(ps)[c( o[1:n], rev(o)[n:1] )]
 				if ( is.null( x@usedObj$timelines)) {
 					x@usedObj$timelines = list()
 				}
@@ -183,7 +186,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 				
 				## add the plots to the log
-				try( { 
+				try( { 		
+					x= logStatResults ( x, method ='Linear', data=ps, col='p.value'	 )
 					ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 

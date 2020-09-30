@@ -18,7 +18,7 @@ Depends:
 Imports:
 	AnnotationDbi,
 	bookdown,
-	FastWilcoxTest (>= 0.1.11),
+	FastWilcoxTest (>= 0.1.13),
 	GeneNet,
 	gplots,
 	graph,

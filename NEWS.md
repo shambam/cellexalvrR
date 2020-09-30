@@ -1,3 +1,9 @@
+# 0.14.3
+
+Session Logs are ordered consitantly.
+Time logs now also trigger a stats section.
+Session logs contain detailed information about the displayed groupings.
+
 # 0.14.2
 
 Logs fixed 3D plots not showing colours.
