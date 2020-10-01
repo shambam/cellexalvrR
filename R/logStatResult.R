@@ -26,9 +26,6 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 			dir.create( file.path( x@usedObj$sessionPath,'tables') )
 		}
 
-
-
-
 		utils::write.table( data, file= file.path( x@usedObj$sessionPath,'tables',ofile) , quote=F, sep="," )
 
 		mainOfile = x@usedObj$sessionRmdFiles[1]
@@ -36,16 +33,26 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		## we need a table to describe the grouping - INCLUDING COLOR INFORMATION
 		## the VR ids are R ID's -1 (!!) make that clearly visible.
 		## get the VR order:
-		cellCount = table(x@userGroups[,x@usedObj$lastGroup])
-		R_IDs = names(cellCount)
-		OK = which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
-		tab = x@userGroups[OK,]
-		tab = tab[order( tab[,paste( x@usedObj$lastGroup, 'order')]) ,]
-		tab = tab[ match( R_IDs,as.vector(tab[,x@usedObj$lastGroup] ) ),]
-		tab =  tab[order( as.numeric(tab[,paste(x@usedObj$lastGroup, 'order')])),]
-		
-		tableHTML = paste( sep="\n",
-			"### group information table",'',
+
+		if ( length(grep ('Time' , x@usedObj$lastGroup) ) > 0 ) {
+			tableHTML = HTMLtable( x@usedObj$timelines[[ x@usedObj$lastGroup ]] )
+		}
+		else {
+			cellCount = table(x@userGroups[,x@usedObj$lastGroup])
+			R_IDs = names(cellCount)
+			OK = which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
+			tab = x@userGroups[OK,]
+			tab = tab[order( tab[,paste( x@usedObj$lastGroup, 'order')]) ,]
+			tab = tab[ match( R_IDs,as.vector(tab[,x@usedObj$lastGroup] ) ),]
+			tab =  tab[order( as.numeric(tab[,paste(x@usedObj$lastGroup, 'order')])),]
+
+
+			if ( is.null(x@colors[[x@usedObj$lastGroup]])) {
+				## not in a VR backend position
+				x@colors[[x@usedObj$lastGroup]] = rainbow( max( as.numeric(names(cellCount))) )
+			}
+			tableHTML = paste( sep="\n",
+				"### group information table",'',
 			'<table>',
 			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
 			paste(collapse="\n",
@@ -56,10 +63,12 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 					"></td><td>",
 					x@colors[[x@usedObj$lastGroup]][id],"</td><td>",
 					cellCount[match(id, names(cellCount))], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
-					)
-				}))
-			, '</table> '
-		)
+						)
+					}))
+				, '</table> '
+			)
+		}
+		
 
 		## this need to become a relative path - relative to the final outfile
 		content=paste( sep="\n",

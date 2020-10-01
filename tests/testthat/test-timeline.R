@@ -14,6 +14,11 @@ x = cellexalObj
 
 x@outpath = file.path(prefix,'data','output','timeLineTest' )
 
+if ( file.exists(x@outpath ) ){
+	unlink( x@outpath ,recursive=TRUE)
+}
+dir.create( x@outpath )
+
 x@usedObj$sessionPath = x@usedObj$sessionRmdFiles = x@usedObj$sessionName = NULL
 
 ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', 'AB_OneGroupTime_paritalLog.Rmd' )
@@ -29,6 +34,7 @@ grouping <- file.path(prefix, 'data', gFile )
 
 
 ## I need the 3D vectors for the cells in e.g. group 1
+
 x@groupSelectedFrom = list()
 x@userGroups = data.frame()
 x@usedObj$lastGroup = NULL
@@ -41,11 +47,15 @@ dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 1 ), ]
 t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
-ofile = file.path( prefix, 'data','output','timeLineTest','AB_OneGroupTime_timeSession.html' )
+
+ofiles = c ('AB_Stats_timeSession.html' ,'AC_OneGroupTime_timeSession.html')
 SelectionFile = file.path(x@outpath , paste(gFile, 'time', sep=".") )
 
-if ( file.exists( ofile) ) {
-	unlink( ofile )
+for ( ofile in ofiles){
+	ofile = file.path(x@outpath, ofile)
+	if ( file.exists( ofile) ) {
+		unlink( ofile )
+	}
 }
 if ( file.exists( SelectionFile)){
 	unlink( SelectionFile )
@@ -53,15 +63,18 @@ if ( file.exists( SelectionFile)){
 
 t = getDifferentials( t,'User.group.1', deg.method= 'wilcox' , Log=FALSE)
 
-expect_true(file.exists( ofile), label=ofile  )
+
+for ( ofile in ofiles){
+	ofile = file.path(t@outpath, ofile)
+	expect_true(file.exists( ofile), label=ofile  )
+}
 
 time= t@usedObj$timelines[['lastEntry']]
 o = order(time@dat$time)
 d = read.delim(SelectionFile, header=F )
 
-#browser()
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
-expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[order( time@dat$time)]) == TRUE, "new order equal old order")
+
 #expect_true( all.equal( as.vector(d[,2]), gplots::bluered( 9 ))==TRUE, "new order")
 
 
@@ -69,18 +82,26 @@ expect_true( all.equal( as.vector(d[,1]), rownames(time@dat)[order( time@dat$tim
 expect_true( file.exists( ofile), label= ofile )
 expect_true( file.exists( SelectionFile), label= SelectionFile)
 
-ofile = file.path( prefix, 'data','output','timeLineTest','AC_OneGroupTime_timeSession.html' )
+ofiles = c ('AD_Stats_timeSession.html' ,'AE_OneGroupTime_timeSession.html')
+SelectionFile = file.path(x@outpath , paste(gFile, 'time', sep=".") )
 
-if ( file.exists( ofile) ) {
-	unlink( ofile )
+for ( ofile in ofiles){
+	ofile = file.path(x@outpath, ofile)
+	if ( file.exists( ofile) ) {
+		unlink( ofile )
+	}
 }
 if ( file.exists( SelectionFile)){
 	unlink( SelectionFile )
 }
 
 a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
+Sys.sleep(2)
 
-expect_true( file.exists( ofile), label= ofile )
+for ( ofile in ofiles){
+	ofile = file.path(x@outpath, ofile)
+	expect_true( file.exists( ofile), label= ofile )
+}
 expect_true( file.exists( SelectionFile), label= SelectionFile )
 t = table(read.delim( SelectionFile, header=F )[,2])
 
@@ -103,8 +124,10 @@ new = read.delim( testF )
 expect_true( all.equal( old[,1], new[,1] ) ==TRUE, label= "old and new 1 are the same" )
 expect_true( all.equal( old[,3], new[,3] ) ==TRUE, label= "old and new 3 are the same")
 
-ofile = file.path( prefix, 'data','output','timeLineTest','AD_OneGroupTime_timeSession.html' )
 
+
+ofile = file.path( prefix, 'data','output','timeLineTest',
+	'AG_OneGroupTime_timeSession.html' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
@@ -113,7 +136,7 @@ if ( file.exists( SelectionFile)){
 }
 
 a = getDifferentials( x,'User.group.1' ,deg.method= 'wilcox' , Log=FALSE)
-
+Sys.sleep(2)
 
 expect_true( file.exists( ofile), label= ofile )
 expect_true( file.exists( SelectionFile), label= SelectionFile )

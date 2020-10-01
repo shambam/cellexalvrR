@@ -240,3 +240,49 @@ setMethod('color', signature = c ('cellexalTime'),
 	col[which(!is.na(m))] = as.vector(x@dat$col[m[which(!is.na(m))]])
 	col
 } )
+
+
+#' returns a color vector based on the intern col column and the cell names
+#' Not time containing cells will get gray(0.6) as color.
+#'
+#' @name HTMLtable
+#' @aliases HTMLtable,cellexalTime-method
+#' @rdname HTMLtable-methods
+#' @docType methods
+#' @description return the HTMLtable in exactly the right format
+#' @param x the cellexalTime object
+#' @title description of function color
+#' @export 
+if ( ! isGeneric('HTMLtable') ){setGeneric('HTMLtable', ## Name
+	function (x, names) { 
+		standardGeneric('HTMLtable')
+	}
+) }
+
+setMethod('HTMLtable', signature = c ('cellexalTime'),
+	definition = function (x, names) {
+
+		cellCount = table(x@dat[,'col'])
+		tableHTML = paste( sep="\n",
+				"### group information table",'',
+				"<p> This is information on a timeline - VR and R ids are not set at the moment<p>",
+			'<table>',
+			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th></tr>',
+
+			paste(collapse="\n",
+				sapply( dimnames(cellCount)[[1]], function(color){
+				paste(sep="",
+					'<tr><td style="background-color:', 
+					color,'"',
+					"></td><td>",
+					color,"</td><td>",
+					cellCount[match(color, dimnames(cellCount)[[1]])], "</td><td></tr>"
+						)
+					}))
+				, '</table> ',
+				"<p> Linear statistics were applied to the whole set of cells vs. the pseudotime described in the table.</p>"
+		)
+
+		tableHTML
+} )
+

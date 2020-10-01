@@ -159,7 +159,14 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				ps = FastWilcoxTest::CorMatrix_N(  loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], loc@userGroups[, gname ] ) 
 				rownames(ps) = rownames(loc@data)
 				
-				ps = cbind(ps, apply( ps, 1, function(dat){ if( dat[2] < 2){NaN}else { 2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), pt( dat[3], dat[2]-2,lower.tail = FALSE ) ) }} ))
+				ps = cbind(ps, apply( ps, 1, 
+					function(dat){ 
+						if( dat[2] < 3){1.1}
+						else { 
+							2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
+								pt( dat[3], dat[2]-2,lower.tail = FALSE ) ) }
+							} )
+				)
 				colnames(ps) = c('cor', 'n', 't', 'p.value')
 
 				ps[which(is.na(ps[,1])),1] = 0
@@ -178,7 +185,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## create the smoothed data heatmap's
 
 				#ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
-				p =  apply(loc@data[deg.genes, order(as.vector(loc@userGroups[, gname ] )) ], 1, function(x) {( x- mean(x)) / sd(x) } )
+				p =  apply(loc@data[deg.genes, order(as.vector(loc@userGroups[, gname ] )) ]
+					, 1, 
+					function(x) {( x- mean(x)) / sd(x) } )
 				colnames(p) = deg.genes
 				hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
 				deg.genes = hc$labels[hc$order]
@@ -187,16 +196,13 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				## add the plots to the log
 				try( { 		
-					x= logStatResults ( x, method ='Linear', data=ps, col='p.value'	 )
+					x= logStatResult ( x, method ='Linear', data=ps, col='p.value'	 )
 					ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
 				} )
 				
 				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
-				
-
-				
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
 				CppStats <- function( n ) {

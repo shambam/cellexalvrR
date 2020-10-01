@@ -3,6 +3,7 @@
 Session Logs are ordered consitantly.
 Time logs now also trigger a stats section.
 Session logs contain detailed information about the displayed groupings.
+Linear stat deg.genes are now based on p.value not correlation alone.
 
 # 0.14.2
 

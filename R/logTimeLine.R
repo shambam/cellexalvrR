@@ -62,7 +62,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## genes should be a list
 	content = paste( sep="\n", content, "### Genes") 
 	for ( i in 1:length(genes) ) {
-
+	
 	content = paste( collapse=" ",content,"\nGene group ",i,
 		paste("![](",png[i+1],")"),
 		paste( collapse=" ", unlist( lapply(sort(genes[[i]]), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),

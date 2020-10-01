@@ -17,10 +17,18 @@ setGeneric('renderFile', ## Name
 setMethod('renderFile', signature = c ('cellexalvrR'),
 	definition = function ( x, id, type='' ) {
 
-if ( is.null( x@usedObj$sessionPath )){
+if ( is.null( x@usedObj$sessionPath )) {
 		x = sessionPath(x) #function definition in file 'sessionPath.R'
+}
+sessionPath = normalizePath(x@usedObj$sessionPath)
+if ( length(list.files(sessionPath, pattern =paste(sep="","*",type,"*.html" ))) > 0 ){
+	if ( type=='Start') {
+		return (x) ## THIS MUST NOT BE THERE TWICE
 	}
-		sessionPath = normalizePath(x@usedObj$sessionPath)
+	if ( type =='End') {
+		return (x) ## THIS MUST NOT BE THERE TWICE
+	}
+}
 	fname = x@usedObj$sessionRmdFiles[id]
 	if ( ! file.exists(fname) ){
 		stop( paste( "fname for the sessionRmdFiles id",id,",", fname,"does not exists on the file system"))

@@ -24,6 +24,14 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
 
+	for ( group in names( cellexalObj@groupSelectedFrom ) ){
+		if( ! is.null(cellexalObj@groupSelectedFrom[[group]][["heatmapBasename"]]) ){
+			if (cellexalObj@groupSelectedFrom[[group]][["heatmapBasename"]] == basename(png) ){
+				grouping = group
+				break;
+			}
+		}
+	}
 	if ( !is.null(genes)){
 		if ( file.exists(genes)) {
 			genes = as.vector(utils::read.delim(genes)[,1])

@@ -131,6 +131,13 @@ setMethod('check', signature = c ('cellexalvrR'),
 			checkTime(x, x@usedObj$timelines[[n]] )
 		}
 	}
+
+	for ( g in names(x@groupSelectedFrom)){
+		if ( !is(x@groupSelectedFrom[[g]], 'list')){
+			error = c(error , 
+					paste("groupSelectedFrom",g,"is no list"))
+		}
+	}
 	
 	if ( !is.null(error) ){
 		x@usedObj$checkPassed = FALSE

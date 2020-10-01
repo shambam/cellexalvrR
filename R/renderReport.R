@@ -32,7 +32,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])
 	}
-	
+
 	fileConn<-file(file.path(sessionPath,  '_bookdown.yml') )
 	writeLines(c(
 		paste('book_filename:', cellexalObj@usedObj$sessionName),
@@ -46,7 +46,9 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	files = as.character(unlist(lapply( cellexalObj@usedObj$sessionRmdFiles, basename)))
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:list.files( './', filter='*.Rmd')
-	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'), output_format='bookdown::gitbook', clean_envir = FALSE , config_file = '_bookdown.yml' )" )
+	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'),",
+		" output_format='bookdown::gitbook', clean_envir = FALSE , "
+		,"config_file = '_bookdown.yml' )" )
 	script= 'runRender.R'
 	if ( file.exists( script)) {
 		unlink( script )

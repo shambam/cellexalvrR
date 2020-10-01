@@ -8,8 +8,11 @@ prefix = './'
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
-x = cellexalObj
+x = reset(cellexalObj)
 x@outpath = file.path(prefix,'data','output','statTest' )
+if ( ! file.exists(x@outpath)){
+	dir.create(x@outpath)
+}
 
 grouping <- file.path(prefix, 'data/selection0.txt')
 
@@ -32,6 +35,7 @@ for ( fname in ofiles ){
 x@userGroups=data.frame()
 x@usedObj$lastGroup = NULL
 x@usedObj$SelectionFiles = list()
+
 gene2 = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
 expect_true( length( gene2@usedObj$deg.genes) == 102, info = paste("wrong gene number c++ wilcox", length( gene2) ) )
