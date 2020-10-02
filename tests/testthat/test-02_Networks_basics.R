@@ -7,7 +7,7 @@ ofiles =c( 'Networks.nwk', 'NwkCentroids.cnt' )
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 
 	if(  file.exists(ofile ) ){
-		unlink( ofile)
+		unlink( ofile, recursive=TRUE)
 	}
 }
 

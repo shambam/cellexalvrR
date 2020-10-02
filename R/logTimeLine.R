@@ -42,18 +42,21 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## now I need to create the 2D drc plots for the grouping
 	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
 
-	drcFiles2 = drcPlots2Dtime( cellexalObj, timeInfo ) #function definition in file 'drcPlot2Dtime.R'
+	correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
+
+	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
-	drcFiles = drcPlots2D( cellexalObj, info) #function definition in file 'drcPlot2D.R'
+	drcFiles = sapply(drcPlots2D( cellexalObj, info),correctPath) #function definition in file 'drcPlot2D.R'
 
-	content = paste( sep="\n",
+		content = paste( sep="\n",
 		paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 		paste("This TimeLine is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"")
 	
 	if ( file.exists( png[1] ) ) {
-		figureF = stringr::str_extract( png[1],'png.*')
+		
+		figureF = correctPath( png[1] )
 
 		content = paste( sep="\n", content,
 			paste( "### Heatmapof rolling sum transformed expression (from R)"),
@@ -62,10 +65,12 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## genes should be a list
 	content = paste( sep="\n", content, "### Genes") 
 	for ( i in 1:length(genes) ) {
-	
+
 	content = paste( collapse=" ",content,"\nGene group ",i,
-		paste("![](",png[i+1],")"),
-		paste( collapse=" ", unlist( lapply(sort(genes[[i]]), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
+		paste("![](",correctPath(png[i+1]),")"),
+		paste( collapse=" ",
+		 unlist( lapply(sort(genes[[i]]), function(n) { 
+		 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		"\n")
 	}
 	content = paste( sep="\n", content,

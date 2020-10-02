@@ -75,13 +75,28 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		mine = htmls[ grep(paste( sep="", '_',cellexalObj@usedObj$sessionName) , htmls )]
 		do.call(file.remove, list(mine))
 
+		zfile = paste(sep=".",paste(sep="_",'PortableLog',cellexalObj@usedObj$sessionName),'zip')
+		files = c(
+			basename(expected_outfile), 
+			cellexalObj@usedObj$sessionName, 
+			'libs' 
+		)
+		old= getwd()
+		setwd( cellexalObj@outpath )
+		if ( file.exists( zfile )){
+			unlink(zfile)
+		}
+		zip::zip(zfile, files )
+		setwd(old)
+	
 		## get rid of session information
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		#savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
 		if ( file.exists( 'mainServer.sessionName' ) ) {
 			unlink(  'mainServer.sessionName' )
 		}
-	}else {
+		## and now we merge it all into a portable zip file!
+		}else {
 		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
 	}	
 

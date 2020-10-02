@@ -69,13 +69,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj = sessionRegisterGrouping( cellexalObj, grouping ) #function definition in file 'sessionRegisterGrouping.R'
 	n = sessionCounter( cellexalObj, grouping ) #function definition in file 'sessionCounter.R'
 
-	file.copy(png, file.path( sessionPath , 'png', basename( png ) ) )
-
-	figureF = file.path( 'png', basename( png ) )
+	figureF = file.path( sessionPath , 'png', basename( png ) )
+	file.copy(png, figureF )
 
 	## in order to restore this heatmap in a new VR session I now need to store the database and gene list, too
 	
-
 	if ( ! file.exists( file.path( sessionPath , 'Heatmap') ) ) {
 		dir.create( file.path( sessionPath , 'Heatmap') )
 	}
@@ -87,35 +85,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	
 	gInfo = groupingInfo( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'groupingInfo.R'
 
+    correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
-	drcFiles = drcPlots2D( cellexalObj, gInfo ) #function definition in file 'drcPlot2D.R'
+	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath) #function definition in file 'drcPlot2D.R'
 
-	# figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd file
-	#mainOfile = file.path( sessionPath, filename( c( n, "Heatmap.Rmd") ) ) #function definition in file 'filename.R'
-	#file.create(mainOfile)
-	## https://stackoverflow.com/questions/29214932/split-a-file-path-into-folder-names-vector
-	split_path <- function(path) {
-  		if (dirname(path) %in% c(".", path)) return(basename(path))
-  		return(c(basename(path), split_path(dirname(path))))
-	}
-
-	PA = rev(split_path( sessionPath ))
-	substract = NULL
-	for ( i in 1:length(PA) ){
-		substract= c( substract, PA[i] )
-		if ( PA[i] == "Output" | PA[i] == "output"){
-			break;
-		}
-	}
-	if ( length(substract) == length(PA) ) {
-		browser()
-		stop("this is fatal - we are not in a cellexalVR outpath - log inavailable!")
-	}
-
-	substract = do.call( file.path, lapply(substract, function(x){x}) )
-	path = R.utils::getRelativePath(sessionPath, relativeTo=substract, caseSensitive=T )
-	
 	cellCount = table(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup])
 	R_IDs = names(cellCount)
 	OK = which(!is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
@@ -139,9 +113,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 			}))
 		, '</table> '
 	)
-	drcFiles[1] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[1]))
-	drcFiles[2] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[2]))
-	
+
+		figureF = correctPath(figureF)
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
@@ -161,11 +134,13 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		"",
 		"The heatmap can be restored in a new VR session using the 2D console (F12) and type:",
 		"",
-		paste("lsf", R.utils::getRelativePath(gInfo$selectionFile, relativeTo= path, caseSensitive=T) ),
+		paste("lsf", R.utils::getRelativePath(gInfo$selectionFile,
+			relativeTo= file.path(cellexalObj@outpath,'..','..'), caseSensitive=T) ),
 		"",
 		"confirm", 
 		"",
-		paste( "rsf", R.utils::getRelativePath( base, relativeTo=substract, caseSensitive=T) )
+		paste( "rsf", R.utils::getRelativePath( base, 
+			relativeTo=file.path(cellexalObj@outpath,'..','..'), caseSensitive=T) )
 
 	)
 

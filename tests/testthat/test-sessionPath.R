@@ -62,3 +62,4 @@ expect_true(cellexalObj@usedObj$sessionName ==  old, label=paste("session name i
 
 unlink( pidfile )
 unlink( file.path(cellexalObj@outpath, 'mainServer.sessionName') )
+

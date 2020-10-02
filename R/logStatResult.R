@@ -83,8 +83,8 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		)
 
 		if ( ! is.null(col) ){
-			ofile = file.path( 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
-			grDevices::png( file= file.path( x@usedObj$sessionPath, ofile ), width=800, height=800)
+			ofile = file.path(x@usedObj$sessionName, 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
+			grDevices::png( file= file.path( x@outpath, ofile ), width=800, height=800)
 			graphics::hist( -log10(data[,col]), main = paste( x@usedObj$sessionName, method )  )
 			grDevices::dev.off()
 

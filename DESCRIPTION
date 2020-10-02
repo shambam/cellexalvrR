@@ -40,7 +40,8 @@ Imports:
 	stringr,
 	topGO,
 	utils,
-	wesanderson
+	wesanderson,
+	zip
 Remotes: 
 	sonejilab/FastWilcoxTest
 Enhances:

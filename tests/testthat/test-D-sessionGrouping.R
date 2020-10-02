@@ -1,5 +1,35 @@
 context('create session grouping')
 
+
+checkHTMLpaths <- function( ofile, sessionName = 'sessionGroupingTest' ) {
+	if ( ! file.exists(ofile)) {
+		Sys.sleep(2) ## possible that the file has not been created but will be - soon
+	}
+
+html = scan ( ofile, sep="\n", quiet=TRUE, what=character())
+err=NULL
+i = 0;
+m = FALSE
+for ( line in html) {
+	i = i+1;
+
+	if ( length(grep('png', line )) > 0 ){
+		m=TRUE
+	}else if(length(grep('".*tables/.*"', line )) > 0){
+		m = TRUE
+	}
+	if ( m ) {
+		if ( length(grep( paste('"', sessionName, sep="") , line)) == 0 ){
+			err = c(err, paste("HTML path error in line",i), line )
+		}
+		
+	}
+	m=FALSE
+}
+err
+}
+
+
 prefix = './'
 # prefix='tests/testthat'
 
@@ -13,6 +43,7 @@ datadir <- normalizePath(file.path( prefix, 'data', 'output'))
 
 cellexalObj@outpath = file.path(datadir) ## to not mess up the package
 
+unlink(list.files( cellexalObj@outpath, pattern='*.lock'))
 ## init a session
 lockedSave(cellexalObj)
 
@@ -117,6 +148,10 @@ for ( fname in c( ofiles ) ){
 }
 expect_true( file.exists( ofile), label = paste( "file has not been created", ofile))
 
+err = checkHTMLpaths( file.path(datadir, 'AB_Heatmap_sessionGroupingTest.html' ))
+expect_true(is.null(err), label=err )
+
+
 ####################################################
 context('create session grouping - logStatResult ')
 ####################################################
@@ -130,7 +165,8 @@ logStatResult(cellexalObj, 'SimpleTest', test, 'p_val' )
 
 expect_true( file.exists( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' )), label =  'logStatResult')
 
-
+err = checkHTMLpaths( file.path(datadir, 'AC_Stats_sessionGroupingTest.html' ))
+expect_true(is.null(err), label=err )
 
 
 ####################################################
@@ -143,6 +179,9 @@ if ( file.exists( file.path(datadir, 'AC_Network_sessionGroupingTest.html' ))) {
 cellexalObj = logNetwork(cellexalObj,  png =  heatmap_png , grouping= grouping )
 expect_true( file.exists( file.path(datadir, 'AD_Network_sessionGroupingTest.html' )),label =  'logNetworks')
 
+err = checkHTMLpaths( file.path(datadir, 'AD_Network_sessionGroupingTest.html' ))
+expect_true(is.null(err), label=err )
+
 ####################################################
 context('create session grouping - ontologyLogPage')
 ####################################################
@@ -152,6 +191,48 @@ if ( file.exists( file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' ))) 
 }
 cellexalObj = ontologyLogPage(cellexalObj,  genes=genes , grouping= grouping )
 expect_true( file.exists( file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' )), label =  'ontologyLog')
+
+err = checkHTMLpaths( file.path(datadir, 'AE_Ontology_sessionGroupingTest.html' ))
+expect_true(is.null(err), label=err )
+
+####################################################
+context('create session grouping - logFigure')
+####################################################
+
+if ( file.exists( file.path(datadir, 'AF_Figure_sessionGroupingTest.html' ))) {
+	unlink(  file.path(datadir, 'AF_Figure_sessionGroupingTest.html' ) )
+}
+cellexalObj = logFigure(cellexalObj,  png =  heatmap_png, text="Useless figure"  )
+expect_true( file.exists( file.path(datadir, 'AF_Figure_sessionGroupingTest.html' )), label =  'ontologyLog')
+
+err = checkHTMLpaths( file.path(datadir, 'AF_Figure_sessionGroupingTest.html' ))
+expect_true(is.null(err), label=err )
+
+####################################################
+context('create session grouping - logTimeline')
+####################################################
+
+gFile= 'SelectionHSPC_time.txt'
+grouping <- file.path(prefix, 'data', gFile )
+
+## this produces two outfile:
+ofiles = c('AG_Stats_sessionGroupingTest.html','AH_OneGroupTime_sessionGroupingTest.html' )
+for ( ofile in ofiles ) {
+if ( file.exists( file.path(datadir, ofile ))) {
+	unlink(  file.path(datadir, ofile ) )
+}
+}
+
+cellexalObj = getDifferentials( cellexalObj, grouping , deg.method= 'wilcox' , Log=TRUE)
+
+
+for ( ofile in ofiles ) {
+if ( file.exists( file.path(datadir, ofile ))) {
+	expect_true( file.exists( file.path(datadir, ofile )), label = ofile)
+	err = checkHTMLpaths( file.path(datadir, ofile ))
+	expect_true(is.null(err), label=paste(ofile,":\n",err) )
+}
+}
 
 
 ####################################################
@@ -165,6 +246,10 @@ if( file.exists(ofile) ) {
 
 cellexalObj = renderReport ( cellexalObj )
 
-expect_true(file.exists( ofile), label = ofile)
+
+expect_true( file.exists( ofile), label = ofile )
 
 
+
+
+	

@@ -24,13 +24,15 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 
     cellexalObj = sessionPath(cellexalObj)  #function definition in file 'sessionPath.R'
     sessionPath = cellexalObj@usedObj$sessionPath
+    correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
 
     if (!file.exists(png)) {
         stop(paste("logNetwork the network png file can not be found!", "png"))
     }
-    file.copy(png, file.path(sessionPath, "png", basename(png)))
-    figureF = file.path("png", basename(png))
+    figureF= file.path(sessionPath, "png", basename(png))
+    file.copy(png, figureF)
 
+    figureF = correctPath (figureF )
     ## now I need to create the 2D drc plots for the grouping
     gInfo = groupingInfo(cellexalObj, cellexalObj@usedObj$lastGroup)  #function definition in file 'groupingInfo.R'
 
@@ -38,11 +40,8 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
     ## containing the grouping info (and thereby color) and the drc info - do not
     ## create doubles
 
-    drcFiles = drcPlots2D(cellexalObj, gInfo)  #function definition in file 'drcPlot2D.R'
+    drcFiles = sapply(drcPlots2D(cellexalObj, gInfo), correctPath)  #function definition in file 'drcPlot2D.R'
 
-    drcFiles[1] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[1]))
-    drcFiles[2] = file.path(basename(cellexalObj@usedObj$sessionPath),'png', basename(drcFiles[2]))
-    
     # figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd
     # file mainOfile = file.path(sessionPath, filename( c( n, 'Network.Rmd') ) )
     # #function definition in file 'filename.R' file.create(mainOfile)
@@ -74,7 +73,7 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
              basename(ret$pngs[i])), ")"), paste(collapse = " ", unlist(lapply(sort(ret$genes[[i]]),
              function(n) {
                  rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")
-             }))), sep = "\n")
+             }))), sep = " ")
         }
     }
     # close(fileConn)

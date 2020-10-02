@@ -8,7 +8,6 @@ prefix = './'
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
-
 x = reset(cellexalObj)
 
 x@outpath = file.path(prefix,'data','output','LogFigure' )
@@ -20,9 +19,9 @@ if ( ! file.exists(x@outpath)){
 	dir.create( x@outpath )
 }
 
-grouping <- file.path(prefix, 'data/selection0.txt')
-
 x = sessionPath( x, 'logFigureTest')
+
+grouping <- file.path(prefix, 'data/selection0.txt')
 
 context('log figure - stats first')
 
@@ -59,10 +58,16 @@ png( file= file.path( x@usedObj$sessionPath, 'testHeatmap.png') ,width=800, heig
 plot(10:1,1:10, main="Not reall a heatmap :-D")
 dev.off()
 
-
-cellexalObj = logHeatmap(x, x@usedObj$deg.genes, 
-	file.path( x@usedObj$sessionPath, 'testHeatmap.png'), grouping )
+cellexalObj = logHeatmap(x, genes=x@usedObj$deg.genes, 
+	png=file.path( x@usedObj$sessionPath, 'testHeatmap.png'), grouping = grouping )
 
 ofile=  file.path( x@usedObj$sessionPath, 'AD_Heatmap_paritalLog.Rmd' )
 expect_true( file.exists( ofile), label = ofile)
 
+cellexalObj = renderReport( cellexalObj )
+
+ofile=  file.path( x@outpath, 'session-log-for-session-logFigureTest.html' )
+expect_true( file.exists( ofile), label = ofile)
+
+ofile=  file.path( x@outpath, 'PortableLog_logFigureTest.zip' )
+expect_true( file.exists( ofile), label = ofile)

@@ -47,7 +47,7 @@ ofile=  file.path( x@usedObj$outpath, 'AB_Stats_StatTest.html' )
 
 
 
-skip("The up to date Seurat version is incompatible with cellexalvrR")
+skip("10x speed improvement to Seurats wilcox test implementation")
 gene3 = getDifferentials(x, grouping, 'Seurat_wilcox', num.sig=100, logfc.threshold = .1, minPct=0.1 )
 
 expect_true( length( gene3@usedObj$deg.genes) == 101, info = paste("wrong gene number seurat wilcox", length( gene3) ) )

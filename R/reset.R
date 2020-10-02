@@ -25,5 +25,8 @@ setMethod('reset', signature = c ('cellexalvrR'), definition = function ( x ) {
 	x@groupSelectedFrom = list()
 	x@usedObj$timelines = list()
 	x@outpath= getwd()
+	if ( file.exists( file.path(x@outpath, 'mainServer.sessionName')) ){
+		unlink( file.path(x@outpath, 'mainServer.sessionName') )
+	}
 	return (x)
 })

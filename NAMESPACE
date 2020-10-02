@@ -3,6 +3,7 @@
 export(CreateBin)
 export(GrabDRCs)
 export(H5Anno2df)
+export(HTMLtable)
 export(MakeCellexalVRObj)
 export(NaiveEntropy)
 export(NaiveEntropySpherical)
