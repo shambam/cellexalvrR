@@ -1,13 +1,31 @@
-## the whole logic will be quite interesting.
-## Outline:
-## UMAP from all 3 objects with an unified cell lable.
-## expression and chrmosomal areas if possible
-## The total analysis likely needs a merge with the CellexalGenomeVR code.
-process_Seurat_ATAC <- function( rna, atac, merged, meta.cell.groups=NULL, outpath=getwd(), specie ){
-		## the whole logic will be quite interesting.
-		## Outline:
-		## UMAP from all 3 objects with an unified cell lable.
-		## expression and chrmosomal areas if possible
-		## The total analysis likely needs a merge with the CellexalGenomeVR code.
-		 
+plotViolin <- function(x, gene, grouping, ofile=NULL, width=800, height=800, main=NULL, X11type= 'cairo', family="Helvetica"  ) {
+
+	x <- loadObject(x) #function definition in file 'lockedSave.R'
+	x <- userGrouping(x, cellidfile) #function definition in file 'userGrouping.R'
+
+	ok <- which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
+	if ( length(ok) > 0) {
+		loc <- reduceTo (x, what='col', to=colnames(x@data)[ ok ] ) #function definition in file 'reduceTo.R'
+	}else {
+		loc <- x
+	}
+	names= unique( loc@userGroups[,x@usedObj$lastGroup])
+	data = lapply( names , 
+		function( name ){
+			loc@data[gene, which(loc@userGroups[,x@usedObj$lastGroup] == name)]
+		} )
+	names(data)[0] = 'x'
+	col = NULL
+	for (names in names) {
+		col = c(col, x@colors[[x@usedObj$lastGroup]][name]
+	}
+	if ( !is.null(ofile) ) {
+		grDevices::pdf( file=paste(ofile ,'pdf',sep='.'), width=width, height=height, family=family)
+	}
+	vioplot( data, names=names, col=col, main=main )
+	if ( !is.null(ofile) ){
+		grDevices::dev.off()
+	}
+	message('Done')
+	invisible(x)
 }

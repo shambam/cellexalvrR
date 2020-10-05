@@ -37,6 +37,7 @@ Imports:
 	RSQLite,
 	R.utils,
 	slingshot,
+	sm,
 	stringr,
 	topGO,
 	utils,

@@ -150,3 +150,10 @@ x= renderReport( x )
 
 ofile = file.path( prefix, 'data','output', 'timeLineTest', 'session-log-for-session-timeSession.html' )
 expect_true( file.exists( ofile), label= ofile )
+
+##################################################
+context('timeline check if data is correct')
+##################################################
+
+x = check( x ) 
+expect_true( x@usedObj$checkPassed, label = x@usedObj$checkError )
