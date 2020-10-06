@@ -1,34 +1,50 @@
 #' Plot a simple violin plot using the cellexalVR colors
 #'
-#' @name plotViolin
-#' @aliases plotViolin,cellexalvrR-method
-#' @rdname plotViolin-methods
+#' @name plotHeatmap
+#' @aliases plotHeatmap,cellexalvrR-method
+#' @rdname plotHeatmap-methods
 #' @docType methods
 #' @description Create a simple violin plot on the expresion of one gene
-#' @param gene  the gene name
-#' @param grouping either a column in the userGroups table or a CellexalVR selection file
+#' @param genes  the genes to include into the heatmap (correct order!)
+#' @param groupings either columns in the userGroups table
+#'                  or a list of CellexalVR selection files or a mix of both
 #' @param ofile the figure out file (or null)
 #' @param width default figure width (9 in)
 #' @param height default figure height (9 in)
 #' @param main the figure titla (defaults to gene name)
 #' @param X11type not important here (default to 'cairo')
 #' @param family pdf typing family (defaults to "Helvetica") png is also supported
-#' @param fileType figure file type (default 'pdf' )
-#' @title description of function plotViolin
+#' @fileType figure file type (default 'pdf' )
+#' @title description of function plotHeatmap
 #' @export 
-setGeneric('plotViolin', ## Name
-	function (x, gene, grouping, ofile=NULL, 
+setGeneric('plotHeatmap', ## Name
+	function (x, genes, groupings, ofile=NULL, 
 	width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica", fileType='pdf'  ) { ## Argumente der generischen Funktion
-		standardGeneric('plotViolin') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		standardGeneric('plotHeatmap') ## der Aufruf von standardGeneric sorgt für das Dispatching
 	}
 )
 
-setMethod('plotViolin', signature = c ('cellexalvrR'),
-	definition <- function(x, gene, grouping, ofile=NULL, width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica"  ) {
+setMethod('plotHeatmap', signature = c ('cellexalvrR'),
+	definition <- function(x, genes, groupings, ofile=NULL, width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica"  ) {
 
 	x <- loadObject(x) #function definition in file 'lockedSave.R'
 	x <- userGrouping(x, grouping) #function definition in file 'userGrouping.R'
 
+	dendrogram= 'none'
+
+	x=reduceTo( x, what='row', to=genes )
+	data <- as.matrix(x@data)
+	m <- min(data)
+
+	brks <- unique(
+		as.vector(c(m, 
+		stats::quantile(data[which(data!= m)],seq(0,1,by=1/brks)),
+		max(data)))
+	)
+	
+	heapmapCols = function(x){ c("black", gplots::bluered(x))}
+	
+	
 	if ( is.null(main) ){
 		main = gene
 	}
