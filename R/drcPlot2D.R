@@ -78,8 +78,8 @@ prettyPlot2D = function(x, col ){
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
 
-	p = ggplot(x, aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
-	p = p +   geom_point(aes(color = id  ) , show.legend = FALSE)
+	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
+	p = p +   ggplot2::geom_point(ggplot2::aes(color = id  ) , show.legend = FALSE)
 
 	pos= t(sapply( unique(x$id), function(id) {
 		ok = which(x$id == id); 
@@ -89,14 +89,14 @@ prettyPlot2D = function(x, col ){
     xo <- diff(range(pos[,1]))/1200
     yo <- diff(range(pos[,2]))/1200
     for(i in theta) {
-        p <- p + geom_text( data=data.frame(pos),
-            aes_q(
+        p <- p + ggplot2::geom_text( data=data.frame(pos),
+            ggplot2::aes_q(
                 x = bquote(pos[,1]+.(cos(i)*xo)),
                 y = bquote(pos[,2]+.(sin(i)*yo)),
                 label=unique(x$id)), 
                     size=10, colour='black' )
     }
-    p = p + annotate('text', x = pos[,1], y = pos[,2], label = unique(x$id), size = 10, col=col )  
+    p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2], label = unique(x$id), size = 10, col=c(grey(.6),col) )  
     p
 }  
 
