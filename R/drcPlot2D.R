@@ -34,6 +34,8 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
+
+
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
 	if ( any( ! is.numeric(gInfo$grouping)) ) {
 		message("wrong data in gInfo$grouping")
@@ -44,14 +46,16 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
 	}
 
+	#x@usedObj$samples[,group] = factor( x@usedObj$samples[,group] )
 
-	gr = gInfo$grouping + 1
+    #options(repr.plot.width=24, repr.plot.height=24)
+    gr = factor(gInfo$grouping+1)
+
 	grDevices::png( file= DRC1, width=1000, height=1000)
 
-	graphics::plot(
-		cellexalObj@drc[[gInfo$drc]][,1], cellexalObj@drc[[gInfo$drc]][,2], 
-		col= c(grey(.6), gInfo$col)[gr],
-		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,2], id=gr )
+    p= prettyPlot2D( toPlot, gInfo$col )
+	print(p)
 	
 	grDevices::dev.off()
 		
@@ -59,11 +63,43 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 
 	grDevices::png( file= DRC2, width=1000, height=1000)
 	
-	graphics::plot(
-		cellexalObj@drc[[gInfo$drc]][,2], cellexalObj@drc[[gInfo$drc]][,3], 
-		col= c(grey(.6), gInfo$col)[gr],
-		main = paste( gInfo$drc, 'dim 1+2' ), xlab="dimension 1", ylab= "dimension 2" )
+    toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
+    p= prettyPlot2D( toPlot, gInfo$col )
+    print(p)
 	
 	grDevices::dev.off()
 	c( DRC1, DRC2)
 } )
+
+
+prettyPlot2D = function(x, col ){
+
+	x$id = as.vector(x$id)
+	x[,1] = as.numeric(x[,1])
+	x[,2] = as.numeric(x[,2])
+
+	p = ggplot(x, aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
+	p = p +   geom_point(aes(color = id  ) , show.legend = FALSE)
+
+	pos= t(sapply( unique(x$id), function(id) {
+		ok = which(x$id == id); 
+		c( median(x[ok,1]), median(x[ok,2]) )
+	} ))
+    theta <- seq(pi/8, 2*pi, length.out=48)
+    xo <- diff(range(pos[,1]))/1200
+    yo <- diff(range(pos[,2]))/1200
+    for(i in theta) {
+        p <- p + geom_text( data=data.frame(pos),
+            aes_q(
+                x = bquote(pos[,1]+.(cos(i)*xo)),
+                y = bquote(pos[,2]+.(sin(i)*yo)),
+                label=unique(x$id)), 
+                    size=10, colour='black' )
+    }
+    p = p + annotate('text', x = pos[,1], y = pos[,2], label = unique(x$id), size = 10, col=col )  
+    p
+}  
+
+
+
+    

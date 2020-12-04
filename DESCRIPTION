@@ -20,6 +20,7 @@ Imports:
 	bookdown,
 	FastWilcoxTest (>= 0.1.13),
 	GeneNet,
+	ggplot2,
 	gplots,
 	graph,
 	grDevices,
