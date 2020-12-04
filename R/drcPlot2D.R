@@ -78,8 +78,8 @@ prettyPlot2D = function(x, col ){
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
 
-	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
-	p = p +   ggplot2::geom_point(ggplot2::aes(color = id  ) , show.legend = FALSE)
+	p = ggplot(x, aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
+	p = p +   geom_point(aes(color = id  ) , show.legend = FALSE)
 
 	pos= t(sapply( unique(x$id), function(id) {
 		ok = which(x$id == id); 
