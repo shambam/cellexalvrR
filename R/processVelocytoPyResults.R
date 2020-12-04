@@ -178,14 +178,16 @@ setMethod('H5Anno2df', signature = c ('H5File'),
 						as.vector(obs[, namecol]) )
 			}else {
 				## now I need to check for strings...
+				
 				OK = unlist(lapply( colnames(obs) , function(id) {
-									a= which( is.na(as.numeric(as.vector(obs[,id])))==T) ## Strings only
-									if ( length(a) > 0) {
-										length(unique(as.vector(obs[a, id])))
-									}else {
-										0
-									}
-								}))
+					suppressWarnings({a= which( is.na(as.numeric(as.vector(obs[,id])))==T) })
+					## Strings only
+					if ( length(a) > 0) {
+						length(unique(as.vector(obs[a, id])))
+					}else {
+						0
+					}
+				}))
 				names(OK) = colnames(obs)
 				# if ( slotName == 'row_attrs'){
 				# 	browser()

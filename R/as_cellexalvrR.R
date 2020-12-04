@@ -182,15 +182,21 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 	if ( velocyto ) {
 		for ( n in names(cellexalvrR@drc)) {
 			velo_n = paste( sep="_", 'velocity', n )
-			cellexalvrR@drc[[n]] = 
-				cbind( 
-					cellexalvrR@drc[[n]], 
-					cellexalvrR@drc[[n]][,1:embeddingDims] + t(x[['obsm']][[velo_n]][,] * veloScale)
-				)
-			if ( embeddingDims == 2 ){
-				cellexalvrR@drc[[n]] =
-					cbind(cellexalvrR@drc[[n]],rep(0, nrow(cellexalvrR@drc[[n]])))
+			tryCatch({
+				cellexalvrR@drc[[n]] = 
+					cbind( 
+						cellexalvrR@drc[[n]], 
+						cellexalvrR@drc[[n]][,1:embeddingDims] + t(x[['obsm']][[velo_n]][,] * veloScale)
+					)
+				if ( embeddingDims == 2 ){
+					cellexalvrR@drc[[n]] =
+						cbind(cellexalvrR@drc[[n]],rep(0, nrow(cellexalvrR@drc[[n]])))
+				}
+			},
+			error = function(e) { 
+				message( paste( "WARNING: drc", n, "- velocity information not available") )
 			}
+			)
 		}
 	}
 	
@@ -597,7 +603,8 @@ setMethod('H5Anno2df', signature = c ('cellexalvrR'),
   		}else {
   			## now I need to check for strings...
   			OK = unlist(lapply( colnames(obs) , function(id) {
-  				a= which( is.na(as.numeric(as.vector(obs[,id])))==T) ## Strings only
+  				suppressWarnings({a= which( is.na(as.numeric(as.vector(obs[,id])))==T)})
+  				 ## Strings only
   				if ( length(a) > 0) {
   					length(unique(as.vector(obs[a, id])))
   				}else {
