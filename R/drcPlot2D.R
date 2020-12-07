@@ -77,26 +77,30 @@ prettyPlot2D = function(x, col ){
 	x$id = as.vector(x$id)
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
+	x$col=  c(grey(.6),col)[as.numeric(x$id)]
 
-	p = ggplot(x, aes(x=x, y=y), col= c(grey(.6),col)[gr] ) 
-	p = p +   geom_point(aes(color = id  ) , show.legend = FALSE)
+	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y) ) 
+	p = p +   ggplot2::geom_point(color = x$col , show.legend = FALSE)
 
-	pos= t(sapply( unique(x$id), function(id) {
+	pos= t(sapply( sort(as.numeric(unique(x$id))), function(id) {
 		ok = which(x$id == id); 
 		c( median(x[ok,1]), median(x[ok,2]) )
 	} ))
     theta <- seq(pi/8, 2*pi, length.out=48)
-    xo <- diff(range(pos[,1]))/1200
-    yo <- diff(range(pos[,2]))/1200
+    xo <- diff(range(pos[,1]))/100
+    yo <- diff(range(pos[,2]))/100
+    C1 = c(grey(.6),col)
+    C2 = 'black'
     for(i in theta) {
         p <- p + ggplot2::geom_text( data=data.frame(pos),
             ggplot2::aes_q(
                 x = bquote(pos[,1]+.(cos(i)*xo)),
                 y = bquote(pos[,2]+.(sin(i)*yo)),
-                label=unique(x$id)), 
-                    size=10, colour='black' )
+                label=sort(as.numeric(unique(x$id)))-1), 
+                    size=10, colour=C2 )
     }
-    p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2], label = unique(x$id), size = 10, col=c(grey(.6),col) )  
+    p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
+     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1 )  
     p
 }  
 
