@@ -87,8 +87,8 @@ prettyPlot2D = function(x, col ){
 		c( median(x[ok,1]), median(x[ok,2]) )
 	} ))
     theta <- seq(pi/8, 2*pi, length.out=48)
-    xo <- diff(range(pos[,1]))/100
-    yo <- diff(range(pos[,2]))/100
+    xo <- diff(range(pos[,1]))/1200
+    yo <- diff(range(pos[,2]))/1200
     C1 = c(grey(.6),col)
     C2 = 'black'
     for(i in theta) {
@@ -100,7 +100,7 @@ prettyPlot2D = function(x, col ){
                     size=10, colour=C2 )
     }
     p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
-     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1 )  
+     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1[-1] )  
     p
 }  
 
