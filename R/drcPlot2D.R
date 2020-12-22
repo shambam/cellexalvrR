@@ -51,10 +51,11 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
     #options(repr.plot.width=24, repr.plot.height=24)
     gr = factor(gInfo$grouping+1)
 
+   # browser()
 	grDevices::png( file= DRC1, width=1000, height=1000)
 
 	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,2], id=gr )
-    p= prettyPlot2D( toPlot, gInfo$col )
+    p= prettyPlot2D( toPlot, gInfo$col[which(!is.na(gInfo$col))] )
 	print(p)
 	
 	grDevices::dev.off()
@@ -64,7 +65,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		grDevices::png( file= DRC2, width=1000, height=1000)
 	
     	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
-    	p= prettyPlot2D( toPlot, gInfo$col ) #function definition in file drcPlot2D.R
+    	p= prettyPlot2D( toPlot, gInfo$col[which(!is.na(gInfo$col))] ) #function definition in file drcPlot2D.R
     	print(p)
 		grDevices::dev.off()
 	}
