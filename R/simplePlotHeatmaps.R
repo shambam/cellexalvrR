@@ -9,18 +9,21 @@
 #' @rdname simplePlotHeatmaps-methods
 #' @docType methods
 #' @description plot an extremely simple heatmap ans slices of that
+#' @param x, cellexalvrR object
 #' @param mat the expression matrix (col genes; row cells)
 #' @param fname the outfile base (.png for main .<i>.png for the slices)
 #' @title description of function simplePlotHeatmaps
 #' @export 
 if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Name
-	function (mat, fname ) { 
+	function (x, mat, fname ) { 
+	#function ( mat, fname ) { 	
 		standardGeneric('simplePlotHeatmaps')
 	}
 ) }
 
-setMethod('simplePlotHeatmaps', signature = c ('matrix'),
-	definition = function (mat, fname ) {
+setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
+	definition = function ( x, mat, fname ) {
+	#definition = function ( mat, fname ) {
 	genes = colnames(mat)
 	if ( is.null(genes)){
 		stop("ERROR: the rownames of the matrix are not set")
@@ -49,6 +52,8 @@ setMethod('simplePlotHeatmaps', signature = c ('matrix'),
 			} ) ), na.rm=TRUE)
 		} ) )
 
+	
+	
 	## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
 	slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
 	intercept <- points[1]-slope
@@ -62,25 +67,51 @@ setMethod('simplePlotHeatmaps', signature = c ('matrix'),
 	## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
 	gr = cutree(hc, optimum); 
 	i = 1
+	## now I need to cellexalTime object:
+	time = x@usedObj$timelines[[basename(fname)]]
 
-	pngs = character( optimum )
+	clusterC = rainbow( max(gr) )
+	toPlot = time@dat[,c('time', 'col') ]
 
+	pngs = NULL
+	#create the separate simple Heatmap PNGs:
 	ofile = paste( fname,'png', sep=".")
-	for( genes in  split( names(gr), gr) ) {
+
+	ma = -1000
+	mi = 1000
+	for( genes in split( names(gr), gr) ) {
+		gn = paste('gene.group',i, sep=".")
+		pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
+		toPlot[,gn] = predict(pred1)
+		ma = max( ma, toPlot[,gn])
+		mi = min( mi, toPlot[,gn])
 		of = paste(fname, i,'png', sep=".")
 		h = round(1000 * length(genes) / ncol(mat) )
 		if ( h < 200)
 			h = 200
 		message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
 		png( file=of, width=1000, height = h )
+		pngs = c(pngs, of)
 		image( mat[,genes], col=gplots::bluered(40))
 		dev.off()
-		pngs[i] = of
 		i = i+1
-	} 
+	}
+
 	png( file=ofile, width=1000, height = 1000)
-	image( mat[,deg.genes], col=gplots::bluered(40))
+	#pngs = c(pngs, ofile)
+	plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
+		col='white', xlab='pseudotime', 
+		ylab="smoothed mean rolling sum expression of gene sets"  )
+
+	#browser()
+	for ( a in 1:(i-1) ){
+		n = paste(sep=".", 'gene', 'group', a)
+		points( toPlot$time, toPlot[,n], col=clusterC[a])
+		lines( toPlot$time, toPlot[,n], col=clusterC[a])
+	}
+
 	dev.off()
+
 
 	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 } )

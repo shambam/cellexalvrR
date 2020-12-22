@@ -26,7 +26,6 @@ if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
 
-x = sessionPath( x, 'timeSession')
 
 expect_true( x@usedObj$sessionName == 'timeSession',  label='session path not set correctly')
 gFile= 'SelectionHSPC_time.txt'
@@ -35,16 +34,13 @@ grouping <- file.path(prefix, 'data', gFile )
 
 ## I need the 3D vectors for the cells in e.g. group 1
 
-x@groupSelectedFrom = list()
-x@userGroups = data.frame()
-x@usedObj$lastGroup = NULL
 
+x = reset(x)
+x = sessionPath( x, 'timeSession')
 x = userGrouping( x, grouping)
 
-
-dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 1 ), ]
-
-t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
+t = reduceTo( x, what='col', 'to'= 
+	colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
 

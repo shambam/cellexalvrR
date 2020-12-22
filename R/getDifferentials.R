@@ -195,12 +195,12 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 				
 				## add the plots to the log
-				try( { 		
+				#try({
 					x= logStatResult ( x, method ='Linear', data=ps, col='p.value'	 )
-					ret = simplePlotHeatmaps( mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
+					ret = simplePlotHeatmaps(x, mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
 						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
-				} )
+				#} )
 				
 				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
 			}else if ( deg.method == 'wilcox') {

@@ -68,7 +68,8 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				, '</table> '
 			)
 		}
-		
+		gInfo = groupingInfo(x)
+
 
 		## this need to become a relative path - relative to the final outfile
 		content=paste( sep="\n",
@@ -79,7 +80,8 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				"### Data",
 				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
-				""
+				"",
+				drcFiles2HTML(x, gInfo )
 		)
 
 		if ( ! is.null(col) ){

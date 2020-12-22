@@ -24,7 +24,6 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 
     cellexalObj = sessionPath(cellexalObj)  #function definition in file 'sessionPath.R'
     sessionPath = cellexalObj@usedObj$sessionPath
-    correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
 
     if (!file.exists(png)) {
         stop(paste("logNetwork the network png file can not be found!", "png"))
@@ -32,7 +31,7 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
     figureF= file.path(sessionPath, "png", basename(png))
     file.copy(png, figureF)
 
-    figureF = correctPath (figureF )
+    figureF = correctPath (figureF, cellexalObj )
     ## now I need to create the 2D drc plots for the grouping
     gInfo = groupingInfo(cellexalObj, cellexalObj@usedObj$lastGroup)  #function definition in file 'groupingInfo.R'
 
@@ -40,7 +39,6 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
     ## containing the grouping info (and thereby color) and the drc info - do not
     ## create doubles
 
-    drcFiles = sapply(drcPlots2D(cellexalObj, gInfo), correctPath)  #function definition in file 'drcPlot2D.R'
 
     # figureF, drcFiles[1] and drcFiles[2] do now need to be integrated into a Rmd
     # file mainOfile = file.path(sessionPath, filename( c( n, 'Network.Rmd') ) )
@@ -52,9 +50,7 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
     content = paste(paste("##", "Network from Saved Selection", sessionCounter(cellexalObj,
         cellexalObj@usedObj$lastGroup)), paste("This selection is available in the R object as group",
         cellexalObj@usedObj$lastGroup), "", paste("### Network map (from CellexalVR)"),
-        paste("![](", figureF, ")"), "", paste("### 2D DRC", gInfo$drc, " dim 1,2"),
-        paste("![](", drcFiles[1], ")"), "", paste("### 2D DRC", gInfo$drc, " dim 2,3"),
-        paste("![](", drcFiles[2], ")"), "", sep = "\n")
+        paste("![](", figureF, ")"), "", drcFiles2HTML(cellexalObj, gInfo ), sep = "\n")
 
     if ( ! is.null(genes) ){
         p = as.matrix(Matrix::t(cellexalObj@data[genes, which(!is.na(cellexalObj@userGroups[,

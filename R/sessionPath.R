@@ -106,6 +106,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		}
 
 		content = c(
+			paste( sep="\n", '---', paste(sep=" ",'title:',cellexalObj@usedObj$sessionName ), "---"),
 			paste( "# Session Log for Session", cellexalObj@usedObj$sessionName ),
 			paste( "Analysis of data: ", basename(cellexalObj@outpath) ),
 			"",

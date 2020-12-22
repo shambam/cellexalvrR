@@ -42,21 +42,19 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## now I need to create the 2D drc plots for the grouping
 	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
 
-	correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
 
 	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
-	drcFiles = sapply(drcPlots2D( cellexalObj, info),correctPath) #function definition in file 'drcPlot2D.R'
-
-		content = paste( sep="\n",
-		paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
+	content = paste( sep="\n",
+	 paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
 		paste("This TimeLine is available in the R object as group",cellexalObj@usedObj$lastGroup ),
-		"")
+		""
+	)
 	
 	if ( file.exists( png[1] ) ) {
 		
-		figureF = correctPath( png[1] )
+		figureF = correctPath( png[1], cellexalObj )
 
 		content = paste( sep="\n", content,
 			paste( "### Heatmapof rolling sum transformed expression (from R)"),
@@ -67,25 +65,16 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	for ( i in 1:length(genes) ) {
 
 	content = paste( collapse=" ",content,"\nGene group ",i,
-		paste("![](",correctPath(png[i+1]),")"),
+		paste("![](",correctPath(png[i+1], cellexalObj),")"),
 		paste( collapse=" ",
 		 unlist( lapply(sort(genes[[i]]), function(n) { 
 		 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		"\n")
 	}
 	content = paste( sep="\n", content,
-		paste( "### 2D DRC", info$drc, " dim 1,2 original selection"),
-		paste("![](",drcFiles[1],")"),
-		'',
-		paste( "### 2D DRC", info$drc, " dim 2,3 original selection"),
-		paste("![](",drcFiles[2],")"),
-		"",
-		paste( "### TimeLine 2D DRC", info$drc, " dim 1,2 time line"),
-		paste("![](",drcFiles2[1],")"),
-		'',
-		paste( "### TimeLine 2D DRC", info$drc, " dim 2,3 time line"),
-		paste("![](",drcFiles2[2],")"),
-		""
+
+		drcFiles2HTML(cellexalObj, info, "original selection"), #function definition in file 'drcPlot2D.R'
+		drcFiles2HTMLtime(cellexalObj, info, "time line") #function definition in file 'drcPlot2Dtime.R'
 
 	)
 

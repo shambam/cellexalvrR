@@ -47,7 +47,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	message( 'bookdown::render_book' )
 	## and now a bloody hack:list.files( './', filter='*.Rmd')
 	cmd = paste(sep="", "bookdown::render_book( input= list.files( './', pattern='*.Rmd'),",
-		" output_format='bookdown::gitbook', clean_envir = FALSE , "
+		" output_format='bookdown::gitbook',
+		 "
 		,"config_file = '_bookdown.yml' )" )
 	script= 'runRender.R'
 	if ( file.exists( script)) {
@@ -92,8 +93,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		## get rid of session information
 		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
 		#savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
-		if ( file.exists( 'mainServer.sessionName' ) ) {
-			unlink(  'mainServer.sessionName' )
+		if ( file.exists( file.path( cellexalObj@outpath , 'mainServer.sessionName') ) ) {
+			unlink( file.path( cellexalObj@outpath , 'mainServer.sessionName') )
 		}
 		## and now we merge it all into a portable zip file!
 		}else {

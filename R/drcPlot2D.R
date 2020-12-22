@@ -58,16 +58,16 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	print(p)
 	
 	grDevices::dev.off()
-		
-	DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
-
-	grDevices::png( file= DRC2, width=1000, height=1000)
+	DRC2 = NULL
+	if ( ! var( x@drc[[gInfo$drc]][,3]) == 0 ) {
+		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
+		grDevices::png( file= DRC2, width=1000, height=1000)
 	
-    toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
-    p= prettyPlot2D( toPlot, gInfo$col )
-    print(p)
-	
-	grDevices::dev.off()
+    	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
+    	p= prettyPlot2D( toPlot, gInfo$col ) #function definition in file drcPlot2D.R
+    	print(p)
+		grDevices::dev.off()
+	}
 	c( DRC1, DRC2)
 } )
 
@@ -78,7 +78,8 @@ prettyPlot2D = function(x, col ){
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
 	x$col=  c(grey(.6),col)[as.numeric(x$id)]
-
+	
+	
 	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y) ) 
 	p = p +   ggplot2::geom_point(color = x$col , show.legend = FALSE)
 
@@ -99,11 +100,32 @@ prettyPlot2D = function(x, col ){
                 label=sort(as.numeric(unique(x$id)))-1), 
                     size=10, colour=C2 )
     }
+    if ( length(C1) == length(unique(x$id) ) -1){
+    	C1 = C1[-1]
+    }
     p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
-     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1[-1] )  
+     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1 )  
     p
 }  
 
+correctPath = function( f, cellexalObj ) { 
+	file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) 
+}
 
 
-    
+drcFiles2HTML = function( cellexalObj, gInfo, addOn = NULL ) {
+	## gInfo is a list with names grouping, drc, col and order
+	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
+	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath, cellexalObj )
+	str = c(
+		paste( "### 2D DRC", gInfo$drc, " dim 1,2", addOn),
+		paste("![](",drcFiles[1],")"),
+		'')
+	if ( ! is.null(drcFiles[2]) ){
+		str = c( str, 
+		paste( "### 2D DRC", gInfo$drc, " dim 2,3", addOn),
+		paste("![](",drcFiles[2],")"),
+		"")
+	}
+	str
+}
