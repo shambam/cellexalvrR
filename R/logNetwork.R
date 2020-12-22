@@ -52,26 +52,26 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
         cellexalObj@usedObj$lastGroup), "", paste("### Network map (from CellexalVR)"),
         paste("![](", figureF, ")"), "", drcFiles2HTML(cellexalObj, gInfo ), sep = "\n")
 
-    if ( ! is.null(genes) ){
-        p = as.matrix(Matrix::t(cellexalObj@data[genes, which(!is.na(cellexalObj@userGroups[,
-            gInfo$gname]))]))
-        ret = simplePlotHeatmaps(mat = p, fname = file.path(cellexalObj@usedObj$sessionPath,
-         "png", gInfo$gname))
+    # if ( ! is.null(genes) ){
+    #     p = as.matrix(Matrix::t(cellexalObj@data[genes, which(!is.na(cellexalObj@userGroups[,
+    #         gInfo$gname]))]))
+    #     ret = simplePlotHeatmaps(mat = p, fname = file.path(cellexalObj@usedObj$sessionPath,
+    #      "png", gInfo$gname))
     
-    ## the first is the summary! content =paste( content, '# Gene expression
-    ## details','', '## Summary', paste( '![](',file.path('png',
-    ## basename(ret$ofile)),')'), paste( collapse=' ', unlist( lapply(sort(
-    ## unlist(ret$genes)), function(n) { rmdLink(n,
-    ## 'https://www.genecards.org/cgi-bin/carddisp.pl?gene=') })) ), sep='\n')
+    # ## the first is the summary! content =paste( content, '# Gene expression
+    # ## details','', '## Summary', paste( '![](',file.path('png',
+    # ## basename(ret$ofile)),')'), paste( collapse=' ', unlist( lapply(sort(
+    # ## unlist(ret$genes)), function(n) { rmdLink(n,
+    # ## 'https://www.genecards.org/cgi-bin/carddisp.pl?gene=') })) ), sep='\n')
 
-        for (i in 1:length(ret$genes)) {
-         content = paste(content, paste("## cluster", (i)), paste("![](", file.path("png",
-             basename(ret$pngs[i])), ")"), paste(collapse = " ", unlist(lapply(sort(ret$genes[[i]]),
-             function(n) {
-                 rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")
-             }))), sep = " ")
-        }
-    }
+    #     for (i in 1:length(ret$genes)) {
+    #      content = paste(content, paste("## cluster", (i)), paste("![](", file.path("png",
+    #          basename(ret$pngs[i])), ")"), paste(collapse = " ", unlist(lapply(sort(ret$genes[[i]]),
+    #          function(n) {
+    #              rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")
+    #          }))), sep = " ")
+    #     }
+    # }
     # close(fileConn)
 
     cellexalObj = storeLogContents(cellexalObj, content, type = "Network")

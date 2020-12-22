@@ -59,7 +59,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	
 	grDevices::dev.off()
 	DRC2 = NULL
-	if ( ! var( x@drc[[gInfo$drc]][,3]) == 0 ) {
+	if ( ! var( cellexalObj@drc[[gInfo$drc]][,3]) == 0 ) {
 		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 		grDevices::png( file= DRC2, width=1000, height=1000)
 	
@@ -100,7 +100,7 @@ prettyPlot2D = function(x, col ){
                 label=sort(as.numeric(unique(x$id)))-1), 
                     size=10, colour=C2 )
     }
-    if ( length(C1) == length(unique(x$id) ) -1){
+    if ( length(C1) -1 == length(unique(x$id) ) ){
     	C1 = C1[-1]
     }
     p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],

@@ -43,7 +43,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
 
 
-	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath) #function definition in file 'drcPlot2Dtime.R'
+	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath, cellexalObj) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
 	content = paste( sep="\n",

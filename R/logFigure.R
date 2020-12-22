@@ -22,7 +22,11 @@ setMethod("logFigure", signature = c("cellexalvrR"),
    		if (!file.exists(png)) {
      	   stop(paste("logFigure - the png file can not be found: '", png,"'"))
    		}
-      figureF =  correctPath (png, cellexalObj ) 
+      if ( ! file.exists(sessionPath )){
+        stop( paste( "the cellexalvrR session path is not accessable!:", sessionPath))
+      }
+
+      figureF = file.path(sessionPath, "png", basename(png))
    		file.copy( png, figureF )
 
    		content = paste(

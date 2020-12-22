@@ -81,8 +81,9 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	mi = 1000
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
-		pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
-		toPlot[,gn] = predict(pred1)
+		#pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
+		#toPlot[,gn] = predict(pred1)
+		toPlot[,gn] = apply (mat[,genes], 1, mean)
 		ma = max( ma, toPlot[,gn])
 		mi = min( mi, toPlot[,gn])
 		of = paste(fname, i,'png', sep=".")
@@ -92,26 +93,66 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 		message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
 		png( file=of, width=1000, height = h )
 		pngs = c(pngs, of)
-		image( mat[,genes], col=gplots::bluered(40))
+		image( mat[,genes], col=gplots::bluered(40), main = gn)
+		box("outer", col=clusterC[i], lwd = 10)
 		dev.off()
 		i = i+1
 	}
 
+	## now I need to get the background info into a table
+	xstarts = as.vector(toPlot$time[match( unique(toPlot$col), toPlot$col)])
+	xstarts[1] = -Inf
+	col = as.vector(toPlot$col[match( unique(toPlot$col), toPlot$col)])
+	xends =as.vector(c(xstarts[-1],toPlot$time[nrow(toPlot)] )) 
+	xends[length(xends)] = Inf
+	rects = data.frame( xstarts, xends, col)
+	rects$col = as.vector(rects$col)
+	rects$col = factor( rects$col, levels=rects$col)
+	#browser()
 	png( file=ofile, width=1000, height = 1000)
 	#pngs = c(pngs, ofile)
-	plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
-		col='white', xlab='pseudotime', 
-		ylab="smoothed mean rolling sum expression of gene sets"  )
+	toPlot2 = reshape2::melt( toPlot, id=c('time', 'col'))
+	wes = function(n) {wesanderson::wes_palette("Zissou1", n,type = "continuous")[1:n] }
+	pl = ggplot2::ggplot(toPlot, ggplot2::aes( xmin = min(time), xmax= max(time), ymin= mi, ymax=ma) )
+	pl = pl +
+	  ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
+			xmin = xstarts, 
+			xmax = xends, 
+			#ymin = mi, 
+			#ymax = mi+ (ma -mi)/10 
+			ymin = -Inf,
+			ymax = Inf
+			),
+	  	fill= wesanderson::wes_palette("Zissou1",10, type = "continuous")[1:10],
+			alpha = .2) + 
+	  ggplot2::scale_fill_manual( 
+	  	palette = wes,
+	  	values = wesanderson::wes_palette("Zissou1", 10,type = "continuous")[1:10],
+	  	aesthetics = c("colour", "fill")
+	  ) +  
+	  ggplot2::guides(fill=FALSE)
+	#plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
+	#	col='white', xlab='pseudotime', 
+	#	ylab="smoothed mean rolling sum expression of gene sets"  )
 
-	#browser()
 	for ( a in 1:(i-1) ){
 		n = paste(sep=".", 'gene', 'group', a)
-		points( toPlot$time, toPlot[,n], col=clusterC[a])
-		lines( toPlot$time, toPlot[,n], col=clusterC[a])
+		pl = pl + #ggplot2::geom_line( ggplot2::aes_string( y= n ), color=clusterC[a] ) +
+		  ggplot2::geom_point(data=toPlot, 
+		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a] ) + 
+		  ggplot2::geom_smooth(data=toPlot, 
+		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a], 
+		  	method=loess, fill=clusterC[a], alpha=.2)
+		#points( toPlot$time, toPlot[,n], col=clusterC[a])
+		#lines( toPlot$time, toPlot[,n], col=clusterC[a])
+
 	}
-
+	pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
+	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
+	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
+	pl = pl + ggplot2::ylab( "pseudotime" )
+	print(pl)
 	dev.off()
-
 
 	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 } )
