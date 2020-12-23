@@ -280,7 +280,7 @@ setMethod('HTMLtable', signature = c ('cellexalTime'),
 						)
 					}))
 				, '</table> ',
-				"<p> Linear statistics were applied to the whole set of cells vs. the pseudotime described in the table.</p>"
+				"<p> Linear statistics were applied to the whole set of genes vs. the pseudotime described in the table.</p>"
 		)
 
 		tableHTML

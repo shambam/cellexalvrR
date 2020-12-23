@@ -154,3 +154,4 @@ context('timeline check if data is correct')
 
 x = check( x ) 
 expect_true( x@usedObj$checkPassed, label = x@usedObj$checkError )
+

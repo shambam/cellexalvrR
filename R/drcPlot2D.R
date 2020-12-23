@@ -60,7 +60,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	
 	grDevices::dev.off()
 	DRC2 = NULL
-	if ( ! var( cellexalObj@drc[[gInfo$drc]][,3]) == 0 ) {
+	if (  var( cellexalObj@drc[[gInfo$drc]][,3]) != 0 ) {
 		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 		grDevices::png( file= DRC2, width=1000, height=1000)
 	

@@ -134,18 +134,18 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	#plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
 	#	col='white', xlab='pseudotime', 
 	#	ylab="smoothed mean rolling sum expression of gene sets"  )
-
+	#for ( a in 1:(i-1) ){
+	#	points( toPlot$time, toPlot[,n], col=clusterC[a])
+	#	lines( toPlot$time, toPlot[,n], col=clusterC[a])
+	#}
 	for ( a in 1:(i-1) ){
 		n = paste(sep=".", 'gene', 'group', a)
 		pl = pl + #ggplot2::geom_line( ggplot2::aes_string( y= n ), color=clusterC[a] ) +
 		  ggplot2::geom_point(data=toPlot, 
 		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a] ) + 
 		  ggplot2::geom_smooth(data=toPlot, 
-		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a], 
+		  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=clusterC[a], 
 		  	method=loess, fill=clusterC[a], alpha=.2)
-		#points( toPlot$time, toPlot[,n], col=clusterC[a])
-		#lines( toPlot$time, toPlot[,n], col=clusterC[a])
-
 	}
 	pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
 	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')

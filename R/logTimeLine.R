@@ -46,9 +46,11 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath, cellexalObj) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
-	content = paste( sep="\n",
-	 paste( "##", "TimeLine control from Saved Selection ", sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),
-		paste("This TimeLine is available in the R object as group",cellexalObj@usedObj$lastGroup ),
+	content = paste( collapse="\n", sep="\n","",
+	 paste( "##", "TimeLine control from Saved Selection ", 
+	 	sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),"",
+		paste("This TimeLine is available in the R object as group",
+			cellexalObj@usedObj$lastGroup ),
 		""
 	)
 	
@@ -56,12 +58,17 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 		
 		figureF = correctPath( png[1], cellexalObj )
 
-		content = paste( sep="\n", content,
-			paste( "### Heatmapof rolling sum transformed expression (from R)"),
-			paste("![](",figureF,")") )
+		content = paste( collapse="\n", content,"",
+			paste( "### Timeline plot showing mean expression of a set of genes (from R)"),
+			"",paste("![](",figureF,")") ,"",
+			"<p>In short: the genes are grouped by there expression pattern; 
+			the mean expression values of all genes in a group per cell are collected; 
+			the main expression trend is extrapolated using the loess R function and these smoothened values are plotted.</p>",
+			""
+		)
 	}
 	## genes should be a list
-	content = paste( sep="\n", content, "### Genes") 
+	content = paste( collapse="\n", content, "### Genes") 
 	for ( i in 1:length(genes) ) {
 
 	content = paste( collapse=" ",content,"\nGene group ",i,
@@ -71,10 +78,10 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 		 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		"\n")
 	}
-	content = paste( sep="\n", content,
+	content = paste( collapse="\n", content,
 
-		drcFiles2HTML(cellexalObj, info, "original selection"), #function definition in file 'drcPlot2D.R'
-		drcFiles2HTMLtime(cellexalObj, info, "time line") #function definition in file 'drcPlot2Dtime.R'
+		#paste(collapse = "\n", sep="\n",drcFiles2HTML(cellexalObj, info, "original selection")), #function definition in file 'drcPlot2D.R'
+		paste(collapse = "\n", sep="\n",drcFiles2HTMLtime(cellexalObj, info, "time line")) #function definition in file 'drcPlot2Dtime.R'
 
 	)
 
