@@ -81,9 +81,9 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	mi = 1000
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
-		#pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
-		#toPlot[,gn] = predict(pred1)
-		toPlot[,gn] = apply (mat[,genes], 1, mean)
+		pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
+		toPlot[,gn] = predict(pred1)
+		#toPlot[,gn] = apply (mat[,genes], 1, mean)
 		ma = max( ma, toPlot[,gn])
 		mi = min( mi, toPlot[,gn])
 		of = paste(fname, i,'png', sep=".")
