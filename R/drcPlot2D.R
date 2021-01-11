@@ -51,7 +51,11 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
     #options(repr.plot.width=24, repr.plot.height=24)
     gr = factor(gInfo$grouping+1)
 
-   # browser()
+    if ( length(cellexalObj@drc[[gInfo$drc]][,1]) != length(gr) ){
+    	OK = match( rownames(cellexalObj@drc[[gInfo$drc]]), colnames(cellexalObj@data))
+    	gr = gr[OK]
+    }
+
 	grDevices::png( file= DRC1, width=1000, height=1000)
 
 	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,2], id=gr )

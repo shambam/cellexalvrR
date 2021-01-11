@@ -55,6 +55,14 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 
 		id = as.numeric(factor(color(timeline,colnames(cellexalObj@data))))
 		col = color(timeline,colnames(cellexalObj@data))
+
+		if ( length(drc[,1]) != length(id) ){
+    		OK  = match( rownames(drc), colnames(cellexalObj@data))
+    		col = col[OK]
+    		id  = id[OK]
+    	}
+
+		
    		p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,2]), col) #function definition in file drcPlot2D.R
     	print(p)
 		dev.off()
