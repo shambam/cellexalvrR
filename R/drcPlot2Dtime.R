@@ -53,17 +53,10 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			timeline = cellexalObj@usedObj$timelines[[gInfo$gname]]
 		}
 
-		id = as.numeric(factor(color(timeline,colnames(cellexalObj@data))))
-		col = color(timeline,colnames(cellexalObj@data))
+		id = as.numeric(factor(color(timeline,rownames(drc))))
+		col = color(timeline, rownames(drc))
 
-		if ( length(drc[,1]) != length(id) ){
-    		OK  = match( rownames(drc), colnames(cellexalObj@data))
-    		col = col[OK]
-    		id  = id[OK]
-    	}
-
-		
-   		p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,2]), col) #function definition in file drcPlot2D.R
+   		p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,2], col = col) ) #function definition in file drcPlot2D.R
     	print(p)
 		dev.off()
 
@@ -84,13 +77,11 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 } )
 
 
-prettyPlot2Dtime = function(x, col ){
+prettyPlot2Dtime = function(x ){
 
 	x$id = as.vector(x$id)
-	x[,1] = as.numeric(x[,1])
-	x[,2] = as.numeric(x[,2])
-	x$col=  factor(col)
-	col=unique(x$col)
+	x[,'x'] = as.numeric(x[,'x'])
+	x[,'y'] = as.numeric(x[,'y'])
 
 	
 	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y) ) 

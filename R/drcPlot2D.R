@@ -80,8 +80,8 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 prettyPlot2D = function(x, col ){
 
 	x$id = as.vector(x$id)
-	x[,1] = as.numeric(x[,1])
-	x[,2] = as.numeric(x[,2])
+	x[,'x'] = as.numeric(x[,'x'])
+	x[,'y'] = as.numeric(x[,'y'])
 	x$col=  c(grey(.6),col)[as.numeric(x$id)]
 	
 	
