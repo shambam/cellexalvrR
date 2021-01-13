@@ -2,7 +2,7 @@
 if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 			function (x,cellidfile,
 					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
-					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE) { 
+					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) { 
 				standardGeneric('getDifferentials') 
 			}
 	) 
@@ -29,6 +29,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
 #' @param minPct the minium percent expressing cells in a group (default 0.1)
 #' @param onlyPos select only genes showing an higher expression in the group (default =T)
+#' @param report4genes a list of genes you want to get a report on.
 #' @keywords DEGs
 #' @title VR helper function getDifferentials
 #' @examples 
@@ -41,7 +42,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (x,cellidfile,
 				deg.method=c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
-				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE) {
+				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) {
 			
 			x <- loadObject(x) #function definition in file 'lockedSave.R'
 			x= check(x)
@@ -170,11 +171,15 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				colnames(ps) = c('cor', 'n', 't', 'p.value')
 
 				ps[which(is.na(ps[,1])),1] = 0
-				o = order(ps[,4])
-				
+				o = order(ps[,'cor'])
+				ps = ps[o,]
+
 				#deg.genes = names(ps)[o[1:num.sig]]
 				n = round( num.sig / 2)
-				deg.genes = rownames(ps)[c( o[1:n], rev(o)[n:1] )]
+				deg.genes = c(rownames(ps)[1:n], rev(rownames(ps))[n:1] )
+				if ( !is.null(report4genes)) {
+					deg.genes = report4genes
+				}
 				if ( is.null( x@usedObj$timelines)) {
 					x@usedObj$timelines = list()
 				}
@@ -185,6 +190,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				## create the smoothed data heatmap's
 
 				#ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
+				text = NULL
+				bad= which(is.na(match(deg.genes, rownames(loc@data)) ))
+				if ( length(bad) > 0) {
+					bad.genes = paste( collapse=", ", deg.genes[bad] )
+					deg.genes = deg.genes[-bad]
+					text = paste(collapse=" ", sep=" ",
+						"From the requested gene list the gene(s)", 
+						bad.genes, 
+						"is/are not expressed in at least 1% of the cells." 
+						)
+				}
 				p =  apply(loc@data[deg.genes, order(as.vector(loc@userGroups[, gname ] )) ]
 					, 1, 
 					function(x) {( x- mean(x)) / sd(x) } )
@@ -193,14 +209,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				deg.genes = hc$labels[hc$order]
 
 				#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
-				
+				o = order(ps[,'p.value'])
+				ps = ps[o,]
 				## add the plots to the log
-				#try({
+				try({
 					x= logStatResult ( x, method ='Linear', data=ps, col='p.value'	 )
+				} )
+				try({
 					ret = simplePlotHeatmaps(x, mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
 					x = logTimeLine( x, ps, ret$genes, 
-						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ) ) 
-				#} )
+						groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ), text= paste(text, ret$error, sep=" ", collapse=" ") ) 
+				} )
 				
 				x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
 			}else if ( deg.method == 'wilcox') {
@@ -228,9 +247,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				
 				#all_markers <- all_markers[ order( all_markers[,'p.value']),]
-				if ( Log ) {
-					try ( {x = logStatResult( x,method='Cpp', data= all_markers, col='p.value' ) }) #function definition in file 'logStatResult.R'
-				}
+				try ( {x = logStatResult( x,method='Cpp', data= all_markers, col='p.value' ) }) #function definition in file 'logStatResult.R'
+				
 				if ( is.null(x@usedObj$sigGeneLists$Cpp)) 
 					x@usedObj$sigGeneLists$Cpp = list()
 				x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]] = all_markers

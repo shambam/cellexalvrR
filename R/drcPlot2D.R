@@ -34,7 +34,13 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
-
+	## there is a possibilty that the cells have been selected from different drc models.
+	## This is only recoverable if there is a drc that contains all cells.
+	if ( length( gInfo$drc) > 1 ){
+		all = colnames(cellexalObj@data)[which(!is.na(gInfo$grouping))]
+		OK = sapply ( cellexalObj@drc, function(drc){ length(which(! is.na( match( all, rownames(drc))))) } )
+		gInfo$drc = names(OK) [ which( OK  == max(OK))]
+	} 
 
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
 	if ( any( ! is.numeric(gInfo$grouping)) ) {
@@ -80,8 +86,8 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 prettyPlot2D = function(x, col ){
 
 	x$id = as.vector(x$id)
-	x[,'x'] = as.numeric(x[,'x'])
-	x[,'y'] = as.numeric(x[,'y'])
+	x[,1] = as.numeric(x[,1])
+	x[,2] = as.numeric(x[,2])
 	x$col=  c(grey(.6),col)[as.numeric(x$id)]
 	
 	
@@ -123,12 +129,12 @@ drcFiles2HTML = function( cellexalObj, gInfo, addOn = NULL ) {
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath, cellexalObj )
 	str = c(
-		paste( "### 2D DRC", gInfo$drc, " dim 1,2", addOn),
+		paste( "### 2D DRC", gInfo$drc, " dim 1,2", addOn),"\n",
 		paste("![](",drcFiles[1],")"),
 		'')
-	if ( ! is.null(drcFiles[2]) ){
+	if ( ! is.na(drcFiles[2]) ){
 		str = c( str, 
-		paste( "### 2D DRC", gInfo$drc, " dim 2,3", addOn),
+		paste( "### 2D DRC", gInfo$drc, " dim 2,3", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
 		"")
 	}

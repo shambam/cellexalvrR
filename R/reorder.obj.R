@@ -63,10 +63,18 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		dataObj@groupSelectedFrom[[n]]$grouping= dataObj@groupSelectedFrom[[n]]$grouping[ids]
 	}
 	dataObj = check(dataObj)
+	if ( ! is.null (dataObj@usedObj$timelines)) {
+		for ( name in names( dataObj@usedObj$timelines ) ) {
+			if ( length(dataObj@usedObj$timelines[[name]]@error) > 0 ){
+				warning( paste("timeline", name,"is invalid - removed!"))
+				dataObj@usedObj$timelines[[name]] = NULL
+			}
+		}
+	}
 	if ( !dataObj@usedObj$checkPassed ) {
 		browser()
 	}
-	dataObj
+	invisible(dataObj)
 } )
 
 #' reorder function to reorder the whole cellexalvrR object based on a genes order.

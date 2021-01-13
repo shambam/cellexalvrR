@@ -1,6 +1,6 @@
 
 setGeneric('logTimeLine', ## Name
-	function ( cellexalObj, stats, genes, info, png, timeInfo , GOIs=NULL ) {
+	function ( cellexalObj, stats, genes, info, png, timeInfo , GOIs=NULL, text=NULL ) {
 		standardGeneric('logTimeLine')
 	}
 )
@@ -20,10 +20,11 @@ setGeneric('logTimeLine', ## Name
 #' @param png the heatmap of the rolling sum data
 #' @param timeInfo the time grouping information list
 #' @param GOIs an optional vector of genes to plot rolling sum graphs for.
+#' @param text additional text for the HTML file (default = NULL)
 #' @title description of function logTimeLine
 #' @export 
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL ) {
+	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL, text=NULL ) {
 	## here I need to create a page of the final log
 
 	cellexalObj = sessionPath( cellexalObj ) #function definition in file 'sessionPath.R'
@@ -54,11 +55,16 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 		""
 	)
 	
+	if ( ! is.null(text) ){
+		content = paste( content, "<p>", text, "</p>", collapse="\n", sep="\n")
+	}
+
+	
 	if ( file.exists( png[1] ) ) {
 		
 		figureF = correctPath( png[1], cellexalObj )
 
-		content = paste( collapse="\n", content,"",
+		content = paste( collapse="\n", sep=" ", content,"",
 			paste( "### Timeline plot showing mean expression of a set of genes (from R)"),
 			"",paste("![](",figureF,")") ,"",
 			"<p>In short: the genes are grouped by there expression pattern; 
@@ -71,9 +77,9 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	content = paste( collapse="\n", content, "### Genes") 
 	for ( i in 1:length(genes) ) {
 
-	content = paste( collapse=" ",content,"\nGene group ",i,
-		paste("![](",correctPath(png[i+1], cellexalObj),")"),
-		paste( collapse=" ",
+	content = paste( collapse=" ", sep=" ",content,"\n\nGene group ",i,
+		paste("\n![](",correctPath(png[i+1], cellexalObj),")\n"),
+		paste( collapse=" ", sep=" ",
 		 unlist( lapply(sort(genes[[i]]), function(n) { 
 		 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
 		"\n")

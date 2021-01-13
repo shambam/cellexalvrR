@@ -128,7 +128,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 	# the timelines (if some exist)
 	if ( ! is.null(x@usedObj$timelines)){
 		for (n in names(x@usedObj$timelines)){
-			checkTime(x, x@usedObj$timelines[[n]] )
+			x@usedObj$timelines[[n]] = checkTime( x@usedObj$timelines[[n]], x )
 		}
 	}
 

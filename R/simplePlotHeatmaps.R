@@ -63,6 +63,8 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	## And find the max length of this value
 	## here more groups is likely better than less
 	optimum <- max ( which(der < max(der) / 1e+10) )
+	## this should not be standard, but lets just get a little more than that. Better more than too little info.
+	optimum = optimum + 2
 	## now we lack the heatmap here... But I would need one - crap!
 	## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
 	gr = cutree(hc, optimum); 
@@ -79,8 +81,17 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 
 	ma = -1000
 	mi = 1000
+	error= NULL
+	if ( ncol(mat) != nrow(time@dat)) {
+		error = "The timeline function has failed to asigne a time to each selected cell - fix the selection to avoid this problem!"
+		message( error )
+		m= match( rownames(time@dat), rownames(mat))
+		mat = mat[m,]
+	}
+
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
+
 		pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
 		toPlot[,gn] = predict(pred1)
 		#toPlot[,gn] = apply (mat[,genes], 1, mean)
@@ -154,5 +165,5 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	print(pl)
 	dev.off()
 
-	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
+	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error )
 } )

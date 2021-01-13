@@ -8,13 +8,15 @@
 #' @slot dat all data needed for the time plotting and group creation
 #' @slot gname the group name
 #' @slot drc the drc name this object has been selected from
+#' @slot error the error message if a catched not fatal error has occured
 #' @exportClass cellexalvrR
 
 setClass("cellexalTime", 
 	slots=list(
 		dat="data.frame", 
 		gname="character",
-		drc="character"
+		drc="character",
+		error="character"
 		)
 )
 
@@ -159,16 +161,17 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 #' @docType methods
 #' @description checks for NA elements in the table and removes them
 #' @param x the cellexalTime object
+#' @param cellexalObj an optional cellexalvrR object - if given ONLY the drc models are checked.
 #' @title description of function check
 #' @export 
 if ( ! isGeneric('checkTime') ){setGeneric('checkTime', ## Name
-	function (x, ...) { 
+	function (x, cellexalObj) { 
 		standardGeneric('checkTime')
 	}
 ) }
 
 setMethod('checkTime', signature = c ('cellexalTime'),
-	definition = function (x) {
+	definition = function (x, cellexalObj) {
 	bad=which( is.na(x@dat$time))
 	if ( length(bad) > 0 ){
 		warning("Missing values detected in the time - dropping these")
@@ -184,24 +187,24 @@ setMethod('checkTime', signature = c ('cellexalTime'),
 } )
 
 
-setMethod('checkTime', signature = c ('cellexalvrR'),
-	definition = function (x, dataObj ) {
+setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
+	definition = function (x, cellexalObj) {
 
 		error = NULL
 		#browser()
-		if ( is.null(x@drc[[dataObj@drc]])){
+		if ( is.null(cellexalObj@drc[[x@drc]])){
 			error = c( error, paste( sep="",
-				"The basis drc for this timeline (", x@drc,
+				"The basis drc for this timeline (", cellexalObj@drc,
 				") is not part of this cellexal object" ))
 		}else {
-			mine = dataObj@dat[,c('a','b','c')]
+			mine = x@dat[,c('a','b','c')]
 			ids = NULL
-			if ( !is.null(rownames(x@drc[[dataObj@drc]])) ){
-				ids = match(rownames(dataObj@dat), rownames(x@drc[[dataObj@drc]]) )
+			if ( !is.null(rownames(cellexalObj@drc[[x@drc]])) ){
+				ids = match(rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
 			}else {
-				ids = match(rownames(dataObj@dat), rownames(x@data) )
+				ids = match(rownames(x@dat), rownames(cellexalObj@data) )
 			}
-			other = x@drc[[dataObj@drc]][ids,1:3]
+			other = cellexalObj@drc[[x@drc]][ids,1:3]
 			colnames(mine) = c('x', 'y','z')
 			colnames(other) = c('x','y','z')
 			if ( !isTRUE( all.equal( as.matrix(mine), as.matrix(other))) ) {
@@ -210,7 +213,8 @@ setMethod('checkTime', signature = c ('cellexalvrR'),
 		}
 
 		if ( ! is.null(error) ) {
-			message( paste(collapse="\n\r",c( "checkTime",error ) ) )
+			message(  paste(collapse="\n\r", sep=" ", c( "checkTime",error ) ) )
+			x@error = paste(collapse="\n\r", sep=" ", c( "checkTime",error ) )
 		}
 		invisible(x)
 } )
