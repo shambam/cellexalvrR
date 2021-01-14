@@ -85,11 +85,6 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	
 	gInfo = groupingInfo( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'groupingInfo.R'
 
-    correctPath = function(f) { file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) }
-	## gInfo is a list with names grouping, drc, col and order
-	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
-	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath) #function definition in file 'drcPlot2D.R'
-
 	cellCount = table(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup])
 	R_IDs = names(cellCount)
 	OK = which(!is.na(cellexalObj@userGroups[,cellexalObj@usedObj$lastGroup]))
@@ -114,7 +109,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		, '</table> '
 	)
 
-		figureF = correctPath(figureF)
+		figureF = correctPath(figureF, cellexalObj)
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
@@ -126,12 +121,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste("![](",figureF,")"),
 		'',
 		tableHTML,'',
-		paste( "### 2D DRC", gInfo$drc, " dim 1,2"),
-		paste("![](",drcFiles[1],")"),
-		'',
-		paste( "### 2D DRC", gInfo$drc, " dim 2,3"),
-		paste("![](",drcFiles[2],")"),
-		"",
+		paste(collapse = "\n", sep="\n",drcFiles2HTML(cellexalObj, gInfo )),
 		"The heatmap can be restored in a new VR session using the 2D console (F12) and type:",
 		"",
 		paste("lsf", R.utils::getRelativePath(gInfo$selectionFile,

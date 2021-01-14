@@ -113,13 +113,18 @@ setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	}
 	sessionPath = normalizePath(x@usedObj$sessionPath)
 	
-	id = length( list.files ( x@outpath, pattern='*html$', full.names =TRUE ) ) 
+	if ( type !="Start"){
+		id = length( list.files ( x@outpath, pattern='*html$', full.names =TRUE ) ) 
 
-	if ( length(x@usedObj$sessionRmdFiles ) != id ) {
-		x@usedObj$sessionRmdFiles =
-		 list.files( sessionPath , pattern='*Rmd$', full.names =TRUE )
+		if ( length(x@usedObj$sessionRmdFiles ) != id ) {
+			x@usedObj$sessionRmdFiles =
+		 	list.files( sessionPath , pattern='*Rmd$', full.names =TRUE )
+		}
+		id = id +1
+	}else {
+		id = 1
 	}
-	id = id +1
+
 	AA = as.vector( sapply(LETTERS, function(x) paste0(x, LETTERS)))
 	fname = paste( sep="_", AA[id], type, "paritalLog.Rmd" )
 	fname = file.path( sessionPath, fname )

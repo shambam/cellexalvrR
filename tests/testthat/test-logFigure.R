@@ -13,7 +13,7 @@ x = reset(cellexalObj)
 x@outpath = file.path(prefix,'data','output','LogFigure' )
 
 if ( ! file.exists(x@outpath)){
-	dir.create( x@outpath )
+	dir.create( x@outpath, recursive=T )
 }else {
 	unlink(  x@outpath, recursive=T )
 	dir.create( x@outpath )

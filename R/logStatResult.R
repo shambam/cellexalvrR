@@ -52,7 +52,8 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				## not in a VR backend position
 				x@colors[[x@usedObj$lastGroup]] = rainbow( max( as.numeric(names(cellCount))) )
 			}
-			tableHTML = paste( sep="\n",
+			tableHTML = paste( collapse="\n",
+				"",
 				"### group information table",'',
 			'<table>',
 			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
@@ -69,10 +70,11 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				, '</table> '
 			)
 		}
-		
+		gInfo = groupingInfo(x)
+
 
 		## this need to become a relative path - relative to the final outfile
-		content=paste( sep="\n",
+		content=paste( sep="\n", collapse = "\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
 				"",
 				tableHTML,
@@ -80,9 +82,10 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				"### Data",
 				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
-				""
+				"",
+				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo ))
 		)
-
+		
 		if ( ! is.null(col) ){
 			ofile = file.path(x@usedObj$sessionName, 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
 			grDevices::png( file= file.path( x@outpath, ofile ), width=800, height=800)

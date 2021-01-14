@@ -9,18 +9,21 @@
 #' @rdname simplePlotHeatmaps-methods
 #' @docType methods
 #' @description plot an extremely simple heatmap ans slices of that
+#' @param x, cellexalvrR object
 #' @param mat the expression matrix (col genes; row cells)
 #' @param fname the outfile base (.png for main .<i>.png for the slices)
 #' @title description of function simplePlotHeatmaps
 #' @export 
 if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Name
-	function (mat, fname ) { 
+	function (x, mat, fname ) { 
+	#function ( mat, fname ) { 	
 		standardGeneric('simplePlotHeatmaps')
 	}
 ) }
 
-setMethod('simplePlotHeatmaps', signature = c ('matrix'),
-	definition = function (mat, fname ) {
+setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
+	definition = function ( x, mat, fname ) {
+	#definition = function ( mat, fname ) {
 	genes = colnames(mat)
 	if ( is.null(genes)){
 		stop("ERROR: the rownames of the matrix are not set")
@@ -49,6 +52,8 @@ setMethod('simplePlotHeatmaps', signature = c ('matrix'),
 			} ) ), na.rm=TRUE)
 		} ) )
 
+	
+	
 	## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
 	slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
 	intercept <- points[1]-slope
@@ -58,29 +63,107 @@ setMethod('simplePlotHeatmaps', signature = c ('matrix'),
 	## And find the max length of this value
 	## here more groups is likely better than less
 	optimum <- max ( which(der < max(der) / 1e+10) )
+	## this should not be standard, but lets just get a little more than that. Better more than too little info.
+	optimum = optimum + 2
 	## now we lack the heatmap here... But I would need one - crap!
 	## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
 	gr = cutree(hc, optimum); 
 	i = 1
+	## now I need to cellexalTime object:
+	time = x@usedObj$timelines[[basename(fname)]]
 
-	pngs = character( optimum )
+	clusterC = rainbow( max(gr) )
+	toPlot = time@dat[,c('time', 'col') ]
 
+	pngs = NULL
+	#create the separate simple Heatmap PNGs:
 	ofile = paste( fname,'png', sep=".")
-	for( genes in  split( names(gr), gr) ) {
+
+	ma = -1000
+	mi = 1000
+	error= NULL
+	if ( ncol(mat) != nrow(time@dat)) {
+		error = "The timeline function has failed to asigne a time to each selected cell - fix the selection to avoid this problem!"
+		message( error )
+		m= match( rownames(time@dat), rownames(mat))
+		mat = mat[m,]
+	}
+
+	for( genes in split( names(gr), gr) ) {
+		gn = paste('gene.group',i, sep=".")
+
+		pred1 = loess(  apply (mat[,genes], 1, mean) ~ time@dat$time, span=.1)
+		toPlot[,gn] = predict(pred1)
+		#toPlot[,gn] = apply (mat[,genes], 1, mean)
+		ma = max( ma, toPlot[,gn])
+		mi = min( mi, toPlot[,gn])
 		of = paste(fname, i,'png', sep=".")
 		h = round(1000 * length(genes) / ncol(mat) )
 		if ( h < 200)
 			h = 200
 		message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
 		png( file=of, width=1000, height = h )
-		image( mat[,genes], col=gplots::bluered(40))
+		pngs = c(pngs, of)
+		image( mat[,genes], col=gplots::bluered(40), main = gn)
+		box("outer", col=clusterC[i], lwd = 10)
 		dev.off()
-		pngs[i] = of
 		i = i+1
-	} 
+	}
+
+	## now I need to get the background info into a table
+	xstarts = as.vector(toPlot$time[match( unique(toPlot$col), toPlot$col)])
+	xstarts[1] = -Inf
+	col = as.vector(toPlot$col[match( unique(toPlot$col), toPlot$col)])
+	xends =as.vector(c(xstarts[-1],toPlot$time[nrow(toPlot)] )) 
+	xends[length(xends)] = Inf
+	rects = data.frame( xstarts, xends, col)
+	rects$col = as.vector(rects$col)
+	rects$col = factor( rects$col, levels=rects$col)
+	#browser()
 	png( file=ofile, width=1000, height = 1000)
-	image( mat[,deg.genes], col=gplots::bluered(40))
+	#pngs = c(pngs, ofile)
+	toPlot2 = reshape2::melt( toPlot, id=c('time', 'col'))
+	wes = function(n) {wesanderson::wes_palette("Zissou1", n,type = "continuous")[1:n] }
+	pl = ggplot2::ggplot(toPlot, ggplot2::aes( xmin = min(time), xmax= max(time), ymin= mi, ymax=ma) )
+	pl = pl +
+	  ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
+			xmin = xstarts, 
+			xmax = xends, 
+			#ymin = mi, 
+			#ymax = mi+ (ma -mi)/10 
+			ymin = -Inf,
+			ymax = Inf
+			),
+	  	fill= wesanderson::wes_palette("Zissou1",10, type = "continuous")[1:10],
+			alpha = .2) + 
+	  ggplot2::scale_fill_manual( 
+	  	palette = wes,
+	  	values = wesanderson::wes_palette("Zissou1", 10,type = "continuous")[1:10],
+	  	aesthetics = c("colour", "fill")
+	  ) +  
+	  ggplot2::guides(fill=FALSE)
+	#plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
+	#	col='white', xlab='pseudotime', 
+	#	ylab="smoothed mean rolling sum expression of gene sets"  )
+	#for ( a in 1:(i-1) ){
+	#	points( toPlot$time, toPlot[,n], col=clusterC[a])
+	#	lines( toPlot$time, toPlot[,n], col=clusterC[a])
+	#}
+	for ( a in 1:(i-1) ){
+		n = paste(sep=".", 'gene', 'group', a)
+		pl = pl + #ggplot2::geom_line( ggplot2::aes_string( y= n ), color=clusterC[a] ) +
+		  ggplot2::geom_point(data=toPlot, 
+		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a] ) + 
+		  ggplot2::geom_smooth(data=toPlot, 
+		  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=clusterC[a], 
+		  	method=loess, fill=clusterC[a], alpha=.2)
+	}
+	pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
+	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
+	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
+	pl = pl + ggplot2::ylab( "pseudotime" )
+	print(pl)
 	dev.off()
 
-	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
+	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error )
 } )

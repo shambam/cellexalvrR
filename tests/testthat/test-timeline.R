@@ -19,14 +19,16 @@ if ( file.exists(x@outpath ) ){
 }
 dir.create( x@outpath )
 
-x@usedObj$sessionPath = x@usedObj$sessionRmdFiles = x@usedObj$sessionName = NULL
+x = reset(x)
+x@outpath = file.path(prefix,'data','output','timeLineTest' )
+
+x = sessionPath( x, 'timeSession')
 
 ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession', 'AB_OneGroupTime_paritalLog.Rmd' )
 if ( file.exists( ofile) ) {
 	unlink( ofile )
 }
 
-x = sessionPath( x, 'timeSession')
 
 expect_true( x@usedObj$sessionName == 'timeSession',  label='session path not set correctly')
 gFile= 'SelectionHSPC_time.txt'
@@ -35,16 +37,11 @@ grouping <- file.path(prefix, 'data', gFile )
 
 ## I need the 3D vectors for the cells in e.g. group 1
 
-x@groupSelectedFrom = list()
-x@userGroups = data.frame()
-x@usedObj$lastGroup = NULL
+
 
 x = userGrouping( x, grouping)
 
-
-dat = x@drc[['DDRtree']][which( x@userGroups[,x@usedObj$lastGroup] == 1 ), ]
-
-t = reduceTo( x, what='col', 'to'= colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
+t = reduceTo( x, what='col', 'to'= 	colnames(x@data)[which( x@userGroups[,x@usedObj$lastGroup] == 1 )] )
 
 #t= pseudotimeTest3D( t, dat[,1], dat[,2], dat[,3], x@usedObj$lastGroup )
 
@@ -60,7 +57,6 @@ for ( ofile in ofiles){
 if ( file.exists( SelectionFile)){
 	unlink( SelectionFile )
 }
-
 t = getDifferentials( t,'User.group.1', deg.method= 'wilcox' , Log=FALSE)
 
 
@@ -118,6 +114,7 @@ if ( ! file.exists( cmpFile )){
 	file.copy( testF, cmpFile )
 }
 
+
 old = read.delim( cmpFile )
 new = read.delim( testF )
 
@@ -157,3 +154,4 @@ context('timeline check if data is correct')
 
 x = check( x ) 
 expect_true( x@usedObj$checkPassed, label = x@usedObj$checkError )
+

@@ -22,9 +22,13 @@ setMethod("logFigure", signature = c("cellexalvrR"),
    		if (!file.exists(png)) {
      	   stop(paste("logFigure - the png file can not be found: '", png,"'"))
    		}
+      if ( ! file.exists(sessionPath )){
+        stop( paste( "the cellexalvrR session path is not accessable!:", sessionPath))
+      }
 
-   		file.copy(png, file.path(sessionPath, "png", basename(png)))
-   		figureF = file.path(cellexalObj@usedObj$sessionName,"png", basename(png))
+      figureF = file.path(sessionPath, "png", basename(png))
+   		file.copy( png, figureF )
+
    		content = paste(
    			paste("##", "Saved figure from VR",format(Sys.time(), "%a %b %d %X %Y")),
        		paste("![](", figureF, ")"), "", paste(text),
