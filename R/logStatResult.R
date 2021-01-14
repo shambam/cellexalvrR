@@ -38,6 +38,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 			tableHTML = HTMLtable( x@usedObj$timelines[[ x@usedObj$lastGroup ]] )
 		}
 		else {
+			x@userGroups[,x@usedObj$lastGroup = factor( x@userGroups[,x@usedObj$lastGroup )
 			cellCount = table(x@userGroups[,x@usedObj$lastGroup])
 			R_IDs = names(cellCount)
 			OK = which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
