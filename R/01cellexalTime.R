@@ -9,6 +9,7 @@
 #' @slot gname the group name
 #' @slot drc the drc name this object has been selected from
 #' @slot error the error message if a catched not fatal error has occured
+#' @slot geneClusters a list of gene clusters that are linked to a timeline
 #' @exportClass cellexalvrR
 
 setClass("cellexalTime", 
@@ -16,9 +17,85 @@ setClass("cellexalTime",
 		dat="data.frame", 
 		gname="character",
 		drc="character",
-		error="character"
+		error="character",
+		geneClusters="list"
 		)
 )
+
+#' @name createTime
+#' @aliases createTime,cellexalTime-method
+#' @rdname createTime-methods
+#' @docType methods
+#' @description calculate time based on the internal table a b and c columns
+#' @param x the object
+#' @title description of function plot
+#' @export
+if ( ! isGeneric('createTime') ){setGeneric('createTime', ## Name
+	function ( x ) { 
+		standardGeneric('createTime')
+	}
+) }
+
+setMethod('createTime', signature = c ('cellexalTime'),
+	definition = function ( x ) {
+
+		dat = cbind( x@dat$a, x@dat$b )
+		colnames(dat) = c('a','b')
+		if ( ! var(x@dat$c) == 0 ){
+			dat = cbind( dat, x@dat$c )
+			colnames(dat) = c('a','b','c')
+		}
+		mode(dat) = 'numeric'
+		rownames = rownames(x@dat)
+		bad= which(apply( dat,1, function(d) { all(is.na(d))}))
+		if ( length(bad) > 0 ) {
+			message( "pseudotimeTest3D - There are NA values in the dat matrix!")
+			if ( interactive() ) {browser()}
+			dat = dat[-bad,]
+			rownames= rownames[-bad]
+		}
+		opt = optGroupCountKmeans( dat )
+		group = kmeans( dat , opt )
+		dist_of_centers = NULL
+
+		if ( ncol(dat) == 2) {
+			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], rep(0, length(group$centers[,'b'])), group$cluster[1]-1 )
+		}
+		else {
+			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
+		}
+		end = which( dist_of_centers == max(dist_of_centers))
+
+		if ( length(which(is.na(dat))) > 0 ){
+			message( "pseudotimeTest3D - There are NA values in the dat matrix!")
+			if ( interactive() ) {browser()}
+		}
+
+		sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
+		slingTime = slingshot::slingPseudotime( sling )
+
+		## I am interested in the longest slope
+		use = 1
+		if ( ncol(slingTime) > 1){
+			tmp= apply( slingTime,2, function(x){ length(which(! is.na(x))) } )
+			use = which(tmp == max(tmp))
+		}
+		o = order( slingTime[,use])
+
+		x@dat$time = slingTime[,use]
+		x@dat$order = o
+		x@dat$x = sling@curves[[use]]$s[,1]
+		x@dat$y = sling@curves[[use]]$s[,2]
+		if ( var(x@dat$c) == 0 ){
+			x@dat$z = rep(0, nrow(slingTime))
+		}
+		else{
+			x@dat$z = sling@curves[[use]]$s[,3]
+		}
+		checkTime(x)
+	}
+ )
+
 
 #' @name plotTime
 #' @aliases plotTime,cellexalTime-method
@@ -94,64 +171,64 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 		id= (ncol(cellexalObj@userGroups) /2) + 1
 		x@gname = paste( "Time.group", id, sep="." ) 
 		if ( is.null( cellexalObj@usedObj$timelines )){
-		  cellexalObj@usedObj$timelines= list()
+			cellexalObj@usedObj$timelines= list()
 		}
 
-	if ( is.null( cellexalObj@usedObj$timelines) ) {
-		cellexalObj@usedObj$timelines = list()
-	}
-	cellexalObj@usedObj$timelines[['lastEntry']] = x
-	cellexalObj@usedObj$timelines[[ x@gname ]] = x
-	## I need to create a new one named 
-	info = groupingInfo(cellexalObj, upstreamSelection )
-	info$selectionFile = paste( sep=".", cellexalObj@usedObj$SelectionFiles[[ upstreamSelection ]], 'time')
-	info$timeObj = x
+		if ( is.null( cellexalObj@usedObj$timelines) ) {
+			cellexalObj@usedObj$timelines = list()
+		}
+		cellexalObj@usedObj$timelines[['lastEntry']] = x
+		cellexalObj@usedObj$timelines[[ x@gname ]] = x
+		## I need to create a new one named 
+		info = groupingInfo(cellexalObj, upstreamSelection )
+		info$selectionFile = paste( sep=".", cellexalObj@usedObj$SelectionFiles[[ upstreamSelection ]], 'time')
+		info$timeObj = x
 
-	info$gname = x@gname
-	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
+		info$gname = x@gname
+		cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
-	#if ( ! isTRUE(all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )) ){
-	m = match( rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
-	#}
-	## BUGFIX
+		#if ( ! isTRUE(all.equal( colnames(cellexalObj@data), rownames(cellexalObj@drc[[x@drc]]) )) ){
+		m = match( rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
+		#}
+		## BUGFIX
 
-	t1 = as.matrix(x@dat[,c('a','b','c')])
+		t1 = as.matrix(x@dat[,c('a','b','c')])
 
-	t2 = as.matrix(cellexalObj@drc[[x@drc]][m,1:3])
+		t2 = as.matrix(cellexalObj@drc[[x@drc]][m,1:3])
 
-	colnames(t1) = colnames(t2)
-	#rownames(t1) = rownames(t2)
-	if ( ! isTRUE( all.equal( t1, t2) ) ){
-		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
-		if(interactive()) { browser() }
-		stop( "The drc models are not the same!")
-	}
+		colnames(t1) = colnames(t2)
+		#rownames(t1) = rownames(t2)
+		if ( ! isTRUE( all.equal( t1, t2) ) ){
+			message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
+			if(interactive()) { browser() }
+			stop( "The drc models are not the same!")
+		}
 
-	if ( length(which(is.na(m)))>0){
-		stop("ERROR: This timeline describes cells that are not in the cellexalvrR object!")
-	}
+		if ( length(which(is.na(m)))>0){
+			stop("ERROR: This timeline describes cells that are not in the cellexalvrR object!")
+		}
 	
-	m = match( rownames(x@dat), colnames(cellexalObj@data) )
+		m = match( rownames(x@dat), colnames(cellexalObj@data) )
 
-	cellexalObj@userGroups[,x@gname] = NA
-	cellexalObj@userGroups[m,x@gname] = as.vector(x@dat$time)
+		cellexalObj@userGroups[,x@gname] = NA
+		cellexalObj@userGroups[m,x@gname] = as.vector(x@dat$time)
 
-	cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')] = NA
-	cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')] = order( x@dat$time )
+		cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')] = NA
+		cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')] = order( x@dat$time )
 	
-	#all.equal(cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')],  order( x@dat$time ) )
-	cellexalObj@usedObj$lastGroup = x@gname
-	#browser()
-	col = rep('gray80', ncol(cellexalObj@data))
-	col[m] = as.vector(x@dat$col)
-	#all.equal( rownames(cellexalObj@drc[[info$drc]])[m], rownames(x@dat))
-	#rgl::open3d()
-	#rgl::plot3d( cellexalObj@drc[[info$drc]], col=col)
-	#rgl::points3d (cbind( x@dat[,c('a','b')], 'c'= rep(1, nrow(x@dat)) ), col= as.vector(x@dat$col))
+		#all.equal(cellexalObj@userGroups[m,paste(x@gname, sep=" ", 'order')],  order( x@dat$time ) )
+		cellexalObj@usedObj$lastGroup = x@gname
+		#browser()
+		col = rep('gray80', ncol(cellexalObj@data))
+		col[m] = as.vector(x@dat$col)
+		#all.equal( rownames(cellexalObj@drc[[info$drc]])[m], rownames(x@dat))
+		#rgl::open3d()
+		#rgl::plot3d( cellexalObj@drc[[info$drc]], col=col)
+		#rgl::points3d (cbind( x@dat[,c('a','b')], 'c'= rep(1, nrow(x@dat)) ), col= as.vector(x@dat$col))
 
-#	rgl::plot3d( cellexalObj@drc[[info$drc]][ cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')],], col=wesanderson::wes_palette("Zissou1", nrow(cellexalObj@userGroups), type = "continuous") ) 
+		#rgl::plot3d( cellexalObj@drc[[info$drc]][ cellexalObj@userGroups[,paste(x@gname, sep=" ", 'order')],], col=wesanderson::wes_palette("Zissou1", nrow(cellexalObj@userGroups), type = "continuous") ) 
 
-	invisible( cellexalObj)
+		invisible( cellexalObj)
 } )
 
 

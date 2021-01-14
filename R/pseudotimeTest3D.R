@@ -65,94 +65,26 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 		unlink(file.path( outpath ,"*.pdf") )
 	}
 
-	#browser()
 	## base this on slingshot's implementation.
 	## But that needs groups.
-	dat = cbind( a, b, c )
-	if ( var(c) == 0){
-		dat = cbind(a,b)
-	}
-	mode(dat) = 'numeric'
+	info = groupingInfo(x, grouping )	
+	res = data.frame(
+		a = a,
+		b = b,
+		c = c
+	)
 
-	colnames = names(a)
-	bad= which(apply( dat,1, function(d) { all(is.na(d))}))
-	if ( length(bad) > 0 ) {
-		message( "pseudotimeTest3D - There are NA values in the dat matrix!")
-		if ( interactive() ) {browser()}
-		dat = dat[-bad,]
-		colnames= colnames[-bad]
-	}
-	
-	opt = optGroupCountKmeans( dat )
-	group = kmeans( dat , opt )
-	dist_of_centers = NULL
-	if ( ncol(dat) == 2) {
-		dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], rep(0, length(group$centers[,'b'])), group$cluster[1]-1 )
-	}else {
-		dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
-	}
-	end = which( dist_of_centers == max(dist_of_centers))
-	
-	if ( length(which(is.na(dat))) > 0 ){
-		message( "pseudotimeTest3D - There are NA values in the dat matrix!")
-		if ( interactive() ) {browser()}
-	}
-	
-	sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
-	slingTime = slingshot::slingPseudotime( sling )
-	## I am interested in the longest slope
-	use = 1
-	if ( ncol(slingTime) > 1){
-		tmp= apply( slingTime,2, function(x){ length(which(! is.na(x))) } )
-		use = which(tmp == max(tmp))
-	}
-	o = order( slingTime[,use])
-
-	if ( ncol(dat) == 2) {
-		o = order(slingTime[,use])
-		res = data.frame( 
-			time = slingTime[,use],
-			order = o,
-			x = sling@curves[[use]]$s[,1],
-			y = sling@curves[[use]]$s[,2],
-			z = rep(0, nrow(slingTime)) ,
-			a = a,
-			b = b,
-			c = rep(0, nrow(slingTime))
-		)
-		rownames(res) = rownames(slingTime)
-	}
-	else{
-		o = order(slingTime[,use])
-		res = data.frame( 
-			time = slingTime[,use],
-			order = o,
-			x = sling@curves[[use]]$s[,1],
-			y = sling@curves[[use]]$s[,2],
-			z = sling@curves[[use]]$s[,3],
-			a = a,
-			b = b,
-			c = c
-		)
-		rownames(res) = rownames(slingTime)
-	}
-	info = groupingInfo(x, grouping )
 	res = new('cellexalTime', dat= res, drc=info$drc)
-	res = checkTime(res)
-	## does the color and the line look OK?
-	#plotTime(res)
+	res = createTime( res )
 
 	## add the time as group:
 	#the VR program dependeds on it
-	
 	x = addSelection( res, x, grouping )
 
-	## does the time look ok 3when copied to the cellexal object?
+	## does the time look ok when copied to the cellexal object?
 	#fnames = drcPlots2Dtime( x, groupingInfo(x, colnames(x@userGroups)[ncol(x@userGroups) -1]) )
 	#system( paste('display', fnames[1]))
 
-	## no colnames: cell name, color, drc name and selection id - fille with 0
-	info = groupingInfo(x, grouping )
 	## create the .time selection file for cellexalVR
 	f= file.path( x@outpath, basename(info$selectionFile)) 
 	f= paste(sep=".", f, 'time')

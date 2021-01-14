@@ -13,7 +13,13 @@
 #' @param mat the expression matrix (col genes; row cells)
 #' @param fname the outfile base (.png for main .<i>.png for the slices)
 #' @title description of function simplePlotHeatmaps
-#' @export 
+#' @export
+#' @returns a list with the keys 
+#'   png - all outfiles created; first summary others heatmaps),
+#'   genes - the genes split into the displayed groups
+#'   ofile - the main outfile
+#'   error - any error occuring - should be included in the report.
+
 if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Name
 	function (x, mat, fname ) { 
 	#function ( mat, fname ) { 	
@@ -64,7 +70,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	## here more groups is likely better than less
 	optimum <- max ( which(der < max(der) / 1e+10) )
 	## this should not be standard, but lets just get a little more than that. Better more than too little info.
-	optimum = optimum + 2
+	optimum = optimum + 1
 	## now we lack the heatmap here... But I would need one - crap!
 	## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
 	gr = cutree(hc, optimum); 
