@@ -26,7 +26,7 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	if ( !is.null( cellexalObj@groupSelectedFrom[[gname]])){
 		return ( cellexalObj@groupSelectedFrom[[gname]] )
 	}
-	browser()
+	stop( "This object is not build up correctly - the session info is missing!")
 	cellexalObj@groupSelectedFrom[[gname]][['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
 	cellexalObj@groupSelectedFrom[[gname]][['grouping']] = cellexalObj@userGroups[, gname ]
 	

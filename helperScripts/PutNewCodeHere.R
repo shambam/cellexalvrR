@@ -1,3 +1,3 @@
-rerunTimeAnalysis <- function (x, group, drc ) {
+CompareToSubset <- function (x, timeline, cells ) {
 	
 }

@@ -77,6 +77,10 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	i = 1
 	## now I need to cellexalTime object:
 	time = x@usedObj$timelines[[basename(fname)]]
+	if ( is.null( time) ){
+		time = x@usedObj$timelines[[paste(basename(fname), 'timeline')]]
+	}
+	
 
 	clusterC = rainbow( max(gr) )
 	toPlot = time@dat[,c('time', 'col') ]
