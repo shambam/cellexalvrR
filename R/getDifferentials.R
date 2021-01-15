@@ -109,12 +109,13 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				 	info$drc = names(loc@drc )[1] ## for the log!
 				 	drc = loc@drc[[ 1 ]]
 				}
+				
 				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )
 
 				cellexalTime = loc@usedObj$timelines[[ 'lastEntry' ]]
 
-				info = groupingInfo( loc, cellidfile )
-				loc = createStats( cellexalTime, loc, info )
+				info = groupingInfo( loc, cellexalTime@parentSelection )
+				loc  = createStats( cellexalTime, loc, info )
 				timeInfo = groupingInfo( loc )
 				if ( is.null(x@usedObj$sigGeneLists$lin)){
 					x@usedObj$sigGeneLists$lin = list()

@@ -75,7 +75,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	)
 
 	res = new('cellexalTime', dat= res, drc=info$drc)
-	res = createTime( res )
+	res = createTime( res, info )
 
 	## add the time as group:
 	#the VR program dependeds on it
