@@ -27,7 +27,7 @@ if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Nam
 	}
 ) }
 
-setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
+setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character'),
 	definition = function ( x, info, fname ) {
 	#definition = function ( mat, fname ) {
 
@@ -35,22 +35,32 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	if ( ! file.exists(path) ) {
 		dir.create( path, recursive=TRUE)
 	}
+	if ( ! class(info) == 'list'){
+		stop("I need an info list as obtained from calling groupingInfo")
+	}
+
 	info = groupingInfo(x, info$gname) ## make sure we only have the info we need.
+	
 	if ( length(which(!is.na(info$grouping))) > 0 ){
 		x=reduceTo(x, what='col', to=colnames(x@data)[which(!is.na( x@userGroups[,info$gname]))] )
 		x= reorder.samples( x, paste(info$gname, 'order'))
 		info = groupingInfo(x, info$gname)
 	}
-
-	mat = FastWilcoxTest::ZScoreAll( x@data ) 
-	colnames(mat) = colnames(x@data)
-	rownames(mat) = rownames(x@data)
+	if ( ! is.null(x@usedObj$deg.genes) ) {
+		mat = FastWilcoxTest::ZScoreAll( x@data[x@usedObj$deg.genes,], display_progress=FALSE ) 
+		colnames(mat) = colnames(x@data)
+		rownames(mat) = x@usedObj$deg.genes
+	}else {
+		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
+		colnames(mat) = colnames(x@data)
+		rownames(mat) = rownames(x@data)
+	}
 	
-
+	
 	gr = clusterGenes( mat  ) 
 
 	## now I need to cellexalTime object:
-	time = x@usedObj$timelines[[basename(fname)]]
+	time = x@usedObj$timelines[[info$gname]]
 	if ( is.null( time ) ){
 		time = x@usedObj$timelines[[paste(basename(fname), 'timeline')]]
 	}
@@ -67,8 +77,6 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	mi = 1000
 	error= NULL
 	if ( ncol(mat) != nrow(time@dat)) {
-		error = "The timeline function has failed to asigne a time to each selected cell - fix the selection to avoid this problem!"
-		message( error )
 		m= match( rownames(time@dat), rownames(mat))
 		mat = mat[m,]
 	}
@@ -85,7 +93,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 		ids = sort(ids)
 		B = FastWilcoxTest::collapse( x@data, ids, 2 )
 		B <- Matrix::Matrix(B, sparse = TRUE)
-		mat = FastWilcoxTest::ZScoreAll( B ) 
+		mat = FastWilcoxTest::ZScoreAll( B, display_progress=FALSE ) 
 		colnames(mat) = colnames(1:1000)
 		rownames(mat) = rownames(x@data)
 		mat =t(mat)
@@ -172,7 +180,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR'),
 	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
 	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
 	pl = pl + ggplot2::ylab( "pseudotime" )
-	print(pl)
+	print(pl) #write the plot
 	dev.off()
 
 	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error, mat=mat )
@@ -210,7 +218,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 		if ( ! is.null(info) ) {
 			x= reduceTo( x, what='col', colnames(x@data)[which(! is.na( x@userGroups[, info$gname]))] )
 		}
-		mat = FastWilcoxTest::ZScoreAll( x@data ) 
+		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
 		colnames(mat) = colnames(x@data)
 		rownames(mat) = rownames(x@data)
 

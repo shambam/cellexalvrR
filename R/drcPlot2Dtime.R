@@ -23,7 +23,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
 		
-		print ( paste( cellexalObj@outpath, sessionPath))
+		#print ( paste( cellexalObj@outpath, sessionPath))
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}
@@ -57,7 +57,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		col = color(timeline, rownames(drc))
 
    		p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,2], col = col) ) #function definition in file drcPlot2D.R
-    	print(p)
+    	print(p) #write the plot
 		dev.off()
 
 
@@ -69,7 +69,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 			grDevices::png( file= DRC2, width=1000, height=1000)
 			p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,3],col= col) ) #function definition in file drcPlot2D.R
-    		print(p)
+    		print(p) #write the plot
 			dev.off()
 		}
 		

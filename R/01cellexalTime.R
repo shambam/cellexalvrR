@@ -25,6 +25,20 @@ setClass("cellexalTime",
 )
 
 
+setMethod('show', signature = c ('cellexalTime'),
+	definition = function ( object ) {
+		cat (paste("An object of class", class(object)),"with id", object@id,"\n" )
+
+		#cat("named ",object@name,"\n")
+		cat (paste( 'with',nrow(object@dat),'time points and', ncol(object@dat),' values.'),"\n")
+		cat( paste( 'The object is basis for the cellexalvrR grouping', object@gname)) 
+		cat( paste( 	"\nand based on the selection", object@parentSelection) )
+		if ( length(object@geneClusters) >0 ) {
+			cat ( paste("has been analyzed and contains information about", length(object@geneClusters), 'Gene lists'))
+		}
+		cat('\n')
+	}
+)
 
 #' @name addSelection
 #' @aliases addSelection,cellexalTime-method
@@ -58,7 +72,7 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 			done=0
 			for ( n in names(cellexalObj@usedObj$timelines)){
 				if ( cellexalObj@usedObj$timelines[[n]]@id == x@id ) {
-					## this should be removed
+					x@gname = cellexalObj@usedObj$timelines[[n]]@gname
 					cellexalObj@usedObj$timelines[[n]] = x
 					done=1
 				}
@@ -364,7 +378,9 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 #' It answers this in a graphical, not a statistical way.
 #' Hence you can feed whichever genelist you like into this function.
 #' 
-#' It will produce a log entry containing 
+#' It will cluster these genes based on all data and use this clusering throughout.
+#' Hence the two xy line graphs can directly be compared.
+#'
 #' @name createDetailedComparison
 #' @aliases createDetailedComparison,cellexalTime-method
 #' @rdname createDetailedComparison-methods
@@ -400,7 +416,7 @@ setMethod('createDetailedComparison', signature = c ('cellexalTime'),
 		loc = reduceTo( loc, what='col', 
 			to=rownames(loc)[which(!is.na( loc@userGroups[,paste(x@gname, 'order')]))] )
 		loc = reorder.samples( loc, paste(x@gname, 'order') )
-		zscored = FastWilcoxTest::ZScoreAll( loc@data) 
+		zscored = FastWilcoxTest::ZScoreAll( loc@data, display_progress=FALSE ) 
 		colnames(zscored) = colnames(loc@data)
 		rownames(zscored) = rownames(loc@data)
 		## plot the main grouping on the total dataset
@@ -911,7 +927,7 @@ setMethod('plotDataOnTime', signature = c ('cellexalTime'),
 	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
 	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
 	pl = pl + ggplot2::ylab( "pseudotime" )
-	print(pl)
+	print(pl) # write the plot data
 	dev.off()
 
 
