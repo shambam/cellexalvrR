@@ -120,14 +120,14 @@ drcFiles2HTMLtime = function( cellexalObj, gInfo, addOn = NULL ) {
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 	drcFiles =sapply( drcPlots2Dtime( cellexalObj, gInfo ), correctPath, cellexalObj )
 	str = c(
-		paste( "### 2D DRC", gInfo$drc, " dim 1,2", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 1,2", addOn),"\n",
 		paste("![](",drcFiles[1],")"),
 		'',"")
 	if ( ! is.na(drcFiles[2]) ){
 		str = c( str, 
-		paste( "### 2D DRC", gInfo$drc, " dim 2,3", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 2,3", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
 		"","")
 	}
-	str
+	paste( str, collapse="\n", sep="" )
 }

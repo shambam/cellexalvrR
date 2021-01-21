@@ -20,9 +20,9 @@
 #' @docType methods
 #' @description Calculate and plot pseudotime relevant information.
 #' @param x a cellexalvrR object
-#' @param a the first time defining vector (e.g. a MDS dimension)
-#' @param b the second time defining vector (e.g. a MDS dimension)
-#' @param c the third time defining vector (e.g. a MDS dimension)
+#' @param a the first time defining vector (e.g. a MDS dimension) depricated
+#' @param b the second time defining vector (e.g. a MDS dimension) depricated
+#' @param c the third time defining vector (e.g. a MDS dimension) depricated
 #' @param grouping a samples grouping to color the Pseudotime plot.
 #' @param outpath a outpath for the files  default=sessionPath(x)
 #' @param n how many genes to plot on both sides default=100
@@ -35,14 +35,14 @@
 #' @title description of function pseudotimeTest3D
 #' @export 
 if ( ! isGeneric('pseudotimeTest3D') ){setGeneric('pseudotimeTest3D', ## Name
-	function ( x, a, b, c, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
+	function ( x, a=NULL,  b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
 			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL) { 
 		standardGeneric('pseudotimeTest3D')
 	}
 ) }
 
 setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
-	definition = function ( x, a, b,c, grouping, outpath=NULL,  n=100, plotGenes=NULL, 
+	definition = function ( x, a=NULL, b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, 
 			smooth = 100, invert=FALSE, cleanFolder=FALSE, plotType='png' , summaryPlot=NULL ) {
 
 		openPlot <- function(fname) {
@@ -67,19 +67,23 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 
 	## base this on slingshot's implementation.
 	## But that needs groups.
-	info = groupingInfo(x, grouping )	
-	res = data.frame(
-		a = a,
-		b = b,
-		c = c
-	)
+	info = groupingInfo(x, grouping )
+	loc = reduceTo( x, 'col', to=colnames(x@data)[which(! is.na( info$grouping))])
 
-	res = new('cellexalTime', dat= res, drc=info$drc)
+	if ( is.null( x@drc[[info$drc]] )){
+		stop( paste("the source drc", info$drc, "could not be found in the object.") )
+	}
+	drc = loc@drc[[info$drc]][,1:3]
+	colnames(drc) = c('a', 'b' ,'c')
+
+	res = new('cellexalTime', dat= data.frame(drc), drc=info$drc)
+	info = groupingInfo(loc, grouping )
 	res = createTime( res, info )
 
 	## add the time as group:
 	#the VR program dependeds on it
 	x = addSelection( res, x, grouping )
+
 
 	## does the time look ok when copied to the cellexal object?
 	#fnames = drcPlots2Dtime( x, groupingInfo(x, colnames(x@userGroups)[ncol(x@userGroups) -1]) )

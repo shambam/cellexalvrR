@@ -41,12 +41,12 @@ grouping <- file.path(prefix, 'data', gFile )
 
 x = userGrouping( x, grouping)
 
-x = getDifferentials( x,'User.group.1', deg.method= 'wilcox' , Log=TRUE)
+x = getDifferentials( x,cellidfile='User.group.1', deg.method= 'wilcox' , Log=TRUE)
 
 expect_equal( names(x@usedObj$timelines), c("lastEntry", "Time.group.2" ), label="correct time names")
 
 expect_equal(names(x@usedObj$timelines[["Time.group.2"]]@geneClusters[["Time.group.2"]]),
-			c("1","2","3","4","5"), label = "geneClusters are part of the timelines" )
+			c("1","2","3","4","5",'6'), label = "geneClusters are part of the timelines" )
 
 
 subset = rownames(x@usedObj$timelines[["lastEntry"]]@dat)[seq(1,nrow(x@usedObj$timelines[["lastEntry"]]@dat),2)]
@@ -58,14 +58,14 @@ x = timeAnalysisSubset( timeSubset, x )
 expect_equal( names(x@usedObj$timelines), c("lastEntry", "Time.group.2", "Time.group.3" ), label="correct time names #2")
 
 expect_equal(names(x@usedObj$timelines[["Time.group.3"]]@geneClusters[["Time.group.3"]]),
-			c("1","2","3","4","5"), label = "geneClusters are part of the timelines #3" )
-browser()
+			c("1","2","3","4","5","6"), label = "geneClusters are part of the timelines #3" )
+
 expect_equal(names(x@usedObj$timelines[["Time.group.3"]]@geneClusters[["Time.group.2"]]),
-			c("1","2","3","4","5"), label = "geneClusters in #3 also contain #2 genes lists" )
+			c("1","2","3","4","5","6"), label = "geneClusters in #3 also contain #2 genes lists" )
 
 x= renderReport( x )
 
-ofile = file.path( prefix, 'data','output', 'timeLineTest2', 'session-log-for-session-timesession-only-one.html' )
+ofile = file.path( prefix, 'data','output', 'timeLineTest', 'session-log-for-session-timesession-subsets.html' )
 expect_true( file.exists( ofile), label= ofile )
 
 ## check the html file for duplicated entries (sections).
@@ -74,8 +74,9 @@ collect = list(
 	'TimeLine control from Saved Selection' = 0,
 	'as group Time.group.2' = 0,
 	'Time.group.2.Linear.csv' = 0,
-	'Session Log for Session timeSession_only_one' = 0,
-	'2D DRC DDRtree dim 2,3 time line' = 0
+	'Session Log for Session timeSession_subsets' = 0,
+	'2D DRC DDRtree dim 2,3 time line' = 0,
+	'href="https://www.genecards.org/cgi-bin/' = 0
 )
 con = file(ofile, "r")
 while ( TRUE ) {
@@ -91,11 +92,12 @@ while ( TRUE ) {
 }
 close(con)
 expt = list( 
-	'TimeLine control from Saved Selection' = 2, # one in the text and one in the TOC
+	'TimeLine control from Saved Selection' = 4, # one in the text and one in the TOC
 	'as group Time.group.2' = 1,
 	'Time.group.2.Linear.csv' = 1,
-	'Session Log for Session timeSession_only_one' = 2, # one in the text and one in the TOC
-	'2D DRC DDRtree dim 2,3 time line' = 2 # this figure is shown twice..
+	'Session Log for Session timeSession_subsets' = 2, # one in the text and one in the TOC
+	'2D DRC DDRtree dim 2,3 time line' = 4, # this figure is shown twice..
+	'href="https://www.genecards.org/cgi-bin/' = 500 # two 250 gene lists.
 )
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 

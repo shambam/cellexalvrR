@@ -24,6 +24,7 @@ setMethod('reset', signature = c ('cellexalvrR'), definition = function ( x ) {
 	x@usedObj$SelectionFiles = list()
 	x@groupSelectedFrom = list()
 	x@usedObj$timelines = list()
+	cellexalObj@usedObj$sigGeneLists = list()
 	#x@outpath= getwd()
 	if ( file.exists( file.path(x@outpath, 'mainServer.sessionName')) ){
 		unlink( file.path(x@outpath, 'mainServer.sessionName') )

@@ -19,7 +19,7 @@ Imports:
 	AnnotationDbi,
 	bookdown,
 	digest,
-	FastWilcoxTest (>= 0.1.13),
+	FastWilcoxTest (>= 0.1.14),
 	GeneNet,
 	ggplot2,
 	gplots,

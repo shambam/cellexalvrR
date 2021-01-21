@@ -110,12 +110,13 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				 	drc = loc@drc[[ 1 ]]
 				}
 				
-				loc = pseudotimeTest3D( loc, drc[,1], drc[,2], drc[,3], info$gname )
+				loc = pseudotimeTest3D( loc, grouping= info$gname )
 
 				cellexalTime = loc@usedObj$timelines[[ 'lastEntry' ]]
 
 				info = groupingInfo( loc, cellexalTime@parentSelection )
-				loc  = createStats( cellexalTime, loc, info )
+
+				loc  = createStats( cellexalTime, loc,  num.sig= num.sig )
 				timeInfo = groupingInfo( loc )
 				if ( is.null(x@usedObj$sigGeneLists$lin)){
 					x@usedObj$sigGeneLists$lin = list()
@@ -126,130 +127,17 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				x@usedObj$lastGroup = lastG
 				x@usedObj$deg.genes = loc@usedObj$deg.genes
 				x = addSelection( cellexalTime, x, info$gname )
+				
 
-				ret = createReport( cellexalTime, x, timeInfo )
+				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
 
 
 				cellexalTime= ret$timeline
-				x = ret$cellexalObj
+				#x = ret$cellexalObj
 
 				x= addSelection(cellexalTime, x, info$gname )
 				deg.genes = loc@usedObj$deg.genes
 
-				# #browser()
-				# if ( !is.null(rownames(drc))){
-				# 	OK = match( rownames(drc), colnames(x@data) )
-				# }else {
-				# 	OK = match( colnames(loc@data), colnames(x@data) )
-				# }
-				# a = drc[,1]
-
-				# if ( is.null(names(a))) {
-				# 	names(a) = colnames(x@data)[OK]
-				# }
-				# 
-
-				# message("After timeline calculation in smaller object:")
-				# loc = check(loc)
-
-				# ## so the new group needs to get into the main object:
-				# gname = loc@usedObj$lastGroup
-				# gnameO =  paste(sep=" ",gname , 'order')
-
-
-				# cellexalTime = loc@usedObj$timelines[[ gname ]] 
-				# #browser()
-				# x = addSelection( cellexalTime, x, info$gname)
-				# message("after time copy over:")
-				# check(x)
-				# #  rgl::plot3d( drc[OK,1], drc[OK,2], drc[OK,3], col=x@colors[[gname]][ x@userGroups[OK, gname ] ] )
-
-				# ## run the correlation on a rolling window smothed information
-				# ## It does not make sense to check genes that are hardly expressed at all in the group.
-				# ## Lets say I want min 10% of the genes - how would that look?
-				# nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
-				# OK = which( nCells / ncol(loc@data)  > .01 )
-
-				# loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
-				# ## this leads to horrible results
-				# if ( FALSE){
-				# 	nrol = round( length(OK) / 100 )
-				# 	if ( nrol < 10){
-				# 		nrol = 10
-				# 	}
-				# 	if ( nrol > 500){
-				# 		nrol = 500
-				# 	}	
-
-				# 	rolled <- FastWilcoxTest::rollSum( loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], nrol )
-				# 	## create the stats
-				# 	ps <- FastWilcoxTest::CorNormalMatrix(  t(rolled), loc@userGroups[nrol:ncol(loc@data), gname ] ) 
-				# }
-				# ps = FastWilcoxTest::CorMatrix_N(  loc@data[, order(as.vector(loc@userGroups[, gname ] )) ], loc@userGroups[, gname ] ) 
-				# rownames(ps) = rownames(loc@data)
-				
-				# ps = cbind(ps, apply( ps, 1, 
-				# 	function(dat){ 
-				# 		if( dat[2] < 3){1.1}
-				# 		else { 
-				# 			2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
-				# 				pt( dat[3], dat[2]-2,lower.tail = FALSE ) ) }
-				# 			} )
-				# )
-				# colnames(ps) = c('cor', 'n', 't', 'p.value')
-
-				# ps[which(is.na(ps[,1])),1] = 0
-				# o = order(ps[,'cor'])
-				# ps = ps[o,]
-
-				# #deg.genes = names(ps)[o[1:num.sig]]
-				# n = round( num.sig / 2)
-				# deg.genes = c(rownames(ps)[1:n], rev(rownames(ps))[n:1] )
-				# if ( !is.null(report4genes)) {
-				# 	deg.genes = report4genes
-				# }
-				# if ( is.null( x@usedObj$timelines)) {
-				# 	x@usedObj$timelines = list()
-				# }
-				# x@usedObj$timelines[['lastEntry']] = loc@usedObj$timelines[['lastEntry']]
-				# x@usedObj$timelines[[paste(info$gname, 'timeline')]] = loc@usedObj$timelines[['lastEntry']]
-				
-				# ## now we lack the heatmap here... But I would need one - crap!
-				# ## create the smoothed data heatmap's
-
-				# #ploot =  rolled[match( deg.genes,rownames(loc@data)), ]
-				# text = NULL
-				# bad= which(is.na(match(deg.genes, rownames(loc@data)) ))
-				# if ( length(bad) > 0) {
-				# 	bad.genes = paste( collapse=", ", deg.genes[bad] )
-				# 	deg.genes = deg.genes[-bad]
-				# 	text = paste(collapse=" ", sep=" ",
-				# 		"From the requested gene list the gene(s)", 
-				# 		bad.genes, 
-				# 		"is/are not expressed in at least 1% of the cells." 
-				# 		)
-				# }
-				# p =  apply(loc@data[deg.genes, order(as.vector(loc@userGroups[, gname ] )) ]
-				# 	, 1, 
-				# 	function(x) {( x- mean(x)) / sd(x) } )
-				# colnames(p) = deg.genes
-				# hc = hclust( as.dist( 1- stats::cor(p, method='pearson') ) )
-				# deg.genes = hc$labels[hc$order]
-
-				# #ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
-				# o = order(ps[,'p.value'])
-				# ps = ps[o,]
-				# ## add the plots to the log
-				# try({
-				# 	x= logStatResult ( x, method ='Linear', data=ps, col='p.value'	 )
-				# } )
-				# try({
-				# 	ret = simplePlotHeatmaps(x, mat= p,  fname=file.path( x@usedObj$sessionPath,'png', gname ) )
-				# 	x = logTimeLine( x, ps, ret$genes, 
-				# 		groupingInfo( x,info$gname), png = c( ret$ofile, ret$pngs ), groupingInfo( x, gname ), text= paste(text, ret$error, sep=" ", collapse=" ") ) 
-				# } )
-				
-				# x@usedObj$sigGeneLists$lin[[x@usedObj$lastGroup]] = ps
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
 				CppStats <- function( n ) {

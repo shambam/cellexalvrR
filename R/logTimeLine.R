@@ -51,7 +51,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	 paste( "##", "TimeLine control from Saved Selection ", 
 	 	sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),"",
 		paste("This TimeLine is available in the R object as group",
-			cellexalObj@usedObj$lastGroup ),
+			timeInfo$gname ),
 		""
 	)
 	
