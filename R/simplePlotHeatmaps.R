@@ -40,13 +40,19 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	}
 
 	info = groupingInfo(x, info$gname) ## make sure we only have the info we need.
-	
 	if ( length(which(!is.na(info$grouping))) > 0 ){
 		x=reduceTo(x, what='col', to=colnames(x@data)[which(!is.na( x@userGroups[,info$gname]))] )
 		x= reorder.samples( x, paste(info$gname, 'order'))
 		info = groupingInfo(x, info$gname)
 	}
+	
 	if ( ! is.null(x@usedObj$deg.genes) ) {
+		m = match(x@usedObj$deg.genes, rownames(x@data) )
+		if ( length(which(is.na(m))) > 0 ){
+			stop(paste("Gene(s)",
+				paste(collapse=", ",x@usedObj$deg.genes[which(is.na(m))] ), 
+				"are missing in the cellexalObj" ) )
+		}
 		mat = FastWilcoxTest::ZScoreAll( x@data[x@usedObj$deg.genes,], display_progress=FALSE ) 
 		colnames(mat) = colnames(x@data)
 		rownames(mat) = x@usedObj$deg.genes
@@ -110,7 +116,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 		toPlot = data.frame(
 		 time=unlist(lapply( split( time@dat[,'time'], ids ), mean)), 
 		 col= unlist(lapply( split( as.vector(time@dat[,'col']), ids ), 
-		 	function(x) { t=table(x); names(t)[which(t==max(t))]})) 
+		 	function(x) { t=table(x); names(t)[which(t==max(t))[1]]})) 
 		 )
 	}
 

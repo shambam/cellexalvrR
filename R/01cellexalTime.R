@@ -194,7 +194,7 @@ setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
 			colnames(mine) = c('x', 'y','z')
 			colnames(other) = c('x','y','z')
 			if ( !isTRUE( all.equal( as.matrix(mine), as.matrix(other))) ) {
-				error = c( error, "The drc DATA is incorrect!")
+				x@dat = x@dat[which(!is.na(ids)),]
 			}
 		}
 
@@ -530,6 +530,8 @@ setMethod('createReport', signature = c ('cellexalTime'),
 	text = NULL
 	if ( is.null(deg.genes)){
 		deg.genes = cellexalObj@usedObj$deg.genes
+	}else {
+		cellexalObj@usedObj$deg.genes = deg.genes
 	}
 	bad= which(is.na(match(deg.genes, rownames(cellexalObj@data)) ))
 	if ( length(bad) > 0) {
