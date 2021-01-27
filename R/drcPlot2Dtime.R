@@ -52,7 +52,15 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 			## if it is already a Time.group we look at we are fine!
 			timeline = cellexalObj@usedObj$timelines[[gInfo$gname]]
 		}
-
+		if ( is.null(timeline) ) {
+			if (cellexalObj@usedObj$timelines[["lastEntry"]]@gname == gInfo$gname ){
+				timeline = cellexalObj@usedObj$timelines[["lastEntry"]]
+			}
+			else {
+				browser()
+				return( drcPlots2D( cellexalObj, gInfo ) )
+			}
+		}
 		id = as.numeric(factor(color(timeline,rownames(drc))))
 		col = color(timeline, rownames(drc))
 
@@ -120,12 +128,12 @@ drcFiles2HTMLtime = function( cellexalObj, gInfo, addOn = NULL ) {
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 	drcFiles =sapply( drcPlots2Dtime( cellexalObj, gInfo ), correctPath, cellexalObj )
 	str = c(
-		paste( "### 2D DRC", gInfo$drc, "dim 1,2", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 1,2","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[1],")"),
 		'',"")
 	if ( ! is.na(drcFiles[2]) ){
 		str = c( str, 
-		paste( "### 2D DRC", gInfo$drc, "dim 2,3", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 2,3","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
 		"","")
 	}

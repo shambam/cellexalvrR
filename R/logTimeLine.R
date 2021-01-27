@@ -43,7 +43,6 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	## now I need to create the 2D drc plots for the grouping
 	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
 
-
 	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath, cellexalObj) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
@@ -79,13 +78,10 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 	content = paste( collapse=" ", sep=" ",content,"\n\nGene group ",i,
 		paste("\n![](",correctPath(png[i+1], cellexalObj),")\n"),
-		paste( collapse=" ", sep=" ",
-		 unlist( lapply(sort(genes[[i]]), function(n) { 
-		 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
-		"\n")
+		md_gene_links ( sort(genes[[i]]) )
+	)
 	}
 	content = paste( collapse="\n", content,
-
 		#paste(collapse = "\n", sep="\n",drcFiles2HTML(cellexalObj, info, "original selection")), #function definition in file 'drcPlot2D.R'
 		paste(collapse = "\n", sep="\n",drcFiles2HTMLtime(cellexalObj, info, "time line")) #function definition in file 'drcPlot2Dtime.R'
 

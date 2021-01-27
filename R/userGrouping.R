@@ -90,8 +90,10 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 				sessionStoreFile() ## local function
 			}
 		}
-		colorIDs = unique(cellexalObj@userGroups[,gname][which(!is.na(cellexalObj@userGroups[,gname]))])
-		colR =  cellid[match( colorIDs-1, cellid[,4]),2]
+
+		colorIDs = as.numeric(unique(cellexalObj@userGroups[,gname][
+			which(!is.na(cellexalObj@userGroups[,gname]))]))
+		colR =  cellid[match( colorIDs-1, as.numeric(cellid[,4])),2]
 		colVR = c()
 		for ( i in 1:length(colR)) {
 			colVR[colorIDs[i]] = colR[i]

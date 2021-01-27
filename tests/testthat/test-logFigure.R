@@ -28,10 +28,11 @@ context('log figure - stats first')
 x@userGroups=data.frame()
 x@usedObj$lastGroup = NULL
 x@usedObj$SelectionFiles = list()
+
 x = getDifferentials(x, grouping, 'wilcox', num.sig=100, Log=FALSE, logfc.threshold = .1, minPct=0.1 )
 
 expect_true( length( x@usedObj$deg.genes) == 102, info = paste("wrong gene number c++ wilcox", length( gene2) ) )
-x= logStatResult ( x, x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]],method= 'wilcox', 'p.value')
+#x= logStatResult ( x, x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]],method= 'wilcox', 'p.value')
 
 ofile=  file.path( x@usedObj$sessionPath, 'AB_Stats_paritalLog.Rmd' )
 expect_true( file.exists( ofile), label = ofile)
@@ -61,11 +62,23 @@ dev.off()
 cellexalObj = logHeatmap(x, genes=x@usedObj$deg.genes, 
 	png=file.path( x@usedObj$sessionPath, 'testHeatmap.png'), grouping = grouping )
 
-ofile=  file.path( x@usedObj$sessionPath, 'AD_Heatmap_paritalLog.Rmd' )
-expect_true( file.exists( ofile), label = ofile)
+
+files = c(
+'AA_Start_paritalLog.Rmd',
+'AB_Stats_paritalLog.Rmd',
+'AC_Figure_paritalLog.Rmd',
+'AD_Heatmap_paritalLog.Rmd'
+)
+
+for ( ofile in files ) {
+	expect_true( file.exists( 
+		file.path( x@usedObj$sessionPath, ofile ) ), label = ofile)
+}
 
 cellexalObj = renderReport( cellexalObj )
 
+#session-log-for-session-2021-01-25-11-18-32.html
+#session-log-for-session-logFigureTest.html
 ofile=  file.path( x@outpath, 'session-log-for-session-logFigureTest.html' )
 expect_true( file.exists( ofile), label = ofile)
 

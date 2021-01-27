@@ -6,6 +6,25 @@ prefix = './'
 
 #genes <- file.path(prefix, 'data/heatmap_0.txt')
 
+checkFile = function ( collect, ofile ) {
+
+	con = file(ofile, "r")
+	while ( TRUE ) {
+  	line = readLines(con, n = 1)
+ 	if ( length(line) == 0 ) {
+   		break
+  	}
+  	for ( na in names(collect) ){
+  		if ( length(grep( na, line))> 0){
+  			collect[[na]] = collect[[na]] +1
+  		}
+  	}
+	}
+	close(con)
+
+	collect
+}
+
 #genes = read.delim(genes)[,1]
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
@@ -53,28 +72,20 @@ collect = list(
 	'as group Time.group.2' = 0,
 	'Time.group.2.Linear.csv' = 0,
 	'Session Log for Session timeSession_only_one' = 0,
-	'2D DRC DDRtree dim 2,3 time line' = 0
+	'2D DRC DDRtree dim 2,3' = 0
 )
-con = file(ofile, "r")
-while ( TRUE ) {
-  line = readLines(con, n = 1)
-  if ( length(line) == 0 ) {
-    break
-  }
-  for ( na in names(collect) ){
-  	if ( length(grep( na, line))> 0){
-  		collect[[na]] = collect[[na]] +1
-  	}
-  }
-}
-close(con)
+
 expt = list( 
 	'TimeLine control from Saved Selection' = 2, # one in the text and one in the TOC
 	'as group Time.group.2' = 1,
 	'Time.group.2.Linear.csv' = 1,
 	'Session Log for Session timeSession_only_one' = 2, # one in the text and one in the TOC
-	'2D DRC DDRtree dim 2,3 time line' = 2 # this figure is shown twice..
+	'2D DRC DDRtree dim 2,3' = 2 # this figure is shown twice..
 )
+expt[[x@outpath]] = 0
+collect[[x@outpath]] = 0
+collect = checkFile(collect, ofile )
+
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 
 ##################################################

@@ -32,4 +32,5 @@ setMethod('rmdLink', signature = c ('character'),
 			}else {
 				paste( sep="", "[", name,"](",link,name,")")
 			}
-		} )
+	} 
+)

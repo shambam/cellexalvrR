@@ -18,5 +18,9 @@ the cellexalTime class is mainly to bring a usable order into the time mess
 \item{\code{gname}}{the group name}
 
 \item{\code{drc}}{the drc name this object has been selected from}
+
+\item{\code{error}}{the error message if a catched not fatal error has occured}
+
+\item{\code{geneClusters}}{a list of gene clusters that are linked to a timeline}
 }}
 

@@ -89,12 +89,9 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	colnames(GOI_2_genes) = c("GO ID", "Rmd Gene list", "Mapping Gene List")
 	for( i in 1:nrow(allRes) ) {
 		GOI_2_genes[i,1] = allRes[i,1]
-		GOI_2_genes[i,2] =  paste( intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]), collapse=" ")
-		GOI_2_genes[i,3] = paste(
-				unlist( lapply(	intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]),
-		            rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=", lineEnd=FALSE ))
-			, collapse=" "
-	    )
+		GOI_2_genes[i,2] = paste( intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]), collapse=" ")
+		GOI_2_genes[i,3] = md_gene_links ( intersect( genes,cellexalObj@usedObj$GO2genes[[allRes[i,1]]]) )
+
 	}
 	for ( i in 1:nrow(allRes) ) {
 		allRes[i,1] = rmdLink(allRes[i,1],"http://amigo.geneontology.org/amigo/term/", lineEnd=FALSE ) #function definition in file 'rmdLink.R'
@@ -139,7 +136,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
-					paste( collapse=", ", unlist( lapply( genes,  rmdLink, link="https://www.genecards.org/cgi-bin/carddisp.pl?gene=" ))),
+					md_gene_list( genes ),
 					"",
 					paste( "The R package topGO was used to create this output table:"),
 					" ",

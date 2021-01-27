@@ -58,7 +58,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 			'<table>',
 			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
 			paste(collapse="\n",
-				sapply( as.vector(tab[,x@usedObj$lastGroup]), function(id){
+				sapply( as.numeric(as.vector(tab[,x@usedObj$lastGroup])), function(id){
 				paste(sep="",
 					'<tr><td style="background-color:', 
 					x@colors[[x@usedObj$lastGroup]][id],'"',

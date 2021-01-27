@@ -7,8 +7,7 @@
 \title{description of function vioplot}
 \usage{
 vioplot(
-  x,
-  ...,
+  datas,
   range = 1.5,
   h = NULL,
   ylim = NULL,
@@ -31,9 +30,7 @@ vioplot(
 )
 }
 \arguments{
-\item{x}{a numerix vector}
-
-\item{...}{additional numerix vectors to plot}
+\item{datas}{a list with all data to plot}
 
 \item{range}{TEXT MISSING default= 1.5}
 

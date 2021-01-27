@@ -4,7 +4,7 @@
 \name{HTMLtable}
 \alias{HTMLtable}
 \alias{HTMLtable,cellexalTime-method}
-\title{description of function color}
+\title{description of function HTMLtable}
 \arguments{
 \item{x}{the cellexalTime object}
 }
@@ -12,6 +12,5 @@
 return the HTMLtable in exactly the right format
 }
 \details{
-returns a color vector based on the intern col column and the cell names
-Not time containing cells will get gray(0.6) as color.
+returns a html formate table describing one timeline
 }

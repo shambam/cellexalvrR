@@ -15,7 +15,8 @@
   Log = TRUE,
   logfc.threshold = 0.1,
   minPct = 0.1,
-  onlyPos = TRUE
+  onlyPos = TRUE,
+  report4genes = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@
 \item{minPct}{the minium percent expressing cells in a group (default 0.1)}
 
 \item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
+
+\item{report4genes}{a list of genes you want to get a report on.}
 }
 \value{
 the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]]

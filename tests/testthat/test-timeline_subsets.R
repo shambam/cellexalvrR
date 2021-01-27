@@ -7,6 +7,25 @@ prefix = './'
 
 #genes <- file.path(prefix, 'data/heatmap_0.txt')
 
+checkFile = function ( collect, ofile ) {
+
+	con = file(ofile, "r")
+	while ( TRUE ) {
+  	line = readLines(con, n = 1)
+ 	if ( length(line) == 0 ) {
+   		break
+  	}
+  	for ( na in names(collect) ){
+  		if ( length(grep( na, line))> 0){
+  			collect[[na]] = collect[[na]] +1
+  		}
+  	}
+	}
+	close(con)
+
+	collect
+}
+
 #genes = read.delim(genes)[,1]
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
@@ -22,10 +41,13 @@ if ( file.exists(x@outpath)){
 x = reset(x)
 x@outpath = file.path(prefix,'data','output','timeLineTest' )
 
+
 x = sessionPath( x, 'timeSession_subsets')
 expect_true( x@usedObj$sessionName == 'timeSession_subsets',  label='session path not set correctly')
+
 ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession_subsets', 'AA_Start_paritalLog.Rmd' )
 expect_true( file.exists( ofile), label="start session optupt is missing")
+
 
 ofile = file.path( prefix, 'data','output','timeLineTest', 'timeSession_subsets', 'AB_OneGroupTime_paritalLog.Rmd' )
 if ( file.exists( ofile) ) {
@@ -45,7 +67,7 @@ x = getDifferentials( x,cellidfile='User.group.1', deg.method= 'wilcox' , Log=TR
 
 expect_equal( names(x@usedObj$timelines), c("lastEntry", "Time.group.2" ), label="correct time names")
 
-expect_equal(names(x@usedObj$timelines[["Time.group.2"]]@geneClusters[["Time.group.2"]]),
+expect_equal(names(x@usedObj$timelines[["Time.group.2"]]@geneClusters[["Time.group.2"]][['clusters']]),
 			c("1","2","3","4","5",'6'), label = "geneClusters are part of the timelines" )
 
 
@@ -55,17 +77,17 @@ timeSubset = subsetTime( x@usedObj$timelines[["lastEntry"]], subset)
 
 x = timeAnalysisSubset( timeSubset, x )
 
+
 expect_equal( names(x@usedObj$timelines), c("lastEntry", "Time.group.2", "Time.group.3" ), label="correct time names #2")
 
-expect_equal(names(x@usedObj$timelines[["Time.group.3"]]@geneClusters[["Time.group.3"]]),
+expect_equal(names(x@usedObj$timelines[["Time.group.3"]]@geneClusters[["Time.group.2"]][['clusters']]),
 			c("1","2","3","4","5","6"), label = "geneClusters are part of the timelines #3" )
 
-expect_equal(names(x@usedObj$timelines[["Time.group.3"]]@geneClusters[["Time.group.2"]]),
-			c("1","2","3","4","5","6"), label = "geneClusters in #3 also contain #2 genes lists" )
 
 x= renderReport( x )
 
-ofile = file.path( prefix, 'data','output', 'timeLineTest', 'session-log-for-session-timesession-subsets.html' )
+ofile = file.path( prefix, 'data','output', 'timeLineTest', 
+	'session-log-for-session-timesession-subsets.html' )
 expect_true( file.exists( ofile), label= ofile )
 
 ## check the html file for duplicated entries (sections).
@@ -78,29 +100,19 @@ collect = list(
 	'2D DRC DDRtree dim 2,3 time line' = 0,
 	'href="https://www.genecards.org/cgi-bin/' = 0
 )
-con = file(ofile, "r")
-while ( TRUE ) {
-  line = readLines(con, n = 1)
-  if ( length(line) == 0 ) {
-    break
-  }
-  for ( na in names(collect) ){
-  	if ( length(grep( na, line))> 0){
-  		collect[[na]] = collect[[na]] +1
-  	}
-  }
-}
-close(con)
 expt = list( 
 	'TimeLine control from Saved Selection' = 4, # one in the text and one in the TOC
 	'as group Time.group.2' = 1,
-	'Time.group.2.Linear.csv' = 1,
+	'Time.group.2.Linear.csv' = 2,
 	'Session Log for Session timeSession_subsets' = 2, # one in the text and one in the TOC
 	'2D DRC DDRtree dim 2,3 time line' = 4, # this figure is shown twice..
 	'href="https://www.genecards.org/cgi-bin/' = 500 # two 250 gene lists.
 )
-expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
+expt[[x@outpath]] = 0
+collect[[x@outpath]] = 0
+collect = checkFile(collect, ofile )
 
+expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 ##################################################
 context('timeline check if data is correct')
 ##################################################

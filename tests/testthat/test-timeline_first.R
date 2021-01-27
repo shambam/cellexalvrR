@@ -8,6 +8,25 @@ prefix = './'
 
 #genes = read.delim(genes)[,1]
 
+checkFile = function ( collect, ofile ) {
+
+	con = file(ofile, "r")
+	while ( TRUE ) {
+  	line = readLines(con, n = 1)
+ 	if ( length(line) == 0 ) {
+   		break
+  	}
+  	for ( na in names(collect) ){
+  		if ( length(grep( na, line))> 0){
+  			collect[[na]] = collect[[na]] +1
+  		}
+  	}
+	}
+	close(con)
+
+	collect
+}
+
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
@@ -147,6 +166,17 @@ x= renderReport( x )
 
 ofile = file.path( prefix, 'data','output', 'timeLineTest', 'session-log-for-session-timeSession.html' )
 expect_true( file.exists( ofile), label= ofile )
+
+collect= list( 
+)
+expt = list( 
+)
+expt[[x@outpath]] = 0
+collect[[x@outpath]] = 0
+
+collect = checkFile ( collect, ofile )
+expect_equal( collect, expt, label="No cellexalvrR outpath HTMP file")
+
 
 ##################################################
 context('timeline check if data is correct')

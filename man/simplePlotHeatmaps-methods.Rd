@@ -6,9 +6,18 @@
 \alias{simplePlotHeatmaps,cellexalvrR-method}
 \title{description of function simplePlotHeatmaps}
 \arguments{
-\item{mat}{the expression matrix (col genes; row cells)}
+\item{x, }{cellexalvrR object that has the correct order and only the genes of interest!}
+
+\item{info}{the grouping info for this plot}
 
 \item{fname}{the outfile base (.png for main .<i>.png for the slices)}
+}
+\value{
+a list with the keys 
+  png - all outfiles created; first summary others heatmaps),
+  genes - the genes split into the displayed groups
+  ofile - the main outfile
+  error - any error occuring - should be included in the report.
 }
 \description{
 plot an extremely simple heatmap ans slices of that

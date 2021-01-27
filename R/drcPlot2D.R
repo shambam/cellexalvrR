@@ -31,7 +31,10 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		# 	browser()
 		# }
 	DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
-
+	if ( length(which( is.na(gInfo$col))) > 0  ){
+		print("Missing color elements on gInfo$col!\n")
+		browser()
+	}
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
 	## there is a possibilty that the cells have been selected from different drc models.
@@ -43,10 +46,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	} 
 
 	gInfo$grouping[ which(is.na(gInfo$grouping))] = 0
-	if ( any( ! is.numeric(gInfo$grouping)) ) {
-		message("wrong data in gInfo$grouping")
-		browser()
-	}
+
 	#gInfo$grouping = as.numeric(as.factor(gInfo$grouping))
 	if ( ! gInfo$drc %in% names(cellexalObj@drc) ){
 		stop( paste("group info does not match to cellexalObj data content: drc named", gInfo$drc, "not in list", paste( collapse=", ", names(cellexalObj@drc))))
@@ -76,7 +76,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	
     	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
     	p= prettyPlot2D( toPlot, gInfo$col[which(!is.na(gInfo$col))] ) #function definition in file drcPlot2D.R
-    	print(p)
+    	print(p) ## write the plot
 		grDevices::dev.off()
 	}
 	c( DRC1, DRC2)
@@ -88,6 +88,7 @@ prettyPlot2D = function(x, col ){
 	x$id = as.vector(x$id)
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
+
 	x$col=  c(grey(.6),col)[as.numeric(x$id)]
 	
 	
@@ -129,12 +130,12 @@ drcFiles2HTML = function( cellexalObj, gInfo, addOn = NULL ) {
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath, cellexalObj )
 	str = c(
-		paste( "### 2D DRC", gInfo$drc, "dim 1,2", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 1,2","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[1],")"),
 		'')
 	if ( ! is.na(drcFiles[2]) ){
 		str = c( str, 
-		paste( "### 2D DRC", gInfo$drc, "dim 2,3", addOn),"\n",
+		paste( "### 2D DRC", gInfo$drc, "dim 2,3","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
 		"")
 	}

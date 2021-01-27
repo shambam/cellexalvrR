@@ -91,13 +91,15 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	tab = cellexalObj@userGroups[OK,]
 	tab = tab[order( tab[,paste( cellexalObj@usedObj$lastGroup, 'order')]) ,]
 	tab = tab[ match( R_IDs,as.vector(tab[,cellexalObj@usedObj$lastGroup] ) ),]
+
+
 	tab =  tab[order( as.numeric(tab[,paste(cellexalObj@usedObj$lastGroup, 'order')])),]
 		tableHTML = paste( sep="\n",
 		"### group information table",'',
 		'<table>',
 		'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
 		paste(collapse="\n",
-			sapply( as.vector(tab[,cellexalObj@usedObj$lastGroup]), function(id){
+			sapply( as.numeric(as.vector(tab[,cellexalObj@usedObj$lastGroup])), function(id){
 			paste(sep="",
 				'<tr><td style="background-color:', 
 				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],'"',
@@ -115,7 +117,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
 		"",
 		paste( "### Genes"),
-		paste( collapse=" ", unlist( lapply(sort(genes), function(n) { rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ), #function definition in file 'rmdLink.R'
+		md_gene_links( sort(genes) ), #function definition in file 'rmdLink.R'
 		'',
 		paste( "### Heatmap (from CellexalVR)"),
 		paste("![](",figureF,")"),

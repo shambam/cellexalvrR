@@ -8,11 +8,11 @@
 \arguments{
 \item{x}{a cellexalvrR object}
 
-\item{a}{the first time defining vector (e.g. a MDS dimension)}
+\item{a}{the first time defining vector (e.g. a MDS dimension) depricated}
 
-\item{b}{the second time defining vector (e.g. a MDS dimension)}
+\item{b}{the second time defining vector (e.g. a MDS dimension) depricated}
 
-\item{c}{the third time defining vector (e.g. a MDS dimension)}
+\item{c}{the third time defining vector (e.g. a MDS dimension) depricated}
 
 \item{grouping}{a samples grouping to color the Pseudotime plot.}
 

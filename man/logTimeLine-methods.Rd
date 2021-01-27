@@ -6,7 +6,16 @@
 \alias{logTimeLine,cellexalvrR-method}
 \title{description of function logTimeLine}
 \usage{
-\S4method{logTimeLine}{cellexalvrR}(cellexalObj, stats, genes = NULL, info, png, timeInfo, GOIs = NULL)
+\S4method{logTimeLine}{cellexalvrR}(
+  cellexalObj,
+  stats,
+  genes = NULL,
+  info,
+  png,
+  timeInfo,
+  GOIs = NULL,
+  text = NULL
+)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
@@ -22,6 +31,8 @@
 \item{timeInfo}{the time grouping information list}
 
 \item{GOIs}{an optional vector of genes to plot rolling sum graphs for.}
+
+\item{text}{additional text for the HTML file (default = NULL)}
 }
 \description{
 preload the object before creating one Heatmap session report page

@@ -32,9 +32,11 @@ setMethod('show', signature = c ('cellexalTime'),
 		#cat("named ",object@name,"\n")
 		cat (paste( 'with',nrow(object@dat),'time points and', ncol(object@dat),' values.'),"\n")
 		cat( paste( 'The object is basis for the cellexalvrR grouping', object@gname)) 
-		cat( paste( 	"\nand based on the selection", object@parentSelection) )
+		cat( paste( 	"\nand is based on the selection", object@parentSelection) )
 		if ( length(object@geneClusters) >0 ) {
-			cat ( paste("has been analyzed and contains information about", length(object@geneClusters), 'Gene lists'))
+			cat("\n")
+			cat ( paste("It contains information about", length(object@geneClusters), 'Gene list(s):',"\n"))
+			cat( paste( sep=",", collaspe=" ",names( object@geneClusters )))
 		}
 		cat('\n')
 	}
@@ -58,7 +60,6 @@ if ( ! isGeneric('addSelection') ){setGeneric('addSelection', ## Name
 
 setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 	definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
-
 
 		if ( is.null(upstreamSelection)){
 			upstreamSelection = groupingInfo(cellexalObj , x@parentSelection)$gname
@@ -263,7 +264,10 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 			stop("the other object is not from the same parent selection - stop")
 		}
 		if ( length(x@geneClusters) == 0 || length(other@geneClusters) == 0){
-			stop( "For both timelines the fundtion 'createReport' has to be run first.")
+			stop( "For both timelines the function 'createReport' has to be run first.")
+		}
+		if ( is.null(x@geneClusters[[x@gname]]) || is.null(other@geneClusters[[other@gname]]) ) {
+			stop("For both timelines the createReport has to be run for the own selection.")
 		}
 
 		if ( is.null(color) ) {
@@ -272,22 +276,36 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 		figTab = NULL
 		if ( is.null(altGroupNames) ) {
 			altGroupNames = c( x@gname, other@gname )
-			figTab = paste('<table style="width:100%"><tr><th>',x@gname,'</th><th>',other@gname,
-				'</th></tr><tr><td>![](',
-				R.utils::getRelativePath( x@geneClusters[[1]]$figure, cellexalObj@outpath),
-				')</td><td>![](',
-				R.utils::getRelativePath(other@geneClusters[[1]]$figure, cellexalObj@outpath),
-				')</td><tr></table>',"\n\n")
 		}
 		else {
-			figTab = paste('<table style="width:100%"><tr><th>',x@gname,'or',altGroupNames[1],'</th><th>',other@gname,'or',altGroupNames[2],
-				'</th></tr><tr><td>![](',
-				R.utils::getRelativePath( x@geneClusters[[1]]$figure, cellexalObj@outpath),
-				')</td><td>![](',
-				R.utils::getRelativePath( other@geneClusters[[1]]$figure, cellexalObj@outpath),
-				')</td><tr></table>',"\n\n")
+			altGroupNames = c( 
+				paste(x@gname,'or', altGroupNames[1]),
+				paste(other@gname, 'or', altGroupNames[2]) 
+			)
 		}
 
+
+		figTab = paste('<table style="width:100%"><tr><th>',altGroupNames[1],
+			'</th><th>',altGroupNames[2],
+			'</th></tr><tr><td>![](',
+			R.utils::getRelativePath( x@geneClusters[[x@gname]]$figure, cellexalObj@outpath),
+			')</td><td>![](',
+			R.utils::getRelativePath( other@geneClusters[[other@gname]]$figure, cellexalObj@outpath),
+			')</td><tr></table>',"\n\n")
+		text = paste(
+        	"## Comparison between the gene clusters of timeline", 
+        	altGroupNames[1],"and timeline", altGroupNames[2], "\n\n"
+        )
+		text = paste(text, 
+        	paste("Both timelines have been run based on the selection", 
+        		x@parentSelection,
+         	"\n\n")
+        )
+        text = paste(text,figTab)
+        altGroupNames[1] =paste(sep="", '**',altGroupNames[1], '**' ) # textbf
+        altGroupNames[2] =paste(sep="", '**',altGroupNames[2], '**' ) # textbf
+
+        
 		checkGeneList = function( mine , cmpTo) {
         ## return the other group with highest overlap and the genes that do not overlap
       	  dat = lapply( cmpTo,
@@ -297,71 +315,49 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
                 }, mine )
         	dat
         }
-        text = paste(
-        	"### Comparisong between the gene clusters of timeline", 
-        	names(x@geneClusters)[1], 
-        	"and timeline", 
-        	names(other@geneClusters)[1] ,"\n\n"
-        )
-        text = paste(text, paste("Both timelines have been run based on the selection", x@parentSelection, "\n\n"))
 
-
-        text = paste(text,figTab)
-
-
-        for ( i in 1:length(x@geneClusters[[1]]['clusters'][['clusters']])) {
-        	cmp = checkGeneList ( x@geneClusters[[1]]['clusters'][['clusters']][i][[1]], other@geneClusters[[1]]['clusters'][['clusters']] )
+        for ( i in 1:length(x@geneClusters[[x@gname]]['clusters'][['clusters']])) {
+        	cmp = checkGeneList ( x@geneClusters[[x@gname]]['clusters'][['clusters']][i][[1]], 
+        		other@geneClusters[[other@gname]]['clusters'][['clusters']] )
         	for ( a in 1:length(cmp) ) {
         		if ( length(cmp[[a]]) > 0 ) {
         			text = paste( text, paste( 
-        				"The followng genes from timeline",x@gname, "cluster",i,
-        				"have ended up in the timeline",other@gname,"cluster",a,":",
+        				"The following genes from timeline",altGroupNames[1], "cluster",i,
+        				"have ended up in the timeline",altGroupNames[2],"cluster",a,":",
         				"\n\n"
-        			) ,
-        			paste( collapse=" ", sep=" ",
-			 			unlist( lapply(sort(cmp[[a]]), function(n) { 
-			 			rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
-						"\n"
+        				) 
 					)
         			
 
 					## And now I need the two heatmaps in the two different timelines:
 					
-					of = paste(sep="_", "directComp", altGroupNames[1], i, altGroupNames[2], a,"heatmap.png" )
+					of = paste(sep="_", "directComp",  x@gname, i, other@gname, a,"heatmap" )
 					of2 = file.path( cellexalObj@usedObj$sessionPath, 'png', of )
-					h = length( cmp[[a]] )
-					if (h < 200 ) { h=200 }
-					try ( {
-					png( file=of2, width=1000, height = h )
-					image( x@geneClusters[[1]]$matrix[,cmp[[a]]], col=gplots::bluered(40), main = of )
-					box("outer", col=color[1], lwd = 10)
-					dev.off()
-					} )
-					of = R.utils::getRelativePath( of2, cellexalObj@outpath)
-					text = paste( 
-						text,
-						"\n\nexpression in grouping",altGroupNames[1],
-						"\n\n![](",of,")\n\n"
+
+					text = paste( text, "### Genes expression in", 
+						altGroupNames[1], "\n",
+						plotHeatmap_rmd( 
+							x=t(x@geneClusters[[x@gname]]$matrix[,cmp[[a]]]), 
+							color=color[1] ,
+							ofile = of2,
+							cellexalObj = cellexalObj
+						), "\n\n"
 					)
 
-					of = paste(sep="_", "directComp_invers", altGroupNames[1], i, altGroupNames[2], a,"heatmap.png" )
+					of = paste(sep="_", "directComp_invers", x@gname, i, other@gname, a,"heatmap" )
 					of2 = file.path( cellexalObj@usedObj$sessionPath, 'png', of )
-					h = length( cmp[[a]] )
-					if (h < 200 ) { h=200 }
-					try ( {
-					png( file=of2, width=1000, height = h )
-					image( other@geneClusters[[1]]$matrix[,cmp[[a]]], col=gplots::bluered(40), main = of )
-					box("outer", col=color[2], lwd = 10)
-					dev.off()
-					} )
-					of = R.utils::getRelativePath(of2, cellexalObj@outpath)
-					
-					text = paste( 
-						text, 
-						"\n\nexpression in grouping",altGroupNames[2],
-						"\n\n![](",of,")\n\n" 
+
+					text = paste( text, "### Genes expression in", 
+						altGroupNames[1], "\n",
+						plotHeatmap_rmd( 
+							x=t(other@geneClusters[[other@gname]]$matrix[,cmp[[a]]]), 
+							color=color[2] ,
+							ofile = of2,
+							cellexalObj = cellexalObj
+						), "\n\n"
 					)
 
+					text = paste( text,  md_gene_links ( sort(cmp[[a]]) ) )
         		}
         	}
         }
@@ -427,7 +423,9 @@ setMethod('createDetailedComparison', signature = c ('cellexalTime'),
 		## and the drcFiles2HTMLtime in a gene expression set - to be implemented
 
 		geneClusters = clusterGenes( zscored )
-
+		if ( is.null(color)){
+			color=rainbow(2)
+		}
 		## here get the information for each gene list
 		## The data
 		gl = split(names(geneClusters), geneClusters)
@@ -443,14 +441,26 @@ setMethod('createDetailedComparison', signature = c ('cellexalTime'),
 			## and the Plot
 			linePlot = paste( linePlot, plotDataOnTime_rmd( x, dat, 
 				color=color, 
-				ofile=file.path(cellexalObj@usedObj$sessionPath, 'png', paste(name,n,'.png', sep="") )
-				)
+				ofile=file.path(cellexalObj@usedObj$sessionPath, 'png', paste(name,n,'.png', sep="") ),
+				cellexalObj = cellexalObj
 			)
+			)
+			## compare the gene expression in path sets in two heatmaps!
+			linePlot = paste( linePlot, plotHeatmap_rmd( 
+				x = zscored[deg.genes, match(subsets[[1]], colnames(zscored))], 
+				color=color[1],
+				ofile = file.path(cellexalObj@usedObj$sessionPath,'png', paste(sep="","GeneList_",name,"_",n,"A.png" )),
+				cellexalObj = cellexalObj
+			) )
+			linePlot = paste( linePlot, plotHeatmap_rmd( 
+				x = zscored[deg.genes, match(subsets[[2]], colnames(zscored))], 
+				color=color[2],
+				ofile = file.path(cellexalObj@usedObj$sessionPath,'png', paste(sep="","GeneList_",name,"_",n,"B.png" )),
+				cellexalObj = cellexalObj
+			) )
 			## and add the gene links here:
-			linePlot = paste( linePlot, "\n\n",paste( collapse=" ", sep=" ",
-			 unlist( lapply(sort(deg.genes), function(n) { 
-			 	rmdLink(n, "https://www.genecards.org/cgi-bin/carddisp.pl?gene=")  })) ),
-			"\n")
+
+			linePlot = paste( linePlot, "\n",md_gene_links( deg.genes ) )
 		}
 		
 
@@ -476,6 +486,10 @@ The per subset smoothed expression values are also plotted in a conventional plo
 		)
 		id = length(cellexalObj@usedObj$sessionRmdFiles)
 		cellexalObj = renderFile(cellexalObj, id, type = "DetailedTimelineDescription")
+		
+		## into this detailed comparison we would actually also need a in detail comparison of one result to the other!
+
+
 		cellexalObj
 
 } )
@@ -511,6 +525,8 @@ if ( ! isGeneric('createReport') ){setGeneric('createReport', ## Name
 setMethod('createReport', signature = c ('cellexalTime'),
 	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
 
+	#print( paste( "I am in cellexalTime::createReport and was called from here:", deparse(sys.calls()[[sys.nframe()-2]]) ) )
+
 	text = NULL
 	if ( is.null(deg.genes)){
 		deg.genes = cellexalObj@usedObj$deg.genes
@@ -528,16 +544,19 @@ setMethod('createReport', signature = c ('cellexalTime'),
 	#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 
 	ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
+	if ( is.null(ps)) {
+		message("the linear statistics table is NULL!")
+		browser()
+	}
 	o = order(ps[,'p.value'])
 	ps = ps[o,]
 
 	loc = reduceTo(cellexalObj, what='row', to = deg.genes )
-	loc = reduceTo(loc, what='col', to = colnames(loc)[
+	loc = reduceTo(loc, what='col', to = colnames(loc@data)[
 		which(!is.na(loc@userGroups[,info$gname]))] )
 	loc = reorder.samples(loc, paste( info$gname, 'order' ) )
 
 	## add the plots to the log
-	
 	try({
 		ret = simplePlotHeatmaps(loc, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )
 		x@geneClusters[[info$gname]] = list( clusters= ret$genes, matrix = ret$mat, figure= ret$ofile ) 
@@ -547,8 +566,8 @@ setMethod('createReport', signature = c ('cellexalTime'),
 			info, 
 			text= paste(text, ret$error, sep=" ", collapse=" ") 
 		) 
-	} )
-				
+	} )	
+
 	invisible( list( cellexalObj = cellexalObj, timeline = x) )
 
 } )
@@ -616,10 +635,7 @@ setMethod('createStats', signature = c ( 'cellexalTime' ),
 	}
 
 	cellexalObj = addSelection( x, cellexalObj)
-	cellexalObj@usedObj$lastGroup = x@gname
-	try({
-		cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=ps, col='p.value'	 )
-	} )
+	cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=ps, col='p.value'	 )
 	cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = ps
 	invisible( cellexalObj )
 } )
@@ -737,8 +753,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 } )
 
 
-#' returns a color vector based on the intern col column and the cell names
-#' Not time containing cells will get gray(0.6) as color.
+#' returns a html formate table describing one timeline
 #'
 #' @name HTMLtable
 #' @aliases HTMLtable,cellexalTime-method
@@ -746,7 +761,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 #' @docType methods
 #' @description return the HTMLtable in exactly the right format
 #' @param x the cellexalTime object
-#' @title description of function color
+#' @title description of function HTMLtable
 #' @export 
 if ( ! isGeneric('HTMLtable') ){setGeneric('HTMLtable', ## Name
 	function (x, names) { 
@@ -807,7 +822,6 @@ setMethod('plotTime', signature = c ('cellexalTime'),
 } )
 
 
-
 #' @name plotDataOnTime_rmd
 #' @aliases plotDataOnTime_rmd,cellexalTime-method
 #' @rdname plotDataOnTime_rmd-methods
@@ -817,18 +831,19 @@ setMethod('plotTime', signature = c ('cellexalTime'),
 #' @param dat the linear data to plot
 #' @param color the color(s) the data should be plotted in
 #' @param ofile the figure file (png)
+#' @param cellexalObj the cellexal object to adjust the path for the markdown file.
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('plotDataOnTime_rmd') ){setGeneric('plotDataOnTime_rmd', ## Name
-	function ( x, dat, color=NULL, ofile ) { 
+	function ( x, dat, color=NULL, ofile, cellexalObj  ) { 
 		standardGeneric('plotDataOnTime_rmd')
 	}
 ) }
 
 setMethod('plotDataOnTime_rmd', signature = c ('cellexalTime'),
-	definition = function ( x, dat, color=NULL, ofile ) {
+	definition = function ( x, dat, color=NULL, ofile, cellexalObj ) {
 		plotDataOnTime( x, dat, color=NULL, ofile )
-		return(paste("![](", R.utils::getRelativePath(cellexalObj@outpath, ofile),")" ))
+		return(paste("![](", R.utils::getRelativePath(ofile, cellexalObj@outpath),")" ))
 })
 
 #' @name plotDataOnTime
@@ -840,16 +855,17 @@ setMethod('plotDataOnTime_rmd', signature = c ('cellexalTime'),
 #' @param dat the linear data to plot
 #' @param color the color(s) the data should be plotted in
 #' @param ofile the figure file (png)
+#' @param smooth add a smoothed line to the graph (default TRUE)
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('plotDataOnTime') ){setGeneric('plotDataOnTime', ## Name
-	function ( x, dat, color=NULL, ofile ) { 
+	function ( x, dat, color=NULL, ofile, smooth=TRUE ) { 
 		standardGeneric('plotDataOnTime')
 	}
 ) }
 
 setMethod('plotDataOnTime', signature = c ('cellexalTime'),
-	definition = function ( x, dat, color=NULL, ofile ) {
+	definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 
 		if ( is.null(color) ) {
 			color = grDevices::rainbow( length(dat))
@@ -863,15 +879,18 @@ setMethod('plotDataOnTime', signature = c ('cellexalTime'),
 		for ( n in names(dat) ){
 			toPlot[,n] = NA
 			m = match( names(dat[[n]]), rownames(toPlot))
+			if ( length(which(is.na(m))) > 0 ){
+				print("missing values in the data!")
+				browser()
+			}
 			toPlot[m,n] =dat[[n]]
 			## now the first smoothing run
 			span = span= 40 / length(m)
-
 			pred1 = loess(  toPlot[m,n] ~ toPlot[m,'time'], span=span )
 			toPlot[m,n] = predict(pred1)
 			## if you want to take a closer look:
 			#plot( toPlot[m,'time'],dat[[n]])
-			#points(toPlot[m,'time'], toPlot[m,n], col='blue' )
+			#points(toPlot[m,'time'], toPlot[m,n], col='blue' )F
 
 		}
 		
@@ -926,12 +945,69 @@ setMethod('plotDataOnTime', signature = c ('cellexalTime'),
 	#pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
 	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
 	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
-	pl = pl + ggplot2::ylab( "pseudotime" )
+	pl = pl + ggplot2::xlab( "pseudotime" )
 	print(pl) # write the plot data
 	dev.off()
 
 
 } )
+
+
+#' @name plotTimeHeatmap
+#' @aliases plotTimeHeatmap,cellexalTime-method
+#' @rdname plotTimeHeatmap-methods
+#' @docType methods
+#' @description create a really simple heatmap of the zscored data
+#' @param x the zscored data object
+#' @param ofile the figure file (a '.png' will be added)
+#' @param color the color of the border around the heatmap
+#' @title description of function plot
+#' @returns the figure file path
+#' @export 
+if ( ! isGeneric('plotTimeHeatmap') ){setGeneric('plotTimeHeatmap', ## Name
+	function ( x, ofile, color=NULL ) { 
+		standardGeneric('plotTimeHeatmap')
+	}
+) }
+
+setMethod('plotTimeHeatmap', signature = c ('matrix'),
+	definition = function ( x, ofile, color=NULL) {
+		of2 = paste( sep=".", ofile, 'png')
+		h = length( nrow(x) )
+		if (h < 200 ) { h=200 }
+		png( file=of2, width=1000, height = h )
+		try ( {
+			image( t(x), col=gplots::bluered(40) )
+			if( ! is.null(color))  {
+				box("outer", col=color, lwd = 10)
+			}
+		})
+		dev.off()
+		of2
+})
+
+#' @name plotHeatmap_rmd
+#' @aliases plotHeatmap_rmd,cellexalTime-method
+#' @rdname plotHeatmap_rmd-methods
+#' @docType methods
+#' @description plot linear data on the time in a 2d figure
+#' @param x the matrix to plot (genes rows cells cols)
+#' @param ofile the figure file (png)
+#' @param cellexalObj the cellexal object to adjust the path for the markdown file.
+#' @param color the color(s) the data should be plotted in
+#' @title description of function plot
+#' @export 
+if ( ! isGeneric('plotHeatmap_rmd') ){setGeneric('plotHeatmap_rmd', ## Name
+	function ( x, ofile, cellexalObj, color=NULL ) { 
+		standardGeneric('plotHeatmap_rmd')
+	}
+) }
+
+setMethod('plotHeatmap_rmd', signature = c ('matrix'),
+	definition = function ( x, ofile, cellexalObj, color=NULL ) {
+		ofile = plotTimeHeatmap( x, ofile = ofile, color = color )
+		return(paste("![](", R.utils::getRelativePath(ofile, cellexalObj@outpath),")" ))
+})
 
 #' @name subsetTime
 #' @aliases subsetTime,cellexalTime-method
@@ -998,10 +1074,11 @@ setMethod('timeAnalysisSubset', signature = c ('cellexalTime'),
 		cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = loc@usedObj$sigGeneLists$lin[[loc@usedObj$lastGroup]]
 		
 		loc = reduceTo(cellexalObj, what='row', to=deg.genes)
-		ret = createReport(x, loc, groupingInfo(loc, cellexalObj@usedObj$lastGroup ) )
+		ret = createReport(x, loc, groupingInfo( cellexalObj, x@gname ) )
+
 		x = ret$timeline
 		#cellexalObj = ret$cellexalObj
-		cellexalObj = addSelection( x, cellexalObj, cellexalObj@usedObj$lastGroup)
+		cellexalObj = addSelection( x, cellexalObj, x@parentSelection)
 
 		invisible( cellexalObj )
 

@@ -28,7 +28,14 @@ x = createStats( x@usedObj$timelines[[1]], x)
 
 timeline = x@usedObj$timelines[[1]]
 
+##that is the first time we produce a time in a test script
+## Time to test this!
 expect_equal( timeline@gname, 'Time.group.2', "time gname is correct" )
+expect_equal( timeline@parentSelection, 'User.group.1', "time parentSelection is correct" )
+expect_equal( timeline@geneClusters, list(), label="geneClsuters are not populated" )
+expect_equal( timeline@id, "ec4c37f0f0c79b18d6448864c1dee102", label="id correct" )
+expect_equal( timeline@drc, "DDRtree", label="drc correct" )
+expect_equal( length(timeline@error), 0 , label="no error" )
 
 
 fname= file.path(x@usedObj$sessionPath,'png', 'simpleHeatmap' )

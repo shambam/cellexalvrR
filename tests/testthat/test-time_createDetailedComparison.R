@@ -85,6 +85,9 @@ expt = list(
 	'2D DRC DDRtree dim 1,2' = 1,
 	'2D DRC DDRtree dim 2,3' = 1
 	)
+expt[[x@outpath]] = 0
+collect[[x@outpath]] = 0
+
 collect = checkFile ( collect, ofile )
 
 expect_equal( collect, expt, label="stats report as expected")
@@ -97,13 +100,19 @@ subsets = list(
   'B' = rownames(time@dat)[seq(2,nrow(time@dat),2)]
 )
 
-ofile = file.path(x@usedObj$sessionPath, '..', 'AC_Text_timeSession_detailed.html')
+
+
+x = createDetailedComparison(time,  x, deg.genes = deg.genes, subsets=subsets, name="FirstTest" )
+
+ofile = file.path(x@outpath, 'session-log-for-session-timesession-detailed.html')
 if ( file.exists( ofile)) {
 	unlink ( ofile)
 }
-x = createDetailedComparison(time,  x, deg.genes = deg.genes, subsets=subsets, name="FirstTest" )
+
+x = renderReport(x)
 
 expect_true( file.exists(ofile), label="the detailed comparison html report file exists" )
+
 
 collect= list( 
 	'2D DRC DDRtree dim 1,2' = 0, # one in the text and one in the TOC
@@ -113,19 +122,24 @@ collect= list(
 #	'2D DRC DDRtree dim 2,3 time line' = 4, # this figure is shown twice..
 	'href="https://www.genecards.org/cgi-bin/' = 0 # two 250 gene lists.
 )
-
-collect = checkFile ( collect, ofile )
-
-
 expt = list( 
-	'2D DRC DDRtree dim 1,2' = 1, # one in the text and one in the TOC
-	'2D DRC DDRtree dim 2,3' = 1,
+	'2D DRC DDRtree dim 1,2' = 4, # one in the text and one in the TOC
+	'2D DRC DDRtree dim 2,3' = 4,
 #	'Time.group.2.Linear.csv' = 1,
 #	'Session Log for Session timeSession_subsets' = 2, # one in the text and one in the TOC
 #	'2D DRC DDRtree dim 2,3 time line' = 4, # this figure is shown twice..
 	'href="https://www.genecards.org/cgi-bin/' = 250 # two 250 gene lists.
 )
+expt[[x@outpath]] = 0
+collect[[x@outpath]] = 0
+
+collect = checkFile ( collect, ofile )
+
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 
-x = renderReport(x)
+
+
+
+
+
 

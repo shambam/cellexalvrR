@@ -62,10 +62,20 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	## now I need to cellexalTime object:
 	time = x@usedObj$timelines[[info$gname]]
 	if ( is.null( time ) ){
-		time = x@usedObj$timelines[[paste(basename(fname), 'timeline')]]
+		## oops - we got a parentSelection?
+		## best guess
+		if ( x@usedObj$timelines[["lastEntry"]]@parentSelection == info$gname){
+			time = x@usedObj$timelines[["lastEntry"]]
+		}
 	}
-	
+	if ( is.null( time ) ){
+		stop(paste( "The time for the selection", info$gname, "could not be found") )
+	}
 	clusterC = rainbow( max(gr) )
+	if ( is.null(time)) {
+		print ("The time is NULL - WHY?")
+		browser()
+	}
 	toPlot = time@dat[,c('time', 'col') ]
 
 	pngs = NULL
@@ -204,19 +214,21 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('clusterGenes') ){setGeneric('clusterGenes', ## Name
-	function ( x, deg.genes=NULL, info=NULL ) { 
+	function ( x, deg.genes=NULL, info=NULL, ... ) { 
 		standardGeneric('clusterGenes')
 	}
 ) }
 
 setMethod('clusterGenes', signature = c ('cellexalTime'),
-	definition = function ( x, deg.genes=NULL, info=NULL ) {
+	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj ) {
 
 		if ( ! is.null(deg.genes)){
-			x = reduceTo( x, what='rwo', to = deg.genes )
+			cellexalObj = reduceTo( cellexalObj, what='rwo', to = deg.genes )
 		}
 		if ( ! is.null(info) ) {
-			x= reduceTo( x, what='col', colnames(x@data)[which(! is.na( x@userGroups[, info$gname]))] )
+			cellexalObj= reduceTo( cellexalObj, what='col', 
+				colnames(cellexalObj@data)[which(! is.na( cellexalObj@userGroups[, info$gname]))] )
+			cellexalObj = reorder.samples( cellexalObj, info$gname)
 		}
 		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
 		colnames(mat) = colnames(x@data)
