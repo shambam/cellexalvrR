@@ -79,7 +79,7 @@ cellexalObj = renderReport( cellexalObj )
 
 #session-log-for-session-2021-01-25-11-18-32.html
 #session-log-for-session-logFigureTest.html
-ofile=  file.path( x@outpath, 'session-log-for-session-logFigureTest.html' )
+ofile=  file.path( x@outpath, 'session-log-for-session-logfiguretest.html' )
 expect_true( file.exists( ofile), label = ofile)
 
 ofile=  file.path( x@outpath, 'PortableLog_logFigureTest.zip' )

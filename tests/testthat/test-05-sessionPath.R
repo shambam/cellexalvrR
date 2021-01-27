@@ -36,6 +36,7 @@ for ( f in c('png', 'tables') ) {
 
 }
 
+Sys.sleep(1) ## to make the timestamp different.
 ## this should not be overwritable without a renderReport!
 old= cellexalObj@usedObj$sessionName
 cellexalObj = sessionPath( cellexalObj, 'somethingNew' )
