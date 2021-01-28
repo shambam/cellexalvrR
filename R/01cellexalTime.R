@@ -558,7 +558,8 @@ setMethod('createReport', signature = c ('cellexalTime'),
 	loc = reduceTo(loc, what='col', to = colnames(loc@data)[
 		which(!is.na(loc@userGroups[,info$gname]))] )
 	loc = reorder.samples(loc, paste( info$gname, 'order' ) )
-
+	
+	cellexalObj@usedObj$lastGroup = info@gname
 	## add the plots to the log
 	try({
 		ret = simplePlotHeatmaps(loc, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )
@@ -599,7 +600,9 @@ setMethod('createStats', signature = c ( 'cellexalTime' ),
 	
 	#cellexalObj = addSelection( x, cellexalObj, info$gname)
 	# focus on our data only
+
 	if (  is.null(cellexalObj@usedObj$sigGeneLists$lin[[x@gname]])) {
+		## otherwise the stats have already been calculated and do not need to be re-run.
 
 	loc = reduceTo(cellexalObj, what='col', to=rownames(x@dat) )
 	# get rid of genes not expressed in at least 1% of the cells
@@ -641,6 +644,9 @@ setMethod('createStats', signature = c ( 'cellexalTime' ),
 
 	cellexalObj = addSelection( x, cellexalObj)
 	cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = ps
+	}else {
+		## the stats have already been run and all is OK.
+		cellexalObj@usedObj$lastGroup = x@gname
 	}
 	cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=cellexalObj@usedObj$sigGeneLists$lin[[x@gname]], col='p.value'	 )
 	
