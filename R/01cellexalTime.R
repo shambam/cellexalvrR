@@ -74,6 +74,7 @@ setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 			for ( n in names(cellexalObj@usedObj$timelines)){
 				if ( cellexalObj@usedObj$timelines[[n]]@id == x@id ) {
 					x@gname = cellexalObj@usedObj$timelines[[n]]@gname
+					cellexalObj@usedObj$timelines[['lastEntry']] = x
 					cellexalObj@usedObj$timelines[[n]] = x
 					done=1
 				}
@@ -348,7 +349,7 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 					of2 = file.path( cellexalObj@usedObj$sessionPath, 'png', of )
 
 					text = paste( text, "### Genes expression in", 
-						altGroupNames[1], "\n",
+						altGroupNames[2], "\n",
 						plotHeatmap_rmd( 
 							x=t(other@geneClusters[[other@gname]]$matrix[,cmp[[a]]]), 
 							color=color[2] ,
@@ -598,6 +599,8 @@ setMethod('createStats', signature = c ( 'cellexalTime' ),
 	
 	#cellexalObj = addSelection( x, cellexalObj, info$gname)
 	# focus on our data only
+	if (  is.null(cellexalObj@usedObj$sigGeneLists$lin[[x@gname]])) {
+
 	loc = reduceTo(cellexalObj, what='col', to=rownames(x@dat) )
 	# get rid of genes not expressed in at least 1% of the cells
 	nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
@@ -637,8 +640,10 @@ setMethod('createStats', signature = c ( 'cellexalTime' ),
 	}
 
 	cellexalObj = addSelection( x, cellexalObj)
-	cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=ps, col='p.value'	 )
 	cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = ps
+	}
+	cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=cellexalObj@usedObj$sigGeneLists$lin[[x@gname]], col='p.value'	 )
+	
 	invisible( cellexalObj )
 } )
 
@@ -1073,7 +1078,8 @@ setMethod('timeAnalysisSubset', signature = c ('cellexalTime'),
 		if ( is.null(cellexalObj@usedObj$sigGeneLists$lin) ) {
 			cellexalObj@usedObj$sigGeneLists$lin = list()
 		}
-		cellexalObj@usedObj$sigGeneLists$lin[[cellexalObj@usedObj$lastGroup]] = loc@usedObj$sigGeneLists$lin[[loc@usedObj$lastGroup]]
+
+		cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = loc@usedObj$sigGeneLists$lin[[x@gname]]
 		
 		loc = reduceTo(cellexalObj, what='row', to=deg.genes)
 		ret = createReport(x, loc, groupingInfo( cellexalObj, x@gname ) )
