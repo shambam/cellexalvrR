@@ -6,11 +6,13 @@
 \alias{clusterGenes,cellexalTime-method}
 \title{description of function plot}
 \arguments{
-\item{x}{the cellexalvrR object to get the data from}
+\item{x}{either the z-scored matrix or a cellexalTime object}
 
 \item{deg.genes}{a list of genes}
 
 \item{info}{the group to cluster the genes for (list)}
+
+\item{cellexalObj}{if x is a cellexalTime object this is necessary to create the zscored matrix.}
 }
 \description{
 get a - hopefully - optimal grouing of a list of genes

@@ -267,9 +267,9 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 		if ( length(x@geneClusters) == 0 || length(other@geneClusters) == 0){
 			stop( "For both timelines the function 'createReport' has to be run first.")
 		}
-		if ( is.null(x@geneClusters[[x@gname]]) || is.null(other@geneClusters[[other@gname]]) ) {
-			stop("For both timelines the createReport has to be run for the own selection.")
-		}
+		#if ( is.null(x@geneClusters[[x@gname]]) || is.null(other@geneClusters[[other@gname]]) ) {
+		#	stop("For both timelines the createReport has to be run for the own selection.")
+		#}
 
 		if ( is.null(color) ) {
 			color= grDevices::rainbow(2)
@@ -322,9 +322,17 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
         		other@geneClusters[[other@gname]]['clusters'][['clusters']] )
         	for ( a in 1:length(cmp) ) {
         		if ( length(cmp[[a]]) > 0 ) {
+        			circleA = R.utils::getRelativePath( 
+        				paste( sep=".",x@geneClusters[[x@gname]]$figure,i,'svg'), 
+        				cellexalObj@outpath)
+        			circleB = R.utils::getRelativePath( 
+        				paste( sep=".",other@geneClusters[[other@gname]]$figure,a,'svg'), 
+        				cellexalObj@outpath)
         			text = paste( text, paste( 
         				"The following genes from timeline",altGroupNames[1], "cluster",i,
+        				paste(sep="","<img src='",circleA, "' height='15'/>"),
         				"have ended up in the timeline",altGroupNames[2],"cluster",a,":",
+        				paste(sep="","<img src='",circleB, "' height='15'/>"),
         				"\n\n"
         				) 
 					)
@@ -371,12 +379,8 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
  )
 
 
-#' Tries to answer the question: how do these genes differ over the timeline in two sets of cells.
-#' It answers this in a graphical, not a statistical way.
-#' Hence you can feed whichever genelist you like into this function.
+#' Tries to get a detailed description of the analyzed timeline
 #' 
-#' It will cluster these genes based on all data and use this clusering throughout.
-#' Hence the two xy line graphs can directly be compared.
 #'
 #' @name createDetailedComparison
 #' @aliases createDetailedComparison,cellexalTime-method
@@ -391,7 +395,6 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 #' @param otherGeneGroupings other timeline analyzed genes to in depth descibe the differences
 #' @param color the colors for the subsets
 #' @param geneDescr a desription of this gene list - if NULL a list of gene links will be added
-#' @param 
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('createDetailedComparison') ){setGeneric('createDetailedComparison', ## Name
@@ -523,7 +526,19 @@ if ( ! isGeneric('createReport') ){setGeneric('createReport', ## Name
 
 ) }
 
-setMethod('createReport', signature = c ('cellexalTime'),
+setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'character'),
+	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+		info = groupingInfo(cellexalObj, info )
+		createReport ( x =x, cellexalObj=cellexalObj, info=info, deg.genes=deg.genes )
+})
+
+setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalTime'),
+	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+		info = groupingInfo(cellexalObj, info@gname )
+		createReport ( x =x, cellexalObj=cellexalObj, info=info, deg.genes=deg.genes )
+})
+
+setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'list'),
 	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
 
 	#print( paste( "I am in cellexalTime::createReport and was called from here:", deparse(sys.calls()[[sys.nframe()-2]]) ) )
@@ -549,7 +564,9 @@ setMethod('createReport', signature = c ('cellexalTime'),
 	ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
 	if ( is.null(ps)) {
 		message("the linear statistics table is NULL!")
-		browser()
+		cellexalObj = createStats( x, cellexalObj )
+		ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
+
 	}
 	o = order(ps[,'p.value'])
 	ps = ps[o,]
@@ -558,8 +575,8 @@ setMethod('createReport', signature = c ('cellexalTime'),
 	loc = reduceTo(loc, what='col', to = colnames(loc@data)[
 		which(!is.na(loc@userGroups[,info$gname]))] )
 	loc = reorder.samples(loc, paste( info$gname, 'order' ) )
-	
-	cellexalObj@usedObj$lastGroup = info@gname
+
+	cellexalObj@usedObj$lastGroup = info$gname
 	## add the plots to the log
 	try({
 		ret = simplePlotHeatmaps(loc, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )
@@ -571,7 +588,7 @@ setMethod('createReport', signature = c ('cellexalTime'),
 			text= paste(text, ret$error, sep=" ", collapse=" ") 
 		) 
 	} )	
-
+	cellexalObj = addSelection( x, cellexalObj )
 	invisible( list( cellexalObj = cellexalObj, timeline = x) )
 
 } )
@@ -954,6 +971,18 @@ setMethod('plotDataOnTime', signature = c ('cellexalTime'),
 		  ggplot2::geom_smooth(data=toPlot, 
 		  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=color[a], 
 		  	method=loess, fill=color[a], alpha=.2, na.rm = TRUE)
+
+
+		circleF = paste(sep=".", ofile,a,'svg' )
+		fileConn<-file( circleF )
+		writeLines(c(
+			'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
+			paste( sep="",'  <g color="',color[a],'">'),
+			paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',color[a],'"/>'),
+			'  </g>',
+			'</svg>'
+		), fileConn)
+		close(fileConn)
 	}
 	#pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
 	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')

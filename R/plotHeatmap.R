@@ -14,7 +14,7 @@
 #' @param main the figure titla (defaults to gene name)
 #' @param X11type not important here (default to 'cairo')
 #' @param family pdf typing family (defaults to "Helvetica") png is also supported
-#' @fileType figure file type (default 'pdf' )
+#' @param fileType figure file type (default 'pdf' )
 #' @title description of function plotHeatmap
 #' @export 
 setGeneric('plotHeatmap', ## Name

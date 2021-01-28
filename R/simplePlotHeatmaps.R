@@ -124,7 +124,12 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
 		## what if we would use sum? no time is broken...
-		pred1 = loess(  apply (mat[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+		if ( length(genes) > 1){
+			pred1 = loess( apply (mat[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+		}
+		else {
+			pred1 = loess( mat[,genes] ~ toPlot[,'time'], span=.1)
+		}
 		toPlot[,gn] = predict(pred1)
 		#toPlot[,gn] = apply (mat[,genes], 1, mean)
 		# plot( as.numeric(toPlot[,'time']), apply (mat[,genes], 1, mean))
@@ -141,6 +146,24 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 		image( mat[,genes], col=gplots::bluered(40), main = gn)
 		box("outer", col=clusterC[i], lwd = 10)
 		dev.off()
+
+		## I got the user request to recall the color in the grouping.
+		## As this color can be user defined I need to store this info here!
+		## easiest might be a 
+		circleF = paste(sep=".", ofile,i,'svg' )
+		fileConn<-file( circleF )
+		writeLines(c(
+			'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
+			paste( sep="",'  <g color="',clusterC[i],'">'),
+			paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',clusterC[i],'"/>'),
+			#'    <circle cx="50" cy="50" r="50"/>',
+			'  </g>',
+			'</svg>'
+		), fileConn)
+		close(fileConn)
+
+		# markdown : <img src="circleF" width="200">
+
 		i = i+1
 	}
 
@@ -213,10 +236,10 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 #' @rdname clusterGenes-methods
 #' @docType methods
 #' @description get a - hopefully - optimal grouing of a list of genes 
-#' @param x the cellexalvrR object to get the data from
+#' @param x either the z-scored matrix or a cellexalTime object
 #' @param deg.genes a list of genes 
 #' @param info the group to cluster the genes for (list)
-#' @param 
+#' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('clusterGenes') ){setGeneric('clusterGenes', ## Name

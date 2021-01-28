@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Introduction</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h2>Introduction</h2>
+
+<p>This document describes how to use <code>cellexalvrR</code>, an R package that accompanies <a href="wwww.cellexalvr.med.lu.se">CellexalVR</a> which is a virtual reality environment to analyze single-cell RNAseq data. <code>cellexalvrR</code> has two functions:</p>
+
+<ol>
+<li>To aid the formatting and export of data that can be imported by CellexalVR.</li>
+<li>To perform backend calculations during a CellexalVR session.</li>
+</ol>
+
+<p>##Installation
+The easiest way to install <code>cellexalvrR</code> is directly from github using the <code>devtools</code> package:</p>
+
+<pre><code class="r">library(devtools)
+install_github(&quot;sonejilab/cellexalvrR&quot;)
+</code></pre>
+
+<p><strong>If you are installing this on your VR station then be sure to install <code>cellexalvrR</code> system-wide, so on your Windows 10 machine right-click the R icon, and then &ldquo;Run as administrator&rdquo; before issuing the commands above.</strong></p>
+
+<p>Make sure that you also have the Rtools installed on your windows machine which provides c and c++ compilers.</p>
+
+<h2>Quick start</h2>
+
+<p>The data from <a href="http://www.bloodjournal.org/content/128/8/e20.long?sso-checked=true">Nestorowa <em>et al</em></a> can be downloaded from <a href="https://www.cellexalvr.med.lu.se/download#">here</a>. Unpack them and set your working directory to where they are.</p>
+
+<p>First, load the library:</p>
+
+<pre><code class="r">library(cellexalvrR)
+
+if ( ! file.exists(&quot;log2data.RData&quot;) ) {
+   log2data = as.matrix(cellexalObj@data)
+   save( log2data, file=&quot;log2data.RData&quot;)
+   rm( log2data)
+
+   facs = cellexalObj@index
+   save( facs, file= &quot;facs.RData&quot;)
+   rm( facs )
+
+   cell.ids = cellexalObj@meta.cell
+   save( cell.ids, file=&quot;cell.ids.RData&quot;)
+   rm(cell.ids)
+
+   diff.proj = cellexalObj@drc$diffusion
+   save( diff.proj, file=&quot;diff.proj.RData&quot;)
+   rm( diff.proj )
+
+   ddr.proj = cellexalObj@drc$DDRtree
+   save( ddr.proj, file=&quot;ddr.proj.RData&quot; )
+   rm(ddr.proj)
+
+   tsne.proj = cellexalObj@drc$tSNE
+   save( tsne.proj, file=&quot;tsne.proj.RData&quot;)
+   rm(tsne.proj)
+
+}
+</code></pre>
+
+<p>Then load the data:</p>
+
+<pre><code class="r">
+load(&quot;log2data.RData&quot;)
+load(&quot;facs.RData&quot;)
+load(&quot;cell.ids.RData&quot;)
+load(&quot;diff.proj.RData&quot;)
+load(&quot;ddr.proj.RData&quot;)
+load(&quot;tsne.proj.RData&quot;)
+</code></pre>
+
+<p><code>log2data</code> is a matrix of highly variable genes in log2 form. The first 10 columns and 10 rows look as so:</p>
+
+<pre><code class="r">log2data[1:10,1:10]
+#&gt;                 HSPC_001 HSPC_002  HSPC_003 HSPC_004 HSPC_006 HSPC_008 HSPC_009
+#&gt; Clec1b         0.0000000 0.000000 0.0000000 0.000000 1.039889 1.172368 0.000000
+#&gt; Kdm3a          0.0000000 0.000000 0.0000000 0.000000 0.000000 8.313856 7.042431
+#&gt; Coro2b         9.4755769 0.000000 0.0000000 0.000000 1.637906 1.172368 0.000000
+#&gt; 8430408G22Rik  0.0000000 0.000000 0.0000000 0.000000 0.000000 0.000000 0.000000
+#&gt; Clec9a         0.0000000 0.000000 0.0000000 0.000000 0.000000 0.000000 0.000000
+#&gt; Phf6           7.7333697 7.271829 9.4130405 2.677008 5.832172 7.856124 3.298544
+#&gt; Usp14          1.4788998 3.378561 8.6774851 1.659063 7.391105 3.091340 8.689676
+#&gt; Tmem167b       0.0000000 9.093340 0.8302297 0.000000 1.637906 0.000000 0.000000
+#&gt; Kbtbd7        10.0456005 2.861341 1.3538522 1.659063 2.385231 7.902221 0.000000
+#&gt; Rag2           0.5329056 2.047347 0.8302297 0.000000 6.381515 0.000000 0.000000
+#&gt;               HSPC_011 HSPC_012 HSPC_014
+#&gt; Clec1b        0.000000 1.486056 0.000000
+#&gt; Kdm3a         2.732774 2.202400 2.209467
+#&gt; Coro2b        1.090491 0.000000 0.000000
+#&gt; 8430408G22Rik 0.000000 0.000000 0.000000
+#&gt; Clec9a        0.000000 0.000000 0.000000
+#&gt; Phf6          9.103079 6.695850 1.491864
+#&gt; Usp14         7.566973 2.202400 8.129944
+#&gt; Tmem167b      0.000000 1.486056 1.491864
+#&gt; Kbtbd7        0.000000 0.000000 0.000000
+#&gt; Rag2          1.704399 7.365545 1.491864
+</code></pre>
+
+<p>Note the cell IDs are in the column names, and the gene names are the row names.</p>
+
+<p><code>facs</code> is a matrix of cell surface marker intensities captured during index sorting:</p>
+
+<pre><code class="r">head(facs)
+#&gt;               CD34      CD16     c.Kit      EPCR      Flk2     CD150      CD48
+#&gt; HSPC_001 0.6037796 0.4322826 1.3509535 1.5235524 0.3618872 0.3036440 0.4359241
+#&gt; HSPC_002 0.3652949 0.5923082 1.1668190 1.5575771 0.3985330 0.1802330 0.3413969
+#&gt; HSPC_003 1.1688350 0.3103070 1.2716602 0.1796609 0.2225457 0.2708689 1.4005640
+#&gt; HSPC_004 0.7234537 0.5098244 1.2890254 0.1047645 0.7382823 0.1746147 1.0903352
+#&gt; HSPC_006 0.7806266 0.2244971 0.8613574 0.1909399 0.7124364 0.4767371 1.1907472
+#&gt; HSPC_008 0.8303475 0.5984071 1.2414646 1.4069329 0.4826786 0.2322792 0.3781136
+#&gt;                Lin      Sca1
+#&gt; HSPC_001 0.2989843 1.3179900
+#&gt; HSPC_002 0.4922320 1.5137737
+#&gt; HSPC_003 0.4194964 0.6391425
+#&gt; HSPC_004 0.5070497 0.5363241
+#&gt; HSPC_006 0.3140937 0.5699483
+#&gt; HSPC_008 0.2573233 1.2604954
+</code></pre>
+
+<p>Cell IDs are in the row names, and the name of the surface protein in the columns.</p>
+
+<p><code>cell.ids</code> is a 1/0 matrix that assigns metadata to the each cell. In this case it shows the cell type 
+each cell was sorted as:</p>
+
+<pre><code class="r">head(cell.ids)
+#&gt;          LTHSC_broad LMPP_broad MPP_broad CMP_broad MEP_broad GMP_broad
+#&gt; HSPC_001           0          0         1         0         0         0
+#&gt; HSPC_002           1          0         0         0         0         0
+#&gt; HSPC_003           0          0         1         0         0         0
+#&gt; HSPC_004           0          1         0         0         0         0
+#&gt; HSPC_006           0          1         0         0         0         0
+#&gt; HSPC_008           0          1         0         0         0         0
+#&gt;          MPP1_broad MPP2_broad MPP3_broad STHSC_broad LTHSC LMPP MPP CMP MEP
+#&gt; HSPC_001          0          0          0           1     0    0   0   0   0
+#&gt; HSPC_002          0          0          0           0     1    0   0   0   0
+#&gt; HSPC_003          0          0          1           0     0    0   0   0   0
+#&gt; HSPC_004          0          0          0           0     0    1   0   0   0
+#&gt; HSPC_006          0          0          0           0     0    1   0   0   0
+#&gt; HSPC_008          0          0          0           0     0    1   0   0   0
+#&gt;          GMP MPP1 MPP2 MPP3 STHSC ESLAM HSC1 Projected
+#&gt; HSPC_001   0    0    0    0     0     0    0         0
+#&gt; HSPC_002   0    0    0    0     0     0    0         0
+#&gt; HSPC_003   0    0    0    0     0     0    0         0
+#&gt; HSPC_004   0    0    0    0     0     0    0         0
+#&gt; HSPC_006   0    0    0    0     0     0    0         0
+#&gt; HSPC_008   0    0    0    0     0     0    0         0
+</code></pre>
+
+<p>Cell IDs are in the row names, and the name of the meta data in the columns. A 1 is given if the cell 
+belongs to a metadata class, 0 otherwise.</p>
+
+<p><code>diff.proj</code>,<code>tsne.proj</code>,and <code>diff.proj</code> are the results from three different dimension reduction methods 
+applied to <code>log2data</code>, specifically DDRTree, tSNE and diffusion map respectively. Each is a three column matrix 
+of x/y/z coordinates. For example:</p>
+
+<pre><code class="r">head(diff.proj)
+#&gt;                   DC1          DC2          DC3
+#&gt; HSPC_001 -0.014760110 -0.024119177 -0.007998293
+#&gt; HSPC_002 -0.010255308 -0.019970919 -0.015754327
+#&gt; HSPC_003 -0.003649320  0.027297654  0.014202316
+#&gt; HSPC_004 -0.012653205 -0.002990825  0.025813077
+#&gt; HSPC_006 -0.005876981  0.021537658  0.035740656
+#&gt; HSPC_008 -0.015699148 -0.018777106  0.007916241
+</code></pre>
+
+<p>The first step is to put all the dimension reduction outputs into a single list:</p>
+
+<pre><code class="r">proj.list &lt;- list(diffusion=diff.proj,DDRtree=ddr.proj,tSNE=tsne.proj)
+</code></pre>
+
+<p>The next is to make a <code>cellexalvr</code> object by calling <code>MakeCellexalVRObj</code> and passing the required objects to it:</p>
+
+<pre><code class="r">cellvr &lt;- MakeCellexalVRObj( Matrix::Matrix(log2data, sparse=TRUE),
+  drc.list=proj.list,specie=&quot;mouse&quot;,cell.meta=cell.ids,facs.data=NULL)
+</code></pre>
+
+<p>In the same step we also set the specie as mouse which ensures the correct 
+transcription factor IDs are using during network construction if implemented in CellexalVR.</p>
+
+<p>Calling the object name will detail it&#39;s contents:</p>
+
+<pre><code class="r">cellvr
+#&gt; An object of class cellexalvrR 
+#&gt; with 4709 genes and 1654  cells. 
+#&gt; Annotation datasets (1,1): &#39;&#39;   
+#&gt; Sample annotation (1654,23): &#39;LTHSC_broad&#39;, &#39;LMPP_broad&#39;, &#39;MPP_broad&#39;, &#39;CMP_broad&#39;, &#39;MEP_broad&#39;, &#39;GMP_broad&#39;, &#39;MPP1_broad&#39;, &#39;MPP2_broad&#39;, &#39;MPP3_broad&#39;, &#39;STHSC_broad&#39;, &#39;LTHSC&#39;, &#39;LMPP&#39;, &#39;MPP&#39;, &#39;CMP&#39;, &#39;MEP&#39;, &#39;GMP&#39;, &#39;MPP1&#39;, &#39;MPP2&#39;, &#39;MPP3&#39;, &#39;STHSC&#39;, &#39;ESLAM&#39;, &#39;HSC1&#39;, &#39;Projected&#39;   
+#&gt; There are 0 user group(s) stored :
+#&gt; and 3 drc object(s)
+#&gt; Specie is set to mouse
+</code></pre>
+
+<p>The last step is to call <code>export2cellexalvr</code> which will write the neccessary files from the <code>cellvr</code> object 
+to a specified directory:</p>
+
+<pre><code class="r">export2cellexalvr(cellvr,&quot;CellexalOut/&quot;)
+</code></pre>
+
+<p>Make sure that this directory exists.</p>
+
+<p>All the files needed by CellexalVR are created at this point. The entire &ldquo;CellexalOut/&rdquo; folder should then be 
+moved/copied to the &ldquo;Data&rdquo; folder in your CellexalVR setup. See the <a href="https://www.cellexalvr.med.lu.se/manual">manual</a>
+ for more details including a schematic of the folder structure.</p>
+
+<h2>Making a <code>cellexalvr</code> object from scratch</h2>
+
+<p>While <code>MakeCellexalVRObj</code> is the most convenient way to make the object, sometimes you want to make one manually. 
+This is done calling <code>new</code>:</p>
+
+<pre><code class="r">cell.vr.scr &lt;- new(&quot;cellexalvr&quot;,data=Matrix::Matrix(log2data,sparse=T),drc=list(tsne=tsne.proj))
+cell.vr.scr
+#&gt; An object of class cellexalvr 
+#&gt; with 4709 genes and 1654  cells. 
+#&gt; Annotation datasets (1,1): &#39;&#39;   
+#&gt; Sample annotation (1,1): &#39;&#39;   
+#&gt; There are 0 user group(s) stored :
+#&gt; and 1 drc object(s)
+#&gt; Specie is set to NA
+</code></pre>
+
+<p>We can add another set of dimension reduction coordinates using the <code>addMDS2cellexalvr</code> function:</p>
+
+<pre><code class="r">cell.vr.scr &lt;- addDRC2cellexalvr(cell.vr.scr,ddr.proj,&quot;DDRTree&quot;)
+cell.vr.scr
+#&gt; An object of class cellexalvr 
+#&gt; with 4709 genes and 1654  cells. 
+#&gt; Annotation datasets (1,1): &#39;&#39;   
+#&gt; Sample annotation (1,1): &#39;&#39;   
+#&gt; There are 0 user group(s) stored :
+#&gt; and 2 drc object(s)
+#&gt; Specie is set to NA
+</code></pre>
+
+<p>To add metadata for each cell use <code>addCellMeta2cellexalvr</code>:</p>
+
+<pre><code class="r">cell.vr.scr &lt;- addCellMeta2cellexalvr(cell.vr.scr,cell.ids)
+cell.vr.scr
+#&gt; An object of class cellexalvr 
+#&gt; with 4709 genes and 1654  cells. 
+#&gt; Annotation datasets (1,1): &#39;&#39;   
+#&gt; Sample annotation (1654,23): &#39;LTHSC_broad&#39;, &#39;LMPP_broad&#39;, &#39;MPP_broad&#39;, &#39;CMP_broad&#39;, &#39;MEP_broad&#39;, &#39;GMP_broad&#39;, &#39;MPP1_broad&#39;, &#39;MPP2_broad&#39;, &#39;MPP3_broad&#39;, &#39;STHSC_broad&#39;, &#39;LTHSC&#39;, &#39;LMPP&#39;, &#39;MPP&#39;, &#39;CMP&#39;, &#39;MEP&#39;, &#39;GMP&#39;, &#39;MPP1&#39;, &#39;MPP2&#39;, &#39;MPP3&#39;, &#39;STHSC&#39;, &#39;ESLAM&#39;, &#39;HSC1&#39;, &#39;Projected&#39;   
+#&gt; There are 0 user group(s) stored :
+#&gt; and 2 drc object(s)
+#&gt; Specie is set to NA
+</code></pre>
+
+<p>To add FACS for each cell use <code>addFACS2cellexalvr</code>:</p>
+
+<pre><code class="r">cell.vr.scr &lt;- addFACS2cellexalvr(cell.vr.scr,facs)
+</code></pre>
+
+<p>Setting the specie is done using the <code>set.specie</code> function:</p>
+
+<pre><code class="r">cell.vr.scr &lt;- set.specie(cell.vr.scr,&quot;mouse&quot;)
+cell.vr.scr
+#&gt; An object of class cellexalvr 
+#&gt; with 4709 genes and 1654  cells. 
+#&gt; Annotation datasets (1,1): &#39;&#39;   
+#&gt; Sample annotation (1654,23): &#39;LTHSC_broad&#39;, &#39;LMPP_broad&#39;, &#39;MPP_broad&#39;, &#39;CMP_broad&#39;, &#39;MEP_broad&#39;, &#39;GMP_broad&#39;, &#39;MPP1_broad&#39;, &#39;MPP2_broad&#39;, &#39;MPP3_broad&#39;, &#39;STHSC_broad&#39;, &#39;LTHSC&#39;, &#39;LMPP&#39;, &#39;MPP&#39;, &#39;CMP&#39;, &#39;MEP&#39;, &#39;GMP&#39;, &#39;MPP1&#39;, &#39;MPP2&#39;, &#39;MPP3&#39;, &#39;STHSC&#39;, &#39;ESLAM&#39;, &#39;HSC1&#39;, &#39;Projected&#39;   
+#&gt; There are 0 user group(s) stored :
+#&gt; and 2 drc object(s)
+#&gt; Specie is set to mouse
+</code></pre>
+
+<p>##Making cell metadata from a data frame</p>
+
+<p>CellexalVR requires metadata in the form of a 1/0 matrix, but many packages store it as a data frame. 
+CellexalvrR has function to convert a data frame into a 1/0 matrix. First, lets make a data frame:</p>
+
+<pre><code class="r">meta.df &lt;- data.frame(CellType=sample(c(&quot;Type1&quot;,&quot;Type2&quot;,&quot;Type3&quot;),10,replace=T),
+                      Phase=sample(c(&quot;G1&quot;,&quot;G2M&quot;,&quot;S&quot;),10,replace=T),
+                      Treatment=sample(c(&quot;WT&quot;,&quot;Dox&quot;),10,replace=T))
+head(meta.df)
+#&gt;   CellType Phase Treatment
+#&gt; 1    Type1    G1       Dox
+#&gt; 2    Type3   G2M       Dox
+#&gt; 3    Type3     S       Dox
+#&gt; 4    Type2   G2M        WT
+#&gt; 5    Type1    G1       Dox
+#&gt; 6    Type1    G1        WT
+</code></pre>
+
+<p>We can now make a correctly formatted cell metadata matrix by applying the function <code>make.cell.meta.from.df</code> 
+using only the fields we need, in this case the &ldquo;CellType&rdquo; and &ldquo;Treatment&rdquo; columns:</p>
+
+<pre><code class="r">
+required.cell.metad &lt;- make.cell.meta.from.df(meta.df,c(&quot;CellType&quot;,&quot;Treatment&quot;))
+head(required.cell.metad)
+#&gt;   CellType@Type1 CellType@Type3 CellType@Type2 Treatment@Dox Treatment@WT
+#&gt; 1              1              0              0             1            0
+#&gt; 2              0              1              0             1            0
+#&gt; 3              0              1              0             1            0
+#&gt; 4              0              0              1             0            1
+#&gt; 5              1              0              0             1            0
+#&gt; 6              1              0              0             0            1
+</code></pre>
+
+<p>It can be seen the field name is placed in the column heading preceeding a &ldquo;@&rdquo;, and this is used by 
+CellexalVR to form catagories on the menu system, so &ldquo;CellType&rdquo; and &ldquo;Treatment&rdquo; will be on separate tabs. 
+This metadata matrix can now be added to a <code>cellexalvrR</code> object as decribed above using the <code>addCellMeta2cellexalvr</code> 
+function.</p>
+
+<p>##Converting a Seurat object to a cellexalvr object</p>
+
+<p>For those using <a href="https://satijalab.org/seurat/">Seurat</a>, cellexalvrR offers some basic functionality 
+to convert a Seurat object to a cellexalvr object. It takes the data from the <code>@dat</code> slot, and cell 
+identities from the <code>@ident</code> slot, and will also take the cell-cycle phase assignments if this has been done.
+ If PCA has been performed the first three components are taken as MDS coordinates, and the same if tSNE has
+  been implemented using the <code>dim.embed=3</code> option when calling <code>RunTSNE</code> from Seurat.</p>
+
+<pre><code class="r"># mca comes from from https://satijalab.org/seurat/v3.0/mca.html
+mca &lt;- RunUMAP(mca, dims = 1:75, min.dist = 0.75,n.components=3)
+
+mca.data &lt;- GetAssayData(object = mca) #Extract the expression data
+drl &lt;- list(UMAP=Embeddings(object = mca, reduction = &quot;umap&quot;)) # Put the UMAP coordinated into a list
+meta &lt;- make.cell.meta.from.df(mca[[]],&quot;Tissue&quot;) # Make the metadata using just the &quot;Tissue&quot; column
+
+cvr &lt;- new(&quot;cellexalvrR&quot;,data=mca.data,drc=drl) # Initialise a new cellexalvrR object with the expression data and UMAP
+cvr &lt;- set.specie(cvr,&quot;mouse&quot;) # Set the specie to Mouse
+cvr &lt;- addCellMeta2cellexalvr(cvr,meta) # Add the metadata to the cellexalvrR object
+export2cellexalvr(cvr,&quot;MCA_full&quot;) #Export the files to a folder called &quot;MCA_full&quot; 
+
+</code></pre>
+
+</body>
+
+</html>

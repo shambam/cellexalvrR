@@ -57,7 +57,6 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 				timeline = cellexalObj@usedObj$timelines[["lastEntry"]]
 			}
 			else {
-				browser()
 				return( drcPlots2D( cellexalObj, gInfo ) )
 			}
 		}
@@ -94,30 +93,6 @@ prettyPlot2Dtime = function(x ){
 	
 	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y) ) 
 	p = p +   ggplot2::geom_point(color = x$col , show.legend = FALSE)
-	#browser()
-	# pos= t(sapply( sort(as.numeric(unique(x$id))), function(id) {
-	# 	ok = which(x$id == id); 
-	# 	c( median(x[ok,1]), median(x[ok,2]) )
-	# } ))
- #    theta <- seq(pi/8, 2*pi, length.out=48)
- #    xo <- diff(range(pos[,1]))/1200
- #    yo <- diff(range(pos[,2]))/1200
- #    C1 = c(grey(.6),col)
- #    C2 = 'black'
- #    for(i in theta) {
- #        p <- p + ggplot2::geom_text( data=data.frame(pos),
- #            ggplot2::aes_q(
- #                x = bquote(pos[,1]+.(cos(i)*xo)),
- #                y = bquote(pos[,2]+.(sin(i)*yo)),
- #                label=sort(as.numeric(unique(x$id)))-1), 
- #                    size=10, colour=C2 )
- #    }
- #    browser()
- #    if ( length(C1) -1 == length(unique(x$id))){
- #    	C1 = C1[-1]
- #    }
- #    p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
- #     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1 )  
     p
 }  
 

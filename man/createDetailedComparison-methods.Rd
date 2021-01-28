@@ -26,10 +26,5 @@
 compare a set of genes and compare them in different cells over the same timeline
 }
 \details{
-Tries to answer the question: how do these genes differ over the timeline in two sets of cells.
-It answers this in a graphical, not a statistical way.
-Hence you can feed whichever genelist you like into this function.
-
-It will cluster these genes based on all data and use this clusering throughout.
-Hence the two xy line graphs can directly be compared.
+Tries to get a detailed description of the analyzed timeline
 }
