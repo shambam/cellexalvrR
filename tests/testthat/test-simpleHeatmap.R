@@ -33,7 +33,7 @@ timeline = x@usedObj$timelines[[1]]
 expect_equal( timeline@gname, 'Time.group.2', "time gname is correct" )
 expect_equal( timeline@parentSelection, 'User.group.1', "time parentSelection is correct" )
 expect_equal( timeline@geneClusters, list(), label="geneClsuters are not populated" )
-expect_equal( timeline@id, "ec4c37f0f0c79b18d6448864c1dee102", label="id correct" )
+expect_equal( timeline@id, "56d236f744299e79e06e8ee0130db05c", label="id correct" )
 expect_equal( timeline@drc, "DDRtree", label="drc correct" )
 expect_equal( length(timeline@error), 0 , label="no error" )
 

@@ -17,7 +17,7 @@ checkFile = function ( collect, ofile ) {
   	}
   	for ( na in names(collect) ){
   		if ( length(grep( na, line))> 0){
-  			collect[[na]] = collect[[na]] +1
+  			collect[[na]] = collect[[na]] + length(grep( na, unlist(str_split(line, "a>"))))
   		}
   	}
 	}
@@ -97,20 +97,23 @@ collect = list(
 	'as group Time.group.2' = 0,
 	'Time.group.2.Linear.csv' = 0,
 	'Session Log for Session timeSession_subsets' = 0,
-	'2D DRC DDRtree dim 2,3 time line' = 0,
+	'2D DRC DDRtree dim 2,3' = 0,
 	'href="https://www.genecards.org/cgi-bin/' = 0
 )
 expt = list( 
 	'TimeLine control from Saved Selection' = 4, # one in the text and one in the TOC
-	'as group Time.group.2' = 1,
+	'as group Time.group.2' = 2,
 	'Time.group.2.Linear.csv' = 2,
 	'Session Log for Session timeSession_subsets' = 2, # one in the text and one in the TOC
-	'2D DRC DDRtree dim 2,3 time line' = 4, # this figure is shown twice..
+	'2D DRC DDRtree dim 2,3' = 8, # this figure is shown twice..
 	'href="https://www.genecards.org/cgi-bin/' = 500 # two 250 gene lists.
 )
 expt[[x@outpath]] = 0
 collect[[x@outpath]] = 0
+
+
 collect = checkFile(collect, ofile )
+
 
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 ##################################################

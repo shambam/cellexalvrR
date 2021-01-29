@@ -120,7 +120,7 @@ prettyPlot2D = function(x, col ){
     p
 }  
 
-correctPath = function( f, cellexalObj ) { 
+correctPath = function( f, cellexalObj ) {
 	file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) 
 }
 

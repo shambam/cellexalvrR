@@ -39,191 +39,70 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 		stop("I need an info list as obtained from calling groupingInfo")
 	}
 
-	info = groupingInfo(x, info$gname) ## make sure we only have the info we need.
-	if ( length(which(!is.na(info$grouping))) > 0 ){
-		x=reduceTo(x, what='col', to=colnames(x@data)[which(!is.na( x@userGroups[,info$gname]))] )
-		x= reorder.samples( x, paste(info$gname, 'order'))
-		info = groupingInfo(x, info$gname)
-	}
-	
-	if ( ! is.null(x@usedObj$deg.genes) ) {
-		m = match(x@usedObj$deg.genes, rownames(x@data) )
-		if ( length(which(is.na(m))) > 0 ){
-			stop(paste("Gene(s)",
-				paste(collapse=", ",x@usedObj$deg.genes[which(is.na(m))] ), 
-				"are missing in the cellexalObj" ) )
-		}
-		mat = FastWilcoxTest::ZScoreAll( x@data[x@usedObj$deg.genes,], display_progress=FALSE ) 
-		colnames(mat) = colnames(x@data)
-		rownames(mat) = x@usedObj$deg.genes
-	}else {
-		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
-		colnames(mat) = colnames(x@data)
-		rownames(mat) = rownames(x@data)
-	}
-	
-	
-	gr = clusterGenes( mat  ) 
-
 	## now I need to cellexalTime object:
-	time = x@usedObj$timelines[[info$gname]]
-	if ( is.null( time ) ){
+	ti = x@usedObj$timelines[[info$gname]]
+	
+	if ( is.null( ti ) ){
 		## oops - we got a parentSelection?
 		## best guess
 		if ( x@usedObj$timelines[["lastEntry"]]@parentSelection == info$gname){
-			time = x@usedObj$timelines[["lastEntry"]]
+			ti = x@usedObj$timelines[["lastEntry"]]
+			info = groupingInfo( ti@gname, x)
 		}
 	}
-	if ( is.null( time ) ){
+	if ( is.null( ti ) ){
 		stop(paste( "The time for the selection", info$gname, "could not be found") )
 	}
-	clusterC = rainbow( max(gr) )
-	if ( is.null(time)) {
-		print ("The time is NULL - WHY?")
-		browser()
+
+	if ( ! is.null(x@usedObj$deg.genes) ) {
+		toPlot = compactTimeZscore( ti, x@usedObj$deg.genes, info, x )
+	}else {
+		toPlot = compactTimeZscore( ti, rownames(x@data), info, x )
 	}
-	toPlot = time@dat[,c('time', 'col') ]
+
+	error = NULL
+	gr = clusterGenes( t(toPlot[, -c(1,2) ]) ) 
+	clusterC = rainbow( max(gr) )
 
 	pngs = NULL
 	#create the separate simple Heatmap PNGs:
 	ofile = paste( fname,'png', sep=".")
 
-	mat = t(mat)
 	ma = -1000
 	mi = 1000
-	error= NULL
-	if ( ncol(mat) != nrow(time@dat)) {
-		m= match( rownames(time@dat), rownames(mat))
-		mat = mat[m,]
-	}
-
-	## we only have a width of 1000 pixels - I think we should sum up the expression so that we fit into 1000 cells!
-	sum =NULL
-	sumTime = NULL
-	sumCol = NULL
-	if ( ncol(x@data) > 1000 ){
-		message( paste("To plot the timeline analysis", ncol(x@data), "cells are merged into 1000 data points using mean" ))
-		n = ncol(x@data)
-		ids = rep( 1:1000, floor(n/1000))
-		ids = c( ids, sample( 1:1000, n%%1000))
-		ids = sort(ids)
-		B = FastWilcoxTest::collapse( x@data, ids, 2 )
-		B <- Matrix::Matrix(B, sparse = TRUE)
-		mat = FastWilcoxTest::ZScoreAll( B, display_progress=FALSE ) 
-		colnames(mat) = colnames(1:1000)
-		rownames(mat) = rownames(x@data)
-		mat =t(mat)
-		toPlot = data.frame(
-		 time=unlist(lapply( split( time@dat[,'time'], ids ), mean)), 
-		 col= unlist(lapply( split( as.vector(time@dat[,'col']), ids ), 
-		 	function(x) { t=table(x); names(t)[which(t==max(t))[1]]})) 
-		 )
-	}
-
 	i = 1
+
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
 		## what if we would use sum? no time is broken...
 		if ( length(genes) > 1){
-			pred1 = loess( apply (mat[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+			pred1 = loess( apply (toPlot[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
 		}
 		else {
-			pred1 = loess( mat[,genes] ~ toPlot[,'time'], span=.1)
+			pred1 = loess( toPlot[,genes] ~ toPlot[,'time'], span=.1)
 		}
 		toPlot[,gn] = predict(pred1)
-		#toPlot[,gn] = apply (mat[,genes], 1, mean)
-		# plot( as.numeric(toPlot[,'time']), apply (mat[,genes], 1, mean))
-		# points(toPlot[,'time'], toPlot[,gn], col='green' )
+
 		ma = max( ma, toPlot[,gn])
 		mi = min( mi, toPlot[,gn])
-		of = paste(fname, i,'png', sep=".")
-		h = length(genes)
-		if ( h < 200)
-			h = 200
-		message( paste("I have", length(genes), "genes for this heatmap and am using the height =",h) )
-		png( file=of, width=1000, height = h )
+
+		of = paste(fname, i, sep=".")
+		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], circleF = paste(sep=".", ofile,i,'svg' ) )
+		#of = correctPath( of, x )
 		pngs = c(pngs, of)
-		image( mat[,genes], col=gplots::bluered(40), main = gn)
-		box("outer", col=clusterC[i], lwd = 10)
-		dev.off()
-
-		## I got the user request to recall the color in the grouping.
-		## As this color can be user defined I need to store this info here!
-		## easiest might be a 
-		circleF = paste(sep=".", ofile,i,'svg' )
-		fileConn<-file( circleF )
-		writeLines(c(
-			'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
-			paste( sep="",'  <g color="',clusterC[i],'">'),
-			paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',clusterC[i],'"/>'),
-			#'    <circle cx="50" cy="50" r="50"/>',
-			'  </g>',
-			'</svg>'
-		), fileConn)
-		close(fileConn)
-
-		# markdown : <img src="circleF" width="200">
-
 		i = i+1
 	}
 
-	## now I need to get the background info into a table
-	xstarts = as.vector(toPlot$time[match( unique(toPlot$col), toPlot$col)])
-	xstarts[1] = -Inf
-	col = as.vector(toPlot$col[match( unique(toPlot$col), toPlot$col)])
-	xends =as.vector(c(xstarts[-1],toPlot$time[nrow(toPlot)] )) 
-	xends[length(xends)] = Inf
-	rects = data.frame( xstarts, xends, col)
-	rects$col = as.vector(rects$col)
-	rects$col = factor( rects$col, levels=rects$col)
-	#browser()
-	png( file=ofile, width=1000, height = 1000)
-	#pngs = c(pngs, ofile)
-	toPlot2 = reshape2::melt( toPlot, id=c('time', 'col'))
-	wes = function(n) {wesanderson::wes_palette("Zissou1", n,type = "continuous")[1:n] }
-	pl = ggplot2::ggplot(toPlot, ggplot2::aes( xmin = min(time), xmax= max(time), ymin= mi, ymax=ma) )
-	pl = pl +
-	  ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
-			xmin = xstarts, 
-			xmax = xends, 
-			#ymin = mi, 
-			#ymax = mi+ (ma -mi)/10 
-			ymin = -Inf,
-			ymax = Inf
-			),
-	  	fill= wesanderson::wes_palette("Zissou1",10, type = "continuous")[1:10],
-			alpha = .2) + 
-	  ggplot2::scale_fill_manual( 
-	  	palette = wes,
-	  	values = wesanderson::wes_palette("Zissou1", 10,type = "continuous")[1:10],
-	  	aesthetics = c("colour", "fill")
-	  ) +  
-	  ggplot2::guides(fill=FALSE)
-	#plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
-	#	col='white', xlab='pseudotime', 
-	#	ylab="smoothed mean rolling sum expression of gene sets"  )
-	#for ( a in 1:(i-1) ){
-	#	points( toPlot$time, toPlot[,n], col=clusterC[a])
-	#	lines( toPlot$time, toPlot[,n], col=clusterC[a])
-	#}
-	for ( a in 1:(i-1) ){
-		n = paste(sep=".", 'gene', 'group', a)
-		pl = pl + #ggplot2::geom_line( ggplot2::aes_string( y= n ), color=clusterC[a] ) +
-		  ggplot2::geom_point(data=toPlot, 
-		  	mapping=ggplot2::aes_string(x='time', y= n ), color=clusterC[a] ) +
-		  ggplot2::geom_smooth(data=toPlot, 
-		  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=clusterC[a], 
-		  	method=loess, fill=clusterC[a], alpha=.2, span=.1)
+	dat = as.list(toPlot[, grep('gene.group', colnames(toPlot))])
+	for (n in names(dat) ) {
+		names(dat[[n]]) = rownames(toPlot)
 	}
-	pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
-	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
-	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
-	pl = pl + ggplot2::ylab( "pseudotime" )
-	print(pl) #write the plot
-	dev.off()
+	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=dat, ofile=ofile )
 
-	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error, mat=mat )
+	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error, mat=toPlot[,sort(names(gr))] )
 } )
+
+
 
 
 

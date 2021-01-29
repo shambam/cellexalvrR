@@ -80,11 +80,12 @@ expt = list(
 	'as group Time.group.2' = 1,
 	'Time.group.2.Linear.csv' = 1,
 	'Session Log for Session timeSession_only_one' = 2, # one in the text and one in the TOC
-	'2D DRC DDRtree dim 2,3' = 2 # this figure is shown twice..
+	'2D DRC DDRtree dim 2,3' = 4 # this figure is shown twice..
 )
 expt[[x@outpath]] = 0
 collect[[x@outpath]] = 0
 collect = checkFile(collect, ofile )
+
 
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 

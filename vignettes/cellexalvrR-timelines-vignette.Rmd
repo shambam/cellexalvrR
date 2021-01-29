@@ -20,25 +20,24 @@ knitr::opts_chunk$set(
 
 ## Timelines
 
-Timelines in CellexalVR are simple one group selections.
-The algorithm will only work if the selection has a linear shape.
+Timelines in CellexalVR are simple one group selections. 
+But remember that the algorithm will only work if the selection has a linear shape.
 
 Interally CellexalvrR clusters the drc data from the selection using kmeans.
-These clusters are subsequently provided to Slingshot which in turn calculates the
-pseudotime. CellexalvrR checks the correlation between pseudotime and selection order,
+These kmean clusters are subsequently provided to Slingshot which in turn calculates the
+pseudotime. CellexalvrR checks the correlation between pseudotime and the order in the selection file,
 flipping the pseudotime if necesary.
-Gene expression is then correlated to the calculated pseudotime and 125 top and 125 bottom top genes are trurned to the VR process.
+Gene expression is afterwards correlated to the calculated pseudotime and 125 top and 125 bottom top 
+genes are retrurned to the VR process and displayed as VR heatmap.
 
 ## And Beyond
 
 The timeline analysis turned out to be more valuable than that.
-It is of major interest to highlight sample differences relating this timeline.
+In many projects it is of major interest to highlight sample differences in relation to a timeline.
 
-To help in this analysis CellexlvrR provides the cellexalTime class.
-A time object is always created if a single group selection is processed in VR 
-and can be accessed from the cellexalObj.RData file in the output folder.
+To help in this analysis CellexlvrR provides the cellexalTime class. Every time the user creates a single selection heatmap in VR a time object is created. This time object can be accessed from the cellexalObj.RData file in the project output folder.
 
-For this vignett I will process the inbuilt dataset:
+For this vignett I will use the inbuilt dataset and a saved one group selection.
 
 ```{r,message=FALSE}
 library(cellexalvrR)
@@ -48,19 +47,19 @@ cellexalObj
 
 ```
 
-And a provided linear selection:
+And the provided one group selection:
 
 ```{r,message=FALSE}
 head( read.delim( system.file("extdata", "SelectionHSPC_time.txt", package="cellexalvrR"), header=F ) )
 
 ```
 
-All timeline function are based on the cellexalvrR loggin system and therefore we need to start a log before we use them:
+All timeline function are based on the cellexalvrR logging system and therefore we need to start a log before we can use them:
 
 ```{r,message=FALSE}
 
 cellexalObj@outpath = getwd()
-cellexalObj = sessionPath( cellexalObj, 'timelineVignett')
+cellexalObj = sessionPath( cellexalObj, 'timelineExample')
 
 
 ```
@@ -71,13 +70,11 @@ This part of the analysis would have been run during your VR session.
 ```{r,message=FALSE}
 cellexalObj = userGrouping( cellexalObj, system.file("extdata", "SelectionHSPC_time.txt",package= "cellexalvrR") )
 cellexalObj = pseudotimeTest3D(cellexalObj, grouping= cellexalObj@usedObj$lastGroup )
-cellexalObj = createStats( cellexalObj@usedObj$timelines[[1]], cellexalObj,  num.sig= 250 )
+cellexalObj = createStats( "lastEntry" , cellexalObj,  num.sig= 250 )
 
-bossTime = cellexalObj@usedObj$timelines[["lastEntry"]] ## latest
-
+bossTime = cellexalObj@usedObj$timelines[["lastEntry"]]@gname
 cellexalObj = createReport(bossTime, cellexalObj, info = bossTime)$cellexalObj
 
-bossTime = cellexalObj@usedObj$timelines[["lastEntry"]] ## latest
 
 # the statistics table
 print ( head( cellexalObj@usedObj$sigGeneLists$lin[[ cellexalObj@usedObj$lastGroup ]] ))
@@ -96,38 +93,40 @@ and the 'lastEntry' timline is always a copy of a timeline in the list.
 
 ### compareGeneClusters
 
-CompareGeneClusters is a function to compare gene expression prfiles between two timelines.
-It requres to have run the same genes through two different timelines, but both timelines need to base on the same initial selections.
+CompareGeneClusters is a function to compare gene expression profiles between two timelines.
+It requires to have clutered the same genes in two different timelines.
 
 How to do this?
 
-For a real live example the celly in the timeline could be separated by treatment, age or desease state.
+For a real live example the cells in the timeline could be separated by treatment, age, desease state or any other research interest.
 For this example I can only create an even split between the samples:
 
 ```{r, message=FALSE}
+time = getTime(cellexalObj, bossTime)
 
-subset1 = rownames(bossTime@dat)[seq(1,nrow(bossTime@dat),2)]
-timeSubset1 = subsetTime( bossTime, subset1)
+subset1 = rownames(time@dat)[seq(1,nrow(time@dat),2)]
+subset2 = rownames(time@dat)[seq(2,nrow(time@dat),2)]
+
+timeSubset1 = subsetTime( time, subset1)
+timeSubset2 = subsetTime( time, subset2)
+
 cellexalObj = addSelection( timeSubset1, cellexalObj )
-timeSubset1 = cellexalObj@usedObj$timelines[[1]]
+timeSubset1 = cellexalObj@usedObj$timelines[[1]]@gname
+
+cellexalObj = addSelection( timeSubset2, cellexalObj )
+timeSubset2 = cellexalObj@usedObj$timelines[[1]]@gname
 
 cellexalObj = createStats( timeSubset1, cellexalObj,  num.sig= 250 )
 deg.genes = cellexalObj@usedObj$deg.genes
 
 cellexalObj = createReport( timeSubset1, cellexalObj, 
-   groupingInfo( cellexalObj,timeSubset1@gname ), deg.genes = deg.genes )$cellexalObj
+     timeSubset1, deg.genes = deg.genes )$cellexalObj
 
+cellexalObj = createStats( timeSubset2, cellexalObj,  num.sig= 250 )
+cellexalObj = createReport(timeSubset2, cellexalObj, 
+     timeSubset2, deg.genes = deg.genes )$cellexalObj
 
-subset2 = rownames(bossTime@dat)[seq(2,nrow(bossTime@dat),2)]
-timeSubset2 = subsetTime( bossTime, subset2)
-cellexalObj = addSelection( timeSubset2, cellexalObj )
-timeSubset2 = cellexalObj@usedObj$timelines[[1]]
-cellexalObj = createReport(timeSubset2, cellexalObj,
-   groupingInfo( cellexalObj,timeSubset2@gname ), deg.genes = deg.genes )$cellexalObj
-
-cellexalObj = compareGeneClusters ( 
-	cellexalObj@usedObj$timelines[[timeSubset1@gname]], 
-	cellexalObj@usedObj$timelines[[timeSubset2@gname]], 
+cellexalObj = compareGeneClusters ( timeSubset1, timeSubset2, 
 	cellexalObj, altGroupNames=c("subset A", "subset B" ) )
 
 ```
@@ -136,14 +135,19 @@ In the end the report has to be finalized:
 
 ```{r, message=FALSE}
 cellexalObj = renderReport( cellexalObj)
-## store the file
-save( cellexalObj, file="timelineVignett/cellexalObj.RData")
+```
+
+```{r, echo=FALSE}
+## copy the main outfile to the doc folder
+if ( file.exists( 'PortableLog_timelineExample.zip' )){
+	file.copy( 'PortableLog_timelineExample.zip', "../doc/" )
+}
 
 ```
 
 ## The portable log file
 
-As with the VR session log system this R session will create a file 'PortableLog_timelineVignett.zip' 
+As with the CellexalVR session log system this R session will create ['a zipped portable log file'](./PortableLog_timelineExample.zip)
 that can be copied to any computer unzipped and viewed using any web browser.
 
 

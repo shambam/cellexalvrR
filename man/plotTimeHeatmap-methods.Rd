@@ -11,6 +11,8 @@
 \item{ofile}{the figure file (a '.png' will be added)}
 
 \item{color}{the color of the border around the heatmap}
+
+\item{circleF}{a file for a small <color> colored circle as svg file (needed for the reports)}
 }
 \value{
 the figure file path

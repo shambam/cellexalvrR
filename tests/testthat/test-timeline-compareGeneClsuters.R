@@ -1,4 +1,4 @@
-context('timeline-compareGeneClsuters')
+context('timeline-compareGeneClusters')
 
 
 ## This is a little more complictaed here.

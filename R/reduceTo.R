@@ -36,17 +36,14 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 							to <- to[ ! is.na(useOnly)]
 							useOnly <- useOnly[ ! is.na(useOnly) ]
 						}
-#						for (n in x@drop){
-#							if ( ! is.null(x[[n]]) ) {
-#								x[[n]] <- NULL
-#							}
-#							if ( ! is.null(x@usedObj[[n]]) ) {
-#								x@usedObj[[n]] <- NULL
-#							}
-#						}
 						x@data <- x@data[useOnly,]
 						x@meta.gene <- x@meta.gene[useOnly,]
-						
+						for ( tName in names( x@usedObj$timelines)[-1]){
+							if ( ! is.null( x@usedObj$timelines[[tName]]@geneClusters[['collapsedExp']] ) ) {
+								x@usedObj$timelines[[tName]]@geneClusters[['collapsedExp']] = 
+									x@usedObj$timelines[[tName]]@geneClusters[['collapsedExp']][useOnly,]
+							}
+						}
 					}else {
 						print (paste( "None of the probesets matched the probesets in the cellexalvr object -> keep everything!"))
 					}
@@ -62,14 +59,6 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 							to <- to[ ! is.na(useOnly)]
 							useOnly <- useOnly[ ! is.na(useOnly) ]
 						}
-#						for (n in x@drop){
-#							if ( ! is.null(x[[n]]) ) {
-#								x[[n]] <- NULL
-#							}
-#							if ( ! is.null(x@usedObj[[n]]) ) {
-#								x@usedObj[[n]] <- NULL
-#							}
-#						}
 						n = ncol(x@data)
 						x@data <- x@data[,useOnly]
 						if ( nrow(x@meta.cell) == n ){
@@ -101,6 +90,11 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 								x@groupSelectedFrom[[na]][['grouping']] = x@groupSelectedFrom[[na]][['grouping']][useOnly]
 							}
 							
+						}
+						for( na in names(x@userGroups$timelines) ) {
+							if ( length( which (is.na(match( rownames(x@userGroups$timelines[[na]]), colnames(x@data)) ))) > 0 ){
+								x@userGroups$timelines[[na]] = subsetTime( x@userGroups$timelines[[na]], colnames(x@data) )
+							}
 						}
 												
 					}else {

@@ -79,10 +79,10 @@ expect_true( cellexalObj@usedObj$sessionName != old,
 
 cellexalObj = reset(cellexalObj)
 
-writeLines( "shoulNotBeRead" ,  file.path(cellexalObj@outpath, 'mainServer.sessionName') )
+# writeLines( "shoulNotBeRead" ,  file.path(cellexalObj@outpath, 'mainServer.sessionName') )
 
-expect_true( cellexalObj@usedObj$sessionName != "shoulNotBeRead",
-	label="sessionName file is ignored without pid file")
+# expect_true( cellexalObj@usedObj$sessionName != "shoulNotBeRead",
+# 	label="sessionName file is ignored without pid file")
 
 unlink( pidfile )
 unlink( file.path(cellexalObj@outpath, 'mainServer.sessionName') )
@@ -96,7 +96,7 @@ expect_true( ! file.exists(file.path(cellexalObj@outpath, 'mainServer.sessionNam
 
 cellexalObj= renderReport(cellexalObj)
 
-expect_true( file.exists( file.path(cellexalObj@outpath, 'session-log-for-session-newsession.html')), lable="final report is created")
+expect_true( file.exists( file.path(cellexalObj@outpath, 'session-log-for-session-newsession.html')), label="final report is created")
 
 expect_true( ! file.exists(file.path(cellexalObj@outpath, 'mainServer.sessionName')), label="renderReport removes sessionName file" )
 
