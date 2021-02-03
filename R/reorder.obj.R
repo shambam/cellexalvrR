@@ -47,7 +47,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
    			 	dataObj@drc[[n]]  = dataObj@drc[[n]][idsHere,]
 				}, 
 				error = function(error_condition) {
-   				 browser()
+   				if(interactive()) { browser() }
 			} )
 			
 		}
@@ -72,7 +72,7 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		}
 	}
 	if ( !dataObj@usedObj$checkPassed ) {
-		browser()
+		if(interactive()) { browser() }
 	}
 	invisible(dataObj)
 } )

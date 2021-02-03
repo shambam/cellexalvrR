@@ -35,7 +35,6 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		gInfo$order[ which(is.na(gInfo$order))] = 0
 		if ( any( ! is.numeric(gInfo$order)) ) {
 			message("wrong data in gInfo$order")
-			browser()
 		}
 		if ( min(as.vector(gInfo$order)) == 0) {
 			gInfo$order = as.numeric(as.vector(gInfo$order)) +1

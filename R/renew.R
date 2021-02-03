@@ -38,7 +38,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 							meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, outpath= x@outpath)
 					}else {
 						print ( "Sorry this need re-coding - how do we update this old object here?")
-						browser()
+						if(interactive()) { browser() }
 					}
 					
 				}else if (x@version != as.character(packageVersion("cellexalvrR"))  ) { 

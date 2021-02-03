@@ -25,7 +25,7 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
 	if ( is.null(meta.cell.groups)){
-		browser()
+		if(interactive()) { browser() }
 		stop( paste(sep="","meta.cell.groups is not defined - please set it to one of\n'", 
 			paste(collapse="', '", colnames(x$samples)) ,"'") )
 	}

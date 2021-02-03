@@ -110,7 +110,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             if ( length(rq.cells) < 10 ) {
                 message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
-                browser()
+                if(interactive()) { browser() }
                 next
             }
             ## now remove all 'rarely expressed' genes
@@ -179,7 +179,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             if ( length(rq.cells) < 10 ) {
                 message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
-                browser()
+                if(interactive()) { browser() }
                 next
             }
             ## now remove all 'rarely expressed' genes

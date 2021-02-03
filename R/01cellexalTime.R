@@ -715,10 +715,10 @@ setMethod('createTime', signature = c ('cellexalTime'),
 		dist_of_centers = NULL
 
 		if ( ncol(dat) == 2) {
-			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], rep(0, length(group$centers[,'b'])), group$cluster[1]-1 )
+			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], rep(0, length(group$centers[,'b'])), 0 )
 		}
 		else {
-			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], group$cluster[1]-1 )
+			dist_of_centers = FastWilcoxTest::eDist3d( group$centers[,'a'], group$centers[,'b'], group$centers[,'c'], 0 )
 		}
 		end = which( dist_of_centers == max(dist_of_centers))
 
@@ -726,8 +726,16 @@ setMethod('createTime', signature = c ('cellexalTime'),
 			message( "pseudotimeTest3D - There are NA values in the dat matrix!")
 			if ( interactive() ) {browser()}
 		}
-
-		sling = slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
+		sling = NULL
+		try( {
+		sling = {
+			setTimeLimit(120)#after 120 sec this has failed - get a more simple selection
+			slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
+		}
+		})
+		if ( is.null(sling)) {
+			stop("Slingshot has not returned a timeline in time - please select a more linear set of cells")
+		}
 		slingTime = slingshot::slingPseudotime( sling )
 
 		## I am interested in the longest slope
@@ -917,7 +925,7 @@ setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 			m = match( names(dat[[n]]), rownames(toPlot))
 			if ( length(which(is.na(m))) > 0 ){
 				print("missing values in the data!")
-				browser()
+				if(interactive()) { browser() }
 			}
 			toPlot[m,n] =dat[[n]]
 			## now the first smoothing run

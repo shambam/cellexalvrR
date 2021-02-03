@@ -101,42 +101,35 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					info$drc = names(loc@drc )[1]
 			
 				}
-
-				drc = loc@drc[[ info$drc ]]
+				
+				info = groupingInfo(x, info$gname ) ## get the info for the big object
+				drc = x@drc[[ info$drc ]]
 				 if ( is.null(drc) ){
 				 	message(paste("the drc info",info$drc, "can not be found in the data! (", paste(collapse=", ", names(loc@drc)) ))
 				 	message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
-				 	info$drc = names(loc@drc )[1] ## for the log!
-				 	drc = loc@drc[[ 1 ]]
+				 	info$drc = names(x@drc )[1] ## for the log!
+				 	drc = x@drc[[ 1 ]]
 				}
 				
-				loc = pseudotimeTest3D( loc, grouping= info$gname )
+				x = pseudotimeTest3D( x, grouping= info$gname )
 
-				cellexalTime = loc@usedObj$timelines[[ 'lastEntry' ]]
+				cellexalTime = x@usedObj$timelines[[ 'lastEntry' ]]
 
-				info = groupingInfo( loc, cellexalTime@parentSelection )
+				info = groupingInfo( x, cellexalTime@parentSelection )
 
-				loc  = createStats( cellexalTime, loc,  num.sig= num.sig )
-				timeInfo = groupingInfo( loc )
+				x  = createStats( cellexalTime, x,  num.sig= num.sig )
+				timeInfo = groupingInfo( x )
 				if ( is.null(x@usedObj$sigGeneLists$lin)){
 					x@usedObj$sigGeneLists$lin = list()
 				}
-				lastG = loc@usedObj$lastGroup
 
-				x@usedObj$sigGeneLists$lin[[lastG]] = loc@usedObj$sigGeneLists$lin[[lastG]]
-				x@usedObj$lastGroup = lastG
-				x@usedObj$deg.genes = loc@usedObj$deg.genes
 				x = addSelection( cellexalTime, x, info$gname )
-				
 
 				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
 
-
 				cellexalTime= ret$timeline
 				#x = ret$cellexalObj
-
-				x= addSelection(cellexalTime, x, info$gname )
-				deg.genes = loc@usedObj$deg.genes
+				deg.genes = x@usedObj$deg.genes
 
 			}else if ( deg.method == 'wilcox') {
 				## use the faster Rcpp implementation
@@ -226,7 +219,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				message('deg.genes no entries - fix that')
 				if ( interactive() ) {
 					message ( 'no signififcant genes detected! - help needed: (exit with Q)' )
-					browser()
+					if(interactive()) { browser() }
 				}else {
 					message ( 'no signififcant genes detected!' )
 				}
@@ -242,7 +235,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#print( 'And this - Do we reach this point, too?')
 			}
 			if ( length(deg.genes ) < 10){
-				browser()
+				if(interactive()) { browser() }
 			}
 			x@usedObj$deg.genes = deg.genes
 			invisible( x )

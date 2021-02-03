@@ -32,8 +32,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		# }
 	DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 	if ( length(which( is.na(gInfo$col))) > 0  ){
-		print("Missing color elements on gInfo$col!\n")
-		browser()
+		print("Missing color elements on gInfo$col!\nLikely not problematic\n")
 	}
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
@@ -65,7 +64,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	grDevices::png( file= DRC1, width=1000, height=1000)
 
 	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,2], id=gr )
-    p= prettyPlot2D( toPlot, gInfo$col[which(!is.na(gInfo$col))] )
+    p= prettyPlot2D( toPlot, gInfo$col )
 	print(p)
 	
 	grDevices::dev.off()
@@ -75,7 +74,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		grDevices::png( file= DRC2, width=1000, height=1000)
 	
     	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
-    	p= prettyPlot2D( toPlot, gInfo$col[which(!is.na(gInfo$col))] ) #function definition in file drcPlot2D.R
+    	p= prettyPlot2D( toPlot, gInfo$col ) #function definition in file drcPlot2D.R
     	print(p) ## write the plot
 		grDevices::dev.off()
 	}
@@ -88,7 +87,6 @@ prettyPlot2D = function(x, col ){
 	x$id = as.vector(x$id)
 	x[,1] = as.numeric(x[,1])
 	x[,2] = as.numeric(x[,2])
-
 	x$col=  c(grey(.6),col)[as.numeric(x$id)]
 	
 	
@@ -116,7 +114,7 @@ prettyPlot2D = function(x, col ){
     	C1 = C1[-1]
     }
     p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
-     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1 )  
+     label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1[sort(as.numeric(unique(x$id)))] )  
     p
 }  
 
