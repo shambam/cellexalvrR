@@ -9,16 +9,17 @@
 #' @description create two 2D drc plots for the report
 #' @param cellexalObj the cellexal object
 #' @param gInfo the return value from cellexalvrR::groupingInfo()
+#' @param showIDs plot the group IDs on the figure (default= TRUE)
 #' @title description of function drcPlot2D
 #' @export 
 setGeneric('drcPlots2D', ## Name
-	function ( cellexalObj, gInfo, GOIs=NULL ) { 
+	function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) { 
 		standardGeneric('drcPlots2D')
 	}
 )
 
 setMethod('drcPlots2D', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, gInfo, GOIs=NULL ) {
+	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
 
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
@@ -30,10 +31,12 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 		# if ( gInfo$gname == 'Time.group.3') {
 		# 	browser()
 		# }
+
 	DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
-	if ( length(which( is.na(gInfo$col))) > 0  ){
-		print("Missing color elements on gInfo$col!\nLikely not problematic\n")
+	if ( ! showIDs ) {
+		DRC1 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_2",'NoIDs', 'png' ) ))
 	}
+
 	gInfo$grouping = as.numeric( gInfo$grouping )
 
 	## there is a possibilty that the cells have been selected from different drc models.
@@ -64,17 +67,21 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	grDevices::png( file= DRC1, width=1000, height=1000)
 
 	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,2], id=gr )
-    p= prettyPlot2D( toPlot, gInfo$col )
+    p= prettyPlot2D( toPlot, gInfo$col, showIDs = showIDs )
 	print(p)
 	
 	grDevices::dev.off()
 	DRC2 = NULL
 	if (  var( cellexalObj@drc[[gInfo$drc]][,3]) != 0 ) {
 		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
+		if ( ! showIDs ) {
+			DRC2 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "2_3",'NoIDs', 'png' ) ))
+		}
+
 		grDevices::png( file= DRC2, width=1000, height=1000)
 	
     	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,2], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
-    	p= prettyPlot2D( toPlot, gInfo$col ) #function definition in file drcPlot2D.R
+    	p= prettyPlot2D( toPlot, gInfo$col, showIDs = showIDs  ) #function definition in file drcPlot2D.R
     	print(p) ## write the plot
 		grDevices::dev.off()
 	}
@@ -82,7 +89,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 } )
 
 
-prettyPlot2D = function(x, col ){
+prettyPlot2D = function(x, col, showIDs = TRUE){
 
 	x$id = as.vector(x$id)
 	x[,1] = as.numeric(x[,1])
@@ -93,6 +100,7 @@ prettyPlot2D = function(x, col ){
 	p = ggplot2::ggplot(x, ggplot2::aes(x=x, y=y) ) 
 	p = p +   ggplot2::geom_point(color = x$col , show.legend = FALSE)
 
+	if ( showIDs ){
 	pos= t(sapply( sort(as.numeric(unique(x$id))), function(id) {
 		ok = which(x$id == id); 
 		c( median(x[ok,1]), median(x[ok,2]) )
@@ -115,6 +123,7 @@ prettyPlot2D = function(x, col ){
     }
     p = p + ggplot2::annotate('text', x = pos[,1], y = pos[,2],
      label = sort(as.numeric(unique(x$id))) -1, size = 10, col=C1[sort(as.numeric(unique(x$id)))] )  
+	}
     p
 }  
 

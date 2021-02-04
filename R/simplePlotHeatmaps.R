@@ -61,7 +61,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	}
 
 	error = NULL
-	gr = clusterGenes( t(toPlot[, -c(1,2) ]) ) 
+	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info ) 
 	clusterC = rainbow( max(gr) )
 
 	pngs = NULL
@@ -71,6 +71,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	ma = -1000
 	mi = 1000
 	i = 1
+
 
 	for( genes in split( names(gr), gr) ) {
 		gn = paste('gene.group',i, sep=".")
@@ -192,6 +193,26 @@ setMethod('clusterGenes', signature = c ('matrix'),
 
 		gn = stats::kmeans(pca,centers= optimum)$cluster
 		names(gn) = rownames(x)
+		geneTrajectories = NULL
+		i = 1
+		if ( ! is.null(info$time ) ) {
+			cT = collapseTime( info$time ) 
+			for( genes in split( names(gn), gn) ) {
+				browser()
+				pred1 = loess( apply (x[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+				gn = paste('gene.group',i, sep=".")
+				## what if we would use sum? no time is broken...
+			if ( length(genes) > 1){
+				geneTrajectories[[i]] = loess( apply (x[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+				#pred1 = loess( apply (toPlot[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+			}
+			else {
+				#pred1 = loess( toPlot[,genes] ~ toPlot[,'time'], span=.1)
+			}
+			#toPlot[,gn] = predict(pred1)	
+		}
+	}
+
 
 		gn
 	}

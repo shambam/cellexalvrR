@@ -490,6 +490,44 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
  )
 
 
+#' collapse the time to a max of 1000 enrties making the timeline efiiciently unusable with cellexalvrR
+#' but allowing the correlation of collapsed expression to the time.
+#' @name collapseTime
+#' @aliases collapseTime,cellexalTime-method
+#' @rdname collapseTime-methods
+#' @docType methods
+#' @description return the color in exactly the right format to color the names
+#' @param x the cellexalTime object
+#' @param to the max amnount of time points
+#' @title description of time function collapse
+#' @export 
+if ( ! isGeneric('collapseTime') ){setGeneric('collapseTime', ## Name
+	function (x, to =1000) { 
+		standardGeneric('collapseTime')
+	}
+) }
+
+setMethod('collapseTime', signature = c ('cellexalTime' ),
+	definition = function (x, to=1000 ) {
+		n= nrow(x@dat)
+		if ( n > to ) {
+			ids =sort(rep( 1:to, floor(n/to) ))
+			if ( n%%to > 0 ){
+				ids = sort(c(ids, sample(1:to, n%%to)) )
+			}
+			tmp = x@dat[ match(1:to, ids),]
+			tmp[,'time'] = sapply( split( as.vector(x@dat[,'time']), ids ), 
+				function(dat) { mean(dat) })
+			tmp[,'col']= unlist(lapply( split( as.vector(x@dat[,'col']), ids ), 
+		 			function(dat) { t=table(dat); names(t)[which(t==max(t))[1]]})) 
+
+			x@dat = tmp
+			checkTime(x)
+		}
+		
+
+})
+
 #' This report is the main go to analysis for a timeline.
 #' It will produce gene clusters and plot the mean expression of these genes clusters as beautiful xy plots.
 #' It also populated the CellexalTime geneClusters slot with a list entry containing

@@ -26,9 +26,29 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	if ( !is.null( cellexalObj@groupSelectedFrom[[gname]])){
 		return ( cellexalObj@groupSelectedFrom[[gname]] )
 	}
-	stop( "This object is not build up correctly - the session info is missing!")
-	cellexalObj@groupSelectedFrom[[gname]][['order']] = cellexalObj@userGroups[,paste(gname, 'order')]
-	cellexalObj@groupSelectedFrom[[gname]][['grouping']] = cellexalObj@userGroups[, gname ]
-	
+
+	message( "This object is not build up correctly - the session info is missing - creating it from scratch")
+
+	if ( is.null(cellexalObj@groupSelectedFrom)) {
+		cellexalObj@groupSelectedFrom = list()
+	}
+	if ( length(cellexalObj@drc) > 1 ) {
+		message(paste( "More than one drc object - I assume you selected from",names(cellexalObj@drc)[1]," ;-)" ) )
+	}
+
+	ginfo = list(
+			gname = gname,
+			selectionFile= NULL,
+			grouping = cellexalObj@userGroups[,gname] ,
+			order = cellexalObj@userGroups[,paste(gname, 'order')],
+			drc = names(cellexalObj@drc)[1],
+			col = rainbow( length(table(cellexalObj@userGroups[,gname])) )
+		)
+
+	cellexalObj@groupSelectedFrom[[gname]] = ginfo
+	message( paste( sep="",
+	"correct the returned object and put it there: cellexalObj@groupSelectedFrom[['",
+	gname, "']]")
+	)
 	cellexalObj@groupSelectedFrom[[gname]]
 } )
