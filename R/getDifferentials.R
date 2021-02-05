@@ -122,7 +122,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 	
 				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
 
-				cellexalTime= ret$timeline
+				x = ret$cellexalObj
+				
 				#x = ret$cellexalObj
 				deg.genes = x@usedObj$deg.genes
 

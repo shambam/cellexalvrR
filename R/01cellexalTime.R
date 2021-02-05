@@ -619,7 +619,7 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'list'),
 			figure= ret$ofile,
 			smoothedClusters = ret$smoothedClusters,
 			MaxInCluster = ret$MaxInCluster
-		) 
+		)
 		#print( "logTimeline" )
 		cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
 			info, 
@@ -631,7 +631,6 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'list'),
 	} )	
 	cellexalObj = addSelection( x, cellexalObj )
 	invisible( list( cellexalObj = cellexalObj, timeline = x) )
-
 } )
 
 
