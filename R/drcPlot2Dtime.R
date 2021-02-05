@@ -70,16 +70,21 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		
 		#rgl::plot3d( timeline$x[timeline$time], timeline$y[timeline$time], timeline$z[timeline$time], col=gplots::bluered( length( timeline$x)))
 		#rgl::plot3d( timeline$a[timeline$time], timeline$b[timeline$time], timeline$c[timeline$time], col=gplots::bluered( length( timeline$x)) )
-		DRC2 = NULL
+		DRC2 = DRC3 = NULL
 		if ( ! var(cellexalObj@drc[[gInfo$drc]][,3]) == 0 ) {
 			DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 			grDevices::png( file= DRC2, width=1000, height=1000)
+			p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,2], y=	drc[,3],col= col) ) #function definition in file drcPlot2D.R
+    		print(p) #write the plot
+			dev.off()
+			DRC3 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "1_3", 'png' ) )) #function definition in file 'filename.R'
+			grDevices::png( file= DRC3, width=1000, height=1000)
 			p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,3],col= col) ) #function definition in file drcPlot2D.R
     		print(p) #write the plot
 			dev.off()
 		}
 		
-		c( DRC1, DRC2)
+		c( DRC1, DRC2, DRC3)
 } )
 
 
@@ -109,6 +114,12 @@ drcFiles2HTMLtime = function( cellexalObj, gInfo, addOn = NULL ) {
 		str = c( str, 
 		paste( "### 2D DRC", gInfo$drc, "dim 2,3","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
+		"","")
+	}
+	if ( ! is.na(drcFiles[3]) ){
+		str = c( str, 
+		paste( "### 2D DRC", gInfo$drc, "dim 1,3","(", gInfo$gname,")", addOn),"\n",
+		paste("![](",drcFiles[3],")"),
 		"","")
 	}
 	paste( str, collapse="\n", sep="" )

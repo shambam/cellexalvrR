@@ -47,22 +47,27 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 		## best guess
 		if ( x@usedObj$timelines[["lastEntry"]]@parentSelection == info$gname){
 			ti = x@usedObj$timelines[["lastEntry"]]
-			info = groupingInfo( ti@gname, x)
+			info = groupingInfo(  x, ti@gname)
 		}
 	}
 	if ( is.null( ti ) ){
 		stop(paste( "The time for the selection", info$gname, "could not be found") )
 	}
 
+	#print('simplePlotHeatmaps compact time Zscore')
 	if ( ! is.null(x@usedObj$deg.genes) ) {
 		toPlot = compactTimeZscore( ti, x@usedObj$deg.genes, info, x )
 	}else {
+		if ( nrow(x@data) > 3000) {
+			stop("Huge dataset - Why are there no deg.genes!!")
+		}
 		toPlot = compactTimeZscore( ti, rownames(x@data), info, x )
 	}
 
 	error = NULL
+	#print('simplePlotHeatmaps creating loes summary gene expressions')
 	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info ) 
-	clusterC = rainbow( max(gr) )
+	clusterC = rainbow( max(gr$geneClusters) )
 
 	pngs = NULL
 	#create the separate simple Heatmap PNGs:
@@ -70,37 +75,38 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 
 	ma = -1000
 	mi = 1000
-	i = 1
+	#print( "simplePlotHeatmaps plotting the heatmaps")
+	smoothedClusters = list()
+	for( i in as.numeric(names(gr)[-c(1,length(gr))]) ) {
+		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
+		gn = paste('gene.group',i, sep=".")		
 
-
-	for( genes in split( names(gr), gr) ) {
-		gn = paste('gene.group',i, sep=".")
-		## what if we would use sum? no time is broken...
-		if ( length(genes) > 1){
-			pred1 = loess( apply (toPlot[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
-		}
-		else {
-			pred1 = loess( toPlot[,genes] ~ toPlot[,'time'], span=.1)
-		}
-		toPlot[,gn] = predict(pred1)
-
-		ma = max( ma, toPlot[,gn])
-		mi = min( mi, toPlot[,gn])
-
+		smoothedClusters[[ gn ]] = gr[[as.character(i)]]
+		
+	}
+	print("simplePlotHeatmaps finished")
+	ret = 
+	for( i in as.numeric(names(gr$geneClusters)[-c(1,length(gr$geneClusters))]) ) {
+		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
+		gn = paste('gene.group',i, sep=".")	
+		
 		of = paste(fname, i, sep=".")
 		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], circleF = paste(sep=".", ofile,i,'svg' ) )
-		#of = correctPath( of, x )
 		pngs = c(pngs, of)
-		i = i+1
 	}
 
-	dat = as.list(toPlot[, grep('gene.group', colnames(toPlot))])
-	for (n in names(dat) ) {
-		names(dat[[n]]) = rownames(toPlot)
-	}
-	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=dat, ofile=ofile )
+	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
 
-	list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs, error= error, mat=toPlot[,sort(names(gr))] )
+	list( 
+		genes = split( names(gr$geneClusters), gr$geneClusters), 
+		ofile = ofile, 
+		pngs = pngs, 
+		error= error,
+		smoothedClusters = smoothedClusters,
+		MaxInCluster = gr$MaxInCluster,
+		mat=toPlot[,sort(names(gr$geneClusters))] 
+	)
+
 } )
 
 
@@ -160,7 +166,14 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		## https://www.icsi.berkeley.edu/icsi/node/4806
 		## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
 		## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
-	
+		#print ( dim( x ) )
+		#if ( !is.null(deg.genes) )
+		#	print ( deg.genes )
+		#if ( !is.null(info)){
+		#	print ( names(info) )
+		#	print ( info$gname )
+		#}
+
 		points = unlist(lapply( 2:20, function(k) {  #total within-cluster sum of square (WSS)
 			gr = stats::kmeans(pca,centers= k)$cluster
 			names(gr) = rownames(x)
@@ -190,30 +203,31 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		optimum = optimum + 1
 		## now we lack the heatmap here... But I would need one - crap!
 		## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
-
 		gn = stats::kmeans(pca,centers= optimum)$cluster
 		names(gn) = rownames(x)
-		geneTrajectories = NULL
+		geneTrajectories = list(MaxInCluster = list())
 		i = 1
 		if ( ! is.null(info$time ) ) {
 			cT = collapseTime( info$time ) 
 			for( genes in split( names(gn), gn) ) {
-				browser()
-				pred1 = loess( apply (x[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
-				gn = paste('gene.group',i, sep=".")
-				## what if we would use sum? no time is broken...
-			if ( length(genes) > 1){
-				geneTrajectories[[i]] = loess( apply (x[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
-				#pred1 = loess( apply (toPlot[,genes], 1, mean) ~ toPlot[,'time'], span=.1)
+				groupname = paste("G",i, sep="")
+				geneTrajectories[[groupname]] =
+				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[,'time'], span=.1) )
+				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col), max )
+				geneTrajectories[['MaxInCluster']][[groupname]] = c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
+				i = i+1
 			}
-			else {
-				#pred1 = loess( toPlot[,genes] ~ toPlot[,'time'], span=.1)
-			}
-			#toPlot[,gn] = predict(pred1)	
 		}
-	}
-
-
-		gn
+		df = t(data.frame(geneTrajectories$MaxInCluster))
+		new_order = rownames(df[order( df[,1], -df[,2]),])
+		new_order = as.numeric(unlist(stringr::str_replace_all(new_order, 'G', '')))
+		tmp = as.vector( gn )
+		for ( i in 1:length(new_order) ){
+			gn[which(tmp == new_order[i])] = i
+		}
+		browser()
+		geneTrajectories[['geneClusters']] = gn
+		## now we need to order the gropoups by there highest value in a area.
+		geneTrajectories
 	}
 )

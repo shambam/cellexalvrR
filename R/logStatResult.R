@@ -96,7 +96,8 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 					paste("![](",ofile,")"),
 					"" ))
 		}
-		x = storeLogContents( x, content, type='Stats')
+		
+		x = storeLogContents( x, content, type='Stats') # in file renderFile.R
 		id = length(x@usedObj$sessionRmdFiles)
 		x = renderFile( x, id, type='Stats' )
 

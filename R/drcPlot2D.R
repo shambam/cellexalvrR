@@ -71,7 +71,8 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
 	print(p)
 	
 	grDevices::dev.off()
-	DRC2 = NULL
+	DRC2 = DRC3= NULL
+
 	if (  var( cellexalObj@drc[[gInfo$drc]][,3]) != 0 ) {
 		DRC2 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "2_3", 'png' ) )) #function definition in file 'filename.R'
 		if ( ! showIDs ) {
@@ -84,8 +85,22 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR'),
     	p= prettyPlot2D( toPlot, gInfo$col, showIDs = showIDs  ) #function definition in file drcPlot2D.R
     	print(p) ## write the plot
 		grDevices::dev.off()
+
+		DRC3 = file.path( sessionPath , 'png', filename(c(  gInfo$gname ,gInfo$drc, "1_3", 'png' ) )) #function definition in file 'filename.R'
+		if ( ! showIDs ) {
+			DRC3 = file.path( sessionPath , 'png', filename( c( gInfo$gname ,gInfo$drc , "1_3",'NoIDs', 'png' ) ))
+		}
+
+		grDevices::png( file= DRC3, width=1000, height=1000)
+	
+    	toPlot = data.frame(x=cellexalObj@drc[[gInfo$drc]][,1], y=cellexalObj@drc[[gInfo$drc]][,3], id=gr )
+    	p= prettyPlot2D( toPlot, gInfo$col, showIDs = showIDs  ) #function definition in file drcPlot2D.R
+    	print(p) ## write the plot
+		grDevices::dev.off()
+
 	}
-	c( DRC1, DRC2)
+
+	c( DRC1, DRC2, DRC3)
 } )
 
 
@@ -144,6 +159,12 @@ drcFiles2HTML = function( cellexalObj, gInfo, addOn = NULL ) {
 		str = c( str, 
 		paste( "### 2D DRC", gInfo$drc, "dim 2,3","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[2],")"),
+		"")
+	}
+	if ( ! is.na(drcFiles[3]) ){
+		str = c( str, 
+		paste( "### 2D DRC", gInfo$drc, "dim 1,3","(", gInfo$gname,")", addOn),"\n",
+		paste("![](",drcFiles[3],")"),
 		"")
 	}
 	str

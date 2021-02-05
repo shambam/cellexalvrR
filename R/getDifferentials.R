@@ -119,12 +119,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
 				timeInfo = groupingInfo( x )
-				if ( is.null(x@usedObj$sigGeneLists$lin)){
-					x@usedObj$sigGeneLists$lin = list()
-				}
-
-				x = addSelection( cellexalTime, x, info$gname )
-
+	
 				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
 
 				cellexalTime= ret$timeline

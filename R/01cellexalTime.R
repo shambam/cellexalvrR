@@ -522,9 +522,8 @@ setMethod('collapseTime', signature = c ('cellexalTime' ),
 		 			function(dat) { t=table(dat); names(t)[which(t==max(t))[1]]})) 
 
 			x@dat = tmp
-			checkTime(x)
 		}
-		
+		x
 
 })
 
@@ -612,14 +611,24 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'list'),
 	cellexalObj@usedObj$lastGroup = info$gname
 	## add the plots to the log
 	try({
+		#print( "simplePlotHeatmaps" )
 		ret = simplePlotHeatmaps(cellexalObj, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )
-		x@geneClusters[[info$gname]] = list( clusters= ret$genes, matrix = ret$mat, figure= ret$ofile ) 
+		browser()		
+		x@geneClusters[[info$gname]] = list( 
+			clusters= ret$genes, 
+			matrix = ret$mat, 
+			figure= ret$ofile,
+			smoothedClusters = ret$smoothedClusters,
+			MaxInCluster = ret$MaxInCluster
+		) 
+		#print( "logTimeline" )
 		cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
 			info, 
 			png = c( ret$ofile, ret$pngs ),
 			info, 
 			text= paste(text, ret$error, sep=" ", collapse=" ") 
 		) 
+		#print( "finish" )
 	} )	
 	cellexalObj = addSelection( x, cellexalObj )
 	invisible( list( cellexalObj = cellexalObj, timeline = x) )
@@ -986,7 +995,7 @@ setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 		rects = data.frame( xstarts, xends, col)
 		rects$col = as.vector(rects$col)
 		rects$col = factor( rects$col, levels=rects$col)
-		#browser()
+		#print ( "plotDataOnTime create plot" )
 		png( file=ofile, width=1000, height = 1000)
 		wes = function(n) {wesanderson::wes_palette("Zissou1", n,type = "continuous")[1:n] }
 		pl = ggplot2::ggplot(toPlot, ggplot2::aes( xmin = min(time), xmax= max(time), ymin= mi, ymax=ma) )
@@ -1042,7 +1051,7 @@ setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 	pl = pl + ggplot2::xlab( "pseudotime" )
 	print(pl) # write the plot data
 	dev.off()
-
+	#print ("plotDataOnTime finished")
 
 } )
 
