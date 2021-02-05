@@ -77,16 +77,15 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 	mi = 1000
 	#print( "simplePlotHeatmaps plotting the heatmaps")
 	smoothedClusters = list()
-	for( i in as.numeric(names(gr)[-c(1,length(gr))]) ) {
+	for( i in 1:(length(gr)-2) ) {
 		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
-		gn = paste('gene.group',i, sep=".")		
-
-		smoothedClusters[[ gn ]] = gr[[as.character(i)]]
-		
+		gn = paste('gene.group',i, sep=".")
+		smoothedClusters[[ gn ]] = gr[[i+1]]
+		names(smoothedClusters[[ gn ]]) = rownames(toPlot)
 	}
-	print("simplePlotHeatmaps finished")
-	ret = 
-	for( i in as.numeric(names(gr$geneClusters)[-c(1,length(gr$geneClusters))]) ) {
+
+	
+	for( i in 1:(length(gr)-2)  ) {
 		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
 		gn = paste('gene.group',i, sep=".")	
 		
@@ -97,6 +96,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 
 	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
 
+	#print("simplePlotHeatmaps finished")
 	list( 
 		genes = split( names(gr$geneClusters), gr$geneClusters), 
 		ofile = ofile, 
@@ -206,16 +206,18 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		gn = stats::kmeans(pca,centers= optimum)$cluster
 		names(gn) = rownames(x)
 		geneTrajectories = list(MaxInCluster = list())
-		i = 1
+		
 		if ( ! is.null(info$time ) ) {
 			cT = collapseTime( info$time ) 
-			for( genes in split( names(gn), gn) ) {
+			for( i in unique(gn) ) {
+				genes = names(gn)[which(gn == i)]
 				groupname = paste("G",i, sep="")
 				geneTrajectories[[groupname]] =
 				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[,'time'], span=.1) )
 				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col), max )
-				geneTrajectories[['MaxInCluster']][[groupname]] = c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
-				i = i+1
+
+				geneTrajectories[['MaxInCluster']][[groupname]] = 
+					c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
 			}
 		}
 		df = t(data.frame(geneTrajectories$MaxInCluster))
@@ -225,9 +227,9 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		for ( i in 1:length(new_order) ){
 			gn[which(tmp == new_order[i])] = i
 		}
-		browser()
 		geneTrajectories[['geneClusters']] = gn
 		## now we need to order the gropoups by there highest value in a area.
+		#print ( "clusterGenes finished")
 		geneTrajectories
 	}
 )

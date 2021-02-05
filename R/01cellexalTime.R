@@ -612,8 +612,7 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'list'),
 	## add the plots to the log
 	try({
 		#print( "simplePlotHeatmaps" )
-		ret = simplePlotHeatmaps(cellexalObj, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )
-		browser()		
+		ret = simplePlotHeatmaps(cellexalObj, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info$gname ) )	
 		x@geneClusters[[info$gname]] = list( 
 			clusters= ret$genes, 
 			matrix = ret$mat, 
@@ -966,9 +965,11 @@ setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 			color = grDevices::rainbow( length(dat))
 		}
 		toPlot = x
-
 		for ( n in names(dat) ){
 			toPlot[,n] = NA
+			if ( is.null(names(dat[[n]]))){
+				stop( "plotDataOnTime dat needs cell names!")
+			}
 			m = match( names(dat[[n]]), rownames(toPlot))
 			if ( length(which(is.na(m))) > 0 ){
 				print("missing values in the data!")
