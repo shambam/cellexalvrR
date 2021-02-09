@@ -77,10 +77,14 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		do.call(file.remove, list(mine))
 
 		zfile = paste(sep=".",paste(sep="_",'PortableLog',cellexalObj@usedObj$sessionName),'zip')
+		
+		## I need to find all snapshot files to copy!
+
+
 		files = c(
 			basename(expected_outfile), 
 			cellexalObj@usedObj$sessionName, 
-			'libs' 
+			'libs'
 		)
 		old= getwd()
 		setwd( cellexalObj@outpath )

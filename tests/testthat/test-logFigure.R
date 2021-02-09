@@ -4,6 +4,9 @@ prefix = './'
 
 # prefix ='tests/testthat'
 
+source( file.path(prefix, 'function.R') )
+## loads a function checkFile( path ) that searches for a list of strings and giuves the number of occurances in the file.
+
 ## need to start from scratch - why not a little bit heatmap first?
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
@@ -84,3 +87,17 @@ expect_true( file.exists( ofile), label = ofile)
 
 ofile=  file.path( x@outpath, 'PortableLog_logFigureTest.zip' )
 expect_true( file.exists( ofile), label = ofile)
+
+check = list(
+	'"logFigureTest/png/testScreenshot.png"' = 0
+)
+
+expect = list(
+	'"logFigureTest/png/testScreenshot.png"' = 1
+)
+
+expect[[x@outpath]] = 0
+check[[x@outpath]] = 0
+
+check = checkFile(check,  file.path( x@outpath, 'session-log-for-session-logfiguretest.html' ))
+expect_equal(check, expect, label="html file is OK") 

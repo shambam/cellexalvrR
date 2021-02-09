@@ -101,7 +101,20 @@ prettyPlot2Dtime = function(x ){
 }  
 
 
-
+#' drcFiles2HTMLtime is a function linked to the log functionallity.
+#' 
+#' This function will convert the files from drcPlots2Dtime into log figure entries.
+#' 
+#' @name drcFiles2HTMLtime
+#' @aliases drcFiles2HTMLtime,cellexalvrR-method
+#' @rdname drcFiles2HTMLtime-methods
+#' @docType methods
+#' @description convert the drcPlots2D into rmd format
+#' @param cellexalObj the cellexal object
+#' @param gInfo the return value from cellexalvrR::groupingInfo()
+#' @param addOn a text to add in the figure heading (default NULL)
+#' @title description of function drcFiles2HTMLtime
+#' @export 
 drcFiles2HTMLtime = function( cellexalObj, gInfo, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles

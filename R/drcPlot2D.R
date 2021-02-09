@@ -147,10 +147,25 @@ correctPath = function( f, cellexalObj ) {
 }
 
 
-drcFiles2HTML = function( cellexalObj, gInfo, addOn = NULL ) {
+#' drcPlots2D is a function linked to the log functionallity.
+#' 
+#' This function will create the 2D DRC images for the log sections.
+#' 
+#' @name drcFiles2HTML
+#' @aliases drcFiles2HTML,cellexalvrR-method
+#' @rdname drcFiles2HTML-methods
+#' @docType methods
+#' @description convert the drcPlots2D into rmd format
+#' @param cellexalObj the cellexal object
+#' @param gInfo the return value from cellexalvrR::groupingInfo()
+#' @param showIDs show the IDs on the plot (default = TRUE)
+#' @param addOn a text to add in the figure heading (default NULL)
+#' @title description of function drcFiles2HTML
+#' @export 
+drcFiles2HTML = function( cellexalObj, gInfo, showIDs=TRUE, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
-	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo ), correctPath, cellexalObj )
+	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo, showIDs=showIDs ), correctPath, cellexalObj )
 	str = c(
 		paste( "### 2D DRC", gInfo$drc, "dim 1,2","(", gInfo$gname,")", addOn),"\n",
 		paste("![](",drcFiles[1],")"),

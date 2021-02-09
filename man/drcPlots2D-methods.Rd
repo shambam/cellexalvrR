@@ -6,12 +6,14 @@
 \alias{drcPlots2D,cellexalvrR-method}
 \title{description of function drcPlot2D}
 \usage{
-drcPlots2D(cellexalObj, gInfo, GOIs = NULL)
+drcPlots2D(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}
 
 \item{gInfo}{the return value from cellexalvrR::groupingInfo()}
+
+\item{showIDs}{plot the group IDs on the figure (default= TRUE)}
 }
 \description{
 create two 2D drc plots for the report

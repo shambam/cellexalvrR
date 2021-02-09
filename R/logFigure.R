@@ -31,7 +31,7 @@ setMethod("logFigure", signature = c("cellexalvrR"),
 
    		content = paste(
    			paste("##", "Saved figure from VR",format(Sys.time(), "%a %b %d %X %Y")),
-       		paste("![](", figureF, ")"), "", paste(text),
+       		paste("![](", correctPath(figureF, cellexalObj), ")"), "", paste(text),
          	"", sep = "\n"
          )
    		cellexalObj = storeLogContents(cellexalObj, content, type = "Figure")
