@@ -36,14 +36,14 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 		message(paste( "More than one drc object - I assume you selected from",names(cellexalObj@drc)[1]," ;-)" ) )
 	}
 
-	ginfo = list(
-			gname = gname,
-			selectionFile= NULL,
-			grouping = cellexalObj@userGroups[,gname] ,
-			order = cellexalObj@userGroups[,paste(gname, 'order')],
-			drc = names(cellexalObj@drc)[1],
-			col = rainbow( length(table(cellexalObj@userGroups[,gname])) )
-		)
+	ginfo = new( 'cellexalGrouping',
+		gname = gname,
+		selectionFile= '',
+		grouping = cellexalObj@userGroups[,gname] ,
+		order = as.integer(cellexalObj@userGroups[,paste(gname, 'order')]),
+		drc = names(cellexalObj@drc)[1],
+		col = rainbow( length(table(cellexalObj@userGroups[,gname])) )
+	)
 
 	cellexalObj@groupSelectedFrom[[gname]] = ginfo
 	message( paste( sep="",

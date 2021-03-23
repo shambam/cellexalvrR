@@ -68,15 +68,15 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	## base this on slingshot's implementation.
 	## But that needs groups.
 	info = groupingInfo(x, grouping )
-	loc = reduceTo( x, 'col', to=colnames(x@data)[which(! is.na( info$grouping))])
+	loc = reduceTo( x, 'col', to=colnames(x@data)[which(! is.na( info@grouping))])
 
-	if ( is.null( x@drc[[info$drc]] )){
-		stop( paste("the source drc", info$drc, "could not be found in the object.") )
+	if ( is.null( x@drc[[info@drc]] )){
+		stop( paste("the source drc", info@drc, "could not be found in the object.") )
 	}
-	drc = loc@drc[[info$drc]][,1:3]
+	drc = loc@drc[[info@drc]][,1:3]
 	colnames(drc) = c('a', 'b' ,'c')
 
-	res = new('cellexalTime', dat= data.frame(drc), drc=info$drc)
+	res = new('cellexalTime', dat= data.frame(drc), drc=info@drc)
 	info = groupingInfo(loc, grouping )
 	res = createTime( res, info )
 
@@ -90,7 +90,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	#system( paste('display', fnames[1]))
 
 	## create the .time selection file for cellexalVR
-	f= file.path( x@outpath, basename(info$selectionFile)) 
+	f= file.path( x@outpath, basename(info@selectionFile)) 
 	f= paste(sep=".", f, 'time')
 	exportSelection( res, f )
 

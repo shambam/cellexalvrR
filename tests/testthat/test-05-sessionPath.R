@@ -29,7 +29,8 @@ seped = as.numeric(unlist(stringr::str_split (cellexalObj@usedObj$sessionName,"_
 expect_true( length(seped) == 6)
 expect_true( all( is.numeric(seped)))
 
-expect_true( file.exists(cellexalObj@usedObj$sessionPath ), label="session path created")
+expect_true( file.exists(cellexalObj@usedObj$sessionPath ), 
+	label="session path created")
 
 for ( f in c('png', 'tables') ) {
 	expect_true( file.exists(file.path(cellexalObj@usedObj$sessionPath,f) ), label=paste("session sub-path",f) )
@@ -92,7 +93,8 @@ cellexalObj = sessionPath( cellexalObj, 'newSession' )
 
 expect_true( cellexalObj@usedObj$sessionName == 'newSession', label="without server session the session can be reset.")
 
-expect_true( ! file.exists(file.path(cellexalObj@outpath, 'mainServer.sessionName')), label="sessionName is not create if not in server mode" )
+#expect_true( ! file.exists(file.path(cellexalObj@outpath, 'mainServer.sessionName')), 
+#	label="sessionName is not create if not in server mode" )
 
 cellexalObj= renderReport(cellexalObj)
 

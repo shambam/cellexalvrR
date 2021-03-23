@@ -94,7 +94,6 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	calc.cor <- function(v, comp){
 		stats::cor(v, comp)
 	}
-	
 	if ( cpp ) {
 	  cor.values <-  FastWilcoxTest::CorMatrix( data, goi)
 	  names(cor.values) = rownames(data)
@@ -110,9 +109,50 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	if ( ! is.null(output)){
 		utils::write.table(t(tab),output,row.names=F,col.names=F,sep="\t",quote=F)
 	}else {
-		return ( tab)
+		return ( tab )
 	}
-	invisible(tab)
+
+	if ( ! is.null(cellexalObj@usedObj$sessionPath) ) {
+		opath = file.path(cellexalObj@usedObj$sessionPath, 'tables'  )
+		if ( ! file.exists( opath )){
+			dir.create(opath)
+		}
+		opath = file.path( opath, paste(sep=".", 'Cor', gname,'txt'))
+		cor.values = cor.values[rev(order(cor.values))]
+		write.table( 
+			cbind( 'Gene Name' = rev(ord), 'CorValue' = cor.values), 
+			file= opath, row.names=F, quote=F, sep="\t")
+		drc = names(cellexalObj@drc)[1]
+		if ( length( cellexalObj@groupSelectedFrom) > 0 ){
+			drc = groupingInfo(cellexalObj)@drc
+		}
+		rn = rownames(cellexalObj@data)
+		pos = rn[match( pos, tolower(rn))]
+		neg = rn[match( neg, tolower(rn))]
+		Text = paste( sep=" ", collapse=" ",
+			"## Genes correlated to", gname,"\n\n",
+			"Max correlation value is",round(cor.values[2],3),"and min correlation value is", round(rev(cor.values)[1],3),".",
+			"All Correlation data can be downloaded from [here](", file.path( cellexalObj@usedObj$sessionName,'tables', basename(opath ) ),")","\n\n",
+			"\n### Genes positively correlated to", gname,"\n\n"
+		)
+		Top_Figs = paste( collapse=" ",drcFiles2HTMLexpression(cellexalObj, drc, pos ))
+		Top_genes =	paste( collapse=" ", sep=" ",md_gene_links ( pos ))
+		Bottom_Figs = paste( collapse=" ", sep=" ",drcFiles2HTMLexpression(cellexalObj, drc, neg ))
+		Bottom_genes = paste( collapse=" ", sep=" ",md_gene_links ( neg ))
+		Text = paste( sep="\n", collapse="\n",
+			Text, Top_Figs, Top_genes,
+			paste("\n### Genes negatively correlated to", gname,"\n\n"),
+			Bottom_Figs, Bottom_genes, "\n"
+		)
+		
+		cellexalObj = storeLogContents( cellexalObj, Text, type="GeneGeneCor")
+		id = length(cellexalObj@usedObj$sessionRmdFiles)
+		cellexalObj = renderFile( cellexalObj, id, type="GeneGeneCor" )
+
+
+	}
+
+	invisible( tab )
 } )
 
 #' @describeIn get.genes.cor.to cellexalvrR

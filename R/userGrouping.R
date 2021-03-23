@@ -48,11 +48,12 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		m = match(cellid[,1], colnames(cellexalObj@data))
 		if ( length(which(is.na(m))) > 0 ){
 			stop( paste (
-				"The grouping file has cells that are not defined in the object:", 
+				"The grouping file has cells that are not part of the object:", 
 				paste(as.vector(cellid[which(is.na(m)),1]), collapse=", " )
 					))
 
 		}
+
 		m = match(colnames(cellexalObj@data), cellid[,1])
 		n = rep( NA, ncol(cellexalObj@data))
 		n[ which(! is.na(m)) ] = cellid[m[ which(! is.na(m)) ],4] +1
@@ -98,26 +99,23 @@ setMethod('userGrouping', signature = c ('cellexalvrR'),
 		for ( i in 1:length(colR)) {
 			colVR[colorIDs[i]] = colR[i]
 		}
-		#browser()
-		ginfo = list(
+		ginfo = new( 'cellexalGrouping',
 			gname = gname,
 			selectionFile= basename( cellidfile ),
 			grouping = cellexalObj@userGroups[,gname] ,
-			order = 1:ncol(cellexalObj@data),
+			order = as.integer(order),
 			'drc' = unique(as.vector(cellid[,3])),
 			col = colVR
 		)
 		if ( ! is.na(match(paste(cellexalObj@usedObj$lastGroup, 'order', sep=" "), colnames(cellexalObj@data))) ){
-			ginfo[['order']] = cellexalObj@userGroups[,paste(gname, 'order', sep=" ")]
+			ginfo@order = cellexalObj@userGroups[,paste(gname, 'order', sep=" ")]
 		}
-		#browser()
-		#gr = ginfo$grouping+1
-		#gr[which(is.na(gr))] = 1
-		#plot( cellexalObj@drc[[ginfo$drc]][,2],cellexalObj@drc[[ginfo$drc]][,3],
-		# col=c(gray(.6),ginfo$col)[gr]  )
 
 		cellexalObj@groupSelectedFrom[[gname]] = ginfo
 		cellexalObj@colors[[gname]] = colVR
+
+		cellexalObj = checkGrouping( cellexalObj, gname )
+
 		savePart ( cellexalObj, 'groupSelectedFrom') #function definition in file 'integrateParts.R'
 		savePart ( cellexalObj, 'colors') #function definition in file 'integrateParts.R'
 		savePart ( cellexalObj, 'userGroups') #function definition in file 'integrateParts.R'

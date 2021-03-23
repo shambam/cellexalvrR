@@ -150,12 +150,34 @@ setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
     }else {
         rq.nm <- paste("graph",(length(cellexalObj@drc)+1),sep="")
     }
-    mp <- drcmatrix
-    colnames(mp) <- c("dim1","dim2","dim3")
-    rownames(mp) <- colnames(cellexalObj@data)
 
-    cellexalObj@drc[[rq.ind]] <- mp
-    names(cellexalObj@drc)[rq.ind] <- rq.nm
+    if ( ncol(drcmatrix ) == 3) {
+        colnames( drcmatrix ) = c("dim1","dim2","dim3")
+    }
+    else if (ncol(drcmatrix ) == 6) {
+        colnames( drcmatrix ) = c("dim1","dim2","dim3", 'velo1', 'velo2', 'velo3')
+    }
+    if ( is.null(rownames(drcmatrix)) ) {
+        if (nrow(drcmatrix) == ncol(cellexalObj@data)) {
+            rownames(drcmatrix) == colnames(cellexalObj@data)
+        }else {
+            stop(paste("The drc object", name, "needs rownames to be usable") )
+        }
+    }
+
+    m = match( rownames(drcmatrix), colnames(cellexalObj@data) ) 
+    if ( length(which(is.na(m))) > 0 ){
+        ## Ooops - possibly a Ingest problem - that one adds -ref and -new to the ids!
+        m = match( stringr::str_replace_all( rownames(drcmatrix), '-.*$' ,''),  colnames(cellexalObj@data) )
+        if ( length(which(is.na(m))) > 0 ){
+            stop( paste( "there were",length(which(is.na(m))),"new cells in the drc" ))
+            }else {
+                rownames(drcmatrix) = stringr::str_replace_all( rownames(drcmatrix), '-.*$' ,'')
+            }
+    }
+
+    cellexalObj@drc[[rq.ind]] <- drcmatrix
+    names(cellexalObj@drc)[rq.ind] = name
     cellexalObj
 } )
 

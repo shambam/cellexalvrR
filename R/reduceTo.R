@@ -81,13 +81,14 @@ setMethod('reduceTo', signature = c ('cellexalvrR'),
 							
 						}
 						for( na in names( x@groupSelectedFrom) ) {
-							if ( class( x@groupSelectedFrom[[na]]) != 'list'){
+
+							if ( class( x@groupSelectedFrom[[na]]) != 'cellexalGrouping'){
 								x@groupSelectedFrom[[na]] = NULL
 								next
 							}
-							if ( length( x@groupSelectedFrom[[na]][['order']]) == n){
-								x@groupSelectedFrom[[na]][['order']] = x@groupSelectedFrom[[na]][['order']][useOnly]
-								x@groupSelectedFrom[[na]][['grouping']] = x@groupSelectedFrom[[na]][['grouping']][useOnly]
+							if ( length( x@groupSelectedFrom[[na]]@order) == n){
+								x@groupSelectedFrom[[na]]@order = x@groupSelectedFrom[[na]]@order[useOnly]
+								x@groupSelectedFrom[[na]]@grouping = x@groupSelectedFrom[[na]]@grouping[useOnly]
 							}
 							
 						}

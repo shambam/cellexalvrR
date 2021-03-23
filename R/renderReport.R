@@ -64,25 +64,27 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
 	
-	expected_outfile =  paste("session-log-for-session-",tolower(cellexalObj@usedObj$sessionName), sep='', '.html')
+	expected_outfile =  paste(sep="-","session-log-for-session",
+		tolower(cellexalObj@usedObj$sessionName))
 	expected_outfile = stringr::str_replace_all( expected_outfile, '_', '-')
-	expected_outfile = file.path( cellexalObj@outpath,expected_outfile )
-	
-	if ( file.exists( expected_outfile )){
-		## get rid of all section html files
+	#expected_outfile = file.path( cellexalObj@outpath,expected_outfile )
 
-		htmls <-  list.files(file.path( cellexalObj@usedObj$sessionPath,'..'), 
+	expected_outfiles <-  list.files(cellexalObj@outpath , 
 			full.names = TRUE, pattern='*.html')
+	OK = length( grep ( expected_outfile, expected_outfiles) > 0)
+
+	if ( OK ){
+
+		## get rid of all section html files
+		expected_outfiles = expected_outfiles[grep ( expected_outfile, expected_outfiles)]
+		htmls <-  list.files( cellexalObj@outpath, full.names = TRUE, pattern='*.html')
 		mine = htmls[ grep(paste( sep="", '_',cellexalObj@usedObj$sessionName) , htmls )]
 		do.call(file.remove, list(mine))
 
 		zfile = paste(sep=".",paste(sep="_",'PortableLog',cellexalObj@usedObj$sessionName),'zip')
 		
-		## I need to find all snapshot files to copy!
-
-
 		files = c(
-			basename(expected_outfile), 
+			sapply(expected_outfiles, basename), 
 			cellexalObj@usedObj$sessionName, 
 			'libs'
 		)
@@ -95,19 +97,18 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		setwd(old)
 	
 		## get rid of session information
-		cellexalObj@usedObj$sessionPath = cellexalObj@usedObj$sessionRmdFiles = cellexalObj@usedObj$sessionName = NULL
+		cellexalObj@usedObj$sessionPath = 
+		 cellexalObj@usedObj$sessionRmdFiles =
+		 cellexalObj@usedObj$sessionName = NULL
 		#savePart(cellexalObj,part = 'usedObj' ) #function definition in file 'integrateParts.R'
-		if ( file.exists( file.path( cellexalObj@outpath , 'mainServer.sessionName') ) ) {
-			unlink( file.path( cellexalObj@outpath , 'mainServer.sessionName') )
-		}
-		## and now we merge it all into a portable zip file!
-		}else {
-		print ( paste( "some error has occured - output ",expected_outfile," file was not created!" ))
+		
+		unlink( file.path( cellexalObj@outpath , 'mainServer.sessionName') )
+		
+	}else {
+		print ( paste( "some error has occured - output ",expected_outfiles[1]," file was not created!" ))
 	}	
 
 	lockedSave( cellexalObj) #function definition in file 'lockedSave.R'
-
-	
 	
 	cellexalObj
 } )

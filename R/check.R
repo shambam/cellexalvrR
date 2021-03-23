@@ -133,9 +133,9 @@ setMethod('check', signature = c ('cellexalvrR'),
 	}
 
 	for ( g in names(x@groupSelectedFrom)){
-		if ( !is(x@groupSelectedFrom[[g]], 'list')){
+		if ( !is(x@groupSelectedFrom[[g]], 'cellexalGrouping')){
 			error = c(error , 
-					paste("groupSelectedFrom",g,"is no list"))
+					paste("groupSelectedFrom",g,"is no cellexalGrouping"))
 		}
 	}
 	

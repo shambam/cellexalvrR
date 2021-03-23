@@ -35,38 +35,21 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 			## create the grouping info for the VR process
 			# no header
 			# HSPC_639    #FF0000    DDRTree    0
-			ids =  which( is.na(cellexalObj@userGroups[,gname]) == F)
-			col = cellexalObj@colors[[gname]]
-			if ( is.null(col) ){
-				col = cellexalObj@colors[[gname]] <- grDevices::rainbow( length(unique( as.integer( cellexalObj@userGroups[ids,gname] ) )))
+			info = groupingInfo(cellexalObj, gname )
+			ids = which(! is.na(info@grouping))
+			if ( length(info@VRgrouping) == 0){
+				info@VRgrouping = info@grouping -1
 			}
-			drc = 'unknown'
-			try({drc =  groupingInfo(cellexalObj, gname)$drc},silent=TRUE)
-			gid = NULL
-			if (drc != 'unknown' ) {
-				gid = as.integer( cellexalObj@userGroups[ids,gname] ) -1 
-			}else {
-				gid = as.integer( cellexalObj@userGroups[ids,gname] )
-			}
-
 			t <- data.frame( 
 				cellname = colnames(cellexalObj@data)[ids],
-				color = cellexalObj@colors[[gname]][  cellexalObj@userGroups[ids,gname]  ],
-				'parent.graph' = rep( drc, length(ids) ),
-				'gid' = gid
+				color = info@col[ info@grouping[ids] ],
+				'parent.graph' = rep( info@drc, length(ids) ),
+				'gid' = info@VRgrouping[ids] 
 			)
+			t = t[order(info@order[ids]),]
 			utils::write.table( t, col.names=F, row.names=F, quote=F, file=fname, sep="\t" )
 		}
 	}
-	
-	#groupN <- unlist(lapply( names, function(n) { length(cellexalObj@colors[[n]]) } ) )
-	#groupCount <- unlist(lapply( names, function(n) { length( which( is.na(cellexalObj@userGroups[,n]) == F)) } ) )
-	#ret <- cbind(  'group name' = names, 'groups [n]' =  groupN, 'cells [n]' = groupCount )
-	#utils::write.table(ret, file=file.path( path, 'groupings_info.txt'), row.names=F, col.names=T, sep="\t", quote=F )
-	
-	#cellexalObj@outpath = path
-	#lockedSave( cellexalObj, path ) #function definition in file 'lockedSave.R'
-	
 } )
 
 #' @describeIn exportUserGroups4vr cellexalvrR

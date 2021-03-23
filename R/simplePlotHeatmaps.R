@@ -27,31 +27,28 @@ if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Nam
 	}
 ) }
 
-setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character'),
+setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping', 'character'),
 	definition = function ( x, info, fname ) {
 	#definition = function ( mat, fname ) {
-
 	path = dirname(fname)
 	if ( ! file.exists(path) ) {
 		dir.create( path, recursive=TRUE)
 	}
-	if ( ! class(info) == 'list'){
-		stop("I need an info list as obtained from calling groupingInfo")
-	}
+
 
 	## now I need to cellexalTime object:
-	ti = x@usedObj$timelines[[info$gname]]
+	ti = x@usedObj$timelines[[info@gname]]
 	
 	if ( is.null( ti ) ){
 		## oops - we got a parentSelection?
 		## best guess
-		if ( x@usedObj$timelines[["lastEntry"]]@parentSelection == info$gname){
+		if ( x@usedObj$timelines[["lastEntry"]]@parentSelection == info@gname){
 			ti = x@usedObj$timelines[["lastEntry"]]
 			info = groupingInfo(  x, ti@gname)
 		}
 	}
 	if ( is.null( ti ) ){
-		stop(paste( "The time for the selection", info$gname, "could not be found") )
+		stop(paste( "The time for the selection", info@gname, "could not be found") )
 	}
 
 	#print('simplePlotHeatmaps compact time Zscore')
@@ -66,6 +63,9 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 
 	error = NULL
 	#print('simplePlotHeatmaps creating loes summary gene expressions')
+	if ( nrow(toPlot) != 1000 ){
+		rownames(toPlot) = rownames(ti@dat)
+	}
 	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info ) 
 	clusterC = rainbow( max(gr$geneClusters) )
 
@@ -90,10 +90,10 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'list', 'character
 		gn = paste('gene.group',i, sep=".")	
 		
 		of = paste(fname, i, sep=".")
+
 		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], circleF = paste(sep=".", ofile,i,'svg' ) )
 		pngs = c(pngs, of)
 	}
-
 	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
 
 	#print("simplePlotHeatmaps finished")
@@ -142,12 +142,12 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 		}
 		if ( ! is.null(info) ) {
 			cellexalObj= reduceTo( cellexalObj, what='col', 
-				colnames(cellexalObj@data)[which(! is.na( cellexalObj@userGroups[, info$gname]))] )
-			cellexalObj = reorder.samples( cellexalObj, info$gname)
+				colnames(cellexalObj@data)[which(! is.na( cellexalObj@userGroups[, info@gname]))] )
+			cellexalObj = reorder.samples( cellexalObj, info@gname)
 		}
 		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
-		colnames(mat) = colnames(x@data)
-		rownames(mat) = rownames(x@data)
+		colnames(mat) = colnames(x@dat)
+		rownames(mat) = rownames(cellexalObj@data)
 
 		clusterGenes( mat, deg.genes, info )
 	}
@@ -157,22 +157,6 @@ setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL ) {
 
 		pca = irlba::prcomp_irlba ( x, center=T, n=3 )$x
-
-		#hc = hclust( as.dist( 1- stats::cor(mat, method='pearson') ) )
-		#deg.genes = hc$labels[hc$order]
-
-		## for the usability of the log file the genes need to be ordered.
-		## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
-		## https://www.icsi.berkeley.edu/icsi/node/4806
-		## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
-		## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
-		#print ( dim( x ) )
-		#if ( !is.null(deg.genes) )
-		#	print ( deg.genes )
-		#if ( !is.null(info)){
-		#	print ( names(info) )
-		#	print ( info$gname )
-		#}
 
 		points = unlist(lapply( 2:20, function(k) {  #total within-cluster sum of square (WSS)
 			gr = stats::kmeans(pca,centers= k)$cluster
@@ -207,29 +191,52 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		names(gn) = rownames(x)
 		geneTrajectories = list(MaxInCluster = list())
 		
-		if ( ! is.null(info$time ) ) {
-			cT = collapseTime( info$time ) 
+		if ( ! is.null(info@timeObj ) ) {
+			cT = collapseTime( info@timeObj )
+			m = match( colnames(x), rownames(cT@dat))
+			if ( length(is.na(m)) == 1000 ) {
+				colnames(x) = rownames(cT@dat)
+				m = match( colnames(x), rownames(cT@dat))
+			}
+
 			for( i in unique(gn) ) {
 				genes = names(gn)[which(gn == i)]
-				groupname = paste("G",i, sep="")
-				geneTrajectories[[groupname]] =
-				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[,'time'], span=.1) )
-				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col), max )
+				groupname = paste("P",i, sep="")
+				## should not be necessary, but sometimes it is:
+				print(i)
+				geneTrajectories[[groupname]] = tryCatch( { 
+				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.1) )
+				}, error=function(er) { 
+
+					browser()
+				} )
+
+				#geneTrajectories[[groupname]] =
+				#predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.1) )
+				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col[m]), max )
 
 				geneTrajectories[['MaxInCluster']][[groupname]] = 
 					c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
 			}
 		}
+
 		df = t(data.frame(geneTrajectories$MaxInCluster))
 		new_order = rownames(df[order( df[,1], -df[,2]),])
-		new_order = as.numeric(unlist(stringr::str_replace_all(new_order, 'G', '')))
+		new_order = as.numeric(unlist(stringr::str_replace_all(new_order, 'P', '')))
 		tmp = as.vector( gn )
+
+		ret = list(MaxInCluster = list())
 		for ( i in 1:length(new_order) ){
+			groupname =paste(sep="", 'G',i)
+			oldGN = paste(sep="", 'P',new_order[i])
 			gn[which(tmp == new_order[i])] = i
+			ret[[groupname]] = as.vector(geneTrajectories[[oldGN]])
+			names(ret[[groupname]]) = names(geneTrajectories[[oldGN]])
+			ret$MaxInCluster[[groupname]] = geneTrajectories$MaxInCluster[[oldGN]]
 		}
-		geneTrajectories[['geneClusters']] = gn
+		ret[['geneClusters']] = gn
 		## now we need to order the gropoups by there highest value in a area.
 		#print ( "clusterGenes finished")
-		geneTrajectories
+		ret
 	}
 )

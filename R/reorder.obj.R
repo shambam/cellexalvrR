@@ -59,8 +59,8 @@ setMethod('reorder.samples', signature = c ('cellexalvrR'),
 		}
 	}
 	for ( n in names(dataObj@groupSelectedFrom) ) {
-		dataObj@groupSelectedFrom[[n]]$order= dataObj@groupSelectedFrom[[n]]$order[ids]
-		dataObj@groupSelectedFrom[[n]]$grouping= dataObj@groupSelectedFrom[[n]]$grouping[ids]
+		dataObj@groupSelectedFrom[[n]]@order= dataObj@groupSelectedFrom[[n]]@order[ids]
+		dataObj@groupSelectedFrom[[n]]@grouping= dataObj@groupSelectedFrom[[n]]@grouping[ids]
 	}
 	dataObj = check(dataObj)
 	if ( ! is.null (dataObj@usedObj$timelines)) {

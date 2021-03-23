@@ -24,20 +24,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
 
-	for ( group in names( cellexalObj@groupSelectedFrom ) ){
-		if( ! is.null(cellexalObj@groupSelectedFrom[[group]][["heatmapBasename"]]) ){
-			if (cellexalObj@groupSelectedFrom[[group]][["heatmapBasename"]] == basename(png) ){
-				grouping = group
-				break;
-			}
-		}
-	}
 	if ( !is.null(genes)){
 		if ( file.exists(genes)) {
 			genes = as.vector(utils::read.delim(genes)[,1])
 		}
 	}
-
 	if ( ! file.exists( png) ) {
 		stop(paste( "logHeatmap the heatmap png file can not be found!", png ) )
 	}
@@ -52,17 +43,17 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	base = paste( paste( collapse="_",base[-length(base)] ), sep=".", 'txt')
 
 	for ( i in 1:length( cellexalObj@groupSelectedFrom ) ) {
-		if ( class( cellexalObj@groupSelectedFrom[[i]]) != 'list') {
+		if ( class( cellexalObj@groupSelectedFrom[[i]]) != 'cellexalGrouping') {
 			next
 		}
-		if ( ! is.null( cellexalObj@groupSelectedFrom[[i]]$heatmap2selection) ){
-			if ( cellexalObj@groupSelectedFrom[[i]]$heatmap2selection == basename(base) ) {
-				grouping = cellexalObj@groupSelectedFrom[[i]]$gname
+		if ( length( cellexalObj@groupSelectedFrom[[i]]@heatmapBasename) != 0 ){
+			if ( cellexalObj@groupSelectedFrom[[i]]@heatmapBasename == basename(base) ) {
+				grouping = cellexalObj@groupSelectedFrom[[i]]@gname
 				break
 			}
-		}else if ( cellexalObj@groupSelectedFrom[[i]]$selectionFile == basename(grouping)){
-			cellexalObj@groupSelectedFrom[[i]]$heatmap2selection = basename(base)
-			grouping = cellexalObj@groupSelectedFrom[[i]]$gname
+		}else if ( cellexalObj@groupSelectedFrom[[i]]@selectionFile == basename(grouping)){
+			cellexalObj@groupSelectedFrom[[i]]@heatmapBasename = basename(base)
+			grouping = cellexalObj@groupSelectedFrom[[i]]@gname
 			break
 		}
 	}
@@ -94,24 +85,11 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 
 
 	tab =  tab[order( as.numeric(tab[,paste(cellexalObj@usedObj$lastGroup, 'order')])),]
-		tableHTML = paste( sep="\n",
-		"### group information table",'',
-		'<table>',
-		'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
-		paste(collapse="\n",
-			sapply( as.numeric(as.vector(tab[,cellexalObj@usedObj$lastGroup])), function(id){
-			paste(sep="",
-				'<tr><td style="background-color:', 
-				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],'"',
-				"></td><td>",
-				cellexalObj@colors[[cellexalObj@usedObj$lastGroup]][id],"</td><td>",
-				cellCount[match(id, names(cellCount))], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
-				)
-			}))
-		, '</table> '
-	)
 
-		figureF = correctPath(figureF, cellexalObj)
+	tableHTML = HTMLtable ( gInfo) 
+	
+
+	figureF = correctPath(figureF, cellexalObj)
 	content = paste( sep="\n",
 		paste( "##", "Heatmap from Saved Selection ", n  ),
 		paste("This selection is available in the R object as group",cellexalObj@usedObj$lastGroup ),
@@ -126,7 +104,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 		paste(collapse = "\n", sep="\n",drcFiles2HTML(cellexalObj, gInfo )),
 		"The heatmap can be restored in a new VR session using the 2D console (F12) and type:",
 		"",
-		paste("lsf", R.utils::getRelativePath(gInfo$selectionFile,
+		paste("lsf", R.utils::getRelativePath(gInfo@selectionFile,
 			relativeTo= file.path(cellexalObj@outpath,'..','..'), caseSensitive=T) ),
 		"",
 		"confirm", 

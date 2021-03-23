@@ -184,14 +184,19 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			
 			RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 			RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+			RSQLite::dbClearResult()
 			
 			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+			RSQLite::dbClearResult()
 			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
-			
+			RSQLite::dbClearResult()
+
 			RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
+			RSQLite::dbClearResult()
 			RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+			RSQLite::dbClearResult()
 			
-			
+			RSQLite::dbClearResult()
 			RSQLite::dbDisconnect(con)
 			
 		} )

@@ -84,15 +84,15 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
 
 	info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
-	if ( info$drc == 'unknown' || is.null( info$drc) ) {
+	if ( info@drc == 'unknown' || is.null( info@drc) ) {
 		## just assume the user selected from graph 1
 		## better than breaking
-		info$drc = names(loc@drc)[1]
+		info@drc = names(loc@drc)[1]
 	}
-	grps <- as.vector(unique(info$grouping))
+	grps <- as.vector(unique(info@grouping))
 
     data <- loc@data
-    req.graph <- info$drc
+    req.graph <- info@drc
 
     grp.tabs <- NULL
     avg.drc.coods <- NULL
@@ -106,7 +106,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             message(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info$gname] ==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info@gname] ==grps[i])])
 
             if ( length(rq.cells) < 10 ) {
                 message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
@@ -155,14 +155,14 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             if ( is.null(rownames(cellexalObj@drc[[req.graph]])) ) {
                 rownames(cellexalObj@drc[[req.graph]]) =colnames( cellexalObj@data )
             }
-            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,1:3],2,mean),info$col[i]))
+            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,1:3],2,mean),info@col[i]))
 
              if(nrow(cor.mat.req)>0){
 
                 key1 <- paste(net[,2],net[,3],sep="")
                 key2 <- paste(net[,3],net[,2],sep="")
 
-                grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
+                grp.tabs <- rbind(grp.tabs,cbind(net,info@col[i],key1,key2))
 
             }else{next}
         }
@@ -175,7 +175,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 
             message(paste("Making network",i))
 
-            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info$gname] ==grps[i])])
+            rq.cells <- as.vector(colnames(data)[which(loc@userGroups[,info@gname] ==grps[i])])
 
             if ( length(rq.cells) < 10 ) {
                 message(paste("not enough cell in group",  grps[i], "(", length(rq.cells),")" ) )
@@ -204,7 +204,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
             if(nrow(net)>top.n.inter){
                 net <- net[1:top.n.inter,]
             }
-            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info$col[i]))
+            avg.drc.coods <- rbind(avg.drc.coods, c(apply(cellexalObj@drc[[req.graph]][rq.cells,],2,mean),info@col[i]))
 
             if(nrow(net)>0){
 
@@ -214,7 +214,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
                 key1 <- paste(net[,2],net[,3],sep="")
                 key2 <- paste(net[,3],net[,2],sep="")
 
-                grp.tabs <- rbind(grp.tabs,cbind(net,info$col[i],key1,key2))
+                grp.tabs <- rbind(grp.tabs,cbind(net,info@col[i],key1,key2))
 
             }else{next}
 
@@ -223,9 +223,9 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	message( paste( "the cellexal object drc names:", paste( collapse= ", ", names(cellexalObj@drc))))
     # browser()
     # # check if this plot makes sense:
-    # rgl::plot3d( cellexalObj@drc[[req.graph]][which( is.na(cellexalObj@userGroups[,info$gname])),], col='gray80')
-    # OK = which( ! is.na(cellexalObj@userGroups[,info$gname]))
-    # rgl::points3d( cellexalObj@drc[[req.graph]][ OK, ], col= cellexalObj@colors[[ info$gname ]] [ cellexalObj@userGroups[OK,info$gname ]] )
+    # rgl::plot3d( cellexalObj@drc[[req.graph]][which( is.na(cellexalObj@userGroups[,info@gname])),], col='gray80')
+    # OK = which( ! is.na(cellexalObj@userGroups[,info@gname]))
+    # rgl::points3d( cellexalObj@drc[[req.graph]][ OK, ], col= cellexalObj@colors[[ info@gname ]] [ cellexalObj@userGroups[OK,info@gname ]] )
     # rgl::points3d( avg.drc.coods[,1:3], col=avg.drc.coods[,4], size=5 )
     # # looks good! 2020/03/11
     if(nrow(grp.tabs)==0){

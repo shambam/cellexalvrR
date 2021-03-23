@@ -75,9 +75,9 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			
 			rem.ind <- which(Matrix::rowSums(loc@data)==0)
 			
-			grp.vec <- info$grouping
+			grp.vec <- info@grouping
 			
-			col.tab <- info$col
+			col.tab <- info@col
 			
 			if(length(rem.ind)>0){
 				loc = reduceTo(loc, what='row', to=rownames(loc@data)[-rem.ind]) #function definition in file 'reduceTo.R'
@@ -92,26 +92,26 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				message('anova gene stats is deprecated - using wilcox instead!')
 				deg.method= 'wilcox'
 			}
-			if(  length(table(info$grouping)) == 1 ){
+			if(  length(table(info@grouping)) == 1 ){
 				deg.method = 'Linear'
 				#stop( "Please selecting more than one group!")
-				message('cor.stat linear gene stats timeline EXPERIMENTAL')
-				if ( is.null( info$drc )) {
+				message('cor.stat linear gene stats timeline')
+				if ( is.null( info@drc )) {
 					message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
-					info$drc = names(loc@drc )[1]
+					info@drc = names(loc@drc )[1]
 			
 				}
 				
-				info = groupingInfo(x, info$gname ) ## get the info for the big object
-				drc = x@drc[[ info$drc ]]
+				info = groupingInfo(x, info@gname ) ## get the info for the big object
+				drc = x@drc[[ info@drc ]]
 				 if ( is.null(drc) ){
-				 	message(paste("the drc info",info$drc, "can not be found in the data! (", paste(collapse=", ", names(loc@drc)) ))
+				 	message(paste("the drc info",info@drc, "can not be found in the data! (", paste(collapse=", ", names(loc@drc)) ))
 				 	message(paste("The linear stats has not gotten the drc information -- choosing the first possible" , names(loc@drc )[1] )) 
-				 	info$drc = names(x@drc )[1] ## for the log!
+				 	info@drc = names(x@drc )[1] ## for the log!
 				 	drc = x@drc[[ 1 ]]
 				}
-				
-				x = pseudotimeTest3D( x, grouping= info$gname )
+						
+				x = pseudotimeTest3D( x, grouping= info@gname )
 
 				cellexalTime = x@usedObj$timelines[[ 'lastEntry' ]]
 
@@ -134,25 +134,29 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 					BAD= which(grp.vec != n )
 					r = NULL
 					if ( length(OK) > 0 & length(BAD) >0){
-						try({
+						#try({
 						r = as.data.frame(
 								FastWilcoxTest::StatTest( Matrix::t( loc@data), OK, BAD, 
 										logfc.threshold, minPct, onlyPos=onlyPos )
 						)
 						r= r[order( r[,'p.value']),]
 						r = cbind( r, cluster= rep(n,nrow(r) ), gene=rownames(loc@data)[r[,1]] )
-						})
+						#})
 					}
 					r
 				}
-				
 				all_markers = NULL;
 				for ( n in  unique( sort(grp.vec)) ) {
 					all_markers = rbind( all_markers, CppStats(n) )
 				}
-				
+
 				#all_markers <- all_markers[ order( all_markers[,'p.value']),]
-				try ( {x = logStatResult( x,method='Cpp', data= all_markers, col='p.value' ) }) #function definition in file 'logStatResult.R'
+				try ( {
+					x = logStatResult( x,method='Cpp', data= all_markers, col='p.value' )
+					## And get additional info about the genes
+
+
+				}) #function definition in file 'logStatResult.R'
 				
 				if ( is.null(x@usedObj$sigGeneLists$Cpp)) 
 					x@usedObj$sigGeneLists$Cpp = list()
@@ -231,7 +235,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				#print( 'And this - Do we reach this point, too?')
 			}
 			if ( length(deg.genes ) < 10){
-				if(interactive()) { browser() }
+				if(interactive()) {
+				 print("no deg genes - please check why!")
+				 browser() 
+				}
 			}
 			x@usedObj$deg.genes = deg.genes
 			invisible( x )

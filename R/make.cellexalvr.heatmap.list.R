@@ -38,7 +38,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
 			#getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
 			#browser()
-			cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]][["heatmapBasename"]] = basename( cellidfile )
+			cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]]@heatmapBasename = basename( cellidfile )
 			gene.cluster.order = cvrObj@usedObj$deg.genes
 
 			message (paste( "trying to write file", outfile, "containing", length(gene.cluster.order), "genes") )

@@ -26,10 +26,8 @@ setGeneric('logTimeLine', ## Name
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL, text=NULL ) {
 	## here I need to create a page of the final log
-
 	cellexalObj = sessionPath( cellexalObj ) #function definition in file 'sessionPath.R'
 	sessionPath = cellexalObj@usedObj$sessionPath
-
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionRegisterGrouping.R'
 	n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionCounter.R'
 
@@ -42,7 +40,6 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 	## now I need to create the 2D drc plots for the grouping
 	#drcFiles = drcPlots2Dtime( cellexalObj, info, GOIs ) #function definition in file 'drcPlot2Dtime.R'
-
 	drcFiles2 = sapply(drcPlots2Dtime( cellexalObj, timeInfo ), correctPath, cellexalObj) #function definition in file 'drcPlot2Dtime.R'
 	## but I also want to show the TIME in the drc plot - hence I need a new grouping!
 
@@ -50,7 +47,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	 paste( "##", "TimeLine control from Saved Selection ", 
 	 	sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) ),"",
 		paste("This TimeLine is available in the R object as group",
-			timeInfo$gname ),
+			timeInfo@gname ),
 		""
 	)
 	

@@ -20,6 +20,7 @@ setGeneric('logStatResult', ## Name
 setMethod('logStatResult', signature = c ('cellexalvrR'),
 	definition = function ( x, method, data, col=NULL ) {
 	if (! is.null( x@usedObj$sessionName)) {
+
 		## export the data into a file and add a small download link into the report
 		ofile =   paste( x@usedObj$lastGroup,method,"csv", sep="."   )
 		if ( ! file.exists(file.path( x@usedObj$sessionPath,'tables') )) {
@@ -33,46 +34,16 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		## we need a table to describe the grouping - INCLUDING COLOR INFORMATION
 		## the VR ids are R ID's -1 (!!) make that clearly visible.
 		## get the VR order:
-
-		if ( length(grep ('Time' , x@usedObj$lastGroup) ) > 0 ) {
-			tableHTML = HTMLtable( x@usedObj$timelines[[ x@usedObj$lastGroup ]] )
-		}
-		else {
-			x@userGroups[,x@usedObj$lastGroup] = factor( x@userGroups[,x@usedObj$lastGroup] )
-			cellCount = table(x@userGroups[,x@usedObj$lastGroup])
-			R_IDs = names(cellCount)
-			OK = which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
-			tab = x@userGroups[OK,]
-			tab = tab[order( tab[,paste( x@usedObj$lastGroup, 'order')]) ,]
-			tab = tab[ match( R_IDs,as.vector(tab[,x@usedObj$lastGroup] ) ),]
-			tab =  tab[order( as.numeric(tab[,paste(x@usedObj$lastGroup, 'order')])),]
-
-
-			if ( is.null(x@colors[[x@usedObj$lastGroup]])) {
-				## not in a VR backend position
-				x@colors[[x@usedObj$lastGroup]] = rainbow( max( as.numeric(names(cellCount))) )
-			}
-			tableHTML = paste( collapse="\n",
-				"",
-				"### group information table",'',
-			'<table>',
-			'  <tr><th>Color</th><th>HTML tag</th><th>cell count [n]</th><th>VR ID</th><th>R ID</th></tr>',
-			paste(collapse="\n",
-				sapply( as.numeric(as.vector(tab[,x@usedObj$lastGroup])), function(id){
-				paste(sep="",
-					'<tr><td style="background-color:', 
-					x@colors[[x@usedObj$lastGroup]][id],'"',
-					"></td><td>",
-					x@colors[[x@usedObj$lastGroup]][id],"</td><td>",
-					cellCount[match(id, names(cellCount))], "</td><td>",id-1,"</td><td>",id,"</td></tr>"
-						)
-					}))
-				, '</table> '
-			)
-		}
 		gInfo = groupingInfo(x)
+		
+		tableHTML = HTMLtable(gInfo)
+		gname = gInfo@gname
 
-
+		if ( nrow(gInfo@timeObj@dat) > 0 ) {
+			tableHTML = HTMLtable(gInfo@timeObj)
+			gname = gInfo@gname
+		}
+		tableHTML = paste(tableHTML, "\n")
 		## this need to become a relative path - relative to the final outfile
 		content=paste( sep="\n", collapse = "\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
@@ -80,16 +51,19 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				tableHTML,
 				"",
 				"### Data",
+				"The linked file is a tab separated table with all statistical results:",
 				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
 				"",
 				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo ))
 		)
-		
+		## the 1-log10 p value histogram
 		if ( ! is.null(col) ){
+
 			ofile = file.path(x@usedObj$sessionName, 'png',paste( 'hist',x@usedObj$lastGroup,method,"png", sep="."   ) )
 			grDevices::png( file= file.path( x@outpath, ofile ), width=800, height=800)
-			graphics::hist( -log10(data[,col]), main = paste( x@usedObj$sessionName, method )  )
+			dat = -log10(data[,col])
+			graphics::hist( dat[which(!is.na(dat))], main = paste( x@usedObj$sessionName, gname )  )
 			grDevices::dev.off()
 
 			content = c( content, paste( sep="\n",
