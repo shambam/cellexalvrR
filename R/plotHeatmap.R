@@ -76,7 +76,7 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 			grDevices::pdf( file=paste(ofile ,'pdf',sep='.'), width=width, height=height, family=family)
 		}	
 	}
-	if ( ncol(data) = 1000 ) {
+	if ( ncol(data) > 1000 ) {
 		ncells =ceiling(ncol(data)/1000)
 		warning(paste(
 			"Data is collapsed into 1000 summary samples",
@@ -95,7 +95,8 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 			ids = c(ids, thisids)
 		}
 		data = collapse( x@data, ids, 2 ) # collapse by mean
-		df = 
+		browser() ## fix the color and the annotation table!
+		df = NULL 
 	}
 	pheatmap( mat = x@data, kmeans_k = length(col) *3,
 	 annotation_col = df, scale='none', cluster_rows=TRUE,
