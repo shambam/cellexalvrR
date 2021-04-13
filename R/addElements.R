@@ -177,6 +177,7 @@ setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
     }
 
     cellexalObj@drc[[rq.ind]] <- drcmatrix
+    name = stringr::str_replace_all( name, '[/\\\\]+', '_' )
     names(cellexalObj@drc)[rq.ind] = name
     cellexalObj
 } )
