@@ -28,6 +28,9 @@ setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'cha
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
 		}
+		if ( is.null(cellexalObj@drc[[drc]] )){
+			stop(paste("drc", drc,"is not part of the object") )
+		}
 		data = NULL
 		OK = match( tolower(GOI), tolower(rownames(cellexalObj@data)))
 		OK = OK[which(!is.na(OK))]
@@ -60,7 +63,7 @@ setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'cha
 	grDevices::png( file= DRC1, width=1000, height=1000)
 	col = gplots::bluered(length(brks))
 	toPlot = data.frame(x=cellexalObj@drc[[drc]][,1], y=cellexalObj@drc[[drc]][,2], id=gr )
-    p= prettyPlot2D( toPlot, col , FALSE )
+	p= prettyPlot2D( toPlot, col , FALSE )
 	print(p)
 	
 	grDevices::dev.off()

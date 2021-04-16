@@ -110,21 +110,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				 	info@drc = names(x@drc )[1] ## for the log!
 				 	drc = x@drc[[ 1 ]]
 				}
-						
 				x = pseudotimeTest3D( x, grouping= info@gname )
 
 				cellexalTime = x@usedObj$timelines[[ 'lastEntry' ]]
 
 				info = groupingInfo( x, cellexalTime@parentSelection )
-
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
 				timeInfo = groupingInfo( x )
 	
 				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
-
-				x = ret$cellexalObj
+				timeN = timeInfo@gname
+				x@usedObj$timelines[['lastEntry']] = x@usedObj$timelines[[timeN]] = ret$cellexalObj@usedObj$timelines[[timeN]]
 				
-				#x = ret$cellexalObj
 				deg.genes = x@usedObj$deg.genes
 
 			}else if ( deg.method == 'wilcox') {

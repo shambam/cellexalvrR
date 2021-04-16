@@ -14,7 +14,6 @@
 #' @slot timeObj an optional slot to store a cellexalTime object
 #' @slot heatmapBasename the filename basis for the heatmap related to this grouping
 #' @exportClass cellexalGrouping
-
 setClass("cellexalGrouping", 
 	slots=list(
 		gname="character",

@@ -1,28 +1,4 @@
-#' the cellexalTime class is mainly to bring a usable order into the time mess
-#' 
-#' 
-#' @name cellexalTime-class
-#' @rdname cellexalTime-class
-#' @title cellexalTime class definition
-#' @description  A simple wrapper to hadle the time and time color mappings.
-#' @slot dat all data needed for the time plotting and group creation
-#' @slot gname the group name
-#' @slot drc the drc name this object has been selected from
-#' @slot error the error message if a catched not fatal error has occured
-#' @slot geneClusters a list of gene clusters that are linked to a timeline
-#' @exportClass cellexalTime
 
-setClass("cellexalTime", 
-	slots=list(
-		dat="data.frame",
-		gname="character",
-		drc="character",
-		error="character",
-		geneClusters="list",
-		id="character",
-		parentSelection="character"
-		)
-)
 
 
 setMethod('show', signature = c ('cellexalTime'),
@@ -543,37 +519,37 @@ setMethod('collapseTime', signature = c ('cellexalTime' ),
 #' @param cellexalObj the object to get the data from
 #' @param info a cellexalvrR grouping info list
 #' @param deg.genes a list of genes to create the report for
+#' @param num.sig number of signififcant genes (default 250)
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('createReport') ){setGeneric('createReport', ## Name
-	function ( x, cellexalObj, info, deg.genes=NULL) { 
+	function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250) { 
 		standardGeneric('createReport')
 	}
 ) }
 
 
 setMethod('createReport', signature = c ('character', 'cellexalvrR'),
-	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+	definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 		createReport ( x =getTime(cellexalObj, x), cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'character'),
-	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+	definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 		info = groupingInfo(cellexalObj, info )
 		createReport ( x =x, cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalTime'),
-	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+	definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 		info = groupingInfo(cellexalObj, info@gname )
 		createReport ( x =x, cellexalObj=cellexalObj, info=info, deg.genes=deg.genes )
 })
 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalGrouping'),
-	definition = function ( x, cellexalObj, info, deg.genes=NULL ) {
+	definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 
 	#print( paste( "I am in cellexalTime::createReport and was called from here:", deparse(sys.calls()[[sys.nframe()-2]]) ) )
-
 	text = NULL
 	if ( is.null(deg.genes)){
 		deg.genes = cellexalObj@usedObj$deg.genes
@@ -595,17 +571,12 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 	ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
 	if ( is.null(ps)) {
 		message("the linear statistics table is NULL!")
-		cellexalObj = createStats( x, cellexalObj )
+		cellexalObj = createStats( x, cellexalObj, num.sig=num.sig )
 		ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
 
 	}
 	o = order(ps[,'p.value'])
 	ps = ps[o,]
-
-	#loc = reduceTo(cellexalObj, what='row', to = deg.genes )
-	#loc = reduceTo(loc, what='col', to = colnames(loc@data)[
-#		which(!is.na(loc@userGroups[,info@gname]))] )
-#	loc = reorder.samples(loc, paste( info@gname, 'order' ) )
 
 	cellexalObj@usedObj$lastGroup = info@gname
 	## add the plots to the log
@@ -628,7 +599,10 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 		) 
 		#print( "finish" )
 	} )	
+
 	cellexalObj = addSelection( x, cellexalObj )
+#	print ( paste("4: createReport: The dims of the cellexalObj:", paste(collapse=", ", dim(cellexalObj@data))))
+
 	invisible( list( cellexalObj = cellexalObj, timeline = x) )
 } )
 
@@ -798,12 +772,15 @@ setMethod('createTime', signature = c ('cellexalTime'),
 		}
 		sling = NULL
 
-		try( {
+		#try( {
 		sling = {
-			setTimeLimit(220)#after 120 sec this has failed - get a more simple selection
+			#if ( ! interactive() ) {
+			#	stop("This should not be applied here!")
+			#	setTimeLimit(220)#after 120 sec this has failed - get a more simple selection
+			#}
 			slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
 		}
-		})
+		#})
 		if ( is.null(sling)) {
 			stop("Slingshot has not returned a timeline in time - please select a more linear set of cells")
 		}
@@ -1249,6 +1226,7 @@ setMethod('subsetTime', signature = c ('cellexalTime'),
 		if ( ! is.null( x@geneClusters[['collapsedExp']])) {
 			x@geneClusters[['collapsedExp']] = NULL
 		}
+		x@dat = x@dat[order(x@dat$time),]
 		x@id = digest::digest( x@dat, algo="md5")
 		invisible(x)
 } )

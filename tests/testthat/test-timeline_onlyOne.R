@@ -58,7 +58,10 @@ grouping <- file.path(prefix, 'data', gFile )
 
 x = userGrouping( x, grouping)
 
+old = dim (x@data)
 x = getDifferentials( x,'User.group.1', deg.method= 'wilcox' , Log=TRUE)
+new = dim(x@data)
+expect_equal( old, new, label="cell or genes lost during getDifferentials")
 
 x= renderReport( x )
 

@@ -73,3 +73,62 @@ setClass(
 )
 
 
+
+#' the cellexalTime class is mainly to bring a usable order into the time mess
+#' 
+#' 
+#' @name cellexalTime-class
+#' @rdname cellexalTime-class
+#' @title cellexalTime class definition
+#' @description  A simple wrapper to hadle the time and time color mappings.
+#' @slot dat all data needed for the time plotting and group creation
+#' @slot gname the group name
+#' @slot drc the drc name this object has been selected from
+#' @slot error the error message if a catched not fatal error has occured
+#' @slot geneClusters a list of gene clusters that are linked to a timeline
+#' @exportClass cellexalTime
+
+setClass("cellexalTime", 
+	slots=list(
+		dat="data.frame",
+		gname="character",
+		drc="character",
+		error="character",
+		geneClusters="list",
+		id="character",
+		parentSelection="character"
+		)
+)
+
+
+
+#' the cellexalGrouping class is mainly to bring a usable order into the time mess
+#' 
+#' 
+#' @name cellexalGrouping-class
+#' @rdname cellexalGrouping-class
+#' @title cellexalGrouping class definition
+#' @description  A simple wrapper to hadle the time and time color mappings.
+#' @slot gname the group name
+#' @slot selectionFile the VR selection file that is the basis for this grouping
+#' @slot order the order the cells have been selected in the VR process
+#' @slot drc the drc name this object has been selected from
+#' @slot col the color vector for these groups
+#' @slot error a string vector that contains all error messages
+#' @slot timeObj an optional slot to store a cellexalTime object
+#' @slot heatmapBasename the filename basis for the heatmap related to this grouping
+#' @exportClass cellexalGrouping
+setClass("cellexalGrouping", 
+	slots=list(
+		gname="character",
+		selectionFile="character",
+		grouping="numeric",
+		VRgrouping = "numeric",
+		order="integer",
+		drc="character",
+		col="character",
+		error="character",
+		timeObj="cellexalTime",
+		heatmapBasename='character'
+		)
+)

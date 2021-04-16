@@ -37,12 +37,12 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 
 	dendrogram= 'none'
 
-	x=reduceTo( x, what='row', to=genes )
-	x=reduceTo( x, what='col', to=colnames(x@data)[
-		which( !is.na(x@userGroups[,x@usedObj$lastGroup] ))
+	loc=reduceTo( x, what='row', to=genes )
+	loc=reduceTo( loc, what='col', to=colnames(loc@data)[
+		which( !is.na(loc@userGroups[,loc@usedObj$lastGroup] ))
 		])
-	x = reorder.samples(x, paste(x@usedObj$lastGroup, 'order') )
-	data <- as.matrix(x@data)
+	loc = reorder.samples(loc, paste(loc@usedObj$lastGroup, 'order') )
+	data <- as.matrix(loc@data)
 	m <- min(data)
 
 	brks <- unique(
@@ -53,22 +53,22 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 	
 	heapmapCols = function(x){ c("black", gplots::bluered(x))}
 	
-	col = x@colors[[x@usedObj$lastGroup]]
+	col = loc@colors[[loc@usedObj$lastGroup]]
 	col= list( col[which(!is.na(col))] )
-	names(col) = x@usedObj$lastGroup
+	names(col) = loc@usedObj$lastGroup
 
-	df = data.frame( x@userGroups[,x@usedObj$lastGroup] )
-	colnames(df) = x@usedObj$lastGroup
-	rownames(df) = colnames(x@data)
+	df = data.frame( loc@userGroups[,loc@usedObj$lastGroup] )
+	colnames(df) = loc@usedObj$lastGroup
+	rownames(df) = colnames(loc@data)
 
 	if ( length(groupings) > 1) {
-		df = x@userGroups[,c(x@usedObj$lastGroup, groupings[-1])]
+		df = loc@userGroups[,c(loc@usedObj$lastGroup, groupings[-1])]
 		## need to take care of the colors
 		browser()
 	}
 
 	if ( is.null(main) ){
-		main = x@usedObj$lastGroup
+		main = loc@usedObj$lastGroup
 	}
 
 	if ( !is.null(ofile) ) {
@@ -94,11 +94,11 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 			thisids= sort(thisids)
 			ids = c(ids, thisids)
 		}
-		data = collapse( x@data, ids, 2 ) # collapse by mean
+		data = collapse( loc@data, ids, 2 ) # collapse by mean
 		browser() ## fix the color and the annotation table!
 		df = NULL 
 	}
-	pheatmap( mat = x@data, kmeans_k = length(col) *3,
+	pheatmap( mat = loc@data, kmeans_k = length(col) *3,
 	 annotation_col = df, scale='none', cluster_rows=TRUE,
 	 cluster_cols=FALSE, annotation_colors = col )
 
@@ -106,7 +106,7 @@ setMethod('plotHeatmap', signature = c ('cellexalvrR'),
 		grDevices::dev.off()
 	}
 	message('Done')
-	invisible(x)
+	invisible(loc)
 } 
 )
 

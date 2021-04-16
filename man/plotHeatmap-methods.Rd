@@ -16,7 +16,8 @@ plotHeatmap(
   main = NULL,
   X11type = "cairo",
   family = "Helvetica",
-  fileType = "pdf"
+  fileType = "pdf",
+  brks = 10
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ or a list of CellexalVR selection files or a mix of both}
 \item{family}{pdf typing family (defaults to "Helvetica") png is also supported}
 
 \item{fileType}{figure file type (default 'pdf' )}
+
+\item{brks}{the amoiunt of colors for expression (default 10)}
 }
 \description{
 Create a simple violin plot on the expresion of one gene
