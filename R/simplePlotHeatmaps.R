@@ -205,10 +205,9 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				## should not be necessary, but sometimes it is:
 				print(i)
 				geneTrajectories[[groupname]] = tryCatch( { 
-				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.1) )
+				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
 				}, error=function(er) { 
-
-					browser()
+					predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
 				} )
 
 				#geneTrajectories[[groupname]] =
