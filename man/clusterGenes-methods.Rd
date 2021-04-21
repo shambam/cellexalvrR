@@ -13,6 +13,8 @@
 \item{info}{the group to cluster the genes for (list)}
 
 \item{cellexalObj}{if x is a cellexalTime object this is necessary to create the zscored matrix.}
+
+\item{geneclusters}{ovverride the WSS based optimal group count search (default NULL)}
 }
 \description{
 get a - hopefully - optimal grouing of a list of genes

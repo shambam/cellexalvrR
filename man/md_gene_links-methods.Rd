@@ -6,16 +6,12 @@
 \alias{md_gene_links,cellexalvrR-method}
 \title{Create a binned annotation column from numeric data}
 \usage{
-md_gene_links(genes)
+md_gene_links(genes, label = "Click to expand gene list")
 }
 \arguments{
-\item{x}{the cellexalvrR object}
+\item{genes}{a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="}
 
-\item{group}{the group (defaule = 'nUMI'}
-
-\item{where}{in the samples (sample) or annotation (gene) data frame (sample)}
-
-\item{colFun}{colory function default=  gplots::bluered}
+\item{label}{defaults tp "Click to expand gene list"}
 }
 \description{
 Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient

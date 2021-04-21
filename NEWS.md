@@ -1,3 +1,7 @@
+# 0.14.4
+
+In the Timeline grouping the amount of clusters can no be forced by setting cellexalObj@usedObj$gene_clusters to e.g. 3. By default one less cluster is produced.
+
 # 0.14.3
 
 Session Logs are ordered consitantly.

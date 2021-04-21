@@ -4,6 +4,9 @@
 #'
 #' In order to add usability the hetmap is split into an optimal number of sub heatmaps to show the trends.
 #'
+#' A new cellexalObj -> userObj -> 'gene_clusters' (integer) can be used to override 
+#' WSS based optimal grouping search.
+#'
 #' @name simplePlotHeatmaps
 #' @aliases simplePlotHeatmaps,cellexalvrR-method
 #' @rdname simplePlotHeatmaps-methods
@@ -66,7 +69,8 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 	if ( nrow(toPlot) != 1000 ){
 		rownames(toPlot) = rownames(ti@dat)
 	}
-	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info ) 
+
+	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info, geneclusters = x@usedObj$gene_clusters  ) 
 	clusterC = rainbow( max(gr$geneClusters) )
 
 	pngs = NULL
@@ -116,7 +120,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 #' Tries to answer the question: how do these genes differ over the timeline.
 #' It answers this in a graphical, not a statistical way.
 #' Hence you can feed whichever genelist you like into this function.
-#'  
+#'
 #' @name clusterGenes
 #' @aliases clusterGenes,cellexalTime-method
 #' @rdname clusterGenes-methods
@@ -126,6 +130,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 #' @param deg.genes a list of genes 
 #' @param info the group to cluster the genes for (list)
 #' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
+#' @param geneclusters ovverride the WSS based optimal group count search (default NULL)
 #' @title description of function plot
 #' @export 
 if ( ! isGeneric('clusterGenes') ){setGeneric('clusterGenes', ## Name
@@ -135,7 +140,7 @@ if ( ! isGeneric('clusterGenes') ){setGeneric('clusterGenes', ## Name
 ) }
 
 setMethod('clusterGenes', signature = c ('cellexalTime'),
-	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj ) {
+	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj, geneclusters=NULL ) {
 
 		if ( ! is.null(deg.genes)){
 			cellexalObj = reduceTo( cellexalObj, what='rwo', to = deg.genes )
@@ -154,11 +159,16 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 )
 
 setMethod('clusterGenes', signature = c ('matrix'),
-	definition = function ( x, deg.genes=NULL, info=NULL ) {
+	definition = function ( x, deg.genes=NULL, info=NULL, geneclusters=NULL ) {
 
 		pca = irlba::prcomp_irlba ( x, center=T, n=3 )$x
 
-		points = unlist(lapply( 2:20, function(k) {  #total within-cluster sum of square (WSS)
+		## determine how many groups we should split the genes into
+		if ( !is.null(geneclusters)){
+			optimum = geneclusters
+		}
+		else {
+			points = unlist(lapply( 2:20, function(k) {  #total within-cluster sum of square (WSS)
 			gr = stats::kmeans(pca,centers= k)$cluster
 			names(gr) = rownames(x)
 			#gr = cutree(hc, k);  
@@ -171,22 +181,28 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				ret
 				} ) ), na.rm=TRUE
 			)
-		} ) )
-		## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
-		slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
-		intercept <- points[1]-slope
-		f = function(x) { x * slope + intercept }
-		der = unlist(lapply( 1:length(points) ,function(x) { points[x] - f(x) }))
-		der = der- min(der)
-		## And find the max length of this value
-		## here more groups is likely better than less
-		optimum <- max ( which(der < max(der) / 1e+10) )
-		## plot( points, der)
-		## abline( v= points[optimum], col='red')
-		## this should not be standard, but lets just get a little more than that. Better more than too little info.
-		optimum = optimum + 1
-		## now we lack the heatmap here... But I would need one - crap!
-		## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
+			} ) )
+			## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
+			slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))
+			intercept <- points[1]-slope
+			f = function(x) { x * slope + intercept }
+			der = unlist(lapply( 1:length(points) ,function(x) { points[x] - f(x) }))
+			der = der- min(der)
+			## And find the max length of this value
+			## here more groups is likely better than less
+			optimum <- max ( which(der < max(der) / 1e+10) )
+			## plot( points, der)
+			## abline( v= points[optimum], col='red')
+			## this should not be standard, but lets just get a little more than that. Better more than too little info.
+			optimum = optimum + 1 # one more is most of the time really better!
+			## if more are whished for use the x@usedObj$gene_clusters value instead.
+			## now we lack the heatmap here... But I would need one - crap!
+			## add a simple one - the most simple one ever, but use a subcluster of genes, too!!
+		}
+		if (is.null(geneclusters)){
+			geneclusters = "'NULL'"
+		}
+		message(paste( "Gene grouping is going for", optimum, "clusters and asked for is", geneclusters) )
 		gn = stats::kmeans(pca,centers= optimum)$cluster
 		names(gn) = rownames(x)
 		geneTrajectories = list(MaxInCluster = list())

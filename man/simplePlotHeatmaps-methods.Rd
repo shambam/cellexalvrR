@@ -28,4 +28,7 @@ Here we use the most simple heatmap functionallity in R (image) to show the expr
 The returned genes list has the genes in the order of display in the heatmaps.
 
 In order to add usability the hetmap is split into an optimal number of sub heatmaps to show the trends.
+
+A new cellexalObj -> userObj -> 'gene_clusters' (integer) can be used to override 
+WSS based optimal grouping search.
 }

@@ -31,6 +31,8 @@ cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
 
+x@usedObj$gene_clusters = 10
+
 x@outpath = file.path(prefix,'data','output','timeLineTest2' )
 
 if ( file.exists(x@outpath ) ){

@@ -75,7 +75,8 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 	content = paste( collapse=" ", sep=" ",content,"\n\nGene group ",i,
 		paste("\n![](",correctPath(png[i+1], cellexalObj),")\n"),
-		md_gene_links ( sort(genes[[i]]) )
+		md_gene_links ( sort(genes[[i]]) ),
+		md_gene_links ( rev(genes[[i]]), label="expand in heatmap order" )
 	)
 	}
 	content = paste( collapse="\n", content,

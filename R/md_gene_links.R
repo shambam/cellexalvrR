@@ -5,20 +5,18 @@
 #' @rdname md_gene_links-methods
 #' @docType methods
 #' @description Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
-#' @param x the cellexalvrR object
-#' @param group the group (defaule = 'nUMI'
-#' @param where in the samples (sample) or annotation (gene) data frame (sample)
-#' @param colFun colory function default=  gplots::bluered
+#' @param genes a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="
+#' @param label defaults tp "Click to expand gene list"
 #' @title Create a binned annotation column from numeric data
 #' @export 
 setGeneric('md_gene_links', ## Name
-	function ( genes ) { 
+	function ( genes, label="Click to expand gene list" ) { 
 		standardGeneric('md_gene_links')
 	}
 )
 
 setMethod('md_gene_links', signature = c ('character'),
-	definition = function ( genes ) {
+	definition = function ( genes, label="Click to expand gene list" ) {
 
 		text = paste( collapse=" ", sep=" ",
 		 	paste( sep=" ", unlist( lapply(genes, function(n) { 
@@ -27,7 +25,12 @@ setMethod('md_gene_links', signature = c ('character'),
 		"\n")
 
 		## https://gist.github.com/pierrejoubert73/902cc94d79424356a8d20be2b382e1ab
-		text = paste(sep="\r\n", "<details>", "  <summary>Click to expand gene list</summary>", "", text,"</details>","","")
+		text = paste(sep="\r\n", collapse=" ",
+			"<details>", 
+			paste(sep="","  <summary>",label,"</summary>"),
+			 "", text,
+			 "</details>","",""
+		)
 		text
 	}
 )

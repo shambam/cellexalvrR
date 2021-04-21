@@ -13,6 +13,8 @@
 \item{info}{a cellexalvrR grouping info list}
 
 \item{deg.genes}{a list of genes to create the report for}
+
+\item{num.sig}{number of signififcant genes (default 250)}
 }
 \description{
 3D plot the time with a line in the time

@@ -1,20 +1,48 @@
+#' @name toString
+#' @aliases toString,cellexalTime-method
+#' @rdname toString-methods
+#' @docType methods
+#' @description add this selection to any cellexal object
+#' @param x the cellexalTime object
+#' @title stringify the timeline (print/show)
+#' @export 
+setMethod('toString', signature = c ('cellexalTime'),
+	definition = function ( x ) {
+		txt = paste(
+			paste("An object of class", class(x),"with id", x@id,"\n" ),
+			paste( 'with',nrow(x@dat),'time points and', ncol(x@dat),' values.',"\n"),
+			paste( 'The object is basis for the cellexalvrR grouping', x@gname),
+			paste( 	"\nand is based on the selection", x@parentSelection)
+		)
+		if ( length(x@geneClusters) >0 ) {
+			txt =paste ( txt, "\n",
+				paste("It contains information about", length(x@geneClusters), 
+					'Gene list(s):',"\n"),
+			    paste( sep=",", collaspe=" ",names( x@geneClusters ))
+			)
+		}
+
+		txt
+	}
+)
 
 
 
 setMethod('show', signature = c ('cellexalTime'),
 	definition = function ( object ) {
-		cat (paste("An object of class", class(object)),"with id", object@id,"\n" )
-
-		#cat("named ",object@name,"\n")
-		cat (paste( 'with',nrow(object@dat),'time points and', ncol(object@dat),' values.'),"\n")
-		cat( paste( 'The object is basis for the cellexalvrR grouping', object@gname)) 
-		cat( paste( 	"\nand is based on the selection", object@parentSelection) )
-		if ( length(object@geneClusters) >0 ) {
-			cat("\n")
-			cat ( paste("It contains information about", length(object@geneClusters), 'Gene list(s):',"\n"))
-			cat( paste( sep=",", collaspe=" ",names( object@geneClusters )))
-		}
-		cat('\n')
+		cat ( toString(object) )
+#		cat (paste("An object of class", class(object)),"with id", object@id,"\n" )
+#
+#		#cat("named ",object@name,"\n")
+#		cat (paste( 'with',nrow(object@dat),'time points and', ncol(object@dat),' values.'),"\n")
+#		cat( paste( 'The object is basis for the cellexalvrR grouping', object@gname)) 
+#		cat( paste( 	"\nand is based on the selection", object@parentSelection) )
+#		if ( length(object@geneClusters) >0 ) {
+#			cat("\n")
+#			cat ( paste("It contains information about", length(object@geneClusters), 'Gene list(s):',"\n"))
+#			cat( paste( sep=",", collaspe=" ",names( object@geneClusters )))
+#		}
+#		cat('\n')
 	}
 )
 
@@ -452,7 +480,10 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
 						), "\n\n"
 					)
 
-					text = paste( text,  md_gene_links ( sort(cmp[[a]]) ) )
+					text = paste( text, 
+						md_gene_links ( sort(cmp[[a]]), label="Click to expand lexically sorted" ) )
+        			text = paste( text,  
+        				md_gene_links ( rev(cmp[[a]]), label="Click to expand in heatmap order" ) )
         		}
         	}
         }
@@ -556,6 +587,8 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 	}else {
 		cellexalObj@usedObj$deg.genes = deg.genes
 	}
+	print ( paste("I am analyzing", length(deg.genes),"deg.genes"))
+
 	bad= which(is.na(match(deg.genes, rownames(cellexalObj@data)) ))
 	if ( length(bad) > 0) {
 		bad.genes = paste( collapse=", ", deg.genes[bad] )
@@ -582,7 +615,11 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 	## add the plots to the log
 	try({
 		#print( "simplePlotHeatmaps" )
-		ret = simplePlotHeatmaps(cellexalObj, info= info,  fname=file.path( cellexalObj@usedObj$sessionPath,'png', info@gname ) )	
+		ret = simplePlotHeatmaps(
+			cellexalObj, 
+			info= info,  
+			fname=file.path( cellexalObj@usedObj$sessionPath,'png', info@gname ) 
+		)	
 		x@geneClusters[[info@gname]] = list( 
 			clusters= ret$genes, 
 			matrix = ret$mat, 
