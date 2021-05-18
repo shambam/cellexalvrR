@@ -41,7 +41,7 @@ expect_equal( length(timeline@error), 0 , label="no error" )
 fname= file.path(x@usedObj$sessionPath,'png', 'simpleHeatmap' )
 
 res = simplePlotHeatmaps (x, info = groupingInfo( x, timeline@gname), fname )
-expect_equal( names(res), c("genes", "ofile", "pngs", "error",
+expect_equal( names(res), c("genes", "ofile", "pngs", "groupColors", "error",
  'smoothedClusters', 'MaxInCluster', "mat" ) )
 expect_equal( length(res$genes), 6, label="6 gene groups")
 expect_equal( res$ofile , paste(sep=".", fname, 'png'), label="ofile correct" )

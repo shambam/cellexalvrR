@@ -47,7 +47,6 @@ for ( file in fn ) {
 	expect_true(file.exists( file) ,label=file )
 }
 
-
 x = getDifferentials( x, grouping, deg.method='wilcox'	)
 
 x= renderReport(x)
@@ -87,7 +86,7 @@ ofile = file.path( x@outpath, 'session-log-for-session-cellexalgrouptest.html')
 
 expect_true( file.exists( ofile), label = ofile)
 
-
+#browser()
 collect = checkFile(collect, ofile, '21321§"!3' ) ## not split the lines!
 #print(collect)
 #browser()

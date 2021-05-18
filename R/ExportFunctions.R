@@ -87,17 +87,28 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	}
 	
 	ofile = file.path(path,"database.sqlite")
-	#if ( file.exists( ofile ) ) {
-	#	if ( forceDB ){
-#			unlink( ofile ) ## always create the database?!
-#		}
-#	}
+	if ( file.exists( ofile ) ) {
+		if ( forceDB ){
+			unlink( ofile ) ## always create the database?!
+			message("old database removed")
+		}
+	}
 	if ( ! file.exists(ofile) || forceDB==T ) {
 	    #genes <- tolower(rownames(x@data))
+
+	    #if ( file.exists( ofile ) ) {
+	    #	## database should be re-reacted?!
+	    #	unlink(ofile)
+	    #}
 	    oldw <- getOption("warn")
 		options(warn = -1)
 
 		genes <- rownames(x@data)
+		t = table(tolower(genes))
+		if ( length(which(t > 1)) > 0 ){
+			bad = match( names(which(t > 1)), tolower(genes) )
+			genes[bad] = paste(sep="_", genes[bad], 1)
+		}
 		genes <- data.frame( 'id' = 1:length(genes), genes= genes )
 
 		cells <- data.frame( 'id'= 1:ncol(x@data), sample= colnames(x@data) )
@@ -109,24 +120,42 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		#mdc = FastWilcoxTest::meltSparseMatrix( mdc )
 		colnames(genes) <- c('id', 'gname')
 		colnames(cells) <- c('id','cname')
-		mdc = FastWilcoxTest::meltSparseMatrix( x@data )
+		
 	
     	con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 		
-    	RSQLite::dbWriteTable(con, "datavalues",mdc)
-		
-		RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) COLLATE NOCASE)")
+		RSQLite::dbSendStatement(con,
+			"create table genes ('id' integer not null unique,'gname' varchar(20) COLLATE NOCASE)")
         
-		RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) COLLATE NOCASE)")
+		RSQLite::dbSendStatement(con,
+			"create table cells ('id' integer not null unique,'cname' varchar(20) COLLATE NOCASE)")
 
-		RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
-		RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
+		RSQLite::dbWriteTable(con, "genes", genes, append =TRUE) ## append=TRUE as we create the table
+		RSQLite::dbWriteTable(con, "cells", cells, append =TRUE)
 
-		RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
-		RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
+		RSQLite::dbSendStatement(con, 
+			"CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
+		RSQLite::dbSendStatement(con, 
+			"CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
 		
-		RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
-		RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
+		#mdc = FastWilcoxTest::meltSparseMatrix( x@data )
+		#RSQLite::dbWriteTable(con, "datavalues",mdc, append = FALSE, overwrite=TRUE)
+		tfile = file.path(path, 'tmp.data.txt')
+		if ( file.exists(tfile)){
+			unlink(tfile)
+		}
+		FastWilcoxTest::sparse2SQLite_text_file( x@data, file=tfile, sep="," )
+		RSQLite::dbSendStatement(con, paste(
+			"CREATE TABLE `datavalues` ( `gene_id` INTEGER,",
+			" `cell_id` INTEGER, `value` REAL )" ))
+		RSQLite::dbWriteTable(con, tfile, header=FALSE, name='datavalues', append=TRUE )
+
+		unlink(tfile)
+
+		RSQLite::dbSendStatement(con,
+			"create index gene_id_data ON datavalues ( 'gene_id' )")
+		RSQLite::dbSendStatement(con,
+			"create index cell_id_data ON datavalues ( 'cell_id' )")
 
 		
     	RSQLite::dbDisconnect(con)

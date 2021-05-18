@@ -55,7 +55,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
 				"",
-				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo ))
+				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo, showIDs = TRUE ))
 		)
 		## the 1-log10 p value histogram
 		if ( ! is.null(col) ){

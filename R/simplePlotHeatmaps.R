@@ -80,6 +80,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 	ma = -1000
 	mi = 1000
 	#print( "simplePlotHeatmaps plotting the heatmaps")
+	message("creating report")
 	smoothedClusters = list()
 	for( i in 1:(length(gr)-2) ) {
 		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
@@ -88,14 +89,19 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 		names(smoothedClusters[[ gn ]]) = rownames(toPlot)
 	}
 
-	
+	## could I use this here to create a heatmap with the cluster info
+	png(  paste(fname, "groupColors", 'png',sep="."), width=1000, height=300)
+	image( matrix(as.numeric(info@timeObj@dat$col),ncol=1), col= levels(info@timeObj@dat$col))
+	dev.off()
+
 	for( i in 1:(length(gr)-2)  ) {
 		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
 		gn = paste('gene.group',i, sep=".")	
 		
 		of = paste(fname, i, sep=".")
 
-		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], circleF = paste(sep=".", ofile,i,'svg' ) )
+		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], 
+			circleF = paste(sep=".", ofile,i,'svg' ) )
 		pngs = c(pngs, of)
 	}
 	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
@@ -105,6 +111,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 		genes = split( names(gr$geneClusters), gr$geneClusters), 
 		ofile = ofile, 
 		pngs = pngs, 
+		groupColors =  paste(fname, "groupColors", 'png',sep="."),
 		error= error,
 		smoothedClusters = smoothedClusters,
 		MaxInCluster = gr$MaxInCluster,
@@ -161,6 +168,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL, geneclusters=NULL ) {
 
+		message("Clustering genes based on pca and kmeans")
 		pca = irlba::prcomp_irlba ( x, center=T, n=3 )$x
 
 		## determine how many groups we should split the genes into
@@ -202,7 +210,7 @@ setMethod('clusterGenes', signature = c ('matrix'),
 		if (is.null(geneclusters)){
 			geneclusters = "'NULL'"
 		}
-		message(paste( "Gene grouping is going for", optimum, "clusters and asked for is", geneclusters) )
+		#message(paste( "Gene grouping is going for", optimum, "clusters and asked for is", geneclusters) )
 		gn = stats::kmeans(pca,centers= optimum)$cluster
 		names(gn) = rownames(x)
 		geneTrajectories = list(MaxInCluster = list())
@@ -219,7 +227,7 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				genes = names(gn)[which(gn == i)]
 				groupname = paste("P",i, sep="")
 				## should not be necessary, but sometimes it is:
-				print(i)
+				#print(i)
 				geneTrajectories[[groupname]] = tryCatch( { 
 				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
 				}, error=function(er) { 

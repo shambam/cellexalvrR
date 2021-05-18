@@ -583,7 +583,8 @@ setGeneric('H5Anno2df', ## Name
 	}
 )
 
-setMethod('H5Anno2df', signature = c ('cellexalvrR'),
+
+setMethod('H5Anno2df', signature = c ('H5File'),
 	definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
   		obs = data.frame(lapply(names(x[[slotName]]), function(n) { x[[paste(sep="/",slotName,n)]][] } ))
   		colnames( obs ) = names(x[[slotName]])

@@ -24,6 +24,14 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 		gname = cellexalObj@usedObj$lastGroup
 	}
 	if ( !is.null( cellexalObj@groupSelectedFrom[[gname]])){
+		if ( ncol(cellexalObj@groupSelectedFrom[[gname]]@timeObj@dat)==0){
+			for ( name in names(cellexalObj@usedObj$timelines) ) {
+				time = cellexalObj@usedObj$timelines[[name]]
+				if ( time@gname == gname | time@parentSelection == gname){
+					cellexalObj@groupSelectedFrom[[gname]]@timeObj = time
+				}
+			}
+		}
 		return ( cellexalObj@groupSelectedFrom[[gname]] )
 	}
 

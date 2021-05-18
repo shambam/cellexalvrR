@@ -161,6 +161,10 @@ if ( ! isGeneric('checkTime') ){setGeneric('checkTime', ## Name
 
 setMethod('checkTime', signature = c ('cellexalTime'),
 	definition = function (x, cellexalObj) {
+		if ( nrow(x@dat) == 0 ){
+			warning("empty object")
+			return ("empty")
+		}
 	bad=which( is.na(x@dat$time))
 	if ( length(bad) > 0 ){
 		warning("Missing values detected in the time - dropping these")
@@ -356,28 +360,31 @@ setMethod('compactTimeZscore', signature = c ('cellexalTime', 'character', 'cell
 #' @param cellexalObj the cellexalObj to add the report to.
 #' @param altGroupNames you can give alternative group names here
 #' @param color a vector of colors - one for each group
+#' @param GOIs a different group io genes - might need to re-run the analysis
 #' @title description of function color
 #' @export 
 if ( ! isGeneric('compareGeneClusters') ){setGeneric('compareGeneClusters', ## Name
-	function (x, other, cellexalObj, altGroupNames=NULL, color=NULL) { 
+	function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL) { 
 		standardGeneric('compareGeneClusters')
 	}
 ) }
 
 setMethod('compareGeneClusters', signature = c ('character', 'character' ),
-	definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL ) {
+	definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 		compareGeneClusters( x=getTime( cellexalObj, x), other=getTime(cellexalObj, other),
 			cellexalObj=cellexalObj, altGroupNames=altGroupNames, color=color )
 })
 
 setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' ),
-	definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL ) {
+	definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 
 		if ( x@parentSelection != other@parentSelection) {
 			stop("the other object is not from the same parent selection - stop")
 		}
 		if ( length(x@geneClusters) == 0 || length(other@geneClusters) == 0){
-			stop( "For both timelines the function 'createReport' has to be run first.")
+			stop( paste( sep="\n",
+				"Either the one or the other object's geneClusters == 0",
+			 	"For both timelines the function 'createReport' has to be run first.") )
 		}
 		#if ( is.null(x@geneClusters[[x@gname]]) || is.null(other@geneClusters[[other@gname]]) ) {
 		#	stop("For both timelines the createReport has to be run for the own selection.")
@@ -430,8 +437,22 @@ setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' )
         }
 
         for ( i in 1:length(x@geneClusters[[x@gname]]['clusters'][['clusters']])) {
+        	message( paste('compare cluster A', i, "to B"))
         	cmp = checkGeneList ( x@geneClusters[[x@gname]]['clusters'][['clusters']][i][[1]], 
         		other@geneClusters[[other@gname]]['clusters'][['clusters']] )
+        	#str = paste( "Own cluster", i,"we get overlap with")
+        	#for ( id in names(cmp) ){
+        	#	if ( length( cmp[[id]] ) > 0 ){
+        	#		str = paste( str, "C", id, "with", length(cmp[[id]]),"genes")
+        	#	}
+        	#}
+        	#message( str )
+        	if ( length(cmp) == 0){
+        		stop( paste( sep="\n",
+        			"Check your timline objects - the comparison did not return genes",
+        			"Possibly the geneClusters with the gname is missing in one object."
+        			))
+        	}
         	for ( a in 1:length(cmp) ) {
         		if ( length(cmp[[a]]) > 0 ) {
         			circleA = R.utils::getRelativePath( 
@@ -584,8 +605,10 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 	text = NULL
 	if ( is.null(deg.genes)){
 		deg.genes = cellexalObj@usedObj$deg.genes
+		message('using the deg.genes stored in the object')
 	}else {
 		cellexalObj@usedObj$deg.genes = deg.genes
+		message('using the deg.genes provided by the user')
 	}
 	print ( paste("I am analyzing", length(deg.genes),"deg.genes"))
 
@@ -605,6 +628,7 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 	if ( is.null(ps)) {
 		message("the linear statistics table is NULL!")
 		cellexalObj = createStats( x, cellexalObj, num.sig=num.sig )
+		cellexalObj@usedObj$deg.genes = deg.genes
 		ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
 
 	}
@@ -624,14 +648,15 @@ setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexa
 			clusters= ret$genes, 
 			matrix = ret$mat, 
 			figure= ret$ofile,
+			groupColors = ret$groupColors, ## a legend for the heatmaps
 			smoothedClusters = ret$smoothedClusters,
 			MaxInCluster = ret$MaxInCluster
 		)
 		#print( "logTimeline" )
 		cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
-			info, 
+			info = x, 
 			png = c( ret$ofile, ret$pngs ),
-			info, 
+			timeInfo = x, 
 			text= paste(text, ret$error, sep=" ", collapse=" ") 
 		) 
 		#print( "finish" )

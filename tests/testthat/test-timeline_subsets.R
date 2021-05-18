@@ -67,7 +67,7 @@ x = getDifferentials( x,cellidfile='User.group.1', deg.method= 'wilcox' , Log=TR
 
 expect_equal( names(x@usedObj$timelines), c("lastEntry", "Time.group.2" ), label="correct time names")
 
-expect_equal(names(x@usedObj$timelines[["Time.group.2"]]@geneClusters[["Time.group.2"]][['clusters']]),
+expect_equal(names(x@usedObj$timelines[["Time.group.2"]]@geneClusters[["User.group.1"]][['clusters']]),
 			c("1","2","3","4","5",'6'), label = "geneClusters are part of the timelines" )
 
 
@@ -106,14 +106,13 @@ expt = list(
 	'Time.group.2.Linear.csv' = 2,
 	'Session Log for Session timeSession_subsets' = 2, # one in the text and one in the TOC
 	'2D DRC DDRtree dim 2,3' = 8, # this figure is shown twice..
-	'href="https://www.genecards.org/cgi-bin/' = 500 # two 250 gene lists.
+	'href="https://www.genecards.org/cgi-bin/' = 1000 # two 250 gene lists times two (heatmap and lexical order)
 )
 expt[[x@outpath]] = 0
 collect[[x@outpath]] = 0
 
 
 collect = checkFile(collect, ofile )
-
 
 expect_equal( collect, expt, label="No duplicate entries in the HTMP file")
 ##################################################

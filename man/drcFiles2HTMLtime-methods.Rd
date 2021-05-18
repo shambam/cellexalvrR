@@ -6,12 +6,14 @@
 \alias{drcFiles2HTMLtime,cellexalvrR-method}
 \title{description of function drcFiles2HTMLtime}
 \usage{
-drcFiles2HTMLtime(cellexalObj, gInfo, addOn = NULL)
+drcFiles2HTMLtime(cellexalObj, gInfo, showIDs = TRUE, addOn = NULL)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}
 
 \item{gInfo}{the return value from cellexalvrR::groupingInfo()}
+
+\item{showIDs}{here for compatibility to drcFiles2HTML}
 
 \item{addOn}{a text to add in the figure heading (default NULL)}
 }

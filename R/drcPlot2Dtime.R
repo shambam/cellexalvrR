@@ -17,7 +17,15 @@ setGeneric('drcPlots2Dtime', ## Name
 	}
 )
 
-setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
+setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
+	definition = function ( cellexalObj, gInfo ){
+
+		gInfo = groupingInfo( cellexalObj, gInfo@parentSelection)
+		drcPlots2Dtime(cellexalObj, gInfo )
+	}
+)
+
+setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo ) {
 
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
@@ -38,7 +46,6 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		if ( min(as.vector(gInfo@order)) == 0) {
 			gInfo@order = as.integer(as.vector(gInfo@order) +1)
 		}
-
 		DRC1 = file.path( sessionPath , 'png', filename( c( gInfo@gname ,gInfo@drc , "1_2", 'png' ) )) #function definition in file 'filename.R'
 		grDevices::png( file= DRC1, width=1000, height=1000)
 		#browser()
@@ -46,6 +53,13 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR'),
 		if ( is.null( timeline) ) {
 			## if it is already a Time.group we look at we are fine!
 			timeline = cellexalObj@usedObj$timelines[[gInfo@gname]]
+		}
+		if ( is.null( timeline) ) {
+			## if it is already a Time.group we look at we are fine!
+			timeline = gInfo@timeObj
+		}
+		if ( is.null( timeline) ) {
+			stop("I could not identify the time object?!?")
 		}
 		if ( is.null(timeline) ) {
 			if (cellexalObj@usedObj$timelines[["lastEntry"]]@gname == gInfo@gname ){
@@ -108,10 +122,11 @@ prettyPlot2Dtime = function(x ){
 #' @description convert the drcPlots2D into rmd format
 #' @param cellexalObj the cellexal object
 #' @param gInfo the return value from cellexalvrR::groupingInfo()
+#' @param showIDs here for compatibility to drcFiles2HTML
 #' @param addOn a text to add in the figure heading (default NULL)
 #' @title description of function drcFiles2HTMLtime
 #' @export 
-drcFiles2HTMLtime = function( cellexalObj, gInfo, addOn = NULL ) {
+drcFiles2HTMLtime = function( cellexalObj, gInfo, showIDs=TRUE, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
 	drcFiles =sapply( drcPlots2Dtime( cellexalObj, gInfo ), correctPath, cellexalObj )

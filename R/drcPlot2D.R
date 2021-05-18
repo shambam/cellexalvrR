@@ -29,7 +29,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR', 'cellexalGrouping'),
 
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
-		
+
 		#print ( paste( cellexalObj@outpath, sessionPath))
 		if ( ! file.exists(file.path( sessionPath , 'png') )){
 			dir.create(file.path( sessionPath , 'png')  )
@@ -171,6 +171,9 @@ correctPath = function( f, cellexalObj ) {
 drcFiles2HTML = function( cellexalObj, gInfo, showIDs=TRUE, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order
 	# create a file containing the grouping info (and thereby color) and the drc info - do not create doubles
+	if ( nrow(gInfo@timeObj@dat) > 0 ) {
+		return( drcFiles2HTMLtime( cellexalObj, gInfo@timeObj, showIDs= showIDs, addOn =addOn ) )
+	}	
 	drcFiles =sapply( drcPlots2D( cellexalObj, gInfo, showIDs=showIDs ), correctPath, cellexalObj )
 	str = c(
 		paste( "### 2D DRC", gInfo@drc, "dim 1,2","(", gInfo@gname,")", addOn),"\n",

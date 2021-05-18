@@ -31,6 +31,11 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	cellexalObj = sessionRegisterGrouping( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionRegisterGrouping.R'
 	n = sessionCounter( cellexalObj, cellexalObj@usedObj$lastGroup ) #function definition in file 'sessionCounter.R'
 
+	if (  class(timeInfo)[[1]] == 'cellexalGrouping'){
+		if ( nrow(timeInfo@timeObj@dat) > 0 ){
+			timeInfo = timeInfo@timeObj
+		}
+	}
 	## now I need to create a heatmap myself using the genes provided
 
 #	message("find a usable way to get the heatmap png")
@@ -70,7 +75,14 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 		)
 	}
 	## genes should be a list
-	content = paste( collapse="\n", content, "### Genes") 
+	
+	content = paste( collapse="\n", 
+		content, "", "### Detailed Gene Expression as heatmaps","","",
+		"The scaling of the x axis is different from the previouse Timeline plots.",
+		"They are scaled to the (arbitrary) pseudo time whereas here the heatmaps are showing each cell after the other.",
+		"Hence in these plots each time 'slot' has the same size.","",
+		"",paste("![](",timeInfo@geneClusters[[1]]$groupColors,")") ,""
+		) 
 	for ( i in 1:length(genes) ) {
 
 	content = paste( collapse=" ", sep=" ",content,"\n\nGene group ",i,

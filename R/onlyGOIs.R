@@ -21,7 +21,7 @@ setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {
 		tryCatch({
-					cellexalObj = useInbuiltGOIlists( cellexalObj, 'TFs') }, error= {  #function definition in file 'useInbuiltGOIlists.R'
+					cellexalObj = useInbuiltGOIlists( cellexalObj, name) }, error= {  #function definition in file 'useInbuiltGOIlists.R'
 					stop( "Sorry, but this GIO list not known" )
 				} )
 	}

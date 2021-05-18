@@ -1,5 +1,5 @@
 context('dependant programs')
-expect_true( rmarkdown::pandoc_available() , "pandoc is installed")
+expect_true( rmarkdown::pandoc_available() ,label= "pandoc is installed")
 
 
 
@@ -26,7 +26,7 @@ obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runi
 obj = check( obj )
 
 
-expect_true( obj@usedObj$checkPassed == FALSE,
+expect_true( obj@usedObj$checkPassed == FALSE, label=
 	"The internal check should fail" )
 
 
@@ -34,11 +34,11 @@ expect_true( obj@usedObj$checkPassed == FALSE,
 rownames(obj@drc[[1]]) = colnames(obj@data)
 obj@meta.cell = make.cell.meta.from.df ( data.frame( 'a' = sample( c('A','B'), replace=T, 300), 'B' = sample( c('C','D','E'), replace=T, 300) ), c('a','B') )
 rownames(obj@meta.cell) =  colnames(obj@data)
+rownames( obj@meta.gene ) = rownames(obj@data)
 
 obj = check( obj )
 
-
-expect_true( obj@usedObj$checkPassed == TRUE,
+expect_true( obj@usedObj$checkPassed == TRUE, label=
 	"The internal check suceeds" ) 
 
 opath = file.path( opath, 'initialTest' )
@@ -53,11 +53,14 @@ if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
 	unlink(file.path(ipath, 'cellexalObjOK.RData.lock') )
 }
 if ( ! file.exists (file.path(ipath,'cellexalObjOK.RData') ) ) {
-	stop( paste("Libraray error - test file not found ", file.path(ipath,'cellexalObjOK.RData')) )
+	stop( paste("Libraray error - test file not found ", 
+		file.path(ipath,'cellexalObjOK.RData')) )
 }
 
+
 cellexalObj = check(cellexalObj)
-expect_true( cellexalObj@usedObj$checkPassed )
+
+expect_true( cellexalObj@usedObj$checkPassed, label="internal cellexalObj test" )
 
 ofiles = c( 'a.meta.cell', 'c.meta.gene', 'database.sqlite', 'DDRtree.mds', 
 		 'index.facs',  'diffusion.mds', 'tSNE.mds' )
@@ -81,7 +84,7 @@ export2cellexalvr(cellexalObj , opath )
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f ) 
-	expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
+	expect_true( file.exists( ofile ), label=paste("outfile exists", ofile) )
 }
 
 

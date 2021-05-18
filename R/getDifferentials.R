@@ -56,22 +56,22 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 			x <- userGrouping(x, cellidfile) #function definition in file 'userGrouping.R'
 			cellidfile = x@usedObj$lastGroup
 
-			ok <- which(!is.na(x@userGroups[,x@usedObj$lastGroup]))
+			ok <- which(!is.na(x@userGroups[,cellidfile]))
 
 			if ( length(ok) > 0) {
 				loc <- reduceTo (x, what='col', to=colnames(x@data)[ ok ] ) #function definition in file 'reduceTo.R'
 			}else {
 				loc <- x
 			}
-			if ( ! is.na(match(paste(x@usedObj$lastGroup, 'order'), colnames(x@userGroups))) ){
+			if ( ! is.na(match(paste(cellidfile, 'order'), colnames(x@userGroups))) ){
 				## at some time we had a problem in the creeation of order column names:
-    			possible = c( paste(x@usedObj$lastGroup, c(' order','.order'), sep=""))
+    			possible = c( paste(cellidfile, c(' order','.order'), sep=""))
     			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
 				#browser()
 				loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
 			}
 			
-			info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
+			info <- groupingInfo( loc, cellidfile ) #function definition in file 'groupingInfo.R'
 			
 			rem.ind <- which(Matrix::rowSums(loc@data)==0)
 			
@@ -110,17 +110,29 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				 	info@drc = names(x@drc )[1] ## for the log!
 				 	drc = x@drc[[ 1 ]]
 				}
-				x = pseudotimeTest3D( x, grouping= info@gname )
-
-				cellexalTime = x@usedObj$timelines[[ 'lastEntry' ]]
-
-				info = groupingInfo( x, cellexalTime@parentSelection )
+				
+				cellexalTime = NULL
+				if (  nrow(info@timeObj@dat) == 0 ){
+					message('defining time')
+					x = pseudotimeTest3D( x, grouping= info@gname )
+					info = groupingInfo( x, info@gname ) ## load changes
+					cellexalTime = info@timeObj
+				}
+				else {
+					cellexalTime = info@timeObj
+				}
+				
+				message('creating reports')
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
-				timeInfo = groupingInfo( x )
-	
-				ret = createReport(cellexalTime, reduceTo(x, what='row', to = x@usedObj$deg.genes), info = timeInfo )
-				timeN = timeInfo@gname
-				x@usedObj$timelines[['lastEntry']] = x@usedObj$timelines[[timeN]] = ret$cellexalObj@usedObj$timelines[[timeN]]
+
+				ret = createReport(cellexalTime, 
+					reduceTo(x, what='row', to = x@usedObj$deg.genes), 
+					info = groupingInfo( x, info@gname ) 
+				)
+
+				timeN = cellexalTime@gname
+				x@usedObj$timelines[['lastEntry']] = x@usedObj$timelines[[timeN]] =
+					 ret$cellexalObj@usedObj$timelines[[timeN]]
 				
 				deg.genes = x@usedObj$deg.genes
 

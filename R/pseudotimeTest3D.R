@@ -67,6 +67,7 @@ setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 
 	## base this on slingshot's implementation.
 	## But that needs groups.
+
 	info = groupingInfo(x, grouping )
 	loc = reduceTo( x, 'col', to=colnames(x@data)[which(! is.na( info@grouping))])
 

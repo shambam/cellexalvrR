@@ -40,7 +40,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 		if ( ! silent ) {
 			warning("meta.gene object re-created from rownames")
 		}
-		x@meta.gene = matrix( rownames(cellexalObj@data), ncol=1)
+		x@meta.gene = matrix( rownames(x@data), ncol=1)
 		colnames( x@meta.gene) = 'Gene Symbol'
 	}
 	if ( ncol(x@meta.gene) == 1) {
@@ -49,8 +49,14 @@ setMethod('check', signature = c ('cellexalvrR'),
 		colnames(x@meta.gene)[2] = "savekeeping"
 	}
 
-	if ( isFALSE( all.equal( rn, rownames(x@meta.gene)) ) ) {
-		error = c( error,"the data rownames are not the same as the meta.gene rownames!")
+	if ( ! all.equal(rownames(x@data), rownames( x@meta.gene)) == TRUE ) {
+		if ( nrow(x@meta.gene) == nrow(x@data) ){
+			## likely correct
+			warning("meta.gene rownames set to data rownames")
+			rownames(x@meta.gene) = rownames(x@data)
+		}else{
+			error = c( error,"the data rownames are not the same as the meta.gene rownames!")
+		}
 	}
 
 	# meta.cell
