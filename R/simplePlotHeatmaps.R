@@ -231,8 +231,13 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				geneTrajectories[[groupname]] = tryCatch( { 
 				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
 				}, error=function(er) { 
-					predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
+					return (predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) ))
 				} )
+				if ( is.na(geneTrajectories[[groupname]][1] )){
+					geneTrajectories[[groupname]] = tryCatch( {
+						predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
+						})
+				}
 
 				#geneTrajectories[[groupname]] =
 				#predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.1) )
@@ -242,7 +247,6 @@ setMethod('clusterGenes', signature = c ('matrix'),
 					c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
 			}
 		}
-
 		df = t(data.frame(geneTrajectories$MaxInCluster))
 		new_order = rownames(df[order( df[,1], -df[,2]),])
 		new_order = as.numeric(unlist(stringr::str_replace_all(new_order, 'P', '')))

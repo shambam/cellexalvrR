@@ -25,6 +25,7 @@ Imports:
 	gplots,
 	graph,
 	grDevices,
+	irlba,
 	knitr,
 	Matrix.utils,
 	methods,
