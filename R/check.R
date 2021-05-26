@@ -49,7 +49,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 		colnames(x@meta.gene)[2] = "savekeeping"
 	}
 
-	if ( ! all.equal(rownames(x@data), rownames( x@meta.gene)) == TRUE ) {
+	if ( ! all(all.equal(rownames(x@data), rownames( x@meta.gene)) == TRUE) ) {
 		if ( nrow(x@meta.gene) == nrow(x@data) ){
 			## likely correct
 			warning("meta.gene rownames set to data rownames")
@@ -60,7 +60,7 @@ setMethod('check', signature = c ('cellexalvrR'),
 	}
 
 	# meta.cell
-	if ( ! isTRUE( all.equal(rownames(x@meta.cell), cn) ) ){
+	if ( ! isTRUE(all( all.equal(rownames(x@meta.cell), cn) == TRUE ) ) ){
 		error = c(error,"the data colnames are not the same as the meta.cell rownames!")
 	}
 	
