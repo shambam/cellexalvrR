@@ -81,7 +81,9 @@ if ( length(list.files(sessionPath, pattern =paste(sep="","*",type,"*.html" ))) 
 	}
 	cat( paste(sep="\n",cmd), file=script, append=FALSE )
 	
+	tryCatch( {
 	system( paste(Rscript.exe(), script ), intern=TRUE)
+	} , error=function(er) { print ( paste(sep="\n","renderFile: Pandoc call failed:" , err) )} )
 	message( paste('bookdown::render_book log id', id, 'finished') )
 
 	setwd( oldwd )

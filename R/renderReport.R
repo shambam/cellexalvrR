@@ -60,6 +60,10 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 		Rscript = file.path( R.home(),"bin","Rscript.exe" )
 	}
 	Rscript = paste(sep="", '"', Rscript,'"')
+	tryCatch( {
+		system( paste(Rscript, script)) , intern=TRUE)
+	} , error=function(er) { print ( paste(sep="\n","renderReport: Pandoc call failed:" , err) )} )
+
 	system( paste(Rscript, script))
 	#bookdown::render_book( input=files, , 
 	setwd( oldwd )
