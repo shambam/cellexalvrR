@@ -9,8 +9,7 @@
 \S4method{getDifferentials}{cellexalvrR}(
   x,
   cellidfile,
-  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
-    "negbinom", "MAST", "DESeq2", "anova"),
+  deg.method = "wilcox",
   num.sig = 250,
   Log = TRUE,
   logfc.threshold = 0.1,

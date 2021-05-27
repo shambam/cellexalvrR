@@ -45,16 +45,23 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		}
 		tableHTML = paste(tableHTML, "\n")
 		## this need to become a relative path - relative to the final outfile
+
+		if (length(grep('Time.group', x@usedObj$lastGroup)) > 0 ) {
+			gname = x@usedObj$timeline[[x@usedObj$lastGroup]]@parentSelection
+			sesionFile = x@usedObj$SelectionFiles[[gname]]
+		}else {
+			sesionFile = x@usedObj$SelectionFiles[[x@usedObj$lastGroup]]
+		}
+			
 		content=paste( sep="\n", collapse = "\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
 				"",
 				tableHTML,
 				"",
 				"### Data",
-				"The linked file is a tab separated table with all statistical results:",
-				#paste(sep="",  "<a href='",file.path( x@usedObj$sessionPath, 'tables',ofile),"' download>",ofile,"</a>" ),
-				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>",ofile,"</a>" ),
-				"",
+				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>","This tab separated table </a>",
+					" contains the statistical results for ",
+				    "<a href='",file.path( ".", x@usedObj$sessionName,sesionFile),"' download>"," this selection file</a>", ".","\n"),
 				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo, showIDs = TRUE ))
 		)
 		## the 1-log10 p value histogram
