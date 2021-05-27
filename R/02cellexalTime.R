@@ -833,14 +833,15 @@ setMethod('createTime', signature = c ('cellexalTime'),
 			if ( interactive() ) {browser()}
 		}
 		sling = NULL
-
 		#try( {
 		sling = {
 			#if ( ! interactive() ) {
 			#	stop("This should not be applied here!")
 			#	setTimeLimit(220)#after 120 sec this has failed - get a more simple selection
 			#}
-			slingshot::slingshot(dat, group$cluster, start.clus= group$cluster[1], end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
+			slingshot::slingshot(dat, group$cluster, 
+			start.clus= group$cluster[which(parentSelection@order == 1)], 
+			end.clus = end  ) ## assuming that the first cell selected should also be in the first cluster...
 		}
 		#})
 		if ( is.null(sling)) {
@@ -854,8 +855,11 @@ setMethod('createTime', signature = c ('cellexalTime'),
 			tmp= apply( slingTime,2, function(x){ length(which(! is.na(x))) } )
 			use = which(tmp == max(tmp))
 		}
+		if ( length(which(is.na(slingTime[,use]))) > 0 ){
+			print("The timeline could not reach all cells - possibly worth a debug session")
+		}
 		o = order( slingTime[,use])
-
+		
 		x@dat$time = slingTime[,use]
 		x@dat$order = o
 		x@dat$x = sling@curves[[use]]$s[,1]

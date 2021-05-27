@@ -41,7 +41,7 @@ if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
 #' @export getDifferentials
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (x,cellidfile,
-				deg.method=c('wilcox','Seurat_wilcox',  'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
+				deg.method='wilcox',
 				num.sig=250, Log=TRUE, logfc.threshold = 0.1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) {
 			
 			x <- loadObject(x) #function definition in file 'lockedSave.R'

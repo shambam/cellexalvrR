@@ -230,13 +230,13 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				#print(i)
 				geneTrajectories[[groupname]] = tryCatch( { 
 				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
-				}, error=function(er) { 
-					return (predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) ))
 				} )
-				if ( is.na(geneTrajectories[[groupname]][1] )){
-					geneTrajectories[[groupname]] = tryCatch( {
+				
+				if ( length(which(is.na(geneTrajectories[[groupname]]))) > 0 ){
+					geneTrajectories[[groupname]] = try({
 						predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
 						})
+						
 				}
 
 				#geneTrajectories[[groupname]] =
