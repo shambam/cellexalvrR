@@ -154,16 +154,27 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 
 		meta.data = H5Anno2df( file, 'obs')
 		annotation = H5Anno2df( file,'var')
-		
-		rownames(m) = annotation[,'_index']
-		colnames(m) = meta.data[,'_index']
-		
+		if ( is.na(match("_index", colnames(annotation))) ){
+			rownames(m) = rownames(annotation)
+			colnames(m) = rownames(meta.data)
+			annotation[,'_index'] = rownames(m)
+			meta.data[,'_index']  = colnames(m)
+		}else{
+			rownames(m) = annotation[,'_index']
+			colnames(m) = meta.data[,'_index']
+		}
+
 		m
 	}
+
 	m = toSparse( x )
 	meta.data = H5Anno2df( x, 'obs')
 	annotation = H5Anno2df( x, 'var')
-
+	if ( is.na(match("_index", colnames(annotation))) ){
+		annotation[,'_index'] = rownames(m)
+		meta.data[,'_index']  = colnames(m)
+	}
+	
 	#browser()
 	drcs = lapply(embeddings, function(n) {  
 				ret = t(x[['obsm']][[paste(sep="_",'X',n)]][1:embeddingDims,])
