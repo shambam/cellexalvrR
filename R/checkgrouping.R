@@ -7,11 +7,13 @@
 #' @param x an cellexalGrouping or a grouping name.
 #' @title description of function check
 #' @export 
-if ( ! isGeneric('checkGrouping') ){setGeneric('checkGrouping', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('checkGrouping', ## Name
 	function (cellexalObj, x) { 
 		standardGeneric('checkGrouping')
 	}
-) }
+)
+#}
 
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 	definition = function (cellexalObj, x) {

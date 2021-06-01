@@ -23,12 +23,14 @@
 #'   ofile - the main outfile
 #'   error - any error occuring - should be included in the report.
 
-if ( ! isGeneric('simplePlotHeatmaps') ){setGeneric('simplePlotHeatmaps', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('simplePlotHeatmaps', ## Name
 	function (x, info, fname ) { 
 	#function ( mat, fname ) { 	
 		standardGeneric('simplePlotHeatmaps')
 	}
-) }
+)
+#}
 
 setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping', 'character'),
 	definition = function ( x, info, fname ) {
@@ -140,11 +142,13 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 #' @param geneclusters ovverride the WSS based optimal group count search (default NULL)
 #' @title description of function plot
 #' @export 
-if ( ! isGeneric('clusterGenes') ){setGeneric('clusterGenes', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('clusterGenes', ## Name
 	function ( x, deg.genes=NULL, info=NULL, ... ) { 
 		standardGeneric('clusterGenes')
 	}
-) }
+)
+#}
 
 setMethod('clusterGenes', signature = c ('cellexalTime'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj, geneclusters=NULL ) {
@@ -228,15 +232,17 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				groupname = paste("P",i, sep="")
 				## should not be necessary, but sometimes it is:
 				#print(i)
+
 				geneTrajectories[[groupname]] = tryCatch( { 
-				predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
-				} )
+					predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
+				}, error=function(err){ 
+					message("loess failed with span .005")
+					} )
 				
-				if ( length(which(is.na(geneTrajectories[[groupname]]))) > 0 ){
-					geneTrajectories[[groupname]] = try({
-						predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
-						})
-						
+				if ( length(which(is.na(geneTrajectories[[groupname]]))) == 0 ){
+					tryCatch({
+						geneTrajectories[[groupname]] =predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
+						}, error=function(err){message("loess failed with span .2") })	
 				}
 
 				#geneTrajectories[[groupname]] =

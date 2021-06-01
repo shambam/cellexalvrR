@@ -9,11 +9,13 @@
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
 #' @title description of function export_UserGrouping
 #' @export 
-if ( ! isGeneric('export_UserGrouping') ){setGeneric('export_UserGrouping', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('export_UserGrouping', ## Name
 	function (x, colname, outfile, colorF = rainbow ) { 
 		standardGeneric('export_UserGrouping')
 	}
-) }
+)
+#}
 
 setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	definition = function (x, colname, outfile, colorF = rainbow ) {

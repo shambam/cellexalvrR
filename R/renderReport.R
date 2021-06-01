@@ -25,9 +25,18 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
 
-	cellexalObj = storeLogContents( cellexalObj, 
-		paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n"),
-		type='End') 
+	endText = paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")
+
+	Rlog = file.path( cellexalObj@outpath, paste( sep=".",'mainServer', Sys.getpid(), 'output') )
+	
+	if ( file.exists( Rlog ) ){
+			file.copy( Rlog, file.path( cellexalObj@usedObj$sessionPath, 'Rlog.txt') )
+			endText = paste(sep="",endText, "The R log of this session can be downloaded from <a href='",
+				file.path(cellexalObj@usedObj$sessionName, 'Rlog.txt')," download'>here</<>.")
+	}
+
+	cellexalObj = storeLogContents( cellexalObj, endText, type='End') 
+
 
 	for ( i in 1:length(cellexalObj@usedObj$sessionRmdFiles) ){
 		cellexalObj@usedObj$sessionRmdFiles[i] = normalizePath(cellexalObj@usedObj$sessionRmdFiles[i])

@@ -52,7 +52,6 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 		}else {
 			sesionFile = x@usedObj$SelectionFiles[[x@usedObj$lastGroup]]
 		}
-			
 		content=paste( sep="\n", collapse = "\n",
 				paste( "##", "Statistical result from ",  x@usedObj$lastGroup ),
 				"",
@@ -61,7 +60,7 @@ setMethod('logStatResult', signature = c ('cellexalvrR'),
 				"### Data",
 				paste(sep="",  "<a href='",file.path( ".", x@usedObj$sessionName, 'tables',ofile),"' download>","This tab separated table </a>",
 					" contains the statistical results for ",
-				    "<a href='",file.path( ".", x@usedObj$sessionName,sesionFile),"' download>"," this selection file</a>", ".","\n"),
+				    "<a href='",file.path( ".", x@usedObj$sessionName, basename(sesionFile)),"' download>"," this selection file</a>", ".","\n"),
 				paste(collapse = "\n", sep="\n",drcFiles2HTML(x, gInfo, showIDs = TRUE ))
 		)
 		## the 1-log10 p value histogram

@@ -8,11 +8,13 @@
 #' @param name the name for this timeline
 #' @title get a timeline or throw an error
 #' @export 
-if ( ! isGeneric('getTime') ){setGeneric('getTime', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('getTime', ## Name
 	function (  cellexalObj, name ) { 
 		standardGeneric('getTime')
 	}
-) }
+)
+#}
 
 setMethod('getTime', signature = c ('cellexalvrR', 'character'),
 	definition = function ( cellexalObj, name ) {

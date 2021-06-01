@@ -16,11 +16,13 @@
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
 #' @title description of function export_GOIs
 #' @export 
-if ( ! isGeneric('export_GOIs') ){setGeneric('export_GOIs', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('export_GOIs', ## Name
 	function (x, GOIs, grouping, path, colorF = rainbow ) { 
 		standardGeneric('export_GOIs')
 	}
-) }
+)
+#}
 
 setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	definition = function (x, GOIs, grouping, path, colorF = rainbow ) {

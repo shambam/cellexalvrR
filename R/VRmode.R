@@ -7,11 +7,13 @@
 #' @keywords VRmode
 #' @title check if CellexalVR.exe is running (Windows specific)
 #' @export 
-if ( ! isGeneric('VRmode') ){setGeneric('VRmode', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('VRmode', ## Name
 			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
 				standardGeneric('VRmode') 
 			}
-	) }
+)
+#}
 
 setMethod('VRmode', signature = c (),
 		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){

@@ -34,12 +34,14 @@
 #' @param summaryPlot the name of the summary plot file ( default NULL no summary plot)
 #' @title description of function pseudotimeTest3D
 #' @export 
-if ( ! isGeneric('pseudotimeTest3D') ){setGeneric('pseudotimeTest3D', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('pseudotimeTest3D', ## Name
 	function ( x, a=NULL,  b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
 			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL) { 
 		standardGeneric('pseudotimeTest3D')
 	}
-) }
+)
+#}
 
 setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	definition = function ( x, a=NULL, b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, 

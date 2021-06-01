@@ -1,12 +1,13 @@
 
-if ( ! isGeneric('getDifferentials') ){setGeneric('getDifferentials', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('getDifferentials', ## Name
 			function (x,cellidfile,
 					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
 					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) { 
 				standardGeneric('getDifferentials') 
 			}
 	) 
-}
+#}
 
 #' Identify differentially expressed genes.
 #' 
@@ -228,7 +229,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				message('deg.genes no entries - fix that')
 				if ( interactive() ) {
 					message ( 'no signififcant genes detected! - help needed: (exit with Q)' )
-					if(interactive()) { browser() }
+					browser()
 				}else {
 					message ( 'no signififcant genes detected!' )
 				}

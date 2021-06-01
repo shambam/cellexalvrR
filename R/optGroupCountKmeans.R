@@ -7,11 +7,13 @@
 #' @param k  TEXT MISSING default=1:20
 #' @title description of function optGroupCountKmeans
 #' @export 
-if ( ! isGeneric('optGroupCountKmeans') ){setGeneric('optGroupCountKmeans', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('optGroupCountKmeans', ## Name
 	function ( dat, k=1:20 ) { 
 		standardGeneric('optGroupCountKmeans')
 	}
-) }
+)
+#}
 
 setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	definition = function ( dat, k=1:20 ) {

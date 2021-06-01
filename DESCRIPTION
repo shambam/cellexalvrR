@@ -6,12 +6,14 @@ Authors@R: c(person("Stefan", "Lang", email = "stefan.lang@med.lu.se", role = c(
 Description: This is the data analysis backend for the CellexalVR application.
 Suggests:
     testthat,
-biocViews: graph,
+biocViews:
+    AnnotationDbi,
+	DelayedMatrixStats,
+    edgeR,
+	graph,
     org.Mm.eg.db,
     org.Hs.eg.db,
-    AnnotationDbi,
-    topGO,
-    edgeR
+    topGO
 Depends:
     Matrix,
     R (>= 3.6.0)

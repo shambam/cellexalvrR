@@ -1,9 +1,11 @@
 
-if ( ! isGeneric('export2cellexalvr') ){setGeneric('export2cellexalvr', ## Name
+#if ( ! isGeneric('renew') ){
+setGeneric('export2cellexalvr', ## Name
 	function (x,path, forceDB=F, VRpath=NULL ) { 
 		standardGeneric('export2cellexalvr') 
 	}
-) }
+)
+#}
 
 #' This function creates all files necessary 
 #' for the CellexalVR application to show this data.
