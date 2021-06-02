@@ -107,6 +107,8 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 			if ( length(bad) > 0 ) {
 				t = do.call(file.remove, list(bad) )
 			}
+			selectionFiles = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="session.*" )
+			t = do.call(file.remove, list(selectionFiles) )
 		}
 
 		content = c(
