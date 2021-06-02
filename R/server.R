@@ -54,11 +54,6 @@ setMethod('server', signature = c ('character'),
 		masterPID = ps::ps_handle( pid = as.integer(masterPID) )
 	}
 
-	writeLines(capture.output(sessionInfo()), "RsessionInfo.txt")
-
-	
-
-
 	if ( debug ){
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
@@ -72,6 +67,10 @@ setMethod('server', signature = c ('character'),
 	cellexalObj@outpath =  dirname(file)
 	cellexalObj = sessionPath(cellexalObj)
 	
+	fileConn<-file(file.path(cellexalObj@usedObj$sessionPath,"RsessionInfo.txt" ))
+	writeLines(capture.output(sessionInfo()), fileConn)
+	close(fileConn)
+
 	message ( paste( "server is starting - reading from file:\n", scriptfile))
 	message ( paste( "server debug mode:", debug))
 	if ( !is.null(masterPID) ) {

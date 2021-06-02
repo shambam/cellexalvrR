@@ -74,11 +74,10 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 
 	gr = clusterGenes( t(toPlot[, -c(1,2) ]), info = info, geneclusters = x@usedObj$gene_clusters  ) 
 	clusterC = rainbow( max(gr$geneClusters) )
-
 	pngs = NULL
 	#create the separate simple Heatmap PNGs:
 	ofile = paste( fname,'png', sep=".")
-
+	#print ( "still OK 1")
 	ma = -1000
 	mi = 1000
 	#print( "simplePlotHeatmaps plotting the heatmaps")
@@ -89,8 +88,8 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 		gn = paste('gene.group',i, sep=".")
 		smoothedClusters[[ gn ]] = gr[[i+1]]
 		names(smoothedClusters[[ gn ]]) = rownames(toPlot)
+		smoothedClusters[[ gn ]] = smoothedClusters[[ gn ]][which(! is.na(smoothedClusters[[ gn ]]))]
 	}
-
 	## could I use this here to create a heatmap with the cluster info
 	png(  paste(fname, "groupColors", 'png',sep="."), width=1000, height=300)
 	image( matrix(as.numeric(info@timeObj@dat$col),ncol=1), col= levels(info@timeObj@dat$col))
@@ -106,8 +105,8 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 			circleF = paste(sep=".", ofile,i,'svg' ) )
 		pngs = c(pngs, of)
 	}
-	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
 
+	plotDataOnTime ( data.frame(toPlot[,c('time', 'col')]), dat=smoothedClusters, ofile=ofile )
 	#print("simplePlotHeatmaps finished")
 	list( 
 		genes = split( names(gr$geneClusters), gr$geneClusters), 
@@ -245,9 +244,7 @@ setMethod('clusterGenes', signature = c ('matrix'),
 						}, error=function(err){message("loess failed with span .2") })	
 				}
 
-				#geneTrajectories[[groupname]] =
-				#predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.1) )
-				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col[m]), max )
+				inClusters = sapply( split( geneTrajectories[[groupname]], cT@dat$col[m]), max, na.rm=T )
 
 				geneTrajectories[['MaxInCluster']][[groupname]] = 
 					c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )

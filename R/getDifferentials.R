@@ -125,12 +125,10 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				message('creating reports')
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
-
 				ret = createReport(cellexalTime, 
 					reduceTo(x, what='row', to = x@usedObj$deg.genes), 
 					info = groupingInfo( x, info@gname ) 
 				)
-
 				timeN = cellexalTime@gname
 				x@usedObj$timelines[['lastEntry']] = x@usedObj$timelines[[timeN]] =
 					 ret$cellexalObj@usedObj$timelines[[timeN]]
