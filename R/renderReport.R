@@ -33,6 +33,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 			file.copy( Rlog, file.path( cellexalObj@usedObj$sessionPath, 'Rlog.txt') )
 			endText = paste(sep="",endText, "The R log of this session can be downloaded from <a href='",
 				file.path(cellexalObj@usedObj$sessionName, 'Rlog.txt'),"' download>here</a>.")
+			unlink( Rlog )
 	}
 
 	cellexalObj = storeLogContents( cellexalObj, endText, type='End') 

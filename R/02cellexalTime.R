@@ -928,10 +928,10 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 	d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), as.numeric( dat$col )  )
 	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
 
-#	f2 = paste( sep=".",fname,'points')
+	f2 = paste( sep=".",fname,'points')
 
-#	d = cbind( names(dat$c), dat$x, dat$y, dat$z  )
-#	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2)
+	d = cbind( names(dat$c), dat$x, dat$y, dat$z  )
+	write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2)
 
 	invisible(x)
 } )

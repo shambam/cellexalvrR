@@ -88,6 +88,28 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		## init the session objects
 		## add a simple session log start file
 		cellexalObj@usedObj$sessionPath = file.path(cellexalObj@outpath, cellexalObj@usedObj$sessionName)
+		
+		if ( removeOld ){
+			## I need to clear out all old session report Rmd and html files
+			t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
+			htmls = list.files( cellexalObj@outpath , full.names = TRUE, pattern=".*.html" )
+			#bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
+			bad = htmls
+			if ( length(bad) > 0 ) {
+				t = do.call(file.remove, list(bad) )
+			}
+			selectionFiles = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="selection.*" )
+			t = do.call(file.remove, list(selectionFiles) )
+
+			## now lets get rid of all old folders, too.
+			dirs = list.dirs(cellexalObj@outpath)
+			dirs = dirs[ grep( "\\d+_\\d+_\\d+_\\d+_\\d+_\\d+$", dirs) ]
+			if ( length(dirs) > 0 ){
+				rem = function(x) { unlink(x, recursive=TRUE)}
+				t = do.call(rem, list(dirs) )
+			}
+		}
+
 		if (! dir.exists(cellexalObj@usedObj$sessionPath) )  {
 			message( paste("I try to create the session path here! - ", cellexalObj@usedObj$sessionPath ))
 			dir.create( cellexalObj@usedObj$sessionPath, recursive = TRUE)
@@ -97,18 +119,6 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 		if (! dir.exists(file.path(cellexalObj@usedObj$sessionPath, 'png') ) )  {
 			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'png'), recursive = TRUE)
 			dir.create( file.path( cellexalObj@usedObj$sessionPath, 'tables'), recursive = TRUE)
-		}
-
-		if ( removeOld ){
-			## I need to clear out all old session report Rmd and html files
-			t = do.call(file.remove, list(list.files( cellexalObj@usedObj$sessionPath, full.names = TRUE, pattern="*.Rmd" )))
-			htmls = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="[A-Z].*.html" )
-			bad = htmls[ grep( 'session-log-for-session',  htmls,  invert=TRUE )]
-			if ( length(bad) > 0 ) {
-				t = do.call(file.remove, list(bad) )
-			}
-			selectionFiles = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="session.*" )
-			t = do.call(file.remove, list(selectionFiles) )
 		}
 
 		content = c(

@@ -53,13 +53,18 @@ setMethod('server', signature = c ('character'),
 	if (! is.null(masterPID)) {
 		masterPID = ps::ps_handle( pid = as.integer(masterPID) )
 	}
+
+	writeLines(capture.output(sessionInfo()), "RsessionInfo.txt")
+
+	
+
+
 	if ( debug ){
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
 		file.create(pv_file)
 		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
-		
-		## redirect appendll output to output file
+		## redirect append output to output file
 		## Error is captured by the VR application and this is important to leave it like that.
 		if ( ! asFunction ) { sink(outFile) }
 	}
