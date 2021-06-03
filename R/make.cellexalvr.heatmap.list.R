@@ -18,7 +18,7 @@
 #' @export make.cellexalvr.heatmap.list
 #if ( ! isGeneric('renew') ){
 setGeneric('make.cellexalvr.heatmap.list', ## Name
-			function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) { 
+			function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox' ) { 
 				standardGeneric('make.cellexalvr.heatmap.list') 
 			}
 )
@@ -27,10 +27,8 @@ setGeneric('make.cellexalvr.heatmap.list', ## Name
 
 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
-		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA) {
-			
-			if ( is.na(stats_method) )
-				stats_method= 'wilcox'
+		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox') {
+
 
 			if ( file.exists( paste(sep=".", outfile, 'sqlite3')) ){
 				unlink( paste(sep=".", outfile, 'sqlite3') )

@@ -38,7 +38,7 @@ setMethod('checkGrouping', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	}
 
 	if ( length(which(is.na(x@col))) > 0 ){
-		print ("there are NAs in the color info!")
+		#print ("there are NAs in the color info!")
 		x@VRgrouping = x@grouping -1
 		## best would be to change the grouping IDs to something useful here.
 		goodIDS = 1:length(which(! is.na(x@col)))
