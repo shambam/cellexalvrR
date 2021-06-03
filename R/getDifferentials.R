@@ -219,8 +219,18 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				
 				tab <- t(FastWilcoxTest::collapse( loc@data, as.numeric(factor( as.vector(loc@userGroups[, loc@usedObj$lastGroup]) ) ), 1 )) ## simple sum up the data
 				tab[which(tab == -Inf)] = 0
+
+				bad = which( apply(tab, 2, var) == 0 )
+				bad.genes = NULL
+				if ( length(bad) > 0 ){
+					tab = tab[, -bad]
+					bad.genes = deg.genes[bad]
+					deg.genes = deg.genes[-bad]
+					loc =reduceTo( loc, what='row', to=deg.genes)
+					message(paste(length(bad), "genes had a summary varianze of 0 in this comparison"))
+				}
 				hc <- stats::hclust(stats::as.dist( 1- stats::cor(tab, method='pearson') ),method = 'ward.D2')
-				deg.genes = rownames(loc@data)[hc$order]
+				deg.genes = c(rownames(loc@data)[hc$order], bad.genes)
 			}
 			
 			if ( length(deg.genes) == 0){

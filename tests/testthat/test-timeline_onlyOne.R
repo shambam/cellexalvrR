@@ -52,7 +52,7 @@ if ( file.exists( ofile) ) {
 
 
 expect_true( x@usedObj$sessionName == 'timeSession_only_one',  label='session path not set correctly')
-gFile= 'selection10.txt'
+gFile= 'SelectionHSPC_time.txt'
 grouping <- file.path(prefix, 'data', gFile )
 
 
