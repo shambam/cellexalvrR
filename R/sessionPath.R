@@ -98,8 +98,8 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 			if ( length(bad) > 0 ) {
 				t = do.call(file.remove, list(bad) )
 			}
-			selectionFiles = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="selection.*" )
-			t = do.call(file.remove, list(selectionFiles) )
+			#selectionFiles = list.files( file.path(cellexalObj@usedObj$sessionPath, '..'), full.names = TRUE, pattern="selection.*" )
+			#t = do.call(file.remove, list(selectionFiles) )
 
 			## now lets get rid of all old folders, too.
 			dirs = list.dirs(cellexalObj@outpath)
