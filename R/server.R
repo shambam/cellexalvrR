@@ -40,11 +40,14 @@ setMethod('server', signature = c ('character'),
 
 	workSource = paste( file, 'input.working', sep="." )
 
-	t = lapply( c( lockfile, scriptfile, pidfile) ,
+	t = lapply( c( lockfile, pidfile) ,
 	  function(file) {
 	    if(file.exists(file)) { unlink(file) } 
 	  }
 	)
+	if ( ! asFunction ) {
+	  if(file.exists(scriptfile)) { unlink(scriptfile) }
+	}
 
 	cat( Sys.getpid() , file = pidfile )
 	
@@ -64,9 +67,11 @@ setMethod('server', signature = c ('character'),
 		if ( ! asFunction ) { sink(outFile) }
 	}
 
+
 	cellexalObj@outpath =  dirname(file)
+	cellexalObj@usedObj$sessionName = NULL
 	cellexalObj = sessionPath(cellexalObj)
-	
+
 	fileConn<-file(file.path(cellexalObj@usedObj$sessionPath,"RsessionInfo.txt" ))
 	writeLines(capture.output(sessionInfo()), fileConn)
 	close(fileConn)
@@ -82,6 +87,7 @@ setMethod('server', signature = c ('character'),
 	oldFiles = newScreenshots( c(), path =path )
 
   	while(TRUE){
+  		#print('In the server while loop')
   		newFiles = newScreenshots(oldFiles, path=path)
   		if ( length(newFiles) > 0 ){
 
@@ -98,14 +104,13 @@ setMethod('server', signature = c ('character'),
                 while ( file.exists( lockfile ) ) {
                         Sys.sleep( sleepT )
                 }
-				file.create(lockfile)
-				if ( debug ) {
-					cmd = readLines( scriptfile)
-					cmd = stringr::str_replace_all( paste( collapse=" " ,cmd), '\\s+', ' ')
-               	    cat ( c("", cmd,""), file= outFile, sep="\n\r", append=TRUE )
-               	    message( paste("VR cmd:", cmd) ) ## will go into the R_log.txt
-            	}
-                try ( {source( scriptfile ) } )
+		file.create(lockfile)
+		
+		cmd = readLines( scriptfile)
+		cmd = stringr::str_replace_all( paste( collapse=" " ,cmd), '\\s+', ' ')
+               	cat ( c("", cmd,""), file= outFile, sep="\n\r", append=TRUE )
+               	message( paste("VR cmd:", cmd) ) ## will go into the R_log.txt
+                try ( {source( scriptfile, local=FALSE ) } )
                 file.remove(scriptfile)
                 file.remove(lockfile)
         }
@@ -134,6 +139,7 @@ setMethod('server', signature = c ('character'),
 	if ( debug ) {
 		sink()
 		close(outFile)
+		return (0)
 	}
 	if ( ! asFunction ) {
 		q('no')
