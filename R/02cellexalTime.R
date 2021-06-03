@@ -619,179 +619,178 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 
 #print( paste( "I am in cellexalTime::createReport and was called from here:", deparse(sys.calls()[[sys.nframe()-2]]) ) )
 
-text = NULL
-if ( is.null(deg.genes)){
-	deg.genes = cellexalObj@usedObj$deg.genes
-	message('using the deg.genes stored in the object')
-}else {
-	cellexalObj@usedObj$deg.genes = deg.genes
-	message('using the deg.genes provided by the user')
-}
-print ( paste("I am analyzing", length(deg.genes),"deg.genes"))
+	text = NULL
+	if ( is.null(deg.genes)){
+		deg.genes = cellexalObj@usedObj$deg.genes
+		message('using the deg.genes stored in the object')
+	}else {
+		cellexalObj@usedObj$deg.genes = deg.genes
+		message('using the deg.genes provided by the user')
+	}
+	print ( paste("I am analyzing", length(deg.genes),"deg.genes"))
 
-bad= which(is.na(match(deg.genes, rownames(cellexalObj@data)) ))
-if ( length(bad) > 0) {
-	bad.genes = paste( collapse=", ", deg.genes[bad] )
-	deg.genes = deg.genes[-bad]
-	text = paste(collapse=" ", sep=" ",
-		"From the requested gene list the gene(s)", 
-		bad.genes, 
-		"is/are not expressed in at least 1% of the cells." 
-		)
-}
-#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
+	bad= which(is.na(match(deg.genes, rownames(cellexalObj@data)) ))
+	if ( length(bad) > 0) {
+		bad.genes = paste( collapse=", ", deg.genes[bad] )
+		deg.genes = deg.genes[-bad]
+		text = paste(collapse=" ", sep=" ",
+			"From the requested gene list the gene(s)", 
+			bad.genes, 
+			"is/are not expressed in at least 1% of the cells." 
+			)
+	}
+	#ret = list( genes = split( names(gr), gr), ofile = ofile, pngs = pngs )
 
-ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
-if ( is.null(ps)) {
-	message("the linear statistics table is NULL!")
-	cellexalObj = createStats( x, cellexalObj, num.sig=num.sig )
-	cellexalObj@usedObj$deg.genes = deg.genes
 	ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
+	if ( is.null(ps)) {
+		message("the linear statistics table is NULL!")
+		cellexalObj = createStats( x, cellexalObj, num.sig=num.sig )
+		cellexalObj@usedObj$deg.genes = deg.genes
+		ps = cellexalObj@usedObj$sigGeneLists$lin[[x@gname]]
 
-}
-o = order(ps[,'p.value'])
-ps = ps[o,]
-
-cellexalObj@usedObj$lastGroup = info@gname
-## add the plots to the log
-try({
-	#print( "simplePlotHeatmaps" )
-	
-	ret = simplePlotHeatmaps(
-		cellexalObj, 
-		info= info,  
-		fname=file.path( cellexalObj@usedObj$sessionPath,'png', info@gname ) 
-	)
-	x@geneClusters[[info@gname]] = list( 
-		clusters= ret$genes, 
-		matrix = ret$mat, 
-		figure= ret$ofile,
-		groupColors = ret$groupColors, ## a legend for the heatmaps
-		smoothedClusters = ret$smoothedClusters,
-		MaxInCluster = ret$MaxInCluster
-	)
-	#print( "logTimeline" )
-	cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
-		info = x, 
-		png = c( ret$ofile, ret$pngs ),
-		timeInfo = x, 
-		text= paste(text, ret$error, sep=" ", collapse=" ") 
-	) 
-	#print( "finish" )
-} )	
-
-cellexalObj = addSelection( x, cellexalObj )
-#	print ( paste("4: createReport: The dims of the cellexalObj:", paste(collapse=", ", dim(cellexalObj@data))))
-
-invisible( list( cellexalObj = cellexalObj, timeline = x) )
-} )
-
-
-
-#' @name createStats
-#' @aliases createStats,cellexalTime-method
-#' @rdname createStats-methods
-#' @docType methods
-#' @description calculates linear peason statistics for this timeline and the expression data in the cellexalvrR object.
-#' @param x the object
-#' @param cellexalObj the object to get the data from
-#' @param num.sig the amountof genes to return as top genes (default 250)
-#' @param p.cut use a p value cut of instead of a number of significant genes
-#' @title description of function plot
-#' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('createStats', ## Name
-function ( x, cellexalObj, num.sig=250, p.cut = NULL ) { 
-	standardGeneric('createStats')
-}
-)
-#}
-
-setMethod('createStats', signature = c ( 'character', 'cellexalvrR' ),
-definition = function ( x, cellexalObj, num.sig=250, p.cut = NULL ) {
-	createStats(x= getTime(cellexalObj, x ), cellexalObj=cellexalObj, num.sig=num.sig, p.cut=p.cut )
-})
-
-setMethod('createStats', signature = c ( 'cellexalTime', 'cellexalvrR' ),
-definition = function ( x, cellexalObj, num.sig=250, p.cut = NULL ) {
-
-#cellexalObj = addSelection( x, cellexalObj, info@gname)
-# focus on our data only
-
-if (  is.null(cellexalObj@usedObj$sigGeneLists$lin[[x@gname]])) {
-		## otherwise the stats have already been calculated and do not need to be re-run.
-	loc = reduceTo(cellexalObj, what='col', to=rownames(x@dat) )
-	# get rid of genes not expressed in at least 1% of the cells
-	nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
-	OK = which( nCells / ncol(loc@data)  > .01 )
-	loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
-	
-	## run stats (pearson linear correlation directly on sparse matrix)
-	ps = FastWilcoxTest::CorMatrix_N(  
-		loc@data[, rownames(x@dat) ], 
-		x@dat$time 
-	) 
-	rownames(ps) = rownames(loc@data)
-	addPval = function(dat){ 
-		if( dat[2] < 3){
-			1.1
-		}
-		else { 
-			2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
-			pt( dat[3], dat[2]-2,lower.tail = FALSE ) )
-		}
 	}
-
-	ps = cbind(ps, apply( ps, 1, addPval ) )
-	colnames(ps) = c('cor', 'n', 't', 'p.value')
-
-	ps[which(is.na(ps[,1])),1] = 0
-	o = order(ps[,'cor'])
+	o = order(ps[,'p.value'])
 	ps = ps[o,]
+	cellexalObj@usedObj$lastGroup = info@gname
+	## add the plots to the log
+	try({
+		#print( "simplePlotHeatmaps" )
+		
+		ret = simplePlotHeatmaps(
+			cellexalObj, 
+			info= info,  
+			fname=file.path( cellexalObj@usedObj$sessionPath,'png', info@gname ) 
+		)
+		x@geneClusters[[info@gname]] = list( 
+			clusters= ret$genes, 
+			matrix = ret$mat, 
+			figure= ret$ofile,
+			groupColors = ret$groupColors, ## a legend for the heatmaps
+			smoothedClusters = ret$smoothedClusters,
+			MaxInCluster = ret$MaxInCluster
+		)
+		#print( "logTimeline" )
+		cellexalObj = logTimeLine( cellexalObj, ps, ret$genes, 
+			info = x, 
+			png = c( ret$ofile, ret$pngs ),
+			timeInfo = x, 
+			text= paste(text, ret$error, sep=" ", collapse=" ") 
+		) 
+		#print( "finish" )
+	} )	
 
-	n = round( num.sig / 2)
-	cellexalObj@usedObj$deg.genes = c(rownames(ps)[1:n], rev(rownames(ps))[n:1] )
+	cellexalObj = addSelection( x, cellexalObj )
+	#	print ( paste("4: createReport: The dims of the cellexalObj:", paste(collapse=", ", dim(cellexalObj@data))))
 
-	## could I do something useful here using the convolute?
-	m = match( rownames(x@dat), colnames(cellexalObj@data))
-	filter = rev(rep(1, 10) / 10)
-	conv = apply(cellexalObj@data[cellexalObj@usedObj$deg.genes,m], 1, function(da){
-			conv = stats::convolve( da, filter, type='filter' )
-		 (conv -mean(conv)) / sd(conv)
-		} )
-	info = groupingInfo( cellexalObj, x@gname )
-	info@timeObj = x
-	gr = clusterGenes( t(conv),deg.genes=NULL, info=info)
-	cellexalObj@usedObj$deg.genes = cellexalObj@usedObj$deg.genes[order(gr$geneClusters)]
+	invisible( list( cellexalObj = cellexalObj, timeline = x) )
+	} )
 
-	#image(conv[,order(gr$geneClusters)], col=gplots::bluered(40))
-	#image(t(as.matrix(cellexalObj@data[cellexalObj@usedObj$deg.genes,m])), col=gplots::bluered(40))
 
-	maxpos = function( da ) {
-		rollSum = da
-		rollSum[(length(da)-5):length(da)] = 0
-		for ( i in 1:(length(da)-5)){
-			rollSum[i:(i+5)] = mean(da[i:(i+5)])
+
+	#' @name createStats
+	#' @aliases createStats,cellexalTime-method
+	#' @rdname createStats-methods
+	#' @docType methods
+	#' @description calculates linear peason statistics for this timeline and the expression data in the cellexalvrR object.
+	#' @param x the object
+	#' @param cellexalObj the object to get the data from
+	#' @param num.sig the amountof genes to return as top genes (default 250)
+	#' @param p.cut use a p value cut of instead of a number of significant genes
+	#' @title description of function plot
+	#' @export 
+	#if ( ! isGeneric('renew') ){
+	setGeneric('createStats', ## Name
+	function ( x, cellexalObj, num.sig=250, p.cut = NULL ) { 
+		standardGeneric('createStats')
+	}
+	)
+	#}
+
+	setMethod('createStats', signature = c ( 'character', 'cellexalvrR' ),
+	definition = function ( x, cellexalObj, num.sig=250, p.cut = NULL ) {
+		createStats(x= getTime(cellexalObj, x ), cellexalObj=cellexalObj, num.sig=num.sig, p.cut=p.cut )
+	})
+
+	setMethod('createStats', signature = c ( 'cellexalTime', 'cellexalvrR' ),
+	definition = function ( x, cellexalObj, num.sig=250, p.cut = NULL ) {
+
+	#cellexalObj = addSelection( x, cellexalObj, info@gname)
+	# focus on our data only
+
+	if (  is.null(cellexalObj@usedObj$sigGeneLists$lin[[x@gname]])) {
+			## otherwise the stats have already been calculated and do not need to be re-run.
+		loc = reduceTo(cellexalObj, what='col', to=rownames(x@dat) )
+		# get rid of genes not expressed in at least 1% of the cells
+		nCells = FastWilcoxTest::ColNotZero( Matrix::t( loc@data ) )
+		OK = which( nCells / ncol(loc@data)  > .01 )
+		loc = reduceTo(loc, what='row', to = rownames(loc@data)[OK]  )
+		
+		## run stats (pearson linear correlation directly on sparse matrix)
+		ps = FastWilcoxTest::CorMatrix_N(  
+			loc@data[, rownames(x@dat) ], 
+			x@dat$time 
+		) 
+		rownames(ps) = rownames(loc@data)
+		addPval = function(dat){ 
+			if( dat[2] < 3){
+				1.1
+			}
+			else { 
+				2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
+				pt( dat[3], dat[2]-2,lower.tail = FALSE ) )
+			}
 		}
-		which( rollSum == max(rollSum)) [1]
-	}
-	maxes = apply( conv,1, maxpos)
 
-	if ( ! is.null(p.cut)){
-		cellexalObj@usedObj$deg.genes = rownames(ps)[which( ps[,'p.value'] < p.cut ) ]
-	}
-	if ( is.null( cellexalObj@usedObj$timelines)) {
-		cellexalObj@usedObj$timelines = list()
-	}
-	cellexalObj = addSelection( x, cellexalObj)
-	cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = ps
-}else {
-	## the stats have already been run and all is OK.
-	cellexalObj@usedObj$lastGroup = x@gname
-}
-cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=cellexalObj@usedObj$sigGeneLists$lin[[x@gname]], col='p.value'	 )
+		ps = cbind(ps, apply( ps, 1, addPval ) )
+		colnames(ps) = c('cor', 'n', 't', 'p.value')
 
-invisible( cellexalObj )
+		ps[which(is.na(ps[,1])),1] = 0
+		o = order(ps[,'cor'])
+		ps = ps[o,]
+
+		n = round( num.sig / 2)
+		cellexalObj@usedObj$deg.genes = c(rownames(ps)[1:n], rev(rownames(ps))[n:1] )
+
+		## could I do something useful here using the convolute?
+		m = match( rownames(x@dat), colnames(cellexalObj@data))
+		filter = rev(rep(1, 10) / 10)
+		conv = apply(cellexalObj@data[cellexalObj@usedObj$deg.genes,m], 1, function(da){
+				conv = stats::convolve( da, filter, type='filter' )
+			 (conv -mean(conv)) / sd(conv)
+			} )
+		info = groupingInfo( cellexalObj, x@gname )
+		info@timeObj = x
+		gr = clusterGenes( t(conv),deg.genes=NULL, info=info)
+		cellexalObj@usedObj$deg.genes = cellexalObj@usedObj$deg.genes[order(gr$geneClusters)]
+
+		#image(conv[,order(gr$geneClusters)], col=gplots::bluered(40))
+		#image(t(as.matrix(cellexalObj@data[cellexalObj@usedObj$deg.genes,m])), col=gplots::bluered(40))
+
+		maxpos = function( da ) {
+			rollSum = da
+			rollSum[(length(da)-5):length(da)] = 0
+			for ( i in 1:(length(da)-5)){
+				rollSum[i:(i+5)] = mean(da[i:(i+5)])
+			}
+			which( rollSum == max(rollSum)) [1]
+		}
+		maxes = apply( conv,1, maxpos)
+
+		if ( ! is.null(p.cut)){
+			cellexalObj@usedObj$deg.genes = rownames(ps)[which( ps[,'p.value'] < p.cut ) ]
+		}
+		if ( is.null( cellexalObj@usedObj$timelines)) {
+			cellexalObj@usedObj$timelines = list()
+		}
+		cellexalObj = addSelection( x, cellexalObj)
+		cellexalObj@usedObj$sigGeneLists$lin[[x@gname]] = ps
+	}else {
+		## the stats have already been run and all is OK.
+		cellexalObj@usedObj$lastGroup = x@gname
+	}
+	cellexalObj= logStatResult ( cellexalObj, method ='Linear', data=cellexalObj@usedObj$sigGeneLists$lin[[x@gname]], col='p.value'	 )
+
+	invisible( cellexalObj )
 } )
 
 

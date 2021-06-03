@@ -208,26 +208,32 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			con <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = ofile )
 			
 			RSQLite::dbWriteTable(con, "datavalues",mdc)
-			
+			#RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
 			RSQLite::dbSendStatement(con,"create table genes ('id' integer not null unique,'gname' varchar(20) COLLATE NOCASE)")
 			
 			RSQLite::dbSendStatement(con,"create table cells ('id' integer not null unique,'cname' varchar(20) COLLATE NOCASE)")
 			
 			RSQLite::dbWriteTable(con, "genes", genes, append = TRUE)
 			RSQLite::dbWriteTable(con, "cells", cells, append = TRUE)
-			RSQLite::dbClearResult()
-			
+
+			#RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
+			#print("OK1")
+
 			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX gnameIDX on genes ( gname )")
-			RSQLite::dbClearResult()
+			#RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
+			#print("OK2")
 			RSQLite::dbSendStatement(con, "CREATE UNIQUE INDEX cnameIDX on cells ( cname )")
-			RSQLite::dbClearResult()
+			#RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
+			#print("OK3")
 
 			RSQLite::dbSendStatement(con,"create index gene_id_data ON datavalues ( 'gene_id' )")
-			RSQLite::dbClearResult()
+			#RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
+			#print("OK4")
 			RSQLite::dbSendStatement(con,"create index cell_id_data ON datavalues ( 'cell_id' )")
-			RSQLite::dbClearResult()
+			RSQLite::dbClearResult(RSQLite::dbListResults(con)[[1]])
+			#print("OK5")
 			
-			RSQLite::dbClearResult()
+			#RSQLite::dbClearResult(con)
 			RSQLite::dbDisconnect(con)
 			
 		} )

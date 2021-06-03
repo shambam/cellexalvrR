@@ -122,7 +122,6 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				else {
 					cellexalTime = info@timeObj
 				}
-				
 				message('creating reports')
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
 				ret = createReport(cellexalTime, 

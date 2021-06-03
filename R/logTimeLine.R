@@ -26,6 +26,7 @@ setGeneric('logTimeLine', ## Name
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL, text=NULL ) {
 	## here I need to create a page of the final log
+
 	if ( VRmode() ){
 		warning("In VR mode the detailed timeline report is deactivated.")
 		content = paste(collapse="\n", sep="\n","",
@@ -122,12 +123,6 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	cellexalObj = storeLogContents( cellexalObj, content, type="OneGroupTime")
 	id = length(cellexalObj@usedObj$sessionRmdFiles)
 	cellexalObj = renderFile( cellexalObj, id, type="OneGroupTime" )
-
-	if ( ! file.exists(file.path(sessionPath, '..', "cellexalObj.RData") )){
-		lockedSave(cellexalObj, file.path(sessionPath, '..') ) #function definition in file 'lockedSave.R'
-	}else {
-		savePart(cellexalObj, 'usedObj' ) #function definition in file 'integrateParts.R'
-	}
 	
 	cellexalObj
 	} )
