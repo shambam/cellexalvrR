@@ -135,13 +135,18 @@ setMethod('server', signature = c ('character'),
 		message( "saving the main object" );
 		#lockedSave( cellexalObj ) ##the renderReport does that
 	}
-	t = lapply( c( lockfile, scriptfile) , function(file) { if(file.exists(file)) { unlink(file)} })
+	t = lapply( c( lockfile, scriptfile) , 
+	function(file) { 
+		if(file.exists(file)) { 
+		unlink(file)} 
+	})
 	if ( debug ) {
 		sink()
 		close(outFile)
 		return (0)
 	}
 	if ( ! asFunction ) {
+		close(outFile)
 		q('no')
 	}
 	
