@@ -19,5 +19,5 @@ create two 2D drc plots for the report
 \details{
 drcPlots2Dtime is a function linked to the log functionallity.
 
-This function will create the 2D DRC images for the log sections.
+This function will create the 2D DRC images for the logTimeline sections.
 }

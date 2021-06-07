@@ -3,7 +3,7 @@
 #' Instead of loading and saving all files for each function call in the VR process
 #' we now can have one R process that sequencially works on all requests.
 #'
-#' The server will look for a file called <file>.input.R amnd process all commands in the file 
+#' The server will look for a file called <file>.input.R and process all commands in the file 
 #' using source(fname) so please be careful there!
 #'
 #' While the file <file>.input.lock is existing the input.R file is processed by the R and should not be touched.

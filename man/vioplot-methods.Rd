@@ -32,15 +32,13 @@ vioplot(
 \arguments{
 \item{datas}{a list with all data to plot}
 
-\item{range}{TEXT MISSING default= 1.5}
+\item{range}{see orig vioplot funciton default= 1.5}
 
-\item{h}{TEXT MISSING default= NULL}
+\item{h}{see orig vioplot funciton default= NULL}
 
-\item{ylim}{TEXT MISSING default= NULL}
+\item{ylim}{see orig vioplot funciton default= NULL}
 
-\item{names}{TEXT MISSING default= NULL}
-
-\item{vioplot}{TEXT MISSING}
+\item{names}{see orig vioplot funciton default= NULL}
 }
 \description{
 the vioplot function patched to allow different colors for the different violines.

@@ -1,4 +1,4 @@
-#' reorder function to reorder the whole cellexalvrR object based on a samples order.
+#' reorder function to reorder the whole cellexalvrR object based on a cell order.
 #' @name reorder.samples
 #' @aliases reorder.samples,cellexalvrR-method
 #' @rdname reorder.samples-methods

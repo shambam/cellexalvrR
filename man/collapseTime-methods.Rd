@@ -17,6 +17,6 @@ collapseTime(x, to = 1000)
 return the color in exactly the right format to color the names
 }
 \details{
-collapse the time to a max of 1000 enrties making the timeline efiiciently unusable with cellexalvrR
+collapse the time to a max of 1000 enrties rendering the timeline incompatible with cellexalvrR
 but allowing the correlation of collapsed expression to the time.
 }

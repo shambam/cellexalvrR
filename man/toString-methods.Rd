@@ -14,3 +14,6 @@
 \description{
 add this selection to any cellexal object
 }
+\details{
+Intern method to convert the object to a string for the show function.
+}

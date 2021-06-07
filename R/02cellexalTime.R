@@ -1,3 +1,5 @@
+#' Intern method to convert the object to a string for the show function.
+#'
 #' @name toString
 #' @aliases toString,cellexalTime-method
 #' @rdname toString-methods
@@ -31,21 +33,13 @@ definition = function ( x ) {
 setMethod('show', signature = c ('cellexalTime'),
 definition = function ( object ) {
 	cat ( toString(object) )
-#		cat (paste("An object of class", class(object)),"with id", object@id,"\n" )
-#
-#		#cat("named ",object@name,"\n")
-#		cat (paste( 'with',nrow(object@dat),'time points and', ncol(object@dat),' values.'),"\n")
-#		cat( paste( 'The object is basis for the cellexalvrR grouping', object@gname)) 
-#		cat( paste( 	"\nand is based on the selection", object@parentSelection) )
-#		if ( length(object@geneClusters) >0 ) {
-#			cat("\n")
-#			cat ( paste("It contains information about", length(object@geneClusters), 'Gene list(s):',"\n"))
-#			cat( paste( sep=",", collaspe=" ",names( object@geneClusters )))
-#		}
-#		cat('\n')
 }
 )
 
+
+#' Method to copy a selection from cellexalObj to cellexalObj.
+#' This function makes shure that the linear grouping is fitting into the object.
+#'
 #' @name addSelection
 #' @aliases addSelection,cellexalTime-method
 #' @rdname addSelection-methods
@@ -145,7 +139,9 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 
 
 
-
+#' The sanity check for a linear grouping.
+#' If problems are detected the problems will be fixed.
+#' 
 #' @name checkTime
 #' @aliases checkTime,cellexalTime-method
 #' @rdname checkTime-methods
@@ -153,7 +149,7 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 #' @description checks for NA elements in the table and removes them
 #' @param x the cellexalTime object
 #' @param cellexalObj an optional cellexalvrR object - if given ONLY the drc models are checked.
-#' @title description of function check
+#' @title description of function checkTime
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('checkTime', ## Name
@@ -192,7 +188,17 @@ if ( !is.null( x@geneClusters[['collapsedExp']] )){
 invisible(x)
 } )
 
-
+#' When presented with a cellexalObj this function makes sure the object fits to the cellexalObj.
+#' 
+#' @name checkTime
+#' @aliases checkTime,cellexalTime-method
+#' @rdname checkTime-methods
+#' @docType methods
+#' @description checks for NA elements in the table and removes them
+#' @param x the cellexalTime object
+#' @param cellexalObj an optional cellexalvrR object - if given ONLY the drc models are checked.
+#' @title description of function checkTime
+#' @export 
 setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
 definition = function (x, cellexalObj) {
 
@@ -226,7 +232,7 @@ definition = function (x, cellexalObj) {
 } )
 
 #' returns a color vector based on the intern col column and the cell names
-#' Not time containing cells will get gray(0.6) as color.
+#' Cells that are not part of this selection will get gray(0.6) as color.
 #'
 #' @name color
 #' @aliases color,cellexalTime-method
@@ -261,7 +267,7 @@ col
 #' @docType methods
 #' @description create a global gene z-score and virtual samples over the timeline
 #' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
-#' @title description of function plot
+#' @title description of function compactTime
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('compactTime', ## Name
@@ -297,7 +303,7 @@ definition = function (  cellexalObj ) {
 
 #' This function should be run on the main cellexalObj including all data.
 #' It will create (for a subset of genes) a z-scored dataset and will then 
-#' sum up the expression in the time orientation to represent 1000 'cell' in the timeline.
+#' sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
 #'  
 #' @name compactTimeZscore
 #' @aliases compactTimeZscore,cellexalTime-method
@@ -352,13 +358,12 @@ definition = function ( x, deg.genes, info, cellexalObj ) {
 	cbind( toPlot, t(B))
 })
 
-#' Compare gene clusters between different (reported) timelines.
-#' The main usage for this function is to run the same genes on the same timeline,
-#' but with different samples like young and old, healthy and sick or teated and untreated.
-#' This function only allows to compare two gene groupings.
+#' This is a none VR method to compare two different timelines.
+#' The main usage for this function is to run the same genes trough trough one timeline 
+#' that has been split into two sub-sections like young and old or teated and untreated.
+#' This function only allows to compare two cellexalTime objects.
 #' 
-#' The report will for each gene cluster show the heatmap here and the heatmap in the other timeline
-#' for each overlapping gene list.
+#' This function highligts which genes follow different expression patterns in both timelines.
 #'
 #' @name compareGeneClusters
 #' @aliases compareGeneClusters,cellexalTime-method
@@ -529,7 +534,7 @@ definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GO
 )
 
 
-#' collapse the time to a max of 1000 enrties making the timeline efiiciently unusable with cellexalvrR
+#' collapse the time to a max of 1000 enrties rendering the timeline incompatible with cellexalvrR
 #' but allowing the correlation of collapsed expression to the time.
 #' @name collapseTime
 #' @aliases collapseTime,cellexalTime-method
@@ -570,11 +575,10 @@ definition = function (x, to=1000 ) {
 
 #' This report is the main go to analysis for a timeline.
 #' It will produce gene clusters and plot the mean expression of these genes clusters as beautiful xy plots.
-#' It also populated the CellexalTime geneClusters slot with a list entry containing
+#' It also populates the CellexalTime geneClusters slot with a list entries containing
 #' the gene clusters (clusters), the max 1000 cells zscored data (matrix) and the location of the main figure (png file path; figure)
 #'
-#' This enables the cellexalTime to be compared to another cellexalTime object using the function compareGeneClusters.
-#' compareGeneClusters should best be run after a createDetailedComparison section has been added?!
+#' After this function two cellexalTime objects can be compared to another using the function compareGeneClusters.
 #'
 #' @name createReport
 #' @aliases createReport,cellexalTime-method
@@ -794,6 +798,8 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 } )
 
 
+#' This function utilizes slingshot to identify the longest possible pseudo timeline in this selection.
+#' 
 #' @name createTime
 #' @aliases createTime,cellexalTime-method
 #' @rdname createTime-methods
@@ -905,6 +911,9 @@ definition = function ( x, parentSelection=NULL ) {
 }
 )
 
+
+#' This creates a selection.time file for the VR process.
+#' 
 #' @name exportSelection
 #' @aliases exportSelection,cellexalTime-method
 #' @rdname exportSelection-methods
@@ -985,7 +994,7 @@ definition = function (x) {
 
 #' inverts the time in the object.
 #' 
-#' Occational the algorithm fails and invert the time.
+#' Occational the algorithm fails and inverts the time.
 #' This function is used to easily invert a timeline that 
 #' runs from end to start instead the otherway around.
 #' @name invert
@@ -1021,6 +1030,9 @@ definition = function ( x ) {
 } )
 
 
+#' Plot the linear data with the correct colors.
+#' Used to debug the linear selections.
+#' 
 #' @name plotTime
 #' @aliases plotTime,cellexalTime-method
 #' @rdname plotTime-methods
@@ -1314,6 +1326,10 @@ definition = function ( x, ofile, cellexalObj, color=NULL ) {
 	return(paste("![](", R.utils::getRelativePath(ofile, cellexalObj@outpath),")" ))
 })
 
+
+
+#' Subset a time object based on a list of cells.
+#'
 #' @name subsetTime
 #' @aliases subsetTime,cellexalTime-method
 #' @rdname subsetTime-methods
@@ -1344,6 +1360,7 @@ definition = function ( x, cells) {
 	x@id = digest::digest( x@dat, algo="md5")
 	invisible(x)
 } )
+
 
 #' To run this method efficiently it is recommended to first subset the drc the selection is based on.
 #' Next it is recommended to add this drc subset to the cellexal object and use the subsetTime function to also subset the timeline.

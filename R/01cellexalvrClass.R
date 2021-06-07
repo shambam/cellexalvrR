@@ -74,14 +74,14 @@ setClass(
 
 
 
-#' the cellexalTime class is mainly to bring a usable order into the time mess
+#' the cellexalTime class is representing one linear ordered cell group
 #' 
 #' 
 #' @name cellexalTime-class
 #' @rdname cellexalTime-class
 #' @title cellexalTime class definition
-#' @description  A simple wrapper to hadle the time and time color mappings.
-#' @slot dat all data needed for the time plotting and group creation
+#' @description  A simple wrapper to handle the linear order and respective color mappings.
+#' @slot dat all (drc) data needed for plotting and group creation
 #' @slot gname the group name
 #' @slot drc the drc name this object has been selected from
 #' @slot error the error message if a catched not fatal error has occured
@@ -102,13 +102,13 @@ setClass("cellexalTime",
 
 
 
-#' the cellexalGrouping class is mainly to bring a usable order into the time mess
+#' the cellexalGrouping class represents a multi group selection in VR
 #' 
 #' 
 #' @name cellexalGrouping-class
 #' @rdname cellexalGrouping-class
 #' @title cellexalGrouping class definition
-#' @description  A simple wrapper to hadle the time and time color mappings.
+#' @description  An object to structure multi group selections
 #' @slot gname the group name
 #' @slot selectionFile the VR selection file that is the basis for this grouping
 #' @slot order the order the cells have been selected in the VR process

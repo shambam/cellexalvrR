@@ -16,3 +16,6 @@ createTime(x, parentSelection = NULL)
 \description{
 calculate time based on the internal table a b and c columns
 }
+\details{
+This function utilizes slingshot to identify the longest possible pseudo timeline in this selection.
+}

@@ -18,5 +18,5 @@ return the color in exactly the right format to color the names
 }
 \details{
 returns a color vector based on the intern col column and the cell names
-Not time containing cells will get gray(0.6) as color.
+Cells that are not part of this selection will get gray(0.6) as color.
 }

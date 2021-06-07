@@ -17,7 +17,7 @@ reverse the time orientaion
 \details{
 inverts the time in the object.
 
-Occational the algorithm fails and invert the time.
+Occational the algorithm fails and inverts the time.
 This function is used to easily invert a timeline that 
 runs from end to start instead the otherway around.
 }

@@ -4,7 +4,7 @@
 \name{compactTime}
 \alias{compactTime}
 \alias{compactTime,cellexalTime-method}
-\title{description of function plot}
+\title{description of function compactTime}
 \usage{
 compactTime(cellexalObj)
 }

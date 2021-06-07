@@ -1,3 +1,5 @@
+#' This function converts a selection described in a userGroups column to a VR selection file.
+#'
 #' @name export_UserGrouping
 #' @aliases export_UserGrouping,cellexalvrR-method
 #' @rdname export_UserGrouping-methods

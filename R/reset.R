@@ -5,7 +5,8 @@ setGeneric('reset', ## Name
 	}
 ) 
 
-
+#' Remove all modifications produced through VR run.
+#' 
 #' @name reset
 #' @aliases reset,cellexalvrR-method
 #' @rdname reset-methods

@@ -6,7 +6,7 @@
 \alias{export2cellexalvr,cellexalvrR-method}
 \title{create the VR data folder necessary for CellexalVR}
 \usage{
-\S4method{export2cellexalvr}{cellexalvrR}(x, path, forceDB = F, VRpath = NULL)
+\S4method{export2cellexalvr}{cellexalvrR}(x, path, forceDB = F)
 }
 \arguments{
 \item{x}{A cellexalvr object}
@@ -14,9 +14,6 @@
 \item{path}{the oputpath to store the data in}
 
 \item{forceDB}{re-write the db even if it exisis (default =F)}
-
-\item{VRpath}{in order to re-color the data in the VR process the 
-VR process needs the grouping names which will be exported if we get the correct path here}
 }
 \description{
 Creates the base files needed to run the VR environment

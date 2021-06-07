@@ -3,7 +3,7 @@
 \docType{methods}
 \name{checkGrouping}
 \alias{checkGrouping}
-\alias{checkGrouping,cellexalTime-method}
+\alias{checkGrouping,cellexalGrouping-method}
 \title{description of function check}
 \usage{
 checkGrouping(cellexalObj, x)
@@ -15,4 +15,7 @@ checkGrouping(cellexalObj, x)
 }
 \description{
 checks for NA elements in the table and removes them
+}
+\details{
+The santity check for a cellexalGrouping.
 }

@@ -32,11 +32,10 @@ compareGeneClusters(
 return the color in exactly the right format to color the names
 }
 \details{
-Compare gene clusters between different (reported) timelines.
-The main usage for this function is to run the same genes on the same timeline,
-but with different samples like young and old, healthy and sick or teated and untreated.
-This function only allows to compare two gene groupings.
+This is a none VR method to compare two different timelines.
+The main usage for this function is to run the same genes trough trough one timeline 
+that has been split into two sub-sections like young and old or teated and untreated.
+This function only allows to compare two cellexalTime objects.
 
-The report will for each gene cluster show the heatmap here and the heatmap in the other timeline
-for each overlapping gene list.
+This function highligts which genes follow different expression patterns in both timelines.
 }

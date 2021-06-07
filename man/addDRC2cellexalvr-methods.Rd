@@ -19,6 +19,6 @@ addDRC2cellexalvr(cellexalObj, drcmatrix, name = NULL)
 Adds drc coordinates to a 'cellexalvrObj'
 }
 \details{
-addDRC2cellexalvr is a simple helper function that applies some tests 
+addDRC2cellexalvr is a helper function that applies some tests 
 of usabilty to a 3D DRC matrix object and adds it to the cellexalvrR object.
 }

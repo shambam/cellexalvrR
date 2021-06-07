@@ -17,5 +17,5 @@ addFACS2cellexalvr(cellexalObj, facs.data)
 Adds FACS index to a cellexalvrObj
 }
 \details{
-This function simply adds a table object into the index slot of the cellexalvrR obejct.
+This function adds a table object into the index slot of the cellexalvrR obejct.
 }

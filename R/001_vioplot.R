@@ -5,11 +5,10 @@
 #' @docType methods
 #' @description the vioplot function patched to allow different colors for the different violines.
 #' @param datas a list with all data to plot
-#' @param range  TEXT MISSING default= 1.5
-#' @param h  TEXT MISSING default= NULL
-#' @param ylim  TEXT MISSING default= NULL
-#' @param names  TEXT MISSING default= NULL
-#' @param vioplot  TEXT MISSING
+#' @param range see orig vioplot funciton default= 1.5
+#' @param h see orig vioplot funciton default= NULL
+#' @param ylim see orig vioplot funciton default= NULL
+#' @param names see orig vioplot funciton default= NULL
 #' @title description of function vioplot
 #' @export 
 setGeneric('vioplot', ## Name

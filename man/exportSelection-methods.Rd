@@ -16,3 +16,6 @@ exportSelection(x, fname)
 \description{
 Export this time as selection file
 }
+\details{
+This creates a selection.time file for the VR process.
+}

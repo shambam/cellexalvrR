@@ -14,3 +14,7 @@ plotTime(x)
 \description{
 3D plot the time with a line in the time
 }
+\details{
+Plot the linear data with the correct colors.
+Used to debug the linear selections.
+}

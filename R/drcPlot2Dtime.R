@@ -1,6 +1,6 @@
 #' drcPlots2Dtime is a function linked to the log functionallity.
 #' 
-#' This function will create the 2D DRC images for the log sections.
+#' This function will create the 2D DRC images for the logTimeline sections.
 #' 
 #' @name drcPlots2Dtime
 #' @aliases drcPlots2Dtime,cellexalvrR-method

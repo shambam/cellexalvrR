@@ -1,5 +1,7 @@
+#' The santity check for a cellexalGrouping.
+#' 
 #' @name checkGrouping
-#' @aliases checkGrouping,cellexalTime-method
+#' @aliases checkGrouping,cellexalGrouping-method
 #' @rdname checkGrouping-methods
 #' @docType methods
 #' @description checks for NA elements in the table and removes them

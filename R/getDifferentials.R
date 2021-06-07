@@ -11,10 +11,9 @@ setGeneric('getDifferentials', ## Name
 
 #' Identify differentially expressed genes.
 #' 
-#' This function makes three statistics available for the VR process 
+#' This function makes two statistics available for the VR process 
 #' (1) 'timeline' will automaticly be choosen it there is only one group in the data
 #' (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function (default)
-#' (3) 'Seurat_wilcox' the original Seurat::FindAllMarkers function (~10x slower than the c++ version and currently not working)
 #' 
 #' @name getDifferentials
 #' @aliases getDifferentials,cellexalvrR-method

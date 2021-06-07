@@ -19,6 +19,5 @@ addVelocityToExistingDR(cellexalObj, velo.arrows, dr.name)
 Adds RNA volocity data to an existing DR methods in an 'cellexalvrObj' object.
 }
 \details{
-This function adds RNA velocity coordinates to an already existing set of dimension reduction coordinates. 
-Should be a 6 column matrix of values describing the velocity arrows.
+This function adds RNA velocity coordinates to an already existing set of dimension reduction coordinates.
 }

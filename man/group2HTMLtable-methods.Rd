@@ -19,5 +19,5 @@ group2HTMLtable(x, info, names = NULL)
 create an HTML table from a user grouping
 }
 \details{
-Convert a session into a html table that can be added to the log
+Log related function - convert a session into a html table that can be added to the log
 }

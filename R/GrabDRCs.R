@@ -1,6 +1,6 @@
-
-
-#' GrabDRCs  will copy all 3D graphs from the other object into this object.
+#' Copy all drc models from one cellexalObj to another - even if 
+#' the order and/or the size of the objects is not the same.
+#' 
 #' @name GrabDRCs
 #' @aliases GrabDRCs,cellexalvrR-method
 #' @rdname GrabDRCs-methods

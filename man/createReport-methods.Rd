@@ -25,9 +25,8 @@ createReport(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
 \details{
 This report is the main go to analysis for a timeline.
 It will produce gene clusters and plot the mean expression of these genes clusters as beautiful xy plots.
-It also populated the CellexalTime geneClusters slot with a list entry containing
+It also populates the CellexalTime geneClusters slot with a list entries containing
 the gene clusters (clusters), the max 1000 cells zscored data (matrix) and the location of the main figure (png file path; figure)
 
-This enables the cellexalTime to be compared to another cellexalTime object using the function compareGeneClusters.
-compareGeneClusters should best be run after a createDetailedComparison section has been added?!
+After this function two cellexalTime objects can be compared to another using the function compareGeneClusters.
 }

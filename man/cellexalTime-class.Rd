@@ -5,15 +5,15 @@
 \alias{cellexalTime-class}
 \title{cellexalTime class definition}
 \description{
-A simple wrapper to hadle the time and time color mappings.
+A simple wrapper to handle the linear order and respective color mappings.
 }
 \details{
-the cellexalTime class is mainly to bring a usable order into the time mess
+the cellexalTime class is representing one linear ordered cell group
 }
 \section{Slots}{
 
 \describe{
-\item{\code{dat}}{all data needed for the time plotting and group creation}
+\item{\code{dat}}{all (drc) data needed for plotting and group creation}
 
 \item{\code{gname}}{the group name}
 

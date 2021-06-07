@@ -21,5 +21,5 @@ create a global gene z-score and virtual samples over the timeline
 \details{
 This function should be run on the main cellexalObj including all data.
 It will create (for a subset of genes) a z-scored dataset and will then 
-sum up the expression in the time orientation to represent 1000 'cell' in the timeline.
+sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
 }

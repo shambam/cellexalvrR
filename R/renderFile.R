@@ -1,3 +1,4 @@
+#' A main function in the log system - called after each log has been produced.
 #' @name renderFile
 #' @aliases renderFile,cellexalvrR-method
 #' @rdname renderFile-methods

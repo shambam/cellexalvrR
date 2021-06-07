@@ -1,4 +1,4 @@
-#' Convert a session into a html table that can be added to the log
+#' Log related function - convert a session into a html table that can be added to the log
 #'
 #' @name group2HTMLtable
 #' @aliases group2HTMLtable,cellexalvrR-method

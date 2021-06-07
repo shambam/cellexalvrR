@@ -5,10 +5,10 @@
 \alias{cellexalGrouping-class}
 \title{cellexalGrouping class definition}
 \description{
-A simple wrapper to hadle the time and time color mappings.
+An object to structure multi group selections
 }
 \details{
-the cellexalGrouping class is mainly to bring a usable order into the time mess
+the cellexalGrouping class represents a multi group selection in VR
 }
 \section{Slots}{
 

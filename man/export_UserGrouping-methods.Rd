@@ -20,3 +20,6 @@ export_UserGrouping(x, colname, outfile, colorF = rainbow)
 \description{
 export a list of genes of interest to be loaded as heatmaps in cellexalVR
 }
+\details{
+This function converts a selection described in a userGroups column to a VR selection file.
+}

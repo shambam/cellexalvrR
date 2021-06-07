@@ -23,9 +23,10 @@ export_GOIs(x, GOIs, grouping, path, colorF = rainbow)
 export a list of genes of interest to be loaded as heatmaps in cellexalVR
 }
 \details{
-Normally a scientis has a number of genes that are of high interest for the spüecific data set.
+Normally a scientis has a number of genes that are of high interest for the specific data set.
 This function can be used to export this gene list as a buch of hetmap input files for cellexalVR.
 
 These files can be loaded from the cellexalVR console by using the command
 GOIs path
+A specificly modified CellexalVR version is required for this.
 }

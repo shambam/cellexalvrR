@@ -31,7 +31,7 @@ expect_equal( list.files(file.path(path, 'Heatmaps')), files , label="Heatmap VR
 
 cellexalObj = renderReport( cellexalObj )
 
-files = c( "cellexalObj.RData", "Heatmaps", "libs", "PortableLog_test.zip", 
+files = c( "cellexalObj.RData", "Heatmaps", "libs", 'png', "PortableLog_test.zip", 
 	"reference-keys.txt", "search_index.json", "selection11.txt.time" , "selection11.txt.time.points",
 	"session-log-for-session-test.html", "test")
 
