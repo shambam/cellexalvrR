@@ -5,6 +5,9 @@
 \alias{checkTime}
 \alias{checkTime,cellexalTime-method}
 \title{description of function check}
+\usage{
+checkTime(x, cellexalObj)
+}
 \arguments{
 \item{x}{the cellexalTime object}
 

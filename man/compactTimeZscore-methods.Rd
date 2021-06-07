@@ -5,6 +5,9 @@
 \alias{compactTimeZscore}
 \alias{compactTimeZscore,cellexalTime-method}
 \title{description of function plot}
+\usage{
+compactTimeZscore(x, deg.genes, info, cellexalObj)
+}
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}
 

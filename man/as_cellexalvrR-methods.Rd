@@ -4,7 +4,10 @@
 \name{as_cellexalvrR}
 \alias{as_cellexalvrR}
 \alias{as_cellexalvrR,environment-method}
-\title{convert a BioData object to cellexalvrR keeping all 3D drc objects.}
+\alias{as_cellexalvrR,Seurat-method}
+\alias{as_cellexalvrR,character-method}
+\alias{as_cellexalvrR,H5File-method}
+\title{convert a supported object/file to cellexalvrR keeping all 3D drc objects.}
 \usage{
 as_cellexalvrR(
   x,
@@ -15,9 +18,47 @@ as_cellexalvrR(
   specie,
   ...
 )
+
+\S4method{as_cellexalvrR}{Seurat}(
+  x,
+  meta.cell.groups = NULL,
+  meta.genes.groups = NULL,
+  userGroups = NULL,
+  outpath = getwd(),
+  specie,
+  assay = NULL
+)
+
+\S4method{as_cellexalvrR}{character}(
+  x,
+  meta.cell.groups = NULL,
+  meta.genes.groups = NULL,
+  userGroups = NULL,
+  outpath = getwd(),
+  specie,
+  embeddings = NULL,
+  embeddingDims = 3,
+  velocity = "scvelo",
+  scaleArrowTravel = 20,
+  minCell4gene = 10
+)
+
+\S4method{as_cellexalvrR}{H5File}(
+  x,
+  meta.cell.groups = NULL,
+  meta.genes.groups = NULL,
+  userGroups = NULL,
+  outpath = getwd(),
+  specie,
+  embeddings = NULL,
+  embeddingDims = 3,
+  velocity = "scvelo",
+  scaleArrowTravel = 20,
+  minCell4gene = 10
+)
 }
 \arguments{
-\item{x}{the BioData 'object'}
+\item{x}{the h5ad file}
 
 \item{meta.cell.groups}{which x$samples column to convert to meta.cell classes}
 
@@ -28,13 +69,35 @@ as_cellexalvrR(
 \item{outpath}{set the outpath of the object (default getwd())}
 
 \item{specie}{set the specie to either mouse or human (default check gene names)}
+
+\item{assay}{Seurat::GetAssayData parameter 'assay' to fetch the expression data (default NULL)}
+
+\item{embeddings}{which embeddings to import from the file (default NULL = all)}
+
+\item{embeddingDims}{the dimensionality of the embeddings (default 3)}
+
+\item{velocity}{import velocity information (default = 'scvelo')}
+
+\item{scaleArrowTravel}{scale the velovity arrow for VR (default 20)}
+
+\item{minCell4gene}{the database must not have not expressed genes in it (default 10)}
 }
 \description{
 convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+
+convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+
+convert a python h5ad file into a cellexalvrR obejct
+
+convert a python h5ad file into a cellexalvrR obejct
 }
 \details{
-This function is part of the conversion path of a BioData::R6 object 
-into a cellexalvrR object.
+This function is the default conversion function from any other object.
+Depending on which object is to be imported the paramteters differ.
 
-The function will most likely not be of importance to anybody but me.
+Convert a Seurat object into a cellexalvrR object
+
+Convert a scanpy or velocityo h5ad file into a cellexalvrR object
+
+Convert a scanpy or velocityo h5ad file into a cellexalvrR object
 }

@@ -5,12 +5,15 @@
 \alias{addNewVelocity}
 \alias{addNewVelocity,cellexalvrR-method}
 \title{description of function 'addNewVelocity'}
+\usage{
+addNewVelocity(cellexalObj, velo.arrows, dr.name)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
-\item{drcmatrix}{A (3 columns) matrix of coordinates}
-
 \item{dr.name}{A name for the object (default = graph<n>)}
+
+\item{drcmatrix}{A (3 columns) matrix of coordinates}
 }
 \description{
 Adds drc coordinates to a 'cellexalvrObj'

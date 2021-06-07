@@ -5,6 +5,9 @@
 \alias{groupingInfo}
 \alias{groupingInfo,cellexalvrR-method}
 \title{get information on a sample grouping}
+\usage{
+groupingInfo(cellexalObj, gname = NULL)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

@@ -5,6 +5,9 @@
 \alias{export_UserGrouping}
 \alias{export_UserGrouping,cellexalvrR-method}
 \title{description of function export_UserGrouping}
+\usage{
+export_UserGrouping(x, colname, outfile, colorF = rainbow)
+}
 \arguments{
 \item{x}{the cellexal object}
 

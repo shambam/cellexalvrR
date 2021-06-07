@@ -5,6 +5,16 @@
 \alias{compareGeneClusters}
 \alias{compareGeneClusters,cellexalTime-method}
 \title{description of function color}
+\usage{
+compareGeneClusters(
+  x,
+  other,
+  cellexalObj,
+  altGroupNames = NULL,
+  color = NULL,
+  GOIs = NULL
+)
+}
 \arguments{
 \item{x}{the cellexalTime object}
 

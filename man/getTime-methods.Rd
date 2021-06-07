@@ -5,6 +5,9 @@
 \alias{getTime}
 \alias{getTime,cellexalTime-method}
 \title{get a timeline or throw an error}
+\usage{
+getTime(cellexalObj, name)
+}
 \arguments{
 \item{cellexalObj}{the object to get the data from}
 

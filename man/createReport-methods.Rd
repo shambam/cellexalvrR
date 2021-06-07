@@ -5,6 +5,9 @@
 \alias{createReport}
 \alias{createReport,cellexalTime-method}
 \title{description of function plot}
+\usage{
+createReport(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+}
 \arguments{
 \item{x}{the object}
 

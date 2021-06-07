@@ -5,6 +5,9 @@
 \alias{addFACS2cellexalvr}
 \alias{addFACS2cellexalvr,cellexalvrR-method}
 \title{description of function 'addFACS2cellexalvr'}
+\usage{
+addFACS2cellexalvr(cellexalObj, facs.data)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

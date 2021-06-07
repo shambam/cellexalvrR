@@ -5,6 +5,9 @@
 \alias{lockedSave}
 \alias{lockedSave,cellexalvrR-method}
 \title{description of function lockedSave}
+\usage{
+lockedSave(cellexalObj, path = NULL, what = NULL)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

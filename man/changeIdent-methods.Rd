@@ -5,12 +5,15 @@
 \alias{changeIdent}
 \alias{changeIdent,seurat-method}
 \title{description of function changeIdent}
+\usage{
+changeIdent(seuratObj, new.idents)
+}
 \arguments{
 \item{seuratObj}{A cellexalvr object}
 
-\item{cell}{A cellexalvr object}
-
 \item{new.idents}{TEXT MISSING}
+
+\item{cell}{A cellexalvr object}
 }
 \description{
 Sets new cell indentities from a given list

@@ -5,6 +5,9 @@
 \alias{HTMLtable}
 \alias{HTMLtable,cellexalTime-method}
 \title{description of function HTMLtable}
+\usage{
+HTMLtable(x)
+}
 \arguments{
 \item{x}{the cellexalTime object}
 }

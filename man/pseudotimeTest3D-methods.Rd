@@ -5,6 +5,23 @@
 \alias{pseudotimeTest3D}
 \alias{pseudotimeTest3D,cellexalvrR-method}
 \title{description of function pseudotimeTest3D}
+\usage{
+pseudotimeTest3D(
+  x,
+  a = NULL,
+  b = NULL,
+  c = NULL,
+  grouping,
+  outpath = NULL,
+  n = 100,
+  plotGenes = NULL,
+  smooth = 100,
+  invert = FALSE,
+  cleanFolder = FALSE,
+  plotType = "png",
+  summaryPlot = NULL
+)
+}
 \arguments{
 \item{x}{a cellexalvrR object}
 

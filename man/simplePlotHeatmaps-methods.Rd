@@ -5,6 +5,9 @@
 \alias{simplePlotHeatmaps}
 \alias{simplePlotHeatmaps,cellexalvrR-method}
 \title{description of function simplePlotHeatmaps}
+\usage{
+simplePlotHeatmaps(x, info, fname)
+}
 \arguments{
 \item{x, }{cellexalvrR object that has the correct order and only the genes of interest!}
 

@@ -5,6 +5,14 @@
 \alias{savePart}
 \alias{savePart,cellexalvrR-method}
 \title{description of function savePart}
+\usage{
+savePart(
+  x,
+  part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
+    "colors", "lastGroup"),
+  path = NULL
+)
+}
 \arguments{
 \item{x}{TEXT MISSING}
 

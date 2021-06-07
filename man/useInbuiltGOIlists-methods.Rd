@@ -5,6 +5,9 @@
 \alias{useInbuiltGOIlists}
 \alias{useInbuiltGOIlists,cellexalvrR-method}
 \title{easily identify e.g. all TFs in the dataset}
+\usage{
+useInbuiltGOIlists(x, name)
+}
 \arguments{
 \item{x, }{TEXT MISSING}
 

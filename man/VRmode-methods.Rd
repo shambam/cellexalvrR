@@ -5,6 +5,9 @@
 \alias{VRmode}
 \alias{VRmode,character-method}
 \title{check if CellexalVR.exe is running (Windows specific)}
+\usage{
+VRmode(file, sleepT = 1, debug = FALSE, masterPID = NULL, asFunction = FALSE)
+}
 \value{
 boolean value if the VR application is running.
 }

@@ -5,6 +5,9 @@
 \alias{color}
 \alias{color,cellexalTime-method}
 \title{description of function color}
+\usage{
+color(x, names)
+}
 \arguments{
 \item{x}{the cellexalTime object}
 

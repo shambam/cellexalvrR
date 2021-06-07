@@ -5,6 +5,9 @@
 \alias{export_GOIs}
 \alias{export_GOIs,cellexalvrR-method}
 \title{description of function export_GOIs}
+\usage{
+export_GOIs(x, GOIs, grouping, path, colorF = rainbow)
+}
 \arguments{
 \item{x}{the cellexal object}
 

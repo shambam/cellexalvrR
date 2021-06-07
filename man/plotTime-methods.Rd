@@ -5,6 +5,9 @@
 \alias{plotTime}
 \alias{plotTime,cellexalTime-method}
 \title{description of function plot}
+\usage{
+plotTime(x)
+}
 \arguments{
 \item{x}{the object}
 }

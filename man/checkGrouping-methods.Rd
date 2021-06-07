@@ -5,6 +5,9 @@
 \alias{checkGrouping}
 \alias{checkGrouping,cellexalTime-method}
 \title{description of function check}
+\usage{
+checkGrouping(cellexalObj, x)
+}
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 

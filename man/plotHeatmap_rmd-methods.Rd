@@ -5,6 +5,9 @@
 \alias{plotHeatmap_rmd}
 \alias{plotHeatmap_rmd,cellexalTime-method}
 \title{description of function plot}
+\usage{
+plotHeatmap_rmd(x, ofile, cellexalObj, color = NULL)
+}
 \arguments{
 \item{x}{the matrix to plot (genes rows cells cols)}
 

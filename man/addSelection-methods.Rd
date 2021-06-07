@@ -5,6 +5,9 @@
 \alias{addSelection}
 \alias{addSelection,cellexalTime-method}
 \title{description of function addSelection}
+\usage{
+addSelection(x, cellexalObj, upstreamSelection = NULL)
+}
 \arguments{
 \item{x}{the cellexalTime object}
 

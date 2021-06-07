@@ -5,6 +5,15 @@
 \alias{MakeCellexalVRObj}
 \alias{MakeCellexalVRObj,matrix-method}
 \title{Create a cellexalvrR object from a matrix object.}
+\usage{
+MakeCellexalVRObj(
+  exdata,
+  drc.list,
+  specie = c("mouse", "human"),
+  cell.metadata = NULL,
+  facs.data = NULL
+)
+}
 \arguments{
 \item{exdata}{A matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names}
 

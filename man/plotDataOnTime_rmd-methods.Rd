@@ -5,6 +5,9 @@
 \alias{plotDataOnTime_rmd}
 \alias{plotDataOnTime_rmd,cellexalTime-method}
 \title{description of function plot}
+\usage{
+plotDataOnTime_rmd(x, dat, color = NULL, ofile, cellexalObj)
+}
 \arguments{
 \item{x}{the object}
 

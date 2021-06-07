@@ -5,6 +5,9 @@
 \alias{subsetTime}
 \alias{subsetTime,cellexalTime-method}
 \title{description of function plot}
+\usage{
+subsetTime(x, cells)
+}
 \arguments{
 \item{x}{the object}
 

@@ -5,6 +5,9 @@
 \alias{createTime}
 \alias{createTime,cellexalTime-method}
 \title{description of function plot}
+\usage{
+createTime(x, parentSelection = NULL)
+}
 \arguments{
 \item{x}{the object}
 

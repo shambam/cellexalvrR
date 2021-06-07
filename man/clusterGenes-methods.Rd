@@ -5,6 +5,9 @@
 \alias{clusterGenes}
 \alias{clusterGenes,cellexalTime-method}
 \title{description of function plot}
+\usage{
+clusterGenes(x, deg.genes = NULL, info = NULL, ...)
+}
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}
 

@@ -5,6 +5,9 @@
 \alias{cleanParts}
 \alias{cleanParts,character-method}
 \title{cleanParts removes all parts when storing the whole object.}
+\usage{
+cleanParts(path)
+}
 \arguments{
 \item{path}{the outpath}
 }

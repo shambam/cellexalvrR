@@ -5,6 +5,9 @@
 \alias{plotDataOnTime}
 \alias{plotDataOnTime,cellexalTime-method}
 \title{description of function plot}
+\usage{
+plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
+}
 \arguments{
 \item{x}{the object}
 

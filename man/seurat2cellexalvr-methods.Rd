@@ -5,6 +5,9 @@
 \alias{seurat2cellexalvr}
 \alias{seurat2cellexalvr,seurat-method}
 \title{description of function seurat2cellexalvr}
+\usage{
+seurat2cellexalvr(seuratObj)
+}
 \arguments{
 \item{seuratObj}{the suerat object to be converted}
 }

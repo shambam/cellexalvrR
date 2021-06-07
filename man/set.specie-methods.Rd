@@ -5,6 +5,9 @@
 \alias{set.specie}
 \alias{set.specie,cellexalvrR-method}
 \title{description of function set.specie}
+\usage{
+set.specie(cellexalObj, specie = c("mouse", "human"))
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

@@ -5,6 +5,9 @@
 \alias{exportSelection}
 \alias{exportSelection,cellexalTime-method}
 \title{description of function exportSelection}
+\usage{
+exportSelection(x, fname)
+}
 \arguments{
 \item{x}{the object}
 

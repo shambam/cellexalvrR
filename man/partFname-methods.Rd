@@ -5,6 +5,13 @@
 \alias{partFname}
 \alias{partFname,character-method}
 \title{description of internally used function partFname}
+\usage{
+partFname(
+  part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
+    "colors", "lastGroup", "all"),
+  path
+)
+}
 \arguments{
 \item{part}{to get the fanme for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )}
 

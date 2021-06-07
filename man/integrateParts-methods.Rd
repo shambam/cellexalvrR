@@ -5,6 +5,9 @@
 \alias{integrateParts}
 \alias{integrateParts,cellexalvrR-method}
 \title{description of function integrateParts}
+\usage{
+integrateParts(x, path = NULL)
+}
 \arguments{
 \item{x}{the cellexalObj to add to}
 

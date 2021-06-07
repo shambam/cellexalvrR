@@ -5,6 +5,9 @@
 \alias{onlyGOIs}
 \alias{onlyGOIs,cellexalvrR-method}
 \title{description of function onlyGOIs}
+\usage{
+onlyGOIs(cellexalObj, name)
+}
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 

@@ -5,6 +5,9 @@
 \alias{invert}
 \alias{invert,cellexalTime-method}
 \title{description of function plot}
+\usage{
+invert(x)
+}
 \arguments{
 \item{x}{the object}
 }

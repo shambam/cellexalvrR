@@ -5,6 +5,9 @@
 \alias{compactTime}
 \alias{compactTime,cellexalTime-method}
 \title{description of function plot}
+\usage{
+compactTime(cellexalObj)
+}
 \arguments{
 \item{cellexalObj}{if x is a cellexalTime object this is necessary to create the zscored matrix.}
 }

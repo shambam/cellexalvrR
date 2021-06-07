@@ -5,6 +5,9 @@
 \alias{plotTimeHeatmap}
 \alias{plotTimeHeatmap,cellexalTime-method}
 \title{description of function plot}
+\usage{
+plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
+}
 \arguments{
 \item{x}{the zscored data object}
 

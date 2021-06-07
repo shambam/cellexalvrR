@@ -5,6 +5,9 @@
 \alias{timeAnalysisSubset}
 \alias{timeAnalysisSubset,cellexalTime-method}
 \title{description of function plot}
+\usage{
+timeAnalysisSubset(x, cellexalObj, deg.genes = NULL)
+}
 \arguments{
 \item{x}{the object}
 

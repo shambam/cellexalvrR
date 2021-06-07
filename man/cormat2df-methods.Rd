@@ -5,6 +5,9 @@
 \alias{cormat2df}
 \alias{cormat2df,cellexalvrR-method}
 \title{description of function cormat2df}
+\usage{
+cormat2df(cors)
+}
 \arguments{
 \item{cors}{A square matrix of pairwise measures}
 }

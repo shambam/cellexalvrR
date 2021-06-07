@@ -5,6 +5,9 @@
 \alias{reorder.samples}
 \alias{reorder.samples,cellexalvrR-method}
 \title{simple reordering of the samples}
+\usage{
+reorder.samples(dataObj, column)
+}
 \arguments{
 \item{dataObj}{the cellexalvr object}
 

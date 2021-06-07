@@ -19,20 +19,28 @@ setGeneric('export2cellexalvr', ## Name
 #' @param x A cellexalvr object
 #' @param path the oputpath to store the data in
 #' @param forceDB re-write the db even if it exisis (default =F)
-#' @param VRpath in order to re-color the data in the VR process the 
-#' VR process needs the grouping names which will be exported if we get the correct path here
 #' @title create the VR data folder necessary for CellexalVR
 #' @examples
 #' dir.create ('data')
 #' export2cellexalvr(x, path='data') #function definition in file 'ExportFunctions.R'
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
-	definition = function (x,path, forceDB=F, VRpath=NULL ) {
+	definition = function (x,path, forceDB=F ) {
 
 	## check that the cell names (all rownames) contain no spaces!!
 	old_names = colnames(x@data)
 	good_names = stringr::str_replace_all( colnames(x@data),'\\s+', '_')
 
+	if ( forceDB ) {
+		 if (file.exists(path)){
+		 	unlink( path, recursive=TRUE)
+		 	dir.create( path )
+		 }
+	}
+	if ( ! file.exists(path)){
+		warning("path does not exists - creating it now")
+		dir.create( path )
+	}
 	for ( n in names(x@drc) ) {
 		if ( is.null(rownames( x@drc[[n]]))){
 			rownames( x@drc[[n]]) = good_names
@@ -50,7 +58,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	ofile = file.path( path, "cellexalObj.RData")
 	if ( ! file.exists( ofile) ){
 		x@outpath = ''
-		cellecalObj = x
+		cellexalObj = x
 		save(cellexalObj, file=ofile )
 	}
     
@@ -164,9 +172,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
     	options(warn = oldw)
 
-	}
-	if ( ! is.null( VRpath ) ) {
-		exportUserGroups4vr(x, VRpath) #function definition in file 'exportUserGroups4vr.R'
 	}
 	invisible(x)
 

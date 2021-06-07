@@ -5,6 +5,9 @@
 \alias{createStats}
 \alias{createStats,cellexalTime-method}
 \title{description of function plot}
+\usage{
+createStats(x, cellexalObj, num.sig = 250, p.cut = NULL)
+}
 \arguments{
 \item{x}{the object}
 
