@@ -14,3 +14,6 @@
 \description{
 remove all internals originating from previouse analyses
 }
+\details{
+Remove all modifications produced through VR run.
+}

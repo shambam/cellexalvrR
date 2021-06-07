@@ -17,5 +17,5 @@ sessionRegisterGrouping(x, gName)
 Registers a grouping for this session.
 }
 \details{
-Log function that keeps trach of the number of sections used in the log file.
+Log function that keeps track of the number of sections used in the log file.
 }

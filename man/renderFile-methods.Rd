@@ -18,3 +18,6 @@ renderFile(x, id, type = "")
 \description{
 render only one html section, not the whole session log
 }
+\details{
+A main function in the log system - called after each log has been produced.
+}

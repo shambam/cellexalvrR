@@ -19,5 +19,5 @@ this function reorderes the cellexalvr object based on a column in the annotatio
 table (e.g. for plotting)
 }
 \details{
-reorder function to reorder the whole cellexalvrR object based on a samples order.
+reorder function to reorder the whole cellexalvrR object based on a cell order.
 }

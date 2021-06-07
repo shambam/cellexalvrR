@@ -72,7 +72,7 @@ cellexalObj = userGrouping( cellexalObj, system.file("extdata", "SelectionHSPC_t
 cellexalObj = pseudotimeTest3D(cellexalObj, grouping= cellexalObj@usedObj$lastGroup )
 cellexalObj = createStats( "lastEntry" , cellexalObj,  num.sig= 250 )
 
-bossTime = cellexalObj@usedObj$timelines[["lastEntry"]]@gname
+bossTime = cellexalObj@usedObj$timelines[["lastEntry"]]
 cellexalObj = createReport(bossTime, cellexalObj, info = bossTime)$cellexalObj
 
 
@@ -111,10 +111,10 @@ timeSubset1 = subsetTime( time, subset1)
 timeSubset2 = subsetTime( time, subset2)
 
 cellexalObj = addSelection( timeSubset1, cellexalObj )
-timeSubset1 = cellexalObj@usedObj$timelines[[1]]@gname
+timeSubset1 = cellexalObj@usedObj$timelines[[1]]
 
 cellexalObj = addSelection( timeSubset2, cellexalObj )
-timeSubset2 = cellexalObj@usedObj$timelines[[1]]@gname
+timeSubset2 = cellexalObj@usedObj$timelines[[1]]
 
 cellexalObj = createStats( timeSubset1, cellexalObj,  num.sig= 250 )
 deg.genes = cellexalObj@usedObj$deg.genes
@@ -126,8 +126,11 @@ cellexalObj = createStats( timeSubset2, cellexalObj,  num.sig= 250 )
 cellexalObj = createReport(timeSubset2, cellexalObj, 
      timeSubset2, deg.genes = deg.genes )$cellexalObj
 
-cellexalObj = compareGeneClusters ( timeSubset1, timeSubset2, 
-	cellexalObj, altGroupNames=c("subset A", "subset B" ) )
+cellexalObj = compareGeneClusters ( 
+   getTime(cellexalObj,timeSubset1@gname), 
+   getTime(cellexalObj,timeSubset2@gname), 
+	 cellexalObj, altGroupNames=c("subset A", "subset B" ) 
+)
 
 ```
 

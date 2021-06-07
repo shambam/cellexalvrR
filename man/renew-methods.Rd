@@ -19,5 +19,5 @@ that the returned object is an S4 object.
 \details{
 renew is trying to update objects from old versions to the most up to date structure.
 
-It is tested to work on version <= 0.11.1.
+It is tested to work on version <= 0.14.5.
 }
