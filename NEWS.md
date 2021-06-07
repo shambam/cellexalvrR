@@ -1,3 +1,11 @@
+# 0.14.6
+
+Vignettes compile again. Version to be published.
+
+# 0.14.5
+
+Debug version for the pre-publications CellexalVR v0.14.
+
 # 0.14.4
 
 In the Timeline grouping the amount of clusters can no be forced by setting cellexalObj@usedObj$gene_clusters to e.g. 3. By default one less cluster is produced.
