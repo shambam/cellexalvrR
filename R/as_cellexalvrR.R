@@ -189,9 +189,7 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 	definition = function (x,  meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(),
 	 specie, embeddings = NULL, embeddingDims=3, velocity ='scvelo', scaleArrowTravel=20, minCell4gene=10) {
 
-		if ( length(embeddings) == 0 ) {
-			message("A CellexalVR session without 3D embeddings is not making sense! STOP?!")
-		}
+		
 	## parse the data into a sparse matrix
 	toSparse <- function(file){
 		message("reading expression data")
@@ -234,6 +232,9 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 		## extract all if embeddings == NULL
 		embeddings = names(x[['obsm']])[grep( '^X_', names(x[['obsm']]))]
 		embeddings = unlist(stringr::str_replace_all(embeddings, '^X_', '' ))
+	}
+	if ( length(embeddings) == 0 ) {
+			message("A CellexalVR session without 3D embeddings is not making sense! STOP?!")
 	}
 
 	drcs = lapply(embeddings, function(n) {  
