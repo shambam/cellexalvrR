@@ -1,7 +1,7 @@
 
 #' set.specie is depricated
 #' 
-#' It simply sets the specie slot to the user supplied specie string.
+#' It sets the specie slot to the user supplied specie string.
 #' 
 #' @name set.specie
 #' @aliases set.specie,cellexalvrR-method

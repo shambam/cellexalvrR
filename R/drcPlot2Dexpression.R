@@ -1,6 +1,6 @@
 #' drcPlot2Dexpression is a function linked to the log functionallity.
 #' 
-#' This function will create the 2D DRC images for the log sections.
+#' This function will create the 2D DRC images for the correlated genes log sections.
 #' 
 #' @name drcPlot2Dexpression
 #' @aliases drcPlot2Dexpression,cellexalvrR-method

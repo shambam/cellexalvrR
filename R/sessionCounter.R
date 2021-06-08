@@ -1,3 +1,4 @@
+#' A log helper function. It does remove the need to store all log Rmd files in the object.
 #' @name sessionCounter
 #' @aliases sessionCounter,cellexalvrR-method
 #' @rdname sessionCounter-methods

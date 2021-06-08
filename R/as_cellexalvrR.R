@@ -328,6 +328,12 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 	ret
 } )
 
+#' Here two Velocyto file results (actually andata hdf5 files) 
+#' one containing the var gene analysis with a meaningful clustering
+#' and one with all genes. This function will combine the drc models from the var gene analysis 
+#' and it's clustering with the gene expressions in the bigger file.
+#' 
+#' The output will be a cellexalvrR object. 
 #' @name H5Anno2df
 #' @aliases H5Anno2df,cellexalvrR-method
 #' @rdname H5Anno2df-methods
@@ -340,54 +346,62 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 #' @title description of function H5Anno2df
 #' @export 
 setGeneric('H5Anno2df', ## Name
-	function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
-		standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
+		function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
+			standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
 )
 
-
 setMethod('H5Anno2df', signature = c ('H5File'),
-	definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
-  		obs = data.frame(lapply(names(x[[slotName]]), function(n) { x[[paste(sep="/",slotName,n)]][] } ))
-  		colnames( obs ) = names(x[[slotName]])
-  		col_uniq= NULL
-  		for( n in colnames(obs) ) {
-	  		if ( all(obs[,n] =="") ){
-  				obs[,n] = NULL
-  			}else {
-  				col_uniq = c( col_uniq, length(unique(obs[,n]))) 
-  			}
-  		}
-  		names(col_uniq) = colnames( obs )
-  		## most likely cell names column
-  		if ( ! is.na(match(namecol, colnames(obs)) )) {
-			rownames(obs) =  forceAbsoluteUniqueSample ( #function definition in file 'as_cellexalvrR.R'
-				as.vector(obs[, namecol]) )
-  		}else {
-  			## now I need to check for strings...
-  			OK = unlist(lapply( colnames(obs) , function(id) {
-  				suppressWarnings({a= which( is.na(as.numeric(as.vector(obs[,id])))==T)})
-  				 ## Strings only
-  				if ( length(a) > 0) {
-  					length(unique(as.vector(obs[a, id])))
-  				}else {
-  						0
-  				}
-  			}))
-  			names(OK) = colnames(obs)
-  			# if ( slotName == 'row_attrs'){
-  			# 	browser()
-  			# }
-  			rownames(obs) =  forceAbsoluteUniqueSample ( #function definition in file 'as_cellexalvrR.R'
-  				as.vector(obs[, names(OK)[which(OK == max(OK))[1]]]) )
-  		}
-  		if ( onlyStrings ) {
-  			for( i in 1:length(col_uniq) ) {
-  				if ( col_uniq[i] == 0 ){ # all entries convertable to numeric
-  					obs[,i] = NULL
-  				}
-  			}
-  		}
-
-  		obs
-  	} )
+		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
+			OK = NULL;
+			for (n in names( x[[slotName]])) {
+				if ( is(x[[paste(sep="/",slotName,n)]], 'H5Group') ){
+					OK= c( OK, FALSE )
+				}else {
+					OK = c(OK, TRUE)
+				}
+			}
+			obs = data.frame(lapply(names(x[[slotName]])[OK], function(n) { x[[paste(sep="/",slotName,n)]][] } ))
+			colnames( obs ) = names(x[[slotName]])[OK]
+			col_uniq= NULL
+			for( n in colnames(obs) ) {
+				if ( all(obs[,n] =="") ){
+					obs[,n] = NULL
+				}else {
+					col_uniq = c( col_uniq, length(unique(obs[,n]))) 
+				}
+			}
+			names(col_uniq) = colnames( obs )
+			## most likely cell names column
+			if ( ! is.null(namecol )) {
+				rownames(obs) =  forceAbsoluteUniqueSample ( #function definition in file 'as_cellexalvrR.R'
+						as.vector(obs[, namecol]) )
+			}else {
+				## now I need to check for strings...
+				
+				OK = unlist(lapply( colnames(obs) , function(id) {
+					suppressWarnings({a= which( is.na(as.numeric(as.vector(obs[,id])))==T) })
+					## Strings only
+					if ( length(a) > 0) {
+						length(unique(as.vector(obs[a, id])))
+					}else {
+						0
+					}
+				}))
+				names(OK) = colnames(obs)
+				# if ( slotName == 'row_attrs'){
+				# 	browser()
+				# }
+				rownames(obs) =  make.names ( #function definition in file 'as_cellexalvrR.R'
+						as.vector(obs[, names(OK)[which(OK == max(OK))[1]]]) )
+			}
+			if ( onlyStrings ) {
+				for( i in 1:length(col_uniq) ) {
+					if ( col_uniq[i] == 0 ){ # all entries convertable to numeric
+						obs[,i] = NULL
+					}
+				}
+			}
+			
+			obs
+		} )

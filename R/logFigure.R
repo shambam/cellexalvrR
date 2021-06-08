@@ -2,7 +2,8 @@ setGeneric("logFigure", function(cellexalObj, genes = NULL, png, grouping, ...) 
     standardGeneric("logFigure")
 })
 
-#' logFigure is a VR helper funtion that stores one network in the log document.
+#' logFigure is a VR helper funtion that stores one figure in the log document.
+#' 
 #' @name logFigure
 #' @aliases logFigure,cellexalvrR-method
 #' @rdname logFigure-methods
