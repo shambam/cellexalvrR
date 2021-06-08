@@ -27,8 +27,8 @@ if ( file.exists( file.path(datadir, 'User.group.1.cgr' ))){
 exportUserGroups4vr(cellexalObj, datadir )
 
 
-old = read.delim( grouping, header=F, row.names=1 )
-new = read.delim(file.path(datadir, 'User.group.1.cgr' ), header=F, row.names=1 )
+old = utils::read.delim( grouping, header=F, row.names=1 )
+new = utils::read.delim(file.path(datadir, 'User.group.1.cgr' ), header=F, row.names=1 )
 
 m = match(rownames(old),rownames(new))
 

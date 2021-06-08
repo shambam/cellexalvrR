@@ -63,7 +63,7 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	}
     
 
-    #write.table(x@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
+    #utils::write.table(x@data,paste(path,"expression.expr",sep=""),row.names=T,col.names=NA,quote=F,sep="\t",eol="\n")
 	ofile = file.path(path,"a.meta.cell")
 	if ( ! file.exists( ofile) ){
 		if ( nrow( x@meta.cell) == ncol( x@data ) ) {

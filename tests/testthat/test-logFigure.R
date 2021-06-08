@@ -45,7 +45,7 @@ context('log figure - figure next')
 
 png( file= file.path( x@usedObj$sessionPath, 'testScreenshot.png') ,width=800, height=800)
 plot(1:10,10:1, main="Not reall a screenshot :-D")
-dev.off()
+grDevices::dev.off()
 
 x= logFigure( x, png=file.path( x@usedObj$sessionPath, 'testScreenshot.png'), text="Not really a Screenshot, but a test file...") 
 
@@ -58,9 +58,9 @@ expect_true( file.exists( ofile), label = ofile)
 
 context('log figure - heatmap last')
 
-png( file= file.path( x@usedObj$sessionPath, 'testHeatmap.png') ,width=800, height=800)
+grDevices::png( file= file.path( x@usedObj$sessionPath, 'testHeatmap.png') ,width=800, height=800)
 plot(10:1,1:10, main="Not reall a heatmap :-D")
-dev.off()
+grDevices::dev.off()
 
 cellexalObj = logHeatmap(x, genes=x@usedObj$deg.genes, 
 	png=file.path( x@usedObj$sessionPath, 'testHeatmap.png'), grouping = grouping )

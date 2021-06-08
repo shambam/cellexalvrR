@@ -54,7 +54,7 @@ This function makes two statistics available for the VR process
 }
 \examples{
 \dontrun{
-getDifferentials( x,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes #function definition in file 'getDifferentials.R'
+getDifferentials( x,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes 
 }
 }
 \keyword{DEGs}

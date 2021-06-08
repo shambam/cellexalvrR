@@ -92,7 +92,7 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 
 		ret = methods::new('cellexalvrR')
 		getEmb = function (n) {
-			emb = Embeddings(object = x, reduction = n)
+			emb = Seurat::Embeddings(object = x, reduction = n)
 			 if ( ncol(emb) ==2){
 			 	emb = cbind(emb, rep(0,nrow(emb)))
 			 }
@@ -113,7 +113,7 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 			names(ret@drc) = names(x@dr)
 		}
 		else {
-			ret@data = GetAssayData(object = x, assay = assay )
+			ret@data = Seurat::GetAssayData(object = x, assay = assay )
 			ret@drc = lapply( names(x@reductions), getEmb  )
 			names(ret@drc) = names(x@reductions)
 		}
@@ -157,7 +157,7 @@ setMethod('as_cellexalvrR', signature = c ('character'),
 	if ( ! hdf5r::is_hdf5(x)) {
 		stop( "The variable genes / analyzed VelocytoPy outfile is no .h5ad file")
 	}
-	file <- H5File$new(x, mode='r')
+	file <- hdf5r::H5File$new(x, mode='r')
 
 	as_cellexalvrR(file, meta.cell.groups, meta.genes.groups, userGroups, outpath, 
 		specie,  embeddings , embeddingDims, velocity, scaleArrowTravel, minCell4gene  )
@@ -329,12 +329,7 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 	ret
 } )
 
-#' Here two Velocyto file results (actually andata hdf5 files) 
-#' one containing the var gene analysis with a meaningful clustering
-#' and one with all genes. This function will combine the drc models from the var gene analysis 
-#' and it's clustering with the gene expressions in the bigger file.
-#' 
-#' The output will be a cellexalvrR object. 
+
 #' @name H5Anno2df
 #' @aliases H5Anno2df,cellexalvrR-method
 #' @rdname H5Anno2df-methods
@@ -352,6 +347,7 @@ setGeneric('H5Anno2df', ## Name
 		}
 )
 
+#' Convert e.g. a h5ad obs object to a R::data.frame.
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

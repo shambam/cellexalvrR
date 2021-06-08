@@ -74,7 +74,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 
    		p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,2], col = col) ) #function definition in file drcPlot2D.R
     	print(p) #write the plot
-		dev.off()
+		grDevices::dev.off()
 
 
 		
@@ -86,12 +86,12 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 			grDevices::png( file= DRC2, width=1000, height=1000)
 			p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,2], y=	drc[,3],col= col) ) #function definition in file drcPlot2D.R
     		print(p) #write the plot
-			dev.off()
+			grDevices::dev.off()
 			DRC3 = file.path( sessionPath , 'png', filename(c(  gInfo@gname ,gInfo@drc, "1_3", 'png' ) )) #function definition in file 'filename.R'
 			grDevices::png( file= DRC3, width=1000, height=1000)
 			p= prettyPlot2Dtime( data.frame(id = id, x=	drc[,1], y=	drc[,3],col= col) ) #function definition in file drcPlot2D.R
     		print(p) #write the plot
-			dev.off()
+			grDevices::dev.off()
 		}
 		
 		c( DRC1, DRC2, DRC3)

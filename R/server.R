@@ -61,7 +61,7 @@ setMethod('server', signature = c ('character'),
 		# package version needs to be exported
 		pv_file    = paste( file, 'cellexalvrR.version', sep='.')
 		file.create(pv_file)
-		cat( as.character(packageVersion("cellexalvrR")), file= pv_file, append=F)
+		cat( as.character(utils::packageVersion("cellexalvrR")), file= pv_file, append=F)
 		## redirect append output to output file
 		## Error is captured by the VR application and this is important to leave it like that.
 		if ( ! asFunction ) { sink(outFile) }
@@ -73,7 +73,7 @@ setMethod('server', signature = c ('character'),
 	cellexalObj = sessionPath(cellexalObj)
 
 	fileConn<-file(file.path(cellexalObj@usedObj$sessionPath,"RsessionInfo.txt" ))
-	writeLines(capture.output(sessionInfo()), fileConn)
+	writeLines(utils::capture.output(utils::sessionInfo()), fileConn)
 	close(fileConn)
 
 	message ( paste( "server is starting - reading from file:\n", scriptfile))

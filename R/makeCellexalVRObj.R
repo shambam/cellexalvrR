@@ -1,4 +1,3 @@
-#' MakeCellexalVRObj creates a CellexalVR object from a matrix object.
 #' @name MakeCellexalVRObj 
 #' @aliases MakeCellexalVRObj,matrix-method
 #' @rdname MakeCellexalVRObj-methods
@@ -11,7 +10,7 @@
 #' @param facs.data Surface marker intensities from index sorted cells
 #' @keywords create cellexalvrR object
 #' @title Create a cellexalvrR object from a matrix object.
-#' @export MakeCellexalVRObj
+#' @export
 #if ( ! isGeneric('renew') ){
 setGeneric('MakeCellexalVRObj', ## Name
 	function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
@@ -20,7 +19,7 @@ setGeneric('MakeCellexalVRObj', ## Name
 )
 #}
 
-
+#' MakeCellexalVRObj creates a CellexalVR object from a sparse matrix object.
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 

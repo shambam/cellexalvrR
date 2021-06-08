@@ -107,7 +107,7 @@ expect_equal( length(cellexalObj@userGroups) , old_length + 2 )
 ## but also test whether the file was read correctly!! Epic bug went undetected!!
 ids = cellexalObj@userGroups[,1] 
 names(ids) = colnames(cellexalObj@data)
-orig = read.delim( file.path(ipath, 'selection0.txt'), header=F)
+orig = utils::read.delim( file.path(ipath, 'selection0.txt'), header=F)
 origids = orig[,4] +1
 names(origids) = orig[,1]
 m = match(names(origids), names(ids) ) ## likely some missing

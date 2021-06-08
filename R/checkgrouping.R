@@ -17,12 +17,14 @@ setGeneric('checkGrouping', ## Name
 )
 #}
 
+#' Grouping as character string will use the cellexalvrR internal grouping for the test.
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 	definition = function (cellexalObj, x) {
 	x = groupingInfo( cellexalObj, x )
 	checkGrouping ( cellexalObj, x )
 })
 
+#' Grouping as cellexalGrouping object will directly check this object.
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function (cellexalObj, x) {
 	x@error = ''

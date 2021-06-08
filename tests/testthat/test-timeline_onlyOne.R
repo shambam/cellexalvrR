@@ -25,7 +25,7 @@ checkFile = function ( collect, ofile ) {
 	collect
 }
 
-#genes = read.delim(genes)[,1]
+#genes = utils::read.delim(genes)[,1]
 
 cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 

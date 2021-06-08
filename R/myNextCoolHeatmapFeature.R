@@ -29,7 +29,7 @@ setMethod('myNextCoolHeatmapFeature', signature = c ('cellexalvrR', 'character',
 
 	# after you finished please create the outfile to message to the VR process that this function has finished
 	fileConn<-file( outfile )
-	writeLines(capture.output(sessionInfo()), fileConn)
+	writeLines( "Some text" , fileConn)
 	close(fileConn)
 
 	invisible(cellexalObj)

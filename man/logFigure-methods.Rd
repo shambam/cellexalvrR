@@ -21,5 +21,5 @@
 Log a figure from VR. This function is used to store new screenshots from VR.
 }
 \details{
-logFigure is a VR helper funtion that stores one network in the log document.
+logFigure is a VR helper funtion that stores one figure in the log document.
 }

@@ -21,5 +21,5 @@ create two 2D drc plots for the report
 \details{
 drcPlot2Dexpression is a function linked to the log functionallity.
 
-This function will create the 2D DRC images for the log sections.
+This function will create the 2D DRC images for the correlated genes log sections.
 }

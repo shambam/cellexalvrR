@@ -34,7 +34,7 @@ setGeneric('getDifferentials', ## Name
 #' @title VR helper function getDifferentials
 #' @examples 
 #' \dontrun{
-#' getDifferentials( x,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes #function definition in file 'getDifferentials.R'
+#' getDifferentials( x,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes 
 #' }
 #' @return the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]]
 #' and significant genes can be accessed in the x@usedObj$deg.genes slot.

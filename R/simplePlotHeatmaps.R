@@ -91,9 +91,9 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 		smoothedClusters[[ gn ]] = smoothedClusters[[ gn ]][which(! is.na(smoothedClusters[[ gn ]]))]
 	}
 	## could I use this here to create a heatmap with the cluster info
-	png(  paste(fname, "groupColors", 'png',sep="."), width=1000, height=300)
-	image( matrix(as.numeric(info@timeObj@dat$col),ncol=1), col= levels(info@timeObj@dat$col))
-	dev.off()
+	grDevices::png(  paste(fname, "groupColors", 'png',sep="."), width=1000, height=300)
+	graphics::image( matrix(as.numeric(info@timeObj@dat$col),ncol=1), col= levels(info@timeObj@dat$col))
+	grDevices::dev.off()
 
 	for( i in 1:(length(gr)-2)  ) {
 		genes = names(gr$geneClusters)[which( gr$geneClusters == i)]
@@ -101,7 +101,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 		
 		of = paste(fname, i, sep=".")
 
-		of = plotTimeHeatmap( t(toPlot[,genes]), of,  col=clusterC[i], 
+		of = plotTimeHeatmap( t(toPlot[,genes]), of,  color=clusterC[i], 
 			circleF = paste(sep=".", ofile,i,'svg' ) )
 		pngs = c(pngs, of)
 	}
@@ -149,6 +149,7 @@ setGeneric('clusterGenes', ## Name
 )
 #}
 
+#' If the expression matrix is not available the data will be regenreated from the cellexalObj and the cellexalTime object.
 setMethod('clusterGenes', signature = c ('cellexalTime'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj, geneclusters=NULL ) {
 
@@ -168,6 +169,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 	}
 )
 
+#' The x object will be treated as expression table and clustered.
 setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL, geneclusters=NULL ) {
 
@@ -233,14 +235,14 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				#print(i)
 
 				geneTrajectories[[groupname]] = tryCatch( { 
-					predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
+					stats::predict( stats::loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.005) )
 				}, error=function(err){ 
 					message("loess failed with span .005")
 					} )
 				
 				if ( length(which(is.na(geneTrajectories[[groupname]]))) == 0 ){
 					tryCatch({
-						geneTrajectories[[groupname]] =predict( loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
+						geneTrajectories[[groupname]] = stats::predict( stats::loess( apply (x[genes,], 2, mean) ~ cT@dat[m,'time'], span=.2) )
 						}, error=function(err){message("loess failed with span .2") })	
 				}
 

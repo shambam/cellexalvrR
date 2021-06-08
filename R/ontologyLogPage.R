@@ -23,7 +23,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page
 	#requireNamespace( 'AnnotationDbi' )
-	require( 'topGO' )
+	requireNamespace( 'topGO' )
 	
 	if ( file.exists(genes)) {
 		genes = as.vector(utils::read.delim(genes)[,1])
@@ -136,7 +136,7 @@ setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 					paste("This selection is available in the R object as group", cellexalObj@usedObj$lastGroup ),
 					"",
 					paste( "### Genes"),
-					md_gene_list( genes ),
+					md_gene_links( genes ),
 					"",
 					paste( "The R package topGO was used to create this output table:"),
 					" ",

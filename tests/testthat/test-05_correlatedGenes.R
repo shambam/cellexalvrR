@@ -4,7 +4,7 @@ prefix = './'
 
 genes <- file.path(prefix, 'data/heatmap_0.txt')
 
-genes = read.delim(genes)[,1]
+genes = utils::read.delim(genes)[,1]
 
 
 if ( file.exists( file.path(prefix, 'function.R'))){

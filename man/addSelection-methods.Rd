@@ -18,7 +18,3 @@ addSelection(x, cellexalObj, upstreamSelection = NULL)
 \description{
 add this selection to any cellexal object
 }
-\details{
-Method to copy a selection from cellexalObj to cellexalObj.
-This function makes shure that the linear grouping is fitting into the object.
-}

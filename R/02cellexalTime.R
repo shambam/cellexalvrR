@@ -37,9 +37,7 @@ definition = function ( object ) {
 )
 
 
-#' Method to copy a selection from cellexalObj to cellexalObj.
-#' This function makes shure that the linear grouping is fitting into the object.
-#'
+
 #' @name addSelection
 #' @aliases addSelection,cellexalTime-method
 #' @rdname addSelection-methods
@@ -58,6 +56,8 @@ function ( x, cellexalObj, upstreamSelection=NULL  ) {
 )
 #}
 
+#' Method to copy a selection from cellexalObj to cellexalObj.
+#' This function makes sure that the linear grouping is fitting into the object.
 setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 
@@ -139,9 +139,6 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 
 
 
-#' The sanity check for a linear grouping.
-#' If problems are detected the problems will be fixed.
-#' 
 #' @name checkTime
 #' @aliases checkTime,cellexalTime-method
 #' @rdname checkTime-methods
@@ -159,6 +156,8 @@ function (x, cellexalObj) {
 )
 #}
 
+#' The sanity check for a linear grouping.
+#' If problems are detected the problems will be fixed.
 setMethod('checkTime', signature = c ('cellexalTime'),
 definition = function (x, cellexalObj) {
 	if ( nrow(x@dat) == 0 ){
@@ -189,16 +188,6 @@ invisible(x)
 } )
 
 #' When presented with a cellexalObj this function makes sure the object fits to the cellexalObj.
-#' 
-#' @name checkTime
-#' @aliases checkTime,cellexalTime-method
-#' @rdname checkTime-methods
-#' @docType methods
-#' @description checks for NA elements in the table and removes them
-#' @param x the cellexalTime object
-#' @param cellexalObj an optional cellexalvrR object - if given ONLY the drc models are checked.
-#' @title description of function checkTime
-#' @export 
 setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
 definition = function (x, cellexalObj) {
 
@@ -231,9 +220,7 @@ definition = function (x, cellexalObj) {
 	invisible(x)
 } )
 
-#' returns a color vector based on the intern col column and the cell names
-#' Cells that are not part of this selection will get gray(0.6) as color.
-#'
+
 #' @name color
 #' @aliases color,cellexalTime-method
 #' @rdname color-methods
@@ -251,6 +238,8 @@ function (x, names) {
 )
 #}
 
+#' returns a color vector based on the intern col column and the cell names
+#' Cells that are not part of this selection will get gray(0.6) as color.
 setMethod('color', signature = c ('cellexalTime'),
 definition = function (x, names) {
 col = rep( gray(0.6), length(names) )
@@ -259,7 +248,6 @@ col[which(!is.na(m))] = as.vector(x@dat$col[m[which(!is.na(m))]])
 col
 } )
 
-#' creates compaced expression data for all timelines.
 #'  
 #' @name compactTime
 #' @aliases compactTime,cellexalTime-method
@@ -277,6 +265,7 @@ function ( cellexalObj ) {
 )
 #}
 
+#' creates compaced expression data for all timelines.
 setMethod('compactTime', signature = c ('cellexalvrR'),
 definition = function (  cellexalObj ) {
 	## now I need to check which timelines I have
@@ -301,10 +290,7 @@ definition = function (  cellexalObj ) {
 	invisible(cellexalObj)
 })
 
-#' This function should be run on the main cellexalObj including all data.
-#' It will create (for a subset of genes) a z-scored dataset and will then 
-#' sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
-#'  
+ 
 #' @name compactTimeZscore
 #' @aliases compactTimeZscore,cellexalTime-method
 #' @rdname compactTimeZscore-methods
@@ -323,6 +309,9 @@ function ( x, deg.genes, info, cellexalObj ) {
 )
 #}
 
+#' This function should be run on the main cellexalObj including all data.
+#' It will create (for a subset of genes) a z-scored dataset and will then 
+#' sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
 setMethod('compactTimeZscore', signature = c ('cellexalTime', 'character', 'cellexalGrouping', 'cellexalvrR'),
 definition = function ( x, deg.genes, info, cellexalObj ) {
 	
@@ -386,13 +375,16 @@ function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL) {
 )
 #}
 
-setMethod('compareGeneClusters', signature = c ('character', 'character' ),
+#' Time objects are extracted from the cellexalvrR object using the time names instead of the time objects 
+setMethod('compareGeneClusters', signature = c ('character', 'character', 'cellexalvrR' ),
 definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 	compareGeneClusters( x=getTime( cellexalObj, x), other=getTime(cellexalObj, other),
 		cellexalObj=cellexalObj, altGroupNames=altGroupNames, color=color )
 })
 
-setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime' ),
+#' Time objects are used directly. If the cellexalvrR object has been updated 
+#' in the meantime this function is less saver to use than the character character version.
+setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime', 'cellexalvrR' ),
 definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 
 	if ( x@parentSelection != other@parentSelection) {
@@ -600,24 +592,27 @@ function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250) {
 )
 #}
 
-
-setMethod('createReport', signature = c ('character', 'cellexalvrR'),
+#' Create the report from a time name and an info name
+setMethod('createReport', signature = c ('character', 'cellexalvrR', 'character'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	createReport ( x =getTime(cellexalObj, x), cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
+#' Create the report from a time object and an info name
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'character'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	info = groupingInfo(cellexalObj, info )
 	createReport ( x =x, cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
+#' Create the report from a time object and an info time object
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalTime'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	info = groupingInfo(cellexalObj, info@gname )
 	createReport ( x =x, cellexalObj=cellexalObj, info=info, deg.genes=deg.genes )
 })
 
+#' Create the report from a time object and an info grouping object (main function)
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalGrouping'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 
@@ -740,8 +735,8 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 				1.1
 			}
 			else { 
-				2* min(pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
-				pt( dat[3], dat[2]-2,lower.tail = FALSE ) )
+				2* min( stats::pt( dat[3], dat[2]-2,lower.tail = TRUE ), 
+				stats::pt( dat[3], dat[2]-2,lower.tail = FALSE ) )
 			}
 		}
 
@@ -760,15 +755,15 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 		filter = rev(rep(1, 10) / 10)
 		conv = apply(cellexalObj@data[cellexalObj@usedObj$deg.genes,m], 1, function(da){
 				conv = stats::convolve( da, filter, type='filter' )
-			 (conv -mean(conv)) / sd(conv)
+			 (conv -mean(conv)) / stats::sd(conv)
 			} )
 		info = groupingInfo( cellexalObj, x@gname )
 		info@timeObj = x
 		gr = clusterGenes( t(conv),deg.genes=NULL, info=info)
 		cellexalObj@usedObj$deg.genes = cellexalObj@usedObj$deg.genes[order(gr$geneClusters)]
 
-		#image(conv[,order(gr$geneClusters)], col=gplots::bluered(40))
-		#image(t(as.matrix(cellexalObj@data[cellexalObj@usedObj$deg.genes,m])), col=gplots::bluered(40))
+		#graphics::image(conv[,order(gr$geneClusters)], col=gplots::bluered(40))
+		#graphics::image(t(as.matrix(cellexalObj@data[cellexalObj@usedObj$deg.genes,m])), col=gplots::bluered(40))
 
 		maxpos = function( da ) {
 			rollSum = da
@@ -844,7 +839,7 @@ definition = function ( x, parentSelection=NULL ) {
 
 	
 	opt = optGroupCountKmeans( dat )
-	group = kmeans( dat , opt )
+	group = stats::kmeans( dat , opt )
 	dist_of_centers = NULL
 
 	if ( ncol(dat) == 2) {
@@ -936,12 +931,12 @@ definition = function (x, fname) {
 
 dat = x@dat[order(x@dat$time),]
 d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), as.numeric( dat$col )  )
-write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
+utils::write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
 
 f2 = paste( sep=".",fname,'points')
 
 d = cbind( names(dat$c), dat$x, dat$y, dat$z  )
-write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2)
+utils::write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file=f2)
 
 invisible(x)
 } )
@@ -1051,13 +1046,14 @@ function ( x ) {
 
 setMethod('plotTime', signature = c ('cellexalTime'),
 definition = function ( x ) {
-	if ( var(x@dat[,'c'] )== 0 ) {
-		plot( x@dat$a, x@dat$b, col=as.vector(x@dat$col))
-		lines( x@dat$x, x@dat$y, col='green', lwd=4)
-	}else {
-		rgl::plot3d( x@dat[,c('a','b','c')], col= as.vector(x@dat[,'col']) )
-		rgl::points3d( x@dat[,c('x','y','z')], col='green')
-	}
+	#if ( var(x@dat[,'c'] )== 0 ) {
+	plot( x@dat$a, x@dat$b, col=as.vector(x@dat$col))
+	#lines( x@dat$x, x@dat$y, col='green', lwd=4)
+	#}
+	#else {
+	#	rgl::plot3d( x@dat[,c('a','b','c')], col= as.vector(x@dat[,'col']) )
+	#	rgl::points3d( x@dat[,c('x','y','z')], col='green')
+	#}
 } )
 
 
@@ -1081,6 +1077,7 @@ function ( x, dat, color=NULL, ofile, cellexalObj  ) {
 )
 #}
 
+#' Here the plot png files are converted to Rmd links
 setMethod('plotDataOnTime_rmd', signature = c ('cellexalTime'),
 definition = function ( x, dat, color=NULL, ofile, cellexalObj ) {
 	plotDataOnTime( x, dat, color=NULL, ofile )
@@ -1107,6 +1104,7 @@ function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 )
 #}
 
+#' Plot a list of data values on the timeline the vectors in the list must have cell names
 setMethod('plotDataOnTime', signature = c ('cellexalTime', 'list'),
 definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	toPlot = data.frame(x@dat[,c('time', 'col')])
@@ -1114,6 +1112,8 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 })
 
 
+#' Plot a list of data values on a data.frame containing the time information
+#' The vectors in the list must have cell names
 setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	if ( is.null(color) ) {
@@ -1138,8 +1138,8 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 		toPlot[m,n] =dat[[n]]
 		## now the first smoothing run
 		span = span= 40 / length(m)
-		pred1 = loess(  toPlot[m,n] ~ toPlot[m,'time'], span=span )
-		toPlot[m,n] = predict(pred1)
+		pred1 = stats::loess(  toPlot[m,n] ~ toPlot[m,'time'], span=span )
+		toPlot[m,n] = stats::predict(pred1)
 		## if you want to take a closer look:
 		#plot( toPlot[m,'time'],dat[[n]])
 		#points(toPlot[m,'time'], toPlot[m,n], col='blue' )F
@@ -1157,7 +1157,7 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	rects$col = as.vector(rects$col)
 	rects$col = factor( rects$col, levels=rects$col)
 	#print ( "plotDataOnTime create plot" )
-	png( file=ofile, width=1000, height = 1000)
+	grDevices::png( filename=ofile, width=1000, height = 1000)
 	wes = function(n) {wesanderson::wes_palette("Zissou1", n,type = "continuous")[1:n] }
 	pl = ggplot2::ggplot(toPlot, ggplot2::aes( xmin = min(time), xmax= max(time), ymin= mi, ymax=ma) )
 	pl = pl + ggplot2::theme_classic() +
@@ -1238,7 +1238,7 @@ pl = pl +
 		alpha = 1) 
 
 print(pl) # write the plot data
-dev.off()
+grDevices::dev.off()
 #print ("plotDataOnTime finished")
 
 } )
@@ -1272,14 +1272,14 @@ definition = function ( x, ofile, color=NULL, circleF=NULL) {
 	#ggplot( genes2plot, aes( x=id,y=variable, fill=value))+geom_tile() + 
 	#scale_fill_gradient(high='yellow', low='blue' ) +
 	# xlim(0, max(toPlot$id))
-	png( file=of2, width=1000, height = h )
+	grDevices::png( filename=of2, width=1000, height = h )
 	try ( {
-		image( t(x), col=gplots::bluered(40) )
+		graphics::image( t(x), col=gplots::bluered(40) )
 		if( ! is.null(color))  {
 			box("outer", col=color, lwd = 10)
 		}
 	})
-	dev.off()
+	grDevices::dev.off()
 
 	## I got the user request to recall the color in the grouping.
 	## As this color can be user defined I need to store this info here!
@@ -1320,6 +1320,7 @@ function ( x, ofile, cellexalObj, color=NULL ) {
 )
 #}
 
+#' convert the pngs from plotTimeHeatmap to Rmd figures.
 setMethod('plotHeatmap_rmd', signature = c ('matrix'),
 definition = function ( x, ofile, cellexalObj, color=NULL ) {
 	ofile = plotTimeHeatmap( x, ofile = ofile, color = color )

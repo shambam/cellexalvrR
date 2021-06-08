@@ -22,24 +22,24 @@
 # setMethod('plotEntropyDiff_2D_3D', signature = c ('matrix'),
 # 	definition = function (entro2D, entro3D, file, size=800 ) {
 # 	file = stringr::str_replace( file, '.png$', '')
-# 	png( file= paste( sep="", file, '.png'), width=size, height=size)
+# 	grDevices::png( file= paste( sep="", file, '.png'), width=size, height=size)
 # 	plot(log(as.numeric(colnames(entro2D))), log(entro2D[1,]), ylim=c(log(min( c( entro2D[1,], entro3D[1,]))),log( max( c( entro2D[1,], entro3D[1,])))),
 #   	   xlab='rel max distance [log]', ylab="cummulative entropy [log]",
 #   	   main= paste("2D vs 3D (red) entropy difference - euclidian spheres",entro2D[2,ncol(entro2D)], "cells"), type='l')
 # 	lines(log(as.numeric(colnames(entro3D))),log( entro3D[1,]) , col='red')
-# 	dev.off()
+# 	grDevices::dev.off()
 
 # 	max = entro2D[1,ncol(entro2D)]
 
-# 	png( file= paste( sep="", file,'_scaled', '.png'), width=size, height=size)
+# 	grDevices::png( file= paste( sep="", file,'_scaled', '.png'), width=size, height=size)
 # 	plot(log(as.numeric(colnames(entro2D))), log(entro2D[1,]/max), ylim=c(log(min( c( entro2D[1,], entro3D[1,]))/max),log( max( c( entro2D[1,], entro3D[1,]))/max)),
 #   	   xlab='rel max distance [log]', ylab="cummulative entropy [log]",
 #   	   main= paste("2D vs 3D (red) entropy difference - euclidian spheres",entro2D[2,ncol(entro2D)], "cells"), type='l')
 # 	lines(log(as.numeric(colnames(entro3D))),log( entro3D[1,] /max ) , col='red')
-# 	dev.off()
+# 	grDevices::dev.off()
 
 # 	## knee point analysis:
-# 	png( file= paste( sep="", file,'_kneePoint', '.png'), width=size, height=size)
+# 	grDevices::png( file= paste( sep="", file,'_kneePoint', '.png'), width=size, height=size)
 # 	plot( log(as.numeric(colnames(entro2D))), log(entro2D[1,] / entro2D[2,] ), 
 # 		xlab="rel max distance [log]", ylab="cummulative entropy / selected cells [log]",
 # 		main="Knee point analysis")
@@ -57,11 +57,11 @@
 #     	paste( collapse=" / ", 
 #     		round(entro3D[, as.character(cut3D)],2 ) 
 #     		)) , col=c('black', 'red') , lty=1:2, cex=0.8)
-#     dev.off()
+#     grDevices::dev.off()
 
-#     png( file= paste( sep="", file,'_scaledToMeanCellsSelected', '.png'), width=size, height=size)
+#     grDevices::png( file= paste( sep="", file,'_scaledToMeanCellsSelected', '.png'), width=size, height=size)
 #     plot( log(entro2D[1,]), log(entro2D[2,]), 'l', xlab='mean cells in range [log]', ylab='total entropy [log]')
 # 	lines( log(entro3D[1,]), log(entro3D[2,]), col='red')
-# 	dev.off()
+# 	grDevices::dev.off()
 
 # } )

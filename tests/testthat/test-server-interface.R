@@ -132,7 +132,7 @@ expect_true( length( output ) == 1, label = "exactly one outfile" )
 
 expect_true( file.exists( output ), label="outfile exists" )
 
-out = read.delim( output, row.names=NULL, header=F )
+out = utils::read.delim( output, row.names=NULL, header=F )
 expect_true( all(dim(out) == c(8,1)), label="incorrect output size")
 
 expect_equal( as.vector(out[2:8,1]), c("An object of class cellexalvrR ",
@@ -150,7 +150,7 @@ write_lines( c(paste(sep="",'cellexalObj@outpath = "',dirname(tmpFile),'"')) )
 wait4server()
 write_lines( c('print(cellexalObj@outpath)') )
 wait4server()
-out = read.delim( output, row.names=NULL, header=F )
+out = utils::read.delim( output, row.names=NULL, header=F )
 
 expect_true( out[nrow(out),] == paste("[1]", dirname(tmpFile)), label=paste("not right path:" , out[nrow(out),]))
 
@@ -201,7 +201,7 @@ write_lines(paste( sep="",
 wait4server()
 Sys.sleep( 1 )
 
-out = read.delim( output, row.names=NULL, header=F )
+out = utils::read.delim( output, row.names=NULL, header=F )
 
 
 for ( file in c(
@@ -242,7 +242,7 @@ testLogHeatmap = function( startID ) {
 hfile = paste( sep=".","testHeatmap",startID,'png')
 png( file=file.path(  tmpDir, 'Heatmaps',hfile), width=600, height=600 ) 
 plot(1:10,1:10, main= hfile )
-dev.off()
+grDevices::dev.off()
 
 write_lines(
 	paste( sep="",
@@ -299,9 +299,9 @@ context('server VR interface - log network')
 
 #logNetwork ( cellexalObj, genes = NULL, png, grouping, ... )
 hfile = paste( sep=".","testNetwork",'png')
-png( file=file.path(  tmpDir, 'Heatmaps',hfile), width=600, height=600 ) 
+grDevices::png( file=file.path(  tmpDir, 'Heatmaps',hfile), width=600, height=600 ) 
 plot(1:10,1:10, main= "Network" )
-dev.off()
+grDevices::dev.off()
 
 write_lines(
   paste( sep="",
@@ -394,7 +394,7 @@ write_lines(paste( sep="",
 wait4server()
 Sys.sleep( 1 )
 
-out = read.delim( output, row.names=NULL, header=F )
+out = utils::read.delim( output, row.names=NULL, header=F )
 
 
 for ( file in c('timeHeatmap','timeHeatmap.sqlite3') ){

@@ -28,9 +28,6 @@ MakeCellexalVRObj(
 \description{
 Creates a cellexalvr objext with the data given
 }
-\details{
-MakeCellexalVRObj creates a CellexalVR object from a matrix object.
-}
 \keyword{cellexalvrR}
 \keyword{create}
 \keyword{object}

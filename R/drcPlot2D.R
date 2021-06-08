@@ -18,12 +18,14 @@ setGeneric('drcPlots2D', ## Name
 	}
 )
 
+#' The cellexalvrR internal grouping will be used if gInfo is a string 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
 	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
 		gInfo = groupingInfo( cellexalObj, gInfo )
 		drcPlots2D( cellexalObj, gInfo, GOIs=GOIs, showIDs = showIDs )
 })
 
+#' If the gInfo is a cellexalGrouping object this object will be used directly 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
 
@@ -124,7 +126,7 @@ prettyPlot2D = function(x, col, showIDs = TRUE){
 	if ( showIDs ){
 	pos= t(sapply( sort(as.numeric(unique(x$id))), function(id) {
 		ok = which(x$id == id); 
-		c( median(x[ok,1]), median(x[ok,2]) )
+		c( stats::median(x[ok,1]), stats::median(x[ok,2]) )
 	} ))
     theta <- seq(pi/8, 2*pi, length.out=48)
     xo <- diff(range(pos[,1]))/1200

@@ -14,7 +14,4 @@ boolean value if the VR application is running.
 \description{
 Windows specific check if CellexalVR.exe is running
 }
-\details{
-A function checking whether VR is run at the same time as the R process.
-}
 \keyword{VRmode}

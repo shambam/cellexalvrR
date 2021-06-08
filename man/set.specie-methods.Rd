@@ -19,6 +19,6 @@ Loads TF annotation into cellexalvr object
 \details{
 set.specie is depricated
 
-It simply sets the specie slot to the user supplied specie string.
+It sets the specie slot to the user supplied specie string.
 }
 \keyword{TFs}

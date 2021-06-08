@@ -21,6 +21,6 @@ returns the information stored for the last grouping read
 }
 \details{
 groupingInfo collects all information about one grouping from 
-the cellexalvrR internals and returns them as a list.
+the cellexalvrR internals and returns them as a cellealGrouping object.
 }
 \keyword{groupingInfo}

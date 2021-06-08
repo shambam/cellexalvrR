@@ -40,9 +40,9 @@ genes = rownames(cellexalObj@data)[1:210]
 if ( ! file.exists(file.path(opath, 'tmp') )){
 	dir.create( file.path(opath, 'tmp') )
 }
-png( file=file.path(opath, 'tmp', 'a_simple_figure2.png'), width=800, height=800 )
+grDevices::png( file=file.path(opath, 'tmp', 'a_simple_figure2.png'), width=800, height=800 )
 plot(1:100, sample(100:1, 100), main="Just for the test 1!" )
-dev.off()
+grDevices::dev.off()
 
 heatmap_png <- file.path(opath, 'tmp', 'a_simple_figure2.png')
 

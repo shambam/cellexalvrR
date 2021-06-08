@@ -66,7 +66,7 @@ setGeneric('get.genes.cor.to', ## Name
 #' @title description of function get.genes.cor.to
 #' @keywords correlation
 #' @examples
-#' print (get.genes.cor.to ( cellexalObj, 'Gata1')) #function definition in file 'cellexalvrFunctions.R'
+#' print (get.genes.cor.to ( cellexalObj, 'Gata1'))
 #' @export get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
@@ -123,7 +123,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 		}
 		opath = file.path( opath, paste(sep=".", 'Cor', gname,'txt'))
 		cor.values = cor.values[rev(order(cor.values))]
-		write.table( 
+		utils::write.table( 
 			cbind( 'Gene Name' = rev(ord), 'CorValue' = cor.values), 
 			file= opath, row.names=F, quote=F, sep="\t")
 		drc = names(cellexalObj@drc)[1]

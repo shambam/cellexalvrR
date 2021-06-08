@@ -13,7 +13,8 @@ setMethod('show', signature = c ('cellexalGrouping'),
 )
 
 
-
+#' Create an HTML table from a cellexalGrouping.
+#' These tables are part of the log html's and show group color as well as cell count, VR- and R-ID.
 setMethod('HTMLtable', signature = c ('cellexalGrouping'),
 	definition = function ( x ) {
 

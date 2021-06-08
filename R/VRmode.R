@@ -1,4 +1,3 @@
-#' A function checking whether VR is run at the same time as the R process.
 #' @name VRmode
 #' @aliases VRmode,character-method
 #' @rdname VRmode-methods
@@ -15,6 +14,7 @@ setGeneric('VRmode', ## Name
 			}
 )
 #}
+#' A function checking whether VR is run at the same time as the R process.
 
 setMethod('VRmode', signature = c (),
 		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){

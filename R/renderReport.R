@@ -25,7 +25,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	}
 	sessionPath = normalizePath(cellexalObj@usedObj$sessionPath)
 
-	endText = paste("## Session End" , stringr::str_replace_all(timestamp(quiet=T), '[#-]', '' ), sep="\n\n")
+	endText = paste("## Session End" , stringr::str_replace_all(R.utils::timestamp(quiet=T), '[#-]', '' ), sep="\n\n")
 
 	Rlog = file.path( cellexalObj@outpath, paste( sep=".",'mainServer', Sys.getpid(), 'output') )
 	
@@ -72,7 +72,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	Rscript = paste(sep="", '"', Rscript,'"')
 	tryCatch( {
 		system( paste(Rscript, script) , intern=TRUE)
-	} , error=function(er) { 
+	} , error=function(err) { 
 		print ( paste(sep="\n","renderReport: Pandoc call failed:" , err) )
 	} )
 

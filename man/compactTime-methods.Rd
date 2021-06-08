@@ -14,6 +14,3 @@ compactTime(cellexalObj)
 \description{
 create a global gene z-score and virtual samples over the timeline
 }
-\details{
-creates compaced expression data for all timelines.
-}

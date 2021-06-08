@@ -145,49 +145,51 @@ setMethod('logTimeLine', signature = c ('character'),
 		)
 
 
-#' @name CreateBin
-#' @aliases CreateBin,cellexalvrR-method
-#' @rdname CreateBin-methods
-#' @docType methods
-#' @description Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
-#' @param x the cellexalvrR object
-#' @param group the group (defaule = 'nUMI'
-#' @param where in the samples (sample) or annotation (gene) data frame (sample)
-#' @param colFun colory function default=  gplots::bluered
-#' @title Create a binned annotation column from numeric data
-#' @export 
-setGeneric('CreateBin', ## Name
-	function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered  ) { 
-		standardGeneric('CreateBin')
-	}
-	)
+# #' @name CreateBin
+# #' @aliases CreateBin,cellexalvrR-method
+# #' @rdname CreateBin-methods
+# #' @docType methods
+# #' @description Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
+# #' @param x the cellexalvrR object
+# #' @param group the group (defaule = 'nUMI'
+# #' @param where in the samples (sample) or annotation (gene) data frame (sample)
+# #' @param colFun colory function default=  gplots::bluered
+# #' @title Create a binned annotation column from numeric data
+# #' @export 
+# setGeneric('CreateBin', ## Name
+# 	function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered  ) { 
+# 		standardGeneric('CreateBin')
+# 	}
+# 	)
 
-setMethod('CreateBin', signature = c ('cellexalvrR'),
-	definition = function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) {
-		if ( where == 'sample' ){
-			n <-as.numeric(as.vector(x@userGroups[,group] ))
-			}else if ( where == 'gene' ) {
-				stop("Not implemented")
-				}else {
-					stop(paste("Sorry where =",where,"is not supported (only sample and gene)") )
-				}
+# #' Bin numeric data in one of cellexalvrR's userGroups 
+# setMethod('CreateBin', signature = c ('cellexalvrR'),
+# 	definition = function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) {
+# 		if ( where == 'sample' ){
+# 			n <-as.numeric(as.vector(x@userGroups[,group] ))
+# 		}else if ( where == 'gene' ) {
+# 			stop("Not implemented")
+# 		}else {
+# 			stop(paste("Sorry where =",where,"is not supported (only sample and gene)") )
+# 		}
 
-				d = CreateBin( n )
-				if ( where == 'sample' ){
-					x@userGroups[, group] <- d
-					}else {
-					}
-	# defined the color
-	x@colors[[group]] <- colFun( 13 )
-	invisible(x)
-	} )
+# 		d = CreateBin( n )
+# 		if ( where == 'sample' ){
+# 			x@userGroups[, group] <- d
+# 		}
 
-setMethod('CreateBin', signature = c ('numeric'),
-	definition = function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) {
-		x[which(is.na(x))] = -1
-		m <- min( x )
-		brks= c( (m-.1),m ,as.vector(quantile(x[which(x != m)],seq(0,1,by=0.1)) ))
-		brks = unique(as.numeric(sprintf("%2.6e", brks)))
-		d  <- factor(brks [cut( x, breaks= brks)], levels=brks)
-		d
-		} )
+# 		# defined the color
+# 		x@colors[[group]] <- colFun( 13 )
+# 		invisible(x)
+# 	} 
+# )
+
+# setMethod('CreateBin', signature = c ('numeric'),
+# 	definition = function (x, group = 'nUMI', where='sample', colFun =  gplots::bluered ) {
+# 		x[which(is.na(x))] = -1
+# 		m <- min( x )
+# 		brks= c( (m-.1),m ,as.vector(quantile(x[which(x != m)],seq(0,1,by=0.1)) ))
+# 		brks = unique(as.numeric(sprintf("%2.6e", brks)))
+# 		d  <- factor(brks [cut( x, breaks= brks)], levels=brks)
+# 		d
+# 		} )

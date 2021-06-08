@@ -7,8 +7,6 @@
 \title{description of function checkTime}
 \usage{
 checkTime(x, cellexalObj)
-
-\S4method{checkTime}{cellexalTime,cellexalvrR}(x, cellexalObj)
 }
 \arguments{
 \item{x}{the cellexalTime object}
@@ -17,12 +15,4 @@ checkTime(x, cellexalObj)
 }
 \description{
 checks for NA elements in the table and removes them
-
-checks for NA elements in the table and removes them
-}
-\details{
-The sanity check for a linear grouping.
-If problems are detected the problems will be fixed.
-
-When presented with a cellexalObj this function makes sure the object fits to the cellexalObj.
 }

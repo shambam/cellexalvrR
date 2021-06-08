@@ -31,7 +31,7 @@ setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	}
 	new= x@userGroups[OK,]
 	if ( ! is(new[,colname], 'factor' )){
-		new[,colname]= factor( new[,colname], label=sort(unique(new[,colname])))
+		new[,colname]= factor( new[,colname], labels=sort(unique(new[,colname])))
 	}
 	#new= new[order(new[,colname]),]
 	color=colorF( length( levels(new[,colname])) )
@@ -41,7 +41,7 @@ setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	
 	## the drc the groups have been selected from is unknown - take the first one...
 	# name color drcName id - no colnames!
-	write.table( new, file= outfile, quote=FALSE, 
+	utils::write.table( new, file= outfile, quote=FALSE, 
 		row.names=FALSE, sep="\t", col.names=FALSE)
 	invisible(x)
 } )

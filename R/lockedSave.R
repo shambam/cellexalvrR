@@ -100,7 +100,7 @@ setMethod('loadObject', signature = c ('character'),
 					cellexalObj = renew(cellexalObj) #function definition in file 'renew.R'
 				}
 			}
-			## old objects need an updatae
+			## old objects need an update
 			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
 				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL ) #function definition in file 'makeCellexalVRObj.R'
 				new@userGroups = cellexalObj@userGroups
@@ -126,7 +126,7 @@ setMethod('loadObject', signature = c ('character'),
 				if ( length(m) != length(fnames) | length(which(is.na(m))) > 0 ) {
 					message("The drc names between VR and R do not overlap - updating the R object!")
 					cellexalObj@drc = lapply(drcFiles, function(n){ 
-						d = read.delim( n, header=F )
+						d = utils::read.delim( n, header=F )
 						if ( d[1,1] == 'CellID' ){
 							colnames(d) = d[1,]
 							d= d[-1,]

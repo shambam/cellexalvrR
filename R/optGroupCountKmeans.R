@@ -28,7 +28,7 @@ setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	## this needs to be reproducible!!
 	set.seed(123581347)
 	points = unlist(lapply( k, function(i) {  #total within-cluster sum of square (WSS)
-		sum(kmeans( dat, i )$withinss)
+		sum(stats::kmeans( dat, i )$withinss)
 	} ) )
 	## create a linear function between start: 1;points[1] and end: length(points);points[length(points)]
 	slope <- diff(c(points[1], points[length(points)] ))/diff(c(1,length(points)))

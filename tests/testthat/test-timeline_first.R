@@ -6,7 +6,7 @@ prefix = './'
 
 #genes <- file.path(prefix, 'data/heatmap_0.txt')
 
-#genes = read.delim(genes)[,1]
+#genes = utils::read.delim(genes)[,1]
 
 checkFile = function ( collect, ofile ) {
 
@@ -86,7 +86,7 @@ for ( ofile in ofiles){
 
 time= t@usedObj$timelines[['lastEntry']]
 o = order(time@dat$time)
-d = read.delim(SelectionFile, header=F )
+d = utils::read.delim(SelectionFile, header=F )
 
 #expect_true( all.equal( as.vector(d[,1]), names(time$c)[o]) == TRUE, "new order was wrong")
 
@@ -118,7 +118,7 @@ for ( ofile in ofiles){
 	expect_true( file.exists( ofile), label= ofile )
 }
 expect_true( file.exists( SelectionFile), label= SelectionFile )
-t = table(read.delim( SelectionFile, header=F )[,2])
+t = table(utils::read.delim( SelectionFile, header=F )[,2])
 
 expect_true(length(t) <= 10,  label=paste("same time colors (", sep="", length(t)," > 10)" ) )
 
@@ -134,8 +134,8 @@ if ( ! file.exists( cmpFile )){
 }
 
 
-old = read.delim( cmpFile )
-new = read.delim( testF )
+old = utils::read.delim( cmpFile )
+new = utils::read.delim( testF )
 
 expect_true( all.equal( old[,1], new[,1] ) ==TRUE, label= "old and new 1 are the same" )
 expect_true( all.equal( old[,3], new[,3] ) ==TRUE, label= "old and new 3 are the same")
@@ -157,7 +157,7 @@ Sys.sleep(2)
 expect_true( file.exists( ofile), label= ofile )
 expect_true( file.exists( SelectionFile), label= SelectionFile )
 
-new = read.delim( testF )
+new = utils::read.delim( testF )
 
 expect_true( all.equal( old[,1], new[,1] ) ==TRUE )
 expect_true( all.equal( old[,3], new[,3] ) ==TRUE )
