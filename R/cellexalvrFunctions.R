@@ -26,12 +26,12 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 	
 	if(specie=="mouse"){
 		#data(mouse.tfs)
-		cellexalObj@tfs <- mouse.tfs
+		cellexalObj@tfs <- cellexalvrR::mouse.tfs
 	}
 	
 	if(specie=="human"){
 		#data(human.tfs)
-		cellexalObj@tfs <- human.tfs
+		cellexalObj@tfs <- cellexalvrR::human.tfs
 	}
 
 	cellexalObj@specie <- specie

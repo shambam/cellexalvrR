@@ -17,6 +17,10 @@ the cellexalGrouping class represents a multi group selection in VR
 
 \item{\code{selectionFile}}{the VR selection file that is the basis for this grouping}
 
+\item{\code{grouping}}{the numeric group ids for the R representation}
+
+\item{\code{VRgrouping}}{the numeric group ids for the VR process (differs from the R)}
+
 \item{\code{order}}{the order the cells have been selected in the VR process}
 
 \item{\code{drc}}{the drc name this object has been selected from}

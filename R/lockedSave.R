@@ -102,7 +102,7 @@ setMethod('loadObject', signature = c ('character'),
 			}
 			## old objects need an update
 			if ( ! methods::.hasSlot( cellexalObj, 'data') ){
-				new = MakeCellexaVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL ) #function definition in file 'makeCellexalVRObj.R'
+				new = MakeCellexalVRObj ( cellexalObj@data, drc.list = cellexalObj@drc,	specie=cellexalObj@specie,cell.metadata= cellexalObj@meta.cell, facs.data= NULL ) #function definition in file 'makeCellexalVRObj.R'
 				new@userGroups = cellexalObj@userGroups
 				new@colors = cellexalObj@colors
 				new@groupSelectedFrom = cellexalObj@groupSelectedFrom

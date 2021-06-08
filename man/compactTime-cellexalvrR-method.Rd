@@ -2,10 +2,10 @@
 % Please edit documentation in R/02cellexalTime.R
 \name{compactTime,cellexalvrR-method}
 \alias{compactTime,cellexalvrR-method}
-\title{creates compaced expression data for all timelines.}
+\title{creates compacted expression data for all timelines using FastWilcoxTest::collapse()}
 \usage{
 \S4method{compactTime}{cellexalvrR}(cellexalObj)
 }
 \description{
-creates compaced expression data for all timelines.
+creates compacted expression data for all timelines using FastWilcoxTest::collapse()
 }

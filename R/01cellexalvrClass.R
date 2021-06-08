@@ -86,6 +86,8 @@ setClass(
 #' @slot drc the drc name this object has been selected from
 #' @slot error the error message if a catched not fatal error has occured
 #' @slot geneClusters a list of gene clusters that are linked to a timeline
+#' @slot id the md5sum representation of thei object's dat (to prohibit duplicates)
+#' @slot parentSelection the cellexalGrouping name that was basis for this linear order
 #' @exportClass cellexalTime
 
 setClass("cellexalTime", 
@@ -111,6 +113,8 @@ setClass("cellexalTime",
 #' @description  An object to structure multi group selections
 #' @slot gname the group name
 #' @slot selectionFile the VR selection file that is the basis for this grouping
+#' @slot grouping the numeric group ids for the R representation
+#' @slot VRgrouping the numeric group ids for the VR process (differs from the R)
 #' @slot order the order the cells have been selected in the VR process
 #' @slot drc the drc name this object has been selected from
 #' @slot col the color vector for these groups

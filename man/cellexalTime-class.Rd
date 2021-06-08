@@ -22,5 +22,9 @@ the cellexalTime class is representing one linear ordered cell group
 \item{\code{error}}{the error message if a catched not fatal error has occured}
 
 \item{\code{geneClusters}}{a list of gene clusters that are linked to a timeline}
+
+\item{\code{id}}{the md5sum representation of thei object's dat (to prohibit duplicates)}
+
+\item{\code{parentSelection}}{the cellexalGrouping name that was basis for this linear order}
 }}
 

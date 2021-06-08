@@ -7,6 +7,8 @@
 \title{description of function H5Anno2df}
 \usage{
 H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
+
+\S4method{H5Anno2df}{H5File}(x, slotName, namecol = NULL, onlyStrings = FALSE)
 }
 \arguments{
 \item{x}{the H5 object}
@@ -19,4 +21,9 @@ H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
 }
 \description{
 convert a H5 annotation (any name) table to a data table
+
+convert a H5 annotation (any name) table to a data table
+}
+\details{
+Convert e.g. a h5ad 'obs' object into a R::data.frame.
 }

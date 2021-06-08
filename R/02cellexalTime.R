@@ -265,7 +265,7 @@ function ( cellexalObj ) {
 )
 #}
 
-#' creates compaced expression data for all timelines.
+#' creates compacted expression data for all timelines using FastWilcoxTest::collapse()
 setMethod('compactTime', signature = c ('cellexalvrR'),
 definition = function (  cellexalObj ) {
 	## now I need to check which timelines I have

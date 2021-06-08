@@ -1,6 +1,6 @@
 
 setGeneric('logTimeLine', ## Name
-	function ( cellexalObj, stats, genes, info, png, timeInfo , GOIs=NULL, text=NULL ) {
+	function ( cellexalObj, stats, genes=NULL, info, png, timeInfo , GOIs=NULL, text=NULL ) {
 		standardGeneric('logTimeLine')
 	}
 	)
@@ -127,18 +127,10 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	cellexalObj
 	} )
 
-#' @describeIn logTimeLine cellexalvrR
-#' @description create one Heatmap session report page
-#' @param cellexalObj the cellexalvrR file
-#' @param stats the correlation statistics
-#' @param genes the genes to display on the heatmap
-#' @param info the original grouping information list
-#' @param timeInfo the time grouping information list
-#' @param GOIs an optional vector of genes to plot rolling sum graphs for.
-#' @title description of function logTimeLine
-#' @export
+
+#' Load the cellexalObj from a file instead of using it as R object.
 setMethod('logTimeLine', signature = c ('character'),
-	definition = function (cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL   ) {
+	definition = function (cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL, text=NULL  ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
 			logTimeLine(cellexalObj, genes, png, grouping, ... ) #function definition in file 'logTimeLine.R'
 		}

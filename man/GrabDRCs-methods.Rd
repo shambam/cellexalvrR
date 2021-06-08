@@ -6,7 +6,7 @@
 \alias{GrabDRCs,cellexalvrR-method}
 \title{copy 3D graphs from objects of the same analysis}
 \usage{
-\S4method{GrabDRCs}{cellexalvrR,cellexalvrR}(x, other, prefix = NULL)
+GrabDRCs(x, other, prefix)
 }
 \arguments{
 \item{x}{the cellexalvrR object}

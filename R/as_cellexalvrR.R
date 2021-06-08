@@ -330,6 +330,7 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 } )
 
 
+#' Convert e.g. a h5ad 'obs' object into a R::data.frame.
 #' @name H5Anno2df
 #' @aliases H5Anno2df,cellexalvrR-method
 #' @rdname H5Anno2df-methods
@@ -346,8 +347,17 @@ setGeneric('H5Anno2df', ## Name
 			standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
-
-#' Convert e.g. a h5ad obs object to a R::data.frame.
+#' @name H5Anno2df
+#' @aliases H5Anno2df,cellexalvrR-method
+#' @rdname H5Anno2df-methods
+#' @docType methods
+#' @description  convert a H5 annotation (any name) table to a data table
+#' @param x the H5 object
+#' @param slotName the H5 entity tro convert to a data.frame
+#' @param namecol the (optional) rownames column for the data
+#' @param onlyStrings return only columns that not only contain numbers (default FALSE)
+#' @title description of function H5Anno2df
+#' @export 
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

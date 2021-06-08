@@ -15,6 +15,13 @@ setMethod('show', signature = c ('cellexalGrouping'),
 
 #' Create an HTML table from a cellexalGrouping.
 #' These tables are part of the log html's and show group color as well as cell count, VR- and R-ID.
+#' @name HTMLtable
+#' @aliases HTMLtable,cellexalGrouping-method
+#' @rdname HTMLtable-methods
+#' @docType methods
+#' @description  convert a H5 annotation (any name) table to a data table
+#' @param x the cellexalGrouping
+#' @title create a html table from a cellexalGrouping object
 setMethod('HTMLtable', signature = c ('cellexalGrouping'),
 	definition = function ( x ) {
 
