@@ -21,10 +21,13 @@ colnames(m) = paste('cell', 1:ncol(m))
 rownames(m) = paste('gene', 1:nrow(m))
 m[which(m< 1)] = 0
 m = Matrix::Matrix(m,sparse=T)
-obj = new( 'cellexalvrR', data=m , drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
+obj = new( 'cellexalvrR', data=m , 
+	drc= list('test' = cbind(x=runif(300), y=runif(300), z=runif(300) )) )
 
+defaultW <- getOption("warn")
+options(warn = -1)
 obj = check( obj )
-
+options(warn = defaultW)
 
 expect_true( obj@usedObj$checkPassed == FALSE, label=
 	"The internal check should fail" )
@@ -49,13 +52,13 @@ dir.create( opath )
 export2cellexalvr( obj, opath, force=T )
 
 
-if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
-	unlink(file.path(ipath, 'cellexalObjOK.RData.lock') )
-}
-if ( ! file.exists (file.path(ipath,'cellexalObjOK.RData') ) ) {
-	stop( paste("Libraray error - test file not found ", 
-		file.path(ipath,'cellexalObjOK.RData')) )
-}
+# if ( file.exists(file.path(ipath,'cellexalObjOK.RData.lock')) ) {
+# 	unlink(file.path(ipath, 'cellexalObjOK.RData.lock') )
+# }
+# if ( ! file.exists (file.path(ipath,'cellexalObjOK.RData') ) ) {
+# 	stop( paste("Libraray error - test file not found ", 
+# 		file.path(ipath,'cellexalObjOK.RData')) )
+# }
 
 
 cellexalObj = check(cellexalObj)

@@ -1,15 +1,14 @@
 context('Networks')
 prefix = '.'
-opath = file.path(prefix, 'data','output')
-
+opath = file.path(prefix, 'data','output','02networks')
+ipath = file.path(prefix, 'data')
 ofiles =c( 'Networks.nwk', 'NwkCentroids.cnt' )
 
-for ( f in ofiles ) {
-	ofile = file.path(opath, f ) 
-	if(  file.exists(ofile ) ){
-		unlink( ofile, recursive=TRUE)
-	}
+if ( file.exists( opath) ){
+	unlink( opath, recursive=TRUE)
 }
+dir.create( opath )
+
 
 d=lapply( list.files(opath), function(n) { file.remove(file.path( opath, n), recursive = TRUE)} )
 
@@ -23,12 +22,12 @@ cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 
 cellexalObj = check(cellexalObj)
 
-make.cellexalvr.network ( file.path(opath, 'cellexalObj.RData') , file.path(opath,'..', 'selection0.txt'), opath )
+make.cellexalvr.network ( file.path(opath, 'cellexalObj.RData') , file.path(ipath, 'selection0.txt'), opath )
 
 for ( f in ofiles ) {
 	ofile = file.path(opath, f )
 
-	print( ofile )
+	#print( ofile )
 	expect_true( file.exists( ofile ), paste("outfile exists", ofile) )
 }
 
@@ -53,6 +52,6 @@ ofile = file.path( cellexalObj@outpath, 'AB_Network_LogNetworkTest.html')
 if ( file.exists( ofile ) ) {
 	unlink( ofile )
 }
-cellexalObj = logNetwork(cellexalObj, genes, heatmap_png, file.path(opath,'..', 'selection0.txt') )
+cellexalObj = logNetwork(cellexalObj, genes, heatmap_png, file.path(ipath, 'selection0.txt') )
 
 expect_true( file.exists( ofile ), paste("outfile exists", ofile) )

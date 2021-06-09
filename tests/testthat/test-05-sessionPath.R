@@ -3,16 +3,18 @@ context('create sessionPath')
 prefix = './'
 #prefix = 'tests/testthat'
 
-data = file.path(prefix, 'data/cellexalObj.RData')
+#data = file.path(prefix, 'data/cellexalObj.RData')
 
-cellexalObj = loadObject( data )
+#cellexalObj = loadObject( data )
 cellexalObj = reset(cellexalObj)
-
-datadir <- normalizePath(file.path( prefix, 'data', 'output','sessionPath'))
+datadir = file.path( prefix, 'data', 'output','sessionPath')
 
 if ( file.exists( datadir) ) {
 	unlink( datadir, recursive=TRUE )
 }
+dir.create( datadir )
+
+datadir <- normalizePath(datadir)
 
 cellexalObj@outpath = datadir ## to not mess up the package
 
@@ -37,6 +39,8 @@ for ( f in c('png', 'tables') ) {
 
 }
 
+defaultW <- getOption("warn")
+options(warn = -1)
 Sys.sleep(1) ## to make the timestamp different.
 ## this should not be overwritable without a renderReport!
 old= cellexalObj@usedObj$sessionName
@@ -46,6 +50,7 @@ expect_true( cellexalObj@usedObj$sessionName == old, label="session name is not 
 old= cellexalObj@usedObj$sessionName
 cellexalObj = sessionPath( cellexalObj, 'somethingNew' )
 expect_true( cellexalObj@usedObj$sessionName == old, label="session name is really not changable in session")
+options(warn = defaultW)
 
 context('create sessionPath - simulated server')
 

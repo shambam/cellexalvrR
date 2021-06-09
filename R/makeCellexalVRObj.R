@@ -17,7 +17,7 @@ setGeneric('MakeCellexalVRObj', ## Name
 		standardGeneric('MakeCellexalVRObj') 
 	}
 )
-
+           
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
 

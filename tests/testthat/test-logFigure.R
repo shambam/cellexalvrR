@@ -9,7 +9,7 @@ source( file.path(prefix, 'function.R') )
 
 ## need to start from scratch - why not a little bit heatmap first?
 
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
+#cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = reset(cellexalObj)
 

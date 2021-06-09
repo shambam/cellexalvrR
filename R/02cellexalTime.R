@@ -105,7 +105,7 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 	colnames(t1) = colnames(t2)
 	#rownames(t1) = rownames(t2)
 	if ( ! isTRUE( all.equal( t1, t2) ) ){
-		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorder.samples")
+		message("CRITICAL ERROR: drc models are not the same - check in getDifferentials and likely reducteTo or reorderSamples")
 		if(interactive()) { browser() }
 		stop( "The drc models are not the same!")
 	}

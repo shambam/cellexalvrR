@@ -159,7 +159,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 		if ( ! is.null(info) ) {
 			cellexalObj= reduceTo( cellexalObj, what='col', 
 				colnames(cellexalObj@data)[which(! is.na( cellexalObj@userGroups[, info@gname]))] )
-			cellexalObj = reorder.samples( cellexalObj, info@gname)
+			cellexalObj = reorderSamples( cellexalObj, info@gname)
 		}
 		mat = FastWilcoxTest::ZScoreAll( x@data, display_progress=FALSE ) 
 		colnames(mat) = colnames(x@dat)
@@ -228,6 +228,8 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				m = match( colnames(x), rownames(cT@dat))
 			}
 
+			defaultW <- getOption("warn")
+			options(warn = -1)
 			for( i in unique(gn) ) {
 				genes = names(gn)[which(gn == i)]
 				groupname = paste("P",i, sep="")
@@ -251,6 +253,7 @@ setMethod('clusterGenes', signature = c ('matrix'),
 				geneTrajectories[['MaxInCluster']][[groupname]] = 
 					c( which( inClusters ==max(inClusters)[1]), max(inClusters)[1] )
 			}
+			options(warn = defaultW)
 		}
 		df = t(data.frame(geneTrajectories$MaxInCluster))
 		new_order = rownames(df[order( df[,1], -df[,2]),])

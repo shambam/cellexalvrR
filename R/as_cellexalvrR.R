@@ -15,13 +15,15 @@
 #' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie, ... ) { 
+	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, 
+		outpath=getwd(), specie, ... ) { 
 		standardGeneric('as_cellexalvrR')
 	}
 )
 
 setMethod('as_cellexalvrR', signature = c ('environment'),
-	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie ) {
+	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, 
+		userGroups=NULL, outpath=getwd(), specie ) {
 	## x has to be a BioData object which is read as a simple list here!
 	if ( is.null(meta.cell.groups)){
 		if(interactive()) { browser() }
@@ -88,7 +90,8 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 #' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setMethod('as_cellexalvrR', signature = c ('Seurat'),
-	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), specie, assay=NULL ) {
+	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL,
+	 userGroups=NULL, outpath=getwd(), specie, assay=NULL ) {
 
 		ret = methods::new('cellexalvrR')
 		getEmb = function (n) {
@@ -330,23 +333,14 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 } )
 
 
-#' Convert e.g. a h5ad 'obs' object into a R::data.frame.
-#' @name H5Anno2df
-#' @aliases H5Anno2df,cellexalvrR-method
-#' @rdname H5Anno2df-methods
-#' @docType methods
-#' @description  convert a H5 annotation (any name) table to a data table
-#' @param x the H5 object
-#' @param slotName the H5 entity tro convert to a data.frame
-#' @param namecol the (optional) rownames column for the data
-#' @param onlyStrings return only columns that not only contain numbers (default FALSE)
-#' @title description of function H5Anno2df
-#' @export 
+
 setGeneric('H5Anno2df', ## Name
 		function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
 			standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+
+#' Convert e.g. a h5ad 'obs' object into a R::data.frame.
 #' @name H5Anno2df
 #' @aliases H5Anno2df,cellexalvrR-method
 #' @rdname H5Anno2df-methods

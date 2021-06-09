@@ -24,9 +24,9 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
 
-	if ( !is.null(genes)){
-		if ( file.exists(genes)) {
-			genes = as.vector(utils::read.delim(genes)[,1])
+	if ( !is.null(genes[1])){
+		if ( file.exists(genes[1])) {
+			genes = as.vector(utils::read.delim(genes[1])[,1])
 		}
 	}
 	if ( ! file.exists( png) ) {

@@ -7,11 +7,6 @@ if ( file.exists( file.path(prefix, 'function.R'))){
 	source( file.path(prefix, 'function.R')) 
 
 }
-#genes <- file.path(prefix, 'data/heatmap_0.txt')
-
-#genes = utils::read.delim(genes)[,1]
-
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = reset(cellexalObj)
 x@outpath = file.path(prefix,'data','output','statTest' )

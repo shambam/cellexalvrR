@@ -35,7 +35,7 @@ checkFile = function ( collect, ofile ) {
 }
 
 
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
+#cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
 x = reset(x)

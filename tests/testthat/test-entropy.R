@@ -4,7 +4,7 @@ skip('useless')
 
 prefix = './'
 
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
+#cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 names <- c('LTHSC', 'LMPP', 'MPP', 'CMP', 'MEP', 'GMP', 'MPP1', 'MPP2', 'MPP3', 'STHSC', 'ESLAM', 'HSC1' )
 

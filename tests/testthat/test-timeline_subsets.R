@@ -28,13 +28,13 @@ checkFile = function ( collect, ofile ) {
 
 #genes = read.delim(genes)[,1]
 
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
+#cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
 
 x@outpath = file.path(prefix,'data','output','timeLineTest' )
 
-if ( file.exists(x@outpath)){
+if ( !file.exists(x@outpath)){
 	dir.create( x@outpath )
 }
 

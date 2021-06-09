@@ -20,6 +20,8 @@ dumpf=file( dump)
 open(dumpf)
 
 
+defaultW <- getOption("warn")
+options(warn = -1)
 sink(dumpf, type='message')
 obj=check(obj)
 sink(type='message')
@@ -51,6 +53,7 @@ sink(dumpf, type='message')
 obj=check(obj)
 sink(type='message')
 
+
 expect_equal( obj@usedObj$checkPassed, FALSE, 'check failed as expected')
 
 expect_equal( obj@usedObj$checkError, c(
@@ -79,5 +82,5 @@ expect_equal( obj@usedObj$checkError, c(
 #	"R logics ERROR: NA's in the drc SyntheticTest rownames - please fix that",
 	"NA values in drc SyntheticTest  - please fix that"
 	))
-
+options(warn = defaultW)
 close(dumpf)

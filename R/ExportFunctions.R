@@ -20,9 +20,10 @@ setGeneric('export2cellexalvr', ## Name
 #' @param path the oputpath to store the data in
 #' @param forceDB re-write the db even if it exisis (default =F)
 #' @title create the VR data folder necessary for CellexalVR
-#' @examples
+#' @examples \dontrun{
 #' dir.create ('data')
 #' export2cellexalvr(x, path='data') #function definition in file 'ExportFunctions.R'
+#' }
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (x,path, forceDB=F ) {
@@ -167,7 +168,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 		RSQLite::dbSendStatement(con,
 			"create index cell_id_data ON datavalues ( 'cell_id' )")
 
-		
     	RSQLite::dbDisconnect(con)
 
     	options(warn = oldw)
@@ -198,6 +198,9 @@ setGeneric('write_as_sqlite3', ## Name
 
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 		definition = function ( x, ofile )  {
+			
+			oldw <- getOption("warn")
+			options(warn = -1)
 			
 			genes <- rownames(x@data)
 			genes <- data.frame( 'id' = 1:length(genes), genes= genes )
@@ -240,6 +243,6 @@ setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 			
 			#RSQLite::dbClearResult(con)
 			RSQLite::dbDisconnect(con)
-			
+			options(warn = oldw)
 		} )
 

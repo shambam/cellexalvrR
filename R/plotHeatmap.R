@@ -41,7 +41,7 @@
 # 	loc=reduceTo( loc, what='col', to=colnames(loc@data)[
 # 		which( !is.na(loc@userGroups[,loc@usedObj$lastGroup] ))
 # 		])
-# 	loc = reorder.samples(loc, paste(loc@usedObj$lastGroup, 'order') )
+# 	loc = reorderSamples(loc, paste(loc@usedObj$lastGroup, 'order') )
 # 	data <- as.matrix(loc@data)
 # 	m <- min(data)
 

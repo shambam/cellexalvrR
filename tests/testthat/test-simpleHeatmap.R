@@ -5,7 +5,7 @@ prefix = '.'
 
 #print(file.path(getwd(), prefix, 'data', 'simpleHeatmap_mat.RData' ) )
 
-cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
+#cellexalObj <- loadObject(file.path(prefix,'data','cellexalObjOK.RData') )
 
 x = cellexalObj
 

@@ -6,8 +6,6 @@
 \alias{H5Anno2df,cellexalvrR-method}
 \title{description of function H5Anno2df}
 \usage{
-H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
-
 \S4method{H5Anno2df}{H5File}(x, slotName, namecol = NULL, onlyStrings = FALSE)
 }
 \arguments{
@@ -20,8 +18,6 @@ H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
 \item{onlyStrings}{return only columns that not only contain numbers (default FALSE)}
 }
 \description{
-convert a H5 annotation (any name) table to a data table
-
 convert a H5 annotation (any name) table to a data table
 }
 \details{

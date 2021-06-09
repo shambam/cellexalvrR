@@ -20,6 +20,7 @@ Depends:
 Imports:
 	AnnotationDbi,
 	bookdown,
+	DelayedMatrixStats,
 	digest,
 	FastWilcoxTest (>= 0.1.16),
 	GeneNet,
@@ -55,5 +56,6 @@ Enhances:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: bzip2
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr

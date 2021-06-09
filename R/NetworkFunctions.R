@@ -85,7 +85,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
     ## at some time we had a problem in the creeation of order column names:
     possible = c( paste(cellexalObj@usedObj$lastGroup, c(' order','.order'), sep=""))
     gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
-	loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
+	loc <- reorderSamples ( loc, gname ) #function definition in file 'reorder.obj.R'
 
 	info <- groupingInfo( loc ) #function definition in file 'groupingInfo.R'
 	if ( info@drc == 'unknown' || is.null( info@drc) ) {

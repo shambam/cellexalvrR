@@ -68,7 +68,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
     			possible = c( paste(cellidfile, c(' order','.order'), sep=""))
     			gname = possible[which(!is.na(match(possible, colnames(loc@userGroups))))]
 				#browser()
-				loc <- reorder.samples ( loc, gname ) #function definition in file 'reorder.obj.R'
+				loc <- reorderSamples ( loc, gname ) #function definition in file 'reorder.obj.R'
 			}
 			
 			info <- groupingInfo( loc, cellidfile ) #function definition in file 'groupingInfo.R'
