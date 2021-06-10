@@ -333,13 +333,6 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 } )
 
 
-
-setGeneric('H5Anno2df', ## Name
-		function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
-			standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
-		}
-)
-
 #' Convert e.g. a h5ad 'obs' object into a R::data.frame.
 #' @name H5Anno2df
 #' @aliases H5Anno2df,cellexalvrR-method
@@ -352,6 +345,13 @@ setGeneric('H5Anno2df', ## Name
 #' @param onlyStrings return only columns that not only contain numbers (default FALSE)
 #' @title description of function H5Anno2df
 #' @export 
+setGeneric('H5Anno2df', ## Name
+		function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
+			standardGeneric('H5Anno2df') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

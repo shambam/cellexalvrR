@@ -151,7 +151,7 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('checkTime', ## Name
-function (x, cellexalObj) { 
+function (x, cellexalObj=NULL) { 
 	standardGeneric('checkTime')
 }
 )
@@ -159,7 +159,7 @@ function (x, cellexalObj) {
 
 
 setMethod('checkTime', signature = c ('cellexalTime'),
-definition = function (x, cellexalObj) {
+definition = function (x, cellexalObj=NULL) {
 	if ( nrow(x@dat) == 0 ){
 		warning("empty object")
 		return ("empty")
@@ -187,8 +187,17 @@ if ( !is.null( x@geneClusters[['collapsedExp']] )){
 invisible(x)
 } )
 
+#' @name checkTime
+#' @aliases checkTime,cellexalTime-method
+#' @rdname checkTime-methods
+#' @docType methods
+#' @description checks for NA elements in the table and removes them
+#' @param x the cellexalTime object
+#' @param cellexalObj a cellexalObj fitting to the cellexalTime object
+#' @title description of function checkTime
+#' @export 
 setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
-definition = function (x, cellexalObj) {
+definition = function (x, cellexalObj=NULL) {
 
 	error = NULL
 	#browser()

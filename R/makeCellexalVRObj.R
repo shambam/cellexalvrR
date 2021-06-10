@@ -13,13 +13,15 @@
 #' @title Create a cellexalvrR object from a matrix object.
 #' @export
 setGeneric('MakeCellexalVRObj', ## Name
-	function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) { 
+	function (exdata, drc.list, specie=c("mouse","human"),
+        cell.metadata=NULL, facs.data=NULL) { 
 		standardGeneric('MakeCellexalVRObj') 
 	}
 )
            
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
-	definition = function (exdata,drc.list,specie=c("mouse","human"),cell.metadata=NULL,facs.data=NULL) {
+	definition = function (exdata, drc.list, specie=c("mouse","human"),
+        cell.metadata=NULL, facs.data=NULL) {
 
     if ( ! is(exdata, 'dgCMatrix') ) {
 		exdata = Matrix::Matrix(exdata, sparse=T)
