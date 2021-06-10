@@ -138,7 +138,8 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 } )
 
 
-
+#' The sanity check for a linear grouping.
+#' If problems are detected the problems will be fixed.
 #' @name checkTime
 #' @aliases checkTime,cellexalTime-method
 #' @rdname checkTime-methods
@@ -156,8 +157,7 @@ function (x, cellexalObj) {
 )
 #}
 
-#' The sanity check for a linear grouping.
-#' If problems are detected the problems will be fixed.
+
 setMethod('checkTime', signature = c ('cellexalTime'),
 definition = function (x, cellexalObj) {
 	if ( nrow(x@dat) == 0 ){
@@ -187,7 +187,6 @@ if ( !is.null( x@geneClusters[['collapsedExp']] )){
 invisible(x)
 } )
 
-#' When presented with a cellexalObj this function makes sure the object fits to the cellexalObj.
 setMethod('checkTime', signature = c ('cellexalTime', 'cellexalvrR'),
 definition = function (x, cellexalObj) {
 
@@ -220,7 +219,8 @@ definition = function (x, cellexalObj) {
 	invisible(x)
 } )
 
-
+#' returns a color vector based on the intern col column and the cell names
+#' Cells that are not part of this selection will get gray(0.6) as color.
 #' @name color
 #' @aliases color,cellexalTime-method
 #' @rdname color-methods
@@ -238,8 +238,7 @@ function (x, names) {
 )
 #}
 
-#' returns a color vector based on the intern col column and the cell names
-#' Cells that are not part of this selection will get gray(0.6) as color.
+
 setMethod('color', signature = c ('cellexalTime'),
 definition = function (x, names) {
 col = rep( gray(0.6), length(names) )
@@ -1077,19 +1076,19 @@ function ( x, dat, color=NULL, ofile, cellexalObj  ) {
 )
 #}
 
-#' Here the plot png files are converted to Rmd links
 setMethod('plotDataOnTime_rmd', signature = c ('cellexalTime'),
 definition = function ( x, dat, color=NULL, ofile, cellexalObj ) {
 	plotDataOnTime( x, dat, color=NULL, ofile )
 	return(paste("![](", correctPath(ofile, cellexalObj),")" ))
 })
 
+#' Plot a list of data values on the timeline the vectors in the list must have cell names
 #' @name plotDataOnTime
 #' @aliases plotDataOnTime,cellexalTime-method
 #' @rdname plotDataOnTime-methods
 #' @docType methods
 #' @description plot linear data on the time in a 2d figure
-#' @param x the object
+#' @param x the cellexalTime object
 #' @param dat the linear data to plot
 #' @param color the color(s) the data should be plotted in
 #' @param ofile the figure file (png)
@@ -1104,7 +1103,6 @@ function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 )
 #}
 
-#' Plot a list of data values on the timeline the vectors in the list must have cell names
 setMethod('plotDataOnTime', signature = c ('cellexalTime', 'list'),
 definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	toPlot = data.frame(x@dat[,c('time', 'col')])
@@ -1112,8 +1110,18 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 })
 
 
-#' Plot a list of data values on a data.frame containing the time information
-#' The vectors in the list must have cell names
+#' @name plotDataOnTime
+#' @aliases plotDataOnTime,cellexalTime-method
+#' @rdname plotDataOnTime-methods
+#' @docType methods
+#' @description plot linear data on the time in a 2d figure
+#' @param x the data.frame object
+#' @param dat the linear data to plot
+#' @param color the color(s) the data should be plotted in
+#' @param ofile the figure file (png)
+#' @param smooth add a smoothed line to the graph (default TRUE)
+#' @title description of function plot
+#' @export 
 setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
 definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	if ( is.null(color) ) {

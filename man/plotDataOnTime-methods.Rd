@@ -7,9 +7,11 @@
 \title{description of function plot}
 \usage{
 plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
+
+\S4method{plotDataOnTime}{data.frame,list}(x, dat, color = NULL, ofile, smooth = TRUE)
 }
 \arguments{
-\item{x}{the object}
+\item{x}{the data.frame object}
 
 \item{dat}{the linear data to plot}
 
@@ -21,4 +23,9 @@ plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
 }
 \description{
 plot linear data on the time in a 2d figure
+
+plot linear data on the time in a 2d figure
+}
+\details{
+Plot a list of data values on the timeline the vectors in the list must have cell names
 }

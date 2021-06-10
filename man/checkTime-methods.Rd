@@ -16,3 +16,7 @@ checkTime(x, cellexalObj)
 \description{
 checks for NA elements in the table and removes them
 }
+\details{
+The sanity check for a linear grouping.
+If problems are detected the problems will be fixed.
+}

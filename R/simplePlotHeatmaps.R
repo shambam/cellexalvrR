@@ -149,7 +149,6 @@ setGeneric('clusterGenes', ## Name
 )
 #}
 
-#' If the expression matrix is not available the data will be regenreated from the cellexalObj and the cellexalTime object.
 setMethod('clusterGenes', signature = c ('cellexalTime'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj, geneclusters=NULL ) {
 
@@ -169,7 +168,6 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 	}
 )
 
-#' The x object will be treated as expression table and clustered.
 setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL, geneclusters=NULL ) {
 
