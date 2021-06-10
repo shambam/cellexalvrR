@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('renew', ## Name
-	function ( x ) {
-		standardGeneric('renew')
-	}
-)
-#}
-
 #' renew is trying to update objects from old versions to the most up to date structure.
 #' 
 #' It is tested to work on version <= 0.14.5.
@@ -18,6 +9,21 @@ setGeneric('renew', ## Name
 #' @description  updatae the class definition by re-creating the instance This version also makes sure,
 #' @description  that the returned object is an S4 object.
 #' @param x the object you want to updatae
+#' @title description of function renew
+#' @export renew
+#if ( ! isGeneric('renew') ){
+setGeneric('renew', ## Name
+	function ( x ) {
+		standardGeneric('renew')
+	}
+)
+#}
+
+
+#' @name renew
+#' @aliases renew,cellexalvrR-method
+#' @rdname renew-methods
+#' @docType methods
 #' @title description of function renew
 #' @export renew
 setMethod('renew', signature = c ('cellexalvrR'),

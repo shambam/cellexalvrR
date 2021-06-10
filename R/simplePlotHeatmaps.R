@@ -1,14 +1,4 @@
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('simplePlotHeatmaps', ## Name
-	function (x, info, fname ) { 
-	#function ( mat, fname ) { 	
-		standardGeneric('simplePlotHeatmaps')
-	}
-)
-#}
-
 #' The log logics sometimes would benefit froma usable descriptions of the expression patterns.
 #' Here we use the most simple heatmap functionallity in R (image) to show the expression values.
 #' The returned genes list has the genes in the order of display in the heatmaps.
@@ -35,6 +25,22 @@ setGeneric('simplePlotHeatmaps', ## Name
 #'   smoothedClusters - the smoothened lines
 #'	 MaxInCluster - which line has in which time slot it's maximum
 #'   mat - the z-scored summed up expression matrix
+#' @export
+#if ( ! isGeneric('simplePlotHeatmaps') ){
+setGeneric('simplePlotHeatmaps', ## Name
+	function (x, info, fname ) { 
+	#function ( mat, fname ) { 	
+		standardGeneric('simplePlotHeatmaps')
+	}
+)
+#}
+
+
+#' @name simplePlotHeatmaps
+#' @aliases simplePlotHeatmaps,cellexalvrR-method
+#' @rdname simplePlotHeatmaps-methods
+#' @docType methods
+#' @title description of function simplePlotHeatmaps
 #' @export
 setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping', 'character'),
 	definition = function ( x, info, fname ) {
@@ -129,15 +135,6 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 
 
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('clusterGenes', ## Name
-	function ( x, deg.genes=NULL, info=NULL, ... ) { 
-		standardGeneric('clusterGenes')
-	}
-)
-#}
-
 #' Tries to answer the question: how do these genes differ over the timeline.
 #' It answers this in a graphical, not a statistical way.
 #' Hence you can feed whichever genelist you like into this function.
@@ -154,8 +151,23 @@ setGeneric('clusterGenes', ## Name
 #' @param geneclusters ovverride the WSS based optimal group count search (default NULL)
 #' @title description of function plot
 #' @export 
+#if ( ! isGeneric('clusterGenes') ){
+setGeneric('clusterGenes', ## Name
+	function ( x, deg.genes=NULL, info=NULL,  cellexalObj= NULL, geneclusters=NULL ) { 
+		standardGeneric('clusterGenes')
+	}
+)
+#}
+
+
+#' @name clusterGenes
+#' @aliases clusterGenes,cellexalTime-method
+#' @rdname clusterGenes-methods
+#' @docType methods
+#' @title description of function plot
+#' @export 
 setMethod('clusterGenes', signature = c ('cellexalTime'),
-	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj, geneclusters=NULL ) {
+	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 
 		if ( ! is.null(deg.genes)){
 			cellexalObj = reduceTo( cellexalObj, what='rwo', to = deg.genes )
@@ -173,10 +185,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 	}
 )
 
-#' Tries to answer the question: how do these genes differ over the timeline.
-#' It answers this in a graphical, not a statistical way.
-#' Hence you can feed whichever genelist you like into this function.
-#'
+
 #' @name clusterGenes
 #' @aliases clusterGenes,cellexalTime-method
 #' @rdname clusterGenes-methods
@@ -184,7 +193,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 #' @title description of function plot
 #' @export 
 setMethod('clusterGenes', signature = c ('matrix'),
-	definition = function ( x, deg.genes=NULL, info=NULL, geneclusters=NULL ) {
+	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 
 		message("Clustering genes based on pca and kmeans")
 		pca = irlba::prcomp_irlba ( x, center=T, n=3 )$x

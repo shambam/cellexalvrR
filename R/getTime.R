@@ -1,4 +1,12 @@
-
+#' @name getTime
+#' @aliases getTime,cellexalTime-method
+#' @rdname getTime-methods
+#' @docType methods
+#' @description compare a set of genes and compare them in different cells over the same timeline
+#' @param cellexalObj the object to get the data from
+#' @param name the name for this timeline
+#' @title get a timeline or throw an error
+#' @export
 #if ( ! isGeneric('renew') ){
 setGeneric('getTime', ## Name
 	function (  cellexalObj, name ) { 
@@ -11,9 +19,6 @@ setGeneric('getTime', ## Name
 #' @aliases getTime,cellexalTime-method
 #' @rdname getTime-methods
 #' @docType methods
-#' @description compare a set of genes and compare them in different cells over the same timeline
-#' @param cellexalObj the object to get the data from
-#' @param name the name for this timeline
 #' @title get a timeline or throw an error
 #' @export 
 setMethod('getTime', signature = c ('cellexalvrR', 'character'),
@@ -29,7 +34,6 @@ setMethod('getTime', signature = c ('cellexalvrR', 'character'),
 #' @aliases getTime,cellexalTime-method
 #' @rdname getTime-methods
 #' @docType methods
-#' @description compare a set of genes and compare them in different cells over the same timeline
 #' @title get a timeline or throw an error
 #' @export 
 setMethod('getTime', signature = c ('cellexalvrR', 'cellexalTime'),

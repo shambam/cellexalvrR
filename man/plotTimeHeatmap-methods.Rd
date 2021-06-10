@@ -6,6 +6,8 @@
 \alias{plotTimeHeatmap,cellexalTime-method}
 \title{description of function plotTimeHeatmap}
 \usage{
+plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
+
 \S4method{plotTimeHeatmap}{matrix}(x, ofile, color = NULL, circleF = NULL)
 }
 \arguments{
@@ -18,7 +20,9 @@
 \item{circleF}{a file for a small colored circle as svg file (needed for the reports)}
 }
 \value{
-the figure file path
+the figure file plotTimeHeatmap
+
+the figure file plotTimeHeatmap
 }
 \description{
 create a really simple heatmap of the zscored data

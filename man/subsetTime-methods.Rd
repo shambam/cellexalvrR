@@ -4,8 +4,10 @@
 \name{subsetTime}
 \alias{subsetTime}
 \alias{subsetTime,cellexalTime-method}
-\title{description of function plot}
+\title{description of function subsetTime}
 \usage{
+subsetTime(x, cells)
+
 \S4method{subsetTime}{cellexalTime}(x, cells)
 }
 \arguments{

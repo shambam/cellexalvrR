@@ -7,6 +7,8 @@
 \alias{HTMLtable,cellexalGrouping-method}
 \title{description of function HTMLtable}
 \usage{
+HTMLtable(x)
+
 \S4method{HTMLtable}{cellexalTime}(x)
 
 \S4method{HTMLtable}{cellexalGrouping}(x)

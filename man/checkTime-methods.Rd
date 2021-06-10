@@ -6,6 +6,8 @@
 \alias{checkTime,cellexalTime-method}
 \title{description of function checkTime}
 \usage{
+checkTime(x, cellexalObj = NULL)
+
 \S4method{checkTime}{cellexalTime,ANY}(x, cellexalObj = NULL)
 
 \S4method{checkTime}{cellexalTime,cellexalvrR}(x, cellexalObj = NULL)
@@ -13,11 +15,9 @@
 \arguments{
 \item{x}{the cellexalTime object}
 
-\item{cellexalObj}{a cellexalObj fitting to the cellexalTime object}
+\item{cellexalObj}{an optional cellexalvrR object - if given ONLY the drc models are checked.}
 }
 \description{
-checks for NA elements in the table and removes them
-
 checks for NA elements in the table and removes them
 }
 \details{

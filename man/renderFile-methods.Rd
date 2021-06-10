@@ -6,6 +6,8 @@
 \alias{renderFile,cellexalvrR-method}
 \title{description of function renderFile}
 \usage{
+renderFile(x, id, type = "")
+
 \S4method{renderFile}{cellexalvrR}(x, id, type = "")
 }
 \arguments{

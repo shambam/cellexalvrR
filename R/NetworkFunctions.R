@@ -1,4 +1,12 @@
-
+#' @name cormat2df
+#' @aliases cormat2df,cellexalvrR-method
+#' @rdname cormat2df-methods
+#' @docType methods
+#' @description  Converts a pairwise correlation matrix for data.frame
+#' @param cors A square matrix of pairwise measures
+#' @title description of function cormat2df
+#' @keywords network construction
+#' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('cormat2df', ## Name
 	function (cors) {
@@ -11,11 +19,8 @@ setGeneric('cormat2df', ## Name
 #' @aliases cormat2df,cellexalvrR-method
 #' @rdname cormat2df-methods
 #' @docType methods
-#' @description  Converts a pairwise correlation matrix for data.frame
-#' @param cors A square matrix of pairwise measures
 #' @title description of function cormat2df
-#' @keywords network construction
-#' @export cormat2df
+#' @export 
 setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 
     ut <- upper.tri(cors)
@@ -26,15 +31,6 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
     )
     df.out
 })
-
-
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
-		standardGeneric('make.cellexalvr.network')
-	}
-)
-#}
 
 #' This is the R function that calculates the TF networks shown in the VR environment.
 #' 
@@ -51,7 +47,22 @@ setGeneric('make.cellexalvr.network', ## Name
 #' @param top.n.inter get only the n top interations default=130
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
-#' @export make.cellexalvr.network
+#' @export 
+#if ( ! isGeneric('make.cellexalvr.network') ){
+setGeneric('make.cellexalvr.network', ## Name
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
+		standardGeneric('make.cellexalvr.network')
+	}
+)
+#}
+
+
+#' @name make.cellexalvr.network
+#' @aliases make.cellexalvr.network,cellexalvrR-method
+#' @rdname make.cellexalvr.network-methods
+#' @docType methods
+#' @title description of function make.cellexalvr.network
+#' @export 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 
@@ -251,8 +262,7 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 #' @rdname make.cellexalvr.network-methods
 #' @docType methods
 #' @title description of function make.cellexalvr.network
-#' @keywords network construction
-#' @export make.cellexalvr.network
+#' @export 
 setMethod('make.cellexalvr.network', signature = c ('character'),
 		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 			cellexalObj2 <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

@@ -1,6 +1,3 @@
-setGeneric("logFigure", function(cellexalObj, genes = NULL, png, grouping, ...) {
-    standardGeneric("logFigure")
-})
 
 #' logFigure is a VR helper funtion that stores one figure in the log document.
 #' 
@@ -12,8 +9,18 @@ setGeneric("logFigure", function(cellexalObj, genes = NULL, png, grouping, ...) 
 #' @param cellexalObj the cellexalvrR object
 #' @param png the VR generated network (png)
 #' @param text add a simmple text (default NULL)
-#' @param ... options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'
+#' @param ... options you want to send to the ontologyLogPage() function
 #' @title description of function logFigure
+#' @export
+setGeneric("logFigure", function(cellexalObj, genes = NULL, png, grouping, ...) {
+    standardGeneric("logFigure")
+})
+
+
+#' @name logFigure
+#' @aliases logFigure,cellexalvrR-method
+#' @rdname logFigure-methods
+#' @docType methods
 #' @export
 setMethod("logFigure", signature = c("cellexalvrR"), 
     definition = function(cellexalObj, png,  text = NULL, ...) {

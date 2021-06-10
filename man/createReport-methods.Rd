@@ -4,8 +4,10 @@
 \name{createReport}
 \alias{createReport}
 \alias{createReport,cellexalTime-method}
-\title{description of function plot}
+\title{description of function createReport}
 \usage{
+createReport(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+
 \S4method{createReport}{character,cellexalvrR,character}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
 
 \S4method{createReport}{cellexalTime,cellexalvrR,character}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)

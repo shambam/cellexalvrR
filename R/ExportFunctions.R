@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('export2cellexalvr', ## Name
-	function (x,path, forceDB=F, VRpath=NULL ) { 
-		standardGeneric('export2cellexalvr') 
-	}
-)
-#}
-
 #' This function creates all files necessary 
 #' for the CellexalVR application to show this data.
 #'
@@ -24,6 +15,21 @@ setGeneric('export2cellexalvr', ## Name
 #' dir.create ('data')
 #' export2cellexalvr(x, path='data') #function definition in file 'ExportFunctions.R'
 #' }
+#' @export export2cellexalvr
+#if ( ! isGeneric('export2cellexalvr') ){
+setGeneric('export2cellexalvr', ## Name
+	function (x,path, forceDB=F, VRpath=NULL ) { 
+		standardGeneric('export2cellexalvr') 
+	}
+)
+#}
+
+
+#' @name export2cellexalvr
+#' @aliases export2cellexalvr,cellexalvrR-method
+#' @rdname export2cellexalvr-methods
+#' @docType methods
+#' @title create the VR data folder necessary for CellexalVR
 #' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (x,path, forceDB=F ) {
@@ -177,13 +183,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 } )
 
-
-setGeneric('write_as_sqlite3', ## Name
-		function ( x, ofile )  { ## Argumente der generischen Funktion
-			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
-		}
-)
-
 #' SQLite is the database the VR reads the expression values from.
 #' 
 #' This function creates these databases from the data stored in the data slot.
@@ -195,6 +194,19 @@ setGeneric('write_as_sqlite3', ## Name
 #' @description save the x@data object without questions asked.
 #' @param x the cellexalvrR object
 #' @param ofile the database outfile
+#' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
+#' @export 
+setGeneric('write_as_sqlite3', ## Name
+		function ( x, ofile )  { ## Argumente der generischen Funktion
+			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
+ 
+#' @name write_as_sqlite3
+#' @aliases write_as_sqlite3,cellexalvrR-method
+#' @rdname write_as_sqlite3-methods
+#' @docType methods
 #' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
 #' @export 
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),

@@ -6,6 +6,8 @@
 \alias{integrateParts,cellexalvrR-method}
 \title{description of function integrateParts}
 \usage{
+integrateParts(x, path = NULL)
+
 \S4method{integrateParts}{cellexalvrR}(x, path = NULL)
 }
 \arguments{

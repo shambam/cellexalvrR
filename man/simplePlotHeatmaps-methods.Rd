@@ -6,6 +6,8 @@
 \alias{simplePlotHeatmaps,cellexalvrR-method}
 \title{description of function simplePlotHeatmaps}
 \usage{
+simplePlotHeatmaps(x, info, fname)
+
 \S4method{simplePlotHeatmaps}{cellexalvrR,cellexalGrouping,character}(x, info, fname)
 }
 \arguments{

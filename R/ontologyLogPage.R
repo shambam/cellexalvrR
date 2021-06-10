@@ -1,10 +1,3 @@
-
-setGeneric('ontologyLogPage', ## Name
-	function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
-		standardGeneric('ontologyLogPage')
-	}
-)
-
 #' The ontology analysis for the log files.
 #' @name ontologyLogPage
 #' @aliases ontologyLogPage,cellexalvrR-method
@@ -17,6 +10,19 @@ setGeneric('ontologyLogPage', ## Name
 #' @param ontology which GO ontology to choose from (default = "BP")
 #' @param topNodes how many GO terms to report (default 10)
 #' @param ... unused
+#' @import org.Mm.eg.db org.Hs.eg.db topGO
+#' @title description of function ontologyLogPage
+#' @export
+setGeneric('ontologyLogPage', ## Name
+	function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
+		standardGeneric('ontologyLogPage')
+	}
+)
+
+#' @name ontologyLogPage
+#' @aliases ontologyLogPage,cellexalvrR-method
+#' @rdname ontologyLogPage-methods
+#' @docType methods
 #' @import org.Mm.eg.db org.Hs.eg.db topGO
 #' @title description of function ontologyLogPage
 #' @export

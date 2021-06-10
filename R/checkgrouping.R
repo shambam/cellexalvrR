@@ -1,11 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('checkGrouping', ## Name
-	function (cellexalObj, x) { 
-		standardGeneric('checkGrouping')
-	}
-)
-#}
 #' The santity check for a cellexalGrouping object.
 #' 
 #' @name checkGrouping
@@ -17,14 +9,27 @@ setGeneric('checkGrouping', ## Name
 #' @param x an cellexalGrouping or a grouping name.
 #' @title description of function check
 #' @export 
+#if ( ! isGeneric('checkGrouping') ){
+setGeneric('checkGrouping', ## Name
+	function (cellexalObj, x) { 
+		standardGeneric('checkGrouping')
+	}
+)
+#}
+
+#' @name checkGrouping
+#' @aliases checkGrouping,cellexalGrouping-method
+#' @rdname checkGrouping-methods
+#' @docType methods
+#' @title description of function check
+#' @export 
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 	definition = function (cellexalObj, x) {
 	x = groupingInfo( cellexalObj, x )
 	checkGrouping ( cellexalObj, x )
 })
 
-#' The santity check for a cellexalGrouping object.
-#' 
+
 #' @name checkGrouping
 #' @aliases checkGrouping,cellexalGrouping-method
 #' @rdname checkGrouping-methods

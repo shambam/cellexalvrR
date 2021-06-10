@@ -6,6 +6,8 @@
 \alias{plotHeatmap_rmd,cellexalTime-method}
 \title{description of function plotHeatmap_rmd}
 \usage{
+plotHeatmap_rmd(x, ofile, cellexalObj, color = NULL)
+
 \S4method{plotHeatmap_rmd}{matrix}(x, ofile, cellexalObj, color = NULL)
 }
 \arguments{

@@ -6,6 +6,8 @@
 \alias{plotTime,cellexalTime-method}
 \title{description of function plotTime}
 \usage{
+plotTime(x)
+
 \S4method{plotTime}{cellexalTime}(x)
 }
 \arguments{

@@ -6,6 +6,14 @@
 \alias{MakeCellexalVRObj,matrix-method}
 \title{Create a cellexalvrR object from a matrix object.}
 \usage{
+MakeCellexalVRObj(
+  exdata,
+  drc.list,
+  specie = c("mouse", "human"),
+  cell.metadata = NULL,
+  facs.data = NULL
+)
+
 \S4method{MakeCellexalVRObj}{dgCMatrix}(
   exdata,
   drc.list,

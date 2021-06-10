@@ -1,10 +1,3 @@
-
-setGeneric('logStatResult', ## Name
-	function ( x, method, data, col=NULL ) { ## Argumente der generischen Funktion
-		standardGeneric('logStatResult') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
-
 #' logStatResult will create a clickable link in the log document 
 #' where the user can download the stats table from.
 #' @name logStatResult
@@ -16,6 +9,19 @@ setGeneric('logStatResult', ## Name
 #' @param method the stats method used (no spaces please)
 #' @param data the results table
 #' @param col the p value column to plot the -log10 histogram
+#' @title add a table into the session log
+#' @export
+setGeneric('logStatResult', ## Name
+	function ( x, method, data, col=NULL ) { ## Argumente der generischen Funktion
+		standardGeneric('logStatResult') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
+
+#' @name logStatResult
+#' @aliases logStatResult,cellexalvrR-method
+#' @rdname logStatResult-methods
+#' @docType methods
 #' @title add a table into the session log
 #' @export
 setMethod('logStatResult', signature = c ('cellexalvrR'),

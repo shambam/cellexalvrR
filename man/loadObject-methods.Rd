@@ -6,6 +6,8 @@
 \alias{loadObject,character-method}
 \title{description of function loadObject}
 \usage{
+loadObject(fname, maxwait = 50)
+
 \S4method{loadObject}{cellexalvrR}(fname, maxwait = 50)
 
 \S4method{loadObject}{character}(fname, maxwait = 50)
@@ -16,9 +18,12 @@
 \item{maxwait}{stop after maxwait seconds default=50}
 }
 \description{
+Loads the cellexalvr object, if the fname is a
+
+file and returns the cellexalvrR object otherwise.
+}
+\details{
 loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
 before reporting a failed attempt.
-
-Loads the cellexalvr object, if the fname is a file and returns the cellexalvrR object otherwise.
 }
 \keyword{load}

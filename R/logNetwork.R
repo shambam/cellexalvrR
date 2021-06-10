@@ -1,6 +1,3 @@
-setGeneric("logNetwork", function(cellexalObj, genes = NULL, png, grouping, ...) {
-    standardGeneric("logNetwork")
-})
 
 #' logNetwork is a VR helper funtion that stores one network in the log document.
 #' @name logNetwork
@@ -12,7 +9,17 @@ setGeneric("logNetwork", function(cellexalObj, genes = NULL, png, grouping, ...)
 #' @param genes the genes displayed on the network
 #' @param png the VR generated network (png)
 #' @param grouping the grouping file used to create this network
-#' @param ... options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'
+#' @param ... options you want to send to the ontologyLogPage() function
+#' @title description of function logNetwork
+#' @export
+setGeneric("logNetwork", function(cellexalObj, genes = NULL, png, grouping, ...) {
+    standardGeneric("logNetwork")
+})
+
+#' @name logNetwork
+#' @aliases logNetwork,cellexalvrR-method
+#' @rdname logNetwork-methods
+#' @docType methods
 #' @title description of function logNetwork
 #' @export
 setMethod("logNetwork", signature = c("cellexalvrR"), 

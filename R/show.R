@@ -5,14 +5,8 @@
 #' @description  show the cellexalvrR
 #' @param object the cellexalvr object
 #' @return nothing at all
-#' @title show the object contents
+#' @title show the cellexalvrR objects's contents
 #' @export show
-if ( ! isGeneric('renew') ){
-setGeneric('show', ## Name
-			function ( object ) { 
-				standardGeneric('show') 
-			}
-)}
 setMethod('show', signature = c ('cellexalvrR'),
 		definition = function (object) {
 			cat (paste("An object of class", class(object)),"\n" )

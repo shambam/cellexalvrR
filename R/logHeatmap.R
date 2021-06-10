@@ -1,13 +1,7 @@
-
-setGeneric('logHeatmap', ## Name
-	function ( cellexalObj, genes, png, grouping, ... ) {
-		standardGeneric('logHeatmap')
-	}
-)
 #' logHeatmap will create a section in the log document including 
 #' (1) the DRC the grouping was selected from (colored 2D)
 #' (2) the heatmap itself
-#' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage()) #function definition in file 'ontologyLogPage.R'
+#' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 #' @name logHeatmap
 #' @aliases logHeatmap,cellexalvrR-method
 #' @rdname logHeatmap-methods
@@ -17,7 +11,19 @@ setGeneric('logHeatmap', ## Name
 #' @param genes the genes displayed on the heatmap
 #' @param png the VR generated heatmap (png)
 #' @param grouping the grouping file used to create this heatmap
-#' @param ... options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'
+#' @param ... options you want to send to the ontologyLogPage() function
+#' @title description of function logHeatmap
+#' @export 
+setGeneric('logHeatmap', ## Name
+	function ( cellexalObj, genes, png, grouping, ... ) {
+		standardGeneric('logHeatmap')
+	}
+)
+
+#' @name logHeatmap
+#' @aliases logHeatmap,cellexalvrR-method
+#' @rdname logHeatmap-methods
+#' @docType methods
 #' @title description of function logHeatmap
 #' @export 
 setMethod('logHeatmap', signature = c ('cellexalvrR'),

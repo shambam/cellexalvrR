@@ -1,3 +1,14 @@
+#' @name defineGOIs
+#' @aliases defineGOIs,cellexalvrR-method
+#' @rdname defineGOIs-methods
+#' @docType methods
+#' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object
+#' @param cellexalObj, cellexalvr object
+#' @param name the name of the GIO list (eg TFs or epigenetic)
+#' @param genes a list of gene symbols that match to the @data rownames
+#' @param lables a list of lables for the GIO column (default NULL)
+#' @title Define special genes based on inbuilt data sets (TFs, ...)
+#' @export
 #if ( ! isGeneric('renew') ){
 setGeneric('defineGOIs', ## Name
 	function ( cellexalObj, name, genes, lables=NULL,... ) { 
@@ -10,11 +21,6 @@ setGeneric('defineGOIs', ## Name
 #' @aliases defineGOIs,cellexalvrR-method
 #' @rdname defineGOIs-methods
 #' @docType methods
-#' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object
-#' @param cellexalObj, cellexalvr object
-#' @param name the name of the GIO list (eg TFs or epigenetic)
-#' @param genes a list of gene symbols that match to the @data rownames
-#' @param lables a list of lables for the GIO column (default NULL)
 #' @title Define special genes based on inbuilt data sets (TFs, ...)
 #' @export
 setMethod('defineGOIs', signature = c ('cellexalvrR'),

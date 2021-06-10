@@ -1,10 +1,3 @@
-
-setGeneric('sessionPath', ## Name
-		function (cellexalObj, sessionName=NULL ) { 
-			standardGeneric('sessionPath')
-		}
-)
-
 #' VR method that creates the session specific settings for each VR session.
 #' @name sessionPath
 #' @aliases sessionPath,cellexalvrR-method
@@ -13,6 +6,18 @@ setGeneric('sessionPath', ## Name
 #' @description Use the session ID and object outpath to create a session path for the reports
 #' @param cellexalObj the cellexal object
 #' @param sessionName the session ID default=NULL
+#' @title description of function sessionPath
+#' @export
+setGeneric('sessionPath', ## Name
+		function (cellexalObj, sessionName=NULL ) { 
+			standardGeneric('sessionPath')
+		}
+)
+
+#' @name sessionPath
+#' @aliases sessionPath,cellexalvrR-method
+#' @rdname sessionPath-methods
+#' @docType methods
 #' @title description of function sessionPath
 #' @export
 setMethod('sessionPath', signature = c ('cellexalvrR'), 

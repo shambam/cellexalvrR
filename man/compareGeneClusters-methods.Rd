@@ -4,8 +4,17 @@
 \name{compareGeneClusters}
 \alias{compareGeneClusters}
 \alias{compareGeneClusters,cellexalTime-method}
-\title{description of function color}
+\title{description of function compareGeneClusters}
 \usage{
+compareGeneClusters(
+  x,
+  other,
+  cellexalObj,
+  altGroupNames = NULL,
+  color = NULL,
+  GOIs = NULL
+)
+
 \S4method{compareGeneClusters}{character,character,cellexalvrR}(
   x,
   other,

@@ -6,6 +6,8 @@
 \alias{exportUserGroups4vr,cellexalvrR-method}
 \title{VR helper function exportUserGroups4vr}
 \usage{
+exportUserGroups4vr(cellexalObj, path)
+
 \S4method{exportUserGroups4vr}{cellexalvrR}(cellexalObj, path)
 }
 \arguments{
@@ -14,7 +16,7 @@
 \item{path}{the outpath}
 }
 \description{
-Creates a summary file for the vr process Creates a file groupings_info.txt in the
+Creates a file groupings_info.txt in the
 
 outfolder that contains the group name (in the R object) the numer of groups in the
 

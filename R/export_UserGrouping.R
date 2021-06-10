@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('export_UserGrouping', ## Name
-	function (x, colname, outfile, colorF = rainbow ) { 
-		standardGeneric('export_UserGrouping')
-	}
-)
-#}
-
 #' This function converts a selection described in a userGroups column to a VR selection file.
 #'
 #' @name export_UserGrouping
@@ -18,6 +9,21 @@ setGeneric('export_UserGrouping', ## Name
 #' @param colname the userGrouping column name
 #' @param outfile the out file
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
+#' @title description of function export_UserGrouping
+#' @export 
+#if ( ! isGeneric('export_UserGrouping') ){
+setGeneric('export_UserGrouping', ## Name
+	function (x, colname, outfile, colorF = rainbow ) { 
+		standardGeneric('export_UserGrouping')
+	}
+)
+#}
+
+
+#' @name export_UserGrouping
+#' @aliases export_UserGrouping,cellexalvrR-method
+#' @rdname export_UserGrouping-methods
+#' @docType methods
 #' @title description of function export_UserGrouping
 #' @export 
 setMethod('export_UserGrouping', signature = c ('cellexalvrR'),

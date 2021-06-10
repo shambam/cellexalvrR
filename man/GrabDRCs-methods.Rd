@@ -6,6 +6,8 @@
 \alias{GrabDRCs,cellexalvrR-method}
 \title{copy 3D graphs from objects of the same analysis}
 \usage{
+GrabDRCs(x, other, prefix = NULL)
+
 \S4method{GrabDRCs}{cellexalvrR,cellexalvrR}(x, other, prefix = NULL)
 }
 \arguments{

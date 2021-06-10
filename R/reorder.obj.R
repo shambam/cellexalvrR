@@ -1,13 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('reorderSamples', ## Name
-	function ( dataObj, column ) { 
-		standardGeneric('reorderSamples') 
-	}
-)
-#}
-
-
 #' reorder function to reorder the whole cellexalvrR object based on a cell order.
 #' @name reorderSamples
 #' @aliases reorderSamples,cellexalvrR-method
@@ -17,6 +7,21 @@ setGeneric('reorderSamples', ## Name
 #' @description  table (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the annotation column to reorder on
+#' @title simple reordering of the samples
+#' @export
+#if ( ! isGeneric('renew') ){
+setGeneric('reorderSamples', ## Name
+	function ( dataObj, column ) { 
+		standardGeneric('reorderSamples') 
+	}
+)
+#}
+
+
+#' @name reorderSamples
+#' @aliases reorderSamples,cellexalvrR-method
+#' @rdname reorderSamples-methods
+#' @docType methods
 #' @title simple reordering of the samples
 #' @export
 setMethod('reorderSamples', signature = c ('cellexalvrR'),
@@ -81,13 +86,6 @@ setMethod('reorderSamples', signature = c ('cellexalvrR'),
 	invisible(dataObj)
 } )
 
-#if ( ! isGeneric('renew') ){
-setGeneric('reorderGenes', ## Name
-	function ( dataObj, column ) { 
-		standardGeneric('reorderGenes') 
-	}
-)
-#}
 
 #' reorder function to reorder the whole cellexalvrR object based on a genes order.
 #' @name reorderGenes
@@ -98,6 +96,20 @@ setGeneric('reorderGenes', ## Name
 #' @description  (e.g. for plotting)
 #' @param dataObj the cellexalvr object
 #' @param column the samples column to reorder on
+#' @title simple reordering of the genes
+#' @export
+#if ( ! isGeneric('renew') ){
+setGeneric('reorderGenes', ## Name
+	function ( dataObj, column ) { 
+		standardGeneric('reorderGenes') 
+	}
+)
+#}
+
+#' @name reorderGenes
+#' @aliases reorderGenes,cellexalvrR-method
+#' @rdname reorderGenes-methods
+#' @docType methods
 #' @title simple reordering of the genes
 #' @export
 setMethod('reorderGenes', signature = c ('cellexalvrR'),

@@ -6,6 +6,8 @@
 \alias{reset,cellexalvrR-method}
 \title{description of function reset}
 \usage{
+reset(x)
+
 \S4method{reset}{cellexalvrR}(x)
 }
 \arguments{

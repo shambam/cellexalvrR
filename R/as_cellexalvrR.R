@@ -1,11 +1,3 @@
-
-setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, 
-		outpath=getwd(), specie, ... ) { 
-		standardGeneric('as_cellexalvrR')
-	}
-)
-
 #' This function is the default conversion function from any other object.
 #' Depending on which object is to be imported the paramteters differ.
 #'
@@ -20,6 +12,21 @@ setGeneric('as_cellexalvrR', ## Name
 #' @param userGroups which cell annotation columns to add to the userGroups slot
 #' @param outpath set the outpath of the object (default getwd())
 #' @param specie set the specie to either mouse or human (default check gene names)
+#' @param ... allow additional data type specififc parameters 
+#' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
+#' @export 
+setGeneric('as_cellexalvrR', ## Name
+	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, 
+		outpath=getwd(), specie, ... ) { 
+		standardGeneric('as_cellexalvrR')
+	}
+)
+
+
+#' @name as_cellexalvrR
+#' @aliases as_cellexalvrR,environment-method
+#' @rdname as_cellexalvrR-methods
+#' @docType methods
 #' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setMethod('as_cellexalvrR', signature = c ('environment'),
@@ -312,8 +319,8 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 #' @rdname H5Anno2df-methods
 #' @docType methods
 #' @description  convert a H5 annotation (any name) table to a data table
-#' @param x the H5 object
-#' @param slotName the H5 entity tro convert to a data.frame
+#' @param x the H5File object
+#' @param slotName the H5 slot(s) to convert to a data.frame
 #' @param namecol the (optional) rownames column for the data
 #' @param onlyStrings return only columns that not only contain numbers (default FALSE)
 #' @title description of function H5Anno2df
@@ -324,7 +331,12 @@ setGeneric('H5Anno2df', ## Name
 		}
 )
 
-
+#' @name H5Anno2df
+#' @aliases H5Anno2df,cellexalvrR-method
+#' @rdname H5Anno2df-methods
+#' @docType methods
+#' @title description of function H5Anno2df
+#' @export 
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

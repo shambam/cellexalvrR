@@ -6,6 +6,8 @@
 \alias{addVelocityToExistingDR,cellexalvrR-method}
 \title{description of function 'addVelocityToExistingDR'}
 \usage{
+addVelocityToExistingDR(cellexalObj, velo.arrows, dr.name)
+
 \S4method{addVelocityToExistingDR}{cellexalvrR}(cellexalObj, velo.arrows, dr.name)
 }
 \arguments{

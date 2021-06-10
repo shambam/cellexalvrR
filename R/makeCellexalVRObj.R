@@ -1,11 +1,3 @@
-
-setGeneric('MakeCellexalVRObj', ## Name
-	function (exdata, drc.list, specie=c("mouse","human"),
-        cell.metadata=NULL, facs.data=NULL) { 
-		standardGeneric('MakeCellexalVRObj') 
-	}
-)
-    
 #' MakeCellexalVRObj creates a CellexalVR object from a sparse matrix object.
 #' @name MakeCellexalVRObj 
 #' @aliases MakeCellexalVRObj,matrix-method
@@ -17,6 +9,20 @@ setGeneric('MakeCellexalVRObj', ## Name
 #' @param specie Specify whether data is from mouse or human (required)
 #' @param cell.metadata Required meta data for cells
 #' @param facs.data Surface marker intensities from index sorted cells
+#' @keywords create cellexalvrR object
+#' @title Create a cellexalvrR object from a matrix object.
+#' @export  
+setGeneric('MakeCellexalVRObj', ## Name
+	function (exdata, drc.list, specie=c("mouse","human"),
+        cell.metadata=NULL, facs.data=NULL) { 
+		standardGeneric('MakeCellexalVRObj') 
+	}
+)
+    
+#' @name MakeCellexalVRObj 
+#' @aliases MakeCellexalVRObj,matrix-method
+#' @rdname MakeCellexalVRObj-methods
+#' @docType methods
 #' @keywords create cellexalvrR object
 #' @title Create a cellexalvrR object from a matrix object.
 #' @export       

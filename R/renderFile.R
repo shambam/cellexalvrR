@@ -1,10 +1,3 @@
-
-setGeneric('renderFile', ## Name
-	function ( x, id, type='' ) { ## Argumente der generischen Funktion
-		standardGeneric('renderFile') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
-
 #' A main function in the log system - called after each log has been produced.
 #' @name renderFile
 #' @aliases renderFile,cellexalvrR-method
@@ -14,6 +7,18 @@ setGeneric('renderFile', ## Name
 #' @param x  the cellexalvrR object
 #' @param id the id of the report file to render ('x@usedObj$sessionRmdFiles[id]')
 #' @param type the type of log saved (default '')
+#' @title description of function renderFile
+#' @export 
+setGeneric('renderFile', ## Name
+	function ( x, id, type='' ) { ## Argumente der generischen Funktion
+		standardGeneric('renderFile') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
+#' @name renderFile
+#' @aliases renderFile,cellexalvrR-method
+#' @rdname renderFile-methods
+#' @docType methods
 #' @title description of function renderFile
 #' @export 
 setMethod('renderFile', signature = c ('cellexalvrR'),
@@ -114,6 +119,12 @@ setGeneric('storeLogContents', ## Name
 	}
 )
 
+#' @name storeLogContents
+#' @aliases storeLogContents,cellexalvrR-method
+#' @rdname storeLogContents-methods
+#' @docType methods
+#' @title description of function storeLogContents
+#' @export 
 setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	definition = function ( x, content, type='' ) {
 

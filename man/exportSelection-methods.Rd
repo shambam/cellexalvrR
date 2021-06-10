@@ -6,6 +6,8 @@
 \alias{exportSelection,cellexalTime-method}
 \title{description of function exportSelection}
 \usage{
+exportSelection(x, fname)
+
 \S4method{exportSelection}{cellexalTime}(x, fname)
 }
 \arguments{
@@ -15,8 +17,4 @@
 }
 \description{
 Export this time as selection file
-}
-\details{
-This function exports the changes selection file including the linear clusters
-so that the information can be read from the VR process.
 }

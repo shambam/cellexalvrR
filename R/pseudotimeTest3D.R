@@ -1,13 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('pseudotimeTest3D', ## Name
-	function ( x, a=NULL,  b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
-			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL) { 
-		standardGeneric('pseudotimeTest3D')
-	}
-)
-#}
-
 #' A simple pseudotime analysis based on a linear model, that can create the pseudotime from the two varibales 'a' and 'b'
 #' 
 #' fit = loess( b~a )
@@ -42,6 +32,22 @@ setGeneric('pseudotimeTest3D', ## Name
 #' @param cleanFolder remove all files from the outpout folder before creating new ones (default FALSE)
 #' @param plotType ( 'png', 'png_high_res', 'pdf' )
 #' @param summaryPlot the name of the summary plot file ( default NULL no summary plot)
+#' @title description of function pseudotimeTest3D
+#' @export 
+#if ( ! isGeneric('pseudotimeTest3D') ){
+setGeneric('pseudotimeTest3D', ## Name
+	function ( x, a=NULL,  b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, smooth=100, 
+			invert=FALSE, cleanFolder=FALSE, plotType='png', summaryPlot=NULL) { 
+		standardGeneric('pseudotimeTest3D')
+	}
+)
+#}
+
+ 
+#' @name pseudotimeTest3D
+#' @aliases pseudotimeTest3D,cellexalvrR-method
+#' @rdname pseudotimeTest3D-methods
+#' @docType methods
 #' @title description of function pseudotimeTest3D
 #' @export 
 setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),

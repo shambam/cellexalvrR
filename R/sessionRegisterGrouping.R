@@ -1,10 +1,3 @@
-
-setGeneric('sessionRegisterGrouping', ## Name
-	function ( x, gName ) { 
-		standardGeneric('sessionRegisterGrouping')
-	}
-)
-
 #' Log function that keeps track of the number of sections used in the log file.
 #'
 #' @name sessionRegisterGrouping
@@ -14,6 +7,19 @@ setGeneric('sessionRegisterGrouping', ## Name
 #' @description Registers a grouping for this session.
 #' @param x the cellexalvrR object
 #' @param gName the group name to register
+#' @title description of function sessionRegisterGrouping
+#' @export 
+setGeneric('sessionRegisterGrouping', ## Name
+	function ( x, gName ) { 
+		standardGeneric('sessionRegisterGrouping')
+	}
+)
+
+
+#' @name sessionRegisterGrouping
+#' @aliases sessionRegisterGrouping,cellexalvrR-method
+#' @rdname sessionRegisterGrouping-methods
+#' @docType methods
 #' @title description of function sessionRegisterGrouping
 #' @export 
 setMethod('sessionRegisterGrouping', signature = c ('cellexalvrR'),

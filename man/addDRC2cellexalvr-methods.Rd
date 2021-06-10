@@ -6,6 +6,8 @@
 \alias{addDRC2cellexalvr,cellexalvrR-method}
 \title{description of function 'addDRC2cellexalvr'}
 \usage{
+addDRC2cellexalvr(cellexalObj, drcmatrix, name = NULL)
+
 \S4method{addDRC2cellexalvr}{cellexalvrR}(cellexalObj, drcmatrix, name = NULL)
 }
 \arguments{

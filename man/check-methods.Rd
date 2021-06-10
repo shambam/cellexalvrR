@@ -6,6 +6,8 @@
 \alias{check,cellexalvrR-method}
 \title{cellexal internal checks}
 \usage{
+check(x, silent = FALSE)
+
 \S4method{check}{cellexalvrR}(x, silent = FALSE)
 }
 \arguments{

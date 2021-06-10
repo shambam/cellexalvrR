@@ -4,8 +4,21 @@
 \name{getDifferentials}
 \alias{getDifferentials}
 \alias{getDifferentials,cellexalvrR-method}
-\title{VR helper function getDifferentials}
+\title{main Statistics function for cellexalvrR}
 \usage{
+getDifferentials(
+  x,
+  cellidfile,
+  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
+    "negbinom", "MAST", "DESeq2", "anova"),
+  num.sig = 250,
+  Log = TRUE,
+  logfc.threshold = 1,
+  minPct = 0.1,
+  onlyPos = TRUE,
+  report4genes = NULL
+)
+
 \S4method{getDifferentials}{cellexalvrR}(
   x,
   cellidfile,
@@ -47,8 +60,6 @@
 \item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
 
 \item{report4genes}{a list of genes you want to get a report on.}
-
-\item{x}{the cellexalvrR.RData file}
 }
 \value{
 the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]]

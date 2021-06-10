@@ -6,6 +6,8 @@
 \alias{cormat2df,cellexalvrR-method}
 \title{description of function cormat2df}
 \usage{
+cormat2df(cors)
+
 \S4method{cormat2df}{matrix}(cors)
 }
 \arguments{

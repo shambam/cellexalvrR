@@ -1,14 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('getDifferentials', ## Name
-			function (x,cellidfile,
-					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
-					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) { 
-				standardGeneric('getDifferentials') 
-			}
-	) 
-#}
-
 #' Identify differentially expressed genes.
 #' 
 #' This function makes two statistics available for the VR process 
@@ -31,14 +20,31 @@ setGeneric('getDifferentials', ## Name
 #' @param onlyPos select only genes showing an higher expression in the group (default =T)
 #' @param report4genes a list of genes you want to get a report on.
 #' @keywords DEGs
-#' @title VR helper function getDifferentials
+#' @title main Statistics function for cellexalvrR
 #' @examples 
 #' \dontrun{
 #' getDifferentials( x,  cellidfile= 'User.group.2', deg.method='wilcox')@usedObj$deg.genes 
 #' }
 #' @return the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]]
 #' and significant genes can be accessed in the x@usedObj$deg.genes slot.
-#' @export getDifferentials
+#' @export 
+#if ( ! isGeneric('getDifferentials') ){
+setGeneric('getDifferentials', ## Name
+			function (x,cellidfile,
+					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
+					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) { 
+				standardGeneric('getDifferentials') 
+			}
+	) 
+#}
+
+
+#' @name getDifferentials
+#' @aliases getDifferentials,cellexalvrR-method
+#' @rdname getDifferentials-methods
+#' @docType methods
+#' @title main Statistics function for cellexalvrR
+#' @export 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (x,cellidfile,
 				deg.method='wilcox',
@@ -265,10 +271,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 #' @aliases getDifferentials,cellexalvrR-method
 #' @rdname getDifferentials-methods
 #' @docType methods
-#' @param x the cellexalvrR.RData file
-#' @keywords DEGs
-#' @title description of function getDifferentials
-#' @export getDifferentials
+#' @title main Statistics function for cellexalvrR
+#' @export 
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (x,cellidfile,
 				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),

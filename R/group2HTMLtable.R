@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('group2HTMLtable', ## Name
-			function ( x, info, names=NULL ) { 
-				standardGeneric('group2HTMLtable')
-			}
-	) 
-#}
-
 #' Log related function - convert a session into a html table that can be added to the log
 #'
 #' @name group2HTMLtable
@@ -17,6 +8,21 @@ setGeneric('group2HTMLtable', ## Name
 #' @param x, cellexalvrR object
 #' @param info the grouping info to convert
 #' @param names optional vector of names for the groupings (grouping info is numeric)
+#' @title create a log table from a grouping
+#' @export 
+#if ( ! isGeneric('group2HTMLtable') ){
+setGeneric('group2HTMLtable', ## Name
+			function ( x, info, names=NULL ) { 
+				standardGeneric('group2HTMLtable')
+			}
+	) 
+#}
+
+
+#' @name group2HTMLtable
+#' @aliases group2HTMLtable,cellexalvrR-method
+#' @rdname group2HTMLtable-methods
+#' @docType methods
 #' @title create a log table from a grouping
 #' @export 
 setMethod('group2HTMLtable', signature = c ('cellexalvrR', 'list'),

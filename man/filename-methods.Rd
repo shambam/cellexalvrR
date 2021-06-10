@@ -6,6 +6,8 @@
 \alias{filename,character-method}
 \title{create a filename without spaces from a list of strings}
 \usage{
+filename(str)
+
 \S4method{filename}{character}(str)
 }
 \arguments{

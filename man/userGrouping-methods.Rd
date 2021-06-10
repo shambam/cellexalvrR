@@ -6,12 +6,14 @@
 \alias{userGrouping,cellexalvrR-method}
 \title{description of function userGrouping}
 \usage{
+userGrouping(cellexalObj, cellidfile)
+
 \S4method{userGrouping}{cellexalvrR}(cellexalObj, cellidfile)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
 
-\item{cellidfile}{TEXT MISSING}
+\item{cellidfile}{file containing cell IDs}
 }
 \description{
 Reads a VR cell selection file and creates a user.grouping column with the information
@@ -21,4 +23,3 @@ storing the user defined grouping for later use
 \details{
 VR function that ready the VR grouping information and stores it in the R object.
 }
-\keyword{userGrouping}

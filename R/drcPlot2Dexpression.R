@@ -1,10 +1,3 @@
-
-setGeneric('drcPlot2Dexpression', ## Name
-	function ( cellexalObj, drc = 1, GOI ) { 
-		standardGeneric('drcPlot2Dexpression')
-	}
-)
-
 #' drcPlot2Dexpression is a function linked to the log functionallity.
 #' 
 #' This function will create the 2D DRC images for the correlated genes log sections.
@@ -17,6 +10,19 @@ setGeneric('drcPlot2Dexpression', ## Name
 #' @param cellexalObj the cellexal object
 #' @param drc the edcr (name) to plot on (default the first one)
 #' @param GOI the genes to plot the mean expression for
+#' @title description of function drcPlot2Dexpression
+#' @export 
+setGeneric('drcPlot2Dexpression', ## Name
+	function ( cellexalObj, drc = 1, GOI ) { 
+		standardGeneric('drcPlot2Dexpression')
+	}
+)
+
+
+#' @name drcPlot2Dexpression
+#' @aliases drcPlot2Dexpression,cellexalvrR-method
+#' @rdname drcPlot2Dexpression-methods
+#' @docType methods
 #' @title description of function drcPlot2Dexpression
 #' @export 
 setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'character'),

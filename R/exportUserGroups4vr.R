@@ -1,12 +1,3 @@
-	
-#if ( ! isGeneric('exportUserGroups4vr') ){
-setGeneric('exportUserGroups4vr', ## Name
-	function ( cellexalObj, path ) { 
-		standardGeneric('exportUserGroups4vr') 
-	}
-)
-#}
-
 #' This is a 'VR' helper function that creates a dynamic file used to make the R groupings known to the VR process.
 #'
 #' Users of the 'cellexalvrR' R class should not need this function.
@@ -14,7 +5,7 @@ setGeneric('exportUserGroups4vr', ## Name
 #' @aliases exportUserGroups4vr,cellexalvrR-method
 #' @rdname exportUserGroups4vr-methods
 #' @docType methods
-#' @description  Creates a summary file for the vr process Creates a file groupings_info.txt in the
+#' @description  Creates a file groupings_info.txt in the
 #' @description  outfolder that contains the group name (in the R object) the numer of groups in the
 #' @description  selection and the number of cells in the whole group.
 #' @param cellexalObj, cellexalvr object
@@ -25,6 +16,21 @@ setGeneric('exportUserGroups4vr', ## Name
 #' dir.create('data')
 #' exportUserGroups4vr( cellexalObj, 'data')
 #' }
+#' @export 
+#if ( ! isGeneric('exportUserGroups4vr') ){
+setGeneric('exportUserGroups4vr', ## Name
+	function ( cellexalObj, path ) { 
+		standardGeneric('exportUserGroups4vr') 
+	}
+)
+#}
+
+
+#' @name exportUserGroups4vr
+#' @aliases exportUserGroups4vr,cellexalvrR-method
+#' @rdname exportUserGroups4vr-methods
+#' @docType methods
+#' @title VR helper function exportUserGroups4vr
 #' @export 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
@@ -56,9 +62,9 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	}
 } )
 
-#' @describeIn exportUserGroups4vr cellexalvrR
-#' @docType methods
-#' @description simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
+#' @name exportUserGroups4vr
+#' @aliases exportUserGroups4vr,cellexalvrR-method
+#' @rdname exportUserGroups4vr-methods#' @docType methods
 #' @title load object and run exportUserGroups4vr
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('character'),

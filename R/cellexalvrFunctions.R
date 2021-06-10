@@ -1,6 +1,17 @@
 
-
-#if ( ! isGeneric('renew') ){
+#' It sets the specie slot to the user supplied specie string.
+#' 
+#' @name set.specie
+#' @aliases set.specie,cellexalvrR-method
+#' @rdname set.specie-methods
+#' @docType methods
+#' @description Set the specie information in the cellexalvrR object
+#' @param cellexalObj cellexalvr object
+#' @param specie The specie required options: "mouse" or "human"
+#' @title description of function set.specie
+#' @keywords TFs
+#' @export
+#if ( ! isGeneric('set.specie') ){
 setGeneric('set.specie', ## Name
 	function (cellexalObj, specie=c("mouse","human")) { 
 		standardGeneric('set.specie') 
@@ -14,12 +25,9 @@ setGeneric('set.specie', ## Name
 #' @aliases set.specie,cellexalvrR-method
 #' @rdname set.specie-methods
 #' @docType methods
-#' @description Set the specie information in the cellexalvrR object
-#' @param cellexalObj cellexalvr object
-#' @param specie The specie required options: "mouse" or "human"
 #' @title description of function set.specie
 #' @keywords TFs
-#' @export set.specie
+#' @export 
 setMethod('set.specie', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
@@ -36,16 +44,6 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 	cellexalObj@specie <- specie
 	cellexalObj
 } )
-
-
-#if ( ! isGeneric('renew') ){
-setGeneric('get.genes.cor.to', ## Name
-	function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) { 
-		standardGeneric('get.genes.cor.to') 
-	}
-)
-#}
-
 
 #' get.genes.cor.to is able to correlate gene expression in 
 #' a cellexalvrR object to the expression of either a gene or a FACS marker.
@@ -66,7 +64,23 @@ setGeneric('get.genes.cor.to', ## Name
 #' @keywords correlation
 #' @examples
 #' print (get.genes.cor.to ( cellexalObj, 'Gata1'))
-#' @export get.genes.cor.to
+#' @export 
+#if ( ! isGeneric('get.genes.cor.to') ){
+setGeneric('get.genes.cor.to', ## Name
+	function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) { 
+		standardGeneric('get.genes.cor.to') 
+	}
+)
+#}
+
+
+#' @name  get.genes.cor.to
+#' @aliases get.genes.cor.to,cellexalvrR-method
+#' @rdname get.genes.cor.to-methods
+#' @docType methods
+#' @title description of function get.genes.cor.to
+#' @keywords correlation
+#' @export 
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 	
@@ -162,7 +176,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 #' @aliases get.genes.cor.to,cellexalvrR-method
 #' @rdname get.genes.cor.to-methods
 #' @docType methods
-#' @title description of function get.genes.cor.to (character) #function definition in file 'cellexalvrFunctions.R'
+#' @title description of function get.genes.cor.to
 #' @export 
 setMethod('get.genes.cor.to', signature = c ('character'),
 		definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {

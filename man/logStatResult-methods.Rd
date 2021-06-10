@@ -6,6 +6,8 @@
 \alias{logStatResult,cellexalvrR-method}
 \title{add a table into the session log}
 \usage{
+logStatResult(x, method, data, col = NULL)
+
 \S4method{logStatResult}{cellexalvrR}(x, method, data, col = NULL)
 }
 \arguments{

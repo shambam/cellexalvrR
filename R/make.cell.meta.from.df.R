@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cell.meta.from.df', ## Name
-	function (metad,rq.fields) { 
-		standardGeneric('make.cell.meta.from.df') 
-	}
-)
-#}
-
 #' The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
 #' As this is no common format this function will convert a multi named grouping 
 #' like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
@@ -18,6 +9,21 @@ setGeneric('make.cell.meta.from.df', ## Name
 #' @param metad A dataframe of per cell metadata
 #' @param rq.fields A vector of name specifiying which columns should me made into metadata
 #' @keywords metadata cell
+#' @title description of function make.cell.meta.from.df
+#' @export 
+#if ( ! isGeneric('renew') ){
+setGeneric('make.cell.meta.from.df', ## Name
+	function (metad,rq.fields) { 
+		standardGeneric('make.cell.meta.from.df') 
+	}
+)
+#}
+
+
+#' @name make.cell.meta.from.df
+#' @aliases make.cell.meta.from.df,data.frame-method
+#' @rdname make.cell.meta.from.df-methods
+#' @docType methods
 #' @title description of function make.cell.meta.from.df
 #' @export 
 setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
@@ -37,15 +43,6 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 } )
 
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('makeCellMetaFromDataframe', ## Name
-	function (metad,rq.fields) { 
-		standardGeneric('makeCellMetaFromDataframe') 
-	}
-)
-#}
-
 #' The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
 #' As this is not common format this function will convert a multi named grouping 
 #' like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
@@ -57,6 +54,21 @@ setGeneric('makeCellMetaFromDataframe', ## Name
 #' @param metad A dataframe of per cell metadata
 #' @param rq.fields A vector of name specifiying which columns should me made into metadata
 #' @keywords metadata cell
+#' @title description of function makeCellMetaFromDataframe
+#' @export 
+#if ( ! isGeneric('renew') ){
+setGeneric('makeCellMetaFromDataframe', ## Name
+	function (metad,rq.fields) { 
+		standardGeneric('makeCellMetaFromDataframe') 
+	}
+)
+#}
+
+
+#' @name makeCellMetaFromDataframe
+#' @aliases makeCellMetaFromDataframe,data.frame-method
+#' @rdname makeCellMetaFromDataframe-methods
+#' @docType methods
 #' @title description of function makeCellMetaFromDataframe
 #' @export 
 setMethod('makeCellMetaFromDataframe', signature = c ('data.frame'),

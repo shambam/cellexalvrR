@@ -6,6 +6,8 @@
 \alias{logNetwork,cellexalvrR-method}
 \title{description of function logNetwork}
 \usage{
+logNetwork(cellexalObj, genes = NULL, png, grouping, ...)
+
 \S4method{logNetwork}{cellexalvrR}(cellexalObj, genes = NULL, png, grouping, ...)
 
 \S4method{logNetwork}{character}(cellexalObj, genes = NULL, png, grouping, ...)
@@ -19,7 +21,7 @@
 
 \item{grouping}{the grouping file used to create this network}
 
-\item{...}{options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'}
+\item{...}{options you want to send to the ontologyLogPage() function}
 }
 \description{
 create one Network page in the session report

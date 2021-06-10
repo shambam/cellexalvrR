@@ -6,6 +6,13 @@
 \alias{savePart,cellexalvrR-method}
 \title{description of function savePart}
 \usage{
+savePart(
+  x,
+  part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
+    "colors", "lastGroup"),
+  path = NULL
+)
+
 \S4method{savePart}{cellexalvrR}(
   x,
   part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
@@ -14,11 +21,11 @@
 )
 }
 \arguments{
-\item{x}{TEXT MISSING}
+\item{x}{the cellexalvrR object}
 
-\item{part}{TEXT MISSING default= c( 'meta.cell'}
+\item{part}{one of tge slots in cellexalvrR}
 
-\item{path}{the optional outpath (default x@outpath)}
+\item{path}{an optional outpath (default x@outpath)}
 }
 \description{
 save only a part of the cellexal object increasing the VR interaction speed

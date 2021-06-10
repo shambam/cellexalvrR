@@ -6,6 +6,8 @@
 \alias{sessionRegisterGrouping,cellexalvrR-method}
 \title{description of function sessionRegisterGrouping}
 \usage{
+sessionRegisterGrouping(x, gName)
+
 \S4method{sessionRegisterGrouping}{cellexalvrR}(x, gName)
 }
 \arguments{

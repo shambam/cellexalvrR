@@ -6,6 +6,19 @@
 \alias{plotViolin,cellexalvrR-method}
 \title{description of function plotViolin}
 \usage{
+plotViolin(
+  x,
+  gene,
+  grouping,
+  ofile = NULL,
+  width = 9,
+  height = 9,
+  main = NULL,
+  X11type = "cairo",
+  family = "Helvetica",
+  fileType = "pdf"
+)
+
 \S4method{plotViolin}{cellexalvrR}(
   x,
   gene,
@@ -19,6 +32,8 @@
 )
 }
 \arguments{
+\item{x}{the cellexalvrR object}
+
 \item{gene}{the gene name}
 
 \item{grouping}{either a column in the userGroups table or a CellexalVR selection file}
@@ -29,7 +44,7 @@
 
 \item{height}{default figure height (9 in)}
 
-\item{main}{the figure titla (defaults to gene name)}
+\item{main}{the figure title (defaults to gene name)}
 
 \item{X11type}{not important here (default to 'cairo')}
 

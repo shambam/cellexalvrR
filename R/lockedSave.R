@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('lockedSave', ## Name
-	function (cellexalObj, path=NULL, what=NULL ) {
-		standardGeneric('lockedSave')
-	}
-)
-#}
-
 #' A thread save saving of the object. 
 #' @name lockedSave
 #' @aliases lockedSave,cellexalvrR-method
@@ -20,6 +11,21 @@ setGeneric('lockedSave', ## Name
 #' @title description of function lockedSave
 #' @keywords lockedSave
 #' @export lockedSave
+#if ( ! isGeneric('lockedSave') ){
+setGeneric('lockedSave', ## Name
+	function (cellexalObj, path=NULL, what=NULL ) {
+		standardGeneric('lockedSave')
+	}
+)
+#}
+
+#' @name lockedSave
+#' @aliases lockedSave,cellexalvrR-method
+#' @rdname lockedSave-methods
+#' @docType methods
+#' @title description of function lockedSave
+#' @keywords lockedSave
+#' @export 
 setMethod('lockedSave', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, path=NULL ) {
 		if ( is.null(path) ){
@@ -42,8 +48,20 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 } )
 
 
-
-#if ( ! isGeneric('renew') ){
+#' loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
+#' before reporting a failed attempt.
+#' 
+#' @name loadObject
+#' @aliases loadObject,character-method
+#' @rdname loadObject-methods
+#' @docType methods
+#' @description Loads the cellexalvr object, if the fname is a 
+#' @description file and returns the cellexalvrR object otherwise.
+#' @param fname the file to load or a cellexalvr object
+#' @param maxwait stop after maxwait seconds default=50
+#' @title description of function loadObject
+#' @export 
+#if ( ! isGeneric('loadObject') ){
 setGeneric('loadObject', ## Name
 	function ( fname, maxwait=50 ) { 
 		standardGeneric('loadObject') 
@@ -52,18 +70,13 @@ setGeneric('loadObject', ## Name
 #}
 
 
-#' loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
-#' before reporting a failed attempt.
-#' 
+
 #' @name loadObject
 #' @aliases loadObject,character-method
 #' @rdname loadObject-methods
 #' @docType methods
-#' @param fname the file to load or a cellexalvr object
-#' @param maxwait stop after maxwait seconds default=50
-#' @keywords load
 #' @title description of function loadObject
-#' @export loadObject
+#' @export 
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
 			return (fname)
@@ -74,7 +87,6 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 #' @aliases loadObject,character-method
 #' @rdname loadObject-methods
 #' @docType methods
-#' @description  Loads the cellexalvr object, if the fname is a file and returns the cellexalvrR object otherwise.
 #' @keywords load
 #' @title description of function loadObject
 #' @export loadObject

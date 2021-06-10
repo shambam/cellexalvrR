@@ -6,6 +6,8 @@
 \alias{cleanParts,character-method}
 \title{cleanParts removes all parts when storing the whole object.}
 \usage{
+cleanParts(path)
+
 \S4method{cleanParts}{character}(path)
 }
 \arguments{

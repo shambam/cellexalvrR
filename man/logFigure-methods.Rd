@@ -6,6 +6,8 @@
 \alias{logFigure,cellexalvrR-method}
 \title{description of function logFigure}
 \usage{
+logFigure(cellexalObj, genes = NULL, png, grouping, ...)
+
 \S4method{logFigure}{cellexalvrR}(cellexalObj, png, text = NULL, ...)
 }
 \arguments{
@@ -13,9 +15,9 @@
 
 \item{png}{the VR generated network (png)}
 
-\item{text}{add a simmple text (default NULL)}
+\item{...}{options you want to send to the ontologyLogPage() function}
 
-\item{...}{options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'}
+\item{text}{add a simmple text (default NULL)}
 }
 \description{
 Log a figure from VR. This function is used to store new screenshots from VR.

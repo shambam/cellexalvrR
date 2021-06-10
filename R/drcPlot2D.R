@@ -1,9 +1,3 @@
-
-setGeneric('drcPlots2D', ## Name
-	function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) { 
-		standardGeneric('drcPlots2D')
-	}
-)
 #' drcPlots2D is a function linked to the log functionallity.
 #' 
 #' This function will create the 2D DRC images for the log sections.
@@ -18,6 +12,19 @@ setGeneric('drcPlots2D', ## Name
 #' @param showIDs plot the group IDs on the figure (default= TRUE)
 #' @title description of function drcPlot2D
 #' @export 
+setGeneric('drcPlots2D', ## Name
+	function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) { 
+		standardGeneric('drcPlots2D')
+	}
+)
+
+
+#' @name drcPlots2D
+#' @aliases drcPlots2D,cellexalvrR-method
+#' @rdname drcPlots2D-methods
+#' @docType methods
+#' @title description of function drcPlot2D
+#' @export 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
 	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
 		gInfo = groupingInfo( cellexalObj, gInfo )
@@ -29,9 +36,6 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
 #' @aliases drcPlots2D,cellexalvrR-method
 #' @rdname drcPlots2D-methods
 #' @docType methods
-#' @param cellexalObj the cellexal object
-#' @param gInfo the grouping name or the cellexalGrouping object
-#' @param showIDs plot the group IDs on the figure (default= TRUE)
 #' @title description of function drcPlot2D
 #' @export 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'cellexalGrouping'),

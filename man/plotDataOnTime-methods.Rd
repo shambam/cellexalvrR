@@ -6,6 +6,8 @@
 \alias{plotDataOnTime,cellexalTime-method}
 \title{description of function plotDataOnTime}
 \usage{
+plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
+
 \S4method{plotDataOnTime}{cellexalTime,list}(x, dat, color = NULL, ofile, smooth = TRUE)
 
 \S4method{plotDataOnTime}{data.frame,list}(x, dat, color = NULL, ofile, smooth = TRUE)

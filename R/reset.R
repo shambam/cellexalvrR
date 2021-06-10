@@ -1,10 +1,3 @@
-
-setGeneric('reset', ## Name
-	function ( x ) {
-		standardGeneric('reset')
-	}
-) 
-
 #' Remove all modifications produced through VR run.
 #' 
 #' @name reset
@@ -13,6 +6,18 @@ setGeneric('reset', ## Name
 #' @docType methods
 #' @description  remove all internals originating from previouse analyses
 #' @param x the cellexalObj you want to reset
+#' @title description of function reset
+#' @export 
+setGeneric('reset', ## Name
+	function ( x ) {
+		standardGeneric('reset')
+	}
+) 
+
+#' @name reset
+#' @aliases reset,cellexalvrR-method
+#' @rdname reset-methods
+#' @docType methods
 #' @title description of function reset
 #' @export 
 setMethod('reset', signature = c ('cellexalvrR'), definition = function ( x ) {

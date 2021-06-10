@@ -6,6 +6,8 @@
 \alias{addSelection,cellexalTime-method}
 \title{description of function addSelection}
 \usage{
+addSelection(x, cellexalObj, upstreamSelection = NULL)
+
 \S4method{addSelection}{cellexalTime,cellexalvrR}(x, cellexalObj, upstreamSelection = NULL)
 }
 \arguments{
@@ -16,6 +18,9 @@
 \item{upstreamSelection}{which group was the basis for this timeline?}
 }
 \description{
+Method to copy a selection from cellexalObj to cellexalObj.
+This function makes sure that the linear grouping is fitting into the object.
+
 add this selection to any cellexal object
 }
 \details{

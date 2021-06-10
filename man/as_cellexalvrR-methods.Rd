@@ -9,6 +9,16 @@
 \alias{as_cellexalvrR,H5File-method}
 \title{convert a supported object/file to cellexalvrR keeping all 3D drc objects.}
 \usage{
+as_cellexalvrR(
+  x,
+  meta.cell.groups = NULL,
+  meta.genes.groups = NULL,
+  userGroups = NULL,
+  outpath = getwd(),
+  specie,
+  ...
+)
+
 \S4method{as_cellexalvrR}{environment}(
   x,
   meta.cell.groups = NULL,

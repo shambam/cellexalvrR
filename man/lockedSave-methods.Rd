@@ -6,6 +6,8 @@
 \alias{lockedSave,cellexalvrR-method}
 \title{description of function lockedSave}
 \usage{
+lockedSave(cellexalObj, path = NULL, what = NULL)
+
 \S4method{lockedSave}{cellexalvrR}(cellexalObj, path = NULL)
 }
 \arguments{

@@ -6,6 +6,8 @@
 \alias{invert,cellexalTime-method}
 \title{description of function invert}
 \usage{
+invert(x)
+
 \S4method{invert}{cellexalTime}(x)
 }
 \arguments{

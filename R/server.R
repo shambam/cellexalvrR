@@ -1,13 +1,4 @@
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('server', ## Name
-			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
-				standardGeneric('server') 
-			}
-)
-#}
-
 #' This server function is the main speed up for big data files.
 #'
 #' Instead of loading and saving all files for each function call in the VR process
@@ -31,6 +22,21 @@ setGeneric('server', ## Name
 #' @param masterPID if this pid is not active any more stop the server (default NULL)
 #' @param asFunction do not shut down R when exiting (default FALSE)
 #' @keywords server
+#' @title start a server function periodicly sourcing in a file.
+#' @export server
+#if ( ! isGeneric('renew') ){
+setGeneric('server', ## Name
+			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
+				standardGeneric('server') 
+			}
+)
+#}
+
+
+#' @name server
+#' @aliases server,character-method
+#' @rdname server-methods
+#' @docType methods
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
 setMethod('server', signature = c ('character'),

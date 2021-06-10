@@ -6,6 +6,8 @@
 \alias{drcPlots2D,cellexalvrR-method}
 \title{description of function drcPlot2D}
 \usage{
+drcPlots2D(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
+
 \S4method{drcPlots2D}{cellexalvrR,character}(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
 
 \S4method{drcPlots2D}{cellexalvrR,cellexalGrouping}(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)

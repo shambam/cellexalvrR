@@ -6,6 +6,8 @@
 \alias{createTime,cellexalTime-method}
 \title{description of function plot}
 \usage{
+createTime(x, parentSelection = NULL)
+
 \S4method{createTime}{cellexalTime}(x, parentSelection = NULL)
 }
 \arguments{
@@ -17,5 +19,6 @@
 calculate time based on the internal table a b and c columns
 }
 \details{
-This function utilizes slingshot to identify the longest possible pseudo timeline in this selection.
+This function utilizes slingshot to identify the longest possible pseudo 
+timeline for this selection.
 }

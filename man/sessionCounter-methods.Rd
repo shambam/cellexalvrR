@@ -6,6 +6,8 @@
 \alias{sessionCounter,cellexalvrR-method}
 \title{description of function sessionCounter}
 \usage{
+sessionCounter(x, gName)
+
 \S4method{sessionCounter}{cellexalvrR}(x, gName)
 }
 \arguments{

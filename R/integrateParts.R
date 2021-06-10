@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('integrateParts', ## Name
-			function ( x , path=NULL ) { 
-				standardGeneric('integrateParts')
-			}
-)
-#}
-
 #' The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR.
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
@@ -19,6 +10,21 @@ setGeneric('integrateParts', ## Name
 #' This function is called by the loadObject function. Nothing the user has to think about! 
 #' @param x the cellexalObj to add to
 #' @param path the path where the parts are stored (normally the @outpath)
+#' @title description of function integrateParts
+#' @export 
+#if ( ! isGeneric('renew') ){
+setGeneric('integrateParts', ## Name
+			function ( x , path=NULL ) { 
+				standardGeneric('integrateParts')
+			}
+)
+#}
+
+
+#' @name integrateParts
+#' @aliases integrateParts,cellexalvrR-method
+#' @rdname integrateParts-methods
+#' @docType methods
 #' @title description of function integrateParts
 #' @export 
 setMethod('integrateParts', signature = c ('cellexalvrR'),
@@ -57,15 +63,6 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 			invisible( x )
 		} )
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('savePart', ## Name
-			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path=NULL ) { 
-				standardGeneric('savePart')
-			}
-)
-#}
-
 #' The function savePart is one main part in the load and save speed up implemented for cellexalvrR
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
@@ -75,9 +72,23 @@ setGeneric('savePart', ## Name
 #' @rdname savePart-methods
 #' @docType methods
 #' @description save only a part of the cellexal object increasing the VR interaction speed
-#' @param x  TEXT MISSING
-#' @param part  TEXT MISSING default= c( 'meta.cell'
-#' @param path the optional outpath (default x@outpath)
+#' @param x  the cellexalvrR object
+#' @param part one of tge slots in cellexalvrR
+#' @param path an optional outpath (default x@outpath)
+#' @title description of function savePart
+#' @export 
+#if ( ! isGeneric('savePart') ){
+setGeneric('savePart', ## Name
+			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path=NULL ) { 
+				standardGeneric('savePart')
+			}
+)
+#}
+
+#' @name savePart
+#' @aliases savePart,cellexalvrR-method
+#' @rdname savePart-methods
+#' @docType methods
 #' @title description of function savePart
 #' @export 
 setMethod('savePart', signature = c ('cellexalvrR'),
@@ -115,7 +126,17 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 		} )
 
 
-
+#' The function partFname checks which part to save and throws an error if the part is not avaialable for saving.
+#' 
+#' @name partFname
+#' @aliases partFname,character-method
+#' @rdname partFname-methods
+#' @docType methods
+#' @description returns the possible outfile for the partial saving of the cellexal object
+#' @param part to get the filename for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )
+#' @param path the outpath
+#' @title description of internally used function partFname
+#' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('partFname', ## Name
 			function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup', 'all' ), path ) { 
@@ -124,15 +145,11 @@ setGeneric('partFname', ## Name
 )
 #}
 
-#' The function partFname checks which part to save and throws an error if the part is not avaialable for saving.
-#' 
+
 #' @name partFname
 #' @aliases partFname,character-method
 #' @rdname partFname-methods
 #' @docType methods
-#' @description returns the possible outfile for the partial saving of the cellexal object
-#' @param part to get the fanme for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )
-#' @param path the outpath
 #' @title description of internally used function partFname
 #' @export 
 setMethod('partFname', signature = c ('character'),
@@ -164,15 +181,6 @@ setMethod('partFname', signature = c ('character'),
 			unlist( lapply(fname, function( FN ) { file.path( path, paste(sep="",'.' , FN, '.RData' ) )  } ) )
 		} )
 
-
-#if ( ! isGeneric('renew') ){
-setGeneric('cleanParts', ## Name
-			function ( path ) { 
-				standardGeneric('cleanParts')
-			}
-)
-#}
-
 #' The parts clean up function is called after a object is saved using the lockedSave function,
 #' as all previousely saved sub parts should have been integrated into this object then.
 #' 
@@ -182,6 +190,21 @@ setGeneric('cleanParts', ## Name
 #' @docType methods
 #' @description remove all parts from the file system
 #' @param path the outpath
+#' @title cleanParts removes all parts when storing the whole object.
+#' @export 
+#if ( ! isGeneric('renew') ){
+setGeneric('cleanParts', ## Name
+			function ( path ) { 
+				standardGeneric('cleanParts')
+			}
+)
+#}
+
+
+#' @name cleanParts
+#' @aliases cleanParts,character-method
+#' @rdname cleanParts-methods
+#' @docType methods
 #' @title cleanParts removes all parts when storing the whole object.
 #' @export 
 setMethod('cleanParts', signature = c ('character'),

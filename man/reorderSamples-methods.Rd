@@ -6,6 +6,8 @@
 \alias{reorderSamples,cellexalvrR-method}
 \title{simple reordering of the samples}
 \usage{
+reorderSamples(dataObj, column)
+
 \S4method{reorderSamples}{cellexalvrR}(dataObj, column)
 }
 \arguments{

@@ -6,6 +6,8 @@
 \alias{set.specie,cellexalvrR-method}
 \title{description of function set.specie}
 \usage{
+set.specie(cellexalObj, specie = c("mouse", "human"))
+
 \S4method{set.specie}{cellexalvrR}(cellexalObj, specie = c("mouse", "human"))
 }
 \arguments{
@@ -15,6 +17,8 @@
 }
 \description{
 Set the specie information in the cellexalvrR object
+
+It sets the specie slot to the user supplied specie string.
 }
 \details{
 It sets the specie slot to the user supplied specie string.

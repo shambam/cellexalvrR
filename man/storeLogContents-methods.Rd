@@ -7,6 +7,8 @@
 \title{description of function storeLogContents}
 \usage{
 storeLogContents(x, content, type = "")
+
+\S4method{storeLogContents}{cellexalvrR}(x, content, type = "")
 }
 \arguments{
 \item{x}{the CellexalvrR object}

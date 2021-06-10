@@ -1,10 +1,3 @@
-
-setGeneric('md_gene_links', ## Name
-	function ( genes, label="Click to expand gene list" ) { 
-		standardGeneric('md_gene_links')
-	}
-)
-
 #' convert a list of genes into a collapsed markdown text that the user can expand.
 #'
 #' @name md_gene_links
@@ -14,6 +7,19 @@ setGeneric('md_gene_links', ## Name
 #' @description Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
 #' @param genes a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="
 #' @param label defaults tp "Click to expand gene list"
+#' @title Create a binned annotation column from numeric data
+#' @export 
+setGeneric('md_gene_links', ## Name
+	function ( genes, label="Click to expand gene list" ) { 
+		standardGeneric('md_gene_links')
+	}
+)
+
+
+#' @name md_gene_links
+#' @aliases md_gene_links,cellexalvrR-method
+#' @rdname md_gene_links-methods
+#' @docType methods
 #' @title Create a binned annotation column from numeric data
 #' @export 
 setMethod('md_gene_links', signature = c ('character'),

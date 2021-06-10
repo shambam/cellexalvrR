@@ -6,6 +6,8 @@
 \alias{myNextCoolHeatmapFeature,cellexalTime-method}
 \title{description of function check}
 \usage{
+myNextCoolHeatmapFeature(x, selection, outfile)
+
 \S4method{myNextCoolHeatmapFeature}{cellexalvrR,character,character}(x, selection, outfile)
 }
 \arguments{

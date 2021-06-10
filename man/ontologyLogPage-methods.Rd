@@ -6,6 +6,15 @@
 \alias{ontologyLogPage,cellexalvrR-method}
 \title{description of function ontologyLogPage}
 \usage{
+ontologyLogPage(
+  cellexalObj,
+  genes,
+  grouping = NULL,
+  ontology = "BP",
+  topNodes = 10,
+  ...
+)
+
 \S4method{ontologyLogPage}{cellexalvrR}(
   cellexalObj,
   genes,

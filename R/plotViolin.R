@@ -1,11 +1,3 @@
-
-setGeneric('plotViolin', ## Name
-	function (x, gene, grouping, ofile=NULL, 
-	width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica", fileType='pdf'  ) { ## Argumente der generischen Funktion
-		standardGeneric('plotViolin') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
-
 #' Plot a simple violin plot using the cellexalVR colors
 #'
 #' @name plotViolin
@@ -13,15 +5,30 @@ setGeneric('plotViolin', ## Name
 #' @rdname plotViolin-methods
 #' @docType methods
 #' @description Create a simple violin plot on the expresion of one gene
-#' @param gene  the gene name
+#' @param x the cellexalvrR object
+#' @param gene the gene name
 #' @param grouping either a column in the userGroups table or a CellexalVR selection file
 #' @param ofile the figure out file (or null)
 #' @param width default figure width (9 in)
 #' @param height default figure height (9 in)
-#' @param main the figure titla (defaults to gene name)
+#' @param main the figure title (defaults to gene name)
 #' @param X11type not important here (default to 'cairo')
 #' @param family pdf typing family (defaults to "Helvetica") png is also supported
 #' @param fileType figure file type (default 'pdf' )
+#' @title description of function plotViolin
+#' @export 
+setGeneric('plotViolin', ## Name
+	function (x, gene, grouping, ofile=NULL, 
+	width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica", fileType='pdf'  ) { ## Argumente der generischen Funktion
+		standardGeneric('plotViolin') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
+
+#' @name plotViolin
+#' @aliases plotViolin,cellexalvrR-method
+#' @rdname plotViolin-methods
+#' @docType methods
 #' @title description of function plotViolin
 #' @export 
 setMethod('plotViolin', signature = c ('cellexalvrR'),

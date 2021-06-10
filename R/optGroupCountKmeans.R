@@ -1,5 +1,20 @@
 
-#if ( ! isGeneric('renew') ){
+#' Using kmeans to group the drc data
+#' for the usability of the log file the genes need to be ordered.
+#' The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
+#' https://www.icsi.berkeley.edu/icsi/node/4806
+#' Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
+#' Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
+#' @name optGroupCountKmeans
+#' @aliases optGroupCountKmeans,cellexalvrR-method
+#' @rdname optGroupCountKmeans-methods
+#' @docType methods
+#' @description calculate the optimal amount of kmeans grooups for a data matrix
+#' @param dat the data matrix
+#' @param k number of clusters to testdefault=1:20
+#' @title description of function optGroupCountKmeans
+#' @export 
+#if ( ! isGeneric('optGroupCountKmeans') ){
 setGeneric('optGroupCountKmeans', ## Name
 	function ( dat, k=1:20 ) { 
 		standardGeneric('optGroupCountKmeans')
@@ -11,20 +26,11 @@ setGeneric('optGroupCountKmeans', ## Name
 #' @aliases optGroupCountKmeans,cellexalvrR-method
 #' @rdname optGroupCountKmeans-methods
 #' @docType methods
-#' @description calculate the optimal amount of kmeans grooups for a data matrix
-#' @param dat  TEXT MISSING
-#' @param k  TEXT MISSING default=1:20
 #' @title description of function optGroupCountKmeans
 #' @export 
 setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	definition = function ( dat, k=1:20 ) {
-	## Using kmeans to group the drc data
 
-	## for the usability of the log file the genes need to be ordered.
-	## The heatmap needs to show these clusters of genes. And to identify the right number of clusters I need and elbow analysis.
-	## https://www.icsi.berkeley.edu/icsi/node/4806
-	## Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
-	## Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
 
 	## this needs to be reproducible!!
 	set.seed(123581347)

@@ -4,8 +4,10 @@
 \name{collapseTime}
 \alias{collapseTime}
 \alias{collapseTime,cellexalTime-method}
-\title{description of time function collapse}
+\title{description of time function collapseTime}
 \usage{
+collapseTime(x, to = 1000)
+
 \S4method{collapseTime}{cellexalTime}(x, to = 1000)
 }
 \arguments{

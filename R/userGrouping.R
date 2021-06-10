@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('userGrouping', ## Name
-	function (cellexalObj, cellidfile) { 
-		standardGeneric('userGrouping') 
-	}
-)
-#}
-
 #' VR function that ready the VR grouping information and stores it in the R object.
 #' @name userGrouping
 #' @aliases userGrouping,cellexalvrR-method
@@ -16,10 +7,22 @@ setGeneric('userGrouping', ## Name
 #' @description  storing the user defined grouping for later use
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @param cellidfile  TEXT MISSING
-#' @keywords userGrouping
 #' @title description of function userGrouping
-#' @export userGrouping
+#' @export 
+#if ( ! isGeneric('userGrouping') ){
+setGeneric('userGrouping', ## Name
+	function (cellexalObj, cellidfile) { 
+		standardGeneric('userGrouping') 
+	}
+)
+#}
+
+#' @name userGrouping
+#' @aliases userGrouping,cellexalvrR-method
+#' @rdname userGrouping-methods
+#' @docType methods
+#' @title description of function userGrouping
+#' @export 
 setMethod('userGrouping', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile) {
 	

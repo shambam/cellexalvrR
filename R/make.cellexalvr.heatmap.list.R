@@ -1,13 +1,4 @@
 
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cellexalvr.heatmap.list', ## Name
-			function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox' ) { 
-				standardGeneric('make.cellexalvr.heatmap.list') 
-			}
-)
-#}
-
-
 #' This is a function called from CellexalVR.
 #' 
 #' Its main function is to store the result from getDifferentials() in a file  #function definition in file 'getDifferentials.R'
@@ -25,7 +16,23 @@ setGeneric('make.cellexalvr.heatmap.list', ## Name
 #' @param stats_method the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'
 #' @title Create the gene list files for VR
 #' @keywords differential, gene list
-#' @export make.cellexalvr.heatmap.list
+#' @export 
+#if ( ! isGeneric('renew') ){
+setGeneric('make.cellexalvr.heatmap.list', ## Name
+			function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox' ) { 
+				standardGeneric('make.cellexalvr.heatmap.list') 
+			}
+)
+#}
+
+
+
+#' @name make.cellexalvr.heatmap.list
+#' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
+#' @rdname make.cellexalvr.heatmap.list-methods
+#' @docType methods
+#' @title Create the gene list files for VR
+#' @export 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox') {
 
@@ -61,8 +68,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 #' @rdname make.cellexalvr.heatmap.list-methods
 #' @docType methods
 #' @title Create the gene list files for VR
-#' @keywords differential, gene list
-#' @export make.cellexalvr.heatmap.list
+#' @export 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
 			cvrObj <- loadObject( cvrObj ) #function definition in file 'lockedSave.R'

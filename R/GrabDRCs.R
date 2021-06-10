@@ -1,10 +1,3 @@
-
-setGeneric('GrabDRCs', ## Name
-	function ( x, other, prefix = NULL ) {
-		standardGeneric('GrabDRCs')
-	}
-)
-
 #' Copy all drc models from one cellexalObj to another - even if the
 #' order and/or the size of the objects is not the same.
 #' @name GrabDRCs
@@ -15,6 +8,19 @@ setGeneric('GrabDRCs', ## Name
 #' @param x the cellexalvrR object
 #' @param other the other cellexalvrR object
 #' @param prefix a prefix for the 3D graph name (shown in VR)
+#' @title copy 3D graphs from objects of the same analysis
+#' @export 
+setGeneric('GrabDRCs', ## Name
+	function ( x, other, prefix = NULL ) {
+		standardGeneric('GrabDRCs')
+	}
+)
+
+
+#' @name GrabDRCs
+#' @aliases GrabDRCs,cellexalvrR-method
+#' @rdname GrabDRCs-methods
+#' @docType methods
 #' @title copy 3D graphs from objects of the same analysis
 #' @export 
 setMethod('GrabDRCs', signature = c ('cellexalvrR', 'cellexalvrR'),

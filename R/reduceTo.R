@@ -1,12 +1,3 @@
-
-#if ( ! isGeneric('renew') ){
-setGeneric('reduceTo', ## Name
-	function ( x, what='row', to=NULL ) { 
-		standardGeneric('reduceTo') 
-	}
-)
-#}
-
 #' reduceTo is the main cellexalvrR subsetting function. It can drop cells as well as genes
 #' and makes sure, that all other objects still are in the same dimensianlity as the main data.
 #' 
@@ -19,6 +10,21 @@ setGeneric('reduceTo', ## Name
 #' @param x the cellexalvrR object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL
+#' @title description of function reduceTo
+#' @export reduceTo
+#if ( ! isGeneric('reduceTo') ){
+setGeneric('reduceTo', ## Name
+	function ( x, what='row', to=NULL ) { 
+		standardGeneric('reduceTo') 
+	}
+)
+#}
+
+
+#' @name reduceTo
+#' @aliases reduceTo,cellexalvrR-method
+#' @rdname reduceTo-methods
+#' @docType methods
 #' @title description of function reduceTo
 #' @export reduceTo
 setMethod('reduceTo', signature = c ('cellexalvrR'),

@@ -7,11 +7,13 @@
 \title{description of function H5Anno2df}
 \usage{
 H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
+
+\S4method{H5Anno2df}{H5File}(x, slotName, namecol = NULL, onlyStrings = FALSE)
 }
 \arguments{
-\item{x}{the H5 object}
+\item{x}{the H5File object}
 
-\item{slotName}{the H5 entity tro convert to a data.frame}
+\item{slotName}{the H5 slot(s) to convert to a data.frame}
 
 \item{namecol}{the (optional) rownames column for the data}
 

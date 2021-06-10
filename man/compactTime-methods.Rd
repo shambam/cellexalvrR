@@ -6,6 +6,8 @@
 \alias{compactTime,cellexalTime-method}
 \title{description of function compactTime}
 \usage{
+compactTime(cellexalObj)
+
 \S4method{compactTime}{cellexalvrR}(cellexalObj)
 }
 \arguments{

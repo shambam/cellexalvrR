@@ -6,6 +6,16 @@
 \alias{make.cellexalvr.network,cellexalvrR-method}
 \title{description of function make.cellexalvr.network}
 \usage{
+make.cellexalvr.network(
+  cellexalObj,
+  cellidfile,
+  outpath,
+  cutoff.ggm = 0.1,
+  exprFract = 0.1,
+  top.n.inter = 130,
+  method = c("rho.p", "pcor")
+)
+
 \S4method{make.cellexalvr.network}{cellexalvrR}(
   cellexalObj,
   cellidfile,

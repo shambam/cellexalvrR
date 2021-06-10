@@ -4,8 +4,10 @@
 \name{compactTimeZscore}
 \alias{compactTimeZscore}
 \alias{compactTimeZscore,cellexalTime-method}
-\title{description of function plot}
+\title{description of function compactTimeZscore}
 \usage{
+compactTimeZscore(x, deg.genes, info, cellexalObj)
+
 \S4method{compactTimeZscore}{cellexalTime,character,cellexalGrouping,cellexalvrR}(x, deg.genes, info, cellexalObj)
 }
 \arguments{

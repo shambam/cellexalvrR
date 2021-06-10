@@ -6,7 +6,29 @@
 \alias{logTimeLine,cellexalvrR-method}
 \title{description of function logTimeLine}
 \usage{
+logTimeLine(
+  cellexalObj,
+  stats,
+  genes = NULL,
+  info,
+  png,
+  timeInfo,
+  GOIs = NULL,
+  text = NULL
+)
+
 \S4method{logTimeLine}{cellexalvrR}(
+  cellexalObj,
+  stats,
+  genes = NULL,
+  info,
+  png,
+  timeInfo,
+  GOIs = NULL,
+  text = NULL
+)
+
+\S4method{logTimeLine}{character}(
   cellexalObj,
   stats,
   genes = NULL,

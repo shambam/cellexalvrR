@@ -6,6 +6,8 @@
 \alias{logHeatmap,cellexalvrR-method}
 \title{description of function logHeatmap}
 \usage{
+logHeatmap(cellexalObj, genes, png, grouping, ...)
+
 \S4method{logHeatmap}{cellexalvrR}(cellexalObj, genes = NULL, png, grouping, ...)
 
 \S4method{logHeatmap}{character}(cellexalObj, genes, png, grouping, ...)
@@ -19,7 +21,7 @@
 
 \item{grouping}{the grouping file used to create this heatmap}
 
-\item{...}{options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'}
+\item{...}{options you want to send to the ontologyLogPage() function}
 }
 \description{
 preload the object before creating one Heatmap session report page
@@ -28,5 +30,5 @@ preload the object before creating one Heatmap session report page
 logHeatmap will create a section in the log document including 
 (1) the DRC the grouping was selected from (colored 2D)
 (2) the heatmap itself
-(3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage()) #function definition in file 'ontologyLogPage.R'
+(3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 }

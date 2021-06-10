@@ -6,6 +6,8 @@
 \alias{makeCellMetaFromDataframe,data.frame-method}
 \title{description of function makeCellMetaFromDataframe}
 \usage{
+makeCellMetaFromDataframe(metad, rq.fields)
+
 \S4method{makeCellMetaFromDataframe}{data.frame}(metad, rq.fields)
 }
 \arguments{

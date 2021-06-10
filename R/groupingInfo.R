@@ -1,4 +1,16 @@
-
+#' groupingInfo collects all information about one grouping from 
+#' the cellexalvrR internals and returns them as a cellealGrouping object.
+#' 
+#' @name groupingInfo
+#' @aliases groupingInfo,cellexalvrR-method
+#' @rdname groupingInfo-methods
+#' @docType methods
+#' @description  returns the information stored for the last grouping read
+#' @param cellexalObj, cellexalvr object
+#' @param gname The optional group name to get info on a specific grouping (not the last)
+#' @title get information on a sample grouping
+#' @return a list with the entries 'grouping', 'order', 'drc' and 'col'
+#' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('groupingInfo', ## Name
 	function ( cellexalObj, gname=NULL ) { 
@@ -14,13 +26,8 @@ setGeneric('groupingInfo', ## Name
 #' @aliases groupingInfo,cellexalvrR-method
 #' @rdname groupingInfo-methods
 #' @docType methods
-#' @description  returns the information stored for the last grouping read
-#' @param cellexalObj, cellexalvr object
-#' @param gname The optional group name to get info on a specific grouping (not the last)
 #' @title get information on a sample grouping
-#' @return a list with the entries 'grouping', 'order', 'drc' and 'col'
-#' @keywords groupingInfo
-#' @export groupingInfo
+#' @export 
 setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, gname=NULL ) {
 	if ( is.null(gname)){

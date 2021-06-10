@@ -6,6 +6,12 @@
 \alias{partFname,character-method}
 \title{description of internally used function partFname}
 \usage{
+partFname(
+  part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
+    "colors", "lastGroup", "all"),
+  path
+)
+
 \S4method{partFname}{character}(
   part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
     "colors", "lastGroup", "all"),
@@ -13,7 +19,7 @@
 )
 }
 \arguments{
-\item{part}{to get the fanme for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )}
+\item{part}{to get the filename for (  'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'all' )}
 
 \item{path}{the outpath}
 }
