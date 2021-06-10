@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     strategy:
       matrix:
         r-version: [3.6, 4.1]
