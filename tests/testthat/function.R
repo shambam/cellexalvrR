@@ -18,7 +18,7 @@ checkFile = function ( collect, ofile, statementSplit = '>' ) {
         }
         else {
           collect[[na]] = collect[[na]] + 
-           length(grep( na, unlist(str_split(line, ">"))))
+           length(grep( na, unlist(stringr::str_split(line, ">"))))
         }   
   		}
   	}

@@ -9,14 +9,11 @@ if ( file.exists( opath) ){
 }
 dir.create( opath )
 
-
-d=lapply( list.files(opath), function(n) { file.remove(file.path( opath, n), recursive = TRUE)} )
-
-load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
+#load(system.file( 'data/cellexalObj.rda', package='cellexalvrR'))
 
 cellexalObj = check(cellexalObj)
 cellexalObj@outpath = opath
-lockedSave(cellexalObj )
+lockedSave( cellexalObj )
 
 cellexalObj = useInbuiltGOIlists(cellexalObj, 'TFs')
 

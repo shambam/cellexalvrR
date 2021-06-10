@@ -17,7 +17,7 @@ checkFile = function ( collect, ofile ) {
   	}
   	for ( na in names(collect) ){
   		if ( length(grep( na, line))> 0){
-  			collect[[na]] = collect[[na]] + length(grep( na, unlist(str_split(line, "a>"))))
+  			collect[[na]] = collect[[na]] + length(grep( na, unlist(stringr::str_split(line, "a>"))))
   		}
   	}
 	}

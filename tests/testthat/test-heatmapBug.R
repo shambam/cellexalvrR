@@ -35,4 +35,4 @@ files = c( "cellexalObj.RData", "Heatmaps", "libs", 'png', "PortableLog_test.zip
 	"reference-keys.txt", "search_index.json", "selection11.txt.time" , "selection11.txt.time.points",
 	"session-log-for-session-test.html", "test")
 
-expect_equal(list.files(path), files, label="All expected outfiles #2" )
+expect_equal(sort(list.files(path)), sort(files), label="All expected outfiles #2" )
