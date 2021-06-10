@@ -6,7 +6,7 @@
 \alias{md_gene_links,cellexalvrR-method}
 \title{Create a binned annotation column from numeric data}
 \usage{
-md_gene_links(genes, label = "Click to expand gene list")
+\S4method{md_gene_links}{character}(genes, label = "Click to expand gene list")
 }
 \arguments{
 \item{genes}{a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="}

@@ -6,7 +6,7 @@
 \alias{compactTime,cellexalTime-method}
 \title{description of function compactTime}
 \usage{
-compactTime(cellexalObj)
+\S4method{compactTime}{cellexalvrR}(cellexalObj)
 }
 \arguments{
 \item{cellexalObj}{if x is a cellexalTime object this is necessary to create the zscored matrix.}

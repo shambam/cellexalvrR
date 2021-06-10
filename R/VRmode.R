@@ -7,17 +7,7 @@
 #' @keywords VRmode
 #' @title check if CellexalVR.exe is running (Windows specific)
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('VRmode', ## Name
-			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
-				standardGeneric('VRmode') 
-			}
-)
-#}
-#' A function checking whether VR is run at the same time as the R process.
-
-setMethod('VRmode', signature = c (),
-		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
+VRmode = function( ){
 	tryCatch ( {
 		task <- shell('tasklist /fi "imagename eq CellexalVR.exe" /nh /fo csv',
 			intern = TRUE)
@@ -29,4 +19,4 @@ setMethod('VRmode', signature = c (),
     	}
 	)
 	OK
-})
+}

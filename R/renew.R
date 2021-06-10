@@ -94,10 +94,10 @@ setMethod('renew', signature = c ('cellexalvrR'),
 			invisible(ret)
 }  )
 
-#' @describeIn renew cellexalvrR
+#' @name renew
+#' @aliases renew,cellexalvrR-method
+#' @rdname renew-methods
 #' @docType methods
-#' @description renew the OLD cellexalvr objects
-#' @param x the old cellexalvr (not cellexalvrR) object
 #' @title description of function renew
 #' @export renew
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object

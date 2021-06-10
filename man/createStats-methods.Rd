@@ -6,7 +6,7 @@
 \alias{createStats,cellexalTime-method}
 \title{description of function plot}
 \usage{
-createStats(x, cellexalObj, num.sig = 250, p.cut = NULL)
+\S4method{createStats}{character,cellexalvrR}(x, cellexalObj, num.sig = 250, p.cut = NULL)
 }
 \arguments{
 \item{x}{the object}
@@ -18,5 +18,7 @@ createStats(x, cellexalObj, num.sig = 250, p.cut = NULL)
 \item{p.cut}{use a p value cut of instead of a number of significant genes}
 }
 \description{
-calculates linear peason statistics for this timeline and the expression data in the cellexalvrR object.
+calculates linear peason statistics for this timeline and the
+
+expression data in the cellexalvrR object.
 }

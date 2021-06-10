@@ -6,7 +6,9 @@
 \alias{getTime,cellexalTime-method}
 \title{get a timeline or throw an error}
 \usage{
-getTime(cellexalObj, name)
+\S4method{getTime}{cellexalvrR,character}(cellexalObj, name)
+
+\S4method{getTime}{cellexalvrR,cellexalTime}(cellexalObj, name)
 }
 \arguments{
 \item{cellexalObj}{the object to get the data from}
@@ -14,5 +16,7 @@ getTime(cellexalObj, name)
 \item{name}{the name for this timeline}
 }
 \description{
+compare a set of genes and compare them in different cells over the same timeline
+
 compare a set of genes and compare them in different cells over the same timeline
 }

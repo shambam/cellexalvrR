@@ -17,6 +17,17 @@
   onlyPos = TRUE,
   report4genes = NULL
 )
+
+\S4method{getDifferentials}{character}(
+  x,
+  cellidfile,
+  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
+    "negbinom", "MAST", "DESeq2", "anova"),
+  num.sig = 250,
+  Log = TRUE,
+  logfc.threshold = 1,
+  minPct = 0.1
+)
 }
 \arguments{
 \item{x, }{cellexalvrR object}
@@ -36,6 +47,8 @@
 \item{onlyPos}{select only genes showing an higher expression in the group (default =T)}
 
 \item{report4genes}{a list of genes you want to get a report on.}
+
+\item{x}{the cellexalvrR.RData file}
 }
 \value{
 the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp[[x@usedObj$lastGroup]]

@@ -1,6 +1,14 @@
+
+
+setGeneric('check', ## Name
+	function ( x, silent=FALSE ) {
+		standardGeneric('check')
+	}
+)
+
 #' The cellexalvrR sanity check.
-#' Prints out the problems and sets a x@usedObj$ceckPassed boolean value
-#' This function is called in the export2cellexalvr function.
+#' Prints out the problems and sets a x@usedObj$ceckPassed boolean value.
+#' This function is called in the export2cellexalvr function and others.
 #'
 #' @name check
 #' @aliases check,cellexalvrR-method
@@ -12,13 +20,6 @@
 #' @title cellexal internal checks
 #' @returns the checked cellexalvrR object
 #' @export 
-
-setGeneric('check', ## Name
-	function ( x, silent=FALSE ) {
-		standardGeneric('check')
-	}
-)
-
 setMethod('check', signature = c ('cellexalvrR'),
 	definition = function ( x, silent=FALSE ) {
 	

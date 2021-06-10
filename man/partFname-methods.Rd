@@ -6,7 +6,7 @@
 \alias{partFname,character-method}
 \title{description of internally used function partFname}
 \usage{
-partFname(
+\S4method{partFname}{character}(
   part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
     "colors", "lastGroup", "all"),
   path

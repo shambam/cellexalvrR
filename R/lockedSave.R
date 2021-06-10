@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('lockedSave', ## Name
+	function (cellexalObj, path=NULL, what=NULL ) {
+		standardGeneric('lockedSave')
+	}
+)
+#}
+
 #' A thread save saving of the object. 
 #' @name lockedSave
 #' @aliases lockedSave,cellexalvrR-method
@@ -11,14 +20,6 @@
 #' @title description of function lockedSave
 #' @keywords lockedSave
 #' @export lockedSave
-#if ( ! isGeneric('renew') ){
-setGeneric('lockedSave', ## Name
-	function (cellexalObj, path=NULL, what=NULL ) {
-		standardGeneric('lockedSave')
-	}
-)
-#}
-
 setMethod('lockedSave', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, path=NULL ) {
 		if ( is.null(path) ){
@@ -51,19 +52,6 @@ setGeneric('loadObject', ## Name
 #}
 
 
-#' @describeIn loadObject cellexalvrR
-#' @docType methods
-#' @description just returns the cellexalObj
-#' @param fname the file to load or a cellexalvr object
-#' @param maxwait stop after maxwait seconds default=50
-#' @keywords load
-#' @title dummy function just returning the cellexalvrR object.
-#' @export loadObject
-setMethod('loadObject', signature = c ('cellexalvrR'),
-		definition = function ( fname, maxwait=50 ) {
-			return (fname)
-} )
-
 #' loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
 #' before reporting a failed attempt.
 #' 
@@ -71,9 +59,22 @@ setMethod('loadObject', signature = c ('cellexalvrR'),
 #' @aliases loadObject,character-method
 #' @rdname loadObject-methods
 #' @docType methods
-#' @description  Loads the cellexalvr object, if the fname is a file
 #' @param fname the file to load or a cellexalvr object
 #' @param maxwait stop after maxwait seconds default=50
+#' @keywords load
+#' @title description of function loadObject
+#' @export loadObject
+setMethod('loadObject', signature = c ('cellexalvrR'),
+		definition = function ( fname, maxwait=50 ) {
+			return (fname)
+} )
+
+
+#' @name loadObject
+#' @aliases loadObject,character-method
+#' @rdname loadObject-methods
+#' @docType methods
+#' @description  Loads the cellexalvr object, if the fname is a file and returns the cellexalvrR object otherwise.
 #' @keywords load
 #' @title description of function loadObject
 #' @export loadObject

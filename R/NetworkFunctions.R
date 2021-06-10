@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('cormat2df', ## Name
+	function (cors) {
+		standardGeneric('cormat2df')
+	}
+)
+#}
+
 #' @name cormat2df
 #' @aliases cormat2df,cellexalvrR-method
 #' @rdname cormat2df-methods
@@ -7,14 +16,6 @@
 #' @title description of function cormat2df
 #' @keywords network construction
 #' @export cormat2df
-#if ( ! isGeneric('renew') ){
-setGeneric('cormat2df', ## Name
-	function (cors) {
-		standardGeneric('cormat2df')
-	}
-)
-#}
-
 setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 
     ut <- upper.tri(cors)
@@ -25,6 +26,15 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
     )
     df.out
 })
+
+
+#if ( ! isGeneric('renew') ){
+setGeneric('make.cellexalvr.network', ## Name
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
+		standardGeneric('make.cellexalvr.network')
+	}
+)
+#}
 
 #' This is the R function that calculates the TF networks shown in the VR environment.
 #' 
@@ -42,14 +52,6 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
-		standardGeneric('make.cellexalvr.network')
-	}
-)
-#}
-
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 
@@ -244,15 +246,10 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 } )
 
 
-#' @describeIn make.cellexalvr.network cellexalvrR
+#' @name make.cellexalvr.network
+#' @aliases make.cellexalvr.network,cellexalvrR-method
+#' @rdname make.cellexalvr.network-methods
 #' @docType methods
-#' @description preload the cellexalObj.RData file
-#' @param cellexalObj, cellexalvr object
-#' @param cellidfile file containing cell IDs
-#' @param outpath the outpath
-#' @param cutoff.ggm The cutoff for the correlation (default = 0.8)
-#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.1)
-#' @param top.n.inter get only the n top interations default=125
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export make.cellexalvr.network

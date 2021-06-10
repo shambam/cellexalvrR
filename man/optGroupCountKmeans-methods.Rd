@@ -6,7 +6,7 @@
 \alias{optGroupCountKmeans,cellexalvrR-method}
 \title{description of function optGroupCountKmeans}
 \usage{
-optGroupCountKmeans(dat, k = 1:20)
+\S4method{optGroupCountKmeans}{matrix}(dat, k = 1:20)
 }
 \arguments{
 \item{dat}{TEXT MISSING}

@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('groupingInfo', ## Name
+	function ( cellexalObj, gname=NULL ) { 
+		standardGeneric('groupingInfo') 
+	}
+)
+#}
+
 #' groupingInfo collects all information about one grouping from 
 #' the cellexalvrR internals and returns them as a cellealGrouping object.
 #' 
@@ -12,14 +21,6 @@
 #' @return a list with the entries 'grouping', 'order', 'drc' and 'col'
 #' @keywords groupingInfo
 #' @export groupingInfo
-#if ( ! isGeneric('renew') ){
-setGeneric('groupingInfo', ## Name
-	function ( cellexalObj, gname=NULL ) { 
-		standardGeneric('groupingInfo') 
-	}
-)
-#}
-
 setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, gname=NULL ) {
 	if ( is.null(gname)){

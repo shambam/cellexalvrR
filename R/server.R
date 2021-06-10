@@ -1,3 +1,13 @@
+
+
+#if ( ! isGeneric('renew') ){
+setGeneric('server', ## Name
+			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
+				standardGeneric('server') 
+			}
+)
+#}
+
 #' This server function is the main speed up for big data files.
 #'
 #' Instead of loading and saving all files for each function call in the VR process
@@ -23,15 +33,6 @@
 #' @keywords server
 #' @title start a server function periodicly sourcing in a file.
 #' @export server
-
-#if ( ! isGeneric('renew') ){
-setGeneric('server', ## Name
-			function ( file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ) { 
-				standardGeneric('server') 
-			}
-)
-#}
-
 setMethod('server', signature = c ('character'),
 		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
 	lockfile   = paste( file, 'input.lock', sep=".") 

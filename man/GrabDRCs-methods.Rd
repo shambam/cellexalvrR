@@ -19,6 +19,6 @@
 make 3D graphs from consecutive analysies available in the main analysis VR session
 }
 \details{
-Copy all drc models from one cellexalObj to another - even if 
-the order and/or the size of the objects is not the same.
+Copy all drc models from one cellexalObj to another - even if the
+order and/or the size of the objects is not the same.
 }

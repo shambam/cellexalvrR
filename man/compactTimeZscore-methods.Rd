@@ -6,7 +6,7 @@
 \alias{compactTimeZscore,cellexalTime-method}
 \title{description of function plot}
 \usage{
-compactTimeZscore(x, deg.genes, info, cellexalObj)
+\S4method{compactTimeZscore}{cellexalTime,character,cellexalGrouping,cellexalvrR}(x, deg.genes, info, cellexalObj)
 }
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}
@@ -17,4 +17,9 @@ compactTimeZscore(x, deg.genes, info, cellexalObj)
 }
 \description{
 create a global gene z-score and virtual samples over the timeline
+}
+\details{
+This function should be run on the main cellexalObj including all data.
+It will create (for a subset of genes) a z-scored dataset and will then 
+sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
 }

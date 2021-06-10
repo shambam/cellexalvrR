@@ -4,9 +4,9 @@
 \name{invert}
 \alias{invert}
 \alias{invert,cellexalTime-method}
-\title{description of function plot}
+\title{description of function invert}
 \usage{
-invert(x)
+\S4method{invert}{cellexalTime}(x)
 }
 \arguments{
 \item{x}{the object}

@@ -9,14 +9,13 @@
 \alias{as_cellexalvrR,H5File-method}
 \title{convert a supported object/file to cellexalvrR keeping all 3D drc objects.}
 \usage{
-as_cellexalvrR(
+\S4method{as_cellexalvrR}{environment}(
   x,
   meta.cell.groups = NULL,
   meta.genes.groups = NULL,
   userGroups = NULL,
   outpath = getwd(),
-  specie,
-  ...
+  specie
 )
 
 \S4method{as_cellexalvrR}{Seurat}(
@@ -58,13 +57,13 @@ as_cellexalvrR(
 )
 }
 \arguments{
-\item{x}{the h5ad file}
+\item{x}{the BioData 'object'}
 
-\item{meta.cell.groups}{which x$samples column to convert to meta.cell classes}
+\item{meta.cell.groups}{which cell annotation columns to convert to meta.cell}
 
 \item{meta.genes.groups}{which annotation columns to keep (default NULL)}
 
-\item{userGroups}{which x$samples columns to add to the userGroups slot}
+\item{userGroups}{which cell annotation columns to add to the userGroups slot}
 
 \item{outpath}{set the outpath of the object (default getwd())}
 
@@ -80,24 +79,18 @@ as_cellexalvrR(
 
 \item{scaleArrowTravel}{scale the velovity arrow for VR (default 20)}
 
-\item{minCell4gene}{the database must not have not expressed genes in it (default 10)}
+\item{minCell4gene}{savety feature for andata import required for CellexalVR (default 10)}
 }
 \description{
 convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
 
-convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+convert a Seurat v3.x object into a cellexalvrR obejct
 
 convert a python h5ad file into a cellexalvrR obejct
 
-convert a python h5ad file into a cellexalvrR obejct
+convert a H5File object into a cellexalvrR obejct
 }
 \details{
 This function is the default conversion function from any other object.
 Depending on which object is to be imported the paramteters differ.
-
-Convert a Seurat object into a cellexalvrR object
-
-Convert a scanpy or velocityo h5ad file into a cellexalvrR object
-
-Convert a scanpy or velocityo h5ad file into a cellexalvrR object
 }

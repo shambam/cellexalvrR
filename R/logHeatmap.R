@@ -128,13 +128,10 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj
 } )
 
-#' @describeIn logHeatmap cellexalvrR
-#' @description create one Heatmap session report page
-#' @param cellexalObj the cellexalvrR file
-#' @param genes the genes displayed on the heatmap
-#' @param png the VR generated heatmap (png)
-#' @param grouping the grouping file used to create this heatmap
-#' @param ... options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'
+#' @name logHeatmap
+#' @aliases logHeatmap,cellexalvrR-method
+#' @rdname logHeatmap-methods
+#' @docType methods
 #' @title description of function logHeatmap
 #' @export
 setMethod('logHeatmap', signature = c ('character'),

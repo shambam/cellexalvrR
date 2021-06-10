@@ -6,7 +6,7 @@
 \alias{H5Anno2df,cellexalvrR-method}
 \title{description of function H5Anno2df}
 \usage{
-\S4method{H5Anno2df}{H5File}(x, slotName, namecol = NULL, onlyStrings = FALSE)
+H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)
 }
 \arguments{
 \item{x}{the H5 object}

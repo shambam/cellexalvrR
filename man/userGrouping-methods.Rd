@@ -6,7 +6,7 @@
 \alias{userGrouping,cellexalvrR-method}
 \title{description of function userGrouping}
 \usage{
-userGrouping(cellexalObj, cellidfile)
+\S4method{userGrouping}{cellexalvrR}(cellexalObj, cellidfile)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}

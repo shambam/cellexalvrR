@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('onlyGOIs', ## Name
+	function ( cellexalObj, name ) { 
+		standardGeneric('onlyGOIs') 
+	}
+)
+#}
+
 #' onlyGOIs is able to use the inbuild GOI datasest to subset the main data to e.g. TFs only.
 #' 
 #' This function is used internally.
@@ -11,14 +20,6 @@
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @title description of function onlyGOIs
 #' @export onlyGOIs
-#if ( ! isGeneric('renew') ){
-setGeneric('onlyGOIs', ## Name
-	function ( cellexalObj, name ) { 
-		standardGeneric('onlyGOIs') 
-	}
-)
-#}
-
 setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {

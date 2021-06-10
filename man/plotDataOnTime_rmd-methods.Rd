@@ -4,9 +4,9 @@
 \name{plotDataOnTime_rmd}
 \alias{plotDataOnTime_rmd}
 \alias{plotDataOnTime_rmd,cellexalTime-method}
-\title{description of function plot}
+\title{description of function plotDataOnTime_rmd}
 \usage{
-plotDataOnTime_rmd(x, dat, color = NULL, ofile, cellexalObj)
+\S4method{plotDataOnTime_rmd}{cellexalTime}(x, dat, color = NULL, ofile, cellexalObj)
 }
 \arguments{
 \item{x}{the object}

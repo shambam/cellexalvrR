@@ -6,7 +6,7 @@
 \alias{simplePlotHeatmaps,cellexalvrR-method}
 \title{description of function simplePlotHeatmaps}
 \usage{
-simplePlotHeatmaps(x, info, fname)
+\S4method{simplePlotHeatmaps}{cellexalvrR,cellexalGrouping,character}(x, info, fname)
 }
 \arguments{
 \item{x, }{cellexalvrR object that has the correct order and only the genes of interest!}
@@ -21,6 +21,9 @@ a list with the keys
   genes - the genes split into the displayed groups
   ofile - the main outfile
   error - any error occuring - should be included in the report.
+  smoothedClusters - the smoothened lines
+ MaxInCluster - which line has in which time slot it's maximum
+  mat - the z-scored summed up expression matrix
 }
 \description{
 plot an extremely simple heatmap ans slices of that

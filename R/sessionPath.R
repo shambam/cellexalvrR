@@ -1,3 +1,10 @@
+
+setGeneric('sessionPath', ## Name
+		function (cellexalObj, sessionName=NULL ) { 
+			standardGeneric('sessionPath')
+		}
+)
+
 #' VR method that creates the session specific settings for each VR session.
 #' @name sessionPath
 #' @aliases sessionPath,cellexalvrR-method
@@ -8,12 +15,6 @@
 #' @param sessionName the session ID default=NULL
 #' @title description of function sessionPath
 #' @export
-setGeneric('sessionPath', ## Name
-		function (cellexalObj, sessionName=NULL ) { 
-			standardGeneric('sessionPath')
-		}
-)
-
 setMethod('sessionPath', signature = c ('cellexalvrR'), 
 	definition = function (cellexalObj, sessionName=NULL ) {
 			
@@ -142,11 +143,10 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 })
 
 
-#' @describeIn sessionPath cellexalvrR
+#' @name sessionPath
+#' @aliases sessionPath,cellexalvrR-method
+#' @rdname sessionPath-methods
 #' @docType methods
-#' @description preload the cellexalOvh.RData file 
-#' @param cellexalObj the cellexalOvh.RData file 
-#' @param sessionName the session ID default=NULL
 #' @title description of function sessionPath
 #' @export
 setMethod('sessionPath', signature = c ('character'),

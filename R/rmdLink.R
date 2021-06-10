@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('rmdLink', ## Name
+			function ( name, link, lineEnd = T ) { 
+				standardGeneric('rmdLink')
+			}
+)
+#}
+
 #' Create a R markdown link used in the (VR) log files.
 #' 
 #' @name rmdLink
@@ -10,14 +19,6 @@
 #' @param lineEnd add a line end at the end of every entry (default =T) 
 #' @title easily create an Rmd link that opens in a new window.
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('rmdLink', ## Name
-			function ( name, link, lineEnd = T ) { 
-				standardGeneric('rmdLink')
-			}
-)
-#}
-
 setMethod('rmdLink', signature = c ('character'),
 		definition = function ( name, link, lineEnd = T  ) {
 			

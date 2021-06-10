@@ -1,3 +1,13 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('make.cellexalvr.heatmap.list', ## Name
+			function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox' ) { 
+				standardGeneric('make.cellexalvr.heatmap.list') 
+			}
+)
+#}
+
+
 #' This is a function called from CellexalVR.
 #' 
 #' Its main function is to store the result from getDifferentials() in a file  #function definition in file 'getDifferentials.R'
@@ -16,16 +26,6 @@
 #' @title Create the gene list files for VR
 #' @keywords differential, gene list
 #' @export make.cellexalvr.heatmap.list
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cellexalvr.heatmap.list', ## Name
-			function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox' ) { 
-				standardGeneric('make.cellexalvr.heatmap.list') 
-			}
-)
-#}
-
-
-
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox') {
 
@@ -56,14 +56,10 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			invisible( cvrObj )
 		} )
 
-#' @describeIn make.cellexalvr.heatmap.list cellexalvrR
+#' @name make.cellexalvr.heatmap.list
+#' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
+#' @rdname make.cellexalvr.heatmap.list-methods
 #' @docType methods
-#' @description  preload the cellexalObj.RData file
-#' @param cvrObj the cellexalObj.RData file
-#' @param cellidfile file containing cell IDs or the grouping name
-#' @param num.sig The number of differentials to be returned
-#' @param outfile The name of the output file
-#' @param stats_method the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'
 #' @title Create the gene list files for VR
 #' @keywords differential, gene list
 #' @export make.cellexalvr.heatmap.list

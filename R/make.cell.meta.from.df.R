@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('make.cell.meta.from.df', ## Name
+	function (metad,rq.fields) { 
+		standardGeneric('make.cell.meta.from.df') 
+	}
+)
+#}
+
 #' The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
 #' As this is no common format this function will convert a multi named grouping 
 #' like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
@@ -10,15 +19,7 @@
 #' @param rq.fields A vector of name specifiying which columns should me made into metadata
 #' @keywords metadata cell
 #' @title description of function make.cell.meta.from.df
-#' @export make.cell.meta.from.df
-#if ( ! isGeneric('renew') ){
-setGeneric('make.cell.meta.from.df', ## Name
-	function (metad,rq.fields) { 
-		standardGeneric('make.cell.meta.from.df') 
-	}
-)
-#}
-
+#' @export 
 setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 	definition = function (metad,rq.fields) {
 
@@ -36,6 +37,15 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 } )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('makeCellMetaFromDataframe', ## Name
+	function (metad,rq.fields) { 
+		standardGeneric('makeCellMetaFromDataframe') 
+	}
+)
+#}
+
 #' The cell meta for cellexalvrR is a list of columns with 0/1 information for all groupings.
 #' As this is not common format this function will convert a multi named grouping 
 #' like CellType=c('HSC', MPP1', MPP2','HSC',...) into 3 columns that CellexalVR can use.
@@ -48,15 +58,7 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 #' @param rq.fields A vector of name specifiying which columns should me made into metadata
 #' @keywords metadata cell
 #' @title description of function makeCellMetaFromDataframe
-#' @export makeCellMetaFromDataframe
-#if ( ! isGeneric('renew') ){
-setGeneric('makeCellMetaFromDataframe', ## Name
-	function (metad,rq.fields) { 
-		standardGeneric('makeCellMetaFromDataframe') 
-	}
-)
-#}
-
+#' @export 
 setMethod('makeCellMetaFromDataframe', signature = c ('data.frame'),
 	definition = function (metad,rq.fields) {
 

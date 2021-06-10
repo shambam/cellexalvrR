@@ -1,3 +1,10 @@
+
+setGeneric('sessionRegisterGrouping', ## Name
+	function ( x, gName ) { 
+		standardGeneric('sessionRegisterGrouping')
+	}
+)
+
 #' Log function that keeps track of the number of sections used in the log file.
 #'
 #' @name sessionRegisterGrouping
@@ -9,12 +16,6 @@
 #' @param gName the group name to register
 #' @title description of function sessionRegisterGrouping
 #' @export 
-setGeneric('sessionRegisterGrouping', ## Name
-	function ( x, gName ) { 
-		standardGeneric('sessionRegisterGrouping')
-	}
-)
-
 setMethod('sessionRegisterGrouping', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
 		if ( is.na( match(gName, names(x@usedObj$sessionCounter)) ) ){

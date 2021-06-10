@@ -1,3 +1,10 @@
+
+setGeneric('renderReport', ## Name
+	function (cellexalObj) { 
+		standardGeneric('renderReport')
+	}
+)
+
 #' renderReport is the final step to create a html log file.
 #' 
 #' These log files can be accessed from within the VR environment using the inbuilt browser.
@@ -11,12 +18,6 @@
 #' @param cellexalObj the cellexlvrR object
 #' @title description of function renderReport
 #' @export 
-setGeneric('renderReport', ## Name
-	function (cellexalObj) { 
-		standardGeneric('renderReport')
-	}
-)
-
 setMethod('renderReport', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj) {
 	## here you should know which files to render  ;-)
@@ -129,11 +130,10 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	cellexalObj
 } )
 
-
-#' @describeIn renderReport cellexalvrR
+#' @name renderReport
+#' @aliases renderReport,cellexalvrR-method
+#' @rdname renderReport-methods
 #' @docType methods
-#' @description preload the cellexalObj
-#' @param cellexalObj the cellexal.RData file 
 #' @title description of function renderReport
 #' @export 
 setMethod('renderReport', signature = c ('character'),

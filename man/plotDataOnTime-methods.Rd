@@ -4,14 +4,14 @@
 \name{plotDataOnTime}
 \alias{plotDataOnTime}
 \alias{plotDataOnTime,cellexalTime-method}
-\title{description of function plot}
+\title{description of function plotDataOnTime}
 \usage{
-plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
+\S4method{plotDataOnTime}{cellexalTime,list}(x, dat, color = NULL, ofile, smooth = TRUE)
 
 \S4method{plotDataOnTime}{data.frame,list}(x, dat, color = NULL, ofile, smooth = TRUE)
 }
 \arguments{
-\item{x}{the data.frame object}
+\item{x}{the cellexalTime object or a data.frame (use the cellexalTime object)}
 
 \item{dat}{the linear data to plot}
 
@@ -22,8 +22,6 @@ plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)
 \item{smooth}{add a smoothed line to the graph (default TRUE)}
 }
 \description{
-plot linear data on the time in a 2d figure
-
 plot linear data on the time in a 2d figure
 }
 \details{

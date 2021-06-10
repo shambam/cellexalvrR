@@ -1,3 +1,10 @@
+
+setGeneric('drcPlots2Dtime', ## Name
+	function ( cellexalObj, gInfo ) { 
+		standardGeneric('drcPlots2Dtime')
+	}
+)
+
 #' drcPlots2Dtime is a function linked to the log functionallity.
 #' 
 #' This function will create the 2D DRC images for the logTimeline sections.
@@ -8,15 +15,9 @@
 #' @docType methods
 #' @description create two 2D drc plots for the report
 #' @param cellexalObj the cellexal object
-#' @param gInfo the return value from cellexalvrR::groupingInfo()
+#' @param gInfo either a cellexalTime or a cellexalGrouping object
 #' @title description of function drcPlot2D
 #' @export 
-setGeneric('drcPlots2Dtime', ## Name
-	function ( cellexalObj, gInfo ) { 
-		standardGeneric('drcPlots2Dtime')
-	}
-)
-
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 	definition = function ( cellexalObj, gInfo ){
 
@@ -25,6 +26,16 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 	}
 )
 
+#' drcPlots2Dtime is a function linked to the log functionallity.
+#' 
+#' This function will create the 2D DRC images for the logTimeline sections.
+#' 
+#' @name drcPlots2Dtime
+#' @aliases drcPlots2Dtime,cellexalvrR-method
+#' @rdname drcPlots2Dtime-methods
+#' @docType methods
+#' @title description of function drcPlot2D
+#' @export 
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo ) {
 

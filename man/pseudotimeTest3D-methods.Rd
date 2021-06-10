@@ -6,7 +6,7 @@
 \alias{pseudotimeTest3D,cellexalvrR-method}
 \title{description of function pseudotimeTest3D}
 \usage{
-pseudotimeTest3D(
+\S4method{pseudotimeTest3D}{cellexalvrR}(
   x,
   a = NULL,
   b = NULL,

@@ -7,6 +7,8 @@
 \title{description of function get.genes.cor.to}
 \usage{
 \S4method{get.genes.cor.to}{cellexalvrR}(cellexalObj, gname, output = NULL, is.smarker = F, cpp = T)
+
+\S4method{get.genes.cor.to}{character}(cellexalObj, gname, output = NULL, is.smarker = F, cpp = T)
 }
 \arguments{
 \item{cellexalObj}{A cellexalvr object}
@@ -20,7 +22,7 @@
 \item{cpp}{use the c++ cor implementation (default = TRUE)}
 }
 \description{
-Gets positively and negatively correlated genes to a chosen gene
+Indentify positively and negatively correlated genes to a chosen gene
 }
 \details{
 get.genes.cor.to is able to correlate gene expression in 

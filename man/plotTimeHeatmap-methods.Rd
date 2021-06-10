@@ -4,9 +4,9 @@
 \name{plotTimeHeatmap}
 \alias{plotTimeHeatmap}
 \alias{plotTimeHeatmap,cellexalTime-method}
-\title{description of function plot}
+\title{description of function plotTimeHeatmap}
 \usage{
-plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
+\S4method{plotTimeHeatmap}{matrix}(x, ofile, color = NULL, circleF = NULL)
 }
 \arguments{
 \item{x}{the zscored data object}
@@ -15,7 +15,7 @@ plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
 
 \item{color}{the color of the border around the heatmap}
 
-\item{circleF}{a file for a small <color> colored circle as svg file (needed for the reports)}
+\item{circleF}{a file for a small colored circle as svg file (needed for the reports)}
 }
 \value{
 the figure file path

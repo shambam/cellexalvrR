@@ -65,14 +65,11 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 })
 
 
-#' @describeIn logNetwork cellexalvrR
+#' @name logNetwork
+#' @aliases logNetwork,cellexalvrR-method
+#' @rdname logNetwork-methods
 #' @docType methods
-#' @description preload the cellexalObj.RData file
-#' @param cellexalObj the cellexalObj.RData file
-#' @param genes the genes displayed on the network
-#' @param png the VR generated network (png)
-#' @param grouping the grouping file used to create this network
-#' @param ... options you want to send to the ontologyLogPage() function #function definition in file 'ontologyLogPage.R'
+#' @docType methods
 #' @title description of function logNetwork
 #' @export
 setMethod("logNetwork", signature = c("character"), definition = function(cellexalObj,

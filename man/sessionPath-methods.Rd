@@ -6,7 +6,9 @@
 \alias{sessionPath,cellexalvrR-method}
 \title{description of function sessionPath}
 \usage{
-sessionPath(cellexalObj, sessionName = NULL)
+\S4method{sessionPath}{cellexalvrR}(cellexalObj, sessionName = NULL)
+
+\S4method{sessionPath}{character}(cellexalObj, sessionName = NULL)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}

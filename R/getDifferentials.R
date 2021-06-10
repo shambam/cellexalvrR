@@ -261,18 +261,11 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		}
 )
 
-
-#' @describeIn getDifferentials cellexalvrR
+#' @name getDifferentials
+#' @aliases getDifferentials,cellexalvrR-method
+#' @rdname getDifferentials-methods
 #' @docType methods
-#' @description preload the cellexalObj
 #' @param x the cellexalvrR.RData file
-#' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod',
-#' 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2')
-#' @param num.sig number of differnetial genes to return (250)
-#' @param Log log the results (default=TRUE)
-#' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
-#' @param minPct the minium percent expressing cells in a group (default 0.1)
 #' @keywords DEGs
 #' @title description of function getDifferentials
 #' @export getDifferentials

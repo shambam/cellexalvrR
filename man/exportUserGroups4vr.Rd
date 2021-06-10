@@ -7,11 +7,6 @@
 \usage{
 \S4method{exportUserGroups4vr}{character}(cellexalObj, path)
 }
-\arguments{
-\item{cellexalObj}{the cellexalObj.RData file}
-
-\item{path}{the outpath}
-}
 \description{
 simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
 }

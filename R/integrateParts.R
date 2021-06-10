@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('integrateParts', ## Name
+			function ( x , path=NULL ) { 
+				standardGeneric('integrateParts')
+			}
+)
+#}
+
 #' The function integrateParts is one main part in the load and save speed up implemented for cellexalvrR.
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
@@ -12,14 +21,6 @@
 #' @param path the path where the parts are stored (normally the @outpath)
 #' @title description of function integrateParts
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('integrateParts', ## Name
-			function ( x , path=NULL ) { 
-				standardGeneric('integrateParts')
-			}
-)
-#}
-
 setMethod('integrateParts', signature = c ('cellexalvrR'),
 	  definition = function ( x , path=NULL ) {
 			if ( is.null(path) )
@@ -56,6 +57,15 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 			invisible( x )
 		} )
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('savePart', ## Name
+			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path=NULL ) { 
+				standardGeneric('savePart')
+			}
+)
+#}
+
 #' The function savePart is one main part in the load and save speed up implemented for cellexalvrR
 #'
 #' Instead of saving all data in each VR script call only the modified data is saved.
@@ -70,14 +80,6 @@ setMethod('integrateParts', signature = c ('cellexalvrR'),
 #' @param path the optional outpath (default x@outpath)
 #' @title description of function savePart
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('savePart', ## Name
-			function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path=NULL ) { 
-				standardGeneric('savePart')
-			}
-)
-#}
-
 setMethod('savePart', signature = c ('cellexalvrR'),
 		definition = function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path =NULL ) {
 			#meta.cell meta.gene userGroups usedObj
@@ -113,6 +115,15 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 		} )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('partFname', ## Name
+			function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup', 'all' ), path ) { 
+				standardGeneric('partFname')
+			}
+)
+#}
+
 #' The function partFname checks which part to save and throws an error if the part is not avaialable for saving.
 #' 
 #' @name partFname
@@ -124,14 +135,6 @@ setMethod('savePart', signature = c ('cellexalvrR'),
 #' @param path the outpath
 #' @title description of internally used function partFname
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('partFname', ## Name
-			function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup', 'all' ), path ) { 
-				standardGeneric('partFname')
-			}
-)
-#}
-
 setMethod('partFname', signature = c ('character'),
 		definition = function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup', 'all' ), path ) {
 			F = c( 'sample.RData', 'usergroups.RData', 'annotation.RData', 'usedObj.RData' )
@@ -161,6 +164,15 @@ setMethod('partFname', signature = c ('character'),
 			unlist( lapply(fname, function( FN ) { file.path( path, paste(sep="",'.' , FN, '.RData' ) )  } ) )
 		} )
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('cleanParts', ## Name
+			function ( path ) { 
+				standardGeneric('cleanParts')
+			}
+)
+#}
+
 #' The parts clean up function is called after a object is saved using the lockedSave function,
 #' as all previousely saved sub parts should have been integrated into this object then.
 #' 
@@ -172,14 +184,6 @@ setMethod('partFname', signature = c ('character'),
 #' @param path the outpath
 #' @title cleanParts removes all parts when storing the whole object.
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('cleanParts', ## Name
-			function ( path ) { 
-				standardGeneric('cleanParts')
-			}
-)
-#}
-
 setMethod('cleanParts', signature = c ('character'),
 		definition = function ( path ) {
 			#print ( paste(path, "I am cleaning the files:", paste( collapse=", ", partFname( 'all', path )))) #function definition in file 'integrateParts.R'

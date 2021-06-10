@@ -7,6 +7,8 @@
 \title{description of function renew}
 \usage{
 \S4method{renew}{cellexalvrR}(x)
+
+\S4method{renew}{cellexalvr}(x)
 }
 \arguments{
 \item{x}{the object you want to updatae}

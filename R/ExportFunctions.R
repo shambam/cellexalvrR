@@ -177,6 +177,13 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 } )
 
+
+setGeneric('write_as_sqlite3', ## Name
+		function ( x, ofile )  { ## Argumente der generischen Funktion
+			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
+		}
+)
+
 #' SQLite is the database the VR reads the expression values from.
 #' 
 #' This function creates these databases from the data stored in the data slot.
@@ -190,12 +197,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #' @param ofile the database outfile
 #' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
 #' @export 
-setGeneric('write_as_sqlite3', ## Name
-		function ( x, ofile )  { ## Argumente der generischen Funktion
-			standardGeneric('write_as_sqlite3') ## der Aufruf von standardGeneric sorgt für das Dispatching
-		}
-)
-
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 		definition = function ( x, ofile )  {
 			

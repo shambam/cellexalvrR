@@ -6,14 +6,20 @@
 \alias{createReport,cellexalTime-method}
 \title{description of function plot}
 \usage{
-createReport(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+\S4method{createReport}{character,cellexalvrR,character}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+
+\S4method{createReport}{cellexalTime,cellexalvrR,character}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+
+\S4method{createReport}{cellexalTime,cellexalvrR,cellexalTime}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
+
+\S4method{createReport}{cellexalTime,cellexalvrR,cellexalGrouping}(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)
 }
 \arguments{
-\item{x}{the object}
+\item{x}{the cellexalTime object or a time name}
 
 \item{cellexalObj}{the object to get the data from}
 
-\item{info}{a cellexalvrR grouping info list}
+\item{info}{a cellexalGrouping or grouping name}
 
 \item{deg.genes}{a list of genes to create the report for}
 

@@ -7,7 +7,7 @@
 \alias{HTMLtable,cellexalGrouping-method}
 \title{description of function HTMLtable}
 \usage{
-HTMLtable(x)
+\S4method{HTMLtable}{cellexalTime}(x)
 
 \S4method{HTMLtable}{cellexalGrouping}(x)
 }
@@ -20,7 +20,7 @@ return the HTMLtable in exactly the right format
 convert a H5 annotation (any name) table to a data table
 }
 \details{
-returns a html formate table describing one timeline
+A log specific function returning a html formate table describing the timeline
 
 Create an HTML table from a cellexalGrouping.
 These tables are part of the log html's and show group color as well as cell count, VR- and R-ID.

@@ -4,19 +4,19 @@
 \name{drcPlot2Dexpression}
 \alias{drcPlot2Dexpression}
 \alias{drcPlot2Dexpression,cellexalvrR-method}
-\title{description of function drcPlot2D}
+\title{description of function drcPlot2Dexpression}
 \usage{
-drcPlot2Dexpression(cellexalObj, drc = 1, GOI)
+\S4method{drcPlot2Dexpression}{cellexalvrR,character,character}(cellexalObj, drc = 1, GOI)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}
 
 \item{drc}{the edcr (name) to plot on (default the first one)}
 
-\item{GOI}{the return value from cellexalvrR::groupingInfo()}
+\item{GOI}{the genes to plot the mean expression for}
 }
 \description{
-create two 2D drc plots for the report
+create one (2D) or three 2D drc plots for the report
 }
 \details{
 drcPlot2Dexpression is a function linked to the log functionallity.

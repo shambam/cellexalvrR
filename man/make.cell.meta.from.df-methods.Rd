@@ -6,7 +6,7 @@
 \alias{make.cell.meta.from.df,data.frame-method}
 \title{description of function make.cell.meta.from.df}
 \usage{
-make.cell.meta.from.df(metad, rq.fields)
+\S4method{make.cell.meta.from.df}{data.frame}(metad, rq.fields)
 }
 \arguments{
 \item{metad}{A dataframe of per cell metadata}

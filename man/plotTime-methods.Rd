@@ -4,9 +4,9 @@
 \name{plotTime}
 \alias{plotTime}
 \alias{plotTime,cellexalTime-method}
-\title{description of function plot}
+\title{description of function plotTime}
 \usage{
-plotTime(x)
+\S4method{plotTime}{cellexalTime}(x)
 }
 \arguments{
 \item{x}{the object}

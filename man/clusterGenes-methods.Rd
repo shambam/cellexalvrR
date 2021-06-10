@@ -6,7 +6,15 @@
 \alias{clusterGenes,cellexalTime-method}
 \title{description of function plot}
 \usage{
-clusterGenes(x, deg.genes = NULL, info = NULL, ...)
+\S4method{clusterGenes}{cellexalTime}(
+  x,
+  deg.genes = NULL,
+  info = NULL,
+  cellexalObj,
+  geneclusters = NULL
+)
+
+\S4method{clusterGenes}{matrix}(x, deg.genes = NULL, info = NULL, geneclusters = NULL)
 }
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}
@@ -21,6 +29,10 @@ clusterGenes(x, deg.genes = NULL, info = NULL, ...)
 }
 \description{
 get a - hopefully - optimal grouing of a list of genes
+
+Tries to answer the question: how do these genes differ over the timeline.
+It answers this in a graphical, not a statistical way.
+Hence you can feed whichever genelist you like into this function.
 }
 \details{
 Tries to answer the question: how do these genes differ over the timeline.

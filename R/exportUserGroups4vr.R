@@ -1,5 +1,5 @@
 	
-#if ( ! isGeneric('renew') ){
+#if ( ! isGeneric('exportUserGroups4vr') ){
 setGeneric('exportUserGroups4vr', ## Name
 	function ( cellexalObj, path ) { 
 		standardGeneric('exportUserGroups4vr') 
@@ -21,9 +21,11 @@ setGeneric('exportUserGroups4vr', ## Name
 #' @param path the outpath
 #' @title VR helper function exportUserGroups4vr
 #' @examples
+#' \dontrun{
 #' dir.create('data')
-#' exportUserGroups4vr( cellexalObj, 'data') #function definition in file 'exportUserGroups4vr.R'
-#' @export exportUserGroups4vr
+#' exportUserGroups4vr( cellexalObj, 'data')
+#' }
+#' @export 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
 	#cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
@@ -57,8 +59,6 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 #' @describeIn exportUserGroups4vr cellexalvrR
 #' @docType methods
 #' @description simply preload the 'cellexalObj' before running the 'cellexalvrR' specififc function
-#' @param cellexalObj the cellexalObj.RData file
-#' @param path the outpath
 #' @title load object and run exportUserGroups4vr
 #' @export exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('character'),

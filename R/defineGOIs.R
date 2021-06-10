@@ -1,3 +1,11 @@
+#if ( ! isGeneric('renew') ){
+setGeneric('defineGOIs', ## Name
+	function ( cellexalObj, name, genes, lables=NULL,... ) { 
+		standardGeneric('defineGOIs') 
+	}
+)
+#}
+
 #' @name defineGOIs
 #' @aliases defineGOIs,cellexalvrR-method
 #' @rdname defineGOIs-methods
@@ -7,19 +15,10 @@
 #' @param name the name of the GIO list (eg TFs or epigenetic)
 #' @param genes a list of gene symbols that match to the @data rownames
 #' @param lables a list of lables for the GIO column (default NULL)
-#' @param ...  unused
 #' @title Define special genes based on inbuilt data sets (TFs, ...)
-##' @export defineGOIs
-#if ( ! isGeneric('renew') ){
-setGeneric('defineGOIs', ## Name
-	function ( cellexalObj, name, genes, lables=NULL,... ) { 
-		standardGeneric('defineGOIs') 
-	}
-)
-#}
-
+#' @export
 setMethod('defineGOIs', signature = c ('cellexalvrR'),
-	definition = function ( cellexalObj, name, genes, lables=NULL,... ) {
+	definition = function ( cellexalObj, name, genes, lables=NULL ) {
 			if ( is.null(lables) ) {
 				lables = rep(name, length(genes))
 			}
@@ -29,7 +28,7 @@ setMethod('defineGOIs', signature = c ('cellexalvrR'),
 				rownames(cellexalObj@meta.gene) = rownames(cellexalObj@data)
 			}
 			if ( ! is.na( match(name, colnames(cellexalObj@meta.gene)))) {
-				stop( "Sorry, but this GIO list has already been defined" )
+				stop( "This GIO list has already been defined" )
 			}
 			
 			#OK <- which(is.na(match( rownames(cellexalObj@data), genes)) == F)

@@ -4,9 +4,9 @@
 \name{plotHeatmap_rmd}
 \alias{plotHeatmap_rmd}
 \alias{plotHeatmap_rmd,cellexalTime-method}
-\title{description of function plot}
+\title{description of function plotHeatmap_rmd}
 \usage{
-plotHeatmap_rmd(x, ofile, cellexalObj, color = NULL)
+\S4method{plotHeatmap_rmd}{matrix}(x, ofile, cellexalObj, color = NULL)
 }
 \arguments{
 \item{x}{the matrix to plot (genes rows cells cols)}
@@ -19,4 +19,7 @@ plotHeatmap_rmd(x, ofile, cellexalObj, color = NULL)
 }
 \description{
 plot linear data on the time in a 2d figure
+}
+\details{
+convert the pngs from plotTimeHeatmap to Rmd figures.
 }

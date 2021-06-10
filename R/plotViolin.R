@@ -1,3 +1,11 @@
+
+setGeneric('plotViolin', ## Name
+	function (x, gene, grouping, ofile=NULL, 
+	width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica", fileType='pdf'  ) { ## Argumente der generischen Funktion
+		standardGeneric('plotViolin') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
 #' Plot a simple violin plot using the cellexalVR colors
 #'
 #' @name plotViolin
@@ -16,13 +24,6 @@
 #' @param fileType figure file type (default 'pdf' )
 #' @title description of function plotViolin
 #' @export 
-setGeneric('plotViolin', ## Name
-	function (x, gene, grouping, ofile=NULL, 
-	width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica", fileType='pdf'  ) { ## Argumente der generischen Funktion
-		standardGeneric('plotViolin') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
-
 setMethod('plotViolin', signature = c ('cellexalvrR'),
 	definition <- function(x, gene, grouping, ofile=NULL, width=9, height=9, main=NULL, X11type= 'cairo', family="Helvetica"  ) {
 

@@ -6,7 +6,7 @@
 \alias{addCellMeta2cellexalvr,cellexalvrR-method}
 \title{description of function 'addCellMeta2cellexalvr'}
 \usage{
-addCellMeta2cellexalvr(cellexalObj, cell.meta)
+\S4method{addCellMeta2cellexalvr}{cellexalvrR}(cellexalObj, cell.meta)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}

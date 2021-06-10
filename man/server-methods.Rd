@@ -6,7 +6,7 @@
 \alias{server,character-method}
 \title{start a server function periodicly sourcing in a file.}
 \usage{
-server(file, sleepT = 1, debug = FALSE, masterPID = NULL, asFunction = FALSE)
+\S4method{server}{character}(file, sleepT = 1, debug = FALSE, masterPID = NULL, asFunction = FALSE)
 }
 \arguments{
 \item{file}{the file core name to create input.R input.log and pid files.}

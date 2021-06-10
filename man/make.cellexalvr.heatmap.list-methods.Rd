@@ -6,12 +6,20 @@
 \alias{make.cellexalvr.heatmap.list,cellexalvrR-method}
 \title{Create the gene list files for VR}
 \usage{
-make.cellexalvr.heatmap.list(
+\S4method{make.cellexalvr.heatmap.list}{cellexalvrR}(
   cvrObj,
   cellidfile,
   num.sig,
   outfile,
   stats_method = "wilcox"
+)
+
+\S4method{make.cellexalvr.heatmap.list}{character}(
+  cvrObj,
+  cellidfile,
+  num.sig,
+  outfile,
+  stats_method = NA
 )
 }
 \arguments{

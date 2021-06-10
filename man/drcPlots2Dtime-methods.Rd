@@ -6,18 +6,24 @@
 \alias{drcPlots2Dtime,cellexalvrR-method}
 \title{description of function drcPlot2D}
 \usage{
-drcPlots2Dtime(cellexalObj, gInfo)
+\S4method{drcPlots2Dtime}{cellexalvrR,cellexalTime}(cellexalObj, gInfo)
+
+\S4method{drcPlots2Dtime}{cellexalvrR,cellexalGrouping}(cellexalObj, gInfo)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}
 
-\item{gInfo}{the return value from cellexalvrR::groupingInfo()}
+\item{gInfo}{either a cellexalTime or a cellexalGrouping object}
 }
 \description{
 create two 2D drc plots for the report
+
+drcPlots2Dtime is a function linked to the log functionallity.
 }
 \details{
 drcPlots2Dtime is a function linked to the log functionallity.
+
+This function will create the 2D DRC images for the logTimeline sections.
 
 This function will create the 2D DRC images for the logTimeline sections.
 }

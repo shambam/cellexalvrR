@@ -6,7 +6,7 @@
 \alias{reduceTo,cellexalvrR-method}
 \title{description of function reduceTo}
 \usage{
-reduceTo(x, what = "row", to = NULL)
+\S4method{reduceTo}{cellexalvrR}(x, what = "row", to = NULL)
 }
 \arguments{
 \item{x}{the cellexalvrR object}

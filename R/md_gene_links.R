@@ -1,3 +1,10 @@
+
+setGeneric('md_gene_links', ## Name
+	function ( genes, label="Click to expand gene list" ) { 
+		standardGeneric('md_gene_links')
+	}
+)
+
 #' convert a list of genes into a collapsed markdown text that the user can expand.
 #'
 #' @name md_gene_links
@@ -9,12 +16,6 @@
 #' @param label defaults tp "Click to expand gene list"
 #' @title Create a binned annotation column from numeric data
 #' @export 
-setGeneric('md_gene_links', ## Name
-	function ( genes, label="Click to expand gene list" ) { 
-		standardGeneric('md_gene_links')
-	}
-)
-
 setMethod('md_gene_links', signature = c ('character'),
 	definition = function ( genes, label="Click to expand gene list" ) {
 

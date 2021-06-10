@@ -1,3 +1,11 @@
+
+setGeneric('as_cellexalvrR', ## Name
+	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, 
+		outpath=getwd(), specie, ... ) { 
+		standardGeneric('as_cellexalvrR')
+	}
+)
+
 #' This function is the default conversion function from any other object.
 #' Depending on which object is to be imported the paramteters differ.
 #'
@@ -7,20 +15,13 @@
 #' @docType methods
 #' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
 #' @param x the BioData 'object'
-#' @param meta.cell.groups which x$samples column to convert to meta.cell classes
+#' @param meta.cell.groups which cell annotation columns to convert to meta.cell
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x$samples columns to add to the userGroups slot
+#' @param userGroups which cell annotation columns to add to the userGroups slot
 #' @param outpath set the outpath of the object (default getwd())
 #' @param specie set the specie to either mouse or human (default check gene names)
 #' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
 #' @export 
-setGeneric('as_cellexalvrR', ## Name
-	function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, 
-		outpath=getwd(), specie, ... ) { 
-		standardGeneric('as_cellexalvrR')
-	}
-)
-
 setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, 
 		userGroups=NULL, outpath=getwd(), specie ) {
@@ -73,21 +74,14 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 	ret
 } )
 
-#' Convert a Seurat object into a cellexalvrR object
-#'
+
 #' @name as_cellexalvrR
 #' @aliases as_cellexalvrR,Seurat-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
-#' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+#' @description convert a Seurat v3.x object into a cellexalvrR obejct
 #' @param x the BioData 'object'
-#' @param meta.cell.groups which x$samples column to convert to meta.cell classes
-#' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x$samples columns to add to the userGroups slot
-#' @param outpath set the outpath of the object (default getwd())
-#' @param specie set the specie to either mouse or human (default check gene names)
 #' @param assay Seurat::GetAssayData parameter 'assay' to fetch the expression data (default NULL)
-#' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
 #' @export 
 setMethod('as_cellexalvrR', signature = c ('Seurat'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL,
@@ -129,25 +123,17 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 
 
 
-#' Convert a scanpy or velocityo h5ad file into a cellexalvrR object
-#'
+
 #' @name as_cellexalvrR
 #' @aliases as_cellexalvrR,character-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
 #' @description convert a python h5ad file into a cellexalvrR obejct
-#' @param x the h5ad file
-#' @param meta.cell.groups which x$samples column to convert to meta.cell classes
-#' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x$samples columns to add to the userGroups slot
-#' @param outpath set the outpath of the object (default getwd())
-#' @param specie set the specie to either mouse or human (default check gene names)
 #' @param embeddings which embeddings to import from the file (default NULL = all)
 #' @param embeddingDims the dimensionality of the embeddings (default 3)
 #' @param velocity import velocity information (default = 'scvelo')
 #' @param scaleArrowTravel scale the velovity arrow for VR (default 20)
-#' @param minCell4gene the database must not have not expressed genes in it (default 10)
-#' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
+#' @param minCell4gene savety feature for andata import required for CellexalVR (default 10)
 #' @export 
 setMethod('as_cellexalvrR', signature = c ('character'),
 	definition = function (x,   meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), 
@@ -167,25 +153,12 @@ setMethod('as_cellexalvrR', signature = c ('character'),
 
 })
 
-#' Convert a scanpy or velocityo h5ad file into a cellexalvrR object
-#'
+
 #' @name as_cellexalvrR
 #' @aliases as_cellexalvrR,H5File-method
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
-#' @description convert a python h5ad file into a cellexalvrR obejct
-#' @param x the h5ad file
-#' @param meta.cell.groups which x$samples column to convert to meta.cell classes
-#' @param meta.genes.groups which annotation columns to keep (default NULL)
-#' @param userGroups which x$samples columns to add to the userGroups slot
-#' @param outpath set the outpath of the object (default getwd())
-#' @param specie set the specie to either mouse or human (default check gene names)
-#' @param embeddings which embeddings to import from the file (default NULL = all)
-#' @param embeddingDims the dimensionality of the embeddings (default 3)
-#' @param velocity import velocity information (default = 'scvelo')
-#' @param scaleArrowTravel scale the velovity arrow for VR (default 20)
-#' @param minCell4gene the database must not have not expressed genes in it (default 10)
-#' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
+#' @description convert a H5File object into a cellexalvrR obejct
 #' @export 
 
 setMethod('as_cellexalvrR', signature = c ('H5File'),

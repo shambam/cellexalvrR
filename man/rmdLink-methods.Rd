@@ -6,7 +6,7 @@
 \alias{rmdLink,character-method}
 \title{easily create an Rmd link that opens in a new window.}
 \usage{
-rmdLink(name, link, lineEnd = T)
+\S4method{rmdLink}{character}(name, link, lineEnd = T)
 }
 \arguments{
 \item{name}{the displayed text}

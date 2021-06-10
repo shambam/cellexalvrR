@@ -1,18 +1,5 @@
 
-#' set.specie is depricated
-#' 
-#' It sets the specie slot to the user supplied specie string.
-#' 
-#' @name set.specie
-#' @aliases set.specie,cellexalvrR-method
-#' @rdname set.specie-methods
-#' @docType methods
-#' @description  Loads TF annotation into cellexalvr object
-#' @param cellexalObj, cellexalvr object
-#' @param specie The specie required options: "mouse" or "human"
-#' @title description of function set.specie
-#' @keywords TFs
-#' @export set.specie
+
 #if ( ! isGeneric('renew') ){
 setGeneric('set.specie', ## Name
 	function (cellexalObj, specie=c("mouse","human")) { 
@@ -21,6 +8,18 @@ setGeneric('set.specie', ## Name
 )
 #}
 
+#' It sets the specie slot to the user supplied specie string.
+#' 
+#' @name set.specie
+#' @aliases set.specie,cellexalvrR-method
+#' @rdname set.specie-methods
+#' @docType methods
+#' @description Set the specie information in the cellexalvrR object
+#' @param cellexalObj cellexalvr object
+#' @param specie The specie required options: "mouse" or "human"
+#' @title description of function set.specie
+#' @keywords TFs
+#' @export set.specie
 setMethod('set.specie', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
@@ -57,7 +56,7 @@ setGeneric('get.genes.cor.to', ## Name
 #' @aliases get.genes.cor.to,cellexalvrR-method
 #' @rdname get.genes.cor.to-methods
 #' @docType methods
-#' @description  Gets positively and negatively correlated genes to a chosen gene
+#' @description  Indentify positively and negatively correlated genes to a chosen gene
 #' @param cellexalObj A cellexalvr object
 #' @param gname The required gene
 #' @param output the outfile
@@ -159,14 +158,10 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	invisible( tab )
 } )
 
-#' @describeIn get.genes.cor.to cellexalvrR
+#' @name  get.genes.cor.to
+#' @aliases get.genes.cor.to,cellexalvrR-method
+#' @rdname get.genes.cor.to-methods
 #' @docType methods
-#' @description  preload the cellexalObj
-#' @param cellexalObj the cellexalObj.RData file
-#' @param gname The required gene
-#' @param output the outfile
-#' @param is.smarker Whether the supplied gene is a surface marker (default =F)
-#' @param cpp use the c++ cor implementation (default = TRUE)
 #' @title description of function get.genes.cor.to (character) #function definition in file 'cellexalvrFunctions.R'
 #' @export 
 setMethod('get.genes.cor.to', signature = c ('character'),

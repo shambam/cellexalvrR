@@ -1,3 +1,10 @@
+
+setGeneric('renderFile', ## Name
+	function ( x, id, type='' ) { ## Argumente der generischen Funktion
+		standardGeneric('renderFile') ## der Aufruf von standardGeneric sorgt für das Dispatching
+	}
+)
+
 #' A main function in the log system - called after each log has been produced.
 #' @name renderFile
 #' @aliases renderFile,cellexalvrR-method
@@ -9,12 +16,6 @@
 #' @param type the type of log saved (default '')
 #' @title description of function renderFile
 #' @export 
-setGeneric('renderFile', ## Name
-	function ( x, id, type='' ) { ## Argumente der generischen Funktion
-		standardGeneric('renderFile') ## der Aufruf von standardGeneric sorgt für das Dispatching
-	}
-)
-
 setMethod('renderFile', signature = c ('cellexalvrR'),
 	definition = function ( x, id, type='' ) {
 

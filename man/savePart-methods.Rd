@@ -6,7 +6,7 @@
 \alias{savePart,cellexalvrR-method}
 \title{description of function savePart}
 \usage{
-savePart(
+\S4method{savePart}{cellexalvrR}(
   x,
   part = c("meta.cell", "meta.gene", "userGroups", "usedObj", "groupSelectedFrom",
     "colors", "lastGroup"),

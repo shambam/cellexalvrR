@@ -26,6 +26,8 @@ This is a 'VR' helper function that creates a dynamic file used to make the R gr
 Users of the 'cellexalvrR' R class should not need this function.
 }
 \examples{
+\dontrun{
 dir.create('data')
-exportUserGroups4vr( cellexalObj, 'data') #function definition in file 'exportUserGroups4vr.R'
+exportUserGroups4vr( cellexalObj, 'data')
+}
 }

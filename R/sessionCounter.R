@@ -1,3 +1,10 @@
+
+setGeneric('sessionCounter', ## Name
+	function ( x, gName ) { 
+		standardGeneric('sessionCounter')
+	}
+)
+
 #' A log helper function. It does remove the need to store all log Rmd files in the object.
 #' @name sessionCounter
 #' @aliases sessionCounter,cellexalvrR-method
@@ -8,12 +15,6 @@
 #' @param gName the group name
 #' @title description of function sessionCounter
 #' @export 
-setGeneric('sessionCounter', ## Name
-	function ( x, gName ) { 
-		standardGeneric('sessionCounter')
-	}
-)
-
 setMethod('sessionCounter', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
 		ret = NA

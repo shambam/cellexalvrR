@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('optGroupCountKmeans', ## Name
+	function ( dat, k=1:20 ) { 
+		standardGeneric('optGroupCountKmeans')
+	}
+)
+#}
+
 #' @name optGroupCountKmeans
 #' @aliases optGroupCountKmeans,cellexalvrR-method
 #' @rdname optGroupCountKmeans-methods
@@ -7,14 +16,6 @@
 #' @param k  TEXT MISSING default=1:20
 #' @title description of function optGroupCountKmeans
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('optGroupCountKmeans', ## Name
-	function ( dat, k=1:20 ) { 
-		standardGeneric('optGroupCountKmeans')
-	}
-)
-#}
-
 setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	definition = function ( dat, k=1:20 ) {
 	## Using kmeans to group the drc data

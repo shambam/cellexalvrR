@@ -6,7 +6,7 @@
 \alias{onlyGOIs,cellexalvrR-method}
 \title{description of function onlyGOIs}
 \usage{
-onlyGOIs(cellexalObj, name)
+\S4method{onlyGOIs}{cellexalvrR}(cellexalObj, name)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}

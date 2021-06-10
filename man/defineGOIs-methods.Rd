@@ -6,7 +6,7 @@
 \alias{defineGOIs,cellexalvrR-method}
 \title{Define special genes based on inbuilt data sets (TFs, ...)}
 \usage{
-defineGOIs(cellexalObj, name, genes, lables = NULL, ...)
+\S4method{defineGOIs}{cellexalvrR}(cellexalObj, name, genes, lables = NULL)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}
@@ -16,8 +16,6 @@ defineGOIs(cellexalObj, name, genes, lables = NULL, ...)
 \item{genes}{a list of gene symbols that match to the @data rownames}
 
 \item{lables}{a list of lables for the GIO column (default NULL)}
-
-\item{...}{unused}
 }
 \description{
 Allows the user to define (G)enes (O)f (I)nterest lists in the object

@@ -1,5 +1,11 @@
-
-
+#' @name show
+#' @aliases show,cellexalGrouping-method
+#' @rdname show-methods
+#' @docType methods
+#' @description  show the objects internals
+#' @param object the cellexalGrouping
+#' @title show for a cellexalGrouping object
+#' @export
 setMethod('show', signature = c ('cellexalGrouping'),
 	definition = function ( object ) {
 		cat (paste("An object of class", class(object)),"with gname", object@gname,"\n" )
@@ -22,6 +28,7 @@ setMethod('show', signature = c ('cellexalGrouping'),
 #' @description  convert a H5 annotation (any name) table to a data table
 #' @param x the cellexalGrouping
 #' @title create a html table from a cellexalGrouping object
+#' @export
 setMethod('HTMLtable', signature = c ('cellexalGrouping'),
 	definition = function ( x ) {
 

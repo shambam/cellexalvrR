@@ -6,7 +6,7 @@
 \alias{reorderGenes,cellexalvrR-method}
 \title{simple reordering of the genes}
 \usage{
-reorderGenes(dataObj, column)
+\S4method{reorderGenes}{cellexalvrR}(dataObj, column)
 }
 \arguments{
 \item{dataObj}{the cellexalvr object}

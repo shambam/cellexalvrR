@@ -6,7 +6,7 @@
 \alias{write_as_sqlite3,cellexalvrR-method}
 \title{write a cellexalvrR objects data to a 'sqlite3' database of name ofile.}
 \usage{
-write_as_sqlite3(x, ofile)
+\S4method{write_as_sqlite3}{cellexalvrR}(x, ofile)
 }
 \arguments{
 \item{x}{the cellexalvrR object}

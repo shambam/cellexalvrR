@@ -6,7 +6,7 @@
 \alias{check,cellexalvrR-method}
 \title{cellexal internal checks}
 \usage{
-check(x, silent = FALSE)
+\S4method{check}{cellexalvrR}(x, silent = FALSE)
 }
 \arguments{
 \item{x}{the cellexalvrR object}
@@ -21,6 +21,6 @@ checks cellexalvrR internals
 }
 \details{
 The cellexalvrR sanity check.
-Prints out the problems and sets a x@usedObj$ceckPassed boolean value
-This function is called in the export2cellexalvr function.
+Prints out the problems and sets a x@usedObj$ceckPassed boolean value.
+This function is called in the export2cellexalvr function and others.
 }

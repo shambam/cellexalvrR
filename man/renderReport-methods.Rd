@@ -6,7 +6,9 @@
 \alias{renderReport,cellexalvrR-method}
 \title{description of function renderReport}
 \usage{
-renderReport(cellexalObj)
+\S4method{renderReport}{cellexalvrR}(cellexalObj)
+
+\S4method{renderReport}{character}(cellexalObj)
 }
 \arguments{
 \item{cellexalObj}{the cellexlvrR object}

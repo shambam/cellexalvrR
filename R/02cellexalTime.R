@@ -38,16 +38,6 @@ definition = function ( object ) {
 
 
 
-#' @name addSelection
-#' @aliases addSelection,cellexalTime-method
-#' @rdname addSelection-methods
-#' @docType methods
-#' @description add this selection to any cellexal object
-#' @param x the cellexalTime object
-#' @param cellexalObj the cellexalvrR object to add the time as group
-#' @param upstreamSelection which group was the basis for this timeline?
-#' @title description of function addSelection
-#' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('addSelection', ## Name
 function ( x, cellexalObj, upstreamSelection=NULL  ) { 
@@ -58,6 +48,16 @@ function ( x, cellexalObj, upstreamSelection=NULL  ) {
 
 #' Method to copy a selection from cellexalObj to cellexalObj.
 #' This function makes sure that the linear grouping is fitting into the object.
+#' @name addSelection
+#' @aliases addSelection,cellexalTime-method
+#' @rdname addSelection-methods
+#' @docType methods
+#' @description add this selection to any cellexal object
+#' @param x the cellexalTime object
+#' @param cellexalObj the cellexalvrR object to add the time as group
+#' @param upstreamSelection which group was the basis for this timeline?
+#' @title description of function addSelection
+#' @export 
 setMethod('addSelection', signature = c ('cellexalTime', 'cellexalvrR'),
 definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 
@@ -138,6 +138,15 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 } )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('checkTime', ## Name
+function (x, cellexalObj=NULL) { 
+	standardGeneric('checkTime')
+}
+)
+#}
+
 #' The sanity check for a linear grouping.
 #' If problems are detected the problems will be fixed.
 #' @name checkTime
@@ -149,15 +158,6 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 #' @param cellexalObj an optional cellexalvrR object - if given ONLY the drc models are checked.
 #' @title description of function checkTime
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('checkTime', ## Name
-function (x, cellexalObj=NULL) { 
-	standardGeneric('checkTime')
-}
-)
-#}
-
-
 setMethod('checkTime', signature = c ('cellexalTime'),
 definition = function (x, cellexalObj=NULL) {
 	if ( nrow(x@dat) == 0 ){
@@ -228,6 +228,15 @@ definition = function (x, cellexalObj=NULL) {
 	invisible(x)
 } )
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('color', ## Name
+function (x, names) { 
+	standardGeneric('color')
+}
+)
+#}
+
 #' returns a color vector based on the intern col column and the cell names
 #' Cells that are not part of this selection will get gray(0.6) as color.
 #' @name color
@@ -239,24 +248,24 @@ definition = function (x, cellexalObj=NULL) {
 #' @param names the cells to color with the time color
 #' @title description of function color
 #' @export 
+setMethod('color', signature = c ('cellexalTime'),
+	definition = function (x, names) {
+	col = rep( gray(0.6), length(names) )
+	m = match( names, rownames(x@dat) )
+	col[which(!is.na(m))] = as.vector(x@dat$col[m[which(!is.na(m))]])
+	col
+} )
+
+
 #if ( ! isGeneric('renew') ){
-setGeneric('color', ## Name
-function (x, names) { 
-	standardGeneric('color')
-}
+setGeneric('compactTime', ## Name
+	function ( cellexalObj ) { 
+		standardGeneric('compactTime')
+	}
 )
 #}
 
 
-setMethod('color', signature = c ('cellexalTime'),
-definition = function (x, names) {
-col = rep( gray(0.6), length(names) )
-m = match( names, rownames(x@dat) )
-col[which(!is.na(m))] = as.vector(x@dat$col[m[which(!is.na(m))]])
-col
-} )
-
-#'  
 #' @name compactTime
 #' @aliases compactTime,cellexalTime-method
 #' @rdname compactTime-methods
@@ -265,15 +274,6 @@ col
 #' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
 #' @title description of function compactTime
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('compactTime', ## Name
-function ( cellexalObj ) { 
-	standardGeneric('compactTime')
-}
-)
-#}
-
-#' creates compacted expression data for all timelines using FastWilcoxTest::collapse()
 setMethod('compactTime', signature = c ('cellexalvrR'),
 definition = function (  cellexalObj ) {
 	## now I need to check which timelines I have
@@ -299,16 +299,7 @@ definition = function (  cellexalObj ) {
 })
 
  
-#' @name compactTimeZscore
-#' @aliases compactTimeZscore,cellexalTime-method
-#' @rdname compactTimeZscore-methods
-#' @docType methods
-#' @description create a global gene z-score and virtual samples over the timeline
-#' @param x either the z-scored matrix or a cellexalTime object
-#' @param deg.genes a list of genes  cluster the genes for (list)
-#' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
-#' @title description of function plot
-#' @export 
+
 #if ( ! isGeneric('renew') ){
 setGeneric('compactTimeZscore', ## Name
 function ( x, deg.genes, info, cellexalObj ) { 
@@ -320,6 +311,16 @@ function ( x, deg.genes, info, cellexalObj ) {
 #' This function should be run on the main cellexalObj including all data.
 #' It will create (for a subset of genes) a z-scored dataset and will then 
 #' sum up the expression in the time orientation to represent 1000 'cells' in the timeline.
+#' @name compactTimeZscore
+#' @aliases compactTimeZscore,cellexalTime-method
+#' @rdname compactTimeZscore-methods
+#' @docType methods
+#' @description create a global gene z-score and virtual samples over the timeline
+#' @param x either the z-scored matrix or a cellexalTime object
+#' @param deg.genes a list of genes  cluster the genes for (list)
+#' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
+#' @title description of function plot
+#' @export 
 setMethod('compactTimeZscore', signature = c ('cellexalTime', 'character', 'cellexalGrouping', 'cellexalvrR'),
 definition = function ( x, deg.genes, info, cellexalObj ) {
 	
@@ -355,11 +356,19 @@ definition = function ( x, deg.genes, info, cellexalObj ) {
 	cbind( toPlot, t(B))
 })
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('compareGeneClusters', ## Name
+function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL) { 
+	standardGeneric('compareGeneClusters')
+}
+)
+#}
+
 #' This is a none VR method to compare two different timelines.
 #' The main usage for this function is to run the same genes trough trough one timeline 
 #' that has been split into two sub-sections like young and old or teated and untreated.
 #' This function only allows to compare two cellexalTime objects.
-#' 
 #' This function highligts which genes follow different expression patterns in both timelines.
 #'
 #' @name compareGeneClusters
@@ -375,15 +384,6 @@ definition = function ( x, deg.genes, info, cellexalObj ) {
 #' @param GOIs a different group io genes - might need to re-run the analysis
 #' @title description of function color
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('compareGeneClusters', ## Name
-function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL) { 
-	standardGeneric('compareGeneClusters')
-}
-)
-#}
-
-#' Time objects are extracted from the cellexalvrR object using the time names instead of the time objects 
 setMethod('compareGeneClusters', signature = c ('character', 'character', 'cellexalvrR' ),
 definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 	compareGeneClusters( x=getTime( cellexalObj, x), other=getTime(cellexalObj, other),
@@ -392,6 +392,11 @@ definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GO
 
 #' Time objects are used directly. If the cellexalvrR object has been updated 
 #' in the meantime this function is less saver to use than the character character version.
+#' @name compareGeneClusters
+#' @aliases compareGeneClusters,cellexalTime-method
+#' @rdname compareGeneClusters-methods
+#' @docType methods
+#' @export 
 setMethod('compareGeneClusters', signature = c ('cellexalTime', 'cellexalTime', 'cellexalvrR' ),
 definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GOIs=NULL ) {
 
@@ -534,6 +539,15 @@ definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GO
 )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('collapseTime', ## Name
+function (x, to =1000) { 
+	standardGeneric('collapseTime')
+}
+)
+#}
+
 #' collapse the time to a max of 1000 enrties rendering the timeline incompatible with cellexalvrR
 #' but allowing the correlation of collapsed expression to the time.
 #' @name collapseTime
@@ -545,14 +559,6 @@ definition = function (x, other, cellexalObj, altGroupNames=NULL, color=NULL, GO
 #' @param to the max amnount of time points
 #' @title description of time function collapse
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('collapseTime', ## Name
-function (x, to =1000) { 
-	standardGeneric('collapseTime')
-}
-)
-#}
-
 setMethod('collapseTime', signature = c ('cellexalTime' ),
 definition = function (x, to=1000 ) {
 	n= nrow(x@dat)
@@ -573,6 +579,15 @@ definition = function (x, to=1000 ) {
 
 })
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('createReport', ## Name
+function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250) { 
+	standardGeneric('createReport')
+}
+)
+#}
+
 #' This report is the main go to analysis for a timeline.
 #' It will produce gene clusters and plot the mean expression of these genes clusters as beautiful xy plots.
 #' It also populates the CellexalTime geneClusters slot with a list entries containing
@@ -585,42 +600,45 @@ definition = function (x, to=1000 ) {
 #' @rdname createReport-methods
 #' @docType methods
 #' @description 3D plot the time with a line in the time
-#' @param x the object
+#' @param x the cellexalTime object or a time name
 #' @param cellexalObj the object to get the data from
-#' @param info a cellexalvrR grouping info list
+#' @param info a cellexalGrouping or grouping name
 #' @param deg.genes a list of genes to create the report for
 #' @param num.sig number of signififcant genes (default 250)
 #' @title description of function plot
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('createReport', ## Name
-function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250) { 
-	standardGeneric('createReport')
-}
-)
-#}
-
-#' Create the report from a time name and an info name
 setMethod('createReport', signature = c ('character', 'cellexalvrR', 'character'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	createReport ( x =getTime(cellexalObj, x), cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
-#' Create the report from a time object and an info name
+#' @name createReport
+#' @aliases createReport,cellexalTime-method
+#' @rdname createReport-methods
+#' @docType methods
+#' @export 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'character'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	info = groupingInfo(cellexalObj, info )
 	createReport ( x =x, cellexalObj=cellexalObj, info=groupingInfo(x,info), deg.genes=deg.genes )
 })
 
-#' Create the report from a time object and an info time object
+#' @name createReport
+#' @aliases createReport,cellexalTime-method
+#' @rdname createReport-methods
+#' @docType methods
+#' @export 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalTime'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	info = groupingInfo(cellexalObj, info@gname )
 	createReport ( x =x, cellexalObj=cellexalObj, info=info, deg.genes=deg.genes )
 })
 
-#' Create the report from a time object and an info grouping object (main function)
+#' @name createReport
+#' @aliases createReport,cellexalTime-method
+#' @rdname createReport-methods
+#' @docType methods
+#' @export 
 setMethod('createReport', signature = c ('cellexalTime', 'cellexalvrR', 'cellexalGrouping'),
 definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 
@@ -694,26 +712,28 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 
 
 
-	#' @name createStats
-	#' @aliases createStats,cellexalTime-method
-	#' @rdname createStats-methods
-	#' @docType methods
-	#' @description calculates linear peason statistics for this timeline and the expression data in the cellexalvrR object.
-	#' @param x the object
-	#' @param cellexalObj the object to get the data from
-	#' @param num.sig the amountof genes to return as top genes (default 250)
-	#' @param p.cut use a p value cut of instead of a number of significant genes
-	#' @title description of function plot
-	#' @export 
-	#if ( ! isGeneric('renew') ){
-	setGeneric('createStats', ## Name
-	function ( x, cellexalObj, num.sig=250, p.cut = NULL ) { 
-		standardGeneric('createStats')
-	}
-	)
-	#}
 
-	setMethod('createStats', signature = c ( 'character', 'cellexalvrR' ),
+#if ( ! isGeneric('renew') ){
+setGeneric('createStats', ## Name
+function ( x, cellexalObj, num.sig=250, p.cut = NULL ) { 
+	standardGeneric('createStats')
+}
+)
+#}
+
+#' @name createStats
+#' @aliases createStats,cellexalTime-method
+#' @rdname createStats-methods
+#' @docType methods
+#' @description calculates linear peason statistics for this timeline and the 
+#' @description expression data in the cellexalvrR object.
+#' @param x the object
+#' @param cellexalObj the object to get the data from
+#' @param num.sig the amountof genes to return as top genes (default 250)
+#' @param p.cut use a p value cut of instead of a number of significant genes
+#' @title description of function plot
+#' @export 
+setMethod('createStats', signature = c ( 'character', 'cellexalvrR' ),
 	definition = function ( x, cellexalObj, num.sig=250, p.cut = NULL ) {
 		createStats(x= getTime(cellexalObj, x ), cellexalObj=cellexalObj, num.sig=num.sig, p.cut=p.cut )
 	})
@@ -801,6 +821,15 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 } )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('createTime', ## Name
+function ( x, parentSelection=NULL ) { 
+	standardGeneric('createTime')
+}
+)
+#}
+
 #' This function utilizes slingshot to identify the longest possible pseudo timeline in this selection.
 #' 
 #' @name createTime
@@ -812,14 +841,6 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 #' @param parentSelection the selection name this time bases on.
 #' @title description of function plot
 #' @export
-#if ( ! isGeneric('renew') ){
-setGeneric('createTime', ## Name
-function ( x, parentSelection=NULL ) { 
-	standardGeneric('createTime')
-}
-)
-#}
-
 setMethod('createTime', signature = c ('cellexalTime'),
 definition = function ( x, parentSelection=NULL ) {
 	if ( is.null(parentSelection) && length(x@parentSelection)==0 ){
@@ -915,7 +936,17 @@ definition = function ( x, parentSelection=NULL ) {
 )
 
 
-#' This creates a selection.time file for the VR process.
+
+#if ( ! isGeneric('renew') ){
+setGeneric('exportSelection', ## Name
+function (x, fname) { 
+	standardGeneric('exportSelection')
+}
+)
+#}
+
+#' This function exports the changes selection file including the linear clusters
+#' so that the information can be read from the VR process.
 #' 
 #' @name exportSelection
 #' @aliases exportSelection,cellexalTime-method
@@ -926,14 +957,6 @@ definition = function ( x, parentSelection=NULL ) {
 #' @param fname the file to write the info to
 #' @title description of function exportSelection
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('exportSelection', ## Name
-function (x, fname) { 
-	standardGeneric('exportSelection')
-}
-)
-#}
-
 setMethod('exportSelection', signature = c ('cellexalTime'),
 definition = function (x, fname) {
 
@@ -950,7 +973,16 @@ invisible(x)
 } )
 
 
-#' returns a html formate table describing one timeline
+
+#if ( ! isGeneric('renew') ){
+setGeneric('HTMLtable', ## Name
+function (x) { 
+	standardGeneric('HTMLtable')
+}
+)
+#}
+
+#' A log specific function returning a html formate table describing the timeline
 #'
 #' @name HTMLtable
 #' @aliases HTMLtable,cellexalTime-method
@@ -960,14 +992,6 @@ invisible(x)
 #' @param x the cellexalTime object
 #' @title description of function HTMLtable
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('HTMLtable', ## Name
-function (x) { 
-	standardGeneric('HTMLtable')
-}
-)
-#}
-
 setMethod('HTMLtable', signature = c ('cellexalTime'),
 definition = function (x) {
 
@@ -995,6 +1019,16 @@ definition = function (x) {
 	tableHTML
 } )
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('invert', ## Name
+function ( x ) { 
+	standardGeneric('invert')
+}
+)
+#}
+
+
 #' inverts the time in the object.
 #' 
 #' Occational the algorithm fails and inverts the time.
@@ -1006,16 +1040,8 @@ definition = function (x) {
 #' @docType methods
 #' @description reverse the time orientaion
 #' @param x the object
-#' @title description of function plot
+#' @title description of function invert
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('invert', ## Name
-function ( x ) { 
-	standardGeneric('invert')
-}
-)
-#}
-
 setMethod('invert', signature = c ('cellexalTime'),
 definition = function ( x ) {
 	oldT = x
@@ -1033,6 +1059,16 @@ definition = function ( x ) {
 } )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('plotTime', ## Name
+function ( x ) { 
+	standardGeneric('plotTime')
+}
+)
+#}
+
+
 #' Plot the linear data with the correct colors.
 #' Used to debug the linear selections.
 #' 
@@ -1042,16 +1078,8 @@ definition = function ( x ) {
 #' @docType methods
 #' @description 3D plot the time with a line in the time
 #' @param x the object
-#' @title description of function plot
+#' @title description of function plotTime
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('plotTime', ## Name
-function ( x ) { 
-	standardGeneric('plotTime')
-}
-)
-#}
-
 setMethod('plotTime', signature = c ('cellexalTime'),
 definition = function ( x ) {
 	#if ( var(x@dat[,'c'] )== 0 ) {
@@ -1065,6 +1093,15 @@ definition = function ( x ) {
 } )
 
 
+
+#if ( ! isGeneric('renew') ){
+setGeneric('plotDataOnTime_rmd', ## Name
+function ( x, dat, color=NULL, ofile, cellexalObj  ) { 
+	standardGeneric('plotDataOnTime_rmd')
+}
+)
+#}
+
 #' @name plotDataOnTime_rmd
 #' @aliases plotDataOnTime_rmd,cellexalTime-method
 #' @rdname plotDataOnTime_rmd-methods
@@ -1075,35 +1112,15 @@ definition = function ( x ) {
 #' @param color the color(s) the data should be plotted in
 #' @param ofile the figure file (png)
 #' @param cellexalObj the cellexal object to adjust the path for the markdown file.
-#' @title description of function plot
+#' @title description of function plotDataOnTime_rmd
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('plotDataOnTime_rmd', ## Name
-function ( x, dat, color=NULL, ofile, cellexalObj  ) { 
-	standardGeneric('plotDataOnTime_rmd')
-}
-)
-#}
-
 setMethod('plotDataOnTime_rmd', signature = c ('cellexalTime'),
 definition = function ( x, dat, color=NULL, ofile, cellexalObj ) {
 	plotDataOnTime( x, dat, color=NULL, ofile )
 	return(paste("![](", correctPath(ofile, cellexalObj),")" ))
 })
 
-#' Plot a list of data values on the timeline the vectors in the list must have cell names
-#' @name plotDataOnTime
-#' @aliases plotDataOnTime,cellexalTime-method
-#' @rdname plotDataOnTime-methods
-#' @docType methods
-#' @description plot linear data on the time in a 2d figure
-#' @param x the cellexalTime object
-#' @param dat the linear data to plot
-#' @param color the color(s) the data should be plotted in
-#' @param ofile the figure file (png)
-#' @param smooth add a smoothed line to the graph (default TRUE)
-#' @title description of function plot
-#' @export 
+
 #if ( ! isGeneric('renew') ){
 setGeneric('plotDataOnTime', ## Name
 function ( x, dat, color=NULL, ofile, smooth=TRUE ) { 
@@ -1112,6 +1129,19 @@ function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 )
 #}
 
+#' Plot a list of data values on the timeline the vectors in the list must have cell names
+#' @name plotDataOnTime
+#' @aliases plotDataOnTime,cellexalTime-method
+#' @rdname plotDataOnTime-methods
+#' @docType methods
+#' @description plot linear data on the time in a 2d figure
+#' @param x the cellexalTime object or a data.frame (use the cellexalTime object)
+#' @param dat the linear data to plot
+#' @param color the color(s) the data should be plotted in
+#' @param ofile the figure file (png)
+#' @param smooth add a smoothed line to the graph (default TRUE)
+#' @title description of function plotDataOnTime
+#' @export 
 setMethod('plotDataOnTime', signature = c ('cellexalTime', 'list'),
 definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	toPlot = data.frame(x@dat[,c('time', 'col')])
@@ -1122,17 +1152,10 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 #' @name plotDataOnTime
 #' @aliases plotDataOnTime,cellexalTime-method
 #' @rdname plotDataOnTime-methods
+#' @title description of function plotDataOnTime
 #' @docType methods
-#' @description plot linear data on the time in a 2d figure
-#' @param x the data.frame object
-#' @param dat the linear data to plot
-#' @param color the color(s) the data should be plotted in
-#' @param ofile the figure file (png)
-#' @param smooth add a smoothed line to the graph (default TRUE)
-#' @title description of function plot
-#' @export 
 setMethod('plotDataOnTime', signature = c ('data.frame', 'list'),
-definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
+	definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
 	if ( is.null(color) ) {
 		color = grDevices::rainbow( length(dat))
 	}
@@ -1194,46 +1217,36 @@ definition = function ( x, dat, color=NULL, ofile, smooth=TRUE ) {
   	aesthetics = c("colour", "fill")
   ) +  
   ggplot2::guides(fill=FALSE)
-#plot( c(min(time@dat$time),max(time@dat$time) ), c(mi,ma), 
-#	col='white', xlab='pseudotime', 
-#	ylab="smoothed mean rolling sum expression of gene sets"  )
-#for ( a in 1:(i-1) ){
-#	points( toPlot$time, toPlot[,n], col=clusterC[a])
-#	lines( toPlot$time, toPlot[,n], col=clusterC[a])
-#}
-
-for ( a in 1:length(dat) ){
-	n = names(dat)[a]
-	pl = pl + #ggplot2::geom_line( ggplot2::aes_string( y= n ), color=clusterC[a] ) +
-	#  ggplot2::geom_point(data=toPlot, 
-	#  	mapping=ggplot2::aes_string(x='time', y= n ), color=color[a], na.rm = TRUE ) + 
-	  ggplot2::geom_smooth(data=toPlot, 
-	  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=color[a], 
-	  	method=loess, fill=color[a], alpha=.2, na.rm = TRUE)
 
 
-	circleF = paste(sep=".", ofile,a,'svg' )
-	fileConn<-file( circleF )
-	writeLines(c(
-		'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
-		paste( sep="",'  <g color="',color[a],'">'),
-		paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',color[a],'"/>'),
-		'  </g>',
-		'</svg>'
-	), fileConn)
-	close(fileConn)
-}
-#pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
-pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
-pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
-pl = pl + ggplot2::xlab( "pseudotime" )
-## get the global min and max.
-dat= data.frame(lapply ( ggplot2::ggplot_build(pl)$data , function( dat ){ c( min(dat$ymin), max(dat$ymax) )} ) )
+	for ( a in 1:length(dat) ){
+		n = names(dat)[a]
+		pl = pl + ggplot2::geom_smooth(data=toPlot, 
+		  	mapping=ggplot2::aes_string(x='time', y= n, alpha=.6 ), color=color[a], 
+		  	method=loess, fill=color[a], alpha=.2, na.rm = TRUE)	
 
-mi = min(dat[1,])
-ma = max(dat[2,])
-pl = pl + 
- ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
+		circleF = paste(sep=".", ofile,a,'svg' )	
+		fileConn<-file( circleF )
+		writeLines(c(
+			'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
+			paste( sep="",'  <g color="',color[a],'">'),
+			paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',color[a],'"/>'),
+			'  </g>',
+			'</svg>'
+		), fileConn)
+		close(fileConn)
+	}
+	#pl = pl + ggplot2::theme(panel.background = ggplot2::element_blank())
+	pl = pl + ggplot2::ggtitle('Gene sets expression changes over the selected pseudotime')
+	pl = pl + ggplot2::ylab( "Smoothed mean expression of gene sets" )
+	pl = pl + ggplot2::xlab( "pseudotime" )
+	## get the global min and max.
+	dat= data.frame(lapply ( ggplot2::ggplot_build(pl)$data , function( dat ){ c( min(dat$ymin), max(dat$ymax) )} ) )
+
+	mi = min(dat[1,])
+	ma = max(dat[2,])
+	pl = pl + 
+ 		ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
 		xmin = xstarts, 
 		xmax = xends, 
 		#ymin = mi, 
@@ -1243,7 +1256,7 @@ pl = pl +
 		),
   		fill= wesanderson::wes_palette("Zissou1",10, type = "continuous")[1:10],
 		alpha = 1) + 
-	  ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
+	  	ggplot2::geom_rect(data=rects,mapping = ggplot2::aes(
 		xmin = xstarts, 
 		xmax = xends, 
 		#ymin = mi, 
@@ -1254,12 +1267,21 @@ pl = pl +
   		fill= wesanderson::wes_palette("Zissou1",10, type = "continuous")[1:10],
 		alpha = 1) 
 
-print(pl) # write the plot data
-grDevices::dev.off()
-#print ("plotDataOnTime finished")
+	print(pl) # write the plot data
+	grDevices::dev.off()
+	#print ("plotDataOnTime finished")
 
 } )
 
+
+
+#if ( ! isGeneric('renew') ){
+setGeneric('plotTimeHeatmap', ## Name
+function ( x, ofile, color=NULL, circleF=NULL ) { 
+	standardGeneric('plotTimeHeatmap')
+}
+)
+#}
 
 #' @name plotTimeHeatmap
 #' @aliases plotTimeHeatmap,cellexalTime-method
@@ -1269,18 +1291,10 @@ grDevices::dev.off()
 #' @param x the zscored data object
 #' @param ofile the figure file (a '.png' will be added)
 #' @param color the color of the border around the heatmap
-#' @param circleF a file for a small <color> colored circle as svg file (needed for the reports)
-#' @title description of function plot
+#' @param circleF a file for a small colored circle as svg file (needed for the reports)
+#' @title description of function plotTimeHeatmap
 #' @returns the figure file path
-#' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('plotTimeHeatmap', ## Name
-function ( x, ofile, color=NULL, circleF=NULL ) { 
-	standardGeneric('plotTimeHeatmap')
-}
-)
-#}
-
+#' @export
 setMethod('plotTimeHeatmap', signature = c ('matrix'),
 definition = function ( x, ofile, color=NULL, circleF=NULL) {
 	of2 = paste( sep=".", ofile, 'png')
@@ -1307,7 +1321,6 @@ definition = function ( x, ofile, color=NULL, circleF=NULL) {
 			'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">', 
 			paste( sep="",'  <g color="',color,'">'),
 			paste(sep="",'    <circle cx="50" cy="50" r="50" fill="',color,'"/>'),
-			#'    <circle cx="50" cy="50" r="50"/>',
 			'  </g>',
 			'</svg>'
 		), fileConn)
@@ -1318,17 +1331,7 @@ definition = function ( x, ofile, color=NULL, circleF=NULL) {
 	of2
 })
 
-#' @name plotHeatmap_rmd
-#' @aliases plotHeatmap_rmd,cellexalTime-method
-#' @rdname plotHeatmap_rmd-methods
-#' @docType methods
-#' @description plot linear data on the time in a 2d figure
-#' @param x the matrix to plot (genes rows cells cols)
-#' @param ofile the figure file (png)
-#' @param cellexalObj the cellexal object to adjust the path for the markdown file.
-#' @param color the color(s) the data should be plotted in
-#' @title description of function plot
-#' @export 
+
 #if ( ! isGeneric('renew') ){
 setGeneric('plotHeatmap_rmd', ## Name
 function ( x, ofile, cellexalObj, color=NULL ) { 
@@ -1338,6 +1341,17 @@ function ( x, ofile, cellexalObj, color=NULL ) {
 #}
 
 #' convert the pngs from plotTimeHeatmap to Rmd figures.
+#' @name plotHeatmap_rmd
+#' @aliases plotHeatmap_rmd,cellexalTime-method
+#' @rdname plotHeatmap_rmd-methods
+#' @docType methods
+#' @description plot linear data on the time in a 2d figure
+#' @param x the matrix to plot (genes rows cells cols)
+#' @param ofile the figure file (png)
+#' @param cellexalObj the cellexal object to adjust the path for the markdown file.
+#' @param color the color(s) the data should be plotted in
+#' @title description of function plotHeatmap_rmd
+#' @export 
 setMethod('plotHeatmap_rmd', signature = c ('matrix'),
 definition = function ( x, ofile, cellexalObj, color=NULL ) {
 	ofile = plotTimeHeatmap( x, ofile = ofile, color = color )
@@ -1345,6 +1359,15 @@ definition = function ( x, ofile, cellexalObj, color=NULL ) {
 })
 
 
+
+
+#if ( ! isGeneric('renew') ){
+setGeneric('subsetTime', ## Name
+function ( x, cells ) { 
+	standardGeneric('subsetTime')
+}
+)
+#}
 
 #' Subset a time object based on a list of cells.
 #'
@@ -1357,14 +1380,6 @@ definition = function ( x, ofile, cellexalObj, color=NULL ) {
 #' @param cells the cell names to subset the time to
 #' @title description of function plot
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('subsetTime', ## Name
-function ( x, cells ) { 
-	standardGeneric('subsetTime')
-}
-)
-#}
-
 setMethod('subsetTime', signature = c ('cellexalTime'),
 definition = function ( x, cells) {
 	m = match( cells, rownames(x@dat) )
@@ -1379,6 +1394,15 @@ definition = function ( x, cells) {
 	invisible(x)
 } )
 
+
+
+#if ( ! isGeneric('renew') ){
+setGeneric('timeAnalysisSubset', ## Name
+function ( x, cellexalObj, deg.genes=NULL ) { 
+	standardGeneric('timeAnalysisSubset')
+}
+)
+#}
 
 #' To run this method efficiently it is recommended to first subset the drc the selection is based on.
 #' Next it is recommended to add this drc subset to the cellexal object and use the subsetTime function to also subset the timeline.
@@ -1395,16 +1419,8 @@ definition = function ( x, cells) {
 #' @param x the object
 #' @param cellexalObj the cellexal object to process
 #' @param deg.genes dummary over these genes of the cellexalObj@usedObj$deg.genes populated during the createStats() run
-#' @title description of function plot
+#' @title description of function timeAnalysisSubset
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('timeAnalysisSubset', ## Name
-function ( x, cellexalObj, deg.genes=NULL ) { 
-	standardGeneric('timeAnalysisSubset')
-}
-)
-#}
-
 setMethod('timeAnalysisSubset', signature = c ('cellexalTime'),
 definition = function ( x, cellexalObj, deg.genes=NULL ) {
 

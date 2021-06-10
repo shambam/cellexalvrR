@@ -6,7 +6,9 @@
 \alias{checkGrouping,cellexalGrouping-method}
 \title{description of function check}
 \usage{
-checkGrouping(cellexalObj, x)
+\S4method{checkGrouping}{cellexalvrR,character}(cellexalObj, x)
+
+\S4method{checkGrouping}{cellexalvrR,cellexalGrouping}(cellexalObj, x)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
@@ -15,7 +17,9 @@ checkGrouping(cellexalObj, x)
 }
 \description{
 checks for NA elements in the table and removes them
+
+The santity check for a cellexalGrouping object.
 }
 \details{
-The santity check for a cellexalGrouping.
+The santity check for a cellexalGrouping object.
 }

@@ -1,3 +1,10 @@
+
+setGeneric('filename', ## Name
+	function ( str ) { 
+		standardGeneric('filename')
+	}
+)
+
 #' Filename simple pastes a vector of characters using '.' and removes all whitespace.
 #'
 #' Simple function to unclutter the R code.
@@ -9,12 +16,6 @@
 #' @param str a string vector
 #' @title create a filename without spaces from a list of strings
 #' @export 
-setGeneric('filename', ## Name
-	function ( str ) { 
-		standardGeneric('filename')
-	}
-)
-
 setMethod('filename', signature = c ('character'),
 	definition = function ( str ) {
 	of = paste( collapse=".", str )

@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('export_GOIs', ## Name
+	function (x, GOIs, grouping, path, colorF = rainbow ) { 
+		standardGeneric('export_GOIs')
+	}
+)
+#}
+
 #' Normally a scientis has a number of genes that are of high interest for the specific data set.
 #' This function can be used to export this gene list as a buch of hetmap input files for cellexalVR.
 #' 
@@ -17,14 +26,6 @@
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
 #' @title description of function export_GOIs
 #' @export 
-#if ( ! isGeneric('renew') ){
-setGeneric('export_GOIs', ## Name
-	function (x, GOIs, grouping, path, colorF = rainbow ) { 
-		standardGeneric('export_GOIs')
-	}
-)
-#}
-
 setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	definition = function (x, GOIs, grouping, path, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,grouping] )){

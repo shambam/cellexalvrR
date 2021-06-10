@@ -6,19 +6,17 @@
 \alias{set.specie,cellexalvrR-method}
 \title{description of function set.specie}
 \usage{
-set.specie(cellexalObj, specie = c("mouse", "human"))
+\S4method{set.specie}{cellexalvrR}(cellexalObj, specie = c("mouse", "human"))
 }
 \arguments{
-\item{cellexalObj, }{cellexalvr object}
+\item{cellexalObj}{cellexalvr object}
 
 \item{specie}{The specie required options: "mouse" or "human"}
 }
 \description{
-Loads TF annotation into cellexalvr object
+Set the specie information in the cellexalvrR object
 }
 \details{
-set.specie is depricated
-
 It sets the specie slot to the user supplied specie string.
 }
 \keyword{TFs}

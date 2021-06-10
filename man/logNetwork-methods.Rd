@@ -7,6 +7,8 @@
 \title{description of function logNetwork}
 \usage{
 \S4method{logNetwork}{cellexalvrR}(cellexalObj, genes = NULL, png, grouping, ...)
+
+\S4method{logNetwork}{character}(cellexalObj, genes = NULL, png, grouping, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}

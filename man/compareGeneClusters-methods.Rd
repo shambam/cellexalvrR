@@ -6,7 +6,16 @@
 \alias{compareGeneClusters,cellexalTime-method}
 \title{description of function color}
 \usage{
-compareGeneClusters(
+\S4method{compareGeneClusters}{character,character,cellexalvrR}(
+  x,
+  other,
+  cellexalObj,
+  altGroupNames = NULL,
+  color = NULL,
+  GOIs = NULL
+)
+
+\S4method{compareGeneClusters}{cellexalTime,cellexalTime,cellexalvrR}(
   x,
   other,
   cellexalObj,
@@ -36,6 +45,5 @@ This is a none VR method to compare two different timelines.
 The main usage for this function is to run the same genes trough trough one timeline 
 that has been split into two sub-sections like young and old or teated and untreated.
 This function only allows to compare two cellexalTime objects.
-
 This function highligts which genes follow different expression patterns in both timelines.
 }

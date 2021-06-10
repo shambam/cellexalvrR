@@ -1,3 +1,12 @@
+
+#if ( ! isGeneric('renew') ){
+setGeneric('useInbuiltGOIlists', ## Name
+	function (x, name ) { 
+		standardGeneric('useInbuiltGOIlists') 
+	}
+)
+#}
+
 #' @name useInbuiltGOIlists
 #' @aliases useInbuiltGOIlists,cellexalvrR-method
 #' @rdname useInbuiltGOIlists-methods
@@ -11,14 +20,6 @@
 #' @param name one of ("TFs", 'epigenetic', "CellCycle", "CellSurface")
 #' @title easily identify e.g. all TFs in the dataset
 #' @export useInbuiltGOIlists
-#if ( ! isGeneric('renew') ){
-setGeneric('useInbuiltGOIlists', ## Name
-	function (x, name ) { 
-		standardGeneric('useInbuiltGOIlists') 
-	}
-)
-#}
-
 setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (x, name ) {
 			

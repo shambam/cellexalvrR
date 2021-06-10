@@ -6,7 +6,7 @@
 \alias{plotViolin,cellexalvrR-method}
 \title{description of function plotViolin}
 \usage{
-plotViolin(
+\S4method{plotViolin}{cellexalvrR}(
   x,
   gene,
   grouping,
@@ -15,8 +15,7 @@ plotViolin(
   height = 9,
   main = NULL,
   X11type = "cairo",
-  family = "Helvetica",
-  fileType = "pdf"
+  family = "Helvetica"
 )
 }
 \arguments{
