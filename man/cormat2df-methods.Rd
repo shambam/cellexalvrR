@@ -4,6 +4,7 @@
 \name{cormat2df}
 \alias{cormat2df}
 \alias{cormat2df,cellexalvrR-method}
+\alias{cormat2df,matrix-method}
 \title{description of function cormat2df}
 \usage{
 cormat2df(cors)

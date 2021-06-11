@@ -14,12 +14,8 @@ setGeneric('reset', ## Name
 	}
 ) 
 
-#' @name reset
-#' @aliases reset,cellexalvrR-method
+
 #' @rdname reset-methods
-#' @docType methods
-#' @title description of function reset
-#' @export 
 setMethod('reset', signature = c ('cellexalvrR'), definition = function ( x ) {
 	
 	x@usedObj$sessionPath = NULL

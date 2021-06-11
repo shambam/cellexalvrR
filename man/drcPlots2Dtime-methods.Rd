@@ -4,6 +4,8 @@
 \name{drcPlots2Dtime}
 \alias{drcPlots2Dtime}
 \alias{drcPlots2Dtime,cellexalvrR-method}
+\alias{drcPlots2Dtime,cellexalvrR,cellexalTime-method}
+\alias{drcPlots2Dtime,cellexalvrR,cellexalGrouping-method}
 \title{description of function drcPlot2D}
 \usage{
 drcPlots2Dtime(cellexalObj, gInfo)

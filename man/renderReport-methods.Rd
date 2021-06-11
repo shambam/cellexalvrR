@@ -4,6 +4,7 @@
 \name{renderReport}
 \alias{renderReport}
 \alias{renderReport,cellexalvrR-method}
+\alias{renderReport,character-method}
 \title{description of function renderReport}
 \usage{
 renderReport(cellexalObj)

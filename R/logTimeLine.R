@@ -23,12 +23,8 @@ setGeneric('logTimeLine', ## Name
 	}
 	)
 
-#' @name logTimeLine
-#' @aliases logTimeLine,cellexalvrR-method
+
 #' @rdname logTimeLine-methods
-#' @docType methods
-#' @title description of function logTimeLine
-#' @export 
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL, text=NULL ) {
 	## here I need to create a page of the final log
@@ -134,15 +130,11 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	} )
 
 
-#' @name logTimeLine
-#' @aliases logTimeLine,cellexalvrR-method
+
 #' @rdname logTimeLine-methods
-#' @docType methods
-#' @title description of function logTimeLine
-#' @export 
 setMethod('logTimeLine', signature = c ('character'),
 	definition = function (cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL, text=NULL  ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
-			logTimeLine(cellexalObj, genes, png, grouping, ... ) #function definition in file 'logTimeLine.R'
+			logTimeLine(cellexalObj, stats, genes, info, png, timeInfo, GOIs=GOIs, text=text ) #function definition in file 'logTimeLine.R'
 		}
 		)

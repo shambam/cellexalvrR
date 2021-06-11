@@ -27,12 +27,7 @@ setGeneric('make.cellexalvr.heatmap.list', ## Name
 
 
 
-#' @name make.cellexalvr.heatmap.list
-#' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
 #' @rdname make.cellexalvr.heatmap.list-methods
-#' @docType methods
-#' @title Create the gene list files for VR
-#' @export 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox') {
 
@@ -63,12 +58,8 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 			invisible( cvrObj )
 		} )
 
-#' @name make.cellexalvr.heatmap.list
-#' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
+
 #' @rdname make.cellexalvr.heatmap.list-methods
-#' @docType methods
-#' @title Create the gene list files for VR
-#' @export 
 setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
 			cvrObj <- loadObject( cvrObj ) #function definition in file 'lockedSave.R'

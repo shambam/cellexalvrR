@@ -2,12 +2,12 @@
 #' @aliases getTime,cellexalTime-method
 #' @rdname getTime-methods
 #' @docType methods
-#' @description compare a set of genes and compare them in different cells over the same timeline
+#' @description Accessor function to get a cellexalTime object from a cellexalvrR object by name.
 #' @param cellexalObj the object to get the data from
 #' @param name the name for this timeline
 #' @title get a timeline or throw an error
 #' @export
-#if ( ! isGeneric('renew') ){
+#if ( ! isGeneric('getTime') ){
 setGeneric('getTime', ## Name
 	function (  cellexalObj, name ) { 
 		standardGeneric('getTime')
@@ -15,12 +15,8 @@ setGeneric('getTime', ## Name
 )
 #}
 
-#' @name getTime
-#' @aliases getTime,cellexalTime-method
+
 #' @rdname getTime-methods
-#' @docType methods
-#' @title get a timeline or throw an error
-#' @export 
 setMethod('getTime', signature = c ('cellexalvrR', 'character'),
 	definition = function ( cellexalObj, name ) {
 	
@@ -30,12 +26,8 @@ setMethod('getTime', signature = c ('cellexalvrR', 'character'),
 	cellexalObj@usedObj$timelines[[name]]
 	})
 
-#' @name getTime
-#' @aliases getTime,cellexalTime-method
+
 #' @rdname getTime-methods
-#' @docType methods
-#' @title get a timeline or throw an error
-#' @export 
 setMethod('getTime', signature = c ('cellexalvrR', 'cellexalTime'),
 	definition = function ( cellexalObj, name ) {
 		name

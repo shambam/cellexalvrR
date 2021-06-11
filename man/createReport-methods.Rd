@@ -4,6 +4,10 @@
 \name{createReport}
 \alias{createReport}
 \alias{createReport,cellexalTime-method}
+\alias{createReport,character,cellexalvrR,character-method}
+\alias{createReport,cellexalTime,cellexalvrR,character-method}
+\alias{createReport,cellexalTime,cellexalvrR,cellexalTime-method}
+\alias{createReport,cellexalTime,cellexalvrR,cellexalGrouping-method}
 \title{description of function createReport}
 \usage{
 createReport(x, cellexalObj, info, deg.genes = NULL, num.sig = 250)

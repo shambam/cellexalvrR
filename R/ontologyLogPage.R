@@ -19,13 +19,8 @@ setGeneric('ontologyLogPage', ## Name
 	}
 )
 
-#' @name ontologyLogPage
-#' @aliases ontologyLogPage,cellexalvrR-method
+
 #' @rdname ontologyLogPage-methods
-#' @docType methods
-#' @import org.Mm.eg.db org.Hs.eg.db topGO
-#' @title description of function ontologyLogPage
-#' @export
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page

@@ -6,7 +6,7 @@
 #' @rdname as_cellexalvrR-methods
 #' @docType methods
 #' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
-#' @param x the BioData 'object'
+#' @param x the object or file to be converted
 #' @param meta.cell.groups which cell annotation columns to convert to meta.cell
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
 #' @param userGroups which cell annotation columns to add to the userGroups slot
@@ -23,12 +23,7 @@ setGeneric('as_cellexalvrR', ## Name
 )
 
 
-#' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,environment-method
 #' @rdname as_cellexalvrR-methods
-#' @docType methods
-#' @title convert a supported object/file to cellexalvrR keeping all 3D drc objects.
-#' @export 
 setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, 
 		userGroups=NULL, outpath=getwd(), specie ) {
@@ -82,14 +77,9 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 } )
 
 
-#' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,Seurat-method
+
 #' @rdname as_cellexalvrR-methods
-#' @docType methods
-#' @description convert a Seurat v3.x object into a cellexalvrR obejct
-#' @param x the BioData 'object'
 #' @param assay Seurat::GetAssayData parameter 'assay' to fetch the expression data (default NULL)
-#' @export 
 setMethod('as_cellexalvrR', signature = c ('Seurat'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL,
 	 userGroups=NULL, outpath=getwd(), specie, assay=NULL ) {
@@ -131,17 +121,13 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 
 
 
-#' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,character-method
+
 #' @rdname as_cellexalvrR-methods
-#' @docType methods
-#' @description convert a python h5ad file into a cellexalvrR obejct
 #' @param embeddings which embeddings to import from the file (default NULL = all)
 #' @param embeddingDims the dimensionality of the embeddings (default 3)
 #' @param velocity import velocity information (default = 'scvelo')
 #' @param scaleArrowTravel scale the velovity arrow for VR (default 20)
 #' @param minCell4gene savety feature for andata import required for CellexalVR (default 10)
-#' @export 
 setMethod('as_cellexalvrR', signature = c ('character'),
 	definition = function (x,   meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(), 
 		specie, embeddings = NULL, embeddingDims=3, velocity ='scvelo', scaleArrowTravel=20, minCell4gene = 10 ){
@@ -161,13 +147,8 @@ setMethod('as_cellexalvrR', signature = c ('character'),
 })
 
 
-#' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,H5File-method
-#' @rdname as_cellexalvrR-methods
-#' @docType methods
-#' @description convert a H5File object into a cellexalvrR obejct
-#' @export 
 
+#' @rdname as_cellexalvrR-methods
 setMethod('as_cellexalvrR', signature = c ('H5File'),
 	definition = function (x,  meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(),
 	 specie, embeddings = NULL, embeddingDims=3, velocity ='scvelo', scaleArrowTravel=20, minCell4gene=10) {
@@ -297,6 +278,7 @@ setGeneric('forceAbsoluteUniqueSample', ## Name
 	}
 )
 
+#' @rdname forceAbsoluteUniqueSample-methods
 setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 	definition = function ( x ,separator='_') {
 	ret <- vector(length=length(x))
@@ -331,12 +313,8 @@ setGeneric('H5Anno2df', ## Name
 		}
 )
 
-#' @name H5Anno2df
-#' @aliases H5Anno2df,cellexalvrR-method
+
 #' @rdname H5Anno2df-methods
-#' @docType methods
-#' @title description of function H5Anno2df
-#' @export 
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

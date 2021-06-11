@@ -12,7 +12,7 @@
 #' @param path the path where the parts are stored (normally the @outpath)
 #' @title description of function integrateParts
 #' @export 
-#if ( ! isGeneric('renew') ){
+#if ( ! isGeneric('integrateParts') ){
 setGeneric('integrateParts', ## Name
 			function ( x , path=NULL ) { 
 				standardGeneric('integrateParts')
@@ -21,12 +21,8 @@ setGeneric('integrateParts', ## Name
 #}
 
 
-#' @name integrateParts
-#' @aliases integrateParts,cellexalvrR-method
+
 #' @rdname integrateParts-methods
-#' @docType methods
-#' @title description of function integrateParts
-#' @export 
 setMethod('integrateParts', signature = c ('cellexalvrR'),
 	  definition = function ( x , path=NULL ) {
 			if ( is.null(path) )
@@ -85,12 +81,8 @@ setGeneric('savePart', ## Name
 )
 #}
 
-#' @name savePart
-#' @aliases savePart,cellexalvrR-method
+
 #' @rdname savePart-methods
-#' @docType methods
-#' @title description of function savePart
-#' @export 
 setMethod('savePart', signature = c ('cellexalvrR'),
 		definition = function ( x, part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup' ), path =NULL ) {
 			#meta.cell meta.gene userGroups usedObj
@@ -146,12 +138,8 @@ setGeneric('partFname', ## Name
 #}
 
 
-#' @name partFname
-#' @aliases partFname,character-method
+
 #' @rdname partFname-methods
-#' @docType methods
-#' @title description of internally used function partFname
-#' @export 
 setMethod('partFname', signature = c ('character'),
 		definition = function ( part = c( 'meta.cell',  'meta.gene',  'userGroups',  'usedObj', 'groupSelectedFrom', 'colors', 'lastGroup', 'all' ), path ) {
 			F = c( 'sample.RData', 'usergroups.RData', 'annotation.RData', 'usedObj.RData' )
@@ -201,12 +189,7 @@ setGeneric('cleanParts', ## Name
 #}
 
 
-#' @name cleanParts
-#' @aliases cleanParts,character-method
 #' @rdname cleanParts-methods
-#' @docType methods
-#' @title cleanParts removes all parts when storing the whole object.
-#' @export 
 setMethod('cleanParts', signature = c ('character'),
 		definition = function ( path ) {
 			#print ( paste(path, "I am cleaning the files:", paste( collapse=", ", partFname( 'all', path )))) #function definition in file 'integrateParts.R'

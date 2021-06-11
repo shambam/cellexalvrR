@@ -16,12 +16,8 @@ setGeneric("logNetwork", function(cellexalObj, genes = NULL, png, grouping, ...)
     standardGeneric("logNetwork")
 })
 
-#' @name logNetwork
-#' @aliases logNetwork,cellexalvrR-method
+
 #' @rdname logNetwork-methods
-#' @docType methods
-#' @title description of function logNetwork
-#' @export
 setMethod("logNetwork", signature = c("cellexalvrR"), 
     definition = function(cellexalObj, genes = NULL, png, grouping, ...) {
     ## almost the same page as in the logHeatmap function - including a GO analyis?
@@ -72,13 +68,8 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 })
 
 
-#' @name logNetwork
-#' @aliases logNetwork,cellexalvrR-method
+
 #' @rdname logNetwork-methods
-#' @docType methods
-#' @docType methods
-#' @title description of function logNetwork
-#' @export
 setMethod("logNetwork", signature = c("character"), definition = function(cellexalObj,
     genes = NULL, png, grouping, ...) {
     cellexalObj <- loadObject(cellexalObj)

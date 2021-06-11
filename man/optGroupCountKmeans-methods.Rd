@@ -4,6 +4,7 @@
 \name{optGroupCountKmeans}
 \alias{optGroupCountKmeans}
 \alias{optGroupCountKmeans,cellexalvrR-method}
+\alias{optGroupCountKmeans,matrix-method}
 \title{description of function optGroupCountKmeans}
 \usage{
 optGroupCountKmeans(dat, k = 1:20)

@@ -6,16 +6,14 @@
 \alias{logFigure,cellexalvrR-method}
 \title{description of function logFigure}
 \usage{
-logFigure(cellexalObj, genes = NULL, png, grouping, ...)
+logFigure(cellexalObj, png, text = NULL)
 
-\S4method{logFigure}{cellexalvrR}(cellexalObj, png, text = NULL, ...)
+\S4method{logFigure}{cellexalvrR}(cellexalObj, png, text = NULL)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 
 \item{png}{the VR generated network (png)}
-
-\item{...}{options you want to send to the ontologyLogPage() function}
 
 \item{text}{add a simmple text (default NULL)}
 }

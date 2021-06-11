@@ -4,11 +4,15 @@
 \name{createStats}
 \alias{createStats}
 \alias{createStats,cellexalTime-method}
+\alias{createStats,character,cellexalvrR-method}
+\alias{createStats,cellexalTime,cellexalvrR-method}
 \title{description of function plot}
 \usage{
 createStats(x, cellexalObj, num.sig = 250, p.cut = NULL)
 
 \S4method{createStats}{character,cellexalvrR}(x, cellexalObj, num.sig = 250, p.cut = NULL)
+
+\S4method{createStats}{cellexalTime,cellexalvrR}(x, cellexalObj, num.sig = 250, p.cut = NULL)
 }
 \arguments{
 \item{x}{the object}

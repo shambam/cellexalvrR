@@ -4,6 +4,7 @@
 \name{get.genes.cor.to}
 \alias{get.genes.cor.to}
 \alias{get.genes.cor.to,cellexalvrR-method}
+\alias{get.genes.cor.to,character-method}
 \title{description of function get.genes.cor.to}
 \usage{
 get.genes.cor.to(cellexalObj, gname, output = NULL, is.smarker = F, cpp = T)

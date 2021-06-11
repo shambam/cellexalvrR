@@ -21,12 +21,7 @@ setGeneric('reduceTo', ## Name
 #}
 
 
-#' @name reduceTo
-#' @aliases reduceTo,cellexalvrR-method
 #' @rdname reduceTo-methods
-#' @docType methods
-#' @title description of function reduceTo
-#' @export reduceTo
 setMethod('reduceTo', signature = c ('cellexalvrR'),
 	definition = function ( x, what='row', to=NULL ) {
 

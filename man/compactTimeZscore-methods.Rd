@@ -4,11 +4,12 @@
 \name{compactTimeZscore}
 \alias{compactTimeZscore}
 \alias{compactTimeZscore,cellexalTime-method}
+\alias{compactTimeZscore,cellexalTime,character,cellexalvrR-method}
 \title{description of function compactTimeZscore}
 \usage{
-compactTimeZscore(x, deg.genes, info, cellexalObj)
+compactTimeZscore(x, deg.genes, cellexalObj)
 
-\S4method{compactTimeZscore}{cellexalTime,character,cellexalGrouping,cellexalvrR}(x, deg.genes, info, cellexalObj)
+\S4method{compactTimeZscore}{cellexalTime,character,cellexalvrR}(x, deg.genes, cellexalObj)
 }
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}

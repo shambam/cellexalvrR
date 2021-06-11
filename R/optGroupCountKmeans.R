@@ -22,12 +22,8 @@ setGeneric('optGroupCountKmeans', ## Name
 )
 #}
 
-#' @name optGroupCountKmeans
-#' @aliases optGroupCountKmeans,cellexalvrR-method
+
 #' @rdname optGroupCountKmeans-methods
-#' @docType methods
-#' @title description of function optGroupCountKmeans
-#' @export 
 setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	definition = function ( dat, k=1:20 ) {
 

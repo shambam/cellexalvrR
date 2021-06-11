@@ -4,6 +4,7 @@
 \name{logNetwork}
 \alias{logNetwork}
 \alias{logNetwork,cellexalvrR-method}
+\alias{logNetwork,character-method}
 \title{description of function logNetwork}
 \usage{
 logNetwork(cellexalObj, genes = NULL, png, grouping, ...)

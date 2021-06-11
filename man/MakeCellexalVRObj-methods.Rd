@@ -4,6 +4,7 @@
 \name{MakeCellexalVRObj}
 \alias{MakeCellexalVRObj}
 \alias{MakeCellexalVRObj,matrix-method}
+\alias{MakeCellexalVRObj,dgCMatrix-method}
 \title{Create a cellexalvrR object from a matrix object.}
 \usage{
 MakeCellexalVRObj(

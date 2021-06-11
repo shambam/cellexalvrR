@@ -4,6 +4,7 @@
 \name{compactTime}
 \alias{compactTime}
 \alias{compactTime,cellexalTime-method}
+\alias{compactTime,cellexalvrR-method}
 \title{description of function compactTime}
 \usage{
 compactTime(cellexalObj)

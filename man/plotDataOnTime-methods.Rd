@@ -4,6 +4,8 @@
 \name{plotDataOnTime}
 \alias{plotDataOnTime}
 \alias{plotDataOnTime,cellexalTime-method}
+\alias{plotDataOnTime,cellexalTime,list-method}
+\alias{plotDataOnTime,data.frame,list-method}
 \title{description of function plotDataOnTime}
 \usage{
 plotDataOnTime(x, dat, color = NULL, ofile, smooth = TRUE)

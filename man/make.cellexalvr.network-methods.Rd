@@ -4,6 +4,7 @@
 \name{make.cellexalvr.network}
 \alias{make.cellexalvr.network}
 \alias{make.cellexalvr.network,cellexalvrR-method}
+\alias{make.cellexalvr.network,character-method}
 \title{description of function make.cellexalvr.network}
 \usage{
 make.cellexalvr.network(
@@ -45,9 +46,11 @@ make.cellexalvr.network(
 
 \item{cutoff.ggm}{The cutoff for the correlation (default = 0.1)}
 
+\item{exprFract}{which fraction of cells needs to express a gene to be included in the analysis (default 0.01)}
+
 \item{top.n.inter}{get only the n top interations default=130}
 
-\item{exprFrac}{which fraction of cells needs to express a gene to be included in the analysis (default 0.01)}
+\item{method}{the used method c( "rho.p","pcor" )}
 }
 \description{
 Creates a network from selected groups for selected genes

@@ -20,12 +20,7 @@ setGeneric('onlyGOIs', ## Name
 #}
 
 
-#' @name onlyGOIs 
-#' @aliases onlyGOIs,cellexalvrR-method
 #' @rdname onlyGOIs-methods
-#' @docType methods
-#' @title description of function onlyGOIs
-#' @export 
 setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {

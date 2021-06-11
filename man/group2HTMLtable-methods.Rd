@@ -4,6 +4,7 @@
 \name{group2HTMLtable}
 \alias{group2HTMLtable}
 \alias{group2HTMLtable,cellexalvrR-method}
+\alias{group2HTMLtable,cellexalvrR,list-method}
 \title{create a log table from a grouping}
 \usage{
 group2HTMLtable(x, info, names = NULL)

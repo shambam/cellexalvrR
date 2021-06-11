@@ -4,6 +4,7 @@
 \name{myNextCoolHeatmapFeature}
 \alias{myNextCoolHeatmapFeature}
 \alias{myNextCoolHeatmapFeature,cellexalTime-method}
+\alias{myNextCoolHeatmapFeature,cellexalvrR,character,character-method}
 \title{description of function check}
 \usage{
 myNextCoolHeatmapFeature(x, selection, outfile)
@@ -11,11 +12,11 @@ myNextCoolHeatmapFeature(x, selection, outfile)
 \S4method{myNextCoolHeatmapFeature}{cellexalvrR,character,character}(x, selection, outfile)
 }
 \arguments{
+\item{x}{the cellexalvrR object}
+
 \item{selection}{the selection file linked to the heatmap}
 
 \item{outfile}{the outfile the VR process is waiting for}
-
-\item{cellexalObj}{the cellexalvrR object}
 }
 \description{
 checks for NA elements in the table and removes them

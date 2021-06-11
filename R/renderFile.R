@@ -15,12 +15,8 @@ setGeneric('renderFile', ## Name
 	}
 )
 
-#' @name renderFile
-#' @aliases renderFile,cellexalvrR-method
+
 #' @rdname renderFile-methods
-#' @docType methods
-#' @title description of function renderFile
-#' @export 
 setMethod('renderFile', signature = c ('cellexalvrR'),
 	definition = function ( x, id, type='' ) {
 
@@ -119,12 +115,8 @@ setGeneric('storeLogContents', ## Name
 	}
 )
 
-#' @name storeLogContents
-#' @aliases storeLogContents,cellexalvrR-method
+
 #' @rdname storeLogContents-methods
-#' @docType methods
-#' @title description of function storeLogContents
-#' @export 
 setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	definition = function ( x, content, type='' ) {
 

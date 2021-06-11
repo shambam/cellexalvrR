@@ -19,12 +19,7 @@ setGeneric('drcPlot2Dexpression', ## Name
 )
 
 
-#' @name drcPlot2Dexpression
-#' @aliases drcPlot2Dexpression,cellexalvrR-method
 #' @rdname drcPlot2Dexpression-methods
-#' @docType methods
-#' @title description of function drcPlot2Dexpression
-#' @export 
 setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'character'),
 	definition = function ( cellexalObj, drc=1, GOI ) {
 
@@ -105,8 +100,7 @@ setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'cha
 
 
 #' drcFiles2HTMLexpression is a function linked to the log functionallity.
-#' 
-#' This function will create the 2D DRC images for the log sections.
+#' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTMLexpression
 #' @aliases drcFiles2HTMLexpression,cellexalvrR-method

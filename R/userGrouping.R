@@ -17,12 +17,8 @@ setGeneric('userGrouping', ## Name
 )
 #}
 
-#' @name userGrouping
-#' @aliases userGrouping,cellexalvrR-method
+
 #' @rdname userGrouping-methods
-#' @docType methods
-#' @title description of function userGrouping
-#' @export 
 setMethod('userGrouping', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile) {
 	

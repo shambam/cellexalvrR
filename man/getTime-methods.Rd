@@ -4,6 +4,8 @@
 \name{getTime}
 \alias{getTime}
 \alias{getTime,cellexalTime-method}
+\alias{getTime,cellexalvrR,character-method}
+\alias{getTime,cellexalvrR,cellexalTime-method}
 \title{get a timeline or throw an error}
 \usage{
 getTime(cellexalObj, name)
@@ -18,5 +20,5 @@ getTime(cellexalObj, name)
 \item{name}{the name for this timeline}
 }
 \description{
-compare a set of genes and compare them in different cells over the same timeline
+Accessor function to get a cellexalTime object from a cellexalvrR object by name.
 }

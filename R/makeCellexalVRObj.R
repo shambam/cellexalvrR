@@ -19,13 +19,8 @@ setGeneric('MakeCellexalVRObj', ## Name
 	}
 )
     
-#' @name MakeCellexalVRObj 
-#' @aliases MakeCellexalVRObj,matrix-method
-#' @rdname MakeCellexalVRObj-methods
-#' @docType methods
-#' @keywords create cellexalvrR object
-#' @title Create a cellexalvrR object from a matrix object.
-#' @export       
+
+#' @rdname MakeCellexalVRObj-methods   
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata, drc.list, specie=c("mouse","human"),
         cell.metadata=NULL, facs.data=NULL) {

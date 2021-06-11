@@ -22,6 +22,5 @@ convert the drcPlots2D into rmd format
 }
 \details{
 drcFiles2HTMLexpression is a function linked to the log functionallity.
-
-This function will create the 2D DRC images for the log sections.
+Here the file paths are converted to Rmd image strings.
 }

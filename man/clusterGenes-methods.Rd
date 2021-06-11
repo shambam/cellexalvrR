@@ -4,19 +4,32 @@
 \name{clusterGenes}
 \alias{clusterGenes}
 \alias{clusterGenes,cellexalTime-method}
+\alias{clusterGenes,matrix-method}
 \title{description of function plot}
 \usage{
-clusterGenes(x, deg.genes = NULL, info = NULL, ...)
+clusterGenes(
+  x,
+  deg.genes = NULL,
+  info = NULL,
+  cellexalObj = NULL,
+  geneclusters = NULL
+)
 
 \S4method{clusterGenes}{cellexalTime}(
   x,
   deg.genes = NULL,
   info = NULL,
-  cellexalObj,
+  cellexalObj = NULL,
   geneclusters = NULL
 )
 
-\S4method{clusterGenes}{matrix}(x, deg.genes = NULL, info = NULL, geneclusters = NULL)
+\S4method{clusterGenes}{matrix}(
+  x,
+  deg.genes = NULL,
+  info = NULL,
+  cellexalObj = NULL,
+  geneclusters = NULL
+)
 }
 \arguments{
 \item{x}{either the z-scored matrix or a cellexalTime object}

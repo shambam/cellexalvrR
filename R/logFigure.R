@@ -9,21 +9,16 @@
 #' @param cellexalObj the cellexalvrR object
 #' @param png the VR generated network (png)
 #' @param text add a simmple text (default NULL)
-#' @param ... options you want to send to the ontologyLogPage() function
 #' @title description of function logFigure
 #' @export
-setGeneric("logFigure", function(cellexalObj, genes = NULL, png, grouping, ...) {
+setGeneric("logFigure", function(cellexalObj, png, text=NULL) {
     standardGeneric("logFigure")
 })
 
 
-#' @name logFigure
-#' @aliases logFigure,cellexalvrR-method
 #' @rdname logFigure-methods
-#' @docType methods
-#' @export
 setMethod("logFigure", signature = c("cellexalvrR"), 
-    definition = function(cellexalObj, png,  text = NULL, ...) {
+    definition = function(cellexalObj, png,  text = NULL ) {
     	
     	cellexalObj = sessionPath(cellexalObj)  #function definition in file 'sessionPath.R'
    		sessionPath = cellexalObj@usedObj$sessionPath

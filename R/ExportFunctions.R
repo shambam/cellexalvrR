@@ -18,21 +18,16 @@
 #' @export export2cellexalvr
 #if ( ! isGeneric('export2cellexalvr') ){
 setGeneric('export2cellexalvr', ## Name
-	function (x,path, forceDB=F, VRpath=NULL ) { 
+	function (x,path, forceDB=FALSE ) { 
 		standardGeneric('export2cellexalvr') 
 	}
 )
 #}
 
 
-#' @name export2cellexalvr
-#' @aliases export2cellexalvr,cellexalvrR-method
 #' @rdname export2cellexalvr-methods
-#' @docType methods
-#' @title create the VR data folder necessary for CellexalVR
-#' @export export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
-	definition = function (x,path, forceDB=F ) {
+	definition = function (x,path, forceDB=FALSE ) {
 
 	## check that the cell names (all rownames) contain no spaces!!
 	old_names = colnames(x@data)
@@ -203,12 +198,8 @@ setGeneric('write_as_sqlite3', ## Name
 )
 
  
-#' @name write_as_sqlite3
-#' @aliases write_as_sqlite3,cellexalvrR-method
+
 #' @rdname write_as_sqlite3-methods
-#' @docType methods
-#' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
-#' @export 
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 		definition = function ( x, ofile )  {
 			

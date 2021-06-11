@@ -14,12 +14,8 @@ setGeneric('sessionCounter', ## Name
 	}
 )
 
-#' @name sessionCounter
-#' @aliases sessionCounter,cellexalvrR-method
+
 #' @rdname sessionCounter-methods
-#' @docType methods
-#' @title description of function sessionCounter
-#' @export 
 setMethod('sessionCounter', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
 		ret = NA

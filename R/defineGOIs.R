@@ -11,18 +11,14 @@
 #' @export
 #if ( ! isGeneric('renew') ){
 setGeneric('defineGOIs', ## Name
-	function ( cellexalObj, name, genes, lables=NULL,... ) { 
+	function ( cellexalObj, name, genes, lables=NULL ) { 
 		standardGeneric('defineGOIs') 
 	}
 )
 #}
 
-#' @name defineGOIs
-#' @aliases defineGOIs,cellexalvrR-method
+
 #' @rdname defineGOIs-methods
-#' @docType methods
-#' @title Define special genes based on inbuilt data sets (TFs, ...)
-#' @export
 setMethod('defineGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name, genes, lables=NULL ) {
 			if ( is.null(lables) ) {

@@ -15,8 +15,7 @@ plotViolin(
   height = 9,
   main = NULL,
   X11type = "cairo",
-  family = "Helvetica",
-  fileType = "pdf"
+  family = "Helvetica"
 )
 
 \S4method{plotViolin}{cellexalvrR}(
@@ -49,8 +48,6 @@ plotViolin(
 \item{X11type}{not important here (default to 'cairo')}
 
 \item{family}{pdf typing family (defaults to "Helvetica") png is also supported}
-
-\item{fileType}{figure file type (default 'pdf' )}
 }
 \description{
 Create a simple violin plot on the expresion of one gene

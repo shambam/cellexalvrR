@@ -4,6 +4,7 @@
 \name{make.cellexalvr.heatmap.list}
 \alias{make.cellexalvr.heatmap.list}
 \alias{make.cellexalvr.heatmap.list,cellexalvrR-method}
+\alias{make.cellexalvr.heatmap.list,character-method}
 \title{Create the gene list files for VR}
 \usage{
 make.cellexalvr.heatmap.list(

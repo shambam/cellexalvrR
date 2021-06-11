@@ -4,6 +4,8 @@
 \name{compareGeneClusters}
 \alias{compareGeneClusters}
 \alias{compareGeneClusters,cellexalTime-method}
+\alias{compareGeneClusters,character,character,cellexalvrR-method}
+\alias{compareGeneClusters,cellexalTime,cellexalTime,cellexalvrR-method}
 \title{description of function compareGeneClusters}
 \usage{
 compareGeneClusters(

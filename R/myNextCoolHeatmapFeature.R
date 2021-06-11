@@ -7,7 +7,7 @@
 #' @rdname myNextCoolHeatmapFeature-methods
 #' @docType methods
 #' @description checks for NA elements in the table and removes them
-#' @param cellexalObj the cellexalvrR object
+#' @param x the cellexalvrR object
 #' @param selection the selection file linked to the heatmap
 #' @param outfile the outfile the VR process is waiting for
 #' @title description of function check
@@ -21,12 +21,7 @@ setGeneric('myNextCoolHeatmapFeature', ## Name
 #}
 
 
-#' @name myNextCoolHeatmapFeature
-#' @aliases myNextCoolHeatmapFeature,cellexalTime-method
 #' @rdname myNextCoolHeatmapFeature-methods
-#' @docType methods
-#' @title description of function check
-#' @export 
 setMethod('myNextCoolHeatmapFeature', signature = c ('cellexalvrR', 'character', 'character'),
 	definition = function (x, selection, outfile) {
 

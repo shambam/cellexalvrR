@@ -4,6 +4,7 @@
 \name{GrabDRCs}
 \alias{GrabDRCs}
 \alias{GrabDRCs,cellexalvrR-method}
+\alias{GrabDRCs,cellexalvrR,cellexalvrR-method}
 \title{copy 3D graphs from objects of the same analysis}
 \usage{
 GrabDRCs(x, other, prefix = NULL)

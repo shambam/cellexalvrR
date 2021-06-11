@@ -26,12 +26,7 @@ setGeneric('export_GOIs', ## Name
 #}
 
 
-#' @name export_GOIs
-#' @aliases export_GOIs,cellexalvrR-method
 #' @rdname export_GOIs-methods
-#' @docType methods
-#' @title description of function export_GOIs
-#' @export 
 setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	definition = function (x, GOIs, grouping, path, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,grouping] )){

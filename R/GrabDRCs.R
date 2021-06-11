@@ -17,12 +17,7 @@ setGeneric('GrabDRCs', ## Name
 )
 
 
-#' @name GrabDRCs
-#' @aliases GrabDRCs,cellexalvrR-method
 #' @rdname GrabDRCs-methods
-#' @docType methods
-#' @title copy 3D graphs from objects of the same analysis
-#' @export 
 setMethod('GrabDRCs', signature = c ('cellexalvrR', 'cellexalvrR'),
 	definition = function ( x, other, prefix = NULL) {
 	if ( is.null(prefix) ) {

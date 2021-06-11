@@ -39,12 +39,7 @@ setGeneric('getDifferentials', ## Name
 #}
 
 
-#' @name getDifferentials
-#' @aliases getDifferentials,cellexalvrR-method
 #' @rdname getDifferentials-methods
-#' @docType methods
-#' @title main Statistics function for cellexalvrR
-#' @export 
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (x,cellidfile,
 				deg.method='wilcox',
@@ -267,12 +262,8 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		}
 )
 
-#' @name getDifferentials
-#' @aliases getDifferentials,cellexalvrR-method
+
 #' @rdname getDifferentials-methods
-#' @docType methods
-#' @title main Statistics function for cellexalvrR
-#' @export 
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (x,cellidfile,
 				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),

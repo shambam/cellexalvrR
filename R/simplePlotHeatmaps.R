@@ -36,12 +36,8 @@ setGeneric('simplePlotHeatmaps', ## Name
 #}
 
 
-#' @name simplePlotHeatmaps
-#' @aliases simplePlotHeatmaps,cellexalvrR-method
+
 #' @rdname simplePlotHeatmaps-methods
-#' @docType methods
-#' @title description of function simplePlotHeatmaps
-#' @export
 setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping', 'character'),
 	definition = function ( x, info, fname ) {
 	#definition = function ( mat, fname ) {
@@ -68,12 +64,12 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 
 	#print('simplePlotHeatmaps compact time Zscore')
 	if ( ! is.null(x@usedObj$deg.genes) ) {
-		toPlot = compactTimeZscore( ti, x@usedObj$deg.genes, info, x )
+		toPlot = compactTimeZscore( ti, x@usedObj$deg.genes, x )
 	}else {
 		if ( nrow(x@data) > 3000) {
 			stop("Huge dataset - Why are there no deg.genes!!")
 		}
-		toPlot = compactTimeZscore( ti, rownames(x@data), info, x )
+		toPlot = compactTimeZscore( ti, rownames(x@data), x )
 	}
 
 	error = NULL
@@ -160,12 +156,8 @@ setGeneric('clusterGenes', ## Name
 #}
 
 
-#' @name clusterGenes
-#' @aliases clusterGenes,cellexalTime-method
+
 #' @rdname clusterGenes-methods
-#' @docType methods
-#' @title description of function plot
-#' @export 
 setMethod('clusterGenes', signature = c ('cellexalTime'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 
@@ -186,12 +178,8 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 )
 
 
-#' @name clusterGenes
-#' @aliases clusterGenes,cellexalTime-method
+
 #' @rdname clusterGenes-methods
-#' @docType methods
-#' @title description of function plot
-#' @export 
 setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 

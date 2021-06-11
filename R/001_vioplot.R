@@ -1,4 +1,5 @@
-#' This function is a hack of the official vioplot function to allow multiple colors of the violines.
+#' This function is a hack of the official vioplot function 
+#' to allow multiple colors of the violines.
 #' @name vioplot
 #' @aliases vioplot,Rscexv-method
 #' @rdname vioplot-methods
@@ -9,8 +10,22 @@
 #' @param h see orig vioplot funciton default= NULL
 #' @param ylim see orig vioplot funciton default= NULL
 #' @param names see orig vioplot funciton default= NULL
+#' @param horizontal please look up in the original vioplot documentation
+#' @param col please look up in the original vioplot documentation
+#' @param border please look up in the original vioplot documentation
+#' @param lty please look up in the original vioplot documentation
+#' @param lwd please look up in the original vioplot documentation
+#' @param rectCol please look up in the original vioplot documentation
+#' @param colMed please look up in the original vioplot documentation
+#' @param pchMed please look up in the original vioplot documentation
+#' @param at please look up in the original vioplot documentation
+#' @param add please look up in the original vioplot documentation
+#' @param wex please look up in the original vioplot documentation
+#' @param drawRect please look up in the original vioplot documentation
+#' @param main please look up in the original vioplot documentation
+#' @param cex.axis please look up in the original vioplot documentation
+#' @param neg please look up in the original vioplot documentation
 #' @title description of function vioplot
-#' @export 
 setGeneric('vioplot', ## Name
 		function ( datas, range = 1.5, h = NULL, ylim = NULL, names = NULL, 
 				horizontal = FALSE, col = 'magenta', border = 'black', lty = 1, 
@@ -19,6 +34,8 @@ setGeneric('vioplot', ## Name
 			standardGeneric('vioplot') ## der Aufruf von standardGeneric sorgt für das Dispatching
 		}
 )
+
+#' @rdname vioplot-methods
 setMethod('vioplot', signature = c ('list'),
 		definition = function (datas, range = 1.5, h = NULL, ylim = NULL, names = NULL, 
 		horizontal = FALSE, col = 'magenta', border = 'black', lty = 1, 
@@ -104,7 +121,7 @@ setMethod('vioplot', signature = c ('list'),
 		if (!add) {
 			plot.window(xlim = xlim, ylim = ylim)
 			axis(2, cex.axis=cex.axis)
-			axis(1, at = at, label = label, cex.axis=cex.axis)
+			axis(1, at = at, labels = label, cex.axis=cex.axis)
 		}
 		box()
 		for (i in 1:n) {
@@ -134,7 +151,7 @@ setMethod('vioplot', signature = c ('list'),
 		if (!add) {
 			plot.window(xlim = ylim, ylim = xlim)
 			axis(1,cex.axis =cex.axis)
-			axis(2, at = at, label = label, cex.axis=cex.axis)
+			axis(2, at = at, labels = label, cex.axis=cex.axis)
 		}
 		box()
 		for (i in 1:n) {

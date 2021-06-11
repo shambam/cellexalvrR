@@ -4,6 +4,7 @@
 \name{simplePlotHeatmaps}
 \alias{simplePlotHeatmaps}
 \alias{simplePlotHeatmaps,cellexalvrR-method}
+\alias{simplePlotHeatmaps,cellexalvrR,cellexalGrouping,character-method}
 \title{description of function simplePlotHeatmaps}
 \usage{
 simplePlotHeatmaps(x, info, fname)

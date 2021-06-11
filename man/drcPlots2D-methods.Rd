@@ -4,13 +4,15 @@
 \name{drcPlots2D}
 \alias{drcPlots2D}
 \alias{drcPlots2D,cellexalvrR-method}
+\alias{drcPlots2D,cellexalvrR,character-method}
+\alias{drcPlots2D,cellexalvrR,cellexalGrouping-method}
 \title{description of function drcPlot2D}
 \usage{
-drcPlots2D(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
+drcPlots2D(cellexalObj, gInfo, showIDs = TRUE)
 
-\S4method{drcPlots2D}{cellexalvrR,character}(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
+\S4method{drcPlots2D}{cellexalvrR,character}(cellexalObj, gInfo, showIDs = TRUE)
 
-\S4method{drcPlots2D}{cellexalvrR,cellexalGrouping}(cellexalObj, gInfo, GOIs = NULL, showIDs = TRUE)
+\S4method{drcPlots2D}{cellexalvrR,cellexalGrouping}(cellexalObj, gInfo, showIDs = TRUE)
 }
 \arguments{
 \item{cellexalObj}{the cellexal object}

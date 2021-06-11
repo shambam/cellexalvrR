@@ -19,12 +19,8 @@ setGeneric('useInbuiltGOIlists', ## Name
 )
 #}
 
-#' @name useInbuiltGOIlists
-#' @aliases useInbuiltGOIlists,cellexalvrR-method
+
 #' @rdname useInbuiltGOIlists-methods
-#' @docType methods
-#' @title easily identify e.g. all TFs in the dataset
-#' @export 
 setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (x, name ) {
 			

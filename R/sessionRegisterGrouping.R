@@ -16,12 +16,8 @@ setGeneric('sessionRegisterGrouping', ## Name
 )
 
 
-#' @name sessionRegisterGrouping
-#' @aliases sessionRegisterGrouping,cellexalvrR-method
+
 #' @rdname sessionRegisterGrouping-methods
-#' @docType methods
-#' @title description of function sessionRegisterGrouping
-#' @export 
 setMethod('sessionRegisterGrouping', signature = c ('cellexalvrR'),
 	definition = function ( x, gName ) {
 		if ( is.na( match(gName, names(x@usedObj$sessionCounter)) ) ){

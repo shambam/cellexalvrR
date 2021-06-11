@@ -33,12 +33,8 @@ setGeneric('server', ## Name
 #}
 
 
-#' @name server
-#' @aliases server,character-method
+
 #' @rdname server-methods
-#' @docType methods
-#' @title start a server function periodicly sourcing in a file.
-#' @export server
 setMethod('server', signature = c ('character'),
 		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
 	lockfile   = paste( file, 'input.lock', sep=".") 

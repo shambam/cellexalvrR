@@ -18,12 +18,8 @@ setGeneric('reorderSamples', ## Name
 #}
 
 
-#' @name reorderSamples
-#' @aliases reorderSamples,cellexalvrR-method
+
 #' @rdname reorderSamples-methods
-#' @docType methods
-#' @title simple reordering of the samples
-#' @export
 setMethod('reorderSamples', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
 	if (! is.na( match ( column, colnames(dataObj@meta.cell)) ) ) {
@@ -106,12 +102,8 @@ setGeneric('reorderGenes', ## Name
 )
 #}
 
-#' @name reorderGenes
-#' @aliases reorderGenes,cellexalvrR-method
+
 #' @rdname reorderGenes-methods
-#' @docType methods
-#' @title simple reordering of the genes
-#' @export
 setMethod('reorderGenes', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
 	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]

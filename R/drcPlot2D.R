@@ -13,33 +13,25 @@
 #' @title description of function drcPlot2D
 #' @export 
 setGeneric('drcPlots2D', ## Name
-	function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) { 
+	function ( cellexalObj, gInfo,  showIDs = TRUE ) { 
 		standardGeneric('drcPlots2D')
 	}
 )
 
 
-#' @name drcPlots2D
-#' @aliases drcPlots2D,cellexalvrR-method
+
 #' @rdname drcPlots2D-methods
-#' @docType methods
-#' @title description of function drcPlot2D
-#' @export 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
-	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
+	definition = function ( cellexalObj, gInfo,  showIDs = TRUE ) {
 		gInfo = groupingInfo( cellexalObj, gInfo )
-		drcPlots2D( cellexalObj, gInfo, GOIs=GOIs, showIDs = showIDs )
+		drcPlots2D( cellexalObj, gInfo,  showIDs = showIDs )
 })
 
 
-#' @name drcPlots2D
-#' @aliases drcPlots2D,cellexalvrR-method
+
 #' @rdname drcPlots2D-methods
-#' @docType methods
-#' @title description of function drcPlot2D
-#' @export 
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'cellexalGrouping'),
-	definition = function ( cellexalObj, gInfo, GOIs=NULL, showIDs = TRUE ) {
+	definition = function ( cellexalObj, gInfo,  showIDs = TRUE ) {
 
 		cellexalObj = sessionPath(cellexalObj) #function definition in file 'sessionPath.R'
 		sessionPath= cellexalObj@usedObj$sessionPath
@@ -162,14 +154,23 @@ prettyPlot2D = function(x, col, showIDs = TRUE){
     p
 }  
 
+#' Correct a file path so that it will be relative to the cellexalvrR@outpath
+#' 
+#' @name correctPath
+#' @aliases correctPath,cellexalvrR-method
+#' @rdname correctPath-methods
+#' @docType methods
+#' @description convert the drcPlots2D into rmd format
+#' @param f the file path to modify
+#' @param cellexalObj the cellexal object
+#' @title description of function correctPath
 correctPath = function( f, cellexalObj ) {
 	file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) 
 }
 
 
-#' drcPlots2D is a function linked to the log functionallity.
-#' 
-#' This function will create the 2D DRC images for the log sections.
+#' drcPlots2D is a function linked to the log functionallity.# 
+#' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTML
 #' @aliases drcFiles2HTML,cellexalvrR-method

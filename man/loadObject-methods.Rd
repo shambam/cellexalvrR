@@ -4,6 +4,7 @@
 \name{loadObject}
 \alias{loadObject}
 \alias{loadObject,character-method}
+\alias{loadObject,cellexalvrR-method}
 \title{description of function loadObject}
 \usage{
 loadObject(fname, maxwait = 50)
@@ -26,4 +27,3 @@ file and returns the cellexalvrR object otherwise.
 loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 
 before reporting a failed attempt.
 }
-\keyword{load}

@@ -11,7 +11,7 @@
 #' @keywords metadata cell
 #' @title description of function make.cell.meta.from.df
 #' @export 
-#if ( ! isGeneric('renew') ){
+#if ( ! isGeneric('make.cell.meta.from.df') ){
 setGeneric('make.cell.meta.from.df', ## Name
 	function (metad,rq.fields) { 
 		standardGeneric('make.cell.meta.from.df') 
@@ -20,12 +20,7 @@ setGeneric('make.cell.meta.from.df', ## Name
 #}
 
 
-#' @name make.cell.meta.from.df
-#' @aliases make.cell.meta.from.df,data.frame-method
 #' @rdname make.cell.meta.from.df-methods
-#' @docType methods
-#' @title description of function make.cell.meta.from.df
-#' @export 
 setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 	definition = function (metad,rq.fields) {
 
@@ -56,7 +51,7 @@ setMethod('make.cell.meta.from.df', signature = c ('data.frame'),
 #' @keywords metadata cell
 #' @title description of function makeCellMetaFromDataframe
 #' @export 
-#if ( ! isGeneric('renew') ){
+#if ( ! isGeneric('makeCellMetaFromDataframe') ){
 setGeneric('makeCellMetaFromDataframe', ## Name
 	function (metad,rq.fields) { 
 		standardGeneric('makeCellMetaFromDataframe') 
@@ -65,12 +60,7 @@ setGeneric('makeCellMetaFromDataframe', ## Name
 #}
 
 
-#' @name makeCellMetaFromDataframe
-#' @aliases makeCellMetaFromDataframe,data.frame-method
 #' @rdname makeCellMetaFromDataframe-methods
-#' @docType methods
-#' @title description of function makeCellMetaFromDataframe
-#' @export 
 setMethod('makeCellMetaFromDataframe', signature = c ('data.frame'),
 	definition = function (metad,rq.fields) {
 

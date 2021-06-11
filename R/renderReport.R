@@ -18,12 +18,8 @@ setGeneric('renderReport', ## Name
 )
 
 
-#' @name renderReport
-#' @aliases renderReport,cellexalvrR-method
+
 #' @rdname renderReport-methods
-#' @docType methods
-#' @title description of function renderReport
-#' @export 
 setMethod('renderReport', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj) {
 	## here you should know which files to render  ;-)
@@ -136,12 +132,8 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 	cellexalObj
 } )
 
-#' @name renderReport
-#' @aliases renderReport,cellexalvrR-method
+
 #' @rdname renderReport-methods
-#' @docType methods
-#' @title description of function renderReport
-#' @export 
 setMethod('renderReport', signature = c ('character'),
 		definition = function (cellexalObj) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

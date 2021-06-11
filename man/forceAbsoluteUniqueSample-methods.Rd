@@ -7,6 +7,8 @@
 \title{description of function forceAbsoluteUniqueSample}
 \usage{
 forceAbsoluteUniqueSample(x, separator = "_")
+
+\S4method{forceAbsoluteUniqueSample}{cellexalvrR}(x, separator = "_")
 }
 \arguments{
 \item{x}{the string vector you want to force into uniques}

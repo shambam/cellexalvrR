@@ -20,12 +20,8 @@ setGeneric('check', ## Name
 )
 
 
-#' @name check
-#' @aliases check,cellexalvrR-method
-#' @rdname check-methods
-#' @docType methods
-#' @title cellexal internal checks
-#' @export 
+
+#' @rdname check-methods 
 setMethod('check', signature = c ('cellexalvrR'),
 	definition = function ( x, silent=FALSE ) {
 	

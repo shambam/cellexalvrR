@@ -14,12 +14,8 @@ setGeneric('sessionPath', ## Name
 		}
 )
 
-#' @name sessionPath
-#' @aliases sessionPath,cellexalvrR-method
+
 #' @rdname sessionPath-methods
-#' @docType methods
-#' @title description of function sessionPath
-#' @export
 setMethod('sessionPath', signature = c ('cellexalvrR'), 
 	definition = function (cellexalObj, sessionName=NULL ) {
 			
@@ -148,12 +144,8 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 })
 
 
-#' @name sessionPath
-#' @aliases sessionPath,cellexalvrR-method
+
 #' @rdname sessionPath-methods
-#' @docType methods
-#' @title description of function sessionPath
-#' @export
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

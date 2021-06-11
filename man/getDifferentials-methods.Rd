@@ -4,6 +4,7 @@
 \name{getDifferentials}
 \alias{getDifferentials}
 \alias{getDifferentials,cellexalvrR-method}
+\alias{getDifferentials,character-method}
 \title{main Statistics function for cellexalvrR}
 \usage{
 getDifferentials(

@@ -18,12 +18,8 @@ setGeneric('logStatResult', ## Name
 )
 
 
-#' @name logStatResult
-#' @aliases logStatResult,cellexalvrR-method
+
 #' @rdname logStatResult-methods
-#' @docType methods
-#' @title add a table into the session log
-#' @export
 setMethod('logStatResult', signature = c ('cellexalvrR'),
 	definition = function ( x, method, data, col=NULL ) {
 	if (! is.null( x@usedObj$sessionName)) {

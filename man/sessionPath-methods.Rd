@@ -4,6 +4,7 @@
 \name{sessionPath}
 \alias{sessionPath}
 \alias{sessionPath,cellexalvrR-method}
+\alias{sessionPath,character-method}
 \title{description of function sessionPath}
 \usage{
 sessionPath(cellexalObj, sessionName = NULL)

@@ -20,9 +20,6 @@ a list with the entries 'grouping', 'order', 'drc' and 'col'
 }
 \description{
 returns the information stored for the last grouping read
-
-groupingInfo collects all information about one grouping from 
-the cellexalvrR internals and returns them as a cellealGrouping object.
 }
 \details{
 groupingInfo collects all information about one grouping from 

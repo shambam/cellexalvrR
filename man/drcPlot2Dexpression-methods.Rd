@@ -4,6 +4,7 @@
 \name{drcPlot2Dexpression}
 \alias{drcPlot2Dexpression}
 \alias{drcPlot2Dexpression,cellexalvrR-method}
+\alias{drcPlot2Dexpression,cellexalvrR,character,character-method}
 \title{description of function drcPlot2Dexpression}
 \usage{
 drcPlot2Dexpression(cellexalObj, drc = 1, GOI)

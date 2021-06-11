@@ -16,12 +16,8 @@ setGeneric('md_gene_links', ## Name
 )
 
 
-#' @name md_gene_links
-#' @aliases md_gene_links,cellexalvrR-method
+
 #' @rdname md_gene_links-methods
-#' @docType methods
-#' @title Create a binned annotation column from numeric data
-#' @export 
 setMethod('md_gene_links', signature = c ('character'),
 	definition = function ( genes, label="Click to expand gene list" ) {
 

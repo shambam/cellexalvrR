@@ -4,6 +4,7 @@
 \name{renew}
 \alias{renew}
 \alias{renew,cellexalvrR-method}
+\alias{renew,cellexalvr-method}
 \title{description of function renew}
 \usage{
 renew(x)

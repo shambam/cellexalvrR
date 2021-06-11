@@ -4,6 +4,7 @@
 \name{logTimeLine}
 \alias{logTimeLine}
 \alias{logTimeLine,cellexalvrR-method}
+\alias{logTimeLine,character-method}
 \title{description of function logTimeLine}
 \usage{
 logTimeLine(

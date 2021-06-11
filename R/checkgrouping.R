@@ -17,12 +17,8 @@ setGeneric('checkGrouping', ## Name
 )
 #}
 
-#' @name checkGrouping
-#' @aliases checkGrouping,cellexalGrouping-method
+
 #' @rdname checkGrouping-methods
-#' @docType methods
-#' @title description of function check
-#' @export 
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 	definition = function (cellexalObj, x) {
 	x = groupingInfo( cellexalObj, x )
@@ -30,12 +26,8 @@ setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 })
 
 
-#' @name checkGrouping
-#' @aliases checkGrouping,cellexalGrouping-method
+
 #' @rdname checkGrouping-methods
-#' @docType methods
-#' @title description of function check
-#' @export 
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function (cellexalObj, x) {
 	x@error = ''

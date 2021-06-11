@@ -4,6 +4,7 @@
 \name{plotTimeHeatmap}
 \alias{plotTimeHeatmap}
 \alias{plotTimeHeatmap,cellexalTime-method}
+\alias{plotTimeHeatmap,matrix-method}
 \title{description of function plotTimeHeatmap}
 \usage{
 plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
@@ -20,8 +21,6 @@ plotTimeHeatmap(x, ofile, color = NULL, circleF = NULL)
 \item{circleF}{a file for a small colored circle as svg file (needed for the reports)}
 }
 \value{
-the figure file plotTimeHeatmap
-
 the figure file plotTimeHeatmap
 }
 \description{

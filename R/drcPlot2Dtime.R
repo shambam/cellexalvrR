@@ -18,12 +18,8 @@ setGeneric('drcPlots2Dtime', ## Name
 )
 
 
-#' @name drcPlots2Dtime
-#' @aliases drcPlots2Dtime,cellexalvrR-method
+
 #' @rdname drcPlots2Dtime-methods
-#' @docType methods
-#' @title description of function drcPlot2D
-#' @export 
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 	definition = function ( cellexalObj, gInfo ){
 
@@ -33,12 +29,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 )
 
 
-#' @name drcPlots2Dtime
-#' @aliases drcPlots2Dtime,cellexalvrR-method
 #' @rdname drcPlots2Dtime-methods
-#' @docType methods
-#' @title description of function drcPlot2D
-#' @export 
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo ) {
 
@@ -112,6 +103,13 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 } )
 
 
+#' A rather naive ggplot2 function to plot a simple Matrix.
+#' @name prettyPlot2Dtime
+#' @aliases prettyPlot2Dtime,cellexalvrR-method
+#' @rdname prettyPlot2Dtime-methods
+#' @docType methods
+#' @param x the data.frame containing the data for the plot
+#' @title description of function prettyPlot2Dtime
 prettyPlot2Dtime = function(x ){
 
 	x$id = as.vector(x$id)
@@ -126,8 +124,7 @@ prettyPlot2Dtime = function(x ){
 
 
 #' drcFiles2HTMLtime is a function linked to the log functionallity.
-#' 
-#' This function will convert the files from drcPlots2Dtime into log figure entries.
+#' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTMLtime
 #' @aliases drcFiles2HTMLtime,cellexalvrR-method

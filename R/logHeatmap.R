@@ -20,12 +20,8 @@ setGeneric('logHeatmap', ## Name
 	}
 )
 
-#' @name logHeatmap
-#' @aliases logHeatmap,cellexalvrR-method
+
 #' @rdname logHeatmap-methods
-#' @docType methods
-#' @title description of function logHeatmap
-#' @export 
 setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
@@ -134,12 +130,8 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	cellexalObj
 } )
 
-#' @name logHeatmap
-#' @aliases logHeatmap,cellexalvrR-method
+
 #' @rdname logHeatmap-methods
-#' @docType methods
-#' @title description of function logHeatmap
-#' @export
 setMethod('logHeatmap', signature = c ('character'),
 		definition = function (cellexalObj, genes, png, grouping, ... ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

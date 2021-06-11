@@ -15,12 +15,8 @@ setGeneric('cormat2df', ## Name
 )
 #}
 
-#' @name cormat2df
-#' @aliases cormat2df,cellexalvrR-method
+
 #' @rdname cormat2df-methods
-#' @docType methods
-#' @title description of function cormat2df
-#' @export 
 setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 
     ut <- upper.tri(cors)
@@ -43,28 +39,26 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @param cellidfile file containing cell IDs
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.1)
-#' @param exprFrac which fraction of cells needs to express a gene to be included in the analysis (default 0.01)
+#' @param exprFract which fraction of cells needs to express a gene to be included in the analysis (default 0.01)
 #' @param top.n.inter get only the n top interations default=130
+#' @param method the used method c( "rho.p","pcor" )
 #' @title description of function make.cellexalvr.network
 #' @keywords network construction
 #' @export 
 #if ( ! isGeneric('make.cellexalvr.network') ){
 setGeneric('make.cellexalvr.network', ## Name
-	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
+	function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1,
+        exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 		standardGeneric('make.cellexalvr.network')
 	}
 )
 #}
 
 
-#' @name make.cellexalvr.network
-#' @aliases make.cellexalvr.network,cellexalvrR-method
 #' @rdname make.cellexalvr.network-methods
-#' @docType methods
-#' @title description of function make.cellexalvr.network
-#' @export 
 setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
-	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
+	definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, 
+        exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 
 		if ( !file.exists(outpath)) {
 			dir.create( outpath ,  recursive = TRUE)
@@ -257,12 +251,8 @@ setMethod('make.cellexalvr.network', signature = c ('cellexalvrR'),
 } )
 
 
-#' @name make.cellexalvr.network
-#' @aliases make.cellexalvr.network,cellexalvrR-method
+
 #' @rdname make.cellexalvr.network-methods
-#' @docType methods
-#' @title description of function make.cellexalvr.network
-#' @export 
 setMethod('make.cellexalvr.network', signature = c ('character'),
 		definition = function (cellexalObj, cellidfile,outpath, cutoff.ggm=0.1, exprFract = 0.1, top.n.inter=130,method=c("rho.p","pcor")) {
 			cellexalObj2 <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

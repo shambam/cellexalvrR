@@ -4,11 +4,14 @@
 \name{exportUserGroups4vr}
 \alias{exportUserGroups4vr}
 \alias{exportUserGroups4vr,cellexalvrR-method}
+\alias{exportUserGroups4vr,character-method}
 \title{VR helper function exportUserGroups4vr}
 \usage{
 exportUserGroups4vr(cellexalObj, path)
 
 \S4method{exportUserGroups4vr}{cellexalvrR}(cellexalObj, path)
+
+\S4method{exportUserGroups4vr}{character}(cellexalObj, path)
 }
 \arguments{
 \item{cellexalObj, }{cellexalvr object}

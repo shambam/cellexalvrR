@@ -4,6 +4,7 @@
 \name{H5Anno2df}
 \alias{H5Anno2df}
 \alias{H5Anno2df,cellexalvrR-method}
+\alias{H5Anno2df,H5File-method}
 \title{description of function H5Anno2df}
 \usage{
 H5Anno2df(x, slotName, namecol = NULL, onlyStrings = FALSE)

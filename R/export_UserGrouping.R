@@ -20,12 +20,8 @@ setGeneric('export_UserGrouping', ## Name
 #}
 
 
-#' @name export_UserGrouping
-#' @aliases export_UserGrouping,cellexalvrR-method
+
 #' @rdname export_UserGrouping-methods
-#' @docType methods
-#' @title description of function export_UserGrouping
-#' @export 
 setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	definition = function (x, colname, outfile, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,colname] )){

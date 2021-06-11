@@ -4,9 +4,33 @@
 \name{vioplot}
 \alias{vioplot}
 \alias{vioplot,Rscexv-method}
+\alias{vioplot,list-method}
 \title{description of function vioplot}
 \usage{
 vioplot(
+  datas,
+  range = 1.5,
+  h = NULL,
+  ylim = NULL,
+  names = NULL,
+  horizontal = FALSE,
+  col = "magenta",
+  border = "black",
+  lty = 1,
+  lwd = 1,
+  rectCol = "black",
+  colMed = "white",
+  pchMed = 19,
+  at,
+  add = FALSE,
+  wex = 1,
+  drawRect = TRUE,
+  main = NULL,
+  cex.axis = 1,
+  neg = NULL
+)
+
+\S4method{vioplot}{list}(
   datas,
   range = 1.5,
   h = NULL,
@@ -39,10 +63,41 @@ vioplot(
 \item{ylim}{see orig vioplot funciton default= NULL}
 
 \item{names}{see orig vioplot funciton default= NULL}
+
+\item{horizontal}{please look up in the original vioplot documentation}
+
+\item{col}{please look up in the original vioplot documentation}
+
+\item{border}{please look up in the original vioplot documentation}
+
+\item{lty}{please look up in the original vioplot documentation}
+
+\item{lwd}{please look up in the original vioplot documentation}
+
+\item{rectCol}{please look up in the original vioplot documentation}
+
+\item{colMed}{please look up in the original vioplot documentation}
+
+\item{pchMed}{please look up in the original vioplot documentation}
+
+\item{at}{please look up in the original vioplot documentation}
+
+\item{add}{please look up in the original vioplot documentation}
+
+\item{wex}{please look up in the original vioplot documentation}
+
+\item{drawRect}{please look up in the original vioplot documentation}
+
+\item{main}{please look up in the original vioplot documentation}
+
+\item{cex.axis}{please look up in the original vioplot documentation}
+
+\item{neg}{please look up in the original vioplot documentation}
 }
 \description{
 the vioplot function patched to allow different colors for the different violines.
 }
 \details{
-This function is a hack of the official vioplot function to allow multiple colors of the violines.
+This function is a hack of the official vioplot function 
+to allow multiple colors of the violines.
 }

@@ -67,7 +67,7 @@ as_cellexalvrR(
 )
 }
 \arguments{
-\item{x}{the BioData 'object'}
+\item{x}{the object or file to be converted}
 
 \item{meta.cell.groups}{which cell annotation columns to convert to meta.cell}
 
@@ -78,6 +78,8 @@ as_cellexalvrR(
 \item{outpath}{set the outpath of the object (default getwd())}
 
 \item{specie}{set the specie to either mouse or human (default check gene names)}
+
+\item{...}{allow additional data type specififc parameters}
 
 \item{assay}{Seurat::GetAssayData parameter 'assay' to fetch the expression data (default NULL)}
 
@@ -93,12 +95,6 @@ as_cellexalvrR(
 }
 \description{
 convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
-
-convert a Seurat v3.x object into a cellexalvrR obejct
-
-convert a python h5ad file into a cellexalvrR obejct
-
-convert a H5File object into a cellexalvrR obejct
 }
 \details{
 This function is the default conversion function from any other object.

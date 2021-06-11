@@ -4,6 +4,8 @@
 \name{checkGrouping}
 \alias{checkGrouping}
 \alias{checkGrouping,cellexalGrouping-method}
+\alias{checkGrouping,cellexalvrR,character-method}
+\alias{checkGrouping,cellexalvrR,cellexalGrouping-method}
 \title{description of function check}
 \usage{
 checkGrouping(cellexalObj, x)

@@ -4,6 +4,7 @@
 \name{md_gene_links}
 \alias{md_gene_links}
 \alias{md_gene_links,cellexalvrR-method}
+\alias{md_gene_links,character-method}
 \title{Create a binned annotation column from numeric data}
 \usage{
 md_gene_links(genes, label = "Click to expand gene list")

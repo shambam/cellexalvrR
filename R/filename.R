@@ -17,12 +17,7 @@ setGeneric('filename', ## Name
 
 
 
-#' @name filename
-#' @aliases filename,character-method
 #' @rdname filename-methods
-#' @docType methods
-#' @title create a filename without spaces from a list of strings
-#' @export 
 setMethod('filename', signature = c ('character'),
 	definition = function ( str ) {
 	of = paste( collapse=".", str )

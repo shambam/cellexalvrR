@@ -22,12 +22,7 @@ setGeneric('addCellMeta2cellexalvr', ## Name
 #}
 
 
-#' @name addCellMeta2cellexalvr
-#' @aliases addCellMeta2cellexalvr,cellexalvrR-method
 #' @rdname addCellMeta2cellexalvr-methods
-#' @docType methods
-#' @title description of function 'addCellMeta2cellexalvr'
-#' @export 
 setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cell.meta) {
 
@@ -59,12 +54,7 @@ setGeneric('addVelocityToExistingDR', ## Name
 #}
 
 
-#' @name addVelocityToExistingDR
-#' @aliases addVelocityToExistingDR,cellexalvrR-method
-#' @rdname addVelocityToExistingDR-methods
-#' @docType methods
-#' @title description of function 'addVelocityToExistingDR'
-#' @export 
+#' @rdname addVelocityToExistingDR-methods 
 setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,velo.arrows,dr.name) {
 
@@ -99,12 +89,7 @@ setGeneric('addFACS2cellexalvr', ## Name
 #}
 
 
-#' @name addFACS2cellexalvr
-#' @aliases addFACS2cellexalvr,cellexalvrR-method
 #' @rdname addFACS2cellexalvr-methods
-#' @docType methods
-#' @title description of function 'addFACS2cellexalvr'
-#' @export 
 setMethod('addFACS2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, facs.data) {
 
@@ -136,12 +121,8 @@ setGeneric('addDRC2cellexalvr', ## Name
 #}
 
 
-#' @name addDRC2cellexalvr
-#' @aliases addDRC2cellexalvr,cellexalvrR-method
+
 #' @rdname addDRC2cellexalvr-methods
-#' @docType methods
-#' @title description of function 'addDRC2cellexalvr'
-#' @export 
 setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
     definition = function (cellexalObj, drcmatrix, name=NULL) {
 

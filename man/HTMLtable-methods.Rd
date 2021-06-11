@@ -14,16 +14,11 @@ HTMLtable(x)
 \S4method{HTMLtable}{cellexalGrouping}(x)
 }
 \arguments{
-\item{x}{the cellexalGrouping}
+\item{x}{the cellexalTime object}
 }
 \description{
 return the HTMLtable in exactly the right format
-
-convert a H5 annotation (any name) table to a data table
 }
 \details{
 A log specific function returning a html formate table describing the timeline
-
-Create an HTML table from a cellexalGrouping.
-These tables are part of the log html's and show group color as well as cell count, VR- and R-ID.
 }

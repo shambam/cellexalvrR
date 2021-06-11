@@ -6,7 +6,7 @@
 \alias{defineGOIs,cellexalvrR-method}
 \title{Define special genes based on inbuilt data sets (TFs, ...)}
 \usage{
-defineGOIs(cellexalObj, name, genes, lables = NULL, ...)
+defineGOIs(cellexalObj, name, genes, lables = NULL)
 
 \S4method{defineGOIs}{cellexalvrR}(cellexalObj, name, genes, lables = NULL)
 }

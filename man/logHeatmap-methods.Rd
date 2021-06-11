@@ -4,6 +4,7 @@
 \name{logHeatmap}
 \alias{logHeatmap}
 \alias{logHeatmap,cellexalvrR-method}
+\alias{logHeatmap,character-method}
 \title{description of function logHeatmap}
 \usage{
 logHeatmap(cellexalObj, genes, png, grouping, ...)

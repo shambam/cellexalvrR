@@ -26,12 +26,8 @@ setGeneric('exportUserGroups4vr', ## Name
 #}
 
 
-#' @name exportUserGroups4vr
-#' @aliases exportUserGroups4vr,cellexalvrR-method
+
 #' @rdname exportUserGroups4vr-methods
-#' @docType methods
-#' @title VR helper function exportUserGroups4vr
-#' @export 
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
 	#cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
@@ -62,11 +58,8 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	}
 } )
 
-#' @name exportUserGroups4vr
-#' @aliases exportUserGroups4vr,cellexalvrR-method
-#' @rdname exportUserGroups4vr-methods#' @docType methods
-#' @title load object and run exportUserGroups4vr
-#' @export exportUserGroups4vr
+
+#' @rdname exportUserGroups4vr-methods
 setMethod('exportUserGroups4vr', signature = c ('character'),
 		definition = function (cellexalObj, path) {
 			## This is the first function the VR does actually run in the R environment.

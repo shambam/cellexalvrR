@@ -19,13 +19,8 @@ setGeneric('lockedSave', ## Name
 )
 #}
 
-#' @name lockedSave
-#' @aliases lockedSave,cellexalvrR-method
+
 #' @rdname lockedSave-methods
-#' @docType methods
-#' @title description of function lockedSave
-#' @keywords lockedSave
-#' @export 
 setMethod('lockedSave', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, path=NULL ) {
 		if ( is.null(path) ){
@@ -71,25 +66,15 @@ setGeneric('loadObject', ## Name
 
 
 
-#' @name loadObject
-#' @aliases loadObject,character-method
+
 #' @rdname loadObject-methods
-#' @docType methods
-#' @title description of function loadObject
-#' @export 
 setMethod('loadObject', signature = c ('cellexalvrR'),
 		definition = function ( fname, maxwait=50 ) {
 			return (fname)
 } )
 
 
-#' @name loadObject
-#' @aliases loadObject,character-method
 #' @rdname loadObject-methods
-#' @docType methods
-#' @keywords load
-#' @title description of function loadObject
-#' @export loadObject
 setMethod('loadObject', signature = c ('character'),
 		definition = function ( fname, maxwait=50 ) {
 			if ( file.exists( fname) ) {

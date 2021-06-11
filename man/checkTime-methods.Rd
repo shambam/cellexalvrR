@@ -4,6 +4,8 @@
 \name{checkTime}
 \alias{checkTime}
 \alias{checkTime,cellexalTime-method}
+\alias{checkTime,cellexalTime,ANY-method}
+\alias{checkTime,cellexalTime,cellexalvrR-method}
 \title{description of function checkTime}
 \usage{
 checkTime(x, cellexalObj = NULL)

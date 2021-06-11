@@ -19,15 +19,8 @@ setGeneric('set.specie', ## Name
 )
 #}
 
-#' It sets the specie slot to the user supplied specie string.
-#' 
-#' @name set.specie
-#' @aliases set.specie,cellexalvrR-method
+
 #' @rdname set.specie-methods
-#' @docType methods
-#' @title description of function set.specie
-#' @keywords TFs
-#' @export 
 setMethod('set.specie', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
@@ -74,13 +67,8 @@ setGeneric('get.genes.cor.to', ## Name
 #}
 
 
-#' @name  get.genes.cor.to
-#' @aliases get.genes.cor.to,cellexalvrR-method
+
 #' @rdname get.genes.cor.to-methods
-#' @docType methods
-#' @title description of function get.genes.cor.to
-#' @keywords correlation
-#' @export 
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 	
@@ -172,12 +160,8 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	invisible( tab )
 } )
 
-#' @name  get.genes.cor.to
-#' @aliases get.genes.cor.to,cellexalvrR-method
+
 #' @rdname get.genes.cor.to-methods
-#' @docType methods
-#' @title description of function get.genes.cor.to
-#' @export 
 setMethod('get.genes.cor.to', signature = c ('character'),
 		definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

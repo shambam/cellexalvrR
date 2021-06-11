@@ -19,12 +19,7 @@ setGeneric('rmdLink', ## Name
 #}
 
 
-#' @name rmdLink
-#' @aliases rmdLink,character-method
 #' @rdname rmdLink-methods
-#' @docType methods
-#' @title easily create an Rmd link that opens in a new window.
-#' @export 
 setMethod('rmdLink', signature = c ('character'),
 		definition = function ( name, link, lineEnd = T  ) {
 			

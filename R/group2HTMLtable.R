@@ -19,12 +19,7 @@ setGeneric('group2HTMLtable', ## Name
 #}
 
 
-#' @name group2HTMLtable
-#' @aliases group2HTMLtable,cellexalvrR-method
 #' @rdname group2HTMLtable-methods
-#' @docType methods
-#' @title create a log table from a grouping
-#' @export 
 setMethod('group2HTMLtable', signature = c ('cellexalvrR', 'list'),
 		definition = function (x, info, names=NULL ) {
 
