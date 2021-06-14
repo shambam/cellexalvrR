@@ -4,8 +4,6 @@
 #' This function is called in the export2cellexalvr function and others.
 #'
 #' @name check
-#' @aliases check,cellexalvrR-method
-#' @rdname check-methods
 #' @docType methods
 #' @description checks cellexalvrR internals
 #' @param x the cellexalvrR object
@@ -21,7 +19,7 @@ setGeneric('check', ## Name
 
 
 
-#' @rdname check-methods 
+#' @rdname check 
 setMethod('check', signature = c ('cellexalvrR'),
 	definition = function ( x, silent=FALSE ) {
 	

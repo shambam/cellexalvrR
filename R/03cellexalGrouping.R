@@ -1,8 +1,6 @@
 #' @name show
-#' @aliases show,cellexalGrouping-method
-#' @rdname show-methods
 #' @docType methods
-#' @description  show the objects internals
+#' @description show the objects internals
 #' @param object the cellexalGrouping
 #' @title show for a cellexalGrouping object
 #' @export
@@ -20,7 +18,7 @@ setMethod('show', signature = c ('cellexalGrouping'),
 
 
 
-#' @rdname HTMLtable-methods
+#' @rdname HTMLtable
 setMethod('HTMLtable', signature = c ('cellexalGrouping'),
 	definition = function ( x ) {
 

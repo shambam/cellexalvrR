@@ -1,7 +1,5 @@
 #' reorder function to reorder the whole cellexalvrR object based on a cell order.
 #' @name reorderSamples
-#' @aliases reorderSamples,cellexalvrR-method
-#' @rdname reorderSamples-methods
 #' @docType methods
 #' @description  this function reorderes the cellexalvr object based on a column in the annotation
 #' @description  table (e.g. for plotting)
@@ -19,7 +17,7 @@ setGeneric('reorderSamples', ## Name
 
 
 
-#' @rdname reorderSamples-methods
+#' @rdname reorderSamples
 setMethod('reorderSamples', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
 	if (! is.na( match ( column, colnames(dataObj@meta.cell)) ) ) {
@@ -85,8 +83,6 @@ setMethod('reorderSamples', signature = c ('cellexalvrR'),
 
 #' reorder function to reorder the whole cellexalvrR object based on a genes order.
 #' @name reorderGenes
-#' @aliases reorderGenes,cellexalvrR-method
-#' @rdname reorderGenes-methods
 #' @docType methods
 #' @description  this function reorderes the cellexalvr object based on a column in the samples table
 #' @description  (e.g. for plotting)
@@ -103,7 +99,7 @@ setGeneric('reorderGenes', ## Name
 #}
 
 
-#' @rdname reorderGenes-methods
+#' @rdname reorderGenes
 setMethod('reorderGenes', signature = c ('cellexalvrR'),
 	definition = function ( dataObj, column ) {
 	dataObj@data <- dataObj@data[ order( dataObj@meta.gene[,column]),]

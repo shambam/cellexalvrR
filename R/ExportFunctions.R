@@ -3,8 +3,6 @@
 #'
 #' Consult the CellexalVR documentation for further path requrements.
 #' @name export2cellexalvr
-#' @aliases export2cellexalvr,cellexalvrR-method
-#' @rdname export2cellexalvr-methods
 #' @docType methods
 #' @description  Creates the base files needed to run the VR environment
 #' @param x A cellexalvr object
@@ -25,7 +23,7 @@ setGeneric('export2cellexalvr', ## Name
 #}
 
 
-#' @rdname export2cellexalvr-methods
+#' @rdname export2cellexalvr
 setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (x,path, forceDB=FALSE ) {
 
@@ -183,8 +181,6 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 #' This function creates these databases from the data stored in the data slot.
 #' 
 #' @name write_as_sqlite3
-#' @aliases write_as_sqlite3,cellexalvrR-method
-#' @rdname write_as_sqlite3-methods
 #' @docType methods
 #' @description save the x@data object without questions asked.
 #' @param x the cellexalvrR object
@@ -199,7 +195,7 @@ setGeneric('write_as_sqlite3', ## Name
 
  
 
-#' @rdname write_as_sqlite3-methods
+#' @rdname write_as_sqlite3
 setMethod('write_as_sqlite3', signature = c ('cellexalvrR'),
 		definition = function ( x, ofile )  {
 			

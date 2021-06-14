@@ -1,6 +1,4 @@
 #' @name useInbuiltGOIlists
-#' @aliases useInbuiltGOIlists,cellexalvrR-method
-#' @rdname useInbuiltGOIlists-methods
 #' @docType methods
 #' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs', epigenetic factors
 #' CellCycle genes or CellSurface proteins
@@ -20,7 +18,7 @@ setGeneric('useInbuiltGOIlists', ## Name
 #}
 
 
-#' @rdname useInbuiltGOIlists-methods
+#' @rdname useInbuiltGOIlists
 setMethod('useInbuiltGOIlists', signature = c ('cellexalvrR'),
 	definition = function (x, name ) {
 			

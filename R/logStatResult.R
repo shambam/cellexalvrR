@@ -1,15 +1,13 @@
 #' logStatResult will create a clickable link in the log document 
 #' where the user can download the stats table from.
 #' @name logStatResult
-#' @aliases logStatResult,cellexalvrR-method
-#' @rdname logStatResult-methods
 #' @docType methods
 #' @description add small section in the log file including a stats data download link (coma separted table file)
 #' @param x the cellexalvrR object
 #' @param method the stats method used (no spaces please)
 #' @param data the results table
 #' @param col the p value column to plot the -log10 histogram
-#' @title add a table into the session log
+#' @title make the stats table available in the log system
 #' @export
 setGeneric('logStatResult', ## Name
 	function ( x, method, data, col=NULL ) { ## Argumente der generischen Funktion
@@ -19,7 +17,7 @@ setGeneric('logStatResult', ## Name
 
 
 
-#' @rdname logStatResult-methods
+#' @rdname logStatResult
 setMethod('logStatResult', signature = c ('cellexalvrR'),
 	definition = function ( x, method, data, col=NULL ) {
 	if (! is.null( x@usedObj$sessionName)) {

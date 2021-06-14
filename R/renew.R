@@ -3,13 +3,11 @@
 #' It is tested to work on version <= 0.14.5.
 #' 
 #' @name renew
-#' @aliases renew,cellexalvrR-method
-#' @rdname renew-methods
 #' @docType methods
 #' @description  updatae the class definition by re-creating the instance This version also makes sure,
 #' @description  that the returned object is an S4 object.
 #' @param x the object you want to updatae
-#' @title description of function renew
+#' @title renew/update a cellexalvrR object structure to the last version
 #' @export renew
 #if ( ! isGeneric('renew') ){
 setGeneric('renew', ## Name
@@ -21,7 +19,7 @@ setGeneric('renew', ## Name
 
 
 
-#' @rdname renew-methods
+#' @rdname renew
 setMethod('renew', signature = c ('cellexalvrR'),
 	definition = function ( x ) {
 			#ret <- new("cellexalvrR",data=as.matrix(x@data),drc=x@drc,meta.cell=x@meta.cell,meta.gene = x@meta.gene,  index = x@index, tfs= x@tfs)
@@ -97,7 +95,7 @@ setMethod('renew', signature = c ('cellexalvrR'),
 }  )
 
 
-#' @rdname renew-methods
+#' @rdname renew
 setMethod('renew', signature = c ('cellexalvr'), ## old R3 object
 		definition = function (x) {
 			class(x) = 'cellexalvrR'

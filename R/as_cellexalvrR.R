@@ -2,10 +2,8 @@
 #' Depending on which object is to be imported the paramteters differ.
 #'
 #' @name as_cellexalvrR
-#' @aliases as_cellexalvrR,environment-method
-#' @rdname as_cellexalvrR-methods
 #' @docType methods
-#' @description convert a BioData list (BioData library not loaded) into a cellexalvrR obejct
+#' @description convert a supported data set into a cellexalvrR obejct
 #' @param x the object or file to be converted
 #' @param meta.cell.groups which cell annotation columns to convert to meta.cell
 #' @param meta.genes.groups which annotation columns to keep (default NULL)
@@ -23,7 +21,7 @@ setGeneric('as_cellexalvrR', ## Name
 )
 
 
-#' @rdname as_cellexalvrR-methods
+#' @rdname as_cellexalvrR
 setMethod('as_cellexalvrR', signature = c ('environment'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL, 
 		userGroups=NULL, outpath=getwd(), specie ) {
@@ -78,7 +76,7 @@ setMethod('as_cellexalvrR', signature = c ('environment'),
 
 
 
-#' @rdname as_cellexalvrR-methods
+#' @rdname as_cellexalvrR
 #' @param assay Seurat::GetAssayData parameter 'assay' to fetch the expression data (default NULL)
 setMethod('as_cellexalvrR', signature = c ('Seurat'),
 	definition = function ( x, meta.cell.groups=NULL, meta.genes.groups = NULL,
@@ -122,7 +120,7 @@ setMethod('as_cellexalvrR', signature = c ('Seurat'),
 
 
 
-#' @rdname as_cellexalvrR-methods
+#' @rdname as_cellexalvrR
 #' @param embeddings which embeddings to import from the file (default NULL = all)
 #' @param embeddingDims the dimensionality of the embeddings (default 3)
 #' @param velocity import velocity information (default = 'scvelo')
@@ -148,7 +146,7 @@ setMethod('as_cellexalvrR', signature = c ('character'),
 
 
 
-#' @rdname as_cellexalvrR-methods
+#' @rdname as_cellexalvrR
 setMethod('as_cellexalvrR', signature = c ('H5File'),
 	definition = function (x,  meta.cell.groups=NULL, meta.genes.groups = NULL, userGroups=NULL, outpath=getwd(),
 	 specie, embeddings = NULL, embeddingDims=3, velocity ='scvelo', scaleArrowTravel=20, minCell4gene=10) {
@@ -264,13 +262,11 @@ setMethod('as_cellexalvrR', signature = c ('H5File'),
 
 
 #' @name forceAbsoluteUniqueSample
-#' @aliases forceAbsoluteUniqueSample,cellexalvrR-method
-#' @rdname forceAbsoluteUniqueSample-methods
 #' @docType methods
 #' @description  This function adds _<id> to all duplicate values thereby enforcing uniques.
 #' @param x the string vector you want to force into uniques
 #' @param separator the separator between orig str and id ( default '_')
-#' @title description of function forceAbsoluteUniqueSample
+#' @title make the cell names unique
 #' @export 
 setGeneric('forceAbsoluteUniqueSample', ## Name
 	function ( x ,separator='_') { ## Argumente der generischen Funktion
@@ -278,7 +274,7 @@ setGeneric('forceAbsoluteUniqueSample', ## Name
 	}
 )
 
-#' @rdname forceAbsoluteUniqueSample-methods
+#' @rdname forceAbsoluteUniqueSample
 setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 	definition = function ( x ,separator='_') {
 	ret <- vector(length=length(x))
@@ -297,15 +293,13 @@ setMethod('forceAbsoluteUniqueSample', signature = c ('cellexalvrR'),
 
 #' Convert e.g. a h5ad 'obs' object into a R::data.frame.
 #' @name H5Anno2df
-#' @aliases H5Anno2df,cellexalvrR-method
-#' @rdname H5Anno2df-methods
 #' @docType methods
 #' @description  convert a H5 annotation (any name) table to a data table
 #' @param x the H5File object
 #' @param slotName the H5 slot(s) to convert to a data.frame
 #' @param namecol the (optional) rownames column for the data
 #' @param onlyStrings return only columns that not only contain numbers (default FALSE)
-#' @title description of function H5Anno2df
+#' @title convert a H5 annotation (any name) table to a data table
 #' @export 
 setGeneric('H5Anno2df', ## Name
 		function (x, slotName, namecol=NULL, onlyStrings=FALSE ) { ## Argumente der generischen Funktion
@@ -314,7 +308,7 @@ setGeneric('H5Anno2df', ## Name
 )
 
 
-#' @rdname H5Anno2df-methods
+#' @rdname H5Anno2df
 setMethod('H5Anno2df', signature = c ('H5File'),
 		definition = function (x, slotName, namecol=NULL, onlyStrings=FALSE ) {
 			OK = NULL;

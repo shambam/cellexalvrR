@@ -1,6 +1,4 @@
 #' @name defineGOIs
-#' @aliases defineGOIs,cellexalvrR-method
-#' @rdname defineGOIs-methods
 #' @docType methods
 #' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object
 #' @param cellexalObj, cellexalvr object
@@ -18,7 +16,7 @@ setGeneric('defineGOIs', ## Name
 #}
 
 
-#' @rdname defineGOIs-methods
+#' @rdname defineGOIs
 setMethod('defineGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name, genes, lables=NULL ) {
 			if ( is.null(lables) ) {

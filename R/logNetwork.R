@@ -1,8 +1,6 @@
 
 #' logNetwork is a VR helper funtion that stores one network in the log document.
 #' @name logNetwork
-#' @aliases logNetwork,cellexalvrR-method
-#' @rdname logNetwork-methods
 #' @docType methods
 #' @description create one Network page in the session report
 #' @param cellexalObj the cellexalvrR object
@@ -10,14 +8,14 @@
 #' @param png the VR generated network (png)
 #' @param grouping the grouping file used to create this network
 #' @param ... options you want to send to the ontologyLogPage() function
-#' @title description of function logNetwork
+#' @title add one network to the cellexalvrR log system
 #' @export
 setGeneric("logNetwork", function(cellexalObj, genes = NULL, png, grouping, ...) {
     standardGeneric("logNetwork")
 })
 
 
-#' @rdname logNetwork-methods
+#' @rdname logNetwork
 setMethod("logNetwork", signature = c("cellexalvrR"), 
     definition = function(cellexalObj, genes = NULL, png, grouping, ...) {
     ## almost the same page as in the logHeatmap function - including a GO analyis?
@@ -69,7 +67,7 @@ setMethod("logNetwork", signature = c("cellexalvrR"),
 
 
 
-#' @rdname logNetwork-methods
+#' @rdname logNetwork
 setMethod("logNetwork", signature = c("character"), definition = function(cellexalObj,
     genes = NULL, png, grouping, ...) {
     cellexalObj <- loadObject(cellexalObj)

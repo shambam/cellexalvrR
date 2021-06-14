@@ -2,8 +2,6 @@
 #'
 #' Users of the 'cellexalvrR' R class should not need this function.
 #' @name exportUserGroups4vr
-#' @aliases exportUserGroups4vr,cellexalvrR-method
-#' @rdname exportUserGroups4vr-methods
 #' @docType methods
 #' @description  Creates a file groupings_info.txt in the
 #' @description  outfolder that contains the group name (in the R object) the numer of groups in the
@@ -27,7 +25,7 @@ setGeneric('exportUserGroups4vr', ## Name
 
 
 
-#' @rdname exportUserGroups4vr-methods
+#' @rdname exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, path ) {
 	#cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'
@@ -59,7 +57,7 @@ setMethod('exportUserGroups4vr', signature = c ('cellexalvrR'),
 } )
 
 
-#' @rdname exportUserGroups4vr-methods
+#' @rdname exportUserGroups4vr
 setMethod('exportUserGroups4vr', signature = c ('character'),
 		definition = function (cellexalObj, path) {
 			## This is the first function the VR does actually run in the R environment.

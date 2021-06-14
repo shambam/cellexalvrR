@@ -11,7 +11,7 @@
 # #' Here both files are processed and the resulting 
 # #' @name processVelocytoPyResults
 # #' @aliases processVelocytoPyResults,cellexalvrR-method
-# #' @rdname processVelocytoPyResults-methods
+# #' @rdname processVelocytoPyResults
 # #' @docType methods
 # #' @description Combine two anndata files into one cellexalvrR object
 # #' @param total the hdf5 file containing all expression values (normalized)

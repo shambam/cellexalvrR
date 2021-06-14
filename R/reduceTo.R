@@ -2,16 +2,14 @@
 #' and makes sure, that all other objects still are in the same dimensianlity as the main data.
 #' 
 #' @name reduceTo
-#' @aliases reduceTo,cellexalvrR-method
-#' @rdname reduceTo-methods
 #' @docType methods
 #' @description  The main reduction function can drop both samples and genes using the colnames /
 #' @description  rownames of the data tables
 #' @param x the cellexalvrR object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL
-#' @title description of function reduceTo
-#' @export reduceTo
+#' @title reduce a cellexalvrR object on either genes or columns
+#' @export 
 #if ( ! isGeneric('reduceTo') ){
 setGeneric('reduceTo', ## Name
 	function ( x, what='row', to=NULL ) { 
@@ -21,7 +19,7 @@ setGeneric('reduceTo', ## Name
 #}
 
 
-#' @rdname reduceTo-methods
+#' @rdname reduceTo
 setMethod('reduceTo', signature = c ('cellexalvrR'),
 	definition = function ( x, what='row', to=NULL ) {
 

@@ -1,6 +1,4 @@
 #' @name VRmode
-#' @aliases VRmode,character-method
-#' @rdname VRmode-methods
 #' @docType methods
 #' @description Windows specific check if CellexalVR.exe is running
 #' @returns boolean value if the VR application is running. 
@@ -14,7 +12,7 @@ VRmode = function( ){
 		OK = grepl("CellexalVR.exe", task)
 		}, 
 	warning = function(err){
-		## likely not working! likely tasklist not available and hence 
+		## likely not working! likely tasklist not available and hence not windows
 		OK = FALSE
     	}
 	)

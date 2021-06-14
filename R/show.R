@@ -1,11 +1,9 @@
 #' @name show
-#' @aliases show,cellexalvrR-method
-#' @rdname show-methods
 #' @docType methods
 #' @description  show the cellexalvrR
 #' @param object the cellexalvr object
 #' @return nothing at all
-#' @title show the cellexalvrR objects's contents
+#' @title show the cellexalvrR objects's summary
 #' @export show
 setMethod('show', signature = c ('cellexalvrR'),
 		definition = function (object) {

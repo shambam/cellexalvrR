@@ -3,14 +3,12 @@
 #' to start a function they miss and want to implement themselves.
 #' 
 #' @name myNextCoolHeatmapFeature
-#' @aliases myNextCoolHeatmapFeature,cellexalTime-method
-#' @rdname myNextCoolHeatmapFeature-methods
 #' @docType methods
 #' @description checks for NA elements in the table and removes them
 #' @param x the cellexalvrR object
 #' @param selection the selection file linked to the heatmap
 #' @param outfile the outfile the VR process is waiting for
-#' @title description of function check
+#' @title empty function to be changed by any user (future stuff)
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('myNextCoolHeatmapFeature', ## Name
@@ -21,7 +19,7 @@ setGeneric('myNextCoolHeatmapFeature', ## Name
 #}
 
 
-#' @rdname myNextCoolHeatmapFeature-methods
+#' @rdname myNextCoolHeatmapFeature
 setMethod('myNextCoolHeatmapFeature', signature = c ('cellexalvrR', 'character', 'character'),
 	definition = function (x, selection, outfile) {
 

@@ -3,14 +3,12 @@
 #' This function will create the 2D DRC images for the log sections.
 #' 
 #' @name drcPlots2D
-#' @aliases drcPlots2D,cellexalvrR-method
-#' @rdname drcPlots2D-methods
 #' @docType methods
 #' @description create one (2D) or three 2D drc plots for the report
 #' @param cellexalObj the cellexal object
 #' @param gInfo the grouping name or the cellexalGrouping object
 #' @param showIDs plot the group IDs on the figure (default= TRUE)
-#' @title description of function drcPlot2D
+#' @title create one (2D) or three 2D drc plots for the report
 #' @export 
 setGeneric('drcPlots2D', ## Name
 	function ( cellexalObj, gInfo,  showIDs = TRUE ) { 
@@ -20,7 +18,7 @@ setGeneric('drcPlots2D', ## Name
 
 
 
-#' @rdname drcPlots2D-methods
+#' @rdname drcPlots2D
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
 	definition = function ( cellexalObj, gInfo,  showIDs = TRUE ) {
 		gInfo = groupingInfo( cellexalObj, gInfo )
@@ -29,7 +27,7 @@ setMethod('drcPlots2D', signature = c ('cellexalvrR', 'character'),
 
 
 
-#' @rdname drcPlots2D-methods
+#' @rdname drcPlots2D
 setMethod('drcPlots2D', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo,  showIDs = TRUE ) {
 
@@ -157,13 +155,11 @@ prettyPlot2D = function(x, col, showIDs = TRUE){
 #' Correct a file path so that it will be relative to the cellexalvrR@outpath
 #' 
 #' @name correctPath
-#' @aliases correctPath,cellexalvrR-method
-#' @rdname correctPath-methods
 #' @docType methods
-#' @description convert the drcPlots2D into rmd format
+#' @description convert the drcPlots2D file position to match the log file's position
 #' @param f the file path to modify
 #' @param cellexalObj the cellexal object
-#' @title description of function correctPath
+#' @title convert the drcPlots2D file position to match the log file's position
 correctPath = function( f, cellexalObj ) {
 	file.path(cellexalObj@usedObj$sessionName, 'png', basename(f)) 
 }
@@ -173,15 +169,13 @@ correctPath = function( f, cellexalObj ) {
 #' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTML
-#' @aliases drcFiles2HTML,cellexalvrR-method
-#' @rdname drcFiles2HTML-methods
 #' @docType methods
-#' @description convert the drcPlots2D into rmd format
+#' @description convert the drcPlots2D into rmd format for the log
 #' @param cellexalObj the cellexal object
 #' @param gInfo the return value from cellexalvrR::groupingInfo()
 #' @param showIDs show the IDs on the plot (default = TRUE)
 #' @param addOn a text to add in the figure heading (default NULL)
-#' @title description of function drcFiles2HTML
+#' @title convert the drcPlots2D into rmd format for the log
 #' @export 
 drcFiles2HTML = function( cellexalObj, gInfo, showIDs=TRUE, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order

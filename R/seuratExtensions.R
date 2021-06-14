@@ -1,7 +1,7 @@
 # #' This function can convert a 'Seurat' (v <3.0.0) object into 'cellexalvrR'.
 # #' @name seurat2cellexalvr
 # #' @aliases seurat2cellexalvr,seurat-method
-# #' @rdname seurat2cellexalvr-methods
+# #' @rdname seurat2cellexalvr
 # #' @docType methods
 # #' @description  Converts a 'seurat' class to one of 'cellexalvr'. If the cell-cycle score have been calculated
 # #' @description  they will be added to the cell.mata table
@@ -52,7 +52,7 @@
 
 # #' @name changeIdent
 # #' @aliases changeIdent,seurat-method
-# #' @rdname changeIdent-methods
+# #' @rdname changeIdent
 # #' @docType methods
 # #' @description  Sets new cell indentities from a given list
 # #' @param seuratObj A cellexalvr object

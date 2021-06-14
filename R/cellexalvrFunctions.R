@@ -2,13 +2,11 @@
 #' It sets the specie slot to the user supplied specie string.
 #' 
 #' @name set.specie
-#' @aliases set.specie,cellexalvrR-method
-#' @rdname set.specie-methods
 #' @docType methods
 #' @description Set the specie information in the cellexalvrR object
 #' @param cellexalObj cellexalvr object
 #' @param specie The specie required options: "mouse" or "human"
-#' @title description of function set.specie
+#' @title Set the specie information in the cellexalvrR object
 #' @keywords TFs
 #' @export
 #if ( ! isGeneric('set.specie') ){
@@ -20,7 +18,7 @@ setGeneric('set.specie', ## Name
 #}
 
 
-#' @rdname set.specie-methods
+#' @rdname set.specie
 setMethod('set.specie', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, specie=c("mouse","human")) {
 	
@@ -44,8 +42,6 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 #' The function is used in the VR process to calculate correlating genes in the keybord list view.
 #' 
 #' @name  get.genes.cor.to
-#' @aliases get.genes.cor.to,cellexalvrR-method
-#' @rdname get.genes.cor.to-methods
 #' @docType methods
 #' @description  Indentify positively and negatively correlated genes to a chosen gene
 #' @param cellexalObj A cellexalvr object
@@ -53,7 +49,7 @@ setMethod('set.specie', signature = c ('cellexalvrR'),
 #' @param output the outfile
 #' @param is.smarker Whether the supplied gene is a surface marker (default =F)
 #' @param cpp use the c++ cor implementation (default = TRUE)
-#' @title description of function get.genes.cor.to
+#' @title Indentify positively and negatively correlated genes to a chosen gene
 #' @keywords correlation
 #' @examples
 #' print (get.genes.cor.to ( cellexalObj, 'Gata1'))
@@ -68,7 +64,7 @@ setGeneric('get.genes.cor.to', ## Name
 
 
 
-#' @rdname get.genes.cor.to-methods
+#' @rdname get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 	
@@ -161,7 +157,7 @@ setMethod('get.genes.cor.to', signature = c ('cellexalvrR'),
 } )
 
 
-#' @rdname get.genes.cor.to-methods
+#' @rdname get.genes.cor.to
 setMethod('get.genes.cor.to', signature = c ('character'),
 		definition = function (cellexalObj, gname, output=NULL, is.smarker=F, cpp=T) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

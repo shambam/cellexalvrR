@@ -5,8 +5,6 @@
 #' (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function (default)
 #' 
 #' @name getDifferentials
-#' @aliases getDifferentials,cellexalvrR-method
-#' @rdname getDifferentials-methods
 #' @docType methods
 #' @description  Creates a heatmap from a selection of groups
 #' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
@@ -39,7 +37,7 @@ setGeneric('getDifferentials', ## Name
 #}
 
 
-#' @rdname getDifferentials-methods
+#' @rdname getDifferentials
 setMethod('getDifferentials', signature = c ('cellexalvrR'),
 		definition = function (x,cellidfile,
 				deg.method='wilcox',
@@ -263,7 +261,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 )
 
 
-#' @rdname getDifferentials-methods
+#' @rdname getDifferentials
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (x,cellidfile,
 				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),

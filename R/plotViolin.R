@@ -1,8 +1,6 @@
 #' Plot a simple violin plot using the cellexalVR colors
 #'
 #' @name plotViolin
-#' @aliases plotViolin,cellexalvrR-method
-#' @rdname plotViolin-methods
 #' @docType methods
 #' @description Create a simple violin plot on the expresion of one gene
 #' @param x the cellexalvrR object
@@ -14,7 +12,7 @@
 #' @param main the figure title (defaults to gene name)
 #' @param X11type not important here (default to 'cairo')
 #' @param family pdf typing family (defaults to "Helvetica") png is also supported
-#' @title description of function plotViolin
+#' @title create violin plots for a list of genes and a grouping (interactive only)
 #' @export 
 setGeneric('plotViolin', ## Name
 	function (x, gene, grouping, ofile=NULL, 
@@ -25,7 +23,7 @@ setGeneric('plotViolin', ## Name
 
 
 
-#' @rdname plotViolin-methods
+#' @rdname plotViolin
 setMethod('plotViolin', signature = c ('cellexalvrR'),
 	definition <- function(x, gene, grouping, ofile=NULL, width=9, height=9, main=NULL, 
 		X11type= 'cairo', family="Helvetica"  ) {

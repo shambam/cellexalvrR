@@ -1,13 +1,11 @@
 #' VR function that ready the VR grouping information and stores it in the R object.
 #' @name userGrouping
-#' @aliases userGrouping,cellexalvrR-method
-#' @rdname userGrouping-methods
 #' @docType methods
 #' @description  Reads a VR cell selection file and creates a user.grouping column with the information
 #' @description  storing the user defined grouping for later use
 #' @param cellexalObj, cellexalvr object
 #' @param cellidfile file containing cell IDs
-#' @title description of function userGrouping
+#' @title add a CellexalVR created selection to the cellexalvrR object
 #' @export 
 #if ( ! isGeneric('userGrouping') ){
 setGeneric('userGrouping', ## Name
@@ -18,7 +16,7 @@ setGeneric('userGrouping', ## Name
 #}
 
 
-#' @rdname userGrouping-methods
+#' @rdname userGrouping
 setMethod('userGrouping', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cellidfile) {
 	

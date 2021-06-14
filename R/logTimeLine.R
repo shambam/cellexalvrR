@@ -3,8 +3,7 @@
 #' (2) the heatmap itself
 #' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage()) #function definition in file 'ontologyLogPage.R'
 #' @name logTimeLine
-#' @aliases logTimeLine,cellexalvrR-method
-#' @rdname logTimeLine-methods
+#' @rdname logTimeLine
 #' @docType methods
 #' @description preload the object before creating one Heatmap session report page
 #' @param cellexalObj the cellexalvrR object
@@ -15,7 +14,7 @@
 #' @param timeInfo the time grouping information list
 #' @param GOIs an optional vector of genes to plot rolling sum graphs for.
 #' @param text additional text for the HTML file (default = NULL)
-#' @title description of function logTimeLine
+#' @title add the timeline information to the log system
 #' @export 
 setGeneric('logTimeLine', ## Name
 	function ( cellexalObj, stats, genes=NULL, info, png, timeInfo , GOIs=NULL, text=NULL ) {
@@ -24,7 +23,7 @@ setGeneric('logTimeLine', ## Name
 	)
 
 
-#' @rdname logTimeLine-methods
+#' @rdname logTimeLine
 setMethod('logTimeLine', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, stats, genes=NULL, info, png, timeInfo, GOIs=NULL, text=NULL ) {
 	## here I need to create a page of the final log
@@ -131,7 +130,7 @@ setMethod('logTimeLine', signature = c ('cellexalvrR'),
 
 
 
-#' @rdname logTimeLine-methods
+#' @rdname logTimeLine
 setMethod('logTimeLine', signature = c ('character'),
 	definition = function (cellexalObj, stats, genes, info, png, timeInfo, GOIs=NULL, text=NULL  ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

@@ -1,8 +1,6 @@
 #' Create a R markdown link used in the (VR) log files.
 #' 
 #' @name rmdLink
-#' @aliases rmdLink,character-method
-#' @rdname rmdLink-methods
 #' @docType methods
 #' @description creates a linke in the structure [<name>](<link><name>){target='blank'}
 #' @param name the displayed text
@@ -19,7 +17,7 @@ setGeneric('rmdLink', ## Name
 #}
 
 
-#' @rdname rmdLink-methods
+#' @rdname rmdLink
 setMethod('rmdLink', signature = c ('character'),
 		definition = function ( name, link, lineEnd = T  ) {
 			

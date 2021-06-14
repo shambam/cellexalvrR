@@ -1,7 +1,5 @@
 #' The ontology analysis for the log files.
 #' @name ontologyLogPage
-#' @aliases ontologyLogPage,cellexalvrR-method
-#' @rdname ontologyLogPage-methods
 #' @docType methods
 #' @description creates the GO analysis for a gene list and puts it into the report.
 #' @param cellexalObj the cellexalvrR object
@@ -11,7 +9,7 @@
 #' @param topNodes how many GO terms to report (default 10)
 #' @param ... unused
 #' @import org.Mm.eg.db org.Hs.eg.db topGO
-#' @title description of function ontologyLogPage
+#' @title old log function to create a pathways analysis for a list of genes.
 #' @export
 setGeneric('ontologyLogPage', ## Name
 	function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
@@ -20,7 +18,7 @@ setGeneric('ontologyLogPage', ## Name
 )
 
 
-#' @rdname ontologyLogPage-methods
+#' @rdname ontologyLogPage
 setMethod('ontologyLogPage', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes, grouping=NULL, ontology = 'BP', topNodes=10, ... ) {
 	## process the ontology for this gene list and add one ontology report page

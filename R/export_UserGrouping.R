@@ -1,15 +1,13 @@
 #' This function converts a selection described in a userGroups column to a VR selection file.
 #'
 #' @name export_UserGrouping
-#' @aliases export_UserGrouping,cellexalvrR-method
-#' @rdname export_UserGrouping-methods
 #' @docType methods
 #' @description export a list of genes of interest to be loaded as heatmaps in cellexalVR
 #' @param x the cellexal object
 #' @param colname the userGrouping column name
 #' @param outfile the out file
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
-#' @title description of function export_UserGrouping
+#' @title export a list of genes of interest to be loaded as heatmaps in cellexalVR
 #' @export 
 #if ( ! isGeneric('export_UserGrouping') ){
 setGeneric('export_UserGrouping', ## Name
@@ -21,7 +19,7 @@ setGeneric('export_UserGrouping', ## Name
 
 
 
-#' @rdname export_UserGrouping-methods
+#' @rdname export_UserGrouping
 setMethod('export_UserGrouping', signature = c ('cellexalvrR'),
 	definition = function (x, colname, outfile, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,colname] )){

@@ -1,12 +1,10 @@
 #' VR method that creates the session specific settings for each VR session.
 #' @name sessionPath
-#' @aliases sessionPath,cellexalvrR-method
-#' @rdname sessionPath-methods
 #' @docType methods
 #' @description Use the session ID and object outpath to create a session path for the reports
 #' @param cellexalObj the cellexal object
 #' @param sessionName the session ID default=NULL
-#' @title description of function sessionPath
+#' @title create/restore a new/unfinished session
 #' @export
 setGeneric('sessionPath', ## Name
 		function (cellexalObj, sessionName=NULL ) { 
@@ -15,7 +13,7 @@ setGeneric('sessionPath', ## Name
 )
 
 
-#' @rdname sessionPath-methods
+#' @rdname sessionPath
 setMethod('sessionPath', signature = c ('cellexalvrR'), 
 	definition = function (cellexalObj, sessionName=NULL ) {
 			
@@ -145,7 +143,7 @@ setMethod('sessionPath', signature = c ('cellexalvrR'),
 
 
 
-#' @rdname sessionPath-methods
+#' @rdname sessionPath
 setMethod('sessionPath', signature = c ('character'),
 		definition = function (cellexalObj, sessionName=NULL) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

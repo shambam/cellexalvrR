@@ -10,8 +10,6 @@
 #' While the file <file>.input.lock is existing the input.R file is processed by the R and should not be touched.
 #' 
 #' @name server
-#' @aliases server,character-method
-#' @rdname server-methods
 #' @docType methods
 #' @description starts a server looking for a sourcable file in paste(file, 'input.R', sep='.')
 #' The function sets a paste(file, 'input.lock', sep='.') lock file on processed scripts.
@@ -34,7 +32,7 @@ setGeneric('server', ## Name
 
 
 
-#' @rdname server-methods
+#' @rdname server
 setMethod('server', signature = c ('character'),
 		definition =  function(file, sleepT=1, debug=FALSE, masterPID = NULL, asFunction =FALSE ){
 	lockfile   = paste( file, 'input.lock', sep=".") 
@@ -161,7 +159,7 @@ setMethod('server', signature = c ('character'),
 
 #' @name newScreenshots
 #' @aliases newScreenshots,character-method
-#' @rdname newScreenshots-methods
+#' @rdname newScreenshots
 #' @docType methods
 #' @description Check the folder '../Screenshots' for files
 #' @param oldFiles a vector of old files.

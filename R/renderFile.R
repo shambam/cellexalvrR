@@ -1,13 +1,11 @@
 #' A main function in the log system - called after each log has been produced.
 #' @name renderFile
-#' @aliases renderFile,cellexalvrR-method
-#' @rdname renderFile-methods
 #' @docType methods
 #' @description render only one html section, not the whole session log
 #' @param x  the cellexalvrR object
 #' @param id the id of the report file to render ('x@usedObj$sessionRmdFiles[id]')
 #' @param type the type of log saved (default '')
-#' @title description of function renderFile
+#' @title render only one html section, not the whole session log
 #' @export 
 setGeneric('renderFile', ## Name
 	function ( x, id, type='' ) { ## Argumente der generischen Funktion
@@ -16,7 +14,7 @@ setGeneric('renderFile', ## Name
 )
 
 
-#' @rdname renderFile-methods
+#' @rdname renderFile
 setMethod('renderFile', signature = c ('cellexalvrR'),
 	definition = function ( x, id, type='' ) {
 
@@ -101,13 +99,13 @@ if ( length(list.files(sessionPath, pattern =paste(sep="","*",type,"*.html" ))) 
 
 #' @name storeLogContents
 #' @aliases storeLogContents,cellexalvrR-method
-#' @rdname storeLogContents-methods
+#' @rdname storeLogContents
 #' @docType methods
 #' @description store the Rmd contens produced in a logXYZ function into a file and register that one.
 #' @param x the CellexalvrR object
 #' @param content the text content of the Rmd file
 #' @param type the type of log saved (default '')
-#' @title description of function storeLogContents
+#' @title write a (Rmd) string and add that to the log 
 #' @export 
 setGeneric('storeLogContents', ## Name
 	function ( x, content, type='' ) { ## Argumente der generischen Funktion
@@ -116,7 +114,7 @@ setGeneric('storeLogContents', ## Name
 )
 
 
-#' @rdname storeLogContents-methods
+#' @rdname storeLogContents
 setMethod('storeLogContents', signature = c ('cellexalvrR'),
 	definition = function ( x, content, type='' ) {
 

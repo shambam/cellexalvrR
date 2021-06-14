@@ -1,7 +1,5 @@
 #' MakeCellexalVRObj creates a CellexalVR object from a sparse matrix object.
 #' @name MakeCellexalVRObj 
-#' @aliases MakeCellexalVRObj,matrix-method
-#' @rdname MakeCellexalVRObj-methods
 #' @docType methods
 #' @description  Creates a cellexalvr objext with the data given
 #' @param exdata A sparse Matrix of expression values (required). Colnames are cell IDs, rownames are unique gene names
@@ -20,7 +18,7 @@ setGeneric('MakeCellexalVRObj', ## Name
 )
     
 
-#' @rdname MakeCellexalVRObj-methods   
+#' @rdname MakeCellexalVRObj   
 setMethod('MakeCellexalVRObj', signature = c ('dgCMatrix'),
 	definition = function (exdata, drc.list, specie=c("mouse","human"),
         cell.metadata=NULL, facs.data=NULL) {

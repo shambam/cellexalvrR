@@ -1,8 +1,6 @@
 #' This function is a hack of the official vioplot function 
 #' to allow multiple colors of the violines.
 #' @name vioplot
-#' @aliases vioplot,Rscexv-method
-#' @rdname vioplot-methods
 #' @docType methods
 #' @description the vioplot function patched to allow different colors for the different violines.
 #' @param datas a list with all data to plot
@@ -35,7 +33,7 @@ setGeneric('vioplot', ## Name
 		}
 )
 
-#' @rdname vioplot-methods
+#' @rdname vioplot
 setMethod('vioplot', signature = c ('list'),
 		definition = function (datas, range = 1.5, h = NULL, ylim = NULL, names = NULL, 
 		horizontal = FALSE, col = 'magenta', border = 'black', lty = 1, 

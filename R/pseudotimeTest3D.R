@@ -15,8 +15,6 @@
 #' are colored in the group colour all others are black. 
 #'  
 #' @name pseudotimeTest3D
-#' @aliases pseudotimeTest3D,cellexalvrR-method
-#' @rdname pseudotimeTest3D-methods
 #' @docType methods
 #' @description Calculate and plot pseudotime relevant information.
 #' @param x a cellexalvrR object
@@ -32,7 +30,7 @@
 #' @param cleanFolder remove all files from the outpout folder before creating new ones (default FALSE)
 #' @param plotType ( 'png', 'png_high_res', 'pdf' )
 #' @param summaryPlot the name of the summary plot file ( default NULL no summary plot)
-#' @title description of function pseudotimeTest3D
+#' @title getDifferentials function to create pseudo times 
 #' @export 
 #if ( ! isGeneric('pseudotimeTest3D') ){
 setGeneric('pseudotimeTest3D', ## Name
@@ -45,7 +43,7 @@ setGeneric('pseudotimeTest3D', ## Name
 
  
 
-#' @rdname pseudotimeTest3D-methods
+#' @rdname pseudotimeTest3D
 setMethod('pseudotimeTest3D', signature = c ('cellexalvrR'),
 	definition = function ( x, a=NULL, b=NULL,c=NULL, grouping, outpath=NULL,  n=100, plotGenes=NULL, 
 			smooth = 100, invert=FALSE, cleanFolder=FALSE, plotType='png' , summaryPlot=NULL ) {

@@ -2,7 +2,7 @@
 # #'
 # #' @name plotHeatmap
 # #' @aliases plotHeatmap,cellexalvrR-method
-# #' @rdname plotHeatmap-methods
+# #' @rdname plotHeatmap
 # #' @docType methods
 # #' @description Create a simple violin plot on the expresion of one gene
 # #' @param genes  the genes to include into the heatmap (correct order!)

@@ -2,8 +2,6 @@
 #' the cellexalvrR internals and returns them as a cellealGrouping object.
 #' 
 #' @name groupingInfo
-#' @aliases groupingInfo,cellexalvrR-method
-#' @rdname groupingInfo-methods
 #' @docType methods
 #' @description  returns the information stored for the last grouping read
 #' @param cellexalObj, cellexalvr object
@@ -20,7 +18,7 @@ setGeneric('groupingInfo', ## Name
 #}
 
 
-#' @rdname groupingInfo-methods
+#' @rdname groupingInfo
 setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, gname=NULL ) {
 	if ( is.null(gname)){

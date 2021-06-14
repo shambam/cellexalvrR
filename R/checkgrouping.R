@@ -1,13 +1,11 @@
 #' The santity check for a cellexalGrouping object.
 #' 
 #' @name checkGrouping
-#' @aliases checkGrouping,cellexalGrouping-method
-#' @rdname checkGrouping-methods
 #' @docType methods
-#' @description checks for NA elements in the table and removes them
+#' @description check the cellexalGrouping
 #' @param cellexalObj the cellexalvrR object
 #' @param x an cellexalGrouping or a grouping name.
-#' @title description of function check
+#' @title cellexalGrouping checks
 #' @export 
 #if ( ! isGeneric('checkGrouping') ){
 setGeneric('checkGrouping', ## Name
@@ -18,7 +16,7 @@ setGeneric('checkGrouping', ## Name
 #}
 
 
-#' @rdname checkGrouping-methods
+#' @rdname checkGrouping
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 	definition = function (cellexalObj, x) {
 	x = groupingInfo( cellexalObj, x )
@@ -27,7 +25,7 @@ setMethod('checkGrouping', signature = c ('cellexalvrR', 'character'),
 
 
 
-#' @rdname checkGrouping-methods
+#' @rdname checkGrouping
 setMethod('checkGrouping', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function (cellexalObj, x) {
 	x@error = ''

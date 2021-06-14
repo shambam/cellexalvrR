@@ -6,8 +6,6 @@
 #' A specificly modified CellexalVR version is required for this.
 #'
 #' @name export_GOIs
-#' @aliases export_GOIs,cellexalvrR-method
-#' @rdname export_GOIs-methods
 #' @docType methods
 #' @description export a list of genes of interest to be loaded as heatmaps in cellexalVR
 #' @param x the cellexal object
@@ -15,7 +13,7 @@
 #' @param grouping the grouping the hetmap should be using (a cellexalVR selection file will be produced)
 #' @param path the outpath for the files
 #' @param colorF a function returning the colors in the order they should appear on the heatmap (default = rainbow)
-#' @title description of function export_GOIs
+#' @title export a list of genes of interest to be loaded as heatmaps in cellexalVR
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('export_GOIs', ## Name
@@ -26,7 +24,7 @@ setGeneric('export_GOIs', ## Name
 #}
 
 
-#' @rdname export_GOIs-methods
+#' @rdname export_GOIs
 setMethod('export_GOIs', signature = c ('cellexalvrR'),
 	definition = function (x, GOIs, grouping, path, colorF = rainbow ) {
 	if ( is.null( x@userGroups[,grouping] )){

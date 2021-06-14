@@ -3,13 +3,11 @@
 #' This function will create the 2D DRC images for the logTimeline sections.
 #' 
 #' @name drcPlots2Dtime
-#' @aliases drcPlots2Dtime,cellexalvrR-method
-#' @rdname drcPlots2Dtime-methods
 #' @docType methods
 #' @description create two 2D drc plots for the report
 #' @param cellexalObj the cellexal object
 #' @param gInfo either a cellexalTime or a cellexalGrouping object
-#' @title description of function drcPlot2D
+#' @title create two 2D drc plots for the report
 #' @export 
 setGeneric('drcPlots2Dtime', ## Name
 	function ( cellexalObj, gInfo ) { 
@@ -19,7 +17,7 @@ setGeneric('drcPlots2Dtime', ## Name
 
 
 
-#' @rdname drcPlots2Dtime-methods
+#' @rdname drcPlots2Dtime
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 	definition = function ( cellexalObj, gInfo ){
 
@@ -29,7 +27,7 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalTime'),
 )
 
 
-#' @rdname drcPlots2Dtime-methods
+#' @rdname drcPlots2Dtime
 setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 	definition = function ( cellexalObj, gInfo ) {
 
@@ -105,11 +103,9 @@ setMethod('drcPlots2Dtime', signature = c ('cellexalvrR', 'cellexalGrouping'),
 
 #' A rather naive ggplot2 function to plot a simple Matrix.
 #' @name prettyPlot2Dtime
-#' @aliases prettyPlot2Dtime,cellexalvrR-method
-#' @rdname prettyPlot2Dtime-methods
 #' @docType methods
 #' @param x the data.frame containing the data for the plot
-#' @title description of function prettyPlot2Dtime
+#' @title A rather naive ggplot2 function to plot a simple Matrix.
 prettyPlot2Dtime = function(x ){
 
 	x$id = as.vector(x$id)
@@ -127,15 +123,13 @@ prettyPlot2Dtime = function(x ){
 #' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTMLtime
-#' @aliases drcFiles2HTMLtime,cellexalvrR-method
-#' @rdname drcFiles2HTMLtime-methods
 #' @docType methods
 #' @description convert the drcPlots2D into rmd format
 #' @param cellexalObj the cellexal object
 #' @param gInfo the return value from cellexalvrR::groupingInfo()
 #' @param showIDs here for compatibility to drcFiles2HTML
 #' @param addOn a text to add in the figure heading (default NULL)
-#' @title description of function drcFiles2HTMLtime
+#' @title convert the drcPlots2D into rmd format
 #' @export 
 drcFiles2HTMLtime = function( cellexalObj, gInfo, showIDs=TRUE, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order

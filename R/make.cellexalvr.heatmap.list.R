@@ -4,8 +4,6 @@
 #' Its main function is to store the result from getDifferentials() in a file  #function definition in file 'getDifferentials.R'
 #' to be read by CellexalVR.
 #' @name make.cellexalvr.heatmap.list
-#' @aliases make.cellexalvr.heatmap.list,cellexalvrR-method
-#' @rdname make.cellexalvr.heatmap.list-methods
 #' @docType methods
 #' @description  Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR
 #' Internally this function uses the getDifferentials() function and just writes the output of that into the outfile. #function definition in file 'getDifferentials.R'
@@ -27,7 +25,7 @@ setGeneric('make.cellexalvr.heatmap.list', ## Name
 
 
 
-#' @rdname make.cellexalvr.heatmap.list-methods
+#' @rdname make.cellexalvr.heatmap.list
 setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method='wilcox') {
 
@@ -59,7 +57,7 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 		} )
 
 
-#' @rdname make.cellexalvr.heatmap.list-methods
+#' @rdname make.cellexalvr.heatmap.list
 setMethod('make.cellexalvr.heatmap.list', signature = c ('character'),
 		definition = function (cvrObj,cellidfile,num.sig,outfile, stats_method=NA ) {
 			cvrObj <- loadObject( cvrObj ) #function definition in file 'lockedSave.R'

@@ -5,13 +5,11 @@
 #' make.cell.meta.from.df().
 #'
 #' @name addCellMeta2cellexalvr
-#' @aliases addCellMeta2cellexalvr,cellexalvrR-method
-#' @rdname addCellMeta2cellexalvr-methods
 #' @docType methods
-#' @description  Adds per cell metadata to a 'cellexalvrObj'
+#' @description Adds per cell metadata to a 'cellexalvrObj'
 #' @param cellexalObj, cellexalvr object
 #' @param cell.meta A matrix of cell metadata
-#' @title description of function 'addCellMeta2cellexalvr'
+#' @title Adds per cell metadata to a 'cellexalvrObj'
 #' @export 
 #if ( ! isGeneric('addCellMeta2cellexalvr') ){
 setGeneric('addCellMeta2cellexalvr', ## Name
@@ -22,7 +20,7 @@ setGeneric('addCellMeta2cellexalvr', ## Name
 #}
 
 
-#' @rdname addCellMeta2cellexalvr-methods
+#' @rdname addCellMeta2cellexalvr
 setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, cell.meta) {
 
@@ -33,17 +31,13 @@ setMethod('addCellMeta2cellexalvr', signature = c ('cellexalvrR'),
 
 
 #' This function adds RNA velocity coordinates to an already existing set of dimension reduction coordinates. 
-#'
-#'
 #' @name addVelocityToExistingDR
-#' @aliases addVelocityToExistingDR,cellexalvrR-method
-#' @rdname addVelocityToExistingDR-methods
 #' @docType methods
-#' @description  Adds RNA volocity data to an existing DR methods in an 'cellexalvrObj' object.
+#' @description Adds RNA volocity data to an existing DR methods in an 'cellexalvrObj' object.
 #' @param cellexalObj, cellexalvr object
 #' @param velo.arrows A 6 column matrix describing RNA velocity arrows
 #' @param dr.name The name of the DR coordinates being added to
-#' @title description of function 'addVelocityToExistingDR'
+#' @title Adds RNA volocity data to an existing DR methods in an 'cellexalvrObj' object
 #' @export 
 #if ( ! isGeneric('addVelocityToExistingDR') ){
 setGeneric('addVelocityToExistingDR', ## Name
@@ -54,7 +48,7 @@ setGeneric('addVelocityToExistingDR', ## Name
 #}
 
 
-#' @rdname addVelocityToExistingDR-methods 
+#' @rdname addVelocityToExistingDR 
 setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj,velo.arrows,dr.name) {
 
@@ -72,13 +66,11 @@ setMethod('addVelocityToExistingDR', signature = c ('cellexalvrR'),
 #' This function adds a table object into the index slot of the cellexalvrR obejct.
 #'
 #' @name addFACS2cellexalvr
-#' @aliases addFACS2cellexalvr,cellexalvrR-method
-#' @rdname addFACS2cellexalvr-methods
 #' @docType methods
 #' @description  Adds FACS index to a cellexalvrObj
 #' @param cellexalObj, cellexalvr object
 #' @param facs.data A matrix of surface marker intensities
-#' @title description of function 'addFACS2cellexalvr'
+#' @title Adds FACS index to a cellexalvrObj
 #' @export 
 #if ( ! isGeneric('addFACS2cellexalvr') ){
 setGeneric('addFACS2cellexalvr', ## Name
@@ -89,7 +81,7 @@ setGeneric('addFACS2cellexalvr', ## Name
 #}
 
 
-#' @rdname addFACS2cellexalvr-methods
+#' @rdname addFACS2cellexalvr
 setMethod('addFACS2cellexalvr', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj, facs.data) {
 
@@ -103,14 +95,12 @@ setMethod('addFACS2cellexalvr', signature = c ('cellexalvrR'),
 #' of usabilty to a 3D DRC matrix object and adds it to the cellexalvrR object.
 #' 
 #' @name addDRC2cellexalvr
-#' @aliases addDRC2cellexalvr,cellexalvrR-method
-#' @rdname addDRC2cellexalvr-methods
 #' @docType methods
 #' @description  Adds drc coordinates to a 'cellexalvrObj'
 #' @param cellexalObj, cellexalvr object
 #' @param drcmatrix A (3 columns) matrix of coordinates
 #' @param name A name for the object (default = graph<n>)
-#' @title description of function 'addDRC2cellexalvr'
+#' @title Adds drc coordinates to a 'cellexalvrObj'
 #' @export 
 #if ( ! isGeneric('renew') ){
 setGeneric('addDRC2cellexalvr', ## Name
@@ -122,7 +112,7 @@ setGeneric('addDRC2cellexalvr', ## Name
 
 
 
-#' @rdname addDRC2cellexalvr-methods
+#' @rdname addDRC2cellexalvr
 setMethod('addDRC2cellexalvr', signature = c ('cellexalvrR'),
     definition = function (cellexalObj, drcmatrix, name=NULL) {
 

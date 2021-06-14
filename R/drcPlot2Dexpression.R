@@ -3,14 +3,12 @@
 #' This function will create the 2D DRC images for the correlated genes log sections.
 #' 
 #' @name drcPlot2Dexpression
-#' @aliases drcPlot2Dexpression,cellexalvrR-method
-#' @rdname drcPlot2Dexpression-methods
 #' @docType methods
 #' @description create one (2D) or three 2D drc plots for the report
 #' @param cellexalObj the cellexal object
 #' @param drc the edcr (name) to plot on (default the first one)
 #' @param GOI the genes to plot the mean expression for
-#' @title description of function drcPlot2Dexpression
+#' @title create one (2D) or three 2D drc plots for the report
 #' @export 
 setGeneric('drcPlot2Dexpression', ## Name
 	function ( cellexalObj, drc = 1, GOI ) { 
@@ -19,7 +17,7 @@ setGeneric('drcPlot2Dexpression', ## Name
 )
 
 
-#' @rdname drcPlot2Dexpression-methods
+#' @rdname drcPlot2Dexpression
 setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'character'),
 	definition = function ( cellexalObj, drc=1, GOI ) {
 
@@ -103,15 +101,13 @@ setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'cha
 #' Here the file paths are converted to Rmd image strings.
 #' 
 #' @name drcFiles2HTMLexpression
-#' @aliases drcFiles2HTMLexpression,cellexalvrR-method
-#' @rdname drcFiles2HTMLexpression-methods
 #' @docType methods
 #' @description convert the drcPlots2D into rmd format
 #' @param cellexalObj the cellexal object
 #' @param drc the drc object to plot the data onto
 #' @param GOI the return value from cellexalvrR::groupingInfo()
 #' @param addOn a text to add in the figure heading (default NULL)
-#' @title description of function drcFiles2HTML
+#' @title convert the drcPlots2D into rmd format
 #' @export 
 drcFiles2HTMLexpression = function( cellexalObj, drc, GOI, addOn = NULL ) {
 	## gInfo is a list with names grouping, drc, col and order

@@ -9,14 +9,12 @@
 #' WSS based optimal grouping search.
 #'
 #' @name simplePlotHeatmaps
-#' @aliases simplePlotHeatmaps,cellexalvrR-method
-#' @rdname simplePlotHeatmaps-methods
 #' @docType methods
 #' @description plot an extremely simple heatmap ans slices of that
 #' @param x, cellexalvrR object that has the correct order and only the genes of interest!
 #' @param info the grouping info for this plot
 #' @param fname the outfile base (.png for main .<i>.png for the slices)
-#' @title description of function simplePlotHeatmaps
+#' @title create the heatmaps for the (interactive only) timline logs
 #' @returns a list with the keys 
 #'   png - all outfiles created; first summary others heatmaps),
 #'   genes - the genes split into the displayed groups
@@ -37,7 +35,7 @@ setGeneric('simplePlotHeatmaps', ## Name
 
 
 
-#' @rdname simplePlotHeatmaps-methods
+#' @rdname simplePlotHeatmaps
 setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping', 'character'),
 	definition = function ( x, info, fname ) {
 	#definition = function ( mat, fname ) {
@@ -137,7 +135,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 #'
 #' @name clusterGenes
 #' @aliases clusterGenes,cellexalTime-method
-#' @rdname clusterGenes-methods
+#' @rdname clusterGenes
 #' @docType methods
 #' @description get a - hopefully - optimal grouing of a list of genes 
 #' @param x either the z-scored matrix or a cellexalTime object
@@ -145,7 +143,7 @@ setMethod('simplePlotHeatmaps', signature = c ('cellexalvrR', 'cellexalGrouping'
 #' @param info the group to cluster the genes for (list)
 #' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
 #' @param geneclusters ovverride the WSS based optimal group count search (default NULL)
-#' @title description of function plot
+#' @title cluster the genes for a timeline analysis
 #' @export 
 #if ( ! isGeneric('clusterGenes') ){
 setGeneric('clusterGenes', ## Name
@@ -157,7 +155,7 @@ setGeneric('clusterGenes', ## Name
 
 
 
-#' @rdname clusterGenes-methods
+#' @rdname clusterGenes
 setMethod('clusterGenes', signature = c ('cellexalTime'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 
@@ -179,7 +177,7 @@ setMethod('clusterGenes', signature = c ('cellexalTime'),
 
 
 
-#' @rdname clusterGenes-methods
+#' @rdname clusterGenes
 setMethod('clusterGenes', signature = c ('matrix'),
 	definition = function ( x, deg.genes=NULL, info=NULL, cellexalObj=NULL, geneclusters=NULL ) {
 

@@ -6,13 +6,11 @@
 #' Finding a Kneedle in a Haystack: Detecting Knee Points in System Behavior
 #' Satopaa, V.., Albrecht J., Irwin D., & Raghavan B., 2010
 #' @name optGroupCountKmeans
-#' @aliases optGroupCountKmeans,cellexalvrR-method
-#' @rdname optGroupCountKmeans-methods
 #' @docType methods
 #' @description calculate the optimal amount of kmeans grooups for a data matrix
 #' @param dat the data matrix
 #' @param k number of clusters to testdefault=1:20
-#' @title description of function optGroupCountKmeans
+#' @title identify the optimal numer of clusters for a matrix
 #' @export 
 #if ( ! isGeneric('optGroupCountKmeans') ){
 setGeneric('optGroupCountKmeans', ## Name
@@ -23,7 +21,7 @@ setGeneric('optGroupCountKmeans', ## Name
 #}
 
 
-#' @rdname optGroupCountKmeans-methods
+#' @rdname optGroupCountKmeans
 setMethod('optGroupCountKmeans', signature = c ('matrix'),
 	definition = function ( dat, k=1:20 ) {
 

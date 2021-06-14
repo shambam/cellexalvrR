@@ -6,7 +6,6 @@
 #' It e.g. does not implement normalization or drc methods, but expects all data to be preprocessed.
 #' 
 #' @name cellexalvrR-class
-#' @rdname FastWilcoxTest-class
 #' @title cellexalvrR class definition
 #' @description  The R backend for the CellexalVR 3D application
 #' @slot data the expression matrix (unused!)
@@ -78,7 +77,6 @@ setClass(
 #' 
 #' 
 #' @name cellexalTime-class
-#' @rdname cellexalTime-class
 #' @title cellexalTime class definition
 #' @description  A simple wrapper to handle the linear order and respective color mappings.
 #' @slot dat all (drc) data needed for plotting and group creation
@@ -108,7 +106,6 @@ setClass("cellexalTime",
 #' 
 #' 
 #' @name cellexalGrouping-class
-#' @rdname cellexalGrouping-class
 #' @title cellexalGrouping class definition
 #' @description  An object to structure multi group selections
 #' @slot gname the group name

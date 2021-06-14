@@ -3,8 +3,6 @@
 #' (2) the heatmap itself
 #' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 #' @name logHeatmap
-#' @aliases logHeatmap,cellexalvrR-method
-#' @rdname logHeatmap-methods
 #' @docType methods
 #' @description preload the object before creating one Heatmap session report page
 #' @param cellexalObj the cellexalvrR object
@@ -12,7 +10,7 @@
 #' @param png the VR generated heatmap (png)
 #' @param grouping the grouping file used to create this heatmap
 #' @param ... options you want to send to the ontologyLogPage() function
-#' @title description of function logHeatmap
+#' @title add the VR created heatmap to the log system
 #' @export 
 setGeneric('logHeatmap', ## Name
 	function ( cellexalObj, genes, png, grouping, ... ) {
@@ -21,7 +19,7 @@ setGeneric('logHeatmap', ## Name
 )
 
 
-#' @rdname logHeatmap-methods
+#' @rdname logHeatmap
 setMethod('logHeatmap', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, genes = NULL, png, grouping, ...  ) {
 	## here I need to create a page of the final log
@@ -131,7 +129,7 @@ setMethod('logHeatmap', signature = c ('cellexalvrR'),
 } )
 
 
-#' @rdname logHeatmap-methods
+#' @rdname logHeatmap
 setMethod('logHeatmap', signature = c ('character'),
 		definition = function (cellexalObj, genes, png, grouping, ... ) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

@@ -2,14 +2,12 @@
 #' 
 #' This function is used internally.
 #' 
-#' @name onlyGOIs 
-#' @aliases onlyGOIs,cellexalvrR-method
-#' @rdname onlyGOIs-methods
+#' @name onlyGOIs
 #' @docType methods
 #' @description  Allows the user to select only (G)enes (O)f (I)nterest lists from the object
 #' @param cellexalObj, cellexalvr object
 #' @param name the name of the GIO list (eg TFs or epigenetic)
-#' @title description of function onlyGOIs
+#' @title Non VR method to reduce a cellexalvrR object to only include specififc genes
 #' @export 
 #if ( ! isGeneric('onlyGOIs') ){
 setGeneric('onlyGOIs', ## Name
@@ -20,7 +18,7 @@ setGeneric('onlyGOIs', ## Name
 #}
 
 
-#' @rdname onlyGOIs-methods
+#' @rdname onlyGOIs
 setMethod('onlyGOIs', signature = c ('cellexalvrR'),
 	definition = function ( cellexalObj, name ) {
 	if ( is.na( match(name, colnames(cellexalObj@meta.gene)))) {

@@ -4,12 +4,10 @@
 #' It also creates a zip file that contains all data required to view this report.
 #' 
 #' @name renderReport
-#' @aliases renderReport,cellexalvrR-method
-#' @rdname renderReport-methods
 #' @docType methods
-#' @description after one session this function renders the output gitbook
+#' @description after one session this function renders the output as gitbook
 #' @param cellexalObj the cellexlvrR object
-#' @title description of function renderReport
+#' @title after one session this function renders the output as gitbook
 #' @export 
 setGeneric('renderReport', ## Name
 	function (cellexalObj) { 
@@ -19,7 +17,7 @@ setGeneric('renderReport', ## Name
 
 
 
-#' @rdname renderReport-methods
+#' @rdname renderReport
 setMethod('renderReport', signature = c ('cellexalvrR'),
 	definition = function (cellexalObj) {
 	## here you should know which files to render  ;-)
@@ -133,7 +131,7 @@ setMethod('renderReport', signature = c ('cellexalvrR'),
 } )
 
 
-#' @rdname renderReport-methods
+#' @rdname renderReport
 setMethod('renderReport', signature = c ('character'),
 		definition = function (cellexalObj) {
 			cellexalObj <- loadObject(cellexalObj) #function definition in file 'lockedSave.R'

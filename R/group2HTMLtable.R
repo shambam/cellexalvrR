@@ -1,8 +1,6 @@
 #' Log related function - convert a session into a html table that can be added to the log
 #'
 #' @name group2HTMLtable
-#' @aliases group2HTMLtable,cellexalvrR-method
-#' @rdname group2HTMLtable-methods
 #' @docType methods
 #' @description create an HTML table from a user grouping
 #' @param x, cellexalvrR object
@@ -19,7 +17,7 @@ setGeneric('group2HTMLtable', ## Name
 #}
 
 
-#' @rdname group2HTMLtable-methods
+#' @rdname group2HTMLtable
 setMethod('group2HTMLtable', signature = c ('cellexalvrR', 'list'),
 		definition = function (x, info, names=NULL ) {
 

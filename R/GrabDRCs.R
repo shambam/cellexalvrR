@@ -1,8 +1,6 @@
 #' Copy all drc models from one cellexalObj to another - even if the
 #' order and/or the size of the objects is not the same.
 #' @name GrabDRCs
-#' @aliases GrabDRCs,cellexalvrR-method
-#' @rdname GrabDRCs-methods
 #' @docType methods
 #' @description make 3D graphs from consecutive analysies available in the main analysis VR session
 #' @param x the cellexalvrR object
@@ -17,7 +15,7 @@ setGeneric('GrabDRCs', ## Name
 )
 
 
-#' @rdname GrabDRCs-methods
+#' @rdname GrabDRCs
 setMethod('GrabDRCs', signature = c ('cellexalvrR', 'cellexalvrR'),
 	definition = function ( x, other, prefix = NULL) {
 	if ( is.null(prefix) ) {
