@@ -69,7 +69,7 @@ globalVariables("Epigenetic cellexalvrR", add = TRUE)
 #' @title A simple table containing the Human and mouse orthologe CellCycle genes from PMID17994010
 #' 'Genome-scale RNAi profiling of cell division in human tissue culture cells.'
 #' @description The data can be used by stating
-#' useInbuiltGOIlists (cellexalObj, 'CellCycle' ) #function definition in file 'useInbuiltGOIlists.R'
+#' useInbuiltGOIlists (cellexalObj, 'CellCycle' )
 #' And it is used to visualize the cell cycle genes in the VR environment.
 #' Only the genes also identifyable in mouse were used here.
 #' @docType data

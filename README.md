@@ -16,7 +16,7 @@ devtools::install_github("sonejilab/cellexalvrR", ref="V_0.14")
 library(cellexalvrR)
 ```
 
-cellexalvrR has been developed for R 3.6.X, and is productively used under R 4.0.2 and 4.1.0.
+cellexalvrR is productively used under R 4.0.2 and 4.1.0.
 
 # Preparing data using cellexalvrR
 The vignette detailing how to use the package to prepare data for CellexalVR can be found [here](https://cellexalvr.med.lu.se/cellexalvrr-vignette). It shows how to create a cellexalvr object ready for export, and also describes a couple of functions to make converting formats and making metadata easier.

@@ -94,10 +94,11 @@ definition = function ( x, cellexalObj, upstreamSelection=NULL ) {
 	## I need to create a new one named 
 	info = groupingInfo(cellexalObj, upstreamSelection )
 
-	info@selectionFile = paste( sep=".", cellexalObj@usedObj$SelectionFiles[[ upstreamSelection ]], 'time')
+	info@selectionFile = basename(paste( sep=".", cellexalObj@usedObj$SelectionFiles[[ upstreamSelection ]], 'time'))
 	info@timeObj = x
 
 	info@gname = x@gname
+
 	cellexalObj@groupSelectedFrom[[ x@gname ]] = info
 
 	m = match( rownames(x@dat), rownames(cellexalObj@drc[[x@drc]]) )
@@ -168,27 +169,27 @@ definition = function (x, cellexalObj=NULL) {
 		warning("empty object")
 		return ("empty")
 	}
-bad=which( is.na(x@dat$time))
-if ( length(bad) > 0 ){
-	warning("Missing values detected in the time - dropping these")
-	x@dat= x@dat[-bad,]
-}
-x@dat = x@dat[order(x@dat$time),]
-## onestly change the color NOW!
-ids = ceiling(seq( from=0, to=10,  length.out = nrow(x@dat) +1))
-ids = ids[-1]
-if ( length( x@id )== 0 ) {
-	x@id = digest::digest( x@dat, algo="md5")
-}
-x@dat$col = factor(wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ ids ], 
-	levels= wesanderson::wes_palette("Zissou1", 10, type = "continuous") )
-
-if ( !is.null( x@geneClusters[['collapsedExp']] )){
-	if ( ncol(x@geneClusters[['collapsedExp']] ) > 1000 ) {
-		warning("Timeline collapsedExp too much data!")
+	bad=which( is.na(x@dat$time))
+	if ( length(bad) > 0 ){
+		warning("Missing values detected in the time - dropping these")
+		x@dat= x@dat[-bad,]
 	}
-}
-invisible(x)
+	x@dat = x@dat[order(x@dat$time),]
+	## onestly change the color NOW!
+	ids = ceiling(seq( from=0, to=10,  length.out = nrow(x@dat) +1))
+	ids = ids[-1]
+	if ( length( x@id )== 0 ) {
+		x@id = digest::digest( x@dat, algo="md5")
+	}
+	x@dat$col = factor(wesanderson::wes_palette("Zissou1", 10, type = "continuous")[ ids ], 
+		levels= wesanderson::wes_palette("Zissou1", 10, type = "continuous") )
+
+	if ( !is.null( x@geneClusters[['collapsedExp']] )){
+		if ( ncol(x@geneClusters[['collapsedExp']] ) > 1000 ) {
+			warning("Timeline collapsedExp too much data!")
+		}
+	}	
+	invisible(x)
 } )
 
 
@@ -935,7 +936,7 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 
 	dat = x@dat[order(x@dat$time),]
 	d = cbind( rownames(dat), as.vector(dat$col), rep( x@drc , nrow(dat) ), as.numeric( dat$col )  )
-	utils::write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname) 
+	utils::write.table( d, col.names=F, row.names=F, quote=F, sep="\t", file= fname)
 
 	f2 = paste( sep=".",fname,'points')
 

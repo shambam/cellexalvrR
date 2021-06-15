@@ -44,6 +44,11 @@ setMethod('groupingInfo', signature = c ('cellexalvrR'),
 	if ( length(cellexalObj@drc) > 1 ) {
 		message(paste( "More than one drc object - I assume you selected from",names(cellexalObj@drc)[1]," ;-)" ) )
 	}
+	
+	if ( is.na( match(gname, colnames(cellexalObj@userGroups)) ) ){
+		message(paste("the grouping", gname, "is not part of the cellexalvrR object" ) )
+		return (NULL)
+	}
 
 	ginfo = new( 'cellexalGrouping',
 		gname = gname,

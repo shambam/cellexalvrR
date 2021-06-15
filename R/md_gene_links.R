@@ -35,3 +35,11 @@ setMethod('md_gene_links', signature = c ('character'),
 		text
 	}
 )
+
+
+#' @rdname md_gene_links
+setMethod('md_gene_links', signature = c ('NULL'),
+	definition = function ( genes, label="Click to expand gene list" ) {
+		return("")
+	}
+)

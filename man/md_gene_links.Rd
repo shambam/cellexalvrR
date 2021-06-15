@@ -4,11 +4,14 @@
 \name{md_gene_links}
 \alias{md_gene_links}
 \alias{md_gene_links,character-method}
+\alias{md_gene_links,NULL-method}
 \title{log specific formating of a (long) list of strings}
 \usage{
 md_gene_links(genes, label = "Click to expand gene list")
 
 \S4method{md_gene_links}{character}(genes, label = "Click to expand gene list")
+
+\S4method{md_gene_links}{`NULL`}(genes, label = "Click to expand gene list")
 }
 \arguments{
 \item{genes}{a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="}

@@ -9,6 +9,8 @@ setMethod('show', signature = c ('cellexalGrouping'),
 		cat (paste("An object of class", class(object)),"with gname", object@gname,"\n" )
 		cat (paste( 'with',length(table(object@grouping)),
 			'groups selected from', object@drc,'drc model'),"\n")
+		cat (paste( 'based on the selection file',object@selectionFile),"\n")
+
 		if ( length( object@heatmapBasename) != 0){
 			cat( paste( "The heatmap basname is",object@heatmapBasename,"\n" ))
 		}

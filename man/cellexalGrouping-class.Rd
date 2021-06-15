@@ -8,7 +8,7 @@
 An object to structure multi group selections
 }
 \details{
-the cellexalGrouping class represents a multi group selection in VR
+The cellexalGrouping class represents exactly one multi group selection in VR.
 }
 \section{Slots}{
 

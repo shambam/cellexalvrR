@@ -34,11 +34,19 @@ setMethod('make.cellexalvr.heatmap.list', signature = c ('cellexalvrR'),
 				unlink( paste(sep=".", outfile, 'sqlite3') )
 			}
 			
+			if ( ! file.exists( file.path(cvrObj@outpath, basename(cellidfile)) ) ){
+				file.copy( cellidfile, cvrObj@outpath )
+			}
 
-			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
+			cvrObj = getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig ) #function definition in file 'getDifferentials.R'
 			#getDifferentials(cvrObj,cellidfile, stats_method, num.sig= num.sig) #function definition in file 'getDifferentials.R'
-			#browser()
-			cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]]@heatmapBasename = basename( cellidfile )
+
+			cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]]@heatmapBasename = basename( outfile )
+
+			if ( length( grep('Time', cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]]@gname)) > 0 ){
+				partentGroup = getTime( cvrObj, cvrObj@groupSelectedFrom[[cvrObj@usedObj$lastGroup]]@gname )@parentSelection
+				cvrObj@groupSelectedFrom[[partentGroup]]@heatmapBasename = basename( outfile )
+			}
 			gene.cluster.order = cvrObj@usedObj$deg.genes
 
 			message (paste( "trying to write file", outfile, "containing", length(gene.cluster.order), "genes") )

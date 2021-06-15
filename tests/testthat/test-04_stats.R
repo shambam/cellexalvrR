@@ -61,19 +61,7 @@ for ( fn in names(search)[3:5]) {
 }
 
 
-#test_that( 'MAST' ,{
-#	skip_if_not_installed( 'Seurat' )		
-#	options(warn=-1)
-#	gene1 = getDifferentials(x, grouping, 'MAST', num.sig=100, Log=FALSE )
-#	options(warn=1)
-#	expect_true( length( gene1) == 100,  paste("wrong gene number MAST", length( gene1) )  )
-#})
-#
-#test_that( 'poisson' ,{
-#	skip_if_not_installed( 'Seurat' )
-#	gene1 = getDifferentials(x, grouping, 'poisson', num.sig=100 , Log=FALSE)
-#	expect_true( length( gene1) == 100, paste("wrong gene number poisson", length( gene1) )  )
-#})
+
 
 #gene1 = getDifferentials(x, grouping, 'anova', num.sig=100 )
 

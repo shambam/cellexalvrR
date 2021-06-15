@@ -7,16 +7,16 @@
 \alias{logHeatmap,character-method}
 \title{add the VR created heatmap to the log system}
 \usage{
-logHeatmap(cellexalObj, genes, png, grouping, ...)
+logHeatmap(cellexalObj, genes = NULL, png, grouping, ...)
 
 \S4method{logHeatmap}{cellexalvrR}(cellexalObj, genes = NULL, png, grouping, ...)
 
-\S4method{logHeatmap}{character}(cellexalObj, genes, png, grouping, ...)
+\S4method{logHeatmap}{character}(cellexalObj, genes = NULL, png, grouping, ...)
 }
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 
-\item{genes}{the genes displayed on the heatmap}
+\item{genes}{the genes displayed on the heatmap (default NULL)}
 
 \item{png}{the VR generated heatmap (png)}
 

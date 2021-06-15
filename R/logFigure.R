@@ -29,7 +29,7 @@ setMethod("logFigure", signature = c("cellexalvrR"),
 
       figureF = file.path(sessionPath, "png", basename(png))
    		file.copy( png, figureF )
-
+        
    		content = paste(
    			paste("##", "Saved figure from VR",format(Sys.time(), "%a %b %d %X %Y")),
        		paste("![](", correctPath(figureF, cellexalObj), ")"), "", paste(text),

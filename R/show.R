@@ -1,4 +1,5 @@
 #' @name show
+#' @rdname show
 #' @docType methods
 #' @description  show the cellexalvrR
 #' @param object the cellexalvr object

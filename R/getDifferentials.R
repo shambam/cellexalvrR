@@ -122,6 +122,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				}
 				message('creating reports')
 				x  = createStats( cellexalTime, x,  num.sig= num.sig )
+				
 				ret = createReport(cellexalTime, 
 					reduceTo(x, what='row', to = x@usedObj$deg.genes), 
 					info = groupingInfo( x, info@gname ) 
@@ -229,7 +230,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 				hc <- stats::hclust(stats::as.dist( 1- stats::cor(tab, method='pearson') ),method = 'ward.D2')
 				deg.genes = c(rownames(loc@data)[hc$order], bad.genes)
 			}
-			
+
 			if ( length(deg.genes) == 0){
 				message('deg.genes no entries - fix that')
 				if ( interactive() ) {

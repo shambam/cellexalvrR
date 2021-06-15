@@ -102,8 +102,7 @@ setClass("cellexalTime",
 
 
 
-#' the cellexalGrouping class represents a multi group selection in VR
-#' 
+#' The cellexalGrouping class represents exactly one multi group selection in VR.
 #' 
 #' @name cellexalGrouping-class
 #' @title cellexalGrouping class definition
