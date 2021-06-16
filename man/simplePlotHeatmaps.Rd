@@ -20,15 +20,15 @@ simplePlotHeatmaps(x, info, fname)
 \value{
 a list with the keys 
   png - all outfiles created; first summary others heatmaps),
-  genes - the genes split into the displayed groups
-  ofile - the main outfile
-  error - any error occuring - should be included in the report.
-  smoothedClusters - the smoothened lines
- MaxInCluster - which line has in which time slot it's maximum
-  mat - the z-scored summed up expression matrix
+  genes - the genes split into the displayed groups,
+  ofile - the main outfile,
+  error - any error occuring - should be included in the report,
+  smoothedClusters - the smoothened lines,
+ MaxInCluster - which line has in which time slot it's maximum,
+  mat - the z-scored summed up expression matrix.
 }
 \description{
-plot an extremely simple heatmap ans slices of that
+plot an extremely simple heatmap and slices of that
 }
 \details{
 The log logics sometimes would benefit froma usable descriptions of the expression patterns.
@@ -37,6 +37,6 @@ The returned genes list has the genes in the order of display in the heatmaps.
 
 In order to add usability the hetmap is split into an optimal number of sub heatmaps to show the trends.
 
-A new cellexalObj -> userObj -> 'gene_clusters' (integer) can be used to override 
+A new permanent variable in <cellexalvrR object>@userObj$gene_clusters (integer) can be used to override 
 WSS based optimal grouping search.
 }

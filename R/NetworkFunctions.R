@@ -31,8 +31,8 @@ setMethod('cormat2df', signature = c ('matrix'),definition = function (cors) {
 #' @name make.cellexalvr.network
 #' @docType methods
 #' @description  Creates a network from selected groups for selected genes
-#' @param cellexalObj, cellexalvr object
-#' @param cellidfile file containing cell IDs
+#' @param cellexalObj cellexalvrR object
+#' @param cellidfile a CellexalVR selection file
 #' @param outpath the outpath
 #' @param cutoff.ggm The cutoff for the correlation (default = 0.1)
 #' @param exprFract which fraction of cells needs to express a gene to be included in the analysis (default 0.01)

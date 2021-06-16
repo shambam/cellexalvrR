@@ -18,10 +18,12 @@ myNextCoolHeatmapFeature(x, selection, outfile)
 \item{outfile}{the outfile the VR process is waiting for}
 }
 \description{
-checks for NA elements in the table and removes them
+Unused function for future implementations.
 }
 \details{
 This function is linked to a button on the VR heatmaps.
 In the default cellexalvrR version this function is a blank to allow non VR Bioinformaticians
 to start a function they miss and want to implement themselves.
+
+Unimplemented in VR. Future stuff.
 }

@@ -4,7 +4,7 @@
 \name{plotDataOnTime_rmd}
 \alias{plotDataOnTime_rmd}
 \alias{plotDataOnTime_rmd,cellexalTime-method}
-\title{craete the Rmd figure strings for the plotTime files}
+\title{create the Rmd figure strings for the plotTime files}
 \usage{
 plotDataOnTime_rmd(x, dat, color = NULL, ofile, cellexalObj)
 

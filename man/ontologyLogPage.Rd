@@ -42,4 +42,5 @@ creates the GO analysis for a gene list and puts it into the report.
 }
 \details{
 The ontology analysis for the log files.
+Response time is too slow for VR.
 }

@@ -5,7 +5,7 @@
 #' @docType methods
 #' @description Log a figure from VR. This function is used to store new screenshots from VR.
 #' @param cellexalObj the cellexalvrR object
-#' @param png the VR generated network (png)
+#' @param png any png figure file
 #' @param text add a simmple text (default NULL)
 #' @title add one figure file to the log structure
 #' @export

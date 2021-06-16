@@ -16,7 +16,7 @@ integrateParts(x, path = NULL)
 \item{path}{the path where the parts are stored (normally the @outpath)}
 }
 \description{
-integrate the parts that have been split from the main object.
+CellexalvrR object can be saved partially. This function loads them.
 This function is called by the loadObject function. Nothing the user has to think about!
 }
 \details{

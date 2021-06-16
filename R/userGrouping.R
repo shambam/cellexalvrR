@@ -1,4 +1,5 @@
-#' VR function that ready the VR grouping information and stores it in the R object.
+#' VR function that reads the VR grouping information and stores it in the R object.
+#' Each selection is only added once into the cellexalvrR object.
 #' @name userGrouping
 #' @docType methods
 #' @description  Reads a VR cell selection file and creates a user.grouping column with the information

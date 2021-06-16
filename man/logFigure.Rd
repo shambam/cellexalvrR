@@ -13,7 +13,7 @@ logFigure(cellexalObj, png, text = NULL)
 \arguments{
 \item{cellexalObj}{the cellexalvrR object}
 
-\item{png}{the VR generated network (png)}
+\item{png}{any png figure file}
 
 \item{text}{add a simmple text (default NULL)}
 }

@@ -94,7 +94,7 @@ vioplot(
 \item{neg}{please look up in the original vioplot documentation}
 }
 \description{
-the vioplot function patched to allow different colors for the different violines.
+the official vioplot function patched to allow different colors for the different violines.
 }
 \details{
 This function is a hack of the official vioplot function 

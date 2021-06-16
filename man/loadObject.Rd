@@ -19,9 +19,7 @@ loadObject(fname, maxwait = 50)
 \item{maxwait}{stop after maxwait seconds default=50}
 }
 \description{
-Loads the cellexalvr object, if the fname is a
-
-file and returns the cellexalvrR object otherwise.
+Loads the cellexalvr object or returns the cellexalvrR object.
 }
 \details{
 loadObject has thread functionallity looking for a lock file and waiting for 'maxwait' seconds 

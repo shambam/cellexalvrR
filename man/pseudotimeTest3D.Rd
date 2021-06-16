@@ -4,7 +4,7 @@
 \name{pseudotimeTest3D}
 \alias{pseudotimeTest3D}
 \alias{pseudotimeTest3D,cellexalvrR-method}
-\title{getDifferentials function to create pseudo times}
+\title{Function called by getDifferentials to create pseudo times}
 \usage{
 pseudotimeTest3D(
   x,

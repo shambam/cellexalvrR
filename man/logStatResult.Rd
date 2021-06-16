@@ -20,7 +20,7 @@ logStatResult(x, method, data, col = NULL)
 \item{col}{the p value column to plot the -log10 histogram}
 }
 \description{
-add small section in the log file including a stats data download link (coma separted table file)
+Create a log file part including a stats data download link (coma separted table file)
 }
 \details{
 logStatResult will create a clickable link in the log document 

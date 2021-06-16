@@ -1,6 +1,7 @@
 #' This function creates all files necessary 
 #' for the CellexalVR application to show this data.
 #'
+#' The folder with this data needs to resude in the CellexalVR\\DATA folder.
 #' Consult the CellexalVR documentation for further path requrements.
 #' @name export2cellexalvr
 #' @docType methods
@@ -178,14 +179,14 @@ setMethod('export2cellexalvr', signature = c ('cellexalvrR'),
 
 #' SQLite is the database the VR reads the expression values from.
 #' 
-#' This function creates these databases from the data stored in the data slot.
+#' This function creates the databases from the data stored in the data slot.
 #' 
 #' @name write_as_sqlite3
 #' @docType methods
 #' @description save the x@data object without questions asked.
 #' @param x the cellexalvrR object
 #' @param ofile the database outfile
-#' @title write a cellexalvrR objects data to a 'sqlite3' database of name ofile.
+#' @title write a cellexalvrR object's data to a 'sqlite3' database of name ofile.
 #' @export 
 setGeneric('write_as_sqlite3', ## Name
 		function ( x, ofile )  { ## Argumente der generischen Funktion

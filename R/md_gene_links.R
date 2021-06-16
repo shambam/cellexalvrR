@@ -2,9 +2,9 @@
 #'
 #' @name md_gene_links
 #' @docType methods
-#' @description Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
+#' @description Convert genes to a web link in the log files 
 #' @param genes a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="
-#' @param label defaults tp "Click to expand gene list"
+#' @param label defaults to "Click to expand gene list"
 #' @title log specific formating of a (long) list of strings
 #' @export 
 setGeneric('md_gene_links', ## Name

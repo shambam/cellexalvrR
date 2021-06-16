@@ -3,8 +3,7 @@
 #' 
 #' @name reduceTo
 #' @docType methods
-#' @description  The main reduction function can drop both samples and genes using the colnames /
-#' @description  rownames of the data tables
+#' @description  The main reduction function can drop both samples and genes using the colnames/rownames of the data tables
 #' @param x the cellexalvrR object
 #' @param what reduce to samples or row ids default='row'
 #' @param to select these names default=NULL

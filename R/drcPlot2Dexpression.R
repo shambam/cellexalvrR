@@ -98,7 +98,7 @@ setMethod('drcPlot2Dexpression', signature = c ('cellexalvrR', 'character', 'cha
 
 
 #' drcFiles2HTMLexpression is a function linked to the log functionallity.
-#' Here the file paths are converted to Rmd image strings.
+#' This function converts the file paths to Rmd image strings.
 #' 
 #' @name drcFiles2HTMLexpression
 #' @docType methods

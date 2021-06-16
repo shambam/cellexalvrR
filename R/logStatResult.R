@@ -2,7 +2,7 @@
 #' where the user can download the stats table from.
 #' @name logStatResult
 #' @docType methods
-#' @description add small section in the log file including a stats data download link (coma separted table file)
+#' @description Create a log file part including a stats data download link (coma separted table file)
 #' @param x the cellexalvrR object
 #' @param method the stats method used (no spaces please)
 #' @param data the results table

@@ -1,3 +1,9 @@
+#' CellexalvrR includes several tables describing gene functionality.
+#' Namely TFs, epigenetic, CellCycle and CellSurface genes.
+#' This function will match the CellexalvrR object against these lists and add a
+#' column into the meta.gene table containing 0 and 1 values.
+#'
+#' This function is used for the correlation networks in VR.
 #' @name defineGOIs
 #' @docType methods
 #' @description  Allows the user to define (G)enes (O)f (I)nterest lists in the object

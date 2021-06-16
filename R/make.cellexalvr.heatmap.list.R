@@ -5,13 +5,13 @@
 #' to be read by CellexalVR.
 #' @name make.cellexalvr.heatmap.list
 #' @docType methods
-#' @description  Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR
-#' Internally this function uses the getDifferentials() function and just writes the output of that into the outfile. #function definition in file 'getDifferentials.R'
+#' @description  Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR.
+#' Internally this function uses the getDifferentials() function and writes gene list to the outfile.
 #' @param cvrObj A cellexalvr object
 #' @param cellidfile file containing cell IDs or the grouping name
 #' @param num.sig The number of differentials to be returned
 #' @param outfile The name of the output file
-#' @param stats_method the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'
+#' @param stats_method the stats method to use see getDifferentials()
 #' @title Create the gene list files for VR
 #' @keywords differential, gene list
 #' @export 

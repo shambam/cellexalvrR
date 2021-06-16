@@ -11,7 +11,7 @@ compactTimeZscore(x, deg.genes, cellexalObj)
 \S4method{compactTimeZscore}{cellexalTime,character,cellexalvrR}(x, deg.genes, cellexalObj)
 }
 \arguments{
-\item{x}{either the z-scored matrix or a cellexalTime object}
+\item{x}{the cellexalTime object}
 
 \item{deg.genes}{a list of genes  cluster the genes for (list)}
 

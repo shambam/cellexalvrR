@@ -302,7 +302,7 @@ definition = function (  cellexalObj ) {
 #' @name compactTimeZscore
 #' @docType methods
 #' @description create a global gene z-score and virtual samples over the timeline
-#' @param x either the z-scored matrix or a cellexalTime object
+#' @param x the cellexalTime object
 #' @param deg.genes a list of genes  cluster the genes for (list)
 #' @param cellexalObj if x is a cellexalTime object this is necessary to create the zscored matrix.
 #' @title merge and z-score gene expression for a cellexalTime object
@@ -366,7 +366,7 @@ definition = function ( x, deg.genes, cellexalObj ) {
 #' @param cellexalObj the cellexalObj to add the report to.
 #' @param altGroupNames you can give alternative group names here
 #' @param color a vector of colors - one for each group
-#' @param GOIs a different group io genes - might need to re-run the analysis
+#' @param GOIs a different group of genes - might need to re-run the analysis
 #' @title compare two cellexalTime objects (interactive mode only)
 #' @export 
 #if ( ! isGeneric('renew') ){
@@ -689,11 +689,11 @@ definition = function ( x, cellexalObj, info, deg.genes=NULL, num.sig=250 ) {
 	} )
 
 
-
+#' Calculates linear peason statistics for the timeline and the 
+#' expression data in the cellexalvrR object.
 #' @name createStats
 #' @docType methods
-#' @description calculates linear peason statistics for this timeline and the 
-#' @description expression data in the cellexalvrR object.
+#' @description Create statistics for the timeline.
 #' @param x the object
 #' @param cellexalObj the object to get the data from
 #' @param num.sig the amountof genes to return as top genes (default 250)
@@ -801,7 +801,11 @@ setMethod('createStats', signature = c ( 'cellexalTime', 'cellexalvrR' ),
  
 #' This function utilizes slingshot to identify the longest possible pseudo 
 #' timeline for this selection.
-#' 
+#' In short the drc model of the selected genes is clustered using kmeans
+#' and the first and last selected cell is used to determine the start and end points of the
+#' anlysis in the drc model.
+#' Subsequently slignshot is used to calculate the pseudo time over the selection.
+#' This function will create the same timeline if the same cells are used as input.
 #' @name createTime
 #' @docType methods
 #' @description calculate time based on the internal table a b and c columns
@@ -947,11 +951,11 @@ setMethod('exportSelection', signature = c ('cellexalTime'),
 } )
 
 
-#' A log specific function returning a html formate table describing the timeline
+#' A log specific function returning a html formate table describing a cellexalvrR grouping.
 #'
 #' @name HTMLtable
 #' @docType methods
-#' @description return the HTMLtable in exactly the right format
+#' @description Create a html table that descibes a grouping (multi group or pseudo time)
 #' @param x the cellexalTime object
 #' @title log specififc - create an HTML summary table for this selection
 #' @export 
@@ -1073,7 +1077,7 @@ definition = function ( x ) {
 #' @param color the color(s) the data should be plotted in
 #' @param ofile the figure file (png)
 #' @param cellexalObj the cellexal object to adjust the path for the markdown file.
-#' @title craete the Rmd figure strings for the plotTime files
+#' @title create the Rmd figure strings for the plotTime files
 #' @export 
 #if ( ! isGeneric('plotDataOnTime_rmd') ){
 setGeneric('plotDataOnTime_rmd', ## Name
@@ -1326,7 +1330,7 @@ definition = function ( x, ofile, cellexalObj, color=NULL ) {
 #'
 #' @name subsetTime
 #' @docType methods
-#' @description 3D plot the time with a line in the time
+#' @description subset a cellexalTime object
 #' @param x the object
 #' @param cells the cell names to subset the time to
 #' @title subset a cellexalTime object

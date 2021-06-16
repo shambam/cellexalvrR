@@ -16,7 +16,7 @@ subsetTime(x, cells)
 \item{cells}{the cell names to subset the time to}
 }
 \description{
-3D plot the time with a line in the time
+subset a cellexalTime object
 }
 \details{
 Subset a time object based on a list of cells.

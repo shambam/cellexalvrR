@@ -21,5 +21,5 @@ convert the drcPlots2D into rmd format
 }
 \details{
 drcFiles2HTMLtime is a function linked to the log functionallity.
-Here the file paths are converted to Rmd image strings.
+This function converts the file paths to Rmd image strings.
 }

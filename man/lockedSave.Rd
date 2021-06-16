@@ -18,11 +18,10 @@ lockedSave(cellexalObj, path = NULL, what = NULL)
 \item{what}{which part needs saving? (default NULL == all)}
 }
 \description{
-Saving the RData in the VR tool might create a problem. Hence this function will
-
-save the cellexalObj in a controlled way. Locked save removes all parts from the file system.
+A thread save saving of the object.
 }
 \details{
-A thread save saving of the object.
+A thread save function to save cellexalvrR objects. 
+Needed for the VR interaction.
 }
 \keyword{lockedSave}

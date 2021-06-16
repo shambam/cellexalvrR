@@ -1,8 +1,8 @@
-#' A thread save saving of the object. 
+#' A thread save function to save cellexalvrR objects. 
+#' Needed for the VR interaction.
 #' @name lockedSave
 #' @docType methods
-#' @description  Saving the RData in the VR tool might create a problem. Hence this function will
-#' @description  save the cellexalObj in a controlled way. Locked save removes all parts from the file system.
+#' @description  A thread save saving of the object. 
 #' @param cellexalObj, cellexalvr object
 #' @param path the output path
 #' @param what which part needs saving? (default NULL == all)
@@ -46,8 +46,7 @@ setMethod('lockedSave', signature = c ('cellexalvrR'),
 #' 
 #' @name loadObject
 #' @docType methods
-#' @description Loads the cellexalvr object, if the fname is a 
-#' @description file and returns the cellexalvrR object otherwise.
+#' @description Loads the cellexalvr object or returns the cellexalvrR object.
 #' @param fname the file to load or a cellexalvr object
 #' @param maxwait stop after maxwait seconds default=50
 #' @title thread save load function for cellexalvrR obejcts

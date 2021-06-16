@@ -2,9 +2,10 @@
 #' In the default cellexalvrR version this function is a blank to allow non VR Bioinformaticians
 #' to start a function they miss and want to implement themselves.
 #' 
+#' Unimplemented in VR. Future stuff.
 #' @name myNextCoolHeatmapFeature
 #' @docType methods
-#' @description checks for NA elements in the table and removes them
+#' @description Unused function for future implementations.
 #' @param x the cellexalvrR object
 #' @param selection the selection file linked to the heatmap
 #' @param outfile the outfile the VR process is waiting for

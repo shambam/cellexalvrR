@@ -24,6 +24,7 @@ Creates the base files needed to run the VR environment
 This function creates all files necessary 
 for the CellexalVR application to show this data.
 
+The folder with this data needs to resude in the CellexalVR\\DATA folder.
 Consult the CellexalVR documentation for further path requrements.
 }
 \examples{

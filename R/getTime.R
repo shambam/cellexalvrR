@@ -4,6 +4,9 @@
 #' @param cellexalObj the object to get the data from
 #' @param name the name for this timeline
 #' @title get an existing timeline or throw an error
+#' @example \dontrun{ 
+#'	getTime( cellexalObj, 'Time.group.2') 
+#' }
 #' @export
 #if ( ! isGeneric('getTime') ){
 setGeneric('getTime', ## Name

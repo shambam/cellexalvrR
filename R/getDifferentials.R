@@ -1,16 +1,15 @@
 #' Identify differentially expressed genes.
 #' 
 #' This function makes two statistics available for the VR process 
-#' (1) 'timeline' will automaticly be choosen it there is only one group in the data
+#' (1) 'timeline' will automaticly be choosen if there is only one group in the data
 #' (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function (default)
 #' 
 #' @name getDifferentials
 #' @docType methods
-#' @description  Creates a heatmap from a selection of groups
-#' The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
+#' @description  Calculates the statistics for one CellexalVR selection file.
 #' @param x, cellexalvrR object
 #' @param cellidfile file containing cell IDs
-#' @param deg.method The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2' )
+#' @param deg.method The method to use to find DEGs (only 'wilcox' supported at the moment)
 #' @param num.sig number of differnetial genes to return (250)
 #' @param Log log the results (default=TRUE)
 #' @param logfc.threshold the Seurat logfc.threshold option (default here 1 vs 0.25 in Seurat)
@@ -29,7 +28,7 @@
 #if ( ! isGeneric('getDifferentials') ){
 setGeneric('getDifferentials', ## Name
 			function (x,cellidfile,
-					deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
+					deg.method='wilcox',
 					num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1, onlyPos=TRUE, report4genes= NULL ) { 
 				standardGeneric('getDifferentials') 
 			}
@@ -265,7 +264,7 @@ setMethod('getDifferentials', signature = c ('cellexalvrR'),
 #' @rdname getDifferentials
 setMethod('getDifferentials', signature = c ('character'),
 		definition = function (x,cellidfile,
-				deg.method=c('wilcox', 'Seurat_wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2', 'anova'),
+				deg.method='wilcox',
 				num.sig=250, Log=TRUE, logfc.threshold = 1, minPct=0.1) {
 			x <- loadObject(x) #function definition in file 'lockedSave.R'
 			getDifferentials( x,cellidfile,deg.method,num.sig, Log=Log) #function definition in file 'getDifferentials.R'

@@ -30,7 +30,7 @@
 #' @param cleanFolder remove all files from the outpout folder before creating new ones (default FALSE)
 #' @param plotType ( 'png', 'png_high_res', 'pdf' )
 #' @param summaryPlot the name of the summary plot file ( default NULL no summary plot)
-#' @title getDifferentials function to create pseudo times 
+#' @title Function called by getDifferentials to create pseudo times 
 #' @export 
 #if ( ! isGeneric('pseudotimeTest3D') ){
 setGeneric('pseudotimeTest3D', ## Name

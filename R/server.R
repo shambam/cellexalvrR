@@ -157,15 +157,15 @@ setMethod('server', signature = c ('character'),
 
 
 
-#' @name newScreenshots
-#' @aliases newScreenshots,character-method
-#' @rdname newScreenshots
-#' @docType methods
-#' @description Check the folder '../Screenshots' for files
-#' @param oldFiles a vector of old files.
-#' @param path the path to look for file (default '../Screenshots' )
-#' @keywords server
-#' @title internal function!
+##' @name newScreenshots
+##' @aliases newScreenshots,character-method
+##' @rdname newScreenshots
+##' @docType methods
+##' @description Check the folder '../Screenshots' for files
+##' @param oldFiles a vector of old files.
+##' @param path the path to look for file (default '../Screenshots' )
+##' @keywords server
+##' @title internal function!
 newScreenshots <- function(oldFiles, path ='../Screenshots/' ) {
 		files = list.files( path )
 		OK = NULL

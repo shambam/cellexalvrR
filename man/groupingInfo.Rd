@@ -16,7 +16,7 @@ groupingInfo(cellexalObj, gname = NULL)
 \item{gname}{The optional group name to get info on a specific grouping (not the last)}
 }
 \value{
-a list with the entries 'grouping', 'order', 'drc' and 'col'
+a cellexalGrouping object
 }
 \description{
 returns the information stored for the last grouping read

@@ -20,6 +20,6 @@ drcFiles2HTML(cellexalObj, gInfo, showIDs = TRUE, addOn = NULL)
 convert the drcPlots2D into rmd format for the log
 }
 \details{
-drcPlots2D is a function linked to the log functionallity.# 
-Here the file paths are converted to Rmd image strings.
+drcPlots2D is a function linked to the log functionallity.
+This function converts the file paths to Rmd image strings.
 }

@@ -1,5 +1,4 @@
 #' drcPlots2D is a function linked to the log functionallity.
-#' 
 #' This function will create the 2D DRC images for the log sections.
 #' 
 #' @name drcPlots2D
@@ -165,8 +164,8 @@ correctPath = function( f, cellexalObj ) {
 }
 
 
-#' drcPlots2D is a function linked to the log functionallity.# 
-#' Here the file paths are converted to Rmd image strings.
+#' drcPlots2D is a function linked to the log functionallity.
+#' This function converts the file paths to Rmd image strings.
 #' 
 #' @name drcFiles2HTML
 #' @docType methods

@@ -45,7 +45,7 @@ compareGeneClusters(
 
 \item{color}{a vector of colors - one for each group}
 
-\item{GOIs}{a different group io genes - might need to re-run the analysis}
+\item{GOIs}{a different group of genes - might need to re-run the analysis}
 }
 \description{
 return the color in exactly the right format to color the names

@@ -7,7 +7,7 @@
 #' @param cellexalObj, cellexalvr object
 #' @param gname The optional group name to get info on a specific grouping (not the last)
 #' @title get information on a sample grouping
-#' @return a list with the entries 'grouping', 'order', 'drc' and 'col'
+#' @return a cellexalGrouping object
 #' @export 
 #if ( ! isGeneric('groupingInfo') ){
 setGeneric('groupingInfo', ## Name

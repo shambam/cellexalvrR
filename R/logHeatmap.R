@@ -1,10 +1,13 @@
 #' logHeatmap will create a section in the log document including 
+#'
 #' (1) the DRC the grouping was selected from (colored 2D)
+#'
 #' (2) the heatmap itself
+#'
 #' (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 #' @name logHeatmap
 #' @docType methods
-#' @description preload the object before creating one Heatmap session report page
+#' @description Add a VR created heatmap into the log.
 #' @param cellexalObj the cellexalvrR object
 #' @param genes the genes displayed on the heatmap (default NULL)
 #' @param png the VR generated heatmap (png)

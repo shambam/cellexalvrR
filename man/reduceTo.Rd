@@ -18,9 +18,7 @@ reduceTo(x, what = "row", to = NULL)
 \item{to}{select these names default=NULL}
 }
 \description{
-The main reduction function can drop both samples and genes using the colnames /
-
-rownames of the data tables
+The main reduction function can drop both samples and genes using the colnames/rownames of the data tables
 }
 \details{
 reduceTo is the main cellexalvrR subsetting function. It can drop cells as well as genes

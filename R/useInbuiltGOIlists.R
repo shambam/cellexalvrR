@@ -1,8 +1,6 @@
 #' @name useInbuiltGOIlists
 #' @docType methods
-#' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists 'TFs', epigenetic factors
-#' CellCycle genes or CellSurface proteins
-#' @description  'epigenetic' are supported at the moment
+#' @description  An easy function to register the inbuilt (G)enes (O)f (I)nterest lists.
 #' @param x, cellexalvr object
 #' @param name the name of the inbuilt list to use ( either 'TFs' or 'epigenetic' for now)
 #' @param x, TEXT MISSING

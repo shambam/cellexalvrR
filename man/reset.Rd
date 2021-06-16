@@ -14,7 +14,7 @@ reset(x)
 \item{x}{the cellexalObj you want to reset}
 }
 \description{
-remove all internals originating from previouse analyses
+resets the cellexalvrR object for a new VR session
 }
 \details{
 Remove all modifications produced through VR run.

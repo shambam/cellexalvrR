@@ -38,9 +38,9 @@ make.cellexalvr.network(
 )
 }
 \arguments{
-\item{cellexalObj, }{cellexalvr object}
+\item{cellexalObj}{cellexalvrR object}
 
-\item{cellidfile}{file containing cell IDs}
+\item{cellidfile}{a CellexalVR selection file}
 
 \item{outpath}{the outpath}
 

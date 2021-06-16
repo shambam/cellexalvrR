@@ -16,10 +16,10 @@ md_gene_links(genes, label = "Click to expand gene list")
 \arguments{
 \item{genes}{a list of strings added to "https://www.genecards.org/cgi-bin/carddisp.pl?gene="}
 
-\item{label}{defaults tp "Click to expand gene list"}
+\item{label}{defaults to "Click to expand gene list"}
 }
 \description{
-Bin the UMI data into 13 bins for plotting and define a blue <- red color gradient
+Convert genes to a web link in the log files
 }
 \details{
 convert a list of genes into a collapsed markdown text that the user can expand.

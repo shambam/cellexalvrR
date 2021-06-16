@@ -10,8 +10,7 @@
 getDifferentials(
   x,
   cellidfile,
-  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
-    "negbinom", "MAST", "DESeq2", "anova"),
+  deg.method = "wilcox",
   num.sig = 250,
   Log = TRUE,
   logfc.threshold = 1,
@@ -35,8 +34,7 @@ getDifferentials(
 \S4method{getDifferentials}{character}(
   x,
   cellidfile,
-  deg.method = c("wilcox", "Seurat_wilcox", "bimod", "roc", "t", "tobit", "poisson",
-    "negbinom", "MAST", "DESeq2", "anova"),
+  deg.method = "wilcox",
   num.sig = 250,
   Log = TRUE,
   logfc.threshold = 1,
@@ -48,7 +46,7 @@ getDifferentials(
 
 \item{cellidfile}{file containing cell IDs}
 
-\item{deg.method}{The method to use to find DEGs ( 'wilcox', 'Seurat wilcox', 'bimod', 'roc', 't', 'tobit', 'poisson', 'negbinom', 'MAST', 'DESeq2' )}
+\item{deg.method}{The method to use to find DEGs (only 'wilcox' supported at the moment)}
 
 \item{num.sig}{number of differnetial genes to return (250)}
 
@@ -67,14 +65,13 @@ the cellexalvrr object with the stats table stored in x@usedObj$sigGeneLists$Cpp
 and significant genes can be accessed in the x@usedObj$deg.genes slot.
 }
 \description{
-Creates a heatmap from a selection of groups
-The Seurat based statsictsics is applied only to genes expressed in at least 1 percent of the cells.
+Calculates the statistics for one CellexalVR selection file.
 }
 \details{
 Identify differentially expressed genes.
 
 This function makes two statistics available for the VR process 
-(1) 'timeline' will automaticly be choosen it there is only one group in the data
+(1) 'timeline' will automaticly be choosen if there is only one group in the data
 (2) 'wilcox' a c++ re-implementation of the Seurat::FindAllMarkers function (default)
 }
 \examples{

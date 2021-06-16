@@ -37,7 +37,7 @@ MakeCellexalVRObj(
 Creates a cellexalvr objext with the data given
 }
 \details{
-MakeCellexalVRObj creates a CellexalVR object from a sparse matrix object.
+MakeCellexalVRObj creates a minimal CellexalVR object from a sparse matrix object.
 }
 \keyword{cellexalvrR}
 \keyword{create}

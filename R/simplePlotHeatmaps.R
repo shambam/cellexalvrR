@@ -5,24 +5,24 @@
 #'
 #' In order to add usability the hetmap is split into an optimal number of sub heatmaps to show the trends.
 #'
-#' A new cellexalObj -> userObj -> 'gene_clusters' (integer) can be used to override 
+#' A new permanent variable in <cellexalvrR object>@userObj$gene_clusters (integer) can be used to override 
 #' WSS based optimal grouping search.
 #'
 #' @name simplePlotHeatmaps
 #' @docType methods
-#' @description plot an extremely simple heatmap ans slices of that
+#' @description plot an extremely simple heatmap and slices of that
 #' @param x, cellexalvrR object that has the correct order and only the genes of interest!
 #' @param info the grouping info for this plot
 #' @param fname the outfile base (.png for main .<i>.png for the slices)
 #' @title create the heatmaps for the (interactive only) timline logs
 #' @returns a list with the keys 
 #'   png - all outfiles created; first summary others heatmaps),
-#'   genes - the genes split into the displayed groups
-#'   ofile - the main outfile
-#'   error - any error occuring - should be included in the report.
-#'   smoothedClusters - the smoothened lines
-#'	 MaxInCluster - which line has in which time slot it's maximum
-#'   mat - the z-scored summed up expression matrix
+#'   genes - the genes split into the displayed groups,
+#'   ofile - the main outfile,
+#'   error - any error occuring - should be included in the report,
+#'   smoothedClusters - the smoothened lines,
+#'	 MaxInCluster - which line has in which time slot it's maximum,
+#'   mat - the z-scored summed up expression matrix.
 #' @export
 #if ( ! isGeneric('simplePlotHeatmaps') ){
 setGeneric('simplePlotHeatmaps', ## Name

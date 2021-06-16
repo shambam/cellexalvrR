@@ -40,11 +40,11 @@ make.cellexalvr.heatmap.list(
 
 \item{outfile}{The name of the output file}
 
-\item{stats_method}{the stats method to use see getDifferentials() #function definition in file 'getDifferentials.R'}
+\item{stats_method}{the stats method to use see getDifferentials()}
 }
 \description{
-Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR
-Internally this function uses the getDifferentials() function and just writes the output of that into the outfile. #function definition in file 'getDifferentials.R'
+Creates an outfile for CellexalVR containing a list of genes from which a heatmap is made in VR.
+Internally this function uses the getDifferentials() function and writes gene list to the outfile.
 }
 \details{
 This is a function called from CellexalVR.

@@ -17,8 +17,8 @@ HTMLtable(x)
 \item{x}{the cellexalTime object}
 }
 \description{
-return the HTMLtable in exactly the right format
+Create a html table that descibes a grouping (multi group or pseudo time)
 }
 \details{
-A log specific function returning a html formate table describing the timeline
+A log specific function returning a html formate table describing a cellexalvrR grouping.
 }

@@ -2,7 +2,7 @@
 #' 
 #' @name reset
 #' @docType methods
-#' @description  remove all internals originating from previouse analyses
+#' @description resets the cellexalvrR object for a new VR session
 #' @param x the cellexalObj you want to reset
 #' @title remove all modifications added to this cellexalvrR object
 #' @export 

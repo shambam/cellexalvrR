@@ -2,7 +2,7 @@
 #' to allow multiple colors of the violines.
 #' @name vioplot
 #' @docType methods
-#' @description the vioplot function patched to allow different colors for the different violines.
+#' @description the official vioplot function patched to allow different colors for the different violines.
 #' @param datas a list with all data to plot
 #' @param range see orig vioplot funciton default= 1.5
 #' @param h see orig vioplot funciton default= NULL

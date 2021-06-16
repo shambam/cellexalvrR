@@ -23,7 +23,9 @@ createStats(x, cellexalObj, num.sig = 250, p.cut = NULL)
 \item{p.cut}{use a p value cut of instead of a number of significant genes}
 }
 \description{
-calculates linear peason statistics for this timeline and the
-
+Create statistics for the timeline.
+}
+\details{
+Calculates linear peason statistics for the timeline and the 
 expression data in the cellexalvrR object.
 }

@@ -25,11 +25,14 @@ logHeatmap(cellexalObj, genes = NULL, png, grouping, ...)
 \item{...}{options you want to send to the ontologyLogPage() function}
 }
 \description{
-preload the object before creating one Heatmap session report page
+Add a VR created heatmap into the log.
 }
 \details{
 logHeatmap will create a section in the log document including 
+
 (1) the DRC the grouping was selected from (colored 2D)
+
 (2) the heatmap itself
+
 (3) a GO analysis of the genes displayed in the heatmap (using ontologyLogPage())
 }

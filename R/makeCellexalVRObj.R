@@ -1,4 +1,4 @@
-#' MakeCellexalVRObj creates a CellexalVR object from a sparse matrix object.
+#' MakeCellexalVRObj creates a minimal CellexalVR object from a sparse matrix object.
 #' @name MakeCellexalVRObj 
 #' @docType methods
 #' @description  Creates a cellexalvr objext with the data given

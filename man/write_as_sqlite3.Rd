@@ -4,7 +4,7 @@
 \name{write_as_sqlite3}
 \alias{write_as_sqlite3}
 \alias{write_as_sqlite3,cellexalvrR-method}
-\title{write a cellexalvrR objects data to a 'sqlite3' database of name ofile.}
+\title{write a cellexalvrR object's data to a 'sqlite3' database of name ofile.}
 \usage{
 write_as_sqlite3(x, ofile)
 
@@ -21,5 +21,5 @@ save the x@data object without questions asked.
 \details{
 SQLite is the database the VR reads the expression values from.
 
-This function creates these databases from the data stored in the data slot.
+This function creates the databases from the data stored in the data slot.
 }
